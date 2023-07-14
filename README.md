@@ -25,4 +25,4 @@ Brackets are important in `"Murder Mystery"`! As a `MMmapnum` you can use `MAPK0
 - [ShutUp Chatbug!](https://mb.srb2.org/addons/shut-up-chatbug.5046/) by [Jiskster](https://github.com/Jiskster)
 - Heavily modified ModernSonic's footsteps engine. [Original fork of the script](https://mb.srb2.org/addons/footsteps.1378/) by Gomynola
 
-### Please look into the `READ_BEFORE_HOSTING.txt` for more hosting details
+### Please read the [READ_BEFORE_HOSTING.txt](BEFORE_HOSTING.txt) for more hosting details
