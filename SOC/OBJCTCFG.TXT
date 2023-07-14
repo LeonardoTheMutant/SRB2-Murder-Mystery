@@ -1,0 +1,116 @@
+freeslot
+S_SMMDEATH
+S_TMMDEATH
+S_KMMDEATH
+S_AMMDEATH
+S_FMMDEATH
+S_MMMDEATH
+SPR_INVI
+SPR_SDED
+SPR_TDED
+SPR_KDED
+SPR_ADED
+SPR_FDED
+SPR_MDED
+MT_SDEADPLR
+MT_TDEADPLR
+MT_KDEADPLR
+MT_ADEADPLR
+MT_FDEADPLR
+MT_MDEADPLR
+
+state S_SMMDEATH
+spritename = SPR_SDED
+spriteframe = A
+DURATION = 1
+next = S_SMMDEATH
+
+state S_TMMDEATH
+spritename = SPR_TDED
+spriteframe = A
+DURATION = 1
+next = S_TMMDEATH
+
+state S_KMMDEATH
+spritename = SPR_KDED
+spriteframe = A
+DURATION = 1
+next = S_KMMDEATH
+
+state S_AMMDEATH
+spritename = SPR_ADED
+spriteframe = A
+DURATION = 1
+next = S_AMMDEATH
+
+state S_FMMDEATH
+spritename = SPR_FDED
+spriteframe = A
+DURATION = 1
+next = S_FMMDEATH
+
+state S_MMMDEATH
+spritename = SPR_MDED
+spriteframe = A
+DURATION = 1
+next = S_MMMDEATH
+
+object MT_SDEADPLR
+doomednum = -1
+spawnstate = S_SMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID
+
+object MT_TDEADPLR
+doomednum = -1
+spawnstate = S_TMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID
+
+object MT_KDEADPLR
+doomednum = -1
+spawnstate = S_KMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID
+
+object MT_ADEADPLR
+doomednum = -1
+spawnstate = S_AMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID
+
+object MT_FDEADPLR
+doomednum = -1
+spawnstate = S_FMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID
+
+object MT_MDEADPLR
+doomednum = -1
+spawnstate = S_MMMDEATH
+reactiontime = 8
+speed = 1
+radius = 32*FRACUNIT
+height = 1
+mass = 16
+flags = MF_SOLID

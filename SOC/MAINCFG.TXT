@@ -1,0 +1,79 @@
+MainCfg
+
+Level K0
+LevelName = Abandoned Shelter
+SelectHeading = Murder Mystery
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = K1
+Lua.Author = LeoTM
+
+Level K1
+Levelname = Vineyard Castle
+SelectHeading = Murder Mystery
+Act = 0
+TypeOfLevel = mm
+NextLevel = K2
+SkyNum = 10
+Lua.Author = Piksqu
+
+Level K2
+LevelName = Peridot Park
+SelectHeading = Murder Mystery
+SkyNum = 99
+SkyboxScale = 32
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = K3
+Lua.Author = LeoTM
+
+Level K3
+Levelname = Mountain Fort
+Subtitle = Zombie Escape map remake
+SelectHeading = Murder Mystery
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+SkyNum = 17
+weather = 2
+NextLevel = K4
+
+Level K4
+LevelName = West City
+SelectHeading = Murder Mystery
+SkyNum = 13
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = K5
+Lua.Author = LeoTM
+
+Level K5
+LevelName = Dam
+SelectHeading = Murder Mystery
+Act = 0
+SkyNum = 30
+TypeOfLevel = mm
+NextLevel = K6
+Lua.Author = LeoTM, Rare
+
+Level K6
+LevelName = BACKROOMS
+SelectHeading = Murder Mystery
+Music = None
+NoZone = True
+Act = 0
+TypeOfLevel = mm
+NextLevel = K9
+Lua.Author = LeoTM
+Lua.DisableFootsteps = True
+
+Level K9
+LevelName = Greenflower Mystery
+SelectHeading = Murder Mystery
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = K0
