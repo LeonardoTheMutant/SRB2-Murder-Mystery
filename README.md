@@ -29,6 +29,7 @@ Brackets are important in `"Murder Mystery"`! As a `MMmapnum` you can use `MAPK0
 This gametype supports language translations. You can add your own language to the project by either
 1. Modifying the source code you have
 2. Making a **Custom Language File** from the [template](Tools/customlang.lua)
+
 If you wanna edit the code there is a [FOR_DEVELOPERS.txt](FOR_DEVELOPERS.txt) that explains what each file does
 
 ### Please read the [READ_BEFORE_HOSTING.txt](READ_BEFORE_HOSTING.txt) before starting the server with this Add-On for more hosting details and warings
