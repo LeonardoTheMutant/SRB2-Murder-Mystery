@@ -17,7 +17,7 @@ Please replace `[]` brackets with your path and version of the Add-On you use re
 Brackets are important in `"Murder Mystery"`! As a `MMmapnum` you can use `MAPK0` (Abandoned Shelter)
 
 ## Important server-side settings
-- `rejoimtimeout` must be disabled for Murder Mystery to work properly. The code prevents gametype launch if this Console Variable is enabled.
+- `rejoimtimeout` must be disabled for Murder Mystery to work properly or your console will be spammed (Yes this is serious)
 - `timelimit` never set to `0`. Code will reset it to `5` each time you (or the game) will disable it. Murder Mystery is designed as MATCH-like game and Timelimit is actually useful here
 
 ## Open assets used in this project
