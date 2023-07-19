@@ -63,7 +63,7 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0
 
 object MT_TDEADPLR
 doomednum = -1
@@ -73,7 +73,7 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0
 
 object MT_KDEADPLR
 doomednum = -1
@@ -83,7 +83,7 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0
 
 object MT_ADEADPLR
 doomednum = -1
@@ -93,7 +93,7 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0
 
 object MT_FDEADPLR
 doomednum = -1
@@ -103,7 +103,7 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0
 
 object MT_MDEADPLR
 doomednum = -1
@@ -113,4 +113,4 @@ speed = 1
 radius = 32*FRACUNIT
 height = 1
 mass = 16
-flags = MF_SOLID
+flags = 0

@@ -7,7 +7,7 @@
 local function chatplay(sfx)
 	for p in players.iterate S_StartSound(p.mo, sfx, p) end
 end
-local delaytimer=CV_RegisterVar{name="mmchatdelay", defaultvalue=35, flags=4, PossibleValue=CV_Unsigned}
+local delaytimer=CV_FindVar("mmchatdelay")
 COM_AddCommand("SAYDEAD", function(p, m) --SAY but to DEAD CHAT as SERVER, for some stupid reasons I can't limit it to DEDICATED CONSOLE only
 	if m!=nil for t in players.iterate if t.spectator chatprintf(t, "\x86{~SERVER} "..m) end end
 	else CONS_Printf(p, "Usage: SAYDEAD [message]\nSend message to the dead chat as SERVER\nNOTE: message must be enclosed into \" brackets otherwise only the first word will be sent!") end
@@ -38,24 +38,26 @@ addHook("PlayerMsg", function(s, type, t, m)
 		s.chatdelay=delaytimer.value
 		return true
 	elseif not s.spectator and type==0
-		if string.find(string.upper(m),":SKULL:") chatplay(sfx_emj00)
-		elseif string.find(string.upper(m),"HEHE")
-			if string.find(string.upper(m),"HEHEHE") and string.find(string.upper(m),"HA") chatplay(sfx_emj11)
+		m=m:upper()
+		if string.find(m,":SKULL:") chatplay(sfx_emj00)
+		elseif string.find(m,"HEHE")
+			if string.find(m,"HEHEHE") and string.find(m,"HA") chatplay(sfx_emj11)
+			elseif string.find(m,"BOI") chatplay(sfx_emj12)
 			else chatplay(sfx_emj01) end
-		elseif string.find(string.upper(m),":FART:") chatplay(sfx_emj02)
-		elseif string.find(string.upper(m),":OMG:") chatplay(sfx_emj03)
-		elseif string.upper(m)=="BRUH" chatplay(sfx_emj04)
-		elseif m:find("\:|") or m:find("/:|") chatplay(sfx_emj05)
-		elseif string.find(string.upper(m),":WOW:") chatplay(sfx_emj06)
-		elseif string.find(string.upper(m),"AMONG US") or string.find(string.upper(m),"AMONGUS") chatplay(sfx_emj07)
-		elseif string.upper(m)=="OH NO" chatplay(sfx_emj08)
-		elseif string.find(string.upper(m),"SUS") chatplay(sfx_emj09)
-		elseif string.find(string.upper(m),"AGHH") or string.find(string.upper(m),"AHH") chatplay(sfx_emj0a)
-		elseif string.upper(m)=="AHA" chatplay(sfx_emj0b)
-		elseif string.find(string.upper(m),"NO WAY") chatplay(sfx_emj0c)
-		elseif string.upper(m)=="NOPE" chatplay(sfx_emj0d)
-		elseif string.find(string.upper(m),"GET OVER HERE") chatplay(sfx_emj0e)
-		elseif string.find(string.upper(m),"NOO") chatplay(sfx_emj0f)
+		elseif string.find(m,":FART:") chatplay(sfx_emj02)
+		elseif string.find(m,"OMG") chatplay(sfx_emj03)
+		elseif m=="BRUH" chatplay(sfx_emj04)
+		elseif m:find(":|") or m:find("/:|") chatplay(sfx_emj05)
+		elseif string.find(m,"WOW") chatplay(sfx_emj06)
+		elseif string.find(m,"AMONG US") or string.find(m,"AMONGUS") chatplay(sfx_emj07)
+		elseif m=="OH NO" chatplay(sfx_emj08)
+		elseif string.find(m,"SUS") chatplay(sfx_emj09)
+		elseif string.find(m,"AGHH") or string.find(m,"AHH") chatplay(sfx_emj0a)
+		elseif m=="AHA" chatplay(sfx_emj0b)
+		elseif string.find(m,"NO WAY") chatplay(sfx_emj0c)
+		elseif m=="NOPE" chatplay(sfx_emj0d)
+		elseif string.find(m,"GET OVER HERE") chatplay(sfx_emj0e)
+		elseif string.find(m,"NOO") chatplay(sfx_emj0f)
 		elseif string.find(m,"HELP") chatplay(sfx_emj10) end
 		s.chatdelay=delaytimer.value
 	else return false end

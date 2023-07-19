@@ -13,6 +13,7 @@ local R_INNO=3
 local dthsfx={sfx__mmdth, sfx_mmdth2, sfx_emj08}
 local MM=MurderMystery
 local mmtext=MM.text
+local afkCVAR=CV_FindVar("mmafkdelay")
 	/*["FR"] = { -- French by Piksqu (adandoned)
 		["RM_get"]="Tu est \x85l'assassin\x80!\x85 Elimine tous le monde.",
 		["RS_get"]="Tu est le \x84Sheriff\x80!\x84 Elimine l'assassin. \x80Si tu tue un Inocent, tu perd.",
@@ -61,14 +62,14 @@ end
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
 local function assignRoles()
-	if gametype!=GT_MURDERMYSTERY or MM.playerCount()<3 return
+	if gametype!=GT_MURDERMYSTERY or MM.playerCount()<2 return
 	elseif gametype==GT_MURDERMYSTERY and splitscreen
 		COM_BufInsertText(server, "MAP JADE VALLEY -GAMETYPE MATCH")
 		print("\x85Hold on!\x80\nMurder Mystery (I'll call it MM from now on) is not designed for splitscreen mode! The game switched to the MATCH cuz it's as same as playing 1v1 in MM.\nDon't like it? Maybe you would like to type \x83MAP Abandoned Shelter -GAMETYPE MATCH -FORCE\x80 in this console to play MATCH inside MM maps?\nSorry but I won't make MM for splitscreen - it has no sence.\nSincerely, \x87LeonardoTheMutant")
 		return
 	end
 	local roleMultiplier=0
-	if MM.playerCount()<7 MM.roleMultiplier=1
+	if MM.playerCount()<7 roleMultiplier=1
 	elseif MM.playerCount()>=7 and MM.playerCount()<=10 roleMultiplier=2
 	elseif MM.playerCount()>=11 and MM.playerCount()<=14 roleMultiplier=3
 	elseif MM.playerCount()>14 roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
@@ -76,29 +77,17 @@ local function assignRoles()
 	assignRole(R_SHERIFF, roleMultiplier)
 	if MurderMystery.devbuild!=nil print("\x82".."assignRoles() results:\x80") end
 	for p in players.iterate --print who they are to everyone personally
-		if p.role == R_MURDERER chatprintf(p, mmtext[p.mmlang]["RM_get"])
-		elseif p.role == R_SHERIFF chatprintf(p, mmtext[p.mmlang]["RS_get"])
-		elseif p.role == 0
-			p.role = R_INNO
-			chatprintf(p, mmtext[p.mmlang]["RI_get"])
-		end
+		if p.role==0 p.role = R_INNO end
+		chatprintf(p, mmtext[p.mmlang]["R"..p.role.."_GET"])
 		if MurderMystery.devbuild!=nil print(p.name..": "..tostring(p.role)) end
 	end
 end
-addHook("MapChange", do
+addHook("MapLoad", do
 	if gametype!=GT_MURDERMYSTERY return end
 	for p in players.iterate --prepare players & server for the new round
 		p.role=0
 		p.spectator=false
-		p.killedby=nil
-	end
-	server.winner=0
-end)
-addHook("MapLoad", do
-	if gametype!=GT_MURDERMYSTERY return end
-	for p in players.iterate --prepare players & server for the new round (2nd try)
-		p.role=0
-		p.spectator=false
+		p.kills=0
 		p.killedby=nil
 	end
 	server.winner=0
@@ -116,27 +105,23 @@ end
 addHook("PlayerSpawn", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
 	--Language apply logic
-	if p.mmlang==nil
-		local f=io.openlocal("client/MM.DAT", 'r')
-		if f
-			local l=f:read()
-			if l=="ES" or l=="PL" or l=="PT" or l=="UA" p.mmlang=l
-			else p.mmlang="EN" end
-		else p.mmlang='EN' end
-		f:close()
-	end
-	--Anti-AFK init
-	p.afk=0
+	if p.mmlang==nil p.mmlang="EN" end
+	--	local f=io.openlocal("client/MM.DAT", 'r')
+	--	if f
+	--		local l=f:read()
+	--		if mmtext[l]~=nil p.mmlang=l
+	--		else p.mmlang="EN" end
+	--	else p.mmlang='EN' end
+	--	f:close()
+	--end
+	if p.kills==nil p.kills=0 end --how many players the player killed
+	p.afk=0 --Anti-AFK init
 	--Player num and state check
-	if MM.howMuchPlayersAlive()<3 and MM.howMuchPlayersWithRole(R_MURDERER)==0 and MM.howMuchPlayersWithRole(R_SHERIFF)==0 server.duelmode=true --enable MATCH DUEL MODE if less than 3 players online
-	else server.duelmode=nil end
-	if p.role==nil and MM.playerCount()==2 --When Player 2 joins notify Player 1 (who's probably AFK) about 'his new friend' with Sound
+	if MM.playerCount()==2 and p.role==nil --When Player 2 spawns/joins notify Player 1 (who's probably AFK) about the new 'rival' with Sound
+		for p in players.iterate p.role=0 end
+		assignRoles()
 		S_StartSound(p.mo, 93)
-	elseif p.role==nil and MM.playerCount()==3 and MM.howMuchPlayersWithRole(R_SHERIFF)==0 and MM.howMuchPlayersWithRole(R_MURDERER)==0 --Finish the DUEL between two players and start MURDER MYSTERY game (when Player 3 joins)
-		chatprintGlobal("PlrsJoined")
-		G_ExitLevel()
-	elseif MM.playerCount()>2 and p.role==nil and MM.howMuchPlayersWithRole(R_MURDERER)!=0 p.spectator=true end --if player joins mid-round of MM game, make him spectate (by assigning DEAD)
-	if not p.spectator and leveltime<35 p.powers[0]=350 end
+	elseif MM.playerCount()>2 and p.role==nil p.spectator=true end --if player joins mid-round of MM game, make him spectate (by assigning DEAD)
 end)
 addHook("HurtMsg", do --disable Ringslier hurt messages
 	if gametype==GT_MURDERMYSTERY return true end
@@ -157,12 +142,13 @@ local function KillPlayer(p, k) --player, killer (both MOBJ_T)
 	p.player.spectator=true
 	p.player.role=0
 	p.player.killedby=k.player.name
-	if p.skin=="sonic" P_SpawnMobj(p.x, p.y, p.z, MT_SDEADPLR).color=p.color
-	elseif p.skin=="tails" P_SpawnMobj(p.x, p.y, p.z, MT_TDEADPLR).color=p.color
+	k.player.kills=$+1
+	if p.skin=="tails" P_SpawnMobj(p.x, p.y, p.z, MT_TDEADPLR).color=p.color
 	elseif p.skin=="knuckles" P_SpawnMobj(p.x, p.y, p.z, MT_KDEADPLR).color=p.color
 	elseif p.skin=="amy" P_SpawnMobj(p.x, p.y, p.z, MT_ADEADPLR).color=p.color
 	elseif p.skin=="fang" P_SpawnMobj(p.x, p.y, p.z, MT_FDEADPLR).color=p.color
-	elseif p.skin=="metalsonic" P_SpawnMobj(p.x, p.y, p.z, MT_MDEADPLR).color=p.color end
+	elseif p.skin=="metalsonic" P_SpawnMobj(p.x, p.y, p.z, MT_MDEADPLR).color=p.color
+	else P_SpawnMobj(p.x, p.y, p.z, MT_SDEADPLR).color=p.color end
 	S_StartSound(p, dthsfx[P_RandomKey(3)+1], p.player) --play random death sound personally
 end
 local function endRound(w, endtext)
@@ -176,12 +162,11 @@ end
 --source = the object that atacked
 addHook("MobjDamage", function(entity, inflictor, source)
 	if gametype!=GT_MURDERMYSTERY or not source return end
-	if leveltime<105 return true end
 	if source.player -- check if both the atacker and victim are players
-		if entity.player.role == R_MURDERER
-			if source.player.role == R_MURDERER
-				chatprintf(source.player, mmtext[source.player.mmlang]["HitMTeammate_atacker"])
-				chatprintf(entity.player, mmtext[entity.player.mmlang]["HitMTeammate_victim"])
+		if entity.player.role==R_MURDERER
+			if source.player.role==R_MURDERER
+				chatprintf(source.player, "\x85"..mmtext[source.player.mmlang]["HitTeammate_atacker"])
+				chatprintf(entity.player, "\x85"..mmtext[entity.player.mmlang]["HitTeammate_victim"])
 				return
 			end
 			KillPlayer(entity, source)
@@ -191,10 +176,10 @@ addHook("MobjDamage", function(entity, inflictor, source)
 				chatprintGlobal("MurdererKilled", entity.player)
 				if isdedicatedserver CONS_Printf(server, "- "..entity.player.name.." (Murd) died") end
 			end
-		elseif entity.player.role == R_SHERIFF
-			if source.player.role == R_SHERIFF
-				chatprintf(source.player, mmtext[source.player.mmlang]["HitSTeammate_atacker"])
-				chatprintf(entity.player, mmtext[entity.player.mmlang]["HitSTeammate_victim"])
+		elseif entity.player.role==R_SHERIFF
+			if source.player.role==R_SHERIFF
+				chatprintf(source.player, "\x84"..mmtext[source.player.mmlang]["HitTeammate_atacker"])
+				chatprintf(entity.player, "\x84"..mmtext[entity.player.mmlang]["HitTeammate_victim"])
 				return
 			end
 			KillPlayer(entity, source)
@@ -207,16 +192,16 @@ addHook("MobjDamage", function(entity, inflictor, source)
 				chatprintGlobal("SheriffKilledNoDrop", entity.player)
 				if isdedicatedserver CONS_Printf(server, "- "..entity.player.name.." (Sheriff) killed") end
 			end
-		elseif entity.player.role == R_INNO
+		elseif entity.player.role==R_INNO
 			KillPlayer(entity, source)
-			if source.player.role == R_SHERIFF then
+			if source.player.role==R_SHERIFF then
 				-- Sheriff killed an innocent, remove role "Sheriff" from the player if there are more of Innos,
 				-- otherwise Murderers win
 				if MM.howMuchPlayersWithRole(R_INNO)>0
 					chatprintf(source.player, mmtext[source.player.mmlang]["SheriffKillInnoPM"])
 					chatprintGlobal("SheriffKillInno")
 					setRandomPlayerAs(R_SHERIFF)
-					source.player.role = R_INNO
+					source.player.role=R_INNO
 				else endRound(R_MURDERER, "MurdersWinNoInnos") end
 			end
 		end
@@ -226,18 +211,15 @@ addHook("MobjDamage", function(entity, inflictor, source)
 end, MT_PLAYER)
 
 --Sheriff Emerald pickup logic
-local function playerInRange(mo, mo2)
-	local x=abs(mo.x-mo2.x)/FU
-	local y=abs(mo.y-mo2.y)/FU
-	local z=abs(mo.z-mo2.z)/FU
-	if x<32 and y<32 and z<46 return true
+local function mobjInRange(mo, mo2)
+	if abs(mo.x-mo2.x)/FU < 32 and abs(mo.y-mo2.y)/FU < 32 and abs(mo.z-mo2.z)/FU < 46 return true
 	else return false end
 end
 addHook("MobjThinker", function(mo)
-	if mo.type==MT_SHREML and gametype==GT_MURDERMYSTERY
+	if gametype==GT_MURDERMYSTERY
 		for p in players.iterate
-			if p.role==3 and playerInRange(mo, p.mo)
-				P_KillMobj(mo)
+			if p.role==3 and mobjInRange(mo, p.mo)
+				P_RemoveMobj(mo)
 				S_StartSound(p.mo, 97, p)
 				p.role=2
 				chatprintGlobal("SheriffDropPicked")
@@ -246,25 +228,24 @@ addHook("MobjThinker", function(mo)
 			end
 		end
 	end		
-end)
+end, MT_SHREML)
 addHook("PlayerThink", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
 	if p.role==1 --remove weapons from Murderer
 		p.ringweapons=0
 		for i=15,20 p.powers[i]=0 end
 	elseif p.role==3 p.weapondelay=1 end --Make innocents not shoot
-	if p.cmd.forwardmove==0 and p.cmd.sidemove==0 and p.cmd.buttons==0 and not p.spectator p.afk=p.afk+1 --anti-afk code
+	if p.cmd.forwardmove==0 and p.cmd.sidemove==0 and p.cmd.buttons==0 and not p.spectator and MM.playerCount()!=1 and afkCVAR.value~=0 p.afk=p.afk+1 --anti-afk code
 	else p.afk=0 end
-	if p.afk>4200 
+	if p.afk>afkCVAR.value
 		if p==server
 			print("\x82HOST PLAYER IS AFK FOR 2 MINUTES, CLOSING THE SERVER...")
 			COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "kick "..#p.." AFK") end --kick player who didn't input any button for 2 minutes
 	end
 end)
-addHook("IntermissionThinker", do --Revive everyone on intermission
-	if gametype!=GT_MURDERMYSTERY return end
-	for p in players.iterate p.spectator=false end
+addHook("IntermissionThinker", do
+	for p in players.iterate if p.spectator p.spectator=false end end
 end)
 -- end game when important players leave and no Innocents are alive to reassign that role to them
 addHook("PlayerQuit", function(p)
@@ -274,9 +255,14 @@ addHook("PlayerQuit", function(p)
 		if MM.howMuchPlayersWithRole(R_INNO)>=1 and MM.howMuchPlayersWithRole(R_MURDERER)==0
 			endRound(0, "LastMurdLeft")
 		elseif MM.howMuchPlayersWithRole(R_MURDERER)==0
-			chatprintGlobal("MurdLeftReplace")
-			setRandomPlayerAs(R_MURDERER)
-			if isdedicatedserver CONS_Printf(server, "- Murderer replaced") end
+			if gamestate==GS_LEVEL
+				chatprintGlobal("MurdLeftReplace")
+				setRandomPlayerAs(R_MURDERER)
+				if isdedicatedserver CONS_Printf(server, "- Murderer replaced") end
+			else
+				chatprintGlobal("OneMurdLeft")
+				if isdedicatedserver CONS_Printf(server,"- Murd left") end
+			end
 		else
 			chatprintGlobal("OneMurdLeft")
 			if isdedicatedserver CONS_Printf(server, "- Murd left") end
@@ -286,12 +272,17 @@ addHook("PlayerQuit", function(p)
 		if MM.howMuchPlayersWithRole(R_INNO)==0 and MM.howMuchPlayersWithRole(R_SHERIFF)==0
 			endRound(0, "LastSheriffLeft")
 		elseif MM.howMuchPlayersWithRole(R_SHERIFF)==0
-			chatprintGlobal("SheriffLeftReplace")
-			setRandomPlayerAs(R_SHERIFF)
-			if isdedicatedserver CONS_Printf(server, "- Sheriff replaced") end
+			if gamestate==GS_LEVEL
+				chatprintGlobal("SheriffLeftReplace")
+				setRandomPlayerAs(R_SHERIFF)
+				if isdedicatedserver CONS_Printf(server,"- Sheriff replaced") end
+			else
+				chatprintGlobal("OneSheriffLeft")
+				if isdedicatedserver CONS_Printf(server,"- Sheri left") end
+			end
 		else
 			chatprintGlobal("OneSheriffLeft")
-			if isdedicatedserver CONS_Printf(server, "- Sheri left") end
+			if isdedicatedserver CONS_Printf(server,"- Sheri left") end
 		end
 	elseif p.role==R_INNO
 		p.role=0
@@ -302,8 +293,6 @@ addHook("PlayerQuit", function(p)
 		chatprint("\x82*"..p.oldname.." didn't read \x87MMHELP BAD\x82 carefuly, what a stupid")
 		p.oldname=p.name
 	end
-	if MM.howMuchPlayersAlive()<3 and MM.howMuchPlayersWithRole(R_MURDERER)==0 and MM.howMuchPlayersWithRole(R_SHERIFF)==0 server.duelmode=true
-	else server.duelmode=nil end
 end)
 if MurderMystery.devbuild
 	COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
@@ -311,13 +300,13 @@ if MurderMystery.devbuild
 			CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role] [dead (0/1)] [killedby (optional)]")
 			return
 		end
-		players[tonumber(pnum)].role=tonumber(prole)
+		if prole=="nil" players[tonumber(pnum)].role=nil
+		else players[tonumber(pnum)].role=tonumber(prole) end
 		if pdead=="1" players[tonumber(pnum)].spectator=true
 		else players[tonumber(pnum)].spectator=false end
 		if killby!=nil players[tonumber(pnum)].killedby=killby end
 	end)
 	COM_AddCommand("mmnodes", do
 		for p in players.iterate print(p.name..": "..tostring(p.role)..", "..tostring(p.spectator)) end
-		if server.duelmode print("\x81".."DUEL MODE") end
 	end)
 end

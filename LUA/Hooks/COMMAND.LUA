@@ -185,6 +185,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "Regla No.1 en cada juego:\x82 Se amable y diviertete!\x80 Aparte de esto...")
 			CONS_Printf(p, "* Advertir sobre el \x8BRol\x80 no hara el juego un\'Misterio\', puedes decir el rol de alguien mas si lo sabes pero nunca digas el tuyo")
 			CONS_Printf(p, "* No insultar a otros jugadores, se permiten bromas pero solo en modo amistoso")
+			CONS_Printf(p, "* Estando AFK es un crimen de guerra. Si estaras inactivo por 2 minutos el juego te sacara (solo si estas vivo)")
 			CONS_Printf(p, "* No te renombres bajo ninguna circunstancia en MM - el juego es escricto sobre esto y tu SRB2 se \x85 auto-cerrara\x80 si intentas hacer esto. Si nesecitas renombrarte espera a la pantalla de Intermision para hacerlo.")
 			CONS_Printf(p, "Romper una de estas reglas puede resultar en una expulsion o incluso un baneo, porfavor no las rompas y juega justamente")
 			CONS_Printf(p, "\nMas paginas de ayuda que talvez quieras leer en tu consola:")
@@ -194,6 +195,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "Zasada nm. 1 kazdej gry:\x82 Badz mily i sie baw!\x80 Oprocz tego...")
 			CONS_Printf(p, "* Samo zaspoilerowanie \x8BRoli\x80 sprawi ze gra nie bedzie \'Tajemnica\', mozesz powiedziec role kogos innego jesli ja znasz ale nigdy swojej.")
 			CONS_Printf(p, "* Nie badz niemilym dla innych, zarty sa dozwolone ale tylko w przyjaznej atmosferze.")
+			CONS_Printf(p, "* Bycie AFK to zbrodnia wojenna. Jesli bedziesz nieaktywny przez dluzszy czas gra cie wyrzuci (tylko jesli zyjesz)")
 			CONS_Printf(p, "* Nie zmieniaj nicku podczas TM - gra jest bardzo scisla i\x85 auto-wylaczy\x80 twoje SRB2 jesli to zrobisz. Jesli musisz zmienic nick to zaczekaj na ekran rezul.")
 			CONS_Printf(p, "Zlamanie jednej z tych zasad moze poskutkowac wyrzuceniem lub nawet banem, prosze ich nie lamac i bawic sie.")
 			CONS_Printf(p, "\nWiecej pomocy ktore moga ci sie przydac:")
@@ -203,6 +205,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "Regra No.1 em qualquer jogo:\x82 Seja gentil e divirta-se!\x80 Fora isso...")
 			CONS_Printf(p, "* A autodestruicao do \x8B Papel\x80 nao tornara o jogo \'Misterioso\', voce pode dizer o papel de outra pessoa se souber quem ele e, mas nunca diga o seu.")
 			CONS_Printf(p, "* Nao insulte outros jogadores, piadas sao permitidas, mas de bom humor.")
+			CONS_Printf(p, "* Estar AFK e um crime de guerra. Se voce ficar inativo por 2 minutos, o jogo ira te kickar (somente se voce estiver vivo).")
 			CONS_Printf(p, "* Nao renomeie a si mesmo ENQUANTO ESTA NO JOGO MM - o jogo e rigoroso sobre isso e ira\x85 fechar automaticamente\x80 seu SRB2 se tentar fazer isso. Se voce precisar renomear, aguarde a tela de intervalo.")
 			CONS_Printf(p, "Quebrar uma dessas regras pode resultar em um kick ou ate banimento, por favor, nao as quebre e jogue de forma justa.")
 			CONS_Printf(p, "\nMais paginas de ajuda que voce pode querer ler em seu console:")
@@ -212,6 +215,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "Prawylo Nomer 1 Kozhnoji gry:\x82 Bud' dobryj i nasolodzhujsia!\x80 Krim ciogo...")
 			CONS_Printf(p, "* Samospoilerowannie \x8BRoli\x80 ne zrobyt' gru \'Tajemnychoju\', mozhesh skazaty rol kogos innogo jaksho znajesh napewno ale nikoly ne powidomliaj swojeji.")
 			CONS_Printf(p, "* Nie bud' zlyj dlia inshyh, zharty dozwoleno ale tilky w druzhnij atmosferi.")
+			CONS_Printf(p, "* Buty AFK ce wojennyj zlochyn. Jaksho budesh neaktywnyj ponad 2 hwylyny gra kick'ne tebe (tilky jaksho ty zhywyj)")
 			CONS_Printf(p, "* Nie zminiuj nicku pidchas TW - gra je duzhe serjozna na cej wypadok i\x85 auto-zakryje\x80 twoju gru SRB2 jaksho zrobujesh ce zrobyty. Jesli musisz zmenic nick to poczekaj na ekran przerwy.")
 			CONS_Printf(p, "Porushennia odnijeji z cyh prawyl mozhe powoduwaty KICK ta nawit BAN. Bud' Laska ne porushujte i grajte chesno.")
 			CONS_Printf(p, "\nBilshe dopomogy kotra mozhe dopomogty:")
@@ -221,6 +225,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "Rule No.1 in any game:\x82 Be kind and have fun!\x80 Other than this...")
 			CONS_Printf(p, "* Self-spoiling of the \x8BRole\x80 will not make the game \'Mystery\', you can tell someone other's role if you know who he is but never tell your own.")
 			CONS_Printf(p, "* Do not insult other players, jokes are allowed but in friendly mood.")
+			CONS_Printf(p, "* Being AFK is a war crime. If you will be inactive for 2 minutes the game will kick you (only if you're alive).")
 			CONS_Printf(p, "* Do not rename yourself WHILE IN MM GAME - the game is strict about this and will\x85 auto-close\x80 your SRB2 if try doing this. If you need to rename wait for the Intermission screen to do it.")
 			CONS_Printf(p, "Breaking one of these rules may result a kick or even ban, please do not break them and play fairly.")
 			CONS_Printf(p, "\nMore help pages that you might want to read at your console:")
@@ -253,6 +258,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "  NOO           | \"NOOOOOOoooooo...\"")
 			CONS_Printf(p, "  HELP          | Tyler1's \"HELP!\"")
 			CONS_Printf(p, "  HEHEHE HA     | Clash Royal King's laugh")
+			CONS_Printf(p, "  HEHE BOI      | \"Hehe boi...\"")
 			CONS_Printf(p, " ---------------+-----------------------------")
 			CONS_Printf(p, "\nMas paginas de ayuda que talvez quieras leer en tu consola:")
 			CONS_Printf(p, "\x87MMHELP GAME\x80 - Sobre situaciones de gameplay")
@@ -284,6 +290,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "  NOO           | \"NOOOOOOoooooo...\"")
 			CONS_Printf(p, "  HELP          | Tyler1's \"HELP!\"")
 			CONS_Printf(p, "  HEHEHE HA     | Clash Royal King's laugh")
+			CONS_Printf(p, "  HEHE BOI      | \"Hehe boi...\"")
 			CONS_Printf(p, " ---------------+-----------------------------")
 			CONS_Printf(p, "Mais ajuda:")
 			CONS_Printf(p, "\x87MMHELP GAME\x80 - Mais sobre o jogo e as situacoes do jogo")
@@ -316,14 +323,15 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "  NOO           | \"NOOOOOOoooooo...\"")
 			CONS_Printf(p, "  HELP          | Tyler1's \"HELP!\"")
 			CONS_Printf(p, "  HEHEHE HA     | Clash Royal King's laugh")
+			CONS_Printf(p, "  HEHE BOI      | \"Hehe boi...\"")
 			CONS_Printf(p, " ---------------+-----------------------------")
 			CONS_Printf(p, "Wiecej pomocy:")
 			CONS_Printf(p, "\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinienes robic podczas TM")
 			CONS_Printf(p, "\x87MMHELP GAME\x80 - O sytuacjach w grze")
 		elseif p.mmlang=="UA"
 			CONS_Printf(p, "\x87Jak wykorystowuwaty Zwukowi Emoji\x80")
-			CONS_Printf(p, "Koly grawec' widprawliaje powidomlennia i wono maje u sobi jakijs' kliuchowyj wyraz razom z powidomlenniam zagraje specefichne Zwukowe Emoji.")
-			CONS_Printf(p, "Koroche, koly ty pyshesh 'bruh' wsi pochujut' 'BRUH' razom z powidomlenniam")
+			CONS_Printf(p, "Koly grawec' widprawliaje powidomlennia i wono maje u sobi jakijs' kluchowyj wyraz razom z powidomlenniam zagraje specefichne Zwukowe Emoji.")
+			CONS_Printf(p, "Koroche, koly ty pyshesh \"bruh\" wsi pochujut' \"BRUH\" razom z powidomlenniam")
 			CONS_Printf(p, "Os' pownyj lyst Zwukowych Emoji i jak ich aktywuwaty:\n")
 			CONS_Printf(p, "  \x88Slowo-kluch\x80   | \x89Zwuk")
 			CONS_Printf(p, " ---------------+---------------------------")
@@ -348,6 +356,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "  NOO           | \"NOOOOOOoooooo...\"")
 			CONS_Printf(p, "  HELP          | Tyler1's \"HELP!\"")
 			CONS_Printf(p, "  HEHEHE HA     | Clash Royal King's laugh")
+			CONS_Printf(p, "  HEHE BOI      | \"Hehe boi...\"")
 			CONS_Printf(p, " ---------------+---------------------------")
 			CONS_Printf(p, "Bil'she dopomogy:")
 			CONS_Printf(p, "\x87MMHELP GAME\x80 - Pro igrowi sytuacji")
@@ -380,6 +389,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "  NOO           | \"NOOOOOOoooooo...\"")
 			CONS_Printf(p, "  HELP          | Tyler1's \"HELP!\"")
 			CONS_Printf(p, "  HEHEHE HA     | Clash Royal King's laugh")
+			CONS_Printf(p, "  HEHE BOI      | \"Hehe boi...\"")
 			CONS_Printf(p, " ---------------+-----------------------------")
 			CONS_Printf(p, "More help:")
 			CONS_Printf(p, "\x87MMHELP GAME\x80 - More about the game and in-game situations")
@@ -393,10 +403,13 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\nChanges from\x81 7.0-beta\x80:")
 		CONS_Printf(p, " - New map: BACKROOMS. Every MM game have to include this sus map :skull:")
 		CONS_Printf(p, " - 5 new Sound Emojis;")
-		CONS_Printf(p, " - Huge bugfixes;")
+		CONS_Printf(p, " - Huge bugfixes, we tried our best to make the game much stable than before. Still, bugs can occur;")
 		CONS_Printf(p, " - Stupid admins who don't read READ_BEFORE_HOSTING.txt included inside this mod file aren't able to even start MM game on their host;")
 		CONS_Printf(p, " - If you switch from MM to other gametype all character abbilities are 100% reverted.")
-		CONS_Printf(p, "\nFound an issue or just wish to help with \x87Murder Mystery for SRB2\x80 development? Any help in our MM_DEV team helps!\n\x84".."Discord: https://discord.com/invite/UgG8h2djFE")
+		CONS_Printf(p, " - Now you can add your own language to the MM with the Custom Language File (CLF in short), please visit GitHub page for the details on it;")
+		CONS_Printf(p, " - Completely new intermission screen (it took a while to do but still can be buggy);")
+		CONS_Printf(p, " - MMLANG does not read/write to the language file on your local client. We try to fix bugs caused by it and hope this is temporary change;")
+		CONS_Printf(p, "\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project helps!\n\x84".."Discord: https://discord.com/invite/UgG8h2djFE\n\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		CONS_Printf(p, "Can't find the \x82"..page.."\x80 page in help, did you try reading/using these commands?")
 		CONS_Printf(p, "\x87MMHELP\x80      - The basics")
@@ -412,18 +425,35 @@ local function MMlang(p, l) --player, lang
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
 	end
-	if l==nil CONS_Printf(p, MurderMystery.text[p.mmlang]['CurrentLang'])
-	else l=string.upper(l) end
-	if l=="EN" or l=="ES" or l=="PL" or l=="PT" or l=="UA"
-		p.mmlang=l
-		local f=io.openlocal("client/MM.DAT", 'w')
-		if f
-			f:write(p.mmlang)
-			f:close()
+	if not l
+		CONS_Printf(p, MurderMystery.text[p.mmlang]['CurrentLang'])
+		CONS_Printf(p, "Available languages:")
+		local langCount=0
+		local langOutdated=0
+		for lang in pairs(MurderMystery.text)
+			langCount=$+1
+			if p.mmlang==lang CONS_Printf(p,"\x82  "..lang.." (current language)")
+			elseif MurderMystery.text[lang]["VERSION"]~=MurderMystery.version
+				CONS_Printf(p,"\x85  "..lang.." (OUTDATED)")
+				langOutdated=$+1
+			else CONS_Printf(p,"  "..lang) end
+		end
+		CONS_Printf(p, langCount.." languages in total")
+		if langOutdated~=0 CONS_Printf(p, "\x85"..langOutdated.." languages are outdated (they may result crash if selected)") end
+	else
+		l=l:upper()
+		if MurderMystery.text[l]~=nil
+			p.mmlang=l
 			CONS_Printf(p, MurderMystery.text[p.mmlang]["LangSet"])
-			CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x82/luafiles/client/MM.DAT\x80. MM will load your language from this file on next server join")
-		else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x83/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
-	elseif l!=nil CONS_Printf(p, "'\x82"..l.."\x80' language is not supported\nIf you want to add it to the MM, please contact our MM_Dev Team (\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80)") end
+			if MurderMystery.text[l]["VERSION"]~=MurderMystery.version CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result crashes. Please ask "..tostring(MurderMystery.text[l]["AUTHOR"]).." to update it for the \x87Murder Mystery "..MurderMystery.version) end
+			--local f=io.openlocal("client/MM.DAT", 'w')
+			--if f
+			--	f:write(l)
+			--	f:close()
+			--	CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
+			--else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
+		else CONS_Printf(p, "'\x82"..l.."\x80' language is not added\nIf you want to add it to the MM, please do\x87 ADDFILE [lang_file.lua]\x80 in the console or contact our MM_DEV Team:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery") end
+	end
 end
 
 COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)

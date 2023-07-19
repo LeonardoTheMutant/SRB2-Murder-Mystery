@@ -4,11 +4,26 @@
 -- Improved and developed further by LeonardoTheMutant
 --
 -- This script controlls HUD elements
+--
+-- Note: Some Video Flags are presented as intergers
+-- V_ALLOWLOWERCASE = 8388608
 
 -- Constants
 local R_MURDERER=1
 local R_SHERIFF=2
 local R_INNO=3
+local coords={
+	first={y=32},
+	num={x=16},
+	name={x=48},
+	kills={x=192},
+	role={x=248},
+	first2={y=40},
+	num2={x=8},
+	name2={x=26},
+	kills2={x=84},
+	role2={x=118}
+}
 local MM=MurderMystery
 local mmtext=MM.text
 
@@ -18,8 +33,13 @@ local mmtext=MM.text
 		["RI_HUD"]="INOCENT",
 		["DD_HUD"]="MORT",
 		["TeamLeft_HUD"]="Coequipiers vivants: "*/
+		
+local function drawStrCentered(v,y,str,flags,font)
+	if flags==nil flags=0 end
+	v.drawString(160-v.stringWidth(str,flags,font)/2, y, str, flags, font)
+end
 
-local function roleHUD(v, p) --the HUD that appears in on screen during game
+local function mainHUD(v, p) --main game HUD
 	if gametype != GT_MURDERMYSTERY --in case if switched from MM to other gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
@@ -34,173 +54,115 @@ local function roleHUD(v, p) --the HUD that appears in on screen during game
 	--Draw "People alive" in HUD
 	v.draw(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_PPLE"), V_SNAPTOTOP|V_SNAPTOLEFT)
 	v.draw(hudinfo[HUD_SCORE].x+56, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_ALVE"), V_SNAPTOTOP|V_SNAPTOLEFT)
-	if MM.howMuchPlayersAlive()>9 v.draw(hudinfo[HUD_SCORE].x+104, hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM1"), V_SNAPTOTOP|V_SNAPTOLEFT)
-	elseif MM.howMuchPlayersAlive()>19 v.draw(hudinfo[HUD_SCORE].x+104, hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM2"), V_SNAPTOTOP|V_SNAPTOLEFT) --did someone see 20 players in ringslier?
-	elseif MM.howMuchPlayersAlive()>29 v.draw(hudinfo[HUD_SCORE].x+104, hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM3"), V_SNAPTOTOP|V_SNAPTOLEFT) end --will this number be even reached?!?!?
-	v.draw(hudinfo[HUD_SCORE].x+112, hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM"..MM.howMuchPlayersAlive()%10), V_SNAPTOTOP|V_SNAPTOLEFT)
+	v.drawNum(hudinfo[HUD_SCORE].x+112, hudinfo[HUD_SCORE].y, MM.howMuchPlayersAlive(), V_SNAPTOTOP|V_SNAPTOLEFT)
+	if CV_FindVar("rejointimeout").value!=0
+		drawStrCentered(v, 96, "ADMIN, DISABLE THE\x87 REJOINTIMEOUT")
+		drawStrCentered(v, 104, "MM DOESN'T WORK PROPERLY WITH THIS CVAR")
+	end
 	--Show your role in HUD (and translate it)
-	if p.role == R_MURDERER
-		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+16, "\x85"..mmtext[p.mmlang]["RM_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT)
+	if p.role~=nil and p.role>=1 v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+16,mmtext[p.mmlang]["R"..p.role.."_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if p.role~=nil and p.role==1
 		if MM.howMuchPlayersWithRole(R_MURDERER)>1 v.drawString(0, 192, "\x85"..mmtext[p.mmlang]["TeamLeft_HUD"]..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
 		hud.enable("weaponrings")
-	elseif p.role == R_SHERIFF
-		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+16, "\x84"..mmtext[p.mmlang]["RS_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT)
+	elseif p.role~=nil and p.role==2
 		if MM.howMuchPlayersWithRole(R_SHERIFF)>1 v.drawString(0, 192, "\x84"..mmtext[p.mmlang]["TeamLeft_HUD"]..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
 		hud.enable("weaponrings")
-	elseif p.role == R_INNO v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y + 16, "\x83"..mmtext[p.mmlang]["RI_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT)
 	elseif p.spectator
-		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+16, "\x8F"..mmtext[p.mmlang]["DD_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT)
-		if p.mmlang=="ES"
-			v.drawString(114, 144, "Estas\x8F muerto", 8388608)
-			v.drawString(2, 152, "No puedes reaparecer o hablarle a los vivos", 8388608)
-			if p.role==nil v.drawString(4, 168, "Te uniste en \x84la mitad de la partida\x80, espera para jugar una nueva ronda", 8388608, "thin") end
-		elseif p.mmlang=="FR"
-			v.drawString(118, 144, "You are\x8F dead", 8388608)
-			v.drawString(32, 152, "You can't respawn or talk to alives", 8388608)
-			if p.role==nil v.drawString(48, 168, "You joined \x84mid-round\x80, wait for the new round to play", 8388608, "thin") end
-		elseif p.mmlang=="PL"
-			v.drawString(112, 144, "Jestes\x8F martwy", 8388608)
-			v.drawString(60, 152, "Nie mozesz powrocic do zycia", 8388608)
-			v.drawString(88, 160, "albo gadac do zywych", 8388608)
-			if p.role==nil v.drawString(8, 176, "Dolaczyles/as w \x84srodku rundy\x80, poczekaj na nastepna runde zeby grac", 8388608, "thin") end
-		elseif p.mmlang=="PT"
-			v.drawString(104, 144, "Voce esta\x8F morto", 8388608)
-			v.drawString(16, 152, "Voce nao pode reviver ou falar com vivos", 8388608)
-			if p.role==nil 
-				v.drawString(32, 168, "Voce entrou em uma \x84rodada intermediaria\x80, aguarde a nova", 8388608, "thin")
-				v.drawString(118, 176, "rodada para jogar", 8388608, "thin")
-			end
-		elseif p.mmlang=="UA"
-			v.drawString(118, 144, "Ty\x8F mertwyj", 8388608)
-			v.drawString(54, 152, "Ne mozhesh widrodzhuwatysia", 8388608)
-			v.drawString(78, 160, "abo goworyty do zhywyh", 8388608)
-			if p.role==nil v.drawString(4, 176, "Ty pryjednawsia \x84posered raundu\x80, pochekaj nowogo raundu shob zagraty", 8388608, "thin") end
-		else
-			v.drawString(114, 144, "You are\x8F dead", 8388608)
-			v.drawString(32, 152, "You can't respawn or talk to alives", 8388608)
-			if p.role==nil v.drawString(42, 168, "You joined \x84mid-round\x80, wait for the new round to play", 8388608, "thin") end
-		end
+		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+16, mmtext[p.mmlang]["DD_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT)
+		for i=1,mmtext[p.mmlang]["DEADSTRNUM"] drawStrCentered(v, 128+i*8, mmtext[p.mmlang]["DEAD"..i], 8388608) end
+		if p.role==nil for j=1,mmtext[p.mmlang]["MIDJOINSTRNUM"] drawStrCentered(v, 168+j*8, mmtext[p.mmlang]["MIDJOIN"..j], 8388608, "thin") end end
 		if p.killedby!=nil v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+24, "\x85"..mmtext[p.mmlang]["KILLBY_HUD"].."\x80"..p.killedby, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE) end
-	elseif MM.howMuchPlayersAlive()==1
-		if p.mmlang=="ES"
-			v.drawString(10, 144, "\x84".."2 jugadores\x80 son requeridos para el juego,", 8388608)
-			v.drawString(0, 152, "porfavor espera \x84un jugador mas\x80 para empezar", 8388608)
-		elseif p.mmlang=="FR"
-			v.drawString(24, 144, "\x84".."2 jouers\x80 sonts necesaire pour le jeu,", 8388608)
-			v.drawString(36, 152, "attender que d'autre joueur joine", 8388608)
-		elseif p.mmlang=="PL"
-			v.drawString(72, 144, "Potrzeba\x84 2 graczy\x80 do gry", 8388608)
-			v.drawString(8, 152, "Zaczekaj prosze na \x84jeszcze jednego\x80 gracza", 8388608)
-		elseif p.mmlang=="PT"
-			v.drawString(48, 144, "\x80Precisa-se de\x84 2 jogadores \x80para", 8388608)
-			v.drawString(104, 152, "o jogo comecar,", 8388608)
-			v.drawString(26, 160, "aguarde \x84mais um\x80 jogador para iniciar", 8388608)
-		elseif p.mmlang=="UA"
-			v.drawString(64, 144, "Potribno \x84".."2 grawcia\x80 dla gry,", 8388608)
-			v.drawString(4, 152, "zachekaj na \x84she odnogo\x80 grawcia aby pochaty", 8388608)
-		else
-			v.drawString(28, 144, "\x84".."2 players\x80 are requiered for the game,", 8388608)
-			v.drawString(16, 152, "please wait for \x84one more\x80 player to start", 8388608)
-		end
 	end
-	if server.duelmode and p.mmlang
-		hud.enable("weaponrings")
-		v.drawString(0, 192, "\x81"..mmtext[p.mmlang]["MATCH_HUD"], V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-	end
-	if MM.howMuchPlayersWithRole(R_INNO)==0 and MM.howMuchPlayersWithRole(R_MURDERER)!=0 and MM.howMuchPlayersWithRole(R_SHERIFF)!=0 v.drawString(108, 160, "\x88Showdown duel!", V_ALLOWLOWERCASE) end
+	if MM.playerCount()==1 for i=1,mmtext[p.mmlang]["ALONESTRNUM"] drawStrCentered(v, 128+i*8, mmtext[p.mmlang]["ALONE"..i], 8388608) end end
+	if MM.howMuchPlayersWithRole(R_INNO)==0 and MM.howMuchPlayersWithRole(R_MURDERER)!=0 and MM.howMuchPlayersWithRole(R_SHERIFF)!=0 v.drawString(108, 168, "\x88Showdown duel!", V_ALLOWLOWERCASE) end
 	if CV_FindVar("mmsprint").value v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	elseif p.sneak v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+32, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 	if MM.devbuild
 		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+96, "\x87"..MM.version.."-"..MM.devbuild, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	end
 end
-local function scoresHUD(v) -- the HUD that appears on SCORES TAB
+local function scoresHUD(v) --SCORES TAB
 	if gametype!=GT_MURDERMYSTERY then
 		hud.enable("rankings")
 		return
 	end
 	local p=consoleplayer --for shortage
 	hud.disable("rankings")
-	if p.mmlang=="ES"
-		v.drawString(84, 20, "Misterio De Asesinato", V_SNAPTOTOP|V_ALLOWLOWERCASE)
-		v.drawString(20, 40, "No hay puntaje aqui! Los contadores\ndebajo pueden ayudarte", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
-		v.drawString(20, 64, "Si eres nuevo al tipo de juego\nusa \x87MMHELP\x80 en la Consola", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE)
-		if server.duelmode v.drawString(20, 88, "\x81No hay jugadores suficientes para\nempezar la partida de MM,\n(almenos 3 son requeridos)\nen vez de eso jugaran El Modo Duelo", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
-		v.drawString(20, 128, "\x82".."Diviertete ;)", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 176, "\x85".."Asesinos vivos: "..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
-		v.drawString(20, 184, "\x84".."Comisarios vivos: "..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT)
-		if howMuchPlayersWithRole(R_INNO)!=0 v.drawString(20, 192, "\x83Inocentes vivos: "..MM.howMuchPlayersWithRole(R_INNO), V_SNAPTOTOP|V_SNAPTOLEFT) end
-	elseif p.mmlang=="PL"
-		v.drawString(88, 20, "Tajemnica Mordercy", V_SNAPTOTOP|V_ALLOWLOWERCASE)
-		v.drawString(20, 40, "Tutaj nie ma punktow! Liczniki na dole\nmoga pomoc", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
-		v.drawString(20, 64, "Jesli jestes nowy w tym trybie\nuzyj \x87MMHELP\x80 w Konsoli", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE)
-		if server.duelmode v.drawString(20, 88, "\x81Za malo graczy zeby zaczac runde MM\n(potrzeba 3), zmiana na Tryb Duel Match", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
-		v.drawString(20, 128, "\x82".."Baw sie dobrze ;)", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 176, "\x85Zywi Mordercy: "..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
-		v.drawString(20, 184, "\x84Zywi Szeryfi: "..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT)
-		if howMuchPlayersWithRole(R_INNO)!=0 v.drawString(20, 192, "\x83Zywi Niewinni: "..MM.howMuchPlayersWithRole(R_INNO), V_SNAPTOTOP|V_SNAPTOLEFT) end
-	elseif p.mmlang=="PT"
-		v.drawString(108, 20, "Murder Mystery", V_SNAPTOTOP|V_ALLOWLOWERCASE)
-		v.drawString(20, 40, "Nenhuma pontuacao aqui! Os contadores\nabaixo podem ajudar", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
-		v.drawString(20, 64, "Se voce e novo nesse tipo de jogo escreva\n\x87MMHELP\x80 no Console", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE)
-		if server.duelmode v.drawString(20, 88, "\x81Nao ha jogadores suficientes para\niniciar o jogo MM, (pelo menos 3\nnecessarios) jogando no\nModo de duelo de partida", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
-		v.drawString(20, 128, "\x82".."Divirta-se ;)", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 176, "\x85".."Assasinos vivos: "..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
-		v.drawString(20, 184, "\x84Xerifes vivos: "..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT)
-		if howMuchPlayersWithRole(R_INNO)!=0 v.drawString(20, 192, "\x83Inocentes vivos: "..MM.howMuchPlayersWithRole(R_INNO), V_SNAPTOTOP|V_SNAPTOLEFT) end
-	elseif p.mmlang=="UA"
-		v.drawString(88, 20, "Tajemnycia Wbywstwa", V_SNAPTOTOP|V_ALLOWLOWERCASE)
-		v.drawString(20, 40, "Tablyci ochok tut nema, ale lichylnyki\nunyzu mozhut dopomogty", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
-		v.drawString(20, 64, "Jaksho ty nowachok u cij gri\nwykorystaj \x87MMHELP\x80 w Konsoli", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE)
-		if server.duelmode v.drawString(20, 88, "\x81Nedostatnio grawciw aby rozpochaty\ngru TW, (potribno shonajmenshe 3).\nGra wwimknena jak Rezhym Match", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
-		v.drawString(20, 128, "\x82Udachi ;)", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 144, "P.S. Jaksho ty mozhesh prochytaty cej\nukrain'skij teskt ty klasnyj grawec'!", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
-		v.drawString(20, 176, "\x85Wbywc w zhywych: "..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
-		v.drawString(20, 184, "\x84Sheryfiw w zhywych: "..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT)
-		if howMuchPlayersWithRole(R_INNO)!=0 v.drawString(20, 192, "\x83Newynnych w zhywych: "..MM.howMuchPlayersWithRole(R_INNO), V_SNAPTOTOP|V_SNAPTOLEFT) end
-	else
-		v.drawString(108, 20, "Murder Mystery", V_SNAPTOTOP|V_ALLOWLOWERCASE)
-		v.drawString(20, 40, "No scores here! Counters below may help", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 64, "If you're new to the gametype\nuse \x87MMHELP\x80 in the Console", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE)
-		if server.duelmode v.drawString(20, 88, "\x81Not enough players to start MM game,\n(at least 3 requiered) playing in\nMatch Duel Mode instead", V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
-		v.drawString(20, 128, "\x82Have Fun ;)", V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-		v.drawString(20, 176, "\x85Murderers alive: "..MM.howMuchPlayersWithRole(R_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
-		v.drawString(20, 184, "\x84Sheriffs alive: "..MM.howMuchPlayersWithRole(R_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT)
-		if MM.howMuchPlayersWithRole(R_INNO)!=0 v.drawString(20, 192, "\x83Innocents alive: "..MM.howMuchPlayersWithRole(R_INNO), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	
+	drawStrCentered(v, 20, mmtext[p.mmlang]["MM"], V_SNAPTOTOP|V_ALLOWLOWERCASE)
+	for i=1,mmtext[p.mmlang]["SCORESSTRNUM"] v.drawString(20, 24+i*16, mmtext[p.mmlang]["SCORES"..i.."_HUD"], V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE) end
+	for i=1,3
+		if i==3 and MM.howMuchPlayersWithRole(3)==0 continue end
+		v.drawString(20, 168+i*8, mmtext[p.mmlang]["SCORESR"..i.."_HUD"]..MM.howMuchPlayersWithRole(i), V_SNAPTOTOP|V_SNAPTOLEFT)
 	end
 	v.drawString(192, 176, "ONLINE: "..MM.playerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
-	v.drawString(2, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
-	if MM.devbuild v.drawString(0,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
+	drawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
+	if MM.devbuild drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
-local function interHUD(v)
-	if gametype!=GT_MURDERMYSTERY return end
-	local p=consoleplayer
-	if server.winner==0 and not server.duelmode
-		if p.mmlang=="ES" or p.mmlang=="PT" v.drawString(136,176,"EMPATE!")
-		elseif p.mmlang=="PL" v.drawString(140,176,"REMIS!")
-		elseif p.mmlang=="UA" v.drawString(132,176,"NICHYJA!")
-		else v.drawString(146,176,"TIE!") end
-	elseif server.winner==1
-		if p.mmlang=="ES" v.drawString(88,176,"Ganadores:\x85 ASESINOS")
-		elseif p.mmlang=="PL" v.drawString(96,176,"Wygrali: \x85MORDERCY")
-		elseif p.mmlang=="PT" v.drawString(80,176,"Vencedores:\x85 ASSASINOS")
-		elseif p.mmlang=="UA" v.drawString(102,176,"Wygraly: \x85WBYWCI")
-		else v.drawString(92,176,"Winners: \x85MURDERERS") end
-	elseif server.winner==2
-		if p.mmlang=="ES" v.drawString(48,176,"Ganadores:\x84 COMISARIOS\x80 & \x83INOCENTES")
-		elseif p.mmlang=="PL" v.drawString(60,176,"Wygrali: \x84SZERYFI\x80 & \x83NIEWINNI")
-		elseif p.mmlang=="PT" v.drawString(52,176,"Vencedores: \x84XERIFES\x80 e \x83INOCENTES")
-		elseif p.mmlang=="UA" v.drawString(60,176,"Wygraly: \x84SHERYFY\x80 ta \x83NEWYNNI")
-		else v.drawString(52,176,"Winners: \x84SHERIFFS\x80 & \x83INNOCENTS") end
+local function interHUD(v) --Intermission HUD
+	if gametype!=GT_MURDERMYSTERY
+		hud.enable("intermissiontally")
+		return
 	end
+	hud.disable("intermissiontally")
+	local p=consoleplayer
+	local plrs={}
+	local multiply={x=0,y=0}
+	
+	drawStrCentered(v,4,"\x87"..mmtext[p.mmlang]["MM"])
+	if mapheaderinfo[gamemap].actnum==0 drawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." *")
+	else drawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *") end
+	v.drawFill(0,40,320,2,0)
+	for p in players.iterate table.insert(plrs,p) end
+	
+	for i=1,#plrs
+		if MM.playerCount()<8
+			v.drawString(coords.num.x,coords.first.y,"\x82#")
+			v.drawString(coords.name.x,coords.first.y,"\x82NAME")
+			v.drawString(coords.kills.x,coords.first.y,"\x82KILLS")
+			v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
+			v.drawString(coords.num.x,coords.first.y+i*16,i)
+			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU/2,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawString(coords.name.x, coords.first.y+i*16, plrs[i].name,8388608)
+			v.drawString(coords.kills.x, coords.first.y+i*16,plrs[i].kills)
+			if plrs[i].role~=nil and plrs[i].role==0 or plrs[i].spectator v.drawString(coords.role.x,coords.first.y+i*16,"\x8F"..mmtext[p.mmlang]["DD_HUD"])
+			elseif plrs[i].role~=nil and plrs[i].role>=1 v.drawString(coords.role.x,coords.first.y+i*16,"\x85"..mmtext[p.mmlang]["R"..plrs[i].role.."_HUD"])
+			elseif plrs[i].role==nil v.drawString(coords.role.x,coords.first.y+i*16,"\x8F"..mmtext[p.mmlang]["DD_HUD"]) end
+		else
+			v.drawFill(160,40,2,144,0)
+			v.drawString(coords.num2.x,coords.first.y,"\x82#",0,"thin")
+			v.drawString(coords.name2.x,coords.first.y,"\x82NAME",0,"thin")
+			v.drawString(coords.kills2.x,coords.first.y,"\x82KILLS",0,"thin")
+			v.drawString(coords.role2.x,coords.first.y,"\x82ROLE",0,"thin")
+			v.drawString(coords.num2.x+160,coords.first.y,"\x82#",0,"thin")
+			v.drawString(coords.name2.x+160,coords.first.y,"\x82NAME",0,"thin")
+			v.drawString(coords.kills2.x+160,coords.first.y,"\x82KILLS",0,"thin")
+			v.drawString(coords.role2.x+160,coords.first.y,"\x82ROLE",0,"thin")
+			if i>16
+				multiply.x=160
+				multiply.y=-128
+			end
+			v.drawString(coords.num2.x+multiply.x,coords.first2.y+i*8+multiply.y,i,0,"thin")
+			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,FU/4,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].name,8388608,"thin")
+			v.drawString(coords.kills2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].kills,0,"thin")
+			if plrs[i].role~=nil and plrs[i].role==0 or plrs[i].spectator v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,"\x8F"..mmtext[p.mmlang]["DD_HUD"],0,"thin")
+			elseif plrs[i].role~=nil and plrs[i].role>=1 v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,"\x85"..mmtext[p.mmlang]["R"..plrs[i].role.."_HUD"],0,"thin")
+			elseif plrs[i].role==nil v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,"\x8F"..mmtext[p.mmlang]["DD_HUD"],0,"thin") end
+		end
+	end
+	if server.winner==0 drawStrCentered(v,176,mmtext[p.mmlang]["WIN"..server.winner.."_HUD"], 8388608)
+	else drawStrCentered(v,176,mmtext[p.mmlang]["WINNERS_HUD"]..mmtext[p.mmlang]["WIN"..server.winner.."_HUD"], 8388608) end
 	if MM.devbuild==nil v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else
 		v.drawString(0,184,"WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-		v.drawString(0,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+		drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
 	end
 end
 
-hud.add(roleHUD, "game")
+hud.add(mainHUD, "game")
 hud.add(scoresHUD, "scores")
 hud.add(interHUD, "intermission")

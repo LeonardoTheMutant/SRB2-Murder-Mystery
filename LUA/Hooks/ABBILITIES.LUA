@@ -25,7 +25,7 @@ MurderMystery.AddCharStat("knuckles", {
 	ability=CA_GLIDEANDCLIMB,
 	ability2=CA2_SPINDASH,
 	charflags=0,
-	actionspd=15*FU,
+	actionspd=10*FU,
 	mindash=5*FU,
 	maxdash=40*FU,
 })
@@ -54,17 +54,8 @@ MurderMystery.AddCharStat("metalsonic", {
 	maxdash=40*FU,
 })
 
-local function VarChange(v)
-	if v.name=="mmcharmode"
-		if v.value print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
-		else print("\x87Murder Mystery:\x80 \"Regular person\" character mode enabled (abbilities off)") end
-	elseif v.name=="mmsprint"
-		if v.value print("\x87Murder Mystery:\x80 Everyone now can use sprinting by holding CUSTOM1 button!")
-		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
-	end
-end
-local MMCHARMODE=CV_RegisterVar{name="mmcharmode",defaultvalue=0,PossibleValue=CV_OnOff,flags=6,func=VarChange}
-local MMSPRINT=CV_RegisterVar{name="mmsprint",defaultvalue=0,PossibleValue=CV_OnOff,flags=6,func=VarChange}
+local MMCHARMODE=CV_FindVar("mmcharmode")
+local MMSPRINT=CV_FindVar("mmsprint")
 
 addHook("PlayerThink", function(p)
 	if not p.mo or p.spectator return end

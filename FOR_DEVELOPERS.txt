@@ -1,0 +1,52 @@
+Hello, you seem to be a developer, or you're just a guy who tried to steal the code...
+Still, I am glad you opened this file as well as just opened the PK3 in archiver.
+
+This gametype is going to an OPEN ASSET project, but right now, while it is in BETA state,
+you need our permission to modify it. I know sounds stupid but we want to make a quality
+gametype project.
+
+If you think to read or even change the LUAs of this gametype I should warn that I made
+the code very compact and very often it is unreadable. Yeah, I am the programmer who
+believes that "every byte counts" especially in interpreted programming languages such as LUA.
+If you're blaming me for that desicion, go on, no one will care.
+
+Now if you really want to modify this Add-On I'll explain what each file does here:
+
+
+MM_MurderMystery_[x.x-BETA].pk3
+|
++-LUA-\
+|     |
+|     +---Hooks---\
+|     |           +-ABBILITIES.LUA - Responsible for character abbilities
+|     |           +-CHAT.LUA - controls CHAT
+|     |           +-COMMAND.LUA - MMHELP and MMLANG commands
+|     |           +-GAME.LUA - Main core of the game logic, everything usually happen here
+|     |           \-HUD.LUA - HUD renderer
+|     |
+|     +-Libraries-\
+|     |           \-include.lua - All other open assets used in this gametype (heavily modified)
+|     |
+|     +--Patches--\
+|     |           \-antiCheat.lua - Responsible for your game closing on rename
+|     |
+|     \--Init.lua - Init, all text, file properties (such as devbuild or not) and objects
+|
+\-SOC-\
+      +-MAINCFG.TXT - SOC for maps
+      \-OBJCTCFG.TXT - SOC for some other objects such as dead bodies
+
+
+I guess this is enough for you, other files are either textures or music (did you like my tree
+art?)
+
+If you're watching this from GitHub repository there is also a LUA called "customlang.lua" in
+TOOLS directory. This is a template file for custom translations. Yes, THIS GAMETYPE SUPPORTS
+DIFFERENT LANGUAGES (but displays everything in ASCII letters). I tried to make it clear how to
+create custom language but if you have questions you can always PM me or ask us in MM_DEV discord
+(or even GitHub). Guess I wrote everything important...
+
+If you're new to the LUA you can also use the code to study
+
+Have a nice day,
+LeonardoTheMutant
