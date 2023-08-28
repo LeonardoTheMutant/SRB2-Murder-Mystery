@@ -90,7 +90,7 @@ addHook("PlayerThink", function(p)
 			return
 		else
 			if MMSPRINT.value and p.cmd.buttons & BT_CUSTOM1 p.normalspeed=40*FU --sprinting if its enabled by Admin
-			elseif not MMCHARMODE.value and not MMSPRINT.value and p.cmd.buttons & BT_SPIN and P_IsObjectOnGround(p.mo) --sneaking (when sprinting off)
+			elseif not MMCHARMODE.value and not MMSPRINT.value and p.cmd.buttons & BT_SPIN --sneaking (when sprinting off)
 				p.normalspeed=2*FU
 				p.sneak=true
 			else

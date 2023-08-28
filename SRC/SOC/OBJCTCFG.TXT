@@ -1,0 +1,58 @@
+freeslot
+S_SMMDEATH
+S_TMMDEATH
+S_KMMDEATH
+S_AMMDEATH
+S_FMMDEATH
+S_MMMDEATH
+SPR_INVI
+SPR_SDED
+SPR_TDED
+SPR_KDED
+SPR_ADED
+SPR_FDED
+SPR_MDED
+MT_DEADPLR
+
+state S_SMMDEATH
+spritename = SPR_SDED
+spriteframe = A
+DURATION = -1
+next = S_SMMDEATH
+
+state S_TMMDEATH
+spritename = SPR_TDED
+spriteframe = A
+DURATION = -1
+next = S_TMMDEATH
+
+state S_KMMDEATH
+spritename = SPR_KDED
+spriteframe = A
+DURATION = -1
+next = S_KMMDEATH
+
+state S_AMMDEATH
+spritename = SPR_ADED
+spriteframe = A
+DURATION = -1
+next = S_AMMDEATH
+
+state S_FMMDEATH
+spritename = SPR_FDED
+spriteframe = A
+DURATION = -1
+next = S_FMMDEATH
+
+state S_MMMDEATH
+spritename = SPR_MDED
+spriteframe = A
+DURATION = -1
+next = S_MMMDEATH
+
+object MT_DEADPLR
+spawnstate = S_MMMDEATH
+reactiontime = 8
+radius = 32*FRACUNIT
+height = 1               #No, I didn't forget the FRACUNIT here
+mass = 16

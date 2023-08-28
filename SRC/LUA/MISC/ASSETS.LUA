@@ -1,4 +1,4 @@
--- INCLUDE.LUA
+-- ASSETS.LUA
 -- Miscellaneous open-assets scripts for MM functionality
 
 --IntermissionLock.lua by Krabs (modified by LeonardotheMutant)
@@ -11,7 +11,7 @@ addHook("MapLoad", do
 end)
 
 --ShutUp Chatbug!
---made by Jisk#4833
+--made by Jiskster (Jisk)
 --updated by LeonardoTheMutant
 local updaterate=CV_RegisterVar{name="acb_updaterate",defaultvalue="35",flags=CV_NETVAR,PossibleValue={MIN=1,MAX=350}}
 local resetrate=CV_RegisterVar{name="acb_resetrate",defaultvalue="70",flags=CV_NETVAR,PossibleValue={MIN=1,MAX=350}}
@@ -2401,3 +2401,6 @@ addHook("PlayerThink", function(player)
 		end
 	end
 end)
+
+-- Showing this message here cuz this is the last file loaded in this .pk3
+print("\x83Murder Mystery loaded succesfuly, please note that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you're the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")

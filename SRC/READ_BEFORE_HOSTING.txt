@@ -16,8 +16,7 @@ B. To launch from game console use
 	NOTE: " brackets usage with "Murder Mystery" is very important!
 
 ---=== Things MM modify at your game ===---
-This gametype features some code for improving game stability . It is mostly Chatbug and desynch fixes. The Add-On features code from "Shut Up chatbug!"
-(by Jisk) and "Intermission lock" (by Krabs). It is DISABLED BY DEFAULT but you can control how "Shut Up Chatbug!" works with the console variables
+This gametype features some code for improving game stability . It is mostly Chatbug and desynch fixes. The Add-On features code from "Shut Up chatbug!" (by Jisk) and "Intermission lock" (by Krabs). It is DISABLED BY DEFAULT but you can control how "Shut Up Chatbug!" works with the console variables
 described in the next chapter (their prefix is acb_)
 
 The gametype also features Language translation system that translates the MM content to given language with MMLANG command. When you use this command to
@@ -35,8 +34,8 @@ There are a couple Commands and Console Variables available for admins to use. H
 		similar to Sonic 1 abbilities. All characters have only spinning jump (Amy and Fang too) that can break monitors. Their speed is also lowered.
 		Second mode is "Vanilla Abbilities in limited form". As the name applies all vanilla characters recieve their abbilities back but they are
 		limited or cut versions of the original.
-	MMAFKDELAY - used as an AFK timeout value. Measured in ticks (!). Default value is 4200 ticks (2 minutes). If set to 0 AFK timeout is disabled.
-	MMCHATDELAY - Used for chat spam protection. How much time player has to wait before his next message sending. Measured in ticks (default 35)
+	MMAFK - used as an AFK timeout value. Measured in ticks (!). Default value is 4200 ticks (2 minutes). If set to 0 AFK timeout is disabled.
+	MMSPAM - Used for chat spam protection. How much time player has to wait before his next message sending. Measured in ticks (default 35)
 	ACB_TOGGLE - Turn "ShutUp Chatbug!" script to fork. Default is OFF.
 	ACB_UPDATERATE - How constantly player will update their status, measured in ticks. Default is 35 ticks.
 	ACB_RESETRATE - How constantly server will check the statuses. When check fails problematic player will be kicked. Default is 70 ticks.

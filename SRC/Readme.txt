@@ -25,10 +25,11 @@ MIDI music        | Yes
 
 Credits go to:
 tedvin11 for the base code and leader of early development
+Musicians from FREEDOOM community for wonderful map MIDIs
 MM2 on Roblox for the Murder Mystery idea to tedvin11
-"SRB2 MM_DEV team"
+SRB2 MM_DEV team
 
-SRB2 MurderMystery Development team is:
+SRB2 MurderMystery_DEVelopment team is:
   LeonardoTheMutant - "CEO of the project", mapper, coder, Ukrainian & Polish translator
   Jesus.B ----------- coder, mapper, tester, Spanish translator
   Jisk -------------- coder
@@ -42,7 +43,7 @@ SRB2 MurderMystery Development team is:
   LexTheGamer95 ----- Ambassador
   ToeiSamurai ------- coder
   Snappy_Trashcan, Frisk LV 1 - testers
-  and every player who played the BETA versions on our servers
+  and every player who played the BETA versions on our servers hosted by Ambassadors
 
 
 Thanks to STJr for the best Sonic fan game ever
