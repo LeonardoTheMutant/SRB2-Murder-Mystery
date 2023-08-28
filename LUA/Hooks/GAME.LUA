@@ -82,9 +82,18 @@ local function assignRoles()
 		if MurderMystery.devbuild!=nil print(p.name..": "..tostring(p.role)) end
 	end
 end
-addHook("MapLoad", do
+addHook("MapChange", do
 	if gametype!=GT_MURDERMYSTERY return end
 	for p in players.iterate --prepare players & server for the new round
+		p.role=0
+		p.spectator=false
+		p.kills=0
+		p.killedby=nil
+	end
+end)
+addHook("MapLoad", do
+	if gametype!=GT_MURDERMYSTERY return end
+	for p in players.iterate --prepare players & server for the new round (2nd try)
 		p.role=0
 		p.spectator=false
 		p.kills=0
@@ -126,7 +135,7 @@ end)
 addHook("HurtMsg", do --disable Ringslier hurt messages
 	if gametype==GT_MURDERMYSTERY return true end
 end)
-local function setRandomPlayerAs(role) --"Set random Innocent as [role]"
+local function setRandomInnoAs(role)
 	while true
 		for p in players.iterate
 			if P_RandomKey(4)==0 and p.role==R_INNO and not p.spectator then
@@ -155,6 +164,7 @@ local function endRound(w, endtext)
 	server.winner=w
 	G_ExitLevel()
 	chatprintGlobal(endtext)
+	for p in players.iterate p.spectator=false end
 	if isdedicatedserver CONS_Printf(server, "- "..endtext) end
 end
 --entity = the victim object
@@ -200,7 +210,7 @@ addHook("MobjDamage", function(entity, inflictor, source)
 				if MM.howMuchPlayersWithRole(R_INNO)>0
 					chatprintf(source.player, mmtext[source.player.mmlang]["SheriffKillInnoPM"])
 					chatprintGlobal("SheriffKillInno")
-					setRandomPlayerAs(R_SHERIFF)
+					setRandomInnoAs(R_SHERIFF)
 					source.player.role=R_INNO
 				else endRound(R_MURDERER, "MurdersWinNoInnos") end
 			end
@@ -252,12 +262,12 @@ addHook("PlayerQuit", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
 	if p.role==R_MURDERER
 		p.role=0
-		if MM.howMuchPlayersWithRole(R_INNO)>=1 and MM.howMuchPlayersWithRole(R_MURDERER)==0
+		if MM.howMuchPlayersWithRole(R_INNO)==0 and MM.howMuchPlayersWithRole(R_MURDERER)==0
 			endRound(0, "LastMurdLeft")
-		elseif MM.howMuchPlayersWithRole(R_MURDERER)==0
+		elseif MM.howMuchPlayersWithRole(1)==0
 			if gamestate==GS_LEVEL
 				chatprintGlobal("MurdLeftReplace")
-				setRandomPlayerAs(R_MURDERER)
+				setRandomInnoAs(1)
 				if isdedicatedserver CONS_Printf(server, "- Murderer replaced") end
 			else
 				chatprintGlobal("OneMurdLeft")
@@ -271,10 +281,10 @@ addHook("PlayerQuit", function(p)
 		p.role=0
 		if MM.howMuchPlayersWithRole(R_INNO)==0 and MM.howMuchPlayersWithRole(R_SHERIFF)==0
 			endRound(0, "LastSheriffLeft")
-		elseif MM.howMuchPlayersWithRole(R_SHERIFF)==0
+		elseif MM.howMuchPlayersWithRole(2)==0
 			if gamestate==GS_LEVEL
 				chatprintGlobal("SheriffLeftReplace")
-				setRandomPlayerAs(R_SHERIFF)
+				setRandomInnoAs(2)
 				if isdedicatedserver CONS_Printf(server,"- Sheriff replaced") end
 			else
 				chatprintGlobal("OneSheriffLeft")

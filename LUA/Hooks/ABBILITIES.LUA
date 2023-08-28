@@ -59,23 +59,23 @@ local MMSPRINT=CV_FindVar("mmsprint")
 
 addHook("PlayerThink", function(p)
 	if not p.mo or p.spectator return end
-	local skin=p.mo.skin or "sonic" -- added an or just incase the game slips
+	local s=p.mo.skin or "sonic" -- added an or just incase the game slips
 	if gametype!=GT_MURDERMYSTERY -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
-		p.charability=skins[skin].ability
-		p.charability2=skins[skin].ability2
-		p.actionspd=skins[skin].actionspd
-		p.mindash=skins[skin].mindash
-		p.maxdash=skins[skin].maxdash
+		p.charability=skins[s].ability
+		p.charability2=skins[s].ability2
+		p.actionspd=skins[s].actionspd
+		p.mindash=skins[s].mindash
+		p.maxdash=skins[s].maxdash
 	elseif gametype==GT_MURDERMYSTERY and MMCHARMODE.value -- "Each character have limited abbilities" mode
 		--MurderMystery.CharStats
-		p.charability=MurderMystery.CharStats[skin].ability or MurderMystery.CharStats["default"].ability
-		p.charability2=MurderMystery.CharStats[skin].ability2 or MurderMystery.CharStats["default"].ability2
-		p.charflags=MurderMystery.CharStats[skin].charflags or MurderMystery.CharStats["default"].charflags
-		p.actionspd=MurderMystery.CharStats[skin].actionspd or MurderMystery.CharStats["default"].actionspd
-		p.mindash=MurderMystery.CharStats[skin].mindash or MurderMystery.CharStats["default"].mindash;
-		p.maxdash=MurderMystery.CharStats[skin].maxdash or MurderMystery.CharStats["default"].maxdash
+		p.charability=MurderMystery.CharStats[s].ability or MurderMystery.CharStats["default"].ability
+		p.charability2=MurderMystery.CharStats[s].ability2 or MurderMystery.CharStats["default"].ability2
+		p.charflags=MurderMystery.CharStats[s].charflags or MurderMystery.CharStats["default"].charflags
+		p.actionspd=MurderMystery.CharStats[s].actionspd or MurderMystery.CharStats["default"].actionspd
+		p.mindash=MurderMystery.CharStats[s].mindash or MurderMystery.CharStats["default"].mindash
+		p.maxdash=MurderMystery.CharStats[s].maxdash or MurderMystery.CharStats["default"].maxdash
 		-- SA1 Tails flight by TeriosSonic
-		if p.mo.skin=="tails" and p.powers[pw_tailsfly]>70 p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
+		if s=="tails" and p.powers[pw_tailsfly]>70 p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
 	elseif gametype==GT_MURDERMYSTERY and not MMCHARMODE.value --"Everyone are regular persons" mode
 		p.charability=0
 		p.charability2=0

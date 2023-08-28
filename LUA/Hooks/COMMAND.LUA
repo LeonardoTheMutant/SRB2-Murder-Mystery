@@ -402,9 +402,9 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "(Full credits are in README.TXT inside this .PK3)")
 		CONS_Printf(p, "\nChanges from\x81 7.0-beta\x80:")
 		CONS_Printf(p, " - New map: BACKROOMS. Every MM game have to include this sus map :skull:")
-		CONS_Printf(p, " - 5 new Sound Emojis;")
+		CONS_Printf(p, " - 6 new Sound Emojis;")
 		CONS_Printf(p, " - Huge bugfixes, we tried our best to make the game much stable than before. Still, bugs can occur;")
-		CONS_Printf(p, " - Stupid admins who don't read READ_BEFORE_HOSTING.txt included inside this mod file aren't able to even start MM game on their host;")
+		CONS_Printf(p, " - Stupid admins who don't read READ_BEFORE_HOSTING.txt included inside this mod file will have a bad time in their server consoles;")
 		CONS_Printf(p, " - If you switch from MM to other gametype all character abbilities are 100% reverted.")
 		CONS_Printf(p, " - Now you can add your own language to the MM with the Custom Language File (CLF in short), please visit GitHub page for the details on it;")
 		CONS_Printf(p, " - Completely new intermission screen (it took a while to do but still can be buggy);")
@@ -432,7 +432,7 @@ local function MMlang(p, l) --player, lang
 		local langOutdated=0
 		for lang in pairs(MurderMystery.text)
 			langCount=$+1
-			if p.mmlang==lang CONS_Printf(p,"\x82  "..lang.." (current language)")
+			if p.mmlang==lang CONS_Printf(p,"\x82  "..lang.." (current lang)")
 			elseif MurderMystery.text[lang]["VERSION"]~=MurderMystery.version
 				CONS_Printf(p,"\x85  "..lang.." (OUTDATED)")
 				langOutdated=$+1

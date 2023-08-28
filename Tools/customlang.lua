@@ -2,7 +2,7 @@
 -- THIS FILE MUST BE LOADED AFTER MAIN MM .PK3
 --
 -- You can use this file as a template to add your own language to MM,
--- Please read the comments carefully for everything to work properly
+-- Please read the everything carefully for everything to work properly
 --
 -- DEVELOPER NOTE:
 --   As of 8.0-BETA custom language files cannot include text for MMHELP. This command will display ENGLISH text
@@ -126,7 +126,7 @@ local language={ --Language must be a table variable, you can name the variable 
 --  Do not make it like "MyNativeLang" - do "MNL" instead (or official international index)
 -- Second argument is the Table Variable of the language itself
 MurderMystery.AddLang("EN",language)
---if everything is done correctly you will recieve no errors on the lang addition and in the gameplay process
+--if everything is done correctly you will recieve no errors when loading this file and in the gameplay process
 --
 --I hope I made your day
 --Tutorial by LeonardoTheMutant
