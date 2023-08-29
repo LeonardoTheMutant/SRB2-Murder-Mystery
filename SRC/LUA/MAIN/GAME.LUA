@@ -58,11 +58,15 @@ addHook("MapLoad", do
 	assignRoles()
 end)
 
+--
+-- Player spawn
+--
 addHook("PlayerSpawn", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
-	--Language apply logic
+
+	--Apply language
 	if (not p.mmlang) p.mmlang="EN" end
-	--	local f=io.openlocal("client/MM.DAT", 'r')
+	--	local f=io.openlocal("client/MM.DAT", 'r') --network unsynced language save/load
 	--	if f
 	--		local l=f:read()
 	--		if mmtxt[l]~=nil p.mmlang=l
@@ -70,15 +74,16 @@ addHook("PlayerSpawn", function(p)
 	--	else p.mmlang='EN' end
 	--	f:close()
 	--end
-	if (not p.kills) p.kills=0 end --how many players was killed by the player
+
+	if (not p.kills) p.kills=0 end --Init kill counter
 	p.afk=0 --Anti-AFK init
 
-	--Player num and state check
-	if (PlayerCount()==2) and (p.role==nil) --When Player 2 spawns/joins notify Player 1 (who's probably AFK) about the new 'rival' with Sound
-		for p in players.iterate p.role=ROLE_NONE end
-		assignRoles()
-		S_StartSound(p.mo, 93)
-	elseif (PlayerCount()>2) and (not p.role) p.spectator=true end --if player joins mid-round, make him spectate (by assigning DEAD)
+	--Player num and state check on join
+	if (PlayerCount()==2) and (p.role==nil) --Player2 joined 'singleplayer' round
+		for p in players.iterate p.role=ROLE_NONE end --Init their roles
+		assignRoles() --Assign them roles
+		S_StartSound(nil,93,p) --Notify Player1 (who's probably AFK) about new player
+	elseif (PlayerCount()>2) and (not p.role) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
@@ -96,17 +101,17 @@ end)
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
 local function chatprintGlobal(msg, var)
 	for p in players.iterate
-		if (msg=="MURD_KILLED") chatprintf(c, mmtxt[p.mmlang]["MURD_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["MURD_KILLED"][2])
+		if (msg=="MURD_KILLED") chatprintf(p, mmtxt[p.mmlang]["MURD_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["MURD_KILLED"][2])
 		elseif (msg=="SHERI_KILLED") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][2])
 		elseif (msg=="SHERI_KILLED_NODROP") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][3])
 		elseif (msg=="HERO_KILLED") chatprintf(p, mmtxt[p.mmlang]["HERO_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["HERO_KILLED"][2])
 		elseif (msg=="LAST_LEFT") chatprintf(p, mmtxt[p.mmlang][msg][var])
 		elseif (msg=="ONE_LEFT")
-			if (var>=1) and (var<=2) chatprintf(p, mmtxt[p.mmlang]["ONE_LEFT"][var]) --for Murd and Sheri
-			elseif var==4 chatprintf(p, mmtxt[p.mmlang]["ONE_LEFT"][3]) end --for Hero
+			if (var!=ROLE_HERO) chatprintf(p, mmtxt[p.mmlang]["ONE_LEFT"][var]) --for Murd and Sheri
+			else chatprintf(p, mmtxt[p.mmlang]["ONE_LEFT"][3]) end --for Hero
 		elseif (msg=="REPLACE_LEFT")
-			if (var>=1) and (var<=2) chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][var]) --for Murd and Sheri
-			elseif var==4 chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][3]) end --for Hero
+			if (var!=ROLE_HERO) chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][var]) --for Murd and Sheri
+			else chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][3]) end --for Hero
 		elseif (msg=="WIN") chatprintf(p, mmtxt[p.mmlang]["ROLE_WIN"][var])
 		elseif (msg=="INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
 		elseif msg
@@ -141,7 +146,7 @@ local function KillPlayer(p, k) --player, killer (both MOBJ_T)
 	S_StartSound(p, dthsfx[P_RandomKey(3)+1], plr) --play random death sound personally
 end
 
---Function to end round, arguments here:
+--Function to end the round, arguments here:
 --w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Sheriff
 --endtext is the text to display in the chat
 --reason is not used in this function but rather in chatprintGlobal()
@@ -161,7 +166,9 @@ local function CheckPlayers()
 	elseif (PlayerCount(ROLE_MURDERER)!=0) and ((PlayerCount(ROLE_SHERIFF)!=0) or (PlayerCount(ROLE_HERO)!=0)) and (PlayerCount(ROLE_INNOCENT)==0) S_ChangeMusic("SHWDWN", true) end
 end
 
---Main hit/kill detector
+--
+-- Main hit/kill detector
+--
 addHook("MobjDamage", function(victim, inf, attacker)
 	if (gametype!=GT_MURDERMYSTERY) or (not (attacker) and (attacker.player)) return end
 	local vp=victim.player
@@ -237,19 +244,21 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	CheckPlayers()
 end, MT_PLAYER)
 
---Sheriff Emerald pickup logic
+--
+-- Sheriff's Emerald pickup logic
+--
 local function mobjInRange(mo, mo2)
 	if ((abs(mo.x-mo2.x)>>16 < 32) and (abs(mo.y-mo2.y)>>16 < 32) and (abs(mo.z-mo2.z)>>16 < 6)) return true
 	else return false end
 end
 addHook("MobjThinker", function(mo)
-	if gametype!=GT_MURDERMYSTERY return end
-	for p in players.iterate
+	if (gametype!=GT_MURDERMYSTERY) return end
+	for p in players.iterate --should be dumb but it works
 		if not p.mo continue end
 		if p.role==ROLE_INNOCENT and mobjInRange(mo, p.mo)
 			P_RemoveMobj(mo)
 			S_StartSound(p.mo, 97, p)
-			p.role=ROLE_SHERIFF
+			p.role=ROLE_HERO
 			chatprintGlobal("SHREML_PICK")
 			CheckPlayers()
 			return
@@ -257,7 +266,9 @@ addHook("MobjThinker", function(mo)
 	end		
 end, MT_SHREML)
 
---Player Thinker
+--
+-- Player Thinker
+--
 addHook("PlayerThink", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
 	if p.role==ROLE_MURDERER --remove weapons from Murderer
@@ -265,12 +276,12 @@ addHook("PlayerThink", function(p)
 		for i=15,20 p.powers[i]=0 end
 	elseif (p.role==ROLE_INNOCENT) p.weapondelay=1 end --Make innocents not shoot
 
-	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end --for some reason when switching back from spectator this flag isn't removed
+	--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
+	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end
 
 	--AFK logic
 	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=p.afk+1
 	else p.afk=0 end
-
 	if p.afk>afkCVAR.value
 		if p==server
 			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
@@ -279,7 +290,10 @@ addHook("PlayerThink", function(p)
 	end
 end)
 
--- end game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
+--
+-- Quit Handler
+-- end the game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
+--
 addHook("PlayerQuit", function(p)
 	if gametype!=GT_MURDERMYSTERY return end
 	if p.role==ROLE_MURDERER
@@ -317,6 +331,9 @@ addHook("PlayerQuit", function(p)
 			chatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
+	elseif p.role==ROLE_INNOCENT
+		p.role=ROLE_NONE
+		CheckPlayers()
 	elseif p.role==ROLE_HERO
 		p.role=ROLE_NONE
 		if PlayerCount(ROLE_INNOCENT)==0 and PlayerCount(ROLE_HERO)==0
@@ -335,9 +352,6 @@ addHook("PlayerQuit", function(p)
 			chatprintGlobal("ONE_LEFT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
-	elseif p.role==ROLE_INNOCENT
-		p.role=ROLE_NONE
-		CheckPlayers()
 	end
 	if p.name!=p.oldname
 		chatprint("\x82*"..p.oldname.." didn't read \x87MMHELP BAD\x82 carefuly, what a stupid")
@@ -345,6 +359,9 @@ addHook("PlayerQuit", function(p)
 	end
 end)
 
+--
+-- Debug only Console Commands
+--
 if MurderMystery.devbuild
 	COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
 		if (not pnum) or (not prole) or (not pdead)

@@ -96,11 +96,11 @@ rawset(_G, "MurderMystery", {
 				"You're the \x84Sheriff\x80!\x84 Eliminate all Murderers\x80. If you kill an Innocent, you lose.",
 				"You're an \x83Innocent\x80! Hide and help the sheriff find the murderer."
 			},
-			-- setRandomPlayerAs()
+			-- SetRandomPlayerAs()
 			["NEWROLE_GET"]={
 				"\x87Life made a \x85Murderer\x87 from you, \x85now go kill everyone.",
 				"\x87The Universe made you the new \x84Sheriff\x87! It's now your job to\x84 eliminate all Murderers\x87!",
-				"\x87You picked up the \x84Sheriff's Emerald\x87 and turned into the \x82Hero\x87! It's your chance to save the day!"
+				"\x87".."All defenders left but the Universe selected you as a new \x82Hero\x87! It's your chance to save the day!"
 			},
 			-- Teammate hit
 			["TEAMMATE_HIT"]={
@@ -841,7 +841,8 @@ rawset(_G, "SetRandomInnoAs", function(role)
 		for p in players.iterate
 			if P_RandomKey(4)==0 and p.role==ROLE_INNOCENT and not p.spectator then
 				p.role=role
-				chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][p.role])
+				if (role!=ROLE_HERO) chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][p.role])
+				else chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][3]) end
 				return
 			end
 		end
