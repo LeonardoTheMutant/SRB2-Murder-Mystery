@@ -1,45 +1,44 @@
-Greetings, you seem to be a developer, or you're just a guy who tries to steal the code...
+Hi. You seem to be a developer, or you're just a guy who tries to steal the code...
 Still, I am glad that someone is interested in our work.
 
-This gametype is going to an OPEN ASSET project but right now, while it is in the BETA state,
-you need our permission to modify it. I know sounds stupid but we want to make a quality
-add-on.
+If you're reading this file from GitHub this is great - you have more content to work with 
 
-Please note that the code is often very compact and may be unreadable for 'untrained eyes'. 
-
-Now if you really want to modify this Add-On I'll explain what each file does here:
+Now if you really want to modify this Add-On let me introduce you to our file structure:
 
 MM_MurderMystery_[x.x-BETA].pk3
 |
 +-LUA-\
 |     |
 |     +--MAIN--\
-|     |        +-ABBILITIES.LUA - Responsible for character abbilities
+|     |        +-ABILITIES.LUA - Responsible for character abbilities
 |     |        +-CHAT.LUA - controls CHAT
 |     |        +-CCMD.LUA - MMHELP and MMLANG commands
 |     |        +-GAME.LUA - Main core of the game logic, everything usually happen here
 |     |        +-HUD.LUA - HUD renderer
-|     |        \-NOCHEAT.LUA - Responsible for your game closing on rename
+|     |        \-NOCHEAT.LUA - Responsible for your game closing on rename (thank me later)
 |     |
 |     +--MISC--\
-|     |        \-ASSETS.LUA - All other open assets used in this gametype (heavily modified)           
+|     |        \-ASSETS.LUA - All third-party open assets used in this gametype (heavily modified)
 |     |
-|     \--INIT.LUA-- Init, all text, .PK3 properties (such as devbuild or not) and objects
+|     \--INIT.LUA-- Init, freeslot, all text, .PK3 properties (such as devbuild or not) and objects
 |
 \-SOC-\
       +-MAINCFG.TXT - SOC for maps
-      \-OBJCTCFG.TXT - SOC for some other objects such as dead bodies
-
+      \-OBJCTCFG.TXT - SOC for custom objects such as dead bodies
 
 Other files are either textures or music and don't need to be listed here (I guess)
 
-If you're watching this from GitHub repository there is also a LUA called "customlang.lua" in
-TOOLS directory. This is a template file for custom translations. Yes, THIS GAMETYPE SUPPORTS
-DIFFERENT LANGUAGES (but displays everything in ASCII letters). I tried to make it clear how to
-create custom language but if you have questions you can always PM me or ask us in MM_DEV discord
-(or even GitHub). Guess I wrote everything important...
+As I said ealier you have more code if you're watching this from the GitHub repository. There is 
+an additional LUA file called "customlang.lua" in the ASSETS/ directory of the repository. This is
+a template file for custom translations. Yes, THIS GAMETYPE SUPPORTS DIFFERENT LANGUAGES
+(but displays everything in ASCII letters). I tried to make it clear how to create custom
+language but if you have questions about it you can always PM me or ask us in our MM_DEV Discord
+(or even GitHub). Guess that's everything important...
 
-If you're new to the LUA you can also use my code to study
+If you're new to the LUA you can also use our code to study
 
-Have a nice day,
+Have a nice coding!
 LeonardoTheMutant
+
+
+...oh you need GitHub link? It's listed in Readme.txt, just look there as well :]

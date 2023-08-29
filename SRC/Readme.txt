@@ -5,9 +5,9 @@
 ADD-ON TECHNICAL INFORMATION
 ------------------+---------------------------------
 Add-On name       | Murder Mystery for SRB2
-Add-On version    | 8.0-BETA
+Add-On version    | 8.1-BETA
 Add-On type       | New gametype
-REUSABLE          | No, ask permission (BETA only rule)
+REUSABLE          | Yes
 New maps          | Yes, 8 (MAPK0-MAPK6, MAPK9)
 LUA included      | Yes
 Custom characters | Yes, vanilla modified*
@@ -25,7 +25,7 @@ MIDI music        | Yes
 
 Credits go to:
 tedvin11 for the base code and leader of early development
-Musicians from FREEDOOM community for wonderful map MIDIs
+Musicians from FREEDOOM community for wonderful MIDIs
 MM2 on Roblox for the Murder Mystery idea to tedvin11
 SRB2 MM_DEV team
 
@@ -37,9 +37,10 @@ SRB2 MurderMystery_DEVelopment team is:
   Piksqu ------------ mapper, French translator
   sopix ------------- tester, Polish translator
   SlainLBS ---------- tester, Spanish translator
+  Mr. Quack --------- musician, tester
   King Jonas -------- Ambassador of Brazil, Portugesse translator
   White Tails {UKR} - Ambassador of Lituana
-  SuperOfSRB2 ------- Ambassador of North America, mapper
+  SuperOfSRB2 ------- Ambassador of North America
   LexTheGamer95 ----- Ambassador
   ToeiSamurai ------- coder
   Snappy_Trashcan, Frisk LV 1 - testers
