@@ -41,15 +41,20 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("lives")
 	hud.disable("textspectator")
 	hud.disable("weaponrings")
-	--Draw "People alive" in HUD
+
+	--Draw "People alive" on HUD
 	v.draw(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_PPLE"), hudinfo[HUD_RINGS].f)
 	v.draw(hudinfo[HUD_SCORE].x+56, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_ALVE"), hudinfo[HUD_RINGS].f)
 	v.drawNum(hudinfo[HUD_SCORE].x+112, hudinfo[HUD_SCORE].y, PlayersAlive(), hudinfo[HUD_RINGS].f)
+
+	--Reminder
 	if (CV_FindVar("rejointimeout").value!=0)
 		drawStrCentered(v, 96, "ADMIN, DISABLE THE\x87 REJOINTIMEOUT")
 		drawStrCentered(v, 104, "MM DOESN'T WORK PROPERLY WITH THIS CVAR")
 	end
-	--Show your role in HUD (and translate it)
+	if (timelimit==0) drawStrCentered(v, 0, "\x87TIMELIMIT\x80 IS DISABLED!", nil, "small") end
+
+	--Show your role (and translate it)
 	if (p.role) and (p.role>=1) v.drawString(coords.rings.x, coords.rings.y+16,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], V_SNAPTOTOP|V_SNAPTOLEFT) end
 	if (p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 		if PlayerCount(p.role)>1 v.drawString(0, 192, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
@@ -62,17 +67,22 @@ local function mainHUD(v, p) --main game HUD
 		end
 		if (p.killedby) v.drawString(coords.rings.x, coords.rings.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE) end
 	end
+	--Are you alone? Draw the text
 	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) drawStrCentered(v, 128+y*8, i, 8388608) end end
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!", V_ALLOWLOWERCASE) end
+	--"Showdown duel!"
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!", V_ALLOWLOWERCASE) end
+
+	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(coords.rings.x, coords.rings.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	elseif (p.sneak) v.drawString(coords.rings.x, coords.rings.y+32, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
+
+	--Debug
 	if MM.devbuild
 		v.drawString(coords.rings.x, coords.rings.y+96, "\x87"..MM.version.."-"..MM.devbuild, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(coords.rings.x, coords.rings.y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(coords.rings.x, coords.rings.y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(coords.rings.x, coords.rings.y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	end
-	if (timelimit==0) drawStrCentered(v, 0, "\x87TIMELIMIT\x80 IS DISABLED!", nil, "small") end
 end
 local function scoresHUD(v) --SCORES TAB
 	if gametype!=GT_MURDERMYSTERY
@@ -81,17 +91,25 @@ local function scoresHUD(v) --SCORES TAB
 	end
 	local p=consoleplayer --for shortage
 	hud.disable("rankings")
-	
+	drawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
+
+	--Main body
 	drawStrCentered(v, 20, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP|V_ALLOWLOWERCASE)
 	for y,i in pairs(mmtxt[p.mmlang]["HUD_SCORESTAB"])
 		v.drawString(20, (24+y*16), i, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
 	end
-	for y,i in pairs(mmtxt[p.mmlang]["HUD_ROLESALIVE"])
-		if (y==3 and PlayerCount(ROLE_INNOCENT)==0) continue end
-		v.drawString(20, (168+y*8), MM.RoleColor[y]..i..PlayerCount(y), V_SNAPTOTOP|V_SNAPTOLEFT)
-	end
-	v.drawString(192, 176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
-	drawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
+
+	--Roles counter
+	-- Murderer
+	v.drawString(20,176, MM.RoleColor[1]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][1].." "..PlayerCount(ROLE_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
+	-- Sheriff (and Hero)
+	if (PlayerCount(ROLE_HERO)!=0) v.drawString(20,184, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[4].." + "..PlayerCount(ROLE_HERO), V_SNAPTOTOP|V_SNAPTOLEFT)
+	else v.drawString(20,184, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	-- Innocent
+	if (PlayerCount(ROLE_INNOCENT)!=0) v.drawString(20,192, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	-- Online
+	v.drawString(192,176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
+
 	if MM.devbuild drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
 local function interHUD(v) --Custom intermission HUD

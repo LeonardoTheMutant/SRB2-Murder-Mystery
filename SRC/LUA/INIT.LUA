@@ -207,7 +207,7 @@ rawset(_G, "MurderMystery", {
 			["WIN_HUD"]={
 				"TIE!",
 				"\x85MURDERERS", --must contain escape color code
-				"\x84SHERIFFS\x80 & \x83INNOCENTS" --must contain escape color codes
+				"\x83".."CIVILIANS" --must contain escape color code
 			},
 			--CCMD.LUA (MMLANG command)
 			["MMLANG"]={
