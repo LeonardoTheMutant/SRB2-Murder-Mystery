@@ -1,20 +1,18 @@
 # SRB2 Murder Mystery
 Murder Mystery Add-On gametype for the Sonic Robo Blast 2
 
-A port of the famous multiplayer game in SRB2
+A port of the popular multiplayer game in SRB2
 
 ## How to build your **MurderMystery.PK3** from this repository
 ### If you have `git` installed in your OS
 1. Clone this repository with `git clone https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery`
 2. Go to the cloned repository folder (`cd SRB2-MurderMystery`)
-3. Run [MAKE.BAT](MAKE.BAT) if you're OS is Windows (there is currently no MM-build/make for Linux)
-### You don't have `git` in your OS
-1. Download this repository as a .ZIP archive by clicking the green button at the top-right side by the name **Code** and then select **Download .ZIP** inside it
-2. Unarchive the downloaded .ZIP wherever you want on your machine
-3. Go to the folder you have unarchived and run [MAKE.BAT](MAKE.BAT) if your OS is Windows
-### Your OS is not Windows
-Do everything the same as described with Windows steps except the [MAKE.BAT](MAKE.BAT) process. You have to create the .PK3 file of the add-on yourself. Do this by creating a new .ZIP file and putting the [SRC](SRC/) folder into it. Change the file extension of newly created archive from ***.ZIP*** to ***.PK3*** and your add-on file is ready to be loaded in SRB2.
+3. Run the `MAKE` script for your OS ([MAKE.BAT](MAKE.BAT) for Windows and [MAKE.SH](MAKE.SH) for macOS/Linux)
 
+### You don't have `git` in your OS
+1. Download the contents of this repository as a .ZIP archive
+2. Unarchive the downloaded .ZIP wherever you want on your machine
+3. Go to the unarchived folder and run the `MAKE` script for your OS (use [MAKE.BAT](MAKE.BAT) for Windows and [MAKE.SH](MAKE.SH) for macOS/Linux)
 ## How to start the multiplayer server with Murder Mystery
 ### From command line
 1. Write the `-file` parameter with a path to the add-on like `-file [path_to_the_pk3]`
