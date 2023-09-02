@@ -25,17 +25,17 @@ end)
 
 addHook("PlayerThink", function(p)
     if acbtoggle.value
-        if not (leveltime%updaterate.value) COM_BufInsertText(p, "sendcmdupdate") end
-        if not (leveltime%resetrate.value)
+        if (not leveltime%updaterate.value) COM_BufInsertText(p, "sendcmdupdate") end
+        if (not leveltime%resetrate.value)
 			if p.cmdupdatesent
 				p.cmdupdatesent=false
 				if showdebug.value print(p.name.. " Update confirmed!") end
-            else if p.jointime>TICRATE*5 and leveltime>TICRATE*5 COM_BufInsertText(server, "kick "..#p.." CMD never sent (Chatbug/Lag)") end end
+            else if (p.jointime>175) and (leveltime>175) COM_BufInsertText(server, "kick "..#p.." CMD never sent (Chatbug/Lag)") end end
         end
     end
 end)
 addHook("PlayerMsg", function(s)
-    if acbtoggle.value if s.jointime<35 and not s==server return true end end
+    if (acbtoggle.value) and (s.jointime<35) and (s!=server) return true end
 end)
 
 --FOOTSTEPS.LUA (fork from Modern Sonic)
@@ -2163,8 +2163,6 @@ local flatsounds={
 	["THZ2FN6B"]="metal"
 }
 
-local footstepsfile="client/footsteps/footsteps.dat"
-
 local playeraniminfo={ --only Vanilla characters are left
 	["sonic"]={
 		["runFrames"]={0, 2},
@@ -2286,14 +2284,8 @@ local function reset(player)
 		player.variablesset=true
 		player.groundtexture=nil
 		player.lastgroundtexture=nil
-		
-		local file=io.openlocal(footstepsfile)
-		local soundListData=SoundListInfo["sonic"]
-		if file
-			soundListData=SoundListInfo[file:read("*a")]
-			file:close()
-		end
-		player.soundList=soundListData
+
+		player.soundList=SoundListInfo["sonic"]
 	end
 end
 local function has_value (tab, val)
@@ -2318,23 +2310,6 @@ local function getGroundTexture(mo)
         elseif mo.floorz == mo.subsector.sector.floorheight result=mo.subsector.sector.floorpic end
 	end
 	return result
-end
-
---COM_AddCommand() was removed for this function
-local function footstepsSoundList(player, arg)
-	if player.mo and player.mo.valid
-		if arg
-			if SoundListInfo[arg]
-				player.soundList=SoundListInfo[arg]
-				CONS_Printf(player, "FootSteps Sound List setted")		
-				if io
-					local file=io.openlocal(footstepsfile, "w+")
-					file:write(arg)
-					file:close()
-				end
-			else CONS_Printf(player, "That Sound List is not available, (Main Options: sonic)") end
-		else CONS_Printf(player, "Set the actual FootSteps Sound List - (Main Options: sonic)") end
-	else CONS_Printf(player, "You can't do this right now...") end
 end
 
 addHook("PlayerThink", function(player)
