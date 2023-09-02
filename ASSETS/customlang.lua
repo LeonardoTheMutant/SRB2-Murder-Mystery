@@ -68,7 +68,7 @@ local language={ --Language must be a table variable, you can name the variable 
 			"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this is in \x87MMHELP BAD\x80.",
 			"\n* \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but sometimes Sheriff can kill the \x83Innocent\x80 by an accident.",
 			"If this happens \x84Sheriff\x80 will turn into civilian and random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as \x84Sheriff\x80 think who you are going to kill!",
-			"\n* When \x84Murderer\x80 kills \x84Sheriff\x80 and there are still \x83Innocents\x80 alive Sheriff will drop the \x84Sheriff's Emerald\x80 near his courpse.",
+			"\n* When \x85Murderer\x80 kills \x84Sheriff\x80 and there are still \x83Innocents\x80 alive Sheriff will drop the \x84Sheriff's Emerald\x80 near his courpse.",
 			"Unlike Chaos Emeralds this emerald will give a \x82Hero\x80 role to any \x83Innocent\x80 who will pick it first. If you're one of the \x83Innocents\x80 it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
 			"\x82Hero\x80 role doesn't really differ from \x84Sheriff\x80 except some details such as when \x82Hero\x80 kills \x83Innocent\x80 his role isn't shared and both just die. Hero will not drop \x84Sheriff Emerald\x80 on his death as well.",
 			"\n* Depending on the players online count there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 among the players in the round. For example starting from 7 players and more \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
@@ -160,7 +160,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	-- Innocent hurt series of messages (Private messages)
 	["INNO_HURT_PM"]={
 		"\x87You murdered the \x83Innocent\x87! You are no longer a \x84Sheriff\x87!", --When Sheriff kills Innocent
-		"\x87You are even worse than the worst \x85Murderer\x80! How could you kill the civilan?!?!\x85 DIE FOR THAT!!!" --When Hero kills Innocent
+		"\x87You are even worse than the worst \x85Murderer\x87! How could you kill the civilan?!?!\x85 DIE FOR THAT!!!" --When Hero kills Innocent
 	},
 	-- Innocent hurt series of messages (Global messages)
 	["INNO_HURT"]={

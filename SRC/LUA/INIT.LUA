@@ -34,7 +34,7 @@ rawset(_G, "MurderMystery", {
 					"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this is in \x87MMHELP BAD\x80.",
 					"\n* \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but sometimes Sheriff can kill the \x83Innocent\x80 by an accident.",
 					"If this happens \x84Sheriff\x80 will turn into civilian and random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as \x84Sheriff\x80 think who you are going to kill!",
-					"\n* When \x84Murderer\x80 kills \x84Sheriff\x80 and there are still \x83Innocents\x80 alive Sheriff will drop the \x84Sheriff's Emerald\x80 near his courpse.",
+					"\n* When \x85Murderer\x80 kills \x84Sheriff\x80 and there are still \x83Innocents\x80 alive Sheriff will drop the \x84Sheriff's Emerald\x80 near his courpse.",
 					"Unlike Chaos Emeralds this emerald will give a \x82Hero\x80 role to any \x83Innocent\x80 who will pick it first. If you're one of the \x83Innocents\x80 it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
 					"\x82Hero\x80 role doesn't really differ from \x84Sheriff\x80 except some details such as when \x82Hero\x80 kills \x83Innocent\x80 his role isn't shared and both just die. Hero will not drop \x84Sheriff Emerald\x80 on his death as well.",
 					"\n* Depending on the players online count there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 among the players in the round. For example starting from 7 players and more \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
@@ -657,155 +657,175 @@ rawset(_G, "MurderMystery", {
 				"Seu idioma atual em uso e\x82 Portugues\x80\nVoce pode altera-lo com \x87MMLANG [idioma]",
 				"O idioma pessoal para Murder Mystery foi definido para\x82 Portugues"
 			}
-		},["UA"]={ -- Ukrainian by LeonardoTheMutant (since SRB2 supports only ASCI and not cyrilic this whole lang text is "Jee Jee" instead of "GG")
-			["VERSION"]="8.0-BETA",
+		},["UA"]={ -- Ukrainian
+			["VERSION"]="8.1-BETA",
 			["AUTHOR"]="LeonardoTheMutant",
 			["MM"]="Tajemnycia Wbywstwa",
 			["MMHELP"]={
 				["MAIN"]={
-					"\x87    Witaju w Tajemnyci Wbywstwa!\nInterpretacija popularnoji gry w SRB2",
-					"\nCilliu gry je znahodzhennia i\x84 eliminacija\x80 usih \x85Wbywc\x80 dopoky wony ne wbjut' \x83usih\x80. Cej typ gry bazowanyj na MATCH tomu tobi treba wmity strilaty.",
-					"Ale spochatku majesh zrozumity osnowy:",
-					"\nTy otrymujesz \x8BRol\x80 na poczatku kozhnogo nowogo raundu, os' usi 3 mozhlywi \x8BRoli\x80 kotri mozhesh otrymaty:",
-					" * \x85Wbywcia\x80  - win musyt' wbyty usih, ale mozhe wykorystowuwaty tilky cherwoni (Normalni) i Neskinchenni kilcia;",
-					" * \x84Sheryf\x80   - jogo zawdanniam je eliminacia \x85Wbywc\x80, mozhe wykorystowuwaty usi dostupni kilcia do strilby;",
-					" * \x83Newynnyj\x80 - absolutno bezbrojny, win maje unykaty swojeji smerti wid Wbywc ale takozh dopomagaty \x84Sheryfowi\x80 znajty \x85Wbywciu\x80.",
-					"\nTo usia osnowna informacija potriba do gry, jaksho chogos ne znajesh abo hochesh diznatysia bilshe wykorystaj ci komandy:",
-					"\x87MMHELP GAME\x80 - Bilshe pro gru i igrowi sytuacii;",
-					"\x87MMHELP BAD\x80  - Rechi jakych ne treba robyty i jak za nych karajut';",
-					"\x87MMHELP CHAT\x80 - Lyst zwukowyh emoji jaki mozhna wykorystaty w chati;",
-					"\x87MMHELP INFO\x80 - Tehnichna informacija i \"Sho nowogo\"/",
-					"\nMozesz takozh wykorystaty \x87MMLANG\x80 shob zminyty mowu w TW"
+					"\x87        Laskawo prosymo do Tajemnyci Wbywstwa!\nInterprytacia populiarnoji multyplejernoji gry w SRB2",
+					"\nCil' gry poliagaje u znahodzhenni i eliminaciji usih \x85Wbywc'\x80 poky wony ne wbyly \x85usih inshyh\x80. Cia gra podibna do MATCH tomu tobi znadobliatsia twoji wminnia pryciliuwatysia i striliaty.",
+					"Spershu tobi treba pojasnyty bazowi znannia persh nizh pochaty graty....",
+					"\nNa pochatku kozhnogo raundu tobi wydadut' \x8BRol'\x80 kotra wyznachaje sho ty budesh robyty naprotiazi gry. Os' usi 3 mozhlywi \x8BRoli\x80 jaki mozhna otrymaty:",
+					" * \x85Wbywcia\x80  - real'nyj cryminal. Jomu treba wbyty kozhnogo, ale mozhe robyty ce til'ky Cherwonymy (Normal'nymy) ta \'Neskinchennymy\' Kil'ciamy;",
+					" * \x84Sheryf\x80   - jogo zadacha znajty i eliminuwaty \x85Wbywc'\x80. Sheryfy mozhut' wykorystowuwaty kozhnu zbroju jaka je dostupna na lokaciji;",
+					" * \x83Newynnyj\x80 - cilkom bezbrojnyj cywil'nyj, win musyt' unykaty smert' ale takozh mozhe dopomogty znajty \x85Wbywc'\x80.",
+					"\nCe usia bazowa informacia shob pochaty graty, jaksho she chogos' ne rozumijesh abo hochesh znaty bil'she wykorystaj ci konsol'ni komandy:",
+					"\x87MMHELP GAME\x80 - Bil'she pro gameplay ta igrowi sytuaciji;",
+					"\x87MMHELP BAD\x80  - Spysok zaboronenyh rechej w TW;",
+					"\x87MMHELP CHAT\x80 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
+					"\x87MMHELP INFO\x80 - Technichna informacija ta \"Sho nowogo\".",
+					"\nMozhlywo tobi zahochet'sia wykorystaty \x87MMLANG\x80 aby zminyty mowu w TW"
 				},["GAME"]={
-					"\x87".."O sytuacijach w gri",
-					"Jak ukazano ranishe, cilliu gry je eliminacija Wbywc, ale pidchas gry mozhut wynyknuty rizni igrowy sytuaciji:",
-					"\n* Jaksho htos zastrelyt tebe kilcem ty stajesh \x8FMertwym\x80.",
-					"\x8FMertwi\x80 grawci nie mozhut widrodzhuwatysia ani rozmowliaty z zywymi grawciamy, jich powidomlennia mozhut bachyty tilky \x8Fmertwi\x80 grawci.",
-					"Pysaty za dopomogy \x87SAYTO\x80 w konsoli abo prywatnych powidomlen' do zhywogo grawcia nemozhlywo jaksho ty zhywyj.",
-					"Takozh\x82 NE NAMAGAJSIA ZMINITY NICKU\x80, detalnishe pro ce w \x87MMHELP BAD\x80.",
-					"\n* \x84Sheryf\x80 maje elininuwaty usih \x85Wbywc\x80, ale czasamy \x84win\x80 moze wbyty \x83Newynnogo\x80.",
-					"Jaksho ce stanetsia \x84Sheryf\x80 zgubyt' swoju rol i innyj \x83Newynnyj\x80 otrymaje jiji. Tozh dumaj w kogo strilajesh za Sheryfa!",
-					"\n* Zazwychaj je tilky odyn \x85Wbywcia\x80 i odyn \x84Sheryf\x80 sered grawciw, ale ci cyfry mozhut' zminytysia jakso je bilshe grawciw online.\nPochynajuchy wid 7 abo bilshe grawciw formujutsia \x8BKomandy\x80 \x85Wbywc\x80 i \x84Sheryfiw\x80.",
-					"\x8BNaparnyky z komandy\x80 mozhut' rozmowliaty zi swojeju komandoju za dopomogy \x87SAYTEAM\x80 w consoli (zwerny uwagu sho knopka SAYTEAM bude praciuwaty tak samo jak i normaly chat).",
-					"Jaksho odyn z \x8Bnaparnykiw\x80 zachepyt' inshogo obydwa otrymajut' powidomlennia shob nadali ne strilalysia. Pamiataj sho inni tezh mozhut' bachyty washu \'pryjatelsku\' bytwu i zdogadatysia kym wy je!",
-					"\nJaksho hochesh diznatysia bilshe wykorystaj:",
-					"\x87MMHELP BAD\x80 - Rechi kotrych ne mozhna robyty w TW"
+					"\x87Pro gameplay ta igrowi sytuaciji",
+					"Jak skazano ranishe na pochatku cil' gry eliminuwaty \x85Wbywc'\x80, ale mozhut' wynyknuty rizni igrowi sytuaciji:",
+					"\n* Jaksho w tebe htos' wystrilyt' kil'cem ty stanesh \x8FMertwym\x80. Grawci z cym stanom ne mozhut' widrodzhuwatysia ta goworyty global'no do grawciw jaki wse she zhywi, jih powidomlennia mozhut' bachyty til'ky inshi \x8FMertwi\x80 grawci.",
+					"Ne mozhna takozh wykorystowuwaty \x87SAYTO\x80 abo nadsylaty prywatni powidomlennia do grawciw sho wse she zhywi jaksho ty \x8FMertwyj\x80.",
+					"Uwaga: \x82NE NAMAGAJSIA ZMINYTY SWOJE IM'JA GRAWCIA\x80, detal'nishe pro ce opysano w \x87MMHELP BAD\x80.",
+					"\n* Zadacha \x84Sheryfa\x80 eliminuwaty usih \x85Wbywc'\x80, ale inodi Sheryf mozhe wypadkowo wbyty \x83Newynnogo\x80.",
+					"Koly ce stajet'sia \x84Sheryf\x80 peretworyt'sia na cywilnogo i wypadkowyj \x83Newynnyj\x80 otrymaje jogo rol'. Nastupnogo razy jak nadumajesh striliaty w kogos' podumaj kogo ty zbyrajeshsia wbywaty jak \x84Sheryf\x80!",
+					"\n* W wypadkah koly \x85Wbywcia\x80 wbywaje \x84Sheryfa\x80 ta she je zhywi \x83Newynni\x80 gynuchyj Sheryf zalyshyt' swij \x84Smaragd Sheryfa\x80 bilia jogo trupa.",
+					"Na widminu wid Chaos Smaragdiw cej smaragd daje rol' \x82Geroja\x80 kozhnomu \x83Newynnomu\x80 hto pershyj znajde ta pidbere jogo. Jaksho ty odyn z \x83Newynnych\x80 ce twij shans staty Gerojem i wriatuwaty usih wid \x85Wbywc'\x80!",
+					"Rol' \x82Geroja\x80 ne duzhe widrizniajet'sia wid \x84Sheryfa\x80 krim kil'koh detalej jak, napryklad, koly \x82Geroj\x80 wbywaje \x83Newynnogo\x80 jogo rol' ne peredajet'sia inshomu i oboje prosto gynut'. Takozh Geroj ne zalyshaje \x84Smaragd Sheryfa\x80 koly win pomyraje.",
+					"\n* Dywliachys' na kilkist' grawciw online bilshe nizh odyn \x85Wbywcia\x80 ta \x84Sheryf\x80 mozhut' zjawliatysia sered grawciw u raundi. Napryklad, pochynajuchy wid 7 grawciw ta bil'she fromujut'sia \x8BKomandy\x85 Wbywc'\x80 ta \x84Sheryfiw\x80.",
+					"\x8BNaparnyky\x80 mozhut' westy peregowory odyn z odnym u swojemu Komandnomu Chati wukorystowujuchy komandu \x87SAYTEAM\x80 u konsoli (zauwazh sho knopka dla chatu SAYTEAM aktywuje zwychnyj chat).",
+					"Jaksho odyn \x8Bnaparnyk\x80 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiataj sho inshi takozh mozhut' bachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!",
+					"\nJak ty zacikawlenyj u podal'shomu rozuminni gry mozhesh takozh prochytaty:",
+					"\x87MMHELP BAD\x80  - Rechi kotrych ne treba robyty w TW",
+					"\x87MMHELP CAHT\x80 - Sho take Zwukowi Emoji ta jak jih wykorystowuwaty"
 				},["BAD"]={
-					"\x87Rechi kotrych ne mozhna robyty w TW",
-					"Prawylo Nomer 1 kozhnoji gry:\x82 Bud' dobryj i nasolodzhujsia groju!\x80 Krim ciogo...",
-					"* Gra ne zrobyt'sia \'Tajemnychoju\' jakso ty rozkazhesh pro swoju \x8BRol'\x80 usim. Mozhesh skazaty rol kogos inshogo jaksho znajesh napewno ale nikoly ne powidomliaj swojeji.",
-					"* Nie bud' zlyj dlia inshyh, zharty dozwoleno ale tilky w druzhnij atmosferi.",
-					"* Buty AFK ce wojennyj zlochyn. Jaksho budesh neaktywnyj ponad 2 hwylyny gra kick'ne tebe (tilky jaksho ty zhywyj)",
-					"* Nie zminiuj nicku pidchas TW - gra je duzhe serjozna na cej wypadok i\x85 auto-zakryje\x80 twoju gru SRB2 jaksho zrobujesh ce zrobyty. Jesli musisz zmenic nick to poczekaj na ekran przerwy.",
-					"Porushennia odnijeji z cyh prawyl mozhe powoduwaty KICK ta nawit BAN. Bud' Laska ne porushujte i grajte chesno.",
-					"\nBilshe dopomogy kotra mozhe dopomogty:",
-					"\x87MMHELP GAME\x80 - O sytuacjach u gri"
+					"\x87Rechi jaki zaboroneni w Tajemnyci Wbywstwa",
+					"Prawylo No.1 kozhnoji gry:\x82 Bud' wwichlywyj ta nasolodzhyjsia!\x80 Okrim ciogo...",
+					"* Gra ne stanowyt'sia \'Tajemnychoju\' koly usi nawkolo znajut' twoju \x8BRol'\x80. Mozhesh rozkazaty inshym pro jih roli jaksho napewno znajesh hto wony taki, ale nikoly ne powidomliaj pro swoju.",
+					"* Ne znushajsia z inshyh grawciw. Zharty dozwoleno, ale w pryjemnomu sensi. Nihto tobi ne powiryt' jaksho budesh usih zwynuwachuwaty.",
+					"* Buty neaktywnyhm ce wojennyj zlochyn. Koly grawci dowgyj chas neaktywni gra wyganiaje jich (til'ky jaksho wony zhywi).",
+					"* Ne zminiuj swojo imeni grawcia PIDCHAS GRY - gra serjozna na cej wypadok i\x85 automatychno zakryje\x80 twoje wikno SRB2 pry sprobi zrobyty ce. Koly je potreba u zminah imeni tobi treba zachekaty na ekran rezul'tatiw shob todi mozhna bulo bezpechno zminyty im'ja.",
+					"Ignoruwannia odnogo z cyh prawyl mozhe rezul'tuwaty kick abo w dejakyh wypadkah nawit' ban wid Admina, bud' laska ne ignoruj prawyla i graj chesno.",
+					"\nBil'she storinok dopomogy jaki ty mozhlywo zahochesh prochytaty u konsoli:",
+					"\x87MMHELP GAME\x80 - Pro gameplay",
+					"\x87MMHELP CHAT\x80 - Spysok Zwukowyh Emoji u gri"
 				},["CHAT"]={
 					"\x87Jak wykorystowuwaty Zwukowi Emoji\x80",
-					"Koly grawec' widprawliaje powidomlennia i wono maje u sobi jakijs' kluchowyj wyraz razom z powidomlenniam zagraje specefichne Zwukowe Emoji.",
-					"Koroche, koly ty pyshesh \"bruh\" wsi pochujut' \"BRUH\" razom z powidomlenniam",
-					"Os' pownyj lyst Zwukowych Emoji i jak ich aktywuwaty:\n",
-					"  \x88Slowo-kluch\x80   | \x89Zwuk",
-					" ---------------+---------------------------",
-					"  :skull:       | \"Bad to the Bones\"",
-					"  :fart:        | Fart sound",
-					"  :omg:         | \"OOHhhh myyy Goooddddd...\"",
-					"  :wow:         | Anime-like \"WOW!\"",
-					"  hehe          | DOOMGUY chuckle",
-					"  \\:|           | Vine boom (Rock-eyebrow)",
-					"  bruh          | bruh",
-					"  /:|           | Vine boom (Rock-eyebrow)",
-					"  AMONGUS       | \"*AMONG US*\"",
-					"  AMONG US      | \"*AMONG US*\"",
-					"  sus           | SUS",
-					"  oh no         | Knuckles' \'OH NO\'",
-					"  AGHH          | Eggman's \'AGHHHH!\'",
-					"  AHH           | Eggman's \'AGHHHH!\'",
-					"  AHA           | Eggman's \'AHA!\'",
-					"  NO WAY        | Eggman's \'NO WAY!\'",
-					"  NOPE          | Nope.",
-					"  GET OVER HERE | \"GET OVER HERE!\"",
-					"  NOO           | \"NOOOOOOoooooo...\"",
-					"  HELP          | Tyler1's \"HELP!\"",
-					"  HEHEHE HA     | Clash Royal King's laugh",
-					"  HEHE BOI      | \"Hehe boi...\"",
-					" ---------------+---------------------------",
-					"Bil'she dopomogy:",
-					"\x87MMHELP GAME\x80 - Pro igrowi sytuacji",
-					"\x87MMHELP BAD\x80  - Spysok duzhe poganych rechej kotrych ne treba robyty"
+					"Koly grawec' nadsylaje powidomlennnia kotre mistyt' u sobi jakes' special'ne slowo-kluch abo frazy usi pochujut' Zwukowe Emoji razom z tym powidomlenniam.",
+					"Koroche koly ty nadishlesh \"bruh\" u chat wsi pochujut' BRUH",
+					"Os' pownyj spysok Zwukowych Emoji ta jak jich aktywuwaty:\n",
+					"  \x88Kluchowe slowo\x80       | \x89Zwuk",
+					" ----------------------+-----------------------------",
+					"  :skull:              | \"Bad to the Bones\"",
+					"  :fart:               | Zwuk ponosu",
+					"  :omg:                | \"OOHhhh myyy Goooddddd...\"",
+					"  :wow:                | Anime \"WOW!\"",
+					"  hehe                 | Smih DOOMGUY'ja",
+					"  \\:|                  | Vine boom (Rock-eyebrow)",
+					"  bruh                 | bruh",
+					"  /:|                  | Vine boom (Rock-eyebrow)",
+					"  AMONGUS              | \"*AMONG US*\"",
+					"  AMONG US             | \"*AMONG US*\"",
+					"  sus                  | SUS",
+					"  oh no                | \'OH NO\' Knuckles'a",
+					"  AGHH                 | \'AGHHHH!\' Eggmana",
+					"  AHH                  | \'AGHHHH!\' Eggmana",
+					"  AHA                  | \'AHA!\' Eggmana",
+					"  NO WAY               | \'NO WAY!\' Eggmana",
+					"  NOPE                 | Nope.",
+					"  GET OVER HERE        | \"GET OVER HERE!\"",
+					"  NOO                  | \"NOOOOOOoooooo...\"",
+					"  HELP                 | Tyler1's \"HELP!\"",
+					"  HEHEHE HA            | Smih Korolia Clash Royal",
+					"  HEHE BOI             | \"Hehe boi...\"",
+					" ----------------------+-----------------------------",
+					"Bilshe dopomogy:",
+					"\x87MMHELP GAME\x80 - Bil'she pro gameplay i igrowi sytuaciji",
+					"\x87MMHELP BAD\x80  - Pro rechi sho zaboroneni w TW"
 				}
 			},
 			["ROLE_GET"]={
-				"Ty \x85wbywcia\x80! \x85Zamorduj usih.",
-				"Ty \x84Sheryf\x80!\x84 Likwiduj usih wbywc'\x80. Jaksho zab'jesh Newynnogo ty prograjesh.",
-				"Ty \x83Newynnyj\x80! Showajsia i dopomozhy Sheryfowi znajty Wbywciu."
+				"Ty \x85Wbywcia\x80! \x85Wbyj usih.",
+				"Ty \x84Sheryf\x80!\x84 Eliminuj usih Wbywc'\x80. Prograjesh jaksho wb'jesh newynnogo.",
+				"Ty \x83Newynnyj\x80! Zachowajsia i dopomozhy Sheryfu znajty Wbywc'."
 			},["NEWROLE_GET"]={
-				"\x87Zhyttia zrobylo \x85Wbywciu\x87 z tebe, \x85teper pidy i wbyj usih.",
-				"\x87Wsesvit zrobyw tebe nowym \x84Sheryfom\x87! Teper ce twoja robota \x84wyeliminuwaty usih wbywc\x87!"
+				"\x87Zhytia zrobylo z tebe \x85Wbywciu\x87, \x85teper idy i wbyj usih.",
+				"\x87Wseswit zrobyw tebe nowym \x84Sheryfem\x87! Tobi potribno \x84 eliminuwaty wsih Wbywc'\x87!",
+				"\x87Usi zahystnyky pokynuly nas, ale Wseswit wybraw tebe nowym \x82Gerojem\x87! Ce twij shans wriatuwaty den'!"
 			},["TEAMMATE_HIT"]={
-				"Gej, ce twij naparnyk, ne namagajsia wbyty jogo znow",
-				"Twij naparnyk zachepyw tebe, ne zlys na niogo"
+				"Hey, cia persona ce twij naparnyk, ne namagajsia wbyty jogo znow",
+				"Twij naparnyk zachepyw tebe, ne zlys' na niogo"
 			},["MURD_KILLED"]={
 				"\x85Wbywcia\x87",
-				"\x80".."buw likwidowanyj!"
+				"\x80".."eliminowanyj!"
 			},["SHERI_KILLED"]={
 				"\x84Sheryf\x87",
-				"\x80".."buw wbytyj! \x83Newynni\x80 mozhut' wziaty jogo Smaragd shob zabraty jogo rol'!",
-				"\x80".."buw wbytyj!"
-			},["SHREML_PICK"]="Htos z Newynnych wziaw \x84Smaragd Sheryfa\x80...",
-			["INNO_HURT_PM"]="\x87Ty wbyw \x83Newynnogo\x87! Ty bilshe ne \x84Sheryff\x87!",
-			["INNO_HURT"]="\x84Sheryff\x80 wbyw Newynnogo! Komus z \x83Newynnych\x80 potribno zakinchyty jogo robotu!",
-			["ONE_LEFT"]={
-				"Odyn z \x85Wbywc\x80 pokynuw gru!",
-				"Odyn z \x84Sheryffiw\x80 pokynuw gru!"
+				"\x80wbytyj! Newynni mozhut' uziaty jogo \x84Smaragd\x80!",
+				"\x80wbytyj!"
+			},["HERO_KILLED"]={
+				"\x82Geroj\x87",
+				"\x80wbytyj!"
+			},["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
+			["INNO_HURT_PM"]={
+				"\x87Ty wbyw \x83Newynnogo\x87! Bil'she ty ne \x84Sheryf\x87!",
+				"\x87Ty she girshyj najgirshogo \x85Wbywci\x87! Ja ty mig wbyty Cywilnogo?!?!\x85 POMRY ZA CE!!!"
+			},["INNO_HURT"]={
+				"\x84Sheryf\x80 wbyw Newynnogo! Komus' z \x83Newynnych\x80 dowedet'sia zakinchyty jogo robotu!",
+				"\x82Geroj\x80 pownyj degenerat, win wbyw myrnogo \x83Newynnogo\x80. Teper dwoje lezhat' mertwi. Sorom geroju"
+			},["ONE_LEFT"]={
+				"Odyn z \x85Wbywc'\x80 pokynuw gru!",
+				"Odyn z \x84Sheryfiw\x80 pokynuw gru!",
+				"Odyn z \x82Gerojiw\x80 pokynuw gru!"
 			},["LAST_LEFT"]={
 				"Ostannij \x85Wbywcia\x80 pokynuw gru!",
-				"Ostannij \x84Sheryff\x80 pokynuw gru!",
-				"Ostannij \x83Newynnyj\x80 pokynuw gru!"
+				"Ostannij \x84Sheryf\x80 pokynuw gru!",
+				"Ostannij \x83Newynnyj\x80 pokynuw gru!",
+				"Ostannij \x82Geroj\x80 pokynuw gru!"
 			},["REPLACE_LEFT"]={
-				"\x85Wbywcia\x80 pokynuw gru! Htos z \x83Newynnych\x80 wziaw jogo rol!",
-				"\x84Sheryff\x80 pokynuw gru! Htos z \x83Newynnych\x80 wziaw jogo rol!"
+				"\x85Wbywcia\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!",
+				"\x84Sheryf\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!",
+				"\x82Geroj\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!"
 			},["ROLE_WIN"]={
-				"Usi mertwi, \x85Wbywci\x80 wygraly!",
-				"Wsi Wbywci buly eliminowani, \x84Sheryfy\x80 i wsi \x83Newynni\x80 wygraly!",
-				"\x85Wbywci\x80 wygraly bo \x84Sheryff\x80 wbyw ostanniogo Newynnogo!"
+				"Wsi mertwi, \x85Wbywci\x80 wygraly!",
+				"Wsi Wbywci eliminowani,\x83 Cywil'ni\x80 wygraly!",
+				"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80  wbyw ostanniogo Newynnogo!",
+				"\x82Geroj\x80 wybraw wbyty ostanniogo Newynnogo. \x85Wbywci\x80 wygraly!",
+				"Wsi Sheryfy ta Geroji mertwi, \x85Wbywci\x80 wygraly!"
 			},["CHAT"]={
 				"she zhywyj, powidomlennia ne widislano",
-				"Ty pyshesh zabagato powidomlen', bud' laska zachekaj",
-				"Ne mozhna prosto tak staty \x8FMetrwym\x80!"
+				"Ty nadsylajesh zabagato powidomlen', bud' laska zachekaj",
+				"Ne mozhna prosto tak staty \x8FMertwym\x80!"
 			},["ROLES_HUD"]={
-				"\x85WBYWCIA",
-				"\x84SHERYF",
-				"\x83NEWYNNYJ",
-				"\x8FMERTWYJ"
+				"WBYWCIA",
+				"SHERYF",
+				"NEWYNNYJ",
+				"GEROJ",
+				"MERTWYJ"
 			},["TEAMALIVE_HUD"]="Naparnykiw w zhywych:",
-			["KILLBY_HUD"]="Wbytyj grawcem",
+			["KILLBY_HUD"]="Wbytyj",
 			["HUD_SCORESTAB"]={
-				"Tablyci ochok tut nema, ale lichylnyki\nunyzu mozhut dopomogty",
-				"\nJaksho ty nowachok u cij gri\nwykorystaj \x87MMHELP\x80 w Konsoli",
-				"\n\n\x82Udachi ;)",
-				"\n\nP.S. Duzhe klasno jaksho ty use ce\nmozhesh prochytaty!"
+				"Ochok tut nema! Natomist' je lichylnyky unyzu",
+				"Jaksho ty nowachok w ciomu igrowomu rezhymi\nwykorystaj \x87MMHELP\x80 w konsoli",				
+				"\n\x82Udachi ;)",
+				"P.S.: Klasno jaksho ty wse ce mozhesh prochytaty!"
 			},["HUD_ROLESALIVE"]={
-				"\x85Wbywc w zhywych: ",
-				"\x84Sheryfiw w zhywych: ",
-				"\x83Newynnych w zhywych: "
+				"Wbywc' w zhywych:",
+				"Sheryfiw w zhywych:",
+				"Newynnych w zhywych:"
 			},["HUD_DEAD"]={
-				"Ty\x8F mertwyj",
-				"Ne mozhesh widrodzhuwatysia",
-				"abo goworyty do zhywyh"
+				"Ty\x8F Mertwyj",
+				"Ne mozhesh widrodzhuwatysia ta goworyty",
+				"do zhywych grawciw"
 			},["HUD_MIDJOIN"]={
-				"Ty pryjednawsia \x84posered raundu\x80, pochekaj nowogo raundu shob zagraty"
+				"Ty pryjednawsia \x84posered raundu\x80,",
+				"Bud' laska zachekaj nastupnogo shob zagraty"
 			},["HUD_ALONE"]={
-				"Potribno \x84".."2 grawcia\x80 dla gry,",
-				"zachekaj na \x84she odnogo\x80 grawcia aby pochaty"
+				"Dla gry potrebujet's'a\x84 2 grawci\x80,",
+				"bud' laska zachekaj na \x84she odnogo",
+				"aby pochaty"
 			},["WINNERS_HUD"]="Wygraly:",
 			["WIN_HUD"]={
 				"NICHYJA!",
 				"\x85WBYWCI",
-				"\x84SHERYFY\x80 ta \x83NEWYNNI"
+				"\x83".."CYWIL'NI"
 			},["MMLANG"]={
-				"\x82Ukrainska\x80 wstanowlena jak twoja mowa w Tajemnyci Wbywstw\nMozhesh zminyty jiji za dopomogoju \x87MMLANG [mowa]",
-				"Personalna mowa dla Tajemnyci Wbywstw wstanowlena na \x82Ukrainsku"
+				"Potochna mowa w TW \x82Ukrains'ka\x80\nTy mozhesh zminyty jiji za dopomogoju comandy \x87MMLANG [language]",
+				"\x82Ukrains'ka\x80 wstanowlena jak personalna mowa w TW"
 			}
 		}
 	},

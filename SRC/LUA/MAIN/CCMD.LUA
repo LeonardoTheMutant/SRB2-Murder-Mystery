@@ -38,7 +38,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
 			CONS_Printf(p, "\x87MMCHARMODE\x80 - Turn vanilla abbilities ON/OFF (in limited form).")
 			CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
-			CONS_Printf(p, "\x87MMSPAM\x80     - How much time player should wait before sending the next message.")
+			CONS_Printf(p, "\x87MMSPAM\x80     - Set the sending delay time in ticks to prevent chat spamming.")
 			CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in ticks. \"If player.afk > afktimer then kick(player)\".") end
 		if MurderMystery.devbuild
 			CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
@@ -81,7 +81,7 @@ local function MMlang(p, l) --player, lang
 			else CONS_Printf(p,"  "..lang) end
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if langOutdated~=0 CONS_Printf(p, "\x85"..langOutdated.." are outdated (they may result crash if selected)") end
+		if langOutdated~=0 CONS_Printf(p, "\x85"..langOutdated.." are outdated (they may result errors (and crashes) when selected)") end
 	else
 		l=l:upper()
 		if MurderMystery.text[l]
