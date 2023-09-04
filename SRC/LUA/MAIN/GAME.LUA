@@ -3,8 +3,8 @@
 -- Improved and developed further by LeonardoTheMutant
 -- With the additional help of Jesus.B
 --
--- The core spcript of Murder Mystery, takes control of each player Join/Quit,
--- hit detection, player parameters, AFK logic, 
+-- The core logic spcript of Murder Mystery, takes control of each player Join/Quit,
+-- hit detection, player parameters, AFK logic and round endings
 
 -- Constants
 local MM=MurderMystery
@@ -31,8 +31,8 @@ local function assignRoles()
 	elseif PlayerCount()>=11 and PlayerCount()<=14 roleMultiplier=3
 	elseif PlayerCount()>14 roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
 	--assign roles
-	AssignRole(ROLE_MURDERER, roleMultiplier)
-	AssignRole(ROLE_SHERIFF, roleMultiplier)
+	MM.AssignRole(ROLE_MURDERER, roleMultiplier)
+	MM.AssignRole(ROLE_SHERIFF, roleMultiplier)
 	--print who they are personally
 	for p in players.iterate
 		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end
@@ -170,7 +170,7 @@ end
 -- Main hit/kill detector
 --
 addHook("MobjDamage", function(victim, inf, attacker)
-	if (gametype!=GT_MURDERMYSTERY) or (not (attacker) and (attacker.player)) return end
+	if (gametype!=GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
 	local vp=victim.player
 	local ap=attacker.player
 	if vp.role==ROLE_MURDERER

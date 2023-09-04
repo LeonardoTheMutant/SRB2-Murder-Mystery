@@ -22,6 +22,9 @@ local coords={ --HUD screen coordinates
 	kills2={x=84},
 	role2={x=118}
 }
+local infoSCORE=hudinfo[HUD_SCORE]
+local infoTIME=hudinfo[HUD_TIME]
+local infoRINGS=hudinfo[HUD_RINGS]
 local MM=MurderMystery
 local mmtxt=MM.text
 	
@@ -34,25 +37,43 @@ local function mainHUD(v, p) --main game HUD
 		hud.enable("lives")
 		hud.enable("textspectator")
 		hud.enable("score")
+		hud.enable("time")
+		hud.enable("rings")
 		hud.enable("weaponrings")
 		return
 	end
-	hud.disable("score")
 	hud.disable("lives")
 	hud.disable("textspectator")
+	hud.disable("score")
+	hud.disable("time")
+	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	--Draw "People alive" on HUD
-	v.draw(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_PPLE"), hudinfo[HUD_RINGS].f)
-	v.draw(hudinfo[HUD_SCORE].x+56, hudinfo[HUD_SCORE].y, v.cachePatch("HUD_ALVE"), hudinfo[HUD_RINGS].f)
-	v.drawNum(hudinfo[HUD_SCORE].x+112, hudinfo[HUD_SCORE].y, PlayersAlive(), hudinfo[HUD_RINGS].f)
+	--"People alive" (replaces SCORES)
+	v.draw(infoSCORE.x, infoSCORE.y, v.cachePatch("HUD_PPLE"), infoSCORE.f)
+	v.draw(infoSCORE.x+56, infoSCORE.y, v.cachePatch("HUD_ALVE"), infoSCORE.f)
+	v.drawNum(infoSCORE.x+112, infoSCORE.y, PlayersAlive(), infoSCORE.f)
+
+	--Time
+	local timeleft = (MM.timelimit*60*TICRATE) - leveltime
+	v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTTIME"), infoTIME.f)
+	v.drawNum(hudinfo[HUD_MINUTES].x, hudinfo[HUD_MINUTES].y, G_TicsToMinutes(timeleft), hudinfo[HUD_MINUTES].f)
+	v.draw(hudinfo[HUD_TIMECOLON].x, hudinfo[HUD_TIMECOLON].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIMECOLON].f)
+	if (G_TicsToSeconds(timeleft)>=10) v.drawNum(hudinfo[HUD_SECONDS].x, hudinfo[HUD_SECONDS].y, G_TicsToSeconds(timeleft), hudinfo[HUD_SECONDS].f)
+	else
+		v.drawNum(hudinfo[HUD_SECONDS].x-8, hudinfo[HUD_SECONDS].y, 0, hudinfo[HUD_SECONDS].f)
+		v.drawNum(hudinfo[HUD_SECONDS].x, hudinfo[HUD_SECONDS].y, G_TicsToSeconds(timeleft), hudinfo[HUD_SECONDS].f)
+	end
+
+	--Rings
+	v.draw(infoRINGS.x, infoRINGS.y, v.cachePatch("STTRINGS"), infoRINGS.f)
+	v.drawNum(hudinfo[HUD_RINGSNUM].x, hudinfo[HUD_RINGSNUM].y, p.rings, hudinfo[HUD_RINGSNUM].f)
 
 	--Reminder
 	if (CV_FindVar("rejointimeout").value!=0)
 		drawStrCentered(v, 96, "ADMIN, DISABLE THE\x87 REJOINTIMEOUT")
 		drawStrCentered(v, 104, "MM DOESN'T WORK PROPERLY WITH THIS CVAR")
 	end
-	if (timelimit==0) drawStrCentered(v, 0, "\x87TIMELIMIT\x80 IS DISABLED!", nil, "small") end
 
 	--Show your role (and translate it)
 	if (p.role) and (p.role>=1) v.drawString(coords.rings.x, coords.rings.y+16,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], V_SNAPTOTOP|V_SNAPTOLEFT) end

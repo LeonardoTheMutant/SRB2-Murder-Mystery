@@ -846,7 +846,8 @@ rawset(_G, "MurderMystery", {
 		"\x82", --Hero
 		"\x8F" --Dead
 	},
-	winner=0 --for intermission, netsynced
+	winner=0, --for intermission, netsynced
+	timelimit=5 --for timelimit in TIME.LUA, netsynced
 })
 --Roles constants
 rawset(_G, "ROLE_NONE", 0)
@@ -859,10 +860,10 @@ rawset(_G, "ROLE_HERO", 4)
 rawset(_G, "SetRandomInnoAs", function(role)
 	while true
 		for p in players.iterate
-			if P_RandomKey(4)==0 and p.role==ROLE_INNOCENT and not p.spectator then
+			if (P_RandomKey(4)==0) and (p.role==ROLE_INNOCENT) and (not p.spectator)
 				p.role=role
-				if (role!=ROLE_HERO) chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][p.role])
-				else chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][3]) end
+				if (role!=ROLE_HERO) chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
+				else chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
 				return
 			end
 		end
@@ -879,7 +880,7 @@ rawset(_G, "PlayersAlive", function()
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
 	return plrs
 end)
-rawset(_G, "AssignRole", function(role, multiplier)
+MurderMystery.AssignRole = function(role, multiplier)
 	while multiplier!=0
 		for p in players.iterate
 			if (p.role==ROLE_NONE) and (not p.spectator) and (P_RandomKey(4)==0) and (multiplier!=0)
@@ -888,7 +889,7 @@ rawset(_G, "AssignRole", function(role, multiplier)
 			end
 		end
 	end
-end)
+end
 
 --Customization API
 MurderMystery.AddCharStat = function(skin, tb)
@@ -940,10 +941,9 @@ G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
 	typeoflevel = TOL_MM,
-	rules = GTR_SPECTATORS|GTR_TIMELIMIT|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN|GTR_SPAWNINVUL,
+	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN|GTR_SPAWNINVUL,
 	rankingtype = GT_MATCH,
 	intermissiontype = int_match,
-	defaulttimelimit = 5,
 	headerleftcolor = 38,
 	headerrightcolor = 150,
 	description = "Kill everyone as Murderer or eliminate him as Sheriff! ...or be none of them and be Innocent"
@@ -1006,6 +1006,7 @@ addHook("NetVars", function(net)
 	MurderMystery.text = net($)
 	MurderMystery.CharStats = net($)
 	MurderMystery.winner = net($)
+	MurderMystery.timelimit = net($)
 end)
 
 --stability code
