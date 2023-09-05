@@ -1,4 +1,4 @@
--- Disable the DEVELOPER BUILD flag in the MurderMystery add-on
+-- Disable the DEVELOPER BUILD flag in the MM add-on
 --
 -- If you compiled the add-on .PK3 from the GitHub repository your file
 -- is marked as a DEVELOPER BUILD version by default
@@ -24,7 +24,7 @@
 -- THIS SCRIPT IS MEANT FOR TESTING PURPOSES ONLY!
 -- HOST DEDICATED RELEASE VERSIONS FROM "GITHUB RELEASES" INSTEAD
 
-if (MurderMystery) and (MurderMystery.devbuild)
-    MurderMystery.devbuild=nil
+if (MM) and (MM.devbuild)
+    MM.devbuild=nil
     print("\x83Succesfuly disabled the DEBUG FLAG in Murder Mystery")
-else error("MurderMystery is not defined or release version is loaded") end
+else error("MM is not defined or release version is loaded") end

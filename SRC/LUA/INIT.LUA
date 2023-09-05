@@ -1,11 +1,11 @@
-if MurderMystery
-	error("Murder Mystery v"..MurderMystery.version.." is already present in loaded add-ons")
+if MM
+	error("Murder Mystery v"..MM.version.." is already loaded, only one version MM can be present")
 	return
 end
-rawset(_G, "MurderMystery", {
-	version="8.1-BETA",
-	devbuild="GITHUB",
-	releasedate="not released yet",
+rawset(_G, "MM", {
+	version="8.1-BETA", --string, VERSION NUMBER
+	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
+	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
 		["EN"]={ -- English
 			["VERSION"]="8.1-BETA", --to check if lang content is not OUTDATED
@@ -738,8 +738,7 @@ rawset(_G, "MurderMystery", {
 					"\x87MMHELP GAME\x80 - Bil'she pro gameplay i igrowi sytuaciji",
 					"\x87MMHELP BAD\x80  - Pro rechi sho zaboroneni w TW"
 				}
-			},
-			["ROLE_GET"]={
+			},["ROLE_GET"]={
 				"Ty \x85Wbywcia\x80! \x85Wbyj usih.",
 				"Ty \x84Sheryf\x80!\x84 Eliminuj usih Wbywc'\x80. Prograjesh jaksho wb'jesh newynnogo.",
 				"Ty \x83Newynnyj\x80! Zachowajsia i dopomozhy Sheryfu znajty Wbywc'."
@@ -799,10 +798,10 @@ rawset(_G, "MurderMystery", {
 			},["TEAMALIVE_HUD"]="Naparnykiw w zhywych:",
 			["KILLBY_HUD"]="Wbytyj",
 			["HUD_SCORESTAB"]={
-				"Ochok tut nema! Natomist' je lichylnyky unyzu",
-				"Jaksho ty nowachok w ciomu igrowomu rezhymi\nwykorystaj \x87MMHELP\x80 w konsoli",				
-				"\n\x82Udachi ;)",
-				"P.S.: Klasno jaksho ty wse ce mozhesh prochytaty!"
+				"Ochok tut nema! Natomist' je lichyl'nyky\nunyzu",
+				"\nJaksho ty nowachok w ciomu igrowomu\nrezhymi wykorystaj \x87MMHELP\x80 w konsoli",
+				"\n\n\x82Udachi ;)",
+				"\n\nP.S.: Klasno jaksho ty wse ce mozhesh\nprochytaty!"
 			},["HUD_ROLESALIVE"]={
 				"Wbywc' w zhywych:",
 				"Sheryfiw w zhywych:",
@@ -862,8 +861,8 @@ rawset(_G, "SetRandomInnoAs", function(role)
 		for p in players.iterate
 			if (P_RandomKey(4)==0) and (p.role==ROLE_INNOCENT) and (not p.spectator)
 				p.role=role
-				if (role!=ROLE_HERO) chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
-				else chatprintf(p, MurderMystery.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
+				if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
+				else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
 				return
 			end
 		end
@@ -871,8 +870,8 @@ rawset(_G, "SetRandomInnoAs", function(role)
 end)
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
-	if (not role) for p in players.iterate plrc=$+1 end
-	else for p in players.iterate if (p.role==role) plrc=$+1 end end end
+	if (role) for p in players.iterate if (p.role==role) plrc=$+1 end end
+	else for p in players.iterate plrc=$+1 end end
 	return plrc
 end)
 rawset(_G, "PlayersAlive", function()
@@ -880,7 +879,7 @@ rawset(_G, "PlayersAlive", function()
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
 	return plrs
 end)
-MurderMystery.AssignRole = function(role, multiplier)
+MM.AssignRole = function(role, multiplier)
 	while multiplier!=0
 		for p in players.iterate
 			if (p.role==ROLE_NONE) and (not p.spectator) and (P_RandomKey(4)==0) and (multiplier!=0)
@@ -892,27 +891,27 @@ MurderMystery.AssignRole = function(role, multiplier)
 end
 
 --Customization API
-MurderMystery.AddCharStat = function(skin, tb)
-	if not skin error("Invalid skin.") end
-	if not tb error("Invalid table.") end
+MM.AddCharStat = function(skin, tb)
+	if (not skin) error("Invalid skin.") end
+	if (not tb) error("Invalid table.") end
 	if type(skin)~="string" error("Skin must be string.") end
 	if type(tb)~="table" error("tb must phrase as a table.") end
-	MurderMystery.CharStats[skin]=tb;
+	MM.CharStats[skin]=tb;
 end
-MurderMystery.AddLang = function(langID,langTbl)
-	if not langID error("Invalid Language Index") end
-	if not langTbl error("Invalid Language Table.") end
+MM.AddLang = function(langID,langTbl)
+	if (not langID) error("Invalid Language Index") end
+	if (not langTbl) error("Invalid Language Table.") end
 	if type(langID)~="string" error("Language ID should be string and contain 2-3 characters long") end
 	if type(langTbl)~="table" error("Language Talbe shoulb be table.") end
-	for l in pairs(MurderMystery.text)
+	for l in pairs(MM.text)
 		if l==langID
 			print("\x82"..langID.."\x85 lang has already been added. Language was not added. Resart the SRB2 to clear the file from loaded mods")
 			return
 		end
 	end
-	MurderMystery.text[langID:upper()]=langTbl
-	print("\x83Succesfuly added \x82"..langID.." \x83(by "..tostring(MurderMystery.text[langID:upper()]["AUTHOR"])..") lang as a MM language.")
-	if MurderMystery.text[langID:upper()]["VERSION"]~=MurderMystery.version print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MurderMystery.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MurderMystery.version) end
+	MM.text[langID:upper()]=langTbl
+	print("\x83Succesfuly added \x82"..langID.." \x83(by "..tostring(MM.text[langID:upper()]["AUTHOR"])..") lang as a MM language.")
+	if MM.text[langID:upper()]["VERSION"]~=MM.version print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 end
 
 --CVARs
@@ -931,18 +930,17 @@ CV_RegisterVar{name="mmspam", defaultvalue=35, flags=4, PossibleValue=CV_Unsigne
 CV_RegisterVar{name="mmafk",defaultvalue=4200,PossibleValue={MIN=0,MAX=21000},flags=4}
 
 --MM init
-print("\x87MURDER MYSTERY v"..MurderMystery.version)
+print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('tol_mm','SFX__MMDTH', 'SFX_MMDTH2', 'SFX_DAMFLL','MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0',
-'SFX_EMJ00', 'SFX_EMJ01', 'SFX_EMJ02', 'SFX_EMJ03', 'SFX_EMJ04', 'SFX_EMJ05', 'SFX_EMJ06', 'SFX_EMJ07', 'SFX_EMJ08', 'SFX_EMJ09',
+freeslot('tol_mm','SFX__MMDTH', 'SFX_MMDTH2', 'SFX_DAMFLL','MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
+freeslot('SFX_EMJ00', 'SFX_EMJ01', 'SFX_EMJ02', 'SFX_EMJ03', 'SFX_EMJ04', 'SFX_EMJ05', 'SFX_EMJ06', 'SFX_EMJ07', 'SFX_EMJ08', 'SFX_EMJ09',
 'SFX_EMJ0A', 'SFX_EMJ0B', 'SFX_EMJ0C', 'SFX_EMJ0D', 'SFX_EMJ0E', 'SFX_EMJ0F', 'SFX_EMJ10', 'SFX_EMJ11', 'SFX_EMJ12')
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
 	typeoflevel = TOL_MM,
 	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN|GTR_SPAWNINVUL,
-	rankingtype = GT_MATCH,
 	intermissiontype = int_match,
 	headerleftcolor = 38,
 	headerrightcolor = 150,
@@ -968,8 +966,6 @@ states[S_MMSTEP]={
 }
 mobjinfo[MT_MMSTEP]={ --footstep mark
 	spawnstate=S_MMSTEP,
-	deathstate=S_NULL,
-	deathsound=sfx_null,
 	spawnhealth=1,
 	radius=FU,
 	height=FU,
@@ -1003,10 +999,10 @@ sfxinfo[sfx_emj11].caption="HEHEHE HA"
 sfxinfo[sfx_emj12].caption="hehe boiii..."
 
 addHook("NetVars", function(net)
-	MurderMystery.text = net($)
-	MurderMystery.CharStats = net($)
-	MurderMystery.winner = net($)
-	MurderMystery.timelimit = net($)
+	MM.text = net($)
+	MM.CharStats = net($)
+	MM.winner = net($)
+	MM.timelimit = net($)
 end)
 
 --stability code

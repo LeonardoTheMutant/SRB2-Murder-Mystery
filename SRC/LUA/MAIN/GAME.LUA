@@ -7,7 +7,7 @@
 -- hit detection, player parameters, AFK logic and round endings
 
 -- Constants
-local MM=MurderMystery
+
 
 local dthsfx={sfx__mmdth, sfx_mmdth2, sfx_emj08} --SFXs that are used as Death Sounds
 
@@ -26,10 +26,10 @@ local function assignRoles()
 	end
 	--how much players with same role should exist?
 	local roleMultiplier=0
-	if PlayerCount()<7 roleMultiplier=1
-	elseif PlayerCount()>=7 and PlayerCount()<=10 roleMultiplier=2
-	elseif PlayerCount()>=11 and PlayerCount()<=14 roleMultiplier=3
-	elseif PlayerCount()>14 roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
+	if (PlayerCount()<7) roleMultiplier=1
+	elseif (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
+	elseif (PlayerCount()>=11) and (PlayerCount()<=14) roleMultiplier=3
+	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
 	--assign roles
 	MM.AssignRole(ROLE_MURDERER, roleMultiplier)
 	MM.AssignRole(ROLE_SHERIFF, roleMultiplier)
@@ -38,14 +38,14 @@ local function assignRoles()
 		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end
 		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
 	end
-	if (MurderMystery.devbuild)
+	if (MM.devbuild)
 		print("\x82".."assignRoles() results:")
 		for p in players.iterate print(p.name..": "..p.role) end
 	end
 end
 
 addHook("MapLoad", do
-	if gametype!=GT_MURDERMYSTERY return end
+	if (gametype!=GT_MURDERMYSTERY) return end
 	--prepare players & server for the new round
 	for p in players.iterate
 		p.role=0
@@ -62,7 +62,7 @@ end)
 -- Player spawn
 --
 addHook("PlayerSpawn", function(p)
-	if gametype!=GT_MURDERMYSTERY return end
+	if (gametype!=GT_MURDERMYSTERY) return end
 
 	--Apply language
 	if (not p.mmlang) p.mmlang="EN" end
@@ -87,7 +87,7 @@ addHook("PlayerSpawn", function(p)
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
-	if gametype==GT_MURDERMYSTERY return true end
+	if (gametype==GT_MURDERMYSTERY) return true end
 end)
 addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	if (gametype==GT_MURDERMYSTERY)
@@ -254,8 +254,8 @@ end
 addHook("MobjThinker", function(mo)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	for p in players.iterate --should be dumb but it works
-		if not p.mo continue end
-		if p.role==ROLE_INNOCENT and mobjInRange(mo, p.mo)
+		if (not p.mo) continue end
+		if (p.role==ROLE_INNOCENT) and (mobjInRange(mo, p.mo))
 			P_RemoveMobj(mo)
 			S_StartSound(p.mo, 97, p)
 			p.role=ROLE_HERO
@@ -270,7 +270,7 @@ end, MT_SHREML)
 -- Player Thinker
 --
 addHook("PlayerThink", function(p)
-	if gametype!=GT_MURDERMYSTERY return end
+	if (gametype!=GT_MURDERMYSTERY) return end
 	if p.role==ROLE_MURDERER --remove weapons from Murderer
 		p.ringweapons=0
 		for i=15,20 p.powers[i]=0 end
@@ -295,10 +295,10 @@ end)
 -- end the game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
 --
 addHook("PlayerQuit", function(p)
-	if gametype!=GT_MURDERMYSTERY return end
+	if (gametype!=GT_MURDERMYSTERY) return end
 	if p.role==ROLE_MURDERER
 		p.role=ROLE_NONE
-		if PlayerCount(ROLE_INNOCENT)==0 and PlayerCount(ROLE_MURDERER)==0
+		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_MURDERER)==0)
 			endRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if gamestate==GS_LEVEL
@@ -315,7 +315,7 @@ addHook("PlayerQuit", function(p)
 		end
 	elseif p.role==ROLE_SHERIFF
 		p.role=ROLE_NONE
-		if PlayerCount(ROLE_INNOCENT)==0 and PlayerCount(ROLE_SHERIFF)==0
+		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_SHERIFF)==0)
 			if (PlayerCount(ROLE_HERO)==0) endRound(0, "LAST_LEFT", ROLE_SHERIFF)
 			else chatprintGlobal("LAST_LEFT", ROLE_SHERIFF) end
 		elseif PlayerCount(ROLE_SHERIFF)==0
@@ -336,10 +336,10 @@ addHook("PlayerQuit", function(p)
 		CheckPlayers()
 	elseif p.role==ROLE_HERO
 		p.role=ROLE_NONE
-		if PlayerCount(ROLE_INNOCENT)==0 and PlayerCount(ROLE_HERO)==0
+		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_HERO)==0)
 			if (PlayerCount(ROLE_SHERIFF)==0) endRound(0, "LAST_LEFT", ROLE_HERO)
 			else chatprintGlobal("LAST_LEFT", ROLE_HERO) end
-		elseif PlayerCount(ROLE_HERO)==0 and PlayerCount(ROLE_SHERIFF)==0
+		elseif (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_SHERIFF)==0)
 			if gamestate==GS_LEVEL
 				chatprintGlobal("REPLACE_LEFT", ROLE_HERO)
 				SetRandomInnoAs(ROLE_HERO)
@@ -362,7 +362,7 @@ end)
 --
 -- Debug only Console Commands
 --
-if MurderMystery.devbuild
+if MM.devbuild
 	COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
 		if (not pnum) or (not prole) or (not pdead)
 			CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role] [dead (0/1)] [killedby (optional)]")

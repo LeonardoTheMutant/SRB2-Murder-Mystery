@@ -21,7 +21,7 @@ end, COM_ADMIN)
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	if (gametype!=GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay!=0) and (not (isdedicatedserver and s==server))
-		CONS_Printf(s, MurderMystery.text[s.mmlang]["CHAT"][2])
+		CONS_Printf(s, MM.text[s.mmlang]["CHAT"][2])
 		return true
 	end
 	if s.spectator
@@ -34,7 +34,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				chatprintf(t, "\x86[PM]{"..s.name.."} "..m)
 				chatprintf(s, "\x86[TO]{"..s.name.."} "..m)
 				s.chatdelay=delaytimer
-			else CONS_Printf(s, t.name.." "..MurderMystery.text[s.mmlang]["CHAT"][1]) end
+			else CONS_Printf(s, t.name.." "..MM.text[s.mmlang]["CHAT"][1]) end
 		end
 		return true
 	else

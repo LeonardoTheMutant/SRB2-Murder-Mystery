@@ -26,7 +26,7 @@ local configtable={ --define your config table
 -- First is the string of the skin's name as it appears in skins[]
 -- if it will be incorect MM will refuse to add it
 -- Second argument is the variable with your config table you defined earlier
-MurderMystery.AddCharStat("sonic", configtable)
+MM.AddCharStat("sonic", configtable)
 --If everyting loads correctly your character will be limited in his
 --abilities with MMCHARMODE Enabled
 --

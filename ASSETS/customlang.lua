@@ -255,5 +255,5 @@ local language={ --Language must be a table variable, you can name the variable 
 -- First argument is the language index string, it is usually 2 or 3 letters long and ALWAYS UPPERCASE
 --  Do not make it like "MyLanguage" - use "MYLANG" or "ML" instead (or the official international index of your language)
 -- Second argument is the Table Variable of the language itself
-MurderMystery.AddLang("MYLANG", language)
+MM.AddLang("MYLANG", language)
 --if everything is done correctly you will recieve no errors when loading this file and in the gameplay process

@@ -25,7 +25,6 @@ local coords={ --HUD screen coordinates
 local infoSCORE=hudinfo[HUD_SCORE]
 local infoTIME=hudinfo[HUD_TIME]
 local infoRINGS=hudinfo[HUD_RINGS]
-local MM=MurderMystery
 local mmtxt=MM.text
 	
 local function drawStrCentered(v,y,str,flags,font)
@@ -56,7 +55,9 @@ local function mainHUD(v, p) --main game HUD
 
 	--Time
 	local timeleft = (MM.timelimit*60*TICRATE) - leveltime
-	v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTTIME"), infoTIME.f)
+	if (G_TicsToMinutes(timeleft)==0) and (leveltime%4==0) v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTRTIME"), infoTIME.f)
+	else v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTTIME"), infoTIME.f) end
+	
 	v.drawNum(hudinfo[HUD_MINUTES].x, hudinfo[HUD_MINUTES].y, G_TicsToMinutes(timeleft), hudinfo[HUD_MINUTES].f)
 	v.draw(hudinfo[HUD_TIMECOLON].x, hudinfo[HUD_TIMECOLON].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIMECOLON].f)
 	if (G_TicsToSeconds(timeleft)>=10) v.drawNum(hudinfo[HUD_SECONDS].x, hudinfo[HUD_SECONDS].y, G_TicsToSeconds(timeleft), hudinfo[HUD_SECONDS].f)

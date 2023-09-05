@@ -5,13 +5,13 @@
 
 addHook("MapLoad", function(map)
     if gametype==GT_MURDERMYSTERY
-        MurderMystery.timelimit = tonumber(mapheaderinfo[map].mm_timelimit) or 5
-        print(MurderMystery.timelimit)
+        MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit) or 5
+        print("Time limit for this map is "..MM.timelimit.." minutes")
     else return end
 end)
 
 addHook("ThinkFrame", function()
-    if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MurderMystery.timelimit*60*TICRATE)-1)
+    if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE)-1)
         G_ExitLevel()
     end
 end)

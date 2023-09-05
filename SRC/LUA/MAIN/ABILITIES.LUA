@@ -2,10 +2,10 @@
 -- Code by Jesus.B, Jisk and LeonardoTheMutant
 --
 -- This script takes care of player character abbilities
--- MurderMystery variable is defined in INIT.LUA
+-- MM constant is defined in INIT.LUA
 
 -- For the ability limits
-MurderMystery.AddCharStat("sonic", {
+MM.AddCharStat("sonic", {
 	ability=CA_THOK,
 	ability2=CA2_SPINDASH,
 	actionspd=30*FU,
@@ -13,7 +13,7 @@ MurderMystery.AddCharStat("sonic", {
 	mindash=5*FU,
 	maxdash=40*FU
 })
-MurderMystery.AddCharStat("tails", {
+MM.AddCharStat("tails", {
 	ability=CA_FLY,
 	ability2=CA2_SPINDASH,
 	charflags=0,
@@ -21,7 +21,7 @@ MurderMystery.AddCharStat("tails", {
 	mindash=5*FU,
 	pmaxdash=40*FU,
 })
-MurderMystery.AddCharStat("knuckles", {
+MM.AddCharStat("knuckles", {
 	ability=CA_GLIDEANDCLIMB,
 	ability2=CA2_SPINDASH,
 	charflags=0,
@@ -29,7 +29,7 @@ MurderMystery.AddCharStat("knuckles", {
 	mindash=5*FU,
 	maxdash=40*FU,
 })
-MurderMystery.AddCharStat("amy", {
+MM.AddCharStat("amy", {
 	ability=CA_TWINSPIN,
 	ability2=CA2_MELEE,
 	charflags=384,
@@ -37,7 +37,7 @@ MurderMystery.AddCharStat("amy", {
 	mindash=2*FU,
 	maxdash=6*FU,
 })
-MurderMystery.AddCharStat("fang", {
+MM.AddCharStat("fang", {
 	ability=CA_BOUNCE,
 	ability2=CA2_NONE,
 	charflags=4480,
@@ -45,7 +45,7 @@ MurderMystery.AddCharStat("fang", {
 	mindash=1*FU,
 	maxdash=34*FU,
 })
-MurderMystery.AddCharStat("metalsonic", {
+MM.AddCharStat("metalsonic", {
 	ability=CA_FLOAT,
 	ability2=CA2_SPINDASH,
 	actionspd=30*FU,
@@ -67,13 +67,13 @@ addHook("PlayerThink", function(p)
 		p.mindash=skins[s].mindash
 		p.maxdash=skins[s].maxdash
 	elseif (gametype==GT_MURDERMYSTERY) and (MMCHARMODE.value) -- "Each character have limited abbilities" mode
-		--MurderMystery.CharStats
-		p.charability=MurderMystery.CharStats[s].ability or MurderMystery.CharStats["default"].ability
-		p.charability2=MurderMystery.CharStats[s].ability2 or MurderMystery.CharStats["default"].ability2
-		p.charflags=MurderMystery.CharStats[s].charflags or MurderMystery.CharStats["default"].charflags
-		p.actionspd=MurderMystery.CharStats[s].actionspd or MurderMystery.CharStats["default"].actionspd
-		p.mindash=MurderMystery.CharStats[s].mindash or MurderMystery.CharStats["default"].mindash
-		p.maxdash=MurderMystery.CharStats[s].maxdash or MurderMystery.CharStats["default"].maxdash
+		--MM.CharStats
+		p.charability=MM.CharStats[s].ability or MM.CharStats["default"].ability
+		p.charability2=MM.CharStats[s].ability2 or MM.CharStats["default"].ability2
+		p.charflags=MM.CharStats[s].charflags or MM.CharStats["default"].charflags
+		p.actionspd=MM.CharStats[s].actionspd or MM.CharStats["default"].actionspd
+		p.mindash=MM.CharStats[s].mindash or MM.CharStats["default"].mindash
+		p.maxdash=MM.CharStats[s].maxdash or MM.CharStats["default"].maxdash
 		-- SA1 Tails flight by TeriosSonic
 		if (s=="tails") and (p.powers[pw_tailsfly]>70) p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
 	elseif (gametype==GT_MURDERMYSTERY) and (not MMCHARMODE.value) --"Everyone are regular persons" mode

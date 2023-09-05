@@ -13,10 +13,10 @@ local function helpCMD(p, page)
 	if (page) page=$:upper() end
 	if (p==server) and (isdedicatedserver) l="EN" end --Since Dedicated server host's player_t can't contain p.mmlang we have to emulate it
 	if not page
-		for i,str in pairs(MurderMystery.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
+		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
 	elseif page=="INFO"
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
-		CONS_Printf(p, "Version\x81 "..MurderMystery.version.."\x80 ("..MurderMystery.releasedate..")")
+		CONS_Printf(p, "Version\x81 "..MM.version.."\x80 ("..MM.releasedate..")")
 		CONS_Printf(p, "by \x82\"SRB2 MM_DEV team\"")
 		CONS_Printf(p, "(Full credits are in README.TXT inside this .PK3)")
 		CONS_Printf(p, "\nChanges from\x81 8.0-beta\x80:")
@@ -25,7 +25,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, " - Custom Language Files (CLF) can now include MMHELP text. In general the languages are much more customizable and easier to understand")
 		CONS_Printf(p, "\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84".."Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
-		if (MurderMystery.text[l]["MMHELP"][page]) for i,str in pairs(MurderMystery.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
+		if (MM.text[l]["MMHELP"][page]) for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
 		else
 			CONS_Printf(p, "Can't find the \x82"..page.."\x80 page in help. Try these commands instead:")
 			CONS_Printf(p, "\x87MMHELP\x80      - The basics")
@@ -40,7 +40,7 @@ local function helpCMD(p, page)
 			CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
 			CONS_Printf(p, "\x87MMSPAM\x80     - Set the sending delay time in ticks to prevent chat spamming.")
 			CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in ticks. \"If player.afk > afktimer then kick(player)\".") end
-		if MurderMystery.devbuild
+		if MM.devbuild
 			CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
 			CONS_Printf(p, "\x87MMPLAYER\x80 - Change player state/role")
 			CONS_Printf(p, "\x87MMNODES\x80  - Display everyone's player state and role") end
@@ -69,25 +69,25 @@ local function MMlang(p, l) --player, lang
 		return
 	end
 	if not l
-		CONS_Printf(p, MurderMystery.text[p.mmlang]["MMLANG"][1])
+		CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][1])
 		CONS_Printf(p, "Available languages:")
 		local langCount=0
 		local langOutdated=0
-		for lang in pairs(MurderMystery.text)
+		for lang in pairs(MM.text)
 			langCount=$+1
-			if (MurderMystery.text[lang]["VERSION"]!=MurderMystery.version) langOutdated=$+1 end
+			if (MM.text[lang]["VERSION"]!=MM.version) langOutdated=$+1 end
 			if (p.mmlang==lang) CONS_Printf(p,"\x82  "..lang.." (current lang)")
-			elseif (MurderMystery.text[lang]["VERSION"]!=MurderMystery.version) CONS_Printf(p,"\x85  "..lang.." (OUTDATED)")
+			elseif (MM.text[lang]["VERSION"]!=MM.version) CONS_Printf(p,"\x85  "..lang.." (OUTDATED)")
 			else CONS_Printf(p,"  "..lang) end
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if langOutdated~=0 CONS_Printf(p, "\x85"..langOutdated.." are outdated (they may result errors (and crashes) when selected)") end
 	else
 		l=l:upper()
-		if MurderMystery.text[l]
+		if MM.text[l]
 			p.mmlang=l
-			CONS_Printf(p, MurderMystery.text[p.mmlang]["MMLANG"][2])
-			if (MurderMystery.text[l]["VERSION"]!=MurderMystery.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result crashes. Please ask \x81"..tostring(MurderMystery.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MurderMystery.version) end
+			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
+			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result crashes. Please ask \x81"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 			--local f=io.openlocal("client/MM.DAT", 'w')
 			--if f
 			--	f:write(l)
