@@ -44,6 +44,7 @@
 local language={ --Language must be a table variable, you can name the variable as you like.
 	["VERSION"]="8.1-BETA", --This string HAVE TO MATCH the version string of the main file. This checks if the language is not OUTDATED.
 	["AUTHOR"]="LeonardoTheMutant", --Who made this translation, you can leave it nil to be uncredited
+	["NONASCII"]=false, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 	["MM"]="Murder Mystery", --The name of the Add-On (visible on SCORES TAB and Intermission)
 	["MMHELP"]={ --MMHELP command's text
 		["MAIN"]={ --When no page is specified

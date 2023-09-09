@@ -660,6 +660,7 @@ rawset(_G, "MM", {
 		},["UA"]={ -- Ukrainian
 			["VERSION"]="8.1-BETA",
 			["AUTHOR"]="LeonardoTheMutant",
+			["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 			["MM"]="Tajemnycia Wbywstwa",
 			["MMHELP"]={
 				["MAIN"]={
@@ -782,7 +783,7 @@ rawset(_G, "MM", {
 			},["ROLE_WIN"]={
 				"Wsi mertwi, \x85Wbywci\x80 wygraly!",
 				"Wsi Wbywci eliminowani,\x83 Cywil'ni\x80 wygraly!",
-				"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80  wbyw ostanniogo Newynnogo!",
+				"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80 wbyw ostanniogo Newynnogo!",
 				"\x82Geroj\x80 wybraw wbyty ostanniogo Newynnogo. \x85Wbywci\x80 wygraly!",
 				"Wsi Sheryfy ta Geroji mertwi, \x85Wbywci\x80 wygraly!"
 			},["CHAT"]={
