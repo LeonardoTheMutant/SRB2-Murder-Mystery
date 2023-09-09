@@ -39,7 +39,7 @@ local function assignRoles()
 		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
 	end
 	if (MM.devbuild)
-		print("\x82".."assignRoles() results:")
+		print("\x82".."MM.AssignRoles() results:")
 		for p in players.iterate print(p.name..": "..p.role) end
 	end
 end
@@ -80,10 +80,9 @@ addHook("PlayerSpawn", function(p)
 
 	--Player num and state check on join
 	if (PlayerCount()==2) and (p.role==nil) --Player2 joined 'singleplayer' round
-		for p in players.iterate p.role=ROLE_NONE end --Init their roles
 		assignRoles() --Assign them roles
 		S_StartSound(nil,93,p) --Notify Player1 (who's probably AFK) about new player
-	elseif (PlayerCount()>2) and (not p.role) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
+	elseif (PlayerCount()>2) and (p.role==nil) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
@@ -224,7 +223,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				endRound(ROLE_MURDERER, "WIN", 4)
 				return
 			else
-				chatprintf(ap, mmtxt[ap.mmlang][INNO_HURT_PM][2])
+				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][2])
 				chatprintGlobal("INNO_HURT", 2)
 			end
 		end

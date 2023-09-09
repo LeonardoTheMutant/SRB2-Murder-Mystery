@@ -882,7 +882,7 @@ end)
 MM.AssignRole = function(role, multiplier)
 	while multiplier!=0
 		for p in players.iterate
-			if (p.role==ROLE_NONE) and (not p.spectator) and (P_RandomKey(4)==0) and (multiplier!=0)
+			if ((not p.role) or (p.role==ROLE_NONE)) and (P_RandomKey(4)==0) and (multiplier!=0)
 				p.role=role
 				multiplier=$-1
 			end
