@@ -1,10 +1,10 @@
 if MM
-	error("Murder Mystery v"..MM.version.." is already loaded, only one version MM can be present")
+	error("Murder Mystery v"..MM.version.." is already loaded, only one version of MM can be present")
 	return
 end
 rawset(_G, "MM", {
 	version="8.1-BETA", --string, VERSION NUMBER
-	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
+	devbuild="GITHUB-RC1", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
 		["EN"]={ -- English
@@ -762,7 +762,7 @@ rawset(_G, "MM", {
 				"\x80wbytyj!"
 			},["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
 			["INNO_HURT_PM"]={
-				"\x87Ty wbyw \x83Newynnogo\x87! Bil'she ty ne \x84Sheryf\x87!",
+				"\x87Ty wbyw \x83Newynnogo\x87! Ty bil'she ne \x84Sheryf\x87!",
 				"\x87Ty she girshyj najgirshogo \x85Wbywci\x87! Ja ty mig wbyty Cywilnogo?!?!\x85 POMRY ZA CE!!!"
 			},["INNO_HURT"]={
 				"\x84Sheryf\x80 wbyw Newynnogo! Komus' z \x83Newynnych\x80 dowedet'sia zakinchyty jogo robotu!",
@@ -881,12 +881,13 @@ rawset(_G, "PlayersAlive", function()
 	return plrs
 end)
 MM.AssignRole = function(role, multiplier)
-	while multiplier!=0
+	local mult=multiplier
+	while mult!=0
 		for p in players.iterate
-			if ((not p.role) or (p.role==ROLE_NONE)) and (P_RandomKey(4)==0) and (multiplier!=0)
+			if ((not p.role) or (p.role==ROLE_NONE)) and (mult!=0) and (P_RandomKey(4)==0)
 				p.role=role
-				multiplier=$-1
-			end
+				mult=$-1
+			elseif (mult==0) return end
 		end
 	end
 end

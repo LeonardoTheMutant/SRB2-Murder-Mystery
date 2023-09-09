@@ -33,7 +33,6 @@ Please set the following CVARs in your server console (or as admin) to make MM w
 - `timelimit` never set to `0`. Code will reset it to `5` each time you (or the game) will disable it. Murder Mystery is designed as MATCH-like game and Timelimit is actually useful here
 
 ## Open assets used in this project
-- [Intermission Lock](https://mb.srb2.org/addons/intermission-lock-reduce-synch-fails-caused-by-players-joining-during-intermission.1293/) by Krabs - Does not allow player joining when server is on intermission;
 - [ShutUp Chatbug!](https://mb.srb2.org/addons/shut-up-chatbug.5046/) by [Jiskster](https://github.com/Jiskster) - Small script for handling chatbugs and some player lags;
 - Heavily modified ModernSonic's footsteps engine, [original fork of the script](https://mb.srb2.org/addons/footsteps.1378/) by Gomynola - Used to make footstep sounds and marks when players walk.
 

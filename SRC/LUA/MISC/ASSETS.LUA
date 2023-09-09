@@ -1,15 +1,6 @@
 -- ASSETS.LUA
 -- Miscellaneous open-assets scripts for MM functionality
 
---IntermissionLock.lua by Krabs (modified by LeonardotheMutant)
-local allowjoin=CV_FindVar("allowjoin")
-addHook("IntermissionThinker", do
-	if allowjoin.value==1 COM_BufInsertText(server, "allowjoin off") end
-end)
-addHook("MapLoad", do
-	if allowjoin.value==0 COM_BufInsertText(server, "allowjoin on") end
-end)
-
 --ShutUp Chatbug!
 --made by Jiskster (Jisk)
 --updated by LeonardoTheMutant

@@ -25,9 +25,8 @@ local function assignRoles()
 		return
 	end
 	--how much players with same role should exist?
-	local roleMultiplier=0
-	if (PlayerCount()<7) roleMultiplier=1
-	elseif (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
+	local roleMultiplier=1
+	if (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
 	elseif (PlayerCount()>=11) and (PlayerCount()<=14) roleMultiplier=3
 	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
 	--assign roles
@@ -301,7 +300,7 @@ addHook("PlayerQuit", function(p)
 			endRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if gamestate==GS_LEVEL
-				chatprintGlobal("LAST_LEFT", ROLE_MURDERER)
+				chatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
 				SetRandomInnoAs(ROLE_MURDERER)
 				if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 			else
