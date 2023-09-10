@@ -145,7 +145,7 @@ local function KillPlayer(p, k) --player, killer (both MOBJ_T)
 end
 
 --Function to end the round, arguments here:
---w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Sheriff
+--w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat
 --reason is not used in this function but rather in chatprintGlobal()
 local function endRound(w, endtext, reason)
@@ -278,9 +278,9 @@ addHook("PlayerThink", function(p)
 	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end
 
 	--AFK logic
-	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=p.afk+1
+	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1
 	else p.afk=0 end
-	if p.afk>afkCVAR.value
+	if p.afk>afkCVAR.value*60*35
 		if p==server
 			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
 			COM_BufInsertText(server, "QUIT")

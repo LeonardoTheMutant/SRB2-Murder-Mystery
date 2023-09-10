@@ -945,7 +945,7 @@ end
 CV_RegisterVar{name="mmcharmode",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6,func=VarChange}
 CV_RegisterVar{name="mmsprint",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6,func=VarChange}
 CV_RegisterVar{name="mmspam", defaultvalue=35, flags=4, PossibleValue=CV_Unsigned}
-CV_RegisterVar{name="mmafk",defaultvalue=4200,PossibleValue={MIN=0,MAX=21000},flags=4}
+CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 
 --MM init
 print("\x87MURDER MYSTERY v"..MM.version)

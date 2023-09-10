@@ -29,8 +29,7 @@ Brackets are important in `"Murder Mystery"`! As a `[MMmapnum]` you can use **MA
 
 ## Important server-side settings
 Please set the following CVARs in your server console (or as admin) to make MM work fine:
-- `rejoimtimeout` must be disabled (value set to `0`) for Murder Mystery to work properly, otherwise your console will be spammed with warnings (Yes this is serious)
-- `timelimit` never set to `0`. Code will reset it to `5` each time you (or the game) will disable it. Murder Mystery is designed as MATCH-like game and Timelimit is actually useful here
+- `rejoimtimeout` must be disabled (value set to `0`) for Murder Mystery to work properly, otherwise your console is going to be spammed with warnings (Yes this is serious)
 
 ## Open assets used in this project
 - [ShutUp Chatbug!](https://mb.srb2.org/addons/shut-up-chatbug.5046/) by [Jiskster](https://github.com/Jiskster) - Small script for handling chatbugs and some player lags;
