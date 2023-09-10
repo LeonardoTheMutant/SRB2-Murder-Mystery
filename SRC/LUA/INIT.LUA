@@ -42,7 +42,7 @@ rawset(_G, "MM", {
 					"If one \x8Bteammate\x80 will hit anoter both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!",
 					"\nIf you're interested in further understanding you can read:",
 					"\x87MMHELP BAD\x80 - Things you shouldn't do in MM game",
-					"\x87MMHELP CAHT\x80 - What are Sound Emojis and how to use them"
+					"\x87MMHELP CHAT\x80 - What are Sound Emojis and how to use them"
 				},["BAD"]={
 					"\x87Things that are bad to do in Murder Mystery",
 					"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
@@ -130,7 +130,7 @@ rawset(_G, "MM", {
 			},
 			["INNO_HURT"]={
 				"\x84Sheriff\x80 murdered the Innocent! Someone other from \x83Innocents\x80 will have to finish his job!",
-				"\x82Hero\x80 is a bitch-ass motherfucker, he killed a peaceful \x83Innocent\x80. Now both are lying dead. Shame on hero"
+				"\x82Hero\x80 is dumbass, he killed a peaceful \x83Innocent\x80. Now both are lying dead. Shame on hero"
 			},
 			-- "One of the [role]s left!"
 			["ONE_LEFT"]={
@@ -152,7 +152,7 @@ rawset(_G, "MM", {
 				"\x82Hero\x80 left! Some \x83Innocent\x80 took his role!"
 			},
 			-- Win texts
-			["ROLE_WIN"]={
+			["ENDROUND"]={
 				"Everyone are murdered, \x85Murderers\x80 win!",
 				"All murderers are eliminated,\x83 Civilians\x80 win!",
 				"\x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Innocent!",
@@ -361,152 +361,168 @@ rawset(_G, "MM", {
 				"El Idioma personal para Misterio De Asesinato ha sido cambiado a\x82 Espanol"
 			}
 		},["PL"]={ -- Polish by sopix
-			["VERSION"]="8.0-BETA",
+			["VERSION"]="8.1-BETA",
 			["AUTHOR"]="sopix",
-			["MM"]="Tajemnica Mordercy",
+			["MM"]="Tajemnica Morderstw",
 			["MMHELP"]={
 				["MAIN"]={
-					"\x87    Witaj w Tajemnicy Morderstw!\nInterpretacji popularnej gry w SRB2",
-					"\nCelem jest znalezienie i\x84 wyeliminowanie\x80 wszystkich \x85Mordercow\x80 zanim zabija\x83 wszystkich\x80. Ten typ gry jest bazowany na MATCH wiec bedziesz musial umiec strzelac.",
-					"Ale najpierw musisz poznac podstawy:",
-					"\nDostaniesz \x8BRole\x80 na poczatku kazdej nowej rundy, tutaj sa wszystkie 3 podstawowe \x8BRole\x80 ktore mozesz dostac:",
-					" * \x85Morderca\x80 - musi wszystkich zamordowac, ale jest limitowany do uzywania tylko Czerwonych (Normalnych) i Nieskonczonych pierscieni;",
-					" * \x84Szeryf\x80  - jego zadaniem jest wyeliminowanie \x85Mordercow\x80, moze uzyc kazdego Pierscienia;",
-					" * \x83Niewinny\x80 - kompletnie bezbronny, musi uwazac zeby nie zostac zabity ale takze pomagac \x84Szeryfowi\x80 znalezc \x85Morderce\x80.",
-					"\nTo wszystkie podstawowe informacje do gry, jesli nadal czegos nie wiesz lub chcesz sie dowiedziec wiecej uzyj tych komend:",
-					"\x87MMHELP GAME\x80 - Wiecej o grze i sytuacjach w niej;",
-					"\x87MMHELP BAD\x80  - Rzeczy ktore sa zle do zrobienia i jak jest sie karanym;",
-					"\x87MMHELP CHAT\x80 - List of sound emojis you can use in chat;",
-					"\x87MMHELP INFO\x80 - Techniczne informacje i \"Co jest nowe\".",
+					"\x87        Witaj w Tajemnicy Morderstw!\nInterpretacji popularnej gry multiplayer w SRB2",
+					"\nCelem gry jest znalezienie i wyeliminowanie wszystkich \x85Mordercow\x80 zanim zabija\x83 wszystkich\x80. Ten typ gry jest jak MATCH wiec musisz potrafic strzelac.",
+					"Bedziesz potrzebowac kilku podstaw....",
+					"\nNa poczatku kazdej rundy dostaniesz \x8BRole\x80 ktora dyktuje co masz robic w grze. To sa 3 mozliwe \x8BRole\x80 ktore mozesz dostac:",
+					" * \x85Morderca\x80 - prawdziwy kryminalista. Ma zabic wszystkich, Ale moze tylko strzelac czerwonymi (Normalnymi) i Nieskonczonymi Pierscieniami;",
+					" * \x84Szeryf\x80  - Jego zadaniem jest znalezienie i wyeliminowanie \x85Mordercow\x80. Szeryfi moga uzywac wszystkich typow pierscieni;",
+					" * \x83Niewinny\x80 - kompletnie bezbronny cywil, musi nie zostac zabity i pomoc w znalezieniu \x85Mordercy\x80.",
+					"\nTo cala podstawa do gry, jesli nadal czegos nie wiesz lub chcesz dowiedziec sie wiecej, uzyj tych komend:",
+					"\x87MMHELP GAME\x80 - Wiecej o grze i sytuacjach;",
+					"\x87MMHELP BAD\x80  - Lista nie dozwolonych rzeczy w TM;",
+					"\x87MMHELP CHAT\x80 - Lista dzwiekow ktore mozna uczyc w czacie;",
+					"\x87MMHELP INFO\x80 - Techniczne informacje i \"Co nowego\".",
 					"\nMozesz tez uzyc \x87MMLANG\x80 zeby zmienic jezyk TM"
 				},["GAME"]={
 					"\x87".."O sytuacjach w grze",
-					"Jak wyjasniono wczesniej, celem jest wyeliminowanie Mordercy, ale podczas gry rozne sytuacje moga sie wydarzyc:",
-					"\n* Jesli ktos cie zastrzeli pierscieniem stajesz sie\x8F Martwy\x80",
-					"\x8FMartwi\x80 gracze nie moga sie respawnowac ani gadac z zywymi graczami, ich wiadomosci sa tylko widzoczne dla innych\x8F martwych\x80 graczy.",
-					"Napisanie \x87SAYTO\x80 w konsoli lub prywatne napisanie do gracza gdy jestes martwy jest niemozliwe.",
-					"Takze\x82 NIE PROBUJ ZMIENIAC NICKU\x80, wiecej detali w \x87MMHELP BAD\x80.",
-					"\n* \x84Szeryf\x80 ma za zadanie wyeliminowac wszystkich \x85Mordercow\x80, ale czasami \x84on\x80 moze zabic \x83Niewinnego\x80.",
-					"Jesli to sie stanie \x84Szeryf\x80 straci jego role i inny \x83Niewinny\x80 ja zdobedzie. Wiec mysl w kogo strzelasz jako Szeryf!",
-					"\n* Normalnie jest tylko jeden \x85Morderca\x80 i jeden \x84Szeryf\x80 sposrod graczy, ale te numery moga sie zmienic jesli jest wiecej graczy online.\nZaczynajac od 7 lub wiecej graczy\x8B Druzyny\x80 \x85Mordercow\x80 i \x84Szeryfow\x80 zostana stworzone.",
-					"\x8BKoledzy z druzyny\x80 moga czatowac ze swoja druzyna za pomoca komendy \x87SAYTEAM\x80 w consoli (uwaga, klawisza SAYTEAM bedzie dzialac jak normalny czat).",
-					"Jesli jeden \x8Bkolega\x80 z druzyny strzeli w drugiego obydwoje dostana wiadomosc zeby w siebie nie strzelac. Pamietaj ze inni moga zobaczyc twoja \'przyjazn\' walcz i zdaj sobie sprawe kim jestes!",
-					"\nJesli chcesz dowiedziec sie wiecej uzyj:",
-					"\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinienes robic podczas TM"
+					"Jak wyjasniono wczesniej, celem jest wyeliminowanie wszystkich \x85Mordercow\x80, ale rozne sytuacje moga zastac:",
+					"\n* Jesli ktos cie zastrzeli to staniesz sie\x8F Martwy\x80. Gracze w tym stanie nie moga sie odnowic ani gadac na globalnym czacie, twoje wiadomosci sa tylko widoczne dla innych\x8F martwych\x80 graczy.",
+					"Nie mozesz uzyc \x87SAYTO\x80 lub PW do osoby ktora jest zywa jako\x8F MARTWY\x80.",
+					"Takze,\x82 NIE PROBUJ ZMIENIAC NAZWY\x80, wiecej detali w \x87MMHELP BAD\x80.",
+					"\n* Zadaniem \x84Szeryfa\x80 jest wyeliminowanie wszystkich \x85Mordercow\x80, ale czasami szeryf moze zabic jednego \x83Niewinnego\x80 przez przypadek.",
+					"Jesli to sie stanie \x84Szeryf\x80 stanie sie cywilem i inny \x83Niewinny\x80 po cichu przejmie jego role. Nastepnym razem jak strzelisz w kogos jako \x84Szeryf\x80 pomysl kogo zabijasz!",
+					"\n* Kiedy \x85Morderca\x80 zabije \x84Szeryfa\x80 i zostana zywi \x83Niewinni\x80 szeryf upusci \x84Szmaragd Szeryfa\x80 obok jego ciala.",
+					"W przeciwienstwie do Szmaragdow Chaosu ten szmaragd daje role\x82 Bohatera\x80 do \x83Niewinnego\x80 ktory go pierwszy podniosl. Jesli jestes \x83Niewinnym\x80 to twoja szansa zostac bohaterem i uratowac wszystkich od \x85Mordercow\x80!",
+					"\x82".."Bohater\x80 nie rozni sie za bardzo od \x84Szeryfa\x80 oprocz kilku detali jak kiedy\x82 Bohater\x80 zabija \x83Niewinnego\x80 jego rola nie jest oddawana i obydwoje gina. Bohater nie upusci \x84Szmaragdu Szeryfa\x80 przy jego smierci.",
+					"\n* Zaleznie od ilosci graczy, moze byc wiecej niz jeden \x85Mordercow\x80 i \x84Szeryfow\x80 posrod graczy w grze. Na przyklad, gdy jest wiecej niz 7 graczy to\x8B Druzyny\x80 \x85Mordercow\x80 i \x84Szeryfow\x80 beda zformowane.",
+					"\x8BWspolnicy\x80 moga czatowac z druzyna za pomoca komendy \x87SAYTEAM\x80 (przycisk SAYTEAM bedzie tak samo dzialal jak normalny czat).",
+					"Jesli jeden \x8Bwspolnik\x80 strzeli drugiego to dostanie wiadomosc zeby nie strzelal do wspolnika. Pamietaj ze inni moga zobaczyc twoja 'przyjazna' rozmowe i dowiedziec sie kim jestes!",
+					"\nJesli chcesz zrozumiec wiecej przeczytaj:",
+					"\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinno sie robic w TM",
+					"\x87MMHELP CHAT\x80 - Co to sa Dzwieki i jak ich uzyc"
 				},["BAD"]={
-					"\x87Rzeczy ktore sa zle w TM",
-					"Zasada nm. 1 kazdej gry:\x82 Badz mily i sie baw!\x80 Oprocz tego...",
-					"* Samo zaspoilerowanie \x8BRoli\x80 sprawi ze gra nie bedzie \'Tajemnica\', mozesz powiedziec role kogos innego jesli ja znasz ale nigdy swojej.",
-					"* Nie badz niemilym dla innych, zarty sa dozwolone ale tylko w przyjaznej atmosferze.",
-					"* Bycie AFK to zbrodnia wojenna. Jesli bedziesz nieaktywny przez dluzszy czas gra cie wyrzuci (tylko jesli zyjesz)",
-					"* Nie zmieniaj nicku podczas TM - gra jest bardzo scisla i\x85 auto-wylaczy\x80 twoje SRB2 jesli to zrobisz. Jesli musisz zmienic nick to zaczekaj na ekran rezul.",
-					"Zlamanie jednej z tych zasad moze poskutkowac wyrzuceniem lub nawet banem, prosze ich nie lamac i bawic sie.",
-					"\nWiecej pomocy ktore moga ci sie przydac:",
-					"\x87MMHELP GAME\x80 - O sytuacjach w grze"
+					"\x87Rzeczy ktorych nie wolno robic w Tajemnicy Morderstw",
+					"Zasada numer 1 kazdej gry:\x82 Badz mily i sie baw!\x80 Oprocz tego...",
+					"* Wypowiedzenie swojej \x8BRoli\x80 sprawi ze gra nie bedzie juz \'Tajemnica\', mozesz wypowiedziec role kogos innego jak wiesz ale nigdy swojej.",
+					"* Nie badz nie mily dla innych graczy, zarty sa dozwolone ale tylko w przyjaznej atmosferze. Nikt ci nie bedzie ufal jak bedziesz ciagle oskarzal innych bez powodu.",
+					"* Bycie AFK to zbrodnia wojenna. Jesli bedziesz sie nie ruszal przez dluzszy czas zostaniesz wykopany (tylko jesli zyjesz).",
+					"* Nie zmieniaj nazwy W SRODKU GRY - gra jest bardzo scisla i\x85 wylaczy\x80 twoja gre jesli to zrobisz. Jesli musisz zmienic nazwe to poczekaj na przerywnik.",
+					"Zlamanie tych zasad moze spowodowac ze zostaniesz wykopany a czasami zbanowany przez Admina, prosimy ich nie lamac i grac fer.",
+					"\nWiecej stron pomocy ktore mozesz chciec przeczytac w konsoli:",
+					"\x87MMHELP GAME\x80 - O sytuacjach w grze",
+					"\x87MMHELP CHAT\x80 - Lista dzwiekow i jak ich uzyc"
 				},["CHAT"]={
-					"\x87Jak uzywac Emoji Dzwiekow\x80",
-					"Kiedy gracz wysle wiadomosc ktora zawiera specjalne slowo/fraze specyficzne Emoji Dzwieku zagra razem z wiadomoscia.",
-					"Poprostu jesli napiszesz \"bruh\" w wiadomosci to dzwiek BRUH zagra kiedy ja wyslesz",
-					"To jest lista Emoji Dzwieku i jak je aktywowac:\n",
-					"  \x88Slowo\x80         |\x89 Dzwiek",
+					"\x87Jak uzyc dzwiekow\x80",
+					"Jesli gracz wysle wiadomosc zawierajaca specjalne slowa lub frazy to zagra specjalny dzwiek.",
+					"w skrocie jesli wyslesz wiadomosc \"bruh\" wszyscy uslysza dzwiek BRUH",
+					"To jest lista dzwiekow i jak je aktywowac:\n",
+					"  \x88Keyword\x80       | \x89Sound",
 					" ---------------+-----------------------------",
 					"  :skull:       | \"Bad to the Bones\"",
-					"  :fart:        | Dzwiek pierdu",
+					"  :fart:        | dzwiek pierdu",
 					"  :omg:         | \"OOHhhh myyy Goooddddd...\"",
-					"  :wow:         | Jak w anime \"WOW!\"",
-					"  hehe          | Smiech DOOMGUYA",
-					"  \\:|           | Boom z Vine (Zesa Rocka)",
+					"  :wow:         | animowe \"WOW!\"",
+					"  hehe          | smiech DOOMGUYa",
+					"  \\:|           | Vine boom (brew-Rocka)",
 					"  bruh          | bruh",
-					"  /:|           | Boom z Vine (Zesa Rocka)",
+					"  /:|           | Vine boom (brew-Rocka)",
 					"  AMONGUS       | \"*AMONG US*\"",
 					"  AMONG US      | \"*AMONG US*\"",
 					"  sus           | SUS",
-					"  oh no         | Knucklesa \'OH NO\'",
-					"  AGHH          | Eggmana \'AGHHHH!\'",
-					"  AHH           | Eggmana \'AGHHHH!\'",
-					"  AHA           | Eggmana \'AHA!\'",
-					"  NO WAY        | Eggmana \'NO WAY!\'",
+					"  oh no         | \'OH NO\' knucklesa",
+					"  AGHH          | \'AGHHHH!\' Eggmana",
+					"  AHH           | \'AGHHHH!\' Eggmana",
+					"  AHA           | \'AHA!\' Eggmana",
+					"  NO WAY        | \'NO WAY!\' Eggmana",
 					"  NOPE          | Nope.",
 					"  GET OVER HERE | \"GET OVER HERE!\"",
 					"  NOO           | \"NOOOOOOoooooo...\"",
-					"  HELP          | Tyler1's \"HELP!\"",
-					"  HEHEHE HA     | Clash Royal King's laugh",
+					"  HELP          | \"HELP!\" Tylera1",
+					"  HEHEHE HA     | Smiech krola z Clash Royale",
 					"  HEHE BOI      | \"Hehe boi...\"",
 					" ---------------+-----------------------------",
 					"Wiecej pomocy:",
-					"\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinienes robic podczas TM",
-					"\x87MMHELP GAME\x80 - O sytuacjach w grze"
+					"\x87MMHELP GAME\x80 - Wiecej o grze i sytuacjach",
+					"\x87MMHELP BAD\x80  - Rzeczy ktorych nie wolno robic w TM"
 				}
 			},["ROLE_GET"]={
 				"Jestes \x85Morderca\x80! \x85Zamorduj wszystkich.",
-				"Jestes \x84Szeryfem\x80! \x84Wyeliminuj wszystkich Morderc\x80. Jesli zabijesz Niewinnego, przegrywasz",
-				"Jestes \x83Niewinnym\x80! Schowaj sie i pomoz Szeryfowi znalezc Morderce."
+				"Jestes \x84Szeryfem\x80!\x84 Wyeliminuj wszystkich Mordercow\x80. Jesli zabijesz Niewinnego, przegrasz.",
+				"Jestes \x83Niewinny\x80! Kryj sie i pomoz Szeryfowi znalezc Morderce."
 			},["NEWROLE_GET"]={
 				"\x87Zycie zrobilo z ciebie \x85Morderce\x87, \x85teraz idz wszystkich zabic.",
-				"\x87Wszechswiat mianowal cie nowym \x84Szeryfem\x87! To teraz twoja robota aby\x84 wyeliminowac wszystkich Mordercow\x87!"
+				"\x87Swiat sprawil cie nowym \x84Szeryfem\x87! To teraz twoja robota\x84 wyeliminowac wszystkich Mordercow\x87!",
+				"\x87Wszyscy obroncy odeszli ale swiat sprawil cie nowym\x82 Bohaterem\x87! To twoja szansa uratowac dzien!"
 			},["TEAMMATE_HIT"]={
-				"Hej, ten ktos jest w twojej drużynie, nie próbuj go ponownie zabic",
-				"Ktos z twojej druzyny cie strzelil, nie badz zly na niego"
+				"Hey, ta osoba to twoj wspolnik, nie probuj go znowu zabijac",
+				"Twoj wspolnik cie zaatakowal, nie probuj sie mscic"
 			},["MURD_KILLED"]={
 				"\x85Morderca\x87",
 				"\x80zostal wyeliminowany!"
 			},["SHERI_KILLED"]={
 				"\x84Szeryf\x87",
-				"\x80zostal zamordowany! \x83Niewinni\x80 moga podniesc jego emerald i dokonczyc robote!",
+				"\x80zostal zamordowany! Niewinni moga podniesc jego\x84 Szmaragd\x80!",
 				"\x80zostal zamordowany!"
-			},["SHREML_PICK"]="Jakis niewinny podniosl \x84Szmaragd Szeryfa\x80...",
-			["INNO_HURT_PM"]="\x87Zamordowales \x83Niewinnego\x87! Juz nie jestes \x84Szeryfem\x87!",
-			["INNO_HURT"]="\x84Szeryf\x80 zamordowal Niewinnego! Ktos z innych \x83Niewinnych\x80 musi dokonczyc robote!",
-			["ONE_LEFT"]={
+			},["HERO_KILLED"]={
+				"\x83".."Bohater\x87",
+				"\x80zostal zamordowany!"
+			},["SHREML_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
+			["INNO_HURT_PM"]={
+				"\x87Zamordowales \x83Niewinnego\x87! Nie jestes juz \x84Szeryfem\x87!",
+				"\x87Jestes gorszy niz najgorszy \x85Morderca\x87! Jak mogles zabic tego cywila?!?!\x85 GIN ZA TO!!!"
+			},["INNO_HURT"]={
+				"\x84Szeryfie\x80 zamordowales niewinnego! Ktos z \x83Niewinnych\x80 musi dokonczyc robote!",
+				"\x83".."Bohater\x80 jest skurwielem, zabil spokojnego \x83Niewinnego\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
+			},["ONE_LEFT"]={
 				"Jeden z \x85Mordercow\x80 wyszedl!",
-				"Jeden z \x84Szeryfow\x80 wyszedl!"
-			},["LEFT_LEFT"]={
-				"Ostatni \x85Morderca\x80 wyszedl!",
-				"Ostatni \x84Szeryf\x80 wyszedl!",
-				"Ostatni \x83Niewinny\x80 wyszedl!"
+				"Jeden z \x84Szeryfow\x80 wyszedl!",
+				"Jeden z\x82 Bohaterow\x80 wyszedl!"
+			},["LAST_LEFT"]={
+				"Ostatni \x85Mordercow\x80 wyszedl!",
+				"Ostatni \x84Szeryfow\x80 wyszedl!",
+				"Ostatni \x83Niewinnych\x80 wyszedl!",
+				"Ostatni\x82 Bohaterow\x80 wyszedl!"
 			},["REPLACE_LEFT"]={
-				"\x85Morderca\x80 wyszedl! Ktos z \x83Niewinnych\x80 ma jego role!",
-				"\x84Szeryf\x80 wyszedl! Ktos z \x83Niewinnych\x80 ma jego role!"
-			},["ROLE_WIN"]={
-				"Wszyscy zostali zamordowani, \x85Mordercy\x80 wygrywaja!",
-				"Wszyscy mordercy wyeliminowani, \x84Szeryfi\x80 & wszyscy \x83Niewinni\x80 wygrywaja!",
-				"\x85Mordercy\x80 wygrywaja ponieważ \x84Szeryf\x80 zamordowal ostatniego Niewinnego!"
+				"\x85Morderca\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!",
+				"\x84Szeryf\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!",
+				"\x83".."Bohater\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!"
+			},["ENDROUND"]={
+				"Wszyscy zostali zamordowni, \x85Mordercy\x80 wygrywaja!",
+				"Wszyscy Mordercy zostali wyeliminowani,\x83 Cywile\x80 wygrywaja!",
+				"\x85Mordercy\x80 wygrywaja poniewaz \x84Szeryf\x80 zamordowal ostatniego Niewinnego!",
+				"\x83".."Bohater\x80 wybral do zabicia ostatniego Niewinnego. \x85Moredrcy\x80 Wygrywaja!",
+				"Wszyscy Szeryfi i Bohaterzy nie zyja, \x85Mordercy\x80 wygrywaja!"
 			},["CHAT"]={
-				"jest zywy, wiadomosc nie zostala wyslana",
+				"zyje, wiadomosc nie wyslana",
 				"Wysylasz za duzo wiadomosci, prosze poczekac",
-				"Nie mozesz poprostu zostac \x8FMartwym\x80!"
+				"Nie mozesz poprostu stac sie\x8F martwym\x80 do ogladania!"
 			},["ROLES_HUD"]={
-				"\x85MORDERCA",
-				"\x84SZERYF",
-				"\x83NIEWINNY",
-				"\x8FMARTWY"
-			},["TEAMALIVE_HUD"]="Zywi w druzynie:",
-			["KILLBY_HUD"]="Zabity przez",
-			["HUD_SCORESTAB"]={
-				"Tutaj nie ma punktow! Liczniki na dole\nmoga pomoc",
-				"\nJesli jestes nowy w tym trybie\nuzyj \x87MMHELP\x80 w Konsoli",
-				"\n\n\x82".."Baw sie dobrze ;)"
+				"MORDERCA",
+				"SZERYF",
+				"NIEWINNY",
+				"BOHATER",
+				"MARTWY"
+			},["TEAMALIVE_HUD"]="Wspolnicy zywi:",
+			["KILLBY_HUD"]="Zabity przez",["HUD_SCORESTAB"]={
+				"Tutaj nie ma wynikow! Liczniki na dole\nmoga pomoc",
+				"Jesli jestes nowy w tym trybie uzyj\n\x87MMHELP\x80 w Konsoli",
+				"\n\x82 Baw sie dobrze ;)"
 			},["HUD_ROLESALIVE"]={
-				"\x85Zywi Mordercy:",
-				"\x84Zywi Szeryfi:",
-				"\x83Zywi Niewinni:"
+				"Mordercy zywi:",
+				"Szeryfi zywi:",
+				"Niewinni zywi:"
 			},["HUD_DEAD"]={
 				"Jestes\x8F martwy",
-				"Nie mozesz powrocic do zycia",
-				"albo gadac do zywych"
+				"Nie mozesz sie odnawiac lub gadac do zywych"
 			},["HUD_MIDJOIN"]={
-				"Dolaczyles/as w \x84srodku rundy\x80, poczekaj na nastepna runde zeby grac"
+				"Dolaczyles \x84w srodku rundy\x80, poczekaj na nowa runde zeby zagrac"
 			},["HUD_ALONE"]={
-				"Potrzeba\x84 2 graczy\x80 do gry",
-				"Zaczekaj prosze na \x84jeszcze jednego\x80 gracza"
-			},["WINNERS_HUD"]="Wygrali:",
+				"\x84".."2 graczy\x80 jest wymaganych do gry,",
+				"prosze poczekac na \x84jednego\x80 gracza do startu"
+			},["WINNERS_HUD"]="Wygrani:",
 			["WIN_HUD"]={
 				"REMIS!",
 				"\x85MORDERCY",
-				"\x84SZERYFI\x80 & \x83NIEWINNI"
+				"\x83".."CYWILE"
 			},["MMLANG"]={
-				"\x82Polski\x80 ustanowiony jako twoj jezyk w Tajemnicy Morderstw\nMozesz zmienic go za pomocy \x87MMLANG [jezyk]",
-				"Personalny jezyk dla Tajemnicy Morderstw ustanowiony na \x82Polski"
+				"Twoj jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
+				"Personalny jezyk zostal ustawiony na\x82 Polski"
 			}
 		},["PT"]={ --Portugesse (Brazilian) by King Jonas
 			["VERSION"]="8.0-BETA",
@@ -780,7 +796,7 @@ rawset(_G, "MM", {
 				"\x85Wbywcia\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!",
 				"\x84Sheryf\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!",
 				"\x82Geroj\x80 pokynuw gru! Htos' z \x83Newynnych\x80 uziaw jogo rol'!"
-			},["ROLE_WIN"]={
+			},["ENDROUND"]={
 				"Wsi mertwi, \x85Wbywci\x80 wygraly!",
 				"Wsi Wbywci eliminowani,\x83 Cywil'ni\x80 wygraly!",
 				"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80 wbyw ostanniogo Newynnogo!",

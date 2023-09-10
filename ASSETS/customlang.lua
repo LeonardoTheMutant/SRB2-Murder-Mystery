@@ -77,7 +77,7 @@ local language={ --Language must be a table variable, you can name the variable 
 			"If one \x8Bteammate\x80 will hit anoter both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!",
 			"\nIf you're interested in further understanding you can read:",
 			"\x87MMHELP BAD\x80 - Things you shouldn't do in MM game",
-			"\x87MMHELP CAHT\x80 - What are Sound Emojis and how to use them"
+			"\x87MMHELP CHAT\x80 - What are Sound Emojis and how to use them"
 		},["BAD"]={ --MMHELP BAD
 			"\x87Things that are bad to do in Murder Mystery",
 			"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
@@ -166,7 +166,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	-- Innocent hurt series of messages (Global messages)
 	["INNO_HURT"]={
 		"\x84Sheriff\x80 murdered the Innocent! Someone other from \x83Innocents\x80 will have to finish his job!", --Sheriff killed Innocent
-		"\x82Hero\x80 is a bitch-ass motherfucker, he killed a peaceful \x83Innocent\x80. Now both are lying dead. Shame on hero" --Hero killed Innocent, what a monster! (I dramatized here)
+		"\x82Hero\x80 is dumbass, he killed a peaceful \x83Innocent\x80. Now both are lying dead. Shame on hero" --Hero killed Innocent, what a monster! (I dramatized here)
 	},
 	-- "One of the players with [role] left the game!"
 	["ONE_LEFT"]={
@@ -258,3 +258,6 @@ local language={ --Language must be a table variable, you can name the variable 
 -- Second argument is the Table Variable of the language itself
 MM.AddLang("MYLANG", language)
 --if everything is done correctly you will recieve no errors when loading this file and in the gameplay process
+--
+--In case this language is going to be posted on SRB2 Message Board please rename this file like:
+-- MML_[full_lang_name]_v[MM_version].lua

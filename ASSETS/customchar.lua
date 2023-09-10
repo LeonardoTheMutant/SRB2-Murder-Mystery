@@ -30,6 +30,9 @@ MM.AddCharStat("sonic", configtable)
 --If everyting loads correctly your character will be limited in his
 --abilities with MMCHARMODE Enabled
 --
+--In case this character config is going to be posted on SRB2 Message Board please rename this file like:
+-- MML_[full_char_name]_v[this_file_ver].lua
+--
 --If your character is incompatible with MMCHARMODE disabled please
 --don't play MM with it at all.
 --Thanks.

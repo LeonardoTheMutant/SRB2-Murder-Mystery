@@ -110,7 +110,7 @@ local function chatprintGlobal(msg, var)
 		elseif (msg=="REPLACE_LEFT")
 			if (var!=ROLE_HERO) chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][var]) --for Murd and Sheri
 			else chatprintf(p, mmtxt[p.mmlang]["REPLACE_LEFT"][3]) end --for Hero
-		elseif (msg=="WIN") chatprintf(p, mmtxt[p.mmlang]["ROLE_WIN"][var])
+		elseif (msg=="WIN") chatprintf(p, mmtxt[p.mmlang]["ENDROUND"][var])
 		elseif (msg=="INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
 		elseif msg
 			if (mmtxt[p.mmlang][msg]) chatprintf(p, mmtxt[p.mmlang][msg])
