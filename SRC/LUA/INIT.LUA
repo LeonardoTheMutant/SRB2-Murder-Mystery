@@ -4,7 +4,7 @@ if MM
 end
 rawset(_G, "MM", {
 	version="8.1-BETA", --string, VERSION NUMBER
-	devbuild="GITHUB-RC1", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
+	devbuild="GITHUB-RC2", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
 		["EN"]={ -- English

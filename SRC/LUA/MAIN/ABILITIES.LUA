@@ -66,6 +66,8 @@ addHook("PlayerThink", function(p)
 		p.actionspd=skins[s].actionspd
 		p.mindash=skins[s].mindash
 		p.maxdash=skins[s].maxdash
+		p.normalspeed=36*FU
+		return
 	elseif (gametype==GT_MURDERMYSTERY) and (MMCHARMODE.value) -- "Each character have limited abbilities" mode
 		--MM.CharStats
 		p.charability=MM.CharStats[s].ability or MM.CharStats["default"].ability
@@ -76,21 +78,21 @@ addHook("PlayerThink", function(p)
 		p.maxdash=MM.CharStats[s].maxdash or MM.CharStats["default"].maxdash
 		-- SA1 Tails flight by TeriosSonic
 		if (s=="tails") and (p.powers[pw_tailsfly]>70) p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
+		if (MMSPRINT.value)
+			if (p.cmd.buttons & BT_CUSTOM1) and (P_IsObjectOnGround(p.realmo)) p.normalspeed=40*FU
+			else p.normalspeed=25*FU end
+		end
 	elseif (gametype==GT_MURDERMYSTERY) and (not MMCHARMODE.value) --"Everyone are regular persons" mode
 		p.charability=0
 		p.charability2=0
 		p.charflags=0
 		p.mindash=5*FU
 		p.maxdash=40*FU
-	end
-	if (not P_IsObjectOnGround(p.realmo)) or (p.spectator) return
-	else
-		if gametype!=GT_MURDERMYSTERY
-			p.normalspeed=36*FU
-			return
+		if (MMSPRINT.value)
+			if (p.cmd.buttons & BT_CUSTOM1) and (P_IsObjectOnGround(p.realmo)) p.normalspeed=40*FU
+			else p.normalspeed=25*FU end
 		else
-			if (MMSPRINT.value) and (p.cmd.buttons & BT_CUSTOM1) p.normalspeed=40*FU --sprinting if its enabled by Admin
-			elseif (not MMCHARMODE.value) and (not MMSPRINT.value) and (p.cmd.buttons & BT_SPIN) --sneaking (when sprinting off)
+			if (p.cmd.buttons & BT_SPIN) and (P_IsObjectOnGround(p.realmo)) --sneaking (when sprinting off)
 				p.normalspeed=2*FU
 				p.sneak=true
 			else
