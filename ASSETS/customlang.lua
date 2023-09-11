@@ -211,6 +211,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	},
 	["TEAMALIVE_HUD"]="Teammates alive:", --Teammates alive counter shown on SCORES TAB
 	["KILLBY_HUD"]="Killed by", --Visible for DEAD players to see who killed them
+	["STUPID"]="your stupidity" -- :skull: (visible as "Killed by" for the Hero who killed an Innocent)
 	-- Scores TAB screen text, here you can place as many lines as you need, each string is interpreted as a row
 	["HUD_SCORESTAB"]={
 		"No scores here! Counters below may help",

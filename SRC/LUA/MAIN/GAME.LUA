@@ -120,6 +120,7 @@ local function chatprintGlobal(msg, var)
 end
 
 local function KillPlayer(p, k) --player, killer (both MOBJ_T)
+	if (not p) or (not p.player) error("KillPlayer() argument #1 expects player's mobj_t") end
 	local plr = p.player
 	p.momx=0
 	p.momy=0
@@ -129,7 +130,7 @@ local function KillPlayer(p, k) --player, killer (both MOBJ_T)
 	if (k) and (k.player)
 		plr.killedby=k.player.name
 		k.player.kills=$+1
-	else plr.killedby="Your stupidity" end
+	else plr.killedby="your stupidity" end
 	P_FlashPal(plr, PAL_NUKE, 4)
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)

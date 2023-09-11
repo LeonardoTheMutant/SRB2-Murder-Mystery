@@ -126,7 +126,7 @@ rawset(_G, "MM", {
 			-- Innocent hurt by Sheriff
 			["INNO_HURT_PM"]={
 				"\x87You murdered the \x83Innocent\x87! You are no longer a \x84Sheriff\x87!",
-				"\x87You are even worse than the worst \x85Murderer\x80! How could you kill the civilan?!?!\x85 DIE FOR THAT!!!"
+				"\x87You are even worse than the worst \x85Murderer\x87! How could you kill the civilan?!?!\x85 DIE FOR THAT!!!"
 			},
 			["INNO_HURT"]={
 				"\x84Sheriff\x80 murdered the Innocent! Someone other from \x83Innocents\x80 will have to finish his job!",
@@ -176,6 +176,7 @@ rawset(_G, "MM", {
 			},
 			["TEAMALIVE_HUD"]="Teammates alive:",
 			["KILLBY_HUD"]="Killed by",
+			["STUPID"]="your stupidity",
 			-- Scores TAB screen
 			["HUD_SCORESTAB"]={
 				"No scores here! Counters below may help",
@@ -460,7 +461,7 @@ rawset(_G, "MM", {
 				"\x80zostal zamordowany! Niewinni moga podniesc jego\x84 Szmaragd\x80!",
 				"\x80zostal zamordowany!"
 			},["HERO_KILLED"]={
-				"\x83".."Bohater\x87",
+				"\x82".."Bohater\x87",
 				"\x80zostal zamordowany!"
 			},["SHREML_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
 			["INNO_HURT_PM"]={
@@ -468,7 +469,7 @@ rawset(_G, "MM", {
 				"\x87Jestes gorszy niz najgorszy \x85Morderca\x87! Jak mogles zabic tego cywila?!?!\x85 GIN ZA TO!!!"
 			},["INNO_HURT"]={
 				"\x84Szeryfie\x80 zamordowales niewinnego! Ktos z \x83Niewinnych\x80 musi dokonczyc robote!",
-				"\x83".."Bohater\x80 jest skurwielem, zabil spokojnego \x83Niewinnego\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
+				"\x82".."Bohater\x80 jest skurwielem, zabil spokojnego \x83Niewinnego\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
 			},["ONE_LEFT"]={
 				"Jeden z \x85Mordercow\x80 wyszedl!",
 				"Jeden z \x84Szeryfow\x80 wyszedl!",
@@ -481,12 +482,12 @@ rawset(_G, "MM", {
 			},["REPLACE_LEFT"]={
 				"\x85Morderca\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!",
 				"\x84Szeryf\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!",
-				"\x83".."Bohater\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!"
+				"\x82".."Bohater\x80 wyszedl! Jeden z \x83Niewinnych\x80 zdobyl jego role!"
 			},["ENDROUND"]={
 				"Wszyscy zostali zamordowni, \x85Mordercy\x80 wygrywaja!",
 				"Wszyscy Mordercy zostali wyeliminowani,\x83 Cywile\x80 wygrywaja!",
 				"\x85Mordercy\x80 wygrywaja poniewaz \x84Szeryf\x80 zamordowal ostatniego Niewinnego!",
-				"\x83".."Bohater\x80 wybral do zabicia ostatniego Niewinnego. \x85Moredrcy\x80 Wygrywaja!",
+				"\x82".."Bohater\x80 wybral do zabicia ostatniego Niewinnego. \x85Moredrcy\x80 Wygrywaja!",
 				"Wszyscy Szeryfi i Bohaterzy nie zyja, \x85Mordercy\x80 wygrywaja!"
 			},["CHAT"]={
 				"zyje, wiadomosc nie wyslana",
@@ -499,10 +500,12 @@ rawset(_G, "MM", {
 				"BOHATER",
 				"MARTWY"
 			},["TEAMALIVE_HUD"]="Wspolnicy zywi:",
-			["KILLBY_HUD"]="Zabity przez",["HUD_SCORESTAB"]={
+			["KILLBY_HUD"]="Zabity przez",
+			["STUPID"]="twoj idiotyzm",
+			["HUD_SCORESTAB"]={
 				"Tutaj nie ma wynikow! Liczniki na dole\nmoga pomoc",
 				"Jesli jestes nowy w tym trybie uzyj\n\x87MMHELP\x80 w Konsoli",
-				"\n\x82 Baw sie dobrze ;)"
+				"\x82\nBaw sie dobrze ;)"
 			},["HUD_ROLESALIVE"]={
 				"Mordercy zywi:",
 				"Szeryfi zywi:",
@@ -814,6 +817,7 @@ rawset(_G, "MM", {
 				"MERTWYJ"
 			},["TEAMALIVE_HUD"]="Naparnykiw w zhywych:",
 			["KILLBY_HUD"]="Wbytyj",
+			["STUPID"]="twoim idiotyzmem",
 			["HUD_SCORESTAB"]={
 				"Ochok tut nema! Natomist' je lichyl'nyky\nunyzu",
 				"\nJaksho ty nowachok w ciomu igrowomu\nrezhymi wykorystaj \x87MMHELP\x80 w konsoli",
