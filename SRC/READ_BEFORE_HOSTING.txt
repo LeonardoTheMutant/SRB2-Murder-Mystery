@@ -36,7 +36,8 @@ VARIABLES
 		Second mode is "Vanilla Abbilities in limited form". As the name applies all vanilla characters recieve their abbilities back but they are
 		limited or cut versions of the original.
 	MMAFK - used as an AFK timeout value. Measured in minutes. Default value is 2 minutes. If set to 0 AFK timeout is disabled.
-	MMSPAM - Used for chat spam protection. How much time player has to wait before his next message sending. Measured in ticks (default 35)
+	MMSPAM - Used for chat spam protection. How much time player has to wait before sending his next message. Measured in seconds (default 1)
+	MMSEMJ - Enable/Disable Sound Emojis (default "On")
 	ACB_TOGGLE - Turn "ShutUp Chatbug!" script to fork. Default is OFF.
 	ACB_UPDATERATE - How constantly player will update their status, measured in ticks. Default is 35 ticks.
 	ACB_RESETRATE - How constantly server will check the statuses. When check fails problematic player will be kicked. Default is 70 ticks.
