@@ -89,7 +89,10 @@ addHook("HurtMsg", do --disable Ringslier hurt messages
 end)
 addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	if (gametype==GT_MURDERMYSTERY)
-		if (not p.spectator) chatprintf(p, mmtxt[p.mmlang]["CHAT"][3]) end
+		if (not p.spectator)
+			local lang = p.mmlang or "EN"
+			chatprintf(p, mmtxt[lang]["CHAT"][3])
+		end
 		return false
 	else return true end
 end)
@@ -155,7 +158,7 @@ local function endRound(w, endtext, reason)
 	chatprintGlobal(endtext, reason)
 	for p in players.iterate p.spectator=false end
 	if isdedicatedserver --console log for dedicated host
-		if (endtext=="WIN") CONS_Printf(server, "- "..mmtxt["EN"]["ROLE_WIN"][reason])
+		if (endtext=="WIN") CONS_Printf(server, "- "..mmtxt["EN"]["ENDROUND"][reason])
 		else CONS_Printf(server, "- "..mmtxt["EN"][endtext][reason]) end
 	end
 end
