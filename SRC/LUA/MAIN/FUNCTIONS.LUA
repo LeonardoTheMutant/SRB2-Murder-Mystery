@@ -4,6 +4,7 @@
 -- Function declarations
 
 local mmtxt=MM.text
+local dthsfx={sfx__mmdth, sfx_mmdth2, sfx_emj08} --SFXs that are used as Death Sounds
 
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round

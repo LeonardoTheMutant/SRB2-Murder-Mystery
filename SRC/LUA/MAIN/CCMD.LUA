@@ -20,7 +20,8 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "by \x82\"SRB2 MM_DEV team\"")
 		CONS_Printf(p, "(Full credits are in README.TXT inside this .PK3)")
 		CONS_Printf(p, "\nChanges from\x81 8.1-beta\x80:")
-		CONS_Printf(p, " [version in development]")
+		CONS_Printf(p, " - Uptated Spanish language;")
+		CONS_Printf(p, " - Better Role Randomizer at the beginning of each round;")
 		CONS_Printf(p, "\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84".."Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		if (MM.text[l]["MMHELP"][page]) for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end

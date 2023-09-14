@@ -8,9 +8,6 @@
 
 -- Constants
 
-
-local dthsfx={sfx__mmdth, sfx_mmdth2, sfx_emj08} --SFXs that are used as Death Sounds
-
 local mmtxt=MM.text
 local afkCVAR=CV_FindVar("mmafk")
 

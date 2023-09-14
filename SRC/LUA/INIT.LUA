@@ -3,7 +3,7 @@ if MM or MurderMystery
 	return
 end
 rawset(_G, "MM", {
-	version="8.2-BETA", --string, VERSION NUMBER
+	version="8.1-BETA", --string, VERSION NUMBER
 	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
@@ -215,151 +215,173 @@ rawset(_G, "MM", {
 				"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]",
 				"Personal language for Murder Mystery is set to\x82 English"
 			}
-		},["ES"]={ -- Spanish by SlainLBS & Jesus.B
-			["VERSION"]="8.0-BETA",
-			["AUTHOR"]="SlainLBS, Jesus.B",
-			["MM"]="Misterio De Asesinato",
+		},["ES"]={ --Spanish by SlainLBS & Jesus.B
+			["VERSION"]="8.1-BETA",
+			["AUTHOR"]="Jesus.B",
+			["MM"]="Murder Mystery",
 			["MMHELP"]={
 				["MAIN"]={
-					"\x87	Bienvenido A Misterio De Asesinato!\nLa Interpretacion De SRB2 Sobre Juego Famoso",
-					"\nEl Objectivo Es Encontrar Y\x84 Eliminar\x80 A Todos Los\x85 Asesinos\x80 Antes De Que Maten\x83 A Todos\x80. Este tipo de juego esta basado en MATCH asi que necesitaras habilidad para disparar.",
-					"Pero tendras que saber lo basico primero:",
-					"\nConseguiras un \x8BRol\x80 al inicio de cada nueva ronda, aqui estan todos los 3 posibles \x8BRoles\x80 que puedes conseguir:",
-					" *\x85 Asesino\x80 - tiene que matar a todos, pero esta limitado a solo disparar Anillos Rojos (Normales) y Infinitos;",
-					" *\x84 Comisario\x80  - su tarea es encontrar y eliminar al\x85 Asesino\x80, puede usar todos los Anillos De Armas disponibles;",
-					" * \x83Inocente\x80 - completamente desarmado, debe evitar ser asesinado pero tambien debe ayudar\x84 al Comisario\x80 a encontrar\x85 al Asesino\x80.",
-					"\nEsa es toda la informacion basica requerida para empezar a jugar, si todavia te perdiste de algo o quieres saber mas usa estos comandos de consola:",
-					"\x87MMHELP GAME\x80 - Mas sobre el juego y situaciones en partida;",
-					"\x87MMHELP BAD\x80  - Cosas malas de hacer y como el juego castiga por ellas;",
-					"\x87MMHELP CHAT\x80 - List of sound emojis you can use in chat;",
-					"\x87MMHELP INFO\x80 - Informacion tecnica sobre la version y Que hay de nuevo.",
-					"\nTal vez quieras usar \x87MMLANG\x80 tambien para cambiar el idioma dentro de MM"
-				},
-				["GAME"]={
-					"\x87".."Sobre situaciones de gameplay",
-					"Como se explico previamente en lo basico el objetivo es eliminar al Asesino, pero durante la partida situaciones diferentes pueden ocurrir:",
-					"\n* Si alguien te derriba con su aniillo en conviertes en\x8F Muerto\x80.",
-					"Los jugadores\x8F".."Muertos\x80 no son capaces de reaparecer y hablarle a jugadores que esten vivos, sus mensajes solo seran visibles a otros jugadores\x8F muertos\x80.",
-					"Haciendo \x87SAYTO\x80 en la consola o PMear el jugador vivo mientras estas muerto es imposible.",
+					"\x87        Bienvenido Al Misterio De Asesinato!\nLa interpretacion en SRB2 del juego multijugador popular",
+					"\nEl objetivo del juego es encontrar y eliminar a todos los\x85 Asesinos\x80 antes de que maten a\x83 todos los demas\x80. Este modo de juego es algo como MATCH asi que nesecitaras tus habilidades de apuntar y disparar para este juego.",
+					"Nesecitaras lo basico primero para empezar a jugar....",
+					"\nAl inicio de cada ronda recibiras un \x8BRol\x80 que define lo que haras en la partida. Aqui estan todos los 3 \x8BRoles\x80 posibles que puedas conseguir:",
+					" *\x85 Asesino\x80 - el verdadero criminal. Tiene que matar a todos, pero esta limitado a solo disparar Anillos Rojos (Normales) y Infinitos;",
+					" *\x84 Comisario\x80  - su tarea es encontrar y eliminar al/a los\x85 Asesino(s)\x80. Los comisarios pueden usar cada Arma De Anillo disponible en el mapa;",
+					" *\x83 Inocente\x80 - civil completamente desarmado, debe evitar ser asesinado pero tambien puede ayudar a encontrar al\x85 Asesino\x80.",
+					"\nEsa es toda la informacion basica requerida para empezar a jugar, si te perdiste de algo o quieres saber mas usa estos comandos en la consola:",
+					"\x87MMHELP GAME\x80 - Mas sobre el juego y situaciones de gameplay;",
+					"\x87MMHELP BAD\x80  - Lista de cosas prohibidas de hacer en MA;",
+					"\x87MMHELP CHAT\x80 - Lista de emojis de sonido que puedes usar en el chat;",
+					"\x87MMHELP INFO\x80 - Informacion tecnica y \"Que hay de nuevo\".",
+					"\nTambien puedes usar \x87MMLANG\x80 para cambiar el idioma dentro de MA"
+				},["GAME"]={
+					"\x87Sobre las situaciones de gameplay",
+					"Como se explico anteriormente en lo basico el objetivo es eliminar al/a los\x85 Asesino(s)\x80, pero diferentes situaciones de gameplay pueden ocurrir:",
+					"\n* Si alguien te mato con su anillo te conviertes en\x8F Muerto\x80. Los jugadores en este estado no pueden reaparecer y hablarles globalmente a los jugadores que sigan vivos, sus mensajes solo seran visibles para otros jugadores\x8F muertos\x80.",
+					"Tampoco puedes usar \x87SAYTO\x80 o mandarle un MP a alguien vivo estando\x8F MUERTO\x80.",
 					"Tambien\x82 NO INTENTES RENOMBRARTE\x80, mas detalles sobre esto en \x87MMHELP BAD\x80.",
-					"\n* La tarea del\x84 Comisario\x80 es eliminar a todos los\x85 Asesinos\x80, pero aveces\x84 el\x80 puede matar al \x83Inocente\x80.",
-					"Si esto pasa el\x84 Comisario\x80 perdera su rol y otro \x83Inocente\x80 lo tomara. Asi que piensa cuidadosamente a quien le disparas como Comisario!",
-					"\n* Usualmente hay un\x85 Asesino\x80 y un\x84 Comisario\x80 entre los jugadores, pero esos numeros pueden cambiar si hay mas jugadores en linea.\nEmpezando con 7 jugadores y mas\x8B Equipos\x80 de\x85 Asesinos\x80 y\x84 Comisarios\x80 seran formados.",
-					"Los\x8B Aliados\x80 pueden chatear entre si en su chat de equipo con el comando de consola \x87SAYTEAM\x80 (nota que el boton de SAYTEAM funcionara igual que el chat regular).",
-					"Si un\x8B aliado\x80 golpea a otro ambos tendran una notificacion sobre no volverse a golpear entre si. Recuerda que otros pueden ver tu pelea de \'amistad\' y darse cuenta de quien eres!",
+					"\n* la tarea del\x84 Comisario\x80 es eliminar a todos los\x85 Asesinos\x80 por ahi, pero aveces el Comisario puede matar al\x83 Inocente\x80 por accidente.",
+					"Si esto pasa el\x84 Comisario\x80 se convertira en un civil y algun\x83 Inocente\x80 aleatorio tomara su rol silenciosamente. La proxima vez que quieras dispararle a alguien como\x84 Comisario\x80 piensa bien a quien mataras!",
+					"\n* Cuando un\x84 Asesino\x80 mata a un\x84 Comisario\x80 y todavia hay\x83 Inocentes\x80 vivos el Comisario dejara caer la\x84 Esmeralda Del Comisario\x80 cerca de su cadaver.",
+					"Distinta a las Emeraldas Del Caos esta esmeralda le dara el rol de\x82 Heroe\x80 al\x83 Inocente\x80 que la tome primero. Si eres uno de los\x83 Inocentes\x80 es tu oportunidad de ser un Heroe y salvar a todos del/de los\x85 Asesino(s)\x80!",
+					"el rol de\x82 Heroe\x80 no es realmente diferente del de\x84 Comisario\x80 excepto algunos detalles como cuando el\x82 Heroe\x80 mata a un\x83 Inocente\x80 su rol no es compartido y ambos mueren. el Heroe tampoco dejara caer la\x84 Esmeralda Del Comisario\x80 al morir.",
+					"\n* Dependiendo de la cantidad de jugadores en linea puede haber mas de un\x85 Asesino\x80 y\x84 Comisario\x80 entre los jugadores en la ronda. Por ejemplo empezando con 7 jugadores y mas\x8B Equipos\x80 de\x85 Asesinos\x80 y\x84 Comisarios\x80 seran formados.",
+					"los\x8B Aliados\x80 pueden hablar entre si en su chat de equipo con el comando de consola \x87SAYTEAM\x80 (nota que el boton de chat SAYTEAM funcionara igual que el chat normal).",
+					"Si los\x8B aliados\x80 se golpean entre si conseguiran una advertencia personalizada que se los recordadara. recuerda que otros pueden ver tu interaccion 'amistosa' y darte quenta de quien eres!",
 					"\nSi estas interesado en entender mas puedes leer:",
-					"\x87MMHELP BAD\x80 - Cosas que no deberias hacer en el juego MM"
+					"\x87MMHELP BAD\x80 - Cosas que no deberias hacer en el juego MA",
+					"\x87MMHELP CAHT\x80 - Que son emojis de sonido y como usarlos"
 				},["BAD"]={
-					"\x87".."Cosas malas de hacer en MM",
-					"Regla No.1 en cada juego:\x82 Se amable y diviertete!\x80 Aparte de esto...",
-					"* Advertir sobre el \x8BRol\x80 no hara el juego un\'Misterio\', puedes decir el rol de alguien mas si lo sabes pero nunca digas el tuyo",
-					"* No insultar a otros jugadores, se permiten bromas pero solo en modo amistoso",
-					"* Estando AFK es un crimen de guerra. Si estaras inactivo por 2 minutos el juego te sacara (solo si estas vivo)",
-					"* No te renombres bajo ninguna circunstancia en MM - el juego es escricto sobre esto y tu SRB2 se \x85 auto-cerrara\x80 si intentas hacer esto. Si nesecitas renombrarte espera a la pantalla de Intermision para hacerlo.",
-					"Romper una de estas reglas puede resultar en una expulsion o incluso un baneo, porfavor no las rompas y juega justamente",
-					"\nMas paginas de ayuda que talvez quieras leer en tu consola:",
-					"\x87MMHELP GAME\x80 - Sobre situaciones de gameplay"
+					"\x87 Cosas malas para Misterio de Asesinato",
+					"Regla No.1 de cualquier juego:\x82 Se amable y diviertete!\x80 Aparte de eso...",
+					"* Decir el\x8B Rol\x80 no hara el juego un \'Misterio\', puedes contar el rol de alguien mas si definitivamente sabes quien es pero nunca digas el tuyo.",
+					"* No insultar otros jugadores, se permiten las bromas pero solo en una actitud amigable. Nadie te creera si tu acusas cualquier jugador sin razon.",
+					"* Estar AFK es un crimen de guerra. Si estas inactivo por mucho tiempo el juego te expulsara (solo si estas vivo).",
+					"* No te renombres EN PLENA PARTIDA - El juego es estricto sobre esto y tu SRB2 se\x85 auto-cerrara\x80 si intentas hacer esto. Si nececitas renombrarte espera a la pantalla de intermision para hacerlo.",
+					"Romper alguna de estas reglas puede resultar en una expulsion o en algunos casos un ban por el Admin, porfavor no las rompas y juega justamente.",
+					"\nMas paginas de ayuda que quieras leer en tu consola:",
+					"\x87MMHELP GAME\x80 - Sobre situaciones de gameplay",
+					"\x87MMHELP CHAT\x80 - Lista de Emojis De Sonido y su uso"
 				},["CHAT"]={
-					"\x87".."Como usar emojis de sonido\x80",
-					"Cuando un jugador envia un mensaje y contiene algunas palabras/frases especiales un emoji de sonido especifico se reproducira con el mensaje.",
-					"Basicamente cuando escribes \"bruh\" en un mensaje un sonido de BRUH se reproducira cuando lo envies",
-					"Aqui esta la lista de emojis de sonido y como activar cada uno de ellos:\n",
-					"  \x88Keyword\x80       | \x89Sound",
+					"\x87 Como usar Emojis De Sonido\x80",
+					"Cuando un jugador envia un mensaje y contiene algunas palabras o frases especiales un Emoji De Sonido especifico se reproducira con el mensaje.",
+					"Basicamente cuando envias el mensaje \"bruh\" todos escucharan el sonido de BRUH",
+					"Aqui esta la lista completa de emojis de sonido y como activar cada uno de ellos:\n",
+					"  \x88 Palabra\x80       | \x89 Sonido",
 					" ---------------+-----------------------------",
 					"  :skull:       | \"Bad to the Bones\"",
 					"  :fart:        | Sonido de pedo",
-					"  :omg:         | \"OOHhhh myyy Goooddddd...\"",
-					"  :wow:         | \"WOW!\" como anime",
-					"  hehe          | risita del DOOMGUY",
-					"  \\:|           | Vine boom (Ceja de la roca)",
+					"  :omg:         | \"OOHhhh por Diossssssss...\"",
+					"  :wow:         | \"WOW! como anime\"",
+					"  hehe          | risita de DOOMGUY",
+					"  \\:|          | Vine boom (Ceja de la roca)",
 					"  bruh          | bruh",
 					"  /:|           | Vine boom (Ceja de la roca)",
-					"  AMONGUS       | \"AMONG US\"",
-					"  AMONG US      | \"AMONG US\"",
-					"  on no         | Knuckles' 'OH NO'",
-					"  AGHH          | Eggman's \'AGHHHH!\'",
-					"  AHH           | Eggman's \'AGHHHH!\'",
-					"  AHA           | Eggman's \'AHA!\'",
-					"  NO WAY        | Eggman's \'NO WAY!\'",
+					"  AMONGUS       | \"*AMONG US*\"",
+					"  AMONG US      | \"*AMONG US*\"",
+					"  sus           | SUS",
+					"  oh no         | \'OH NO\' de Knuckles",
+					"  AGHH          | \'AGHHHH!\' de Eggman",
+					"  AHH           | \'AGHHHH!\' de Eggman",
+					"  AHA           | \'AHA!\' de Eggman",
+					"  NO WAY        | \'NO PUEDE SER!\' de Eggman",
 					"  NOPE          | Nope.",
-					"  GET OVER HERE | \"GET OVER HERE!\"",
+					"  GET OVER HERE | \"VEN AQUI!\"",
 					"  NOO           | \"NOOOOOOoooooo...\"",
-					"  HELP          | Tyler1's \"HELP!\"",
-					"  HEHEHE HA     | Clash Royal King's laugh",
+					"  HELP          | \"AYUDA! de Tyler1\"",
+					"  HEHEHE HA     | La risa del rey de Clash Royale",
 					"  HEHE BOI      | \"Hehe boi...\"",
 					" ---------------+-----------------------------",
-					"\nMas paginas de ayuda que talvez quieras leer en tu consola:",
-					"\x87MMHELP GAME\x80 - Sobre situaciones de gameplay"
+					"Mas ayuda:",
+					"\x87MMHELP GAME\x80 - Mas sobre el juego y situaciones de gameplay",
+					"\x87MMHELP BAD\x80  - Cosas prohibidas en MA"
 				}
-			},["ROLE_GET"]={
-				"Eres el\x85 Asesino\x80!\x85 Acaba con todos.",
-				"Eres el\x84 Comisario\x80!\x84 Elimina al Asesino.\x80 Si matas al Inocente, pierdes.",
-				"Eres un \x83Inocente\x80! Escondete y ayuda al Comisario a encontrar el Asesino. "
+			},
+			
+			["ROLE_GET"]={
+				"Eres el\x85 Asesino\x80! \x85Mata a todos.",
+				"Eres el\x84 Comisario\x80!\x84 Elimina a todos los Asesinos\x80. Si matas un Inocente, pierdes.",
+				"Eres un\x83 Inocente\x80! Escondete y ayuda al comisario a encontrar al asesino."
 			},["NEWROLE_GET"]={
-				"\x87La Vida te hizo un\x85 Asesino\x87,\x85 ahora ve a matar a todos.",
-				"\x87".."El Universo the ha hecho el nuevo\x84 Comisario\x87! Ahora tu trabajo es\x84 eliminar a todos los asesinos\x87!"
+				"\x87La vida te hizo un\x85 Asesino\x87,\x85 Ahora ve a matar a todos.",
+				"\x87".."El Universo te hizo el nuevo\x84 Comisario\x87! Ahora tu trabajo es\x84 eliminar a todos los Asesinos\x87!",
+				"\x87Todos los defensores se fueron pero el Universo te selecciono como un nuevo\x82 Heroe\x87! Es tu oportunidad de salvar el dia!"
 			},["TEAMMATE_HIT"]={
-				"Oye, este tipo es tu aliado, no vuelvas a intentar matarlo",
-				"Tu aliado te golpeo, no te enojes con el"
+				"Hey, este chico es tu aliado, no vuelvas a intentar matarlo",
+				"Tu aliado te golpeo, no intentes vengarte de el"
 			},["MURD_KILLED"]={
-				"\x85".."El Asesino\x87",
-				"\x80".."fue eliminado!"
+				"El\x85 Asesino\x87",
+				"\x80ha sido eliminado!"
 			},["SHERI_KILLED"]={
-				"\x84".."El Comisario\x87",
-				"\x80".."fue asesinado! los \x83Inocentes\x80 pueden tomar su esmeralda para terminar el trabajo!",
-				"\x80".."fue asesinado!"
-			},["SHREML_PICK"]="Algun inocente tomo la\x84 Esmeralda Del Comisario\x80...",
-			["INNO_HURT_PM"]="\x87Mataste al \x83Inocente\x87! Ya no eres un\x84 Comisario\x87!",
-			["INNO_HURT"]="El\x84 Comisario\x80 mato al Inocente! Alguien mas de los \x83Inocentes\x80 tendra que terminar su trabajo!",
-			["ONE_LEFT"]={
+				"El\x84 Comisario\x87",
+				"\x80ha sido asesinado! Los Inocentes pueden tomar su\x84 Esmeralda\x80!",
+				"\x80ha sido asesinado!"
+			},["HERO_KILLED"]={
+				"El\x82 Heroe\x87",
+				"\x80ha sido asesinado!"
+			},["SHREML_PICK"]="Alguien tomo la\x84 Esmeralda Del Comisario\x80...",
+			["INNO_HURT_PM"]={
+				"\x87Mataste al\x83 Inocente\x87! Ya no eres un\x84 Comisario\x87!",
+				"\x87".."Eres incluso peor que el mismisimo\x85 Asesino\x80! Como pudiste matar al civil?!?!\x85 MUERE POR ESO!!!"
+			},["INNO_HURT"]={
+				"El\x84 Comisario\x80 mato al Inocente! Algun otro\x83 Inocente\x80 tendra que terminar su trabajo!",
+				"El\x82 Heroe\x80 es un hijo de puta, mato a un\x83 Inocente\x80 pacifico. Ahora ambos estan muertos. Que verguenza"
+			},["ONE_LEFT"]={
 				"Uno de los\x85 Asesinos\x80 se fue!",
 				"Uno de los\x84 Comisarios\x80 se fue!",
+				"Uno de los\x82 Heroes\x80 se fue!"
 			},["LAST_LEFT"]={
-				"Queda el ultimo\x85 Asesino!",
-				"Queda el ultimo\x84 Comisario!",
-				"Queda el ultimo\x83 Innocente!"
+				"El ultimo\x85 Asesino\x80 se fue!",
+				"El ultimo\x84 Comisario\x80 se fue!",
+				"El ultimo\x83 Inocente\x80 se fue!",
+				"El ultimo\x82 Heroe\x80 se fue!"
 			},["REPLACE_LEFT"]={
-				"El\x85 Asesino\x80 se fue! Alguien de los \x83Inocentes\x80 tomo su rol!",
-				"El\x84 Comisario\x80 se fue! Alguien de los \x83Inocentes\x80 tomo su rol!",
-			},["ROLE_WIN"]={
-				"Todos estan asesinados, los\x85 Asesinos\x80 ganan!",
-				"Todos los asesinos han sido eliminados, Los\x84 Comisarios\x80 y todos los \x83Inocentes\x80 ganan!",
+				"El\x85 Asesino\x80 se fue! Algun\x83 Inocente\x80 tomo su rol!",
+				"El\x84 Comisario\x80 se fue! Algun\x83 Inocente\x80 tomo su rol!",
+				"El\x82 Heroe\x80 se fue! Algun\x83 Inocente\x80 tomo su rol!"
+			},["ENDROUND"]={
+				"Todos fueron asesinados, Los\x85 Asesinos\x80 ganan!",
+				"Todos los asesinos fueron eliminados, Los\x83 Civiles\x80 ganan!",
 				"Los\x85 Asesinos\x80 ganan porque el\x84 Comisario\x80 mato al ultimo Inocente!",
+				"El\x82 Heroe\x80 eligio matar al ultimo Inocente. Los\x85 Asesinos\x80 Ganan!",
+				"Todos los Comisarios Y Heroes estan muertos, Los\x85 Asesinos\x80 ganan!"
 			},["CHAT"]={
-				"esta vivo, el mensaje no ha sido enviado",
-				"Estas enviando demasiados mensajes, porfavor espera",
-				"No puedes solo convertirte en\x8F muerto\x80 para espectar!",
+				"esta vivo, el mensaje no fue enviado",
+				"Estas enviando muchos mensajes, porfavor espera",
+				"No puedes solo convertirte en\x8F muerto\x80 para espectar!"
 			},["ROLES_HUD"]={
-				"\x85".."ASESINO",
-				"\x84".."COMISARIO",
-				"\x83INOCENTE",
-				"\x8FMUERTO"
+				"ASESINO",
+				"COMISARIO",
+				"INOCENTE",
+				"HEROE",
+				"MUERTO"
 			},["TEAMALIVE_HUD"]="Aliados vivos:",
 			["KILLBY_HUD"]="Asesinado por",
 			["HUD_SCORESTAB"]={
-				"No hay puntaje aqui! Los contadores\ndebajo pueden ayudarte",
-				"\nSi eres nuevo al tipo de juego\nusa \x87MMHELP\x80 en la Consola",
-				"\n\n\x82".."Diviertete ;)"
+				"No hay puntaje aqui! Los contadores de\nabajo pueden ayudar.",
+				"\nSi eres nuevo al modo de juego usa\n\x87MMHELP\x80 en la Consola",
+				"\n\n\x82\nDiviertete ;)"
 			},["HUD_ROLESALIVE"]={
-				"\x85".."Asesinos vivos:",
-				"\x84".."Comisarios vivos:",
-				"\x83Inocentes vivos:"
+				"Asesinos vivos:",
+				"Comisarios vivos:",
+				"Inocentes vivos:"
 			},["HUD_DEAD"]={
 				"Estas\x8F muerto",
 				"No puedes reaparecer o hablarle a los vivos"
 			},["HUD_MIDJOIN"]={
-				"Te uniste en \x84la mitad de la partida\x80, espera para jugar una nueva ronda"
+				"Te uniste en\x84 plena ronda\x80, porfavor espera a que inicie la nueva ronda"
 			},["HUD_ALONE"]={
-				"\x84".."2 jugadores\x80 son requeridos para el juego,",
-				"porfavor espera \x84un jugador mas\x80 para empezar"
+				"\x84".."2 jugadores\x80 son requeridos para la partida,",
+				"porfavor espera\x84 un jugador mas\x80 para empezar"
 			},["WINNERS_HUD"]="Ganadores:",
 			["WIN_HUD"]={
 				"EMPATE!",
 				"\x85".."ASESINOS",
-				"\x84".."COMISARIOS\x80 & \x83INOCENTES"
-			},["MMLANG"]={
-				"Tu idioma actual en uso es el\x82 Espanol\x80\nLo puedes cambiar con \x87MMLANG [idioma]",
-				"El Idioma personal para Misterio De Asesinato ha sido cambiado a\x82 Espanol"
+				"\x83".."CIVILES"
+			},
+			["MMLANG"]={
+				"Tu idioma actual en uso es\x82 Espanol\x80\nPuedes cambiarlo con \x87MMLANG [idioma]",
+				"El idioma personal para Misterio De Asesinato fue cambiado a\x82 Espanol"
 			}
 		},["PL"]={ -- Polish by sopix
 			["VERSION"]="8.1-BETA",
@@ -381,7 +403,7 @@ rawset(_G, "MM", {
 					"\x87MMHELP INFO\x80 - Techniczne informacje i \"Co nowego\".",
 					"\nMozesz tez uzyc \x87MMLANG\x80 zeby zmienic jezyk TM"
 				},["GAME"]={
-					"\x87".."O sytuacjach w grze",
+					"\x87O sytuacjach w grze",
 					"Jak wyjasniono wczesniej, celem jest wyeliminowanie wszystkich \x85Mordercow\x80, ale rozne sytuacje moga zastac:",
 					"\n* Jesli ktos cie zastrzeli to staniesz sie\x8F Martwy\x80. Gracze w tym stanie nie moga sie odnowic ani gadac na globalnym czacie, twoje wiadomosci sa tylko widoczne dla innych\x8F martwych\x80 graczy.",
 					"Nie mozesz uzyc \x87SAYTO\x80 lub PW do osoby ktora jest zywa jako\x8F MARTWY\x80.",
@@ -504,8 +526,8 @@ rawset(_G, "MM", {
 			["STUPID"]="twoj idiotyzm",
 			["HUD_SCORESTAB"]={
 				"Tutaj nie ma wynikow! Liczniki na dole\nmoga pomoc",
-				"Jesli jestes nowy w tym trybie uzyj\n\x87MMHELP\x80 w Konsoli",
-				"\x82\nBaw sie dobrze ;)"
+				"\nJesli jestes nowy w tym trybie uzyj\n\x87MMHELP\x80 w Konsoli",
+				"\n\n\x82\nBaw sie dobrze ;)"
 			},["HUD_ROLESALIVE"]={
 				"Mordercy zywi:",
 				"Szeryfi zywi:",
