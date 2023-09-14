@@ -1,9 +1,9 @@
-if MM
-	error("Murder Mystery v"..MM.version.." is already loaded, only one version of MM can be present")
+if MM or MurderMystery
+	error("Murder Mystery v"..MM.version or MurderMystery.version.." is already loaded, only one version of MM can be present")
 	return
 end
 rawset(_G, "MM", {
-	version="8.1-BETA", --string, VERSION NUMBER
+	version="8.2-BETA", --string, VERSION NUMBER
 	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
@@ -869,6 +869,8 @@ rawset(_G, "MM", {
 	winner=0, --for intermission, netsynced
 	timelimit=5 --for timelimit in TIME.LUA, netsynced
 })
+
+rawset(_G, "MurderMystery", MM) --for backwards compatibility
 
 --Roles constants
 rawset(_G, "ROLE_NONE", 0)
