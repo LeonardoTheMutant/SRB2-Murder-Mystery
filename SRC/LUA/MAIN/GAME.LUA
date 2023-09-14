@@ -15,12 +15,10 @@ addHook("MapLoad", do
 	if (gametype!=GT_MURDERMYSTERY) return end
 	--prepare players & server for the new round
 	for p in players.iterate
-		p.role=0
 		p.spectator=false
 		p.kills=0
 		p.killedby=nil
 	end
-
 	MM.winner=0
 	AssignRoles()
 end)

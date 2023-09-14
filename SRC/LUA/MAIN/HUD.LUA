@@ -26,10 +26,6 @@ local infoSCORE=hudinfo[HUD_SCORE]
 local infoTIME=hudinfo[HUD_TIME]
 local infoRINGS=hudinfo[HUD_RINGS]
 local mmtxt=MM.text
-	
-local function drawStrCentered(v,y,str,flags,font)
-	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
-end
 
 local function mainHUD(v, p) --main game HUD
 	if gametype!=GT_MURDERMYSTERY --in case if switched from MM to other gametype
@@ -51,7 +47,7 @@ local function mainHUD(v, p) --main game HUD
 	--"People alive" (replaces SCORES)
 	v.draw(infoSCORE.x, infoSCORE.y, v.cachePatch("HUD_PPLE"), infoSCORE.f)
 	v.draw(infoSCORE.x+56, infoSCORE.y, v.cachePatch("HUD_ALVE"), infoSCORE.f)
-	v.drawNum(infoSCORE.x+112, infoSCORE.y, PlayersAlive(), infoSCORE.f)
+	v.drawNum(infoSCORE.x+120, infoSCORE.y, PlayersAlive(), infoSCORE.f)
 
 	--Time
 	local timeleft = (MM.timelimit*60*TICRATE) - leveltime
@@ -83,8 +79,8 @@ local function mainHUD(v, p) --main game HUD
 		hud.enable("weaponrings")
 	elseif (p.spectator)
 		v.drawString(coords.rings.x, coords.rings.y+16, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], V_SNAPTOTOP|V_SNAPTOLEFT)
-		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 128+y*8, i, 8388608) end
-		if (not p.role)
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 128+y*8, i,8388608) end
+		if (p.role==nil)
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 168+y*8, i, 8388608, "thin") end
 		end
 		if (p.killedby)
@@ -95,7 +91,7 @@ local function mainHUD(v, p) --main game HUD
 	--Are you alone? Draw the text
 	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) drawStrCentered(v, 128+y*8, i, 8388608) end end
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!", V_ALLOWLOWERCASE) end
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!",8388608) end
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(coords.rings.x, coords.rings.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
@@ -162,7 +158,7 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
 
 			v.drawString(coords.num.x,coords.first.y+i*16,i)
-			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU/2,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU>>1,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
 			v.drawString(coords.name.x, coords.first.y+i*16, plrs[i].name,8388608)
 			v.drawString(coords.kills.x, coords.first.y+i*16,plrs[i].kills)
 
@@ -195,8 +191,8 @@ local function interHUD(v) --Custom intermission HUD
 		end
 	end
 
-	if MM.winner==0 drawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1], 8388608) --tie
-	else drawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1], 8388608) end
+	if MM.winner==0 drawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1],8388608) --tie
+	else drawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1],8388608) end
 
 	if MM.devbuild==nil v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else

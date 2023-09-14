@@ -6,21 +6,18 @@ CURRENTDIR=$PWD
 build()
 {
     if [[ -f ${CURRENTDIR}/$1 ]]; then
-        echo "Updating $1\nPlease wait..."
+        echo "Updating $1"
+        echo "Please wait..."
         zip -r -u ${CURRENTDIR}/$1 *
     else
-        echo "Making $1\nPlease wait..."
+        echo "Making $1"
+        echo "Please wait..."
         zip -r ${CURRENTDIR}/$1 *
     fi
     cd ..
-    echo "\nFinished making $FILENAME !"
+    echo "Finished making $FILENAME !"
 }
 
 cd SRC/
-if [[ $1 = "-release" ]]; then
-    FILENAME="MM_MurderMystery_${VERSION}.pk3"
-    build $FILENAME
-else
-    FILENAME="MM_MurderMystery_${VERSION}_dev${BUILDDATE}.pk3"
-    build $FILENAME
-fi
+FILENAME="MM_MurderMystery_${VERSION}_dev${BUILDDATE}.pk3"
+build $FILENAME

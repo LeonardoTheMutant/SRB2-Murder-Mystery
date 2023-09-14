@@ -1,11 +1,10 @@
 freeslot
-S_SMMDEATH
-S_TMMDEATH
-S_KMMDEATH
-S_AMMDEATH
-S_FMMDEATH
-S_MMMDEATH
-SPR_INVI
+S_SMMDEAD
+S_TMMDEAD
+S_KMMDEAD
+S_AMMDEAD
+S_FMMDEAD
+S_MMMDEAD
 SPR_SDED
 SPR_TDED
 SPR_KDED
@@ -14,45 +13,45 @@ SPR_FDED
 SPR_MDED
 MT_DEADPLR
 
-state S_SMMDEATH
+state S_SMMDEAD
 spritename = SPR_SDED
 spriteframe = A
 DURATION = -1
-next = S_SMMDEATH
+next = S_SMMDEAD
 
-state S_TMMDEATH
+state S_TMMDEAD
 spritename = SPR_TDED
 spriteframe = A
 DURATION = -1
-next = S_TMMDEATH
+next = S_TMMDEAD
 
-state S_KMMDEATH
+state S_KMMDEAD
 spritename = SPR_KDED
 spriteframe = A
 DURATION = -1
-next = S_KMMDEATH
+next = S_KMMDEAD
 
-state S_AMMDEATH
+state S_AMMDEAD
 spritename = SPR_ADED
 spriteframe = A
 DURATION = -1
-next = S_AMMDEATH
+next = S_AMMDEAD
 
-state S_FMMDEATH
+state S_FMMDEAD
 spritename = SPR_FDED
 spriteframe = A
 DURATION = -1
-next = S_FMMDEATH
+next = S_FMMDEAD
 
-state S_MMMDEATH
+state S_MMMDEAD
 spritename = SPR_MDED
 spriteframe = A
 DURATION = -1
-next = S_MMMDEATH
+next = S_MMMDEAD
 
 object MT_DEADPLR
-spawnstate = S_MMMDEATH
+spawnstate = S_MMMDEAD
 reactiontime = 8
 radius = 32*FRACUNIT
-height = 1               #No, I didn't forget the FRACUNIT here
+height = 1
 mass = 16

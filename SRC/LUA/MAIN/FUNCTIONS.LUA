@@ -16,6 +16,8 @@ rawset(_G, "AssignRoles", function()
 		print("\x85Hold on!\x80\nMurder Mystery (I'll short it MM from now on) is not designed for splitscreen mode! The game switched to the MATCH cuz it's as same as playing 1v1 in MM.\nDon't like it? Maybe you would like to type \x83MAP Abandoned Shelter -GAMETYPE MATCH -FORCE\x80 in this console to play MATCH inside MM maps?\nSorry but I won't make MM for splitscreen - it has no sence.\nSincerely, \x87LeonardoTheMutant")
 		return
 	end
+	--prepare players
+	for p in players.iterate p.role=ROLE_NONE end
 	--how much players with same role should exist?
 	local roleMultiplier=1
 	if (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
@@ -23,11 +25,8 @@ rawset(_G, "AssignRoles", function()
 	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
 	--assign roles
     local plrs={}
-    for p in players.iterate
-        if (MM.devbuild) print(#p) end
-        table.insert(plrs, #p)
-    end
-    for r=1,2
+    for p in players.iterate table.insert(plrs, #p) end --get numbers of player nodes that exist
+    for r = ROLE_MURDERER, ROLE_SHERIFF --assign the Role
         for i=1, roleMultiplier
             local randPlr=P_RandomKey(#plrs)+1
             players[plrs[randPlr]].role=r
@@ -85,12 +84,12 @@ rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	P_FlashPal(plr, PAL_NUKE, 4)
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (p.skin=="tails") body.state=S_TMMDEATH
-	elseif (p.skin=="knuckles") body.state=S_KMMDEATH
-	elseif (p.skin=="amy") body.state=S_AMMDEATH
-	elseif (p.skin=="fang") body.state=S_FMMDEATH
-	elseif (p.skin=="metalsonic") body.state=S_MMMDEATH
-	else body.state=S_SMMDEATH end --Sonic, also fallback for custom chars (I really should ban them)
+	if (p.skin=="tails") body.state=S_TMMDEAD
+	elseif (p.skin=="knuckles") body.state=S_KMMDEAD
+	elseif (p.skin=="amy") body.state=S_AMMDEAD
+	elseif (p.skin=="fang") body.state=S_FMMDEAD
+	elseif (p.skin=="metalsonic") body.state=S_MMMDEAD
+	else body.state=S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
 	body.color=p.color
 
 	S_StartSound(p, dthsfx[P_RandomKey(3)+1], plr) --play random death sound personally
@@ -139,4 +138,8 @@ rawset(_G, "PlayersAlive", function()
 	local plrs=0
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
 	return plrs
+end)
+
+rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
+	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
