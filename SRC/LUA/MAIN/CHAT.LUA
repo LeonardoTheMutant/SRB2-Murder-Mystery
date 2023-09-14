@@ -1,5 +1,5 @@
---CHAT.LUA
---Code by LeonardoTheMutant
+-- CHAT.LUA
+-- Code by LeonardoTheMutant
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 

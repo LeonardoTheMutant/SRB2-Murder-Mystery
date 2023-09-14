@@ -869,48 +869,13 @@ rawset(_G, "MM", {
 	winner=0, --for intermission, netsynced
 	timelimit=5 --for timelimit in TIME.LUA, netsynced
 })
+
 --Roles constants
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
 rawset(_G, "ROLE_SHERIFF", 2)
 rawset(_G, "ROLE_INNOCENT", 3)
 rawset(_G, "ROLE_HERO", 4)
-
---functions
-rawset(_G, "SetRandomInnoAs", function(role)
-	while true
-		for p in players.iterate
-			if (P_RandomKey(4)==0) and (p.role==ROLE_INNOCENT) and (not p.spectator)
-				p.role=role
-				if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
-				else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
-				return
-			end
-		end
-	end
-end)
-rawset(_G, "PlayerCount", function(role)
-	local plrc = 0
-	if (role) for p in players.iterate if (p.role==role) plrc=$+1 end end
-	else for p in players.iterate plrc=$+1 end end
-	return plrc
-end)
-rawset(_G, "PlayersAlive", function()
-	local plrs=0
-	for p in players.iterate if (not p.spectator) plrs=$+1 end end
-	return plrs
-end)
-MM.AssignRole = function(role, multiplier)
-	local mult=multiplier
-	while mult!=0
-		for p in players.iterate
-			if ((not p.role) or (p.role==ROLE_NONE)) and (mult!=0) and (P_RandomKey(4)==0)
-				p.role=role
-				mult=$-1
-			elseif (mult==0) return end
-		end
-	end
-end
 
 --Customization API
 MM.AddCharStat = function(skin, tb)
