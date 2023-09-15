@@ -126,7 +126,7 @@ rawset(_G, "MM", {
 			-- Innocent hurt by Sheriff
 			["INNO_HURT_PM"]={
 				"\x87You murdered an \x83Innocent\x87! You got fired.",
-				"\x87Last I checked, \x82Heroes\x80 aren't meant to kill \x83Innocents\x80. As per policy, you must be \x85executed"
+				"\x87Last I checked, \x82Heroes\x80 aren't meant to kill \x83Innocents\x80. As per policy, you must be\x85 executed"
 			},
 			["INNO_HURT"]={
 				"\x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job.",
@@ -142,7 +142,7 @@ rawset(_G, "MM", {
 			["LAST_LEFT"]={
 				"Last \x85Murderer\x80 left!",
 				"Last \x84Sheriff\x80 left!",
-				"Last \x83Innocent\x80 left!",
+				"Last \x83Innocent\x80 left!", --I believe this is unused now
 				"Last \x82Hero\x80 left!"
 			},
 			-- "[role] left, replaced him"
@@ -168,11 +168,11 @@ rawset(_G, "MM", {
 			--HUD.LUA
 			-- Role names
 			["ROLES_HUD"]={
-				"MURDERER",
-				"SHERIFF",
-				"INNOCENT",
-				"HERO",
-				"DEAD"
+				"Murderer",
+				"Sheriff",
+				"Innocent",
+				"Hero",
+				"Dead"
 			},
 			["TEAMALIVE_HUD"]="Teammates alive:",
 			["KILLBY_HUD"]="Killed by",
