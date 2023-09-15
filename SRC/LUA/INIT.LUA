@@ -25,12 +25,12 @@ rawset(_G, "MM", {
 					"\x87MMHELP BAD\x80  - List of things that are forbidden to do in MM;",
 					"\x87MMHELP CHAT\x80 - List of sound emojis that you can use in the chat;",
 					"\x87MMHELP INFO\x80 - Technical information and \"What's new\";",
-					"\x87MMLANG\x80      - Change MM language, additional packs may be loaded."
+					"\x87MMLANG\x80      - Change the language of the content appearing in MM"
 				},["GAME"]={
 					"\x87".."About the gameplay situations",
 					"As explained earlier in the basics the goal is to eliminate the \x85Murderer(s)\x80, but different gameplay situations may occur:",
 					"\n* If you get killed, you'll enter the \x8F Dead\x80 state. Players with this state cannot respawn and talk globaly to players that are still alive, their messages are visible only to the other\x8F Dead\x80 players.",
-					"You can't \x87SAYTO\x80/PM alive or\x8F Dead\x80 players.",
+					"You can't \x87SAYTO\x80/PM player who is still alive while you're\x8F Dead\x80.",
 					"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this is in \x87MMHELP BAD\x80.",
 					"\n* The \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but it is possible for them to shoot an \x83Innocent\x80 on accident.",
 					"If this happens \x84Sheriff\x80 will turn into \x83Innocent\x80 and random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as \x84Sheriff\x80 think who you are going to kill!",
@@ -49,7 +49,7 @@ rawset(_G, "MM", {
 					"* Self-spoiling of the \x8BRole\x80 will not make the game \'Mystery\', you can tell someone other's role if you definetly know who he is but never tell your own.",
 					"* Do not insult other players, jokes are allowed but in friendly mood. No one will trust you if you are will accuse every player with no reason.",
 					"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
-					"* Do not rename yourself during a round. The game will close your SRB2 window. This is to prevent cheating, just wait for the intermission.",
+					"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
 					"Breaking one of these rules may result a kick or in some cases ban from the Admin, please do not break them and play fairly.",
 					"\nMore help pages that you might want to read at your console:",
 					"\x87MMHELP GAME\x80 - About gameplay situations",
@@ -98,9 +98,9 @@ rawset(_G, "MM", {
 			},
 			-- SetRandomPlayerAs()
 			["NEWROLE_GET"]={
-				"\x87Life randomly decided you shall be \x85Murderer\x87 \x85. Go nuts!",
+				"\x87Life randomly decided you shall be \x85Murderer\x87.\x85 Go nuts!",
 				"\x87Universe felt like making you a \x84Sheriff\x87! Uh, I guess go \x84 eliminate all Murderers\x87!\x80, or, something.",
-				"\x87".."I hope it's not a bug in the system that gave you the \x82Hero\x87 role, or we're all screwed."
+				"\x87I hope it's not a bug in the system that gave you the \x82Hero\x87 role, or we're all screwed."
 			},
 			-- Teammate hit
 			["TEAMMATE_HIT"]={
@@ -116,7 +116,7 @@ rawset(_G, "MM", {
 			["SHERI_KILLED"]={
 				"\x84Sheriff\x87",
 				"\x80got murdered! Try to find their\x84 Emerald\x80!", --ending 1
-				"\x80got murdered! No \x84 Emerald\x80, sorry." --ending 2 (no drop)
+				"\x80got murdered!" --ending 2 (no drop)
 			},
 			["HERO_KILLED"]={
 				"\x82Hero\x87",
@@ -134,9 +134,9 @@ rawset(_G, "MM", {
 			},
 			-- "One of the [role]s left!"
 			["ONE_LEFT"]={
-				"Only one \x85Murderers\x80 remaining.",
-				"Only one \x84Sheriffs\x80 remaining.",
-				"Only one  \x82Heros\x80 remaining."
+				"One of the \x85Murderers\x80 left! Cool!",
+				"One of the \x84Sheriffs\x80 left!!!",
+				"One of the \x82Heros\x80 left us!."
 			},
 			-- "Last [role] left!"
 			["LAST_LEFT"]={
@@ -181,7 +181,7 @@ rawset(_G, "MM", {
 			["HUD_SCORESTAB"]={
 				"No scores here! Counters below may help",
 				"If you're new to the gametype\nuse \x87MMHELP\x80 in the Console",
-				"\n\x82Have Fun"
+				"\n\x82Have Fun ;)"
 			},
 			-- Scores TAB screen role conters
 			["HUD_ROLESALIVE"]={
