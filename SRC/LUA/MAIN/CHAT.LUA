@@ -3,7 +3,6 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
-local delaytimer=CV_FindVar("mmspam").value*TICRATE
 if (isdedicatedserver)
 	COM_AddCommand("SAYDEAD", function(p, m) --SAY but to the DEAD CHAT as SERVER, for some stupid reasons I can't limit it to DEDICATED CONSOLE only
 		if p!=server
@@ -16,6 +15,7 @@ if (isdedicatedserver)
 end
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
+	local delaytimer=CV_FindVar("mmspam").value*TICRATE
 	if (gametype!=GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay!=0) and (not (isdedicatedserver and s==server))
 		CONS_Printf(s, MM.text[s.mmlang]["CHAT"][2])

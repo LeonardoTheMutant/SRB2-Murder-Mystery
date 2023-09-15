@@ -937,7 +937,7 @@ local function VarChange(v)
 end
 CV_RegisterVar{name="mmcharmode",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6,func=VarChange}
 CV_RegisterVar{name="mmsprint",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6,func=VarChange}
-CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue=CV_Unsigned}
+CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue={MIN=0,MAX=60}}
 CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
 

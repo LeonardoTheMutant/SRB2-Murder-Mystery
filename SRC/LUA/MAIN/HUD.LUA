@@ -10,7 +10,6 @@
 
 -- Constants
 local coords={ --HUD screen coordinates
-	rings={x=16, y=42}, --for game hud
 	first={y=32}, --this and everything below for custom intermission
 	num={x=16},
 	name={x=48},
@@ -73,19 +72,19 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--Show your role (and translate it)
-	if (p.role) and (p.role>=1) v.drawString(coords.rings.x, coords.rings.y+16,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if (p.role) and (p.role>=1) v.drawString(infoRINGS.x, infoRINGS.y+16,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], infoRINGS.f) end
 	if (p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 		if PlayerCount(p.role)>1 v.drawString(0, 192, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
 		hud.enable("weaponrings")
 	elseif (p.spectator)
-		v.drawString(coords.rings.x, coords.rings.y+16, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], V_SNAPTOTOP|V_SNAPTOLEFT)
+		v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], infoRINGS.f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 128+y*8, i,8388608) end
 		if (p.role==nil)
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 168+y*8, i, 8388608, "thin") end
 		end
 		if (p.killedby)
-			if p.killedby=="Your stupidity" v.drawString(coords.rings.x, coords.rings.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-			else v.drawString(coords.rings.x, coords.rings.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE) end
+			if p.killedby=="Your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
+			else v.drawString(infoRINGS.x, infoRINGS.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
 		end
 	end
 	--Are you alone? Draw the text
@@ -94,16 +93,16 @@ local function mainHUD(v, p) --main game HUD
 	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!",8388608) end
 
 	--ABILITIES.LUA part
-	if (CV_FindVar("mmsprint").value) v.drawString(coords.rings.x, coords.rings.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-	elseif (p.sneak) v.drawString(coords.rings.x, coords.rings.y+32, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
+	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+	elseif (p.sneak) v.drawString(infoRINGS.x, infoRINGS.y+32, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 
 	--Debug
 	if MM.devbuild
-		v.drawString(coords.rings.x, coords.rings.y+96, "\x87"..MM.version.."-"..MM.devbuild, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(coords.rings.x, coords.rings.y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(coords.rings.x, coords.rings.y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(coords.rings.x, coords.rings.y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(coords.rings.x, coords.rings.y+128, "\x82".."CHATDELAY: \x80"..p.chatdelay, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(infoRINGS.x, infoRINGS.y+96, "\x87"..MM.version.."-"..MM.devbuild, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(infoRINGS.x, infoRINGS.y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(infoRINGS.x, infoRINGS.y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(infoRINGS.x, infoRINGS.y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(infoRINGS.x, infoRINGS.y+128, "\x82".."CHATDELAY: \x80"..p.chatdelay, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	end
 end
 local function scoresHUD(v) --SCORES TAB
