@@ -17,30 +17,30 @@ rawset(_G, "MM", {
 					"\nThe game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
 					"You'll need some basics first to start playing....",
 					"\nAt the beginning of each round you will recieve a \x8BRole\x80 that defines what are you going to do during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
-					" * \x85Murderer\x80 - true criminal. He has to kill everyone, but is limited to shoot Red (Normal) and Infinite Rings only;",
-					" * \x84Sheriff\x80  - his task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
-					" * \x83Innocent\x80 - completely armless civilian, he must avoid being killed but also can help to find the \x85Murderer\x80.",
-					"\nThat's all basic information requiered to start playing, if you still miss something or want to know more use these console commands:",
+					" * \x85Murderer\x80 - true criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
+					" * \x84Sheriff\x80  - their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
+					" * \x83Innocent\x80 - completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
+					"\nThat's all basic information requiered to start playing, for more information, you can use these commands:",
 					"\x87MMHELP GAME\x80 - More about the game and gameplay situations;",
 					"\x87MMHELP BAD\x80  - List of things that are forbidden to do in MM;",
 					"\x87MMHELP CHAT\x80 - List of sound emojis that you can use in the chat;",
-					"\x87MMHELP INFO\x80 - Technical information and \"What's new\".",
-					"\nYou might also want to use \x87MMLANG\x80 to change the Language inside MM"
+					"\x87MMHELP INFO\x80 - Technical information and \"What's new\";",
+					"\x87MMLANG\x80      - Change the language of the content appearing in MM"
 				},["GAME"]={
 					"\x87".."About the gameplay situations",
 					"As explained earlier in the basics the goal is to eliminate the \x85Murderer(s)\x80, but different gameplay situations may occur:",
-					"\n* If someone shot you down with his ring you become\x8F Dead\x80. Players with this state cannot respawn and talk globaly to players that are still alive, their messages are visible only to the other\x8F dead\x80 players.",
-					"You can't \x87SAYTO\x80 or PM the player who's alive as\x8F DEAD\x80 as well.",
+					"\n* If you get killed, you'll enter the \x8F Dead\x80 state. Players with this state cannot respawn and talk globaly to players that are still alive, their messages are visible only to the other\x8F Dead\x80 players.",
+					"You can't \x87SAYTO\x80/PM player who is still alive while you're\x8F Dead\x80.",
 					"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this is in \x87MMHELP BAD\x80.",
-					"\n* \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but sometimes Sheriff can kill the \x83Innocent\x80 by an accident.",
-					"If this happens \x84Sheriff\x80 will turn into civilian and random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as \x84Sheriff\x80 think who you are going to kill!",
-					"\n* When \x85Murderer\x80 kills \x84Sheriff\x80 and there are still \x83Innocents\x80 alive Sheriff will drop the \x84Sheriff's Emerald\x80 near his courpse.",
-					"Unlike Chaos Emeralds this emerald will give a \x82Hero\x80 role to any \x83Innocent\x80 who will pick it first. If you're one of the \x83Innocents\x80 it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
-					"\x82Hero\x80 role doesn't really differ from \x84Sheriff\x80 except some details such as when \x82Hero\x80 kills \x83Innocent\x80 his role isn't shared and both just die. Hero will not drop \x84Sheriff Emerald\x80 on his death as well.",
+					"\n* The \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but it is possible for them to shoot an \x83Innocent\x80 on accident.",
+					"If this happens \x84Sheriff\x80 will turn into \x83Innocent\x80 and random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as \x84Sheriff\x80 think who you are going to kill!",
+					"\n* When a \x85Murderer\x80 kills a \x84Sheriff\x80 and there are still \x83Innocents\x80 alive, the Sheriff will drop the \x84Sheriff's Emerald\x80 near their corpse.",
+					"Unlike the 7 Chaos Emeralds, this emerald will assign the \x82Hero\x80 role to any \x83Innocent\x80 that picks it up. If you're one of the \x83Innocents\x80 it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
+					"The \x82Hero\x80 role doesn't really differ from the \x84Sheriff\x80 except some details such as when the \x82Hero\x80 kills an \x83Innocent\x80 their role isn't shared and both just die. A Hero also will not drop a \x84Sheriff's Emerald\x80 on their death.",
 					"\n* Depending on the players online count there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 among the players in the round. For example starting from 7 players and more \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
 					"\x8BTeammates\x80 can chat with each other in their team chat with \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
 					"If one \x8Bteammate\x80 will hit anoter both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!",
-					"\nIf you're interested in further understanding you can read:",
+					"\nFor even more information, check out:",
 					"\x87MMHELP BAD\x80 - Things you shouldn't do in MM game",
 					"\x87MMHELP CHAT\x80 - What are Sound Emojis and how to use them"
 				},["BAD"]={
@@ -48,15 +48,15 @@ rawset(_G, "MM", {
 					"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
 					"* Self-spoiling of the \x8BRole\x80 will not make the game \'Mystery\', you can tell someone other's role if you definetly know who he is but never tell your own.",
 					"* Do not insult other players, jokes are allowed but in friendly mood. No one will trust you if you are will accuse every player with no reason.",
-					"* Being AFK is a war crime. If you will be inactive for a long time the game will kick you (only if you're alive).",
-					"* Do not rename yourself WHILE IN THE GAME - the game is strict about this and will\x85 auto-close\x80 your SRB2 if try doing this. If you need to rename wait for the Intermission screen to do it.",
+					"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
+					"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
 					"Breaking one of these rules may result a kick or in some cases ban from the Admin, please do not break them and play fairly.",
 					"\nMore help pages that you might want to read at your console:",
 					"\x87MMHELP GAME\x80 - About gameplay situations",
 					"\x87MMHELP CHAT\x80 - List of Sound Emojis and their usage"
 				},["CHAT"]={
 					"\x87How to use Sound Emojis\x80",
-					"When player sends the message that contains some special words or phrases a specified Sound Emoji will play with the message.",
+					"When a player sends a message that contains specific words/phrases, a sound will be played.",
 					"Basically when you send the \"bruh\" message and everyone will hear the BRUH sound",
 					"Here is the full list of Sound Emojis and how to activate each of them:\n",
 					"  \x88Keyword\x80       | \x89Sound",
@@ -93,50 +93,50 @@ rawset(_G, "MM", {
 			-- "You got the role"
 			["ROLE_GET"]={
 				"You're the \x85Murderer\x80! \x85Murder everyone.",
-				"You're the \x84Sheriff\x80!\x84 Eliminate all Murderers\x80. If you kill an Innocent, you lose.",
-				"You're an \x83Innocent\x80! Hide and help the sheriff find the murderer."
+				"You're the \x84Sheriff\x80!\x84 Eliminate all Murderers\x80. Be careful before killing, or you risk your role.",
+				"You're an \x83Innocent\x80! Hide and help the with the investigation.	"
 			},
 			-- SetRandomPlayerAs()
 			["NEWROLE_GET"]={
-				"\x87Life made a \x85Murderer\x87 from you, \x85now go kill everyone.",
-				"\x87The Universe made you the new \x84Sheriff\x87! It's now your job to\x84 eliminate all Murderers\x87!",
-				"\x87".."All defenders left but the Universe selected you as a new \x82Hero\x87! It's your chance to save the day!"
+				"\x87Life randomly decided you shall be \x85Murderer\x87.\x85 Go nuts!",
+				"\x87Universe felt like making you a \x84Sheriff\x87! Uh, I guess go \x84 eliminate all Murderers\x87!\x80, or, something.",
+				"\x87I hope it's not a bug in the system that gave you the \x82Hero\x87 role, or we're all screwed."
 			},
 			-- Teammate hit
 			["TEAMMATE_HIT"]={
-				"Hey, this guy is your teammate, don't try to kill him again",
-				"Your teammate hit you, don't try to get revenge on him"
+				"Don't hit teammates. You don't wanna be THAT guy.",
+				"THAT guy (Teammate) just hit you, just ignore them, it ain't worth it."
 			},
 			-- Murderer killed
 			["MURD_KILLED"]={
 				"\x85Murderer\x87", --beginning of the string
-				"\x80is eliminated!" --ending
+				"\x80got eliminated" --ending
 			},
 			-- Sheriff killed
 			["SHERI_KILLED"]={
 				"\x84Sheriff\x87",
-				"\x80is murdered! Innocents can pick up his\x84 Emerald\x80!", --ending 1
-				"\x80is murdered!" --ending 2 (no drop)
+				"\x80got murdered! Try to find their\x84 Emerald\x80!", --ending 1
+				"\x80got murdered!" --ending 2 (no drop)
 			},
 			["HERO_KILLED"]={
 				"\x82Hero\x87",
-				"\x80is murdered!"
+				"\x80got murdered!"
 			},
 			["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
 			-- Innocent hurt by Sheriff
 			["INNO_HURT_PM"]={
-				"\x87You murdered the \x83Innocent\x87! You are no longer a \x84Sheriff\x87!",
-				"\x87You are even worse than the worst \x85Murderer\x87! How could you kill the civilan?!?!\x85 DIE FOR THAT!!!"
+				"\x87You murdered an \x83Innocent\x87! You got fired.",
+				"\x87Last I checked, \x82Heroes\x80 aren't meant to kill \x83Innocents\x80. As per policy, you must be \x85executed"
 			},
 			["INNO_HURT"]={
-				"\x84Sheriff\x80 murdered the Innocent! Someone other from \x83Innocents\x80 will have to finish his job!",
-				"\x82Hero\x80 is dumbass, he killed a peaceful \x83Innocent\x80. Now both are lying dead. Shame on hero"
+				"\x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job.",
+				"\x82Hero\x80 is dumbass, they killed an \x83Innocent\x80. Now both are lying dead. Shame on\x82 Dumbass\x80"
 			},
 			-- "One of the [role]s left!"
 			["ONE_LEFT"]={
-				"One of the \x85Murderers\x80 left!",
-				"One of the \x84Sheriffs\x80 left!",
-				"One of the \x82Heros\x80 left!"
+				"One of the \x85Murderers\x80 left! Cool!",
+				"One of the \x84Sheriffs\x80 left!!!",
+				"One of the \x82Heros\x80 left us!."
 			},
 			-- "Last [role] left!"
 			["LAST_LEFT"]={
@@ -147,23 +147,23 @@ rawset(_G, "MM", {
 			},
 			-- "[role] left, replaced him"
 			["REPLACE_LEFT"]={
-				"\x85Murderer\x80 left! Some \x83Innocent\x80 took his role!",
-				"\x84Sheriff\x80 left! Some \x83Innocent\x80 took his role!",
-				"\x82Hero\x80 left! Some \x83Innocent\x80 took his role!"
+				"\x85Murderer\x80 left! Some \x83Innocent\x80 took their role!",
+				"\x84Sheriff\x80 left! Some \x83Innocent\x80 took their role!",
+				"\x82Hero\x80 left! Some \x83Innocent\x80 took their role!"
 			},
 			-- Win texts
 			["ENDROUND"]={
-				"Everyone are murdered, \x85Murderers\x80 win!",
-				"All murderers are eliminated,\x83 Civilians\x80 win!",
-				"\x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Innocent!",
-				"\x82Hero\x80 have chosen to kill the last Innocent. \x85Murderers\x80 Win!",
-				"All Sheriffs and Heros are dead, \x85Murderers\x80 win!"
+				"GGs, everyone's dead. The \x85Murderers\x80 win!",
+				"GG! All of the \x85Murderers\x80 got killed!,The \x83 Civilians\x80 win!",
+				"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Innocent! Shame on \x84Sheriff\x80",
+				"The \x82Hero\x80 chose to kill the last Innocent. The \x85Murderers\x80 Win!",
+				"The \x83 Civilians\x80 died. I ain't paying for the funeral. The \x85Murderers\x80 win!"
 			},
 			--CHAT.LUA
 			["CHAT"]={
 				"is alive, message not sent",
-				"You're sending too much messages, please wait",
-				"You can't just become\x8F dead\x80 to spectate!"
+				"You're sending too many messages, please wait/",
+				"You can't just \x8F die\x80 to spectate!"
 			},
 			--HUD.LUA
 			-- Role names
@@ -196,7 +196,7 @@ rawset(_G, "MM", {
 			},
 			-- Centered text when you joined
 			["HUD_MIDJOIN"]={
-				"You joined \x84mid-round\x80, please wait for the new round to play"
+				"You joined \x84mid-round\x80, please wait for the round to finish."
 			},
 			-- Centered text when you are alone
 			["HUD_ALONE"]={
