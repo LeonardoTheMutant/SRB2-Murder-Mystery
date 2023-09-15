@@ -17,7 +17,7 @@ local coords={ --HUD screen coordinates
 	kills={x=192},
 	role={x=248},
 	first2={y=40},
-	num2={x=8},
+	num2={x=4},
 	name2={x=26},
 	kills2={x=84},
 	role2={x=118}
@@ -160,7 +160,7 @@ local function interHUD(v) --Custom intermission HUD
 
 			v.drawString(coords.num.x,coords.first.y+i*16,i)
 			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU>>1,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name.x, coords.first.y+i*16,string.sub(plrs[i].name, 0, 20),8388608)
+			v.drawString(coords.name.x, coords.first.y+i*16,string.sub(plrs[i].name, 1, 17),8388608)
 			v.drawString(coords.kills.x, coords.first.y+i*16,plrs[i].kills)
 
 			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
@@ -184,7 +184,7 @@ local function interHUD(v) --Custom intermission HUD
 
 			v.drawString(coords.num2.x+multiply.x,coords.first2.y+i*8+multiply.y,i,0,"thin")
 			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,FU>>2,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,string.sub(plrs[i].name, 0, 20),8388608,"thin")
+			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,string.sub(plrs[i].name, 1, 11),8388608,"thin")
 			v.drawString(coords.kills2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].kills,0,"thin")
 
 			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role],0,"thin")
