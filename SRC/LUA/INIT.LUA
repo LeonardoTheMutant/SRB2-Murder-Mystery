@@ -3,7 +3,7 @@ if MM or MurderMystery
 	return
 end
 rawset(_G, "MM", {
-	version="8.1-BETA", --string, VERSION NUMBER
+	version="8.2-BETA", --string, VERSION NUMBER
 	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	text={ --All text and messages used in the add-on with the translations
@@ -945,9 +945,9 @@ CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('tol_mm','SFX__MMDTH', 'SFX_MMDTH2', 'SFX_DAMFLL','MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
-freeslot('SFX_EMJ00', 'SFX_EMJ01', 'SFX_EMJ02', 'SFX_EMJ03', 'SFX_EMJ04', 'SFX_EMJ05', 'SFX_EMJ06', 'SFX_EMJ07', 'SFX_EMJ08', 'SFX_EMJ09',
-'SFX_EMJ0A', 'SFX_EMJ0B', 'SFX_EMJ0C', 'SFX_EMJ0D', 'SFX_EMJ0E', 'SFX_EMJ0F', 'SFX_EMJ10', 'SFX_EMJ11', 'SFX_EMJ12')
+freeslot('tol_mm','SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_NGGYU', 'SFX_DAMFLL', 'MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
+freeslot('SFX_EMJ00', 'SFX_EMJ01', 'SFX_EMJ02', 'SFX_EMJ03', 'SFX_EMJ04', 'SFX_EMJ05', 'SFX_EMJ06', 'SFX_EMJ07', 'SFX_EMJ08', 'SFX_EMJ09', 'SFX_EMJ0A', 'SFX_EMJ0B', 'SFX_EMJ0C', 'SFX_EMJ0D', 'SFX_EMJ0E', 'SFX_EMJ0F',
+'SFX_EMJ10', 'SFX_EMJ11', 'SFX_EMJ12', 'SFX_EMJ13', 'SFX_EMJ14', 'SFX_EMJ15')
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
@@ -985,8 +985,10 @@ mobjinfo[MT_MMSTEP]={ --footstep mark
 	speed=FU,
 	flags=512
 }
-sfxinfo[sfx__mmdth].caption="Killed"
-sfxinfo[sfx_mmdth2].caption="Killed"
+sfxinfo[sfx_mmdth1].caption="Killed"
+sfxinfo[sfx_mmdth2].caption="Good Night"
+sfxinfo[sfx_mmdth3].caption="Killed"
+sfxinfo[sfx_nggyu].caption="Never gonna give you up..."
 --for MAPK5 (Dam Zone)
 sfxinfo[sfx_damfll].caption="Falling from the Dam..."
 --Chat sound emojis
@@ -1009,6 +1011,9 @@ sfxinfo[sfx_emj0f].caption="NOOOOOoooooo..."
 sfxinfo[sfx_emj10].caption="HELP"
 sfxinfo[sfx_emj11].caption="HEHEHE HA"
 sfxinfo[sfx_emj12].caption="hehe boiii..."
+sfxinfo[sfx_emj13].caption="PINGAS"
+sfxinfo[sfx_emj14].caption="PAIN"
+sfxinfo[sfx_emj15].caption="huh?"
 
 addHook("NetVars", function(net)
 	MM.text = net($)

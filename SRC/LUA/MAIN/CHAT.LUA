@@ -3,18 +3,17 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
-local function chatplaySFX(sfx)
-	for p in players.iterate S_StartSound(p.mo, sfx, p) end
-end
 local delaytimer=CV_FindVar("mmspam").value*TICRATE
-COM_AddCommand("SAYDEAD", function(p, m) --SAY but to the DEAD CHAT as SERVER, for some stupid reasons I can't limit it to DEDICATED CONSOLE only
-	if p!=server
-		CONS_Printf(p, "You're not server to use this command")
-		return
-	end
-	if (m) for t in players.iterate if t.spectator chatprintf(t, "\x86{~SERVER} "..m) end end
-	else CONS_Printf(p, "Usage: SAYDEAD [message]\nSend message to the dead chat as SERVER\nNOTE: message must be enclosed into \" brackets otherwise only the first word will be sent!") end
-end, COM_ADMIN)
+if (isdedicatedserver)
+	COM_AddCommand("SAYDEAD", function(p, m) --SAY but to the DEAD CHAT as SERVER, for some stupid reasons I can't limit it to DEDICATED CONSOLE only
+		if p!=server
+			CONS_Printf(p, "You're not server to use this command")
+			return
+		end
+		if (m) for t in players.iterate if t.spectator chatprintf(t, "\x86{~SERVER} "..m) end end
+		else CONS_Printf(p, "Usage: SAYDEAD [message]\nSend message to the dead chat as SERVER\nNOTE: message must be enclosed into \" brackets otherwise only the first word will be sent!") end
+	end, COM_ADMIN)
+end
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	if (gametype!=GT_MURDERMYSTERY) or (not s.mmlang) return end
@@ -65,7 +64,10 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif m=="NOPE" chatplaySFX(sfx_emj0d)
 			elseif m:find("GET OVER HERE") chatplaySFX(sfx_emj0e)
 			elseif m=="NOOO" chatplaySFX(sfx_emj0f)
-			elseif m=="HELP" or m=="HELP!" chatplaySFX(sfx_emj10) end
+			elseif m=="HELP" or m=="HELP!" chatplaySFX(sfx_emj10)
+			elseif m:find("PINGAS") chatplaySFX(sfx_emj13)
+			elseif m:find(":PAIN:") chatplaySFX(sfx_emj14)
+			elseif m:find("HUH") chatplaySFX(sfx_emj15) end
 		else return false end
 	end
 	s.chatdelay=delaytimer

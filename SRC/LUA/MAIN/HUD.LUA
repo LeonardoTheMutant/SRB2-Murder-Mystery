@@ -103,6 +103,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.rings.x, coords.rings.y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(coords.rings.x, coords.rings.y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 		v.drawString(coords.rings.x, coords.rings.y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(coords.rings.x, coords.rings.y+128, "\x82".."CHATDELAY: \x80"..p.chatdelay, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	end
 end
 local function scoresHUD(v) --SCORES TAB
@@ -151,7 +152,7 @@ local function interHUD(v) --Custom intermission HUD
 	for p in players.iterate table.insert(plrs,p) end
 	
 	for i=1,#plrs
-		if PlayerCount()<8
+		if PlayerCount()<9
 			v.drawString(coords.num.x,coords.first.y,"\x82#")
 			v.drawString(coords.name.x,coords.first.y,"\x82NAME")
 			v.drawString(coords.kills.x,coords.first.y,"\x82KILLS")
@@ -159,12 +160,12 @@ local function interHUD(v) --Custom intermission HUD
 
 			v.drawString(coords.num.x,coords.first.y+i*16,i)
 			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU>>1,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name.x, coords.first.y+i*16, plrs[i].name,8388608)
+			v.drawString(coords.name.x, coords.first.y+i*16,string.sub(plrs[i].name, 0, 20),8388608)
 			v.drawString(coords.kills.x, coords.first.y+i*16,plrs[i].kills)
 
 			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
 			else v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
-		else --if >=8 plrs present
+		else --if >=9 plrs present
 			v.drawFill(160,40,2,144,0) --vertical line
 			v.drawString(coords.num2.x,coords.first.y,"\x82#",0,"thin")
 			v.drawString(coords.name2.x,coords.first.y,"\x82NAME",0,"thin")
@@ -183,7 +184,7 @@ local function interHUD(v) --Custom intermission HUD
 
 			v.drawString(coords.num2.x+multiply.x,coords.first2.y+i*8+multiply.y,i,0,"thin")
 			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,FU>>2,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].name,8388608,"thin")
+			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,string.sub(plrs[i].name, 0, 20),8388608,"thin")
 			v.drawString(coords.kills2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].kills,0,"thin")
 
 			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role],0,"thin")

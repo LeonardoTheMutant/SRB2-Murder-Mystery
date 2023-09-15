@@ -3,8 +3,15 @@
 --
 -- Function declarations
 
+--
+--CONSTANTS
+--
 local mmtxt=MM.text
-local dthsfx={sfx__mmdth, sfx_mmdth2, sfx_emj08} --SFXs that are used as Death Sounds
+local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_nggyu, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+
+--
+--GAME.LUA
+--
 
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
@@ -92,7 +99,7 @@ rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	else body.state=S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
 	body.color=p.color
 
-	S_StartSound(p, dthsfx[P_RandomKey(3)+1], plr) --play random death sound personally
+	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx)+1], plr) --play random death sound personally
 end)
 
 --Function to end the round, arguments here:
@@ -128,6 +135,24 @@ rawset(_G, "SetRandomInnoAs", function(role)
 		end
 	end
 end)
+
+--
+--HUD.LUA
+--
+rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
+	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
+end)
+
+--
+--CHAT.LUA
+--
+rawset(_G, "chatplaySFX", function(sfx)
+	for p in players.iterate S_StartSound(p.mo, sfx, p) end
+end)
+
+--
+--GLOBAL
+--
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
 	if (role) for p in players.iterate if (p.role==role) plrc=$+1 end end
@@ -138,8 +163,4 @@ rawset(_G, "PlayersAlive", function()
 	local plrs=0
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
 	return plrs
-end)
-
-rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
-	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
