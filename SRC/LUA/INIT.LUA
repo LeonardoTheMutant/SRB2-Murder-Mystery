@@ -41,7 +41,7 @@ rawset(_G, "MM", {
 					"\x8BTeammates\x80 can chat with each other in their team chat with \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
 					"If one \x8Bteammate\x80 will hit anoter both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!",
 					"\nFor even more information, check out:",
-					"\x87MMHELP BAD\x80 - Things you shouldn't do in MM game",
+					"\x87MMHELP BAD\x80  - Things you shouldn't do in MM game",
 					"\x87MMHELP CHAT\x80 - What are Sound Emojis and how to use them"
 				},["BAD"]={
 					"\x87Things that are bad to do in Murder Mystery",
@@ -94,7 +94,7 @@ rawset(_G, "MM", {
 			["ROLE_GET"]={
 				"You're the \x85Murderer\x80! \x85Murder everyone.",
 				"You're the \x84Sheriff\x80!\x84 Eliminate all Murderers\x80. Be careful before killing, or you risk your role.",
-				"You're an \x83Innocent\x80! Hide and help the with the investigation.	"
+				"You're an \x83Innocent\x80! Hide and help the with the investigation."
 			},
 			-- SetRandomPlayerAs()
 			["NEWROLE_GET"]={
@@ -134,15 +134,15 @@ rawset(_G, "MM", {
 			},
 			-- "One of the [role]s left!"
 			["ONE_LEFT"]={
-				"One of the \x85Murderers\x80 left! Cool!",
+				"One of the \x85Murderers\x80 left!",
 				"One of the \x84Sheriffs\x80 left!!!",
-				"One of the \x82Heros\x80 left us!."
+				"One of the \x82Heros\x80 left us!"
 			},
 			-- "Last [role] left!"
 			["LAST_LEFT"]={
 				"Last \x85Murderer\x80 left!",
 				"Last \x84Sheriff\x80 left!",
-				"Last \x83Innocent\x80 left!", --I believe this is unused now
+				--"Last \x83Innocent\x80 left!", --I believe this is unused now
 				"Last \x82Hero\x80 left!"
 			},
 			-- "[role] left, replaced him"
@@ -157,12 +157,12 @@ rawset(_G, "MM", {
 				"GG! All of the \x85Murderers\x80 got killed!,The \x83 Civilians\x80 win!",
 				"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Innocent! Shame on \x84Sheriff\x80",
 				"The \x82Hero\x80 chose to kill the last Innocent. The \x85Murderers\x80 Win!",
-				"The \x83 Civilians\x80 died. I ain't paying for the funeral. The \x85Murderers\x80 win!"
+				"The Defenders of the\x83 Innocents\x80 are dead. The \x85Murderers\x80 win!"
 			},
 			--CHAT.LUA
 			["CHAT"]={
 				"is alive, message not sent",
-				"You're sending too many messages, please wait/",
+				"You're sending too many messages, please wait",
 				"You can't just \x8F die\x80 to spectate!"
 			},
 			--HUD.LUA

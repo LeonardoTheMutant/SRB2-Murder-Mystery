@@ -166,11 +166,13 @@ local function interHUD(v) --Custom intermission HUD
 			else v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
 		else --if >=9 plrs present
 			v.drawFill(160,40,2,144,0) --vertical line
+			--first column
 			v.drawString(coords.num2.x,coords.first.y,"\x82#",0,"thin")
 			v.drawString(coords.name2.x,coords.first.y,"\x82NAME",0,"thin")
 			v.drawString(coords.kills2.x,coords.first.y,"\x82KILLS",0,"thin")
 			v.drawString(coords.role2.x,coords.first.y,"\x82ROLE",0,"thin")
 
+			--second column
 			v.drawString(coords.num2.x+160,coords.first.y,"\x82#",0,"thin")
 			v.drawString(coords.name2.x+160,coords.first.y,"\x82NAME",0,"thin")
 			v.drawString(coords.kills2.x+160,coords.first.y,"\x82KILLS",0,"thin")
@@ -191,10 +193,10 @@ local function interHUD(v) --Custom intermission HUD
 		end
 	end
 
-	if MM.winner==0 drawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1],8388608) --tie
+	if MM.winner==0 drawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
 	else drawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1],8388608) end
 
-	if MM.devbuild==nil v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else
 		v.drawString(0,184,"WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 		drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
