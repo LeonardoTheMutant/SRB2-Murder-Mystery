@@ -98,14 +98,14 @@ rawset(_G, "MM", {
 			},
 			-- SetRandomPlayerAs()
 			["NEWROLE_GET"]={
-				"\x87Life randomly decided you shall be \x85Murderer\x87.\x85 Go nuts!",
-				"\x87Universe felt like making you a \x84Sheriff\x87! Uh, I guess go \x84 eliminate all Murderers\x87!\x80, or, something.",
-				"\x87I hope it's not a bug in the system that gave you the \x82Hero\x87 role, or we're all screwed."
+				"\x87Life randomly decided you shall be \x85Murderer\x87.\x85 Now go kill everyone.",
+				"\x87Universe made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
+				"\x87It was decided that you will become a \x82Hero\x87. Save everyone from the Murderers!"
 			},
 			-- Teammate hit
 			["TEAMMATE_HIT"]={
-				"Don't hit teammates. You don't wanna be THAT guy.",
-				"THAT guy (Teammate) just hit you, just ignore them, it ain't worth it."
+				"Don't hit teammates. You don't wanna get a revenge on you.",
+				"Teammate hit you. Don't plan to do a revenge on your teammate."
 			},
 			-- Murderer killed
 			["MURD_KILLED"]={
@@ -115,7 +115,7 @@ rawset(_G, "MM", {
 			-- Sheriff killed
 			["SHERI_KILLED"]={
 				"\x84Sheriff\x87",
-				"\x80got murdered! Try to find their\x84 Emerald\x80!", --ending 1
+				"\x80got murdered! Find their\x84 Emerald\x80!", --ending 1
 				"\x80got murdered!" --ending 2 (no drop)
 			},
 			["HERO_KILLED"]={
@@ -125,11 +125,11 @@ rawset(_G, "MM", {
 			["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
 			-- Innocent hurt by Sheriff
 			["INNO_HURT_PM"]={
-				"\x87You murdered an \x83Innocent\x87! You got fired.",
-				"\x87Last I checked, \x82Heroes\x80 aren't meant to kill \x83Innocents\x80. As per policy, you must be\x85 executed"
+				"\x87You murdered an \x83Innocent\x87! How could you?!?!? (You're no longer a Sheriff)",
+				"\x82Heroes\x87 aren't meant to kill \x83Innocents\x87. You have to be executed for your war crime"
 			},
 			["INNO_HURT"]={
-				"\x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job.",
+				"\x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!",
 				"\x82Hero\x80 is dumbass, they killed an \x83Innocent\x80. Now both are lying dead. Shame on\x82 Dumbass\x80"
 			},
 			-- "One of the [role]s left!"
@@ -153,8 +153,8 @@ rawset(_G, "MM", {
 			},
 			-- Win texts
 			["ENDROUND"]={
-				"GGs, everyone's dead. The \x85Murderers\x80 win!",
-				"GG! All of the \x85Murderers\x80 got killed!,The \x83 Civilians\x80 win!",
+				"Everyone is dead. The \x85Murderers\x80 win!",
+				"All of the \x85Murderers\x80 got killed! The\x83 Civilians\x80 win!",
 				"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Innocent! Shame on \x84Sheriff\x80",
 				"The \x82Hero\x80 chose to kill the last Innocent. The \x85Murderers\x80 Win!",
 				"The Defenders of the\x83 Innocents\x80 are dead. The \x85Murderers\x80 win!"
@@ -168,11 +168,11 @@ rawset(_G, "MM", {
 			--HUD.LUA
 			-- Role names
 			["ROLES_HUD"]={
-				"Murderer",
-				"Sheriff",
-				"Innocent",
-				"Hero",
-				"Dead"
+				"MURDERER",
+				"SHERIFF",
+				"INNOCENT",
+				"HERO",
+				"DEAD"
 			},
 			["TEAMALIVE_HUD"]="Teammates alive:",
 			["KILLBY_HUD"]="Killed by",
@@ -889,7 +889,7 @@ rawset(_G, "MM", {
 		"\x8F" --Dead
 	},
 	winner=0, --for intermission, netsynced
-	timelimit=5 --for timelimit in TIME.LUA, netsynced
+	timelimit=5, --for timelimit in TIME.LUA, netsynced
 })
 
 rawset(_G, "MurderMystery", MM) --for backwards compatibility
@@ -941,7 +941,9 @@ CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue={MIN=0,MAX=
 CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
 
+--
 --MM init
+--
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
@@ -1014,6 +1016,22 @@ sfxinfo[sfx_emj12].caption="hehe boiii..."
 sfxinfo[sfx_emj13].caption="PINGAS"
 sfxinfo[sfx_emj14].caption="PAIN"
 sfxinfo[sfx_emj15].caption="huh?"
+
+dofile("MAIN/FUNCTIONS.LUA")
+dofile("MAIN/GAME.LUA")
+dofile("MAIN/TIME.LUA")
+dofile("MAIN/HUD.LUA")
+dofile("MAIN/CHAT.LUA")
+dofile("MAIN/CCMD.LUA")
+dofile("MAIN/ABILITIES.LUA")
+dofile("MAIN/NOCHEAT.LUA")
+
+dofile("MISC/ASSETS.LUA")
+
+print("\x83Murder Mystery loaded succesfuly, please note that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you're the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
+--
+--end of init
+--
 
 addHook("NetVars", function(net)
 	MM.text = net($)
