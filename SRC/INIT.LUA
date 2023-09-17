@@ -100,12 +100,12 @@ rawset(_G, "MM", {
 			["NEWROLE_GET"]={
 				"\x87Life randomly decided you shall be \x85Murderer\x87.\x85 Now go kill everyone.",
 				"\x87Universe made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
-				"\x87It was decided that you will become a \x82Hero\x87. Save everyone from the Murderers!"
+				"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!"
 			},
 			-- Teammate hit
 			["TEAMMATE_HIT"]={
-				"Don't hit teammates. You don't wanna get a revenge on you.",
-				"Teammate hit you. Don't plan to do a revenge on your teammate."
+				"Don't hit teammates. You don't want them to take revenge on you.",
+				"A teammate hit you. Don't plan to take revenge on your teammate."
 			},
 			-- Murderer killed
 			["MURD_KILLED"]={
@@ -125,18 +125,18 @@ rawset(_G, "MM", {
 			["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
 			-- Innocent hurt by Sheriff
 			["INNO_HURT_PM"]={
-				"\x87You murdered an \x83Innocent\x87! How could you?!?!? (You're no longer a Sheriff)",
-				"\x82Heroes\x87 aren't meant to kill \x83Innocents\x87. You have to be executed for your war crime"
+				"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)",
+				"\x82Heroes\x87 aren't meant to kill \x83Innocents\x87. You got the death penalty for that."
 			},
 			["INNO_HURT"]={
 				"\x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!",
-				"\x82Hero\x80 is dumbass, they killed an \x83Innocent\x80. Now both are lying dead. Shame on\x82 Dumbass\x80"
+				"\x82Hero\x80 is a dumbass, they killed an \x83Innocent\x80. Now both are lying dead. Shame on\x82 Dumbass\x80"
 			},
 			-- "One of the [role]s left!"
 			["ONE_LEFT"]={
-				"One of the \x85Murderers\x80 left!",
-				"One of the \x84Sheriffs\x80 left!!!",
-				"One of the \x82Heros\x80 left us!"
+				"One \x85Murderer\x80 left!",
+				"One \x84Sheriff\x80 left!!!",
+				"One \x82Hero\x80 left us!"
 			},
 			-- "Last [role] left!"
 			["LAST_LEFT"]={
@@ -181,7 +181,7 @@ rawset(_G, "MM", {
 			["HUD_SCORESTAB"]={
 				"No scores here! Counters below may help",
 				"If you're new to the gametype\nuse \x87MMHELP\x80 in the Console",
-				"\n\x82Have Fun ;)"
+				"\n\x82Have Fun!"
 			},
 			-- Scores TAB screen role conters
 			["HUD_ROLESALIVE"]={
