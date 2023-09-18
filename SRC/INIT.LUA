@@ -57,7 +57,7 @@ rawset(_G, "MM", {
 				},["CHAT"]={
 					"\x87How to use Sound Emojis\x80",
 					"When a player sends a message that contains specific words/phrases, a sound will be played.",
-					"For example, when you send a message containing \"bruh\", everyone will hear the "BRUH" sound",
+					"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
 					"Here is the full list of the Sound Emojis and how to activate each of them:\n",
 					"  \x88Keyword\x80       | \x89Sound",
 					" ---------------+-----------------------------",

@@ -28,7 +28,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 		elseif (type==2) --PM messages in different design for DEAD
 			if (t.spectator)
 				chatprintf(t, "\x86[PM]{"..s.name.."} "..m)
-				chatprintf(s, "\x86[TO]{"..s.name.."} "..m)
+				chatprintf(s, "\x86[TO]{"..t.name.."} "..m)
 			else CONS_Printf(s, t.name.." "..MM.text[s.mmlang]["CHAT"][1]) end
 		end
 		return true

@@ -88,8 +88,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 	elseif (vp.role==ROLE_SHERIFF)
 		if (ap.role==ROLE_SHERIFF) or (ap.role==ROLE_HERO)
-			chatprintf(ap, "\x84"..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
-			chatprintf(vp, "\x84"..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
+			chatprintf(ap, MM.RoleColor[vp.role]..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
+			chatprintf(vp, MM.RoleColor[ap.role]..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
 		end
 		KillPlayer(victim, attacker)
@@ -132,8 +132,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 	elseif vp.role==ROLE_HERO
 		if (ap.role==ROLE_HERO) or (ap.role==ROLE_SHERIFF)
-			chatprintf(ap, "\x82"..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
-			chatprintf(vp, "\x82"..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
+			chatprintf(ap, MM.RoleColor[vp.role]..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
+			chatprintf(vp, MM.RoleColor[ap.role]..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
 		end
 		KillPlayer(victim, attacker)
