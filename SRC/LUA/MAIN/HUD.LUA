@@ -130,8 +130,10 @@ local function scoresHUD(v) --SCORES TAB
 	if (PlayerCount(ROLE_INNOCENT)!=0) v.drawString(20,192, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
 	-- Online
 	v.drawString(192,176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
+	-- "Sheriff Emerald is available!"
+	if (MM.shreml_dropped!=0) and (leveltime%2==0) v.drawScaled(8*FU, 184*FU, 32768, v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end
 
-	if MM.devbuild drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
+	if (MM.devbuild) drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
 local function interHUD(v) --Custom intermission HUD
 	if gametype!=GT_MURDERMYSTERY

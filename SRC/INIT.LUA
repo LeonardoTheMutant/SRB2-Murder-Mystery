@@ -893,6 +893,7 @@ rawset(_G, "MM", {
 	},
 	winner=0, --for intermission, netsynced
 	timelimit=5, --for timelimit in TIME.LUA, netsynced
+	shreml_dropped=0 --The counter of Sheriff Emeralds dropped
 })
 
 rawset(_G, "MurderMystery", MM) --for backwards compatibility

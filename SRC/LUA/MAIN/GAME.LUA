@@ -40,6 +40,7 @@ addHook("PlayerSpawn", function(p)
 	--	f:close()
 	--end
 
+	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
 	p.afk=0 --Anti-AFK init
 
@@ -95,6 +96,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		-- Sheriff died, drop his emerald (weapon), if he's not last
 		if PlayerCount(ROLE_INNOCENT)!=0
 			P_SpawnMobjFromMobj(victim,0,0,0,MT_SHREML)
+			MM.shreml_dropped=$+1
 			chatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_SHERIFF)!=0)
@@ -117,8 +119,11 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			end
 		elseif ap.role==ROLE_HERO
 			KillPlayer(attacker, nil)
-			if PlayerCount(ROLE_INNOCENT)==0 and PlayerCount(ROLE_SHERIFF)==0
+			if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0)
 				endRound(ROLE_MURDERER, "WIN", 4)
+				return
+			elseif (PlayerCount(ROLE_INNOCENT)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (MM.shreml_dropped==0)
+				endRound(ROLE_MURDERER, "WIN", 5)
 				return
 			else
 				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][2])
@@ -156,6 +161,7 @@ addHook("MobjThinker", function(mo)
 		if (not p.mo) continue end
 		if (p.role==ROLE_INNOCENT) and (mobjInRange(mo, p.mo))
 			P_RemoveMobj(mo)
+			MM.shreml_dropped=$-1
 			S_StartSound(p.mo, 97, p)
 			p.role=ROLE_HERO
 			chatprintGlobal("SHREML_PICK")
