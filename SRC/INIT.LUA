@@ -173,6 +173,13 @@ rawset(_G, "MM", {
 				"HERO",
 				"DEAD"
 			},
+			["ROLES_HUD_SHORT"]={
+				"MURD",
+				"SHERI",
+				"INNO",
+				"HERO",
+				"DEAD"
+			},
 			["TEAMALIVE_HUD"]="Teammates alive:",
 			["KILLBY_HUD"]="Killed by",
 			["STUPID"]="your stupidity",
@@ -191,7 +198,8 @@ rawset(_G, "MM", {
 			-- Centered text when you're dead
 			["HUD_DEAD"]={
 				"You are\x8F dead",
-				"You can't respawn or talk to the living people."
+				"You can't respawn or",
+				"talk to the living people."
 			},
 			-- Centered text when you joined
 			["HUD_MIDJOIN"]={
@@ -839,6 +847,12 @@ rawset(_G, "MM", {
 				"NEWYNNA OSOBA",
 				"GEROJ",
 				"MERTWYJ"
+			},["ROLES_HUD_SHORT"]={
+				"WBYW.",
+				"SHER.",
+				"NEW.",
+				"GEROJ",
+				"MERT."
 			},["TEAMALIVE_HUD"]="Naparnykiw w zhywych:",
 			["KILLBY_HUD"]="Wbytyj",
 			["STUPID"]="twoim idiotyzmem",

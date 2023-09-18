@@ -17,13 +17,19 @@ local coords={ --HUD screen coordinates
 	role={x=248},
 	first2={y=40},
 	num2={x=4},
-	name2={x=26},
-	kills2={x=84},
-	role2={x=118}
+	name2={x=24},
+	kills2={x=108},
+	role2={x=134},
+	firstRingWep={ --for weapon icons
+		x=100,
+		y=156
+	}
 }
 local infoSCORE=hudinfo[HUD_SCORE]
 local infoTIME=hudinfo[HUD_TIME]
 local infoRINGS=hudinfo[HUD_RINGS]
+local debugHUD={x=8,y=80}
+
 local mmtxt=MM.text
 
 local function mainHUD(v, p) --main game HUD
@@ -65,44 +71,102 @@ local function mainHUD(v, p) --main game HUD
 	v.draw(infoRINGS.x, infoRINGS.y, v.cachePatch("STTRINGS"), infoRINGS.f)
 	v.drawNum(hudinfo[HUD_RINGSNUM].x, hudinfo[HUD_RINGSNUM].y, p.rings, hudinfo[HUD_RINGSNUM].f)
 
+	--Life icon, player name and role
+	v.drawScaled(hudinfo[HUD_LIVES].x*FU, hudinfo[HUD_LIVES].y*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor))
+	v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
+
+	--Show your role (and translate it)
+	if (p.role) and (p.role>=1) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+	if (p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
+		if PlayerCount(p.role)>1 v.drawString(0, 192, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
+	elseif (p.spectator)
+		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
+		if (p.role!=nil)
+			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 152+y*8, i, 8388608, "thin") end
+		end
+		if (p.killedby)
+			if p.killedby=="Your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
+			else v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
+		end
+	end
+
+	--I fucking recreated the whole vanilla ring weapons dock to slightly move it somewhere else :skull:
+	if (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
+		local ringTrans={
+			0, --automatic
+			0, --bounce
+			0, --scatter
+			0, --granade
+			0, --explosion
+			0, --rail
+			0  --red/infinity
+		}
+		local ringPatches={
+			"AUTOIND",
+			"BNCEIND",
+			"SCATIND",
+			"GRENIND",
+			"BOMBIND",
+			"RAILIND"
+		}
+		--transluency for the red ring icon
+		if (p.powers[pw_infinityring]==0) and (p.rings==0) ringTrans[7]=524288 --80% transluent
+		else ringTrans[7]=0 end
+		--transluency for other weapons
+		for weapon=1,6
+			if ((p.powers[weapon+14]) and (not (p.ringweapons&wep2rw(weapon))) or ((not p.powers[weapon+14]) and (p.ringweapons&wep2rw(weapon)))) ringTrans[weapon]=458752 --70% transluent
+			else ringTrans[weapon]=0 end
+		end
+
+		--Ring weapons
+		if (p.role==ROLE_MURDERER)
+			coords.firstRingWep.x=152
+			--draw the only icon for Murderer
+			if (p.powers[pw_infinityring])
+				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
+				drawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
+			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
+			v.draw((coords.firstRingWep.x-2), (coords.firstRingWep.y-p.weapondelay-2), v.cachePatch("CURWEAP"))
+		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
+			coords.firstRingWep.x=100
+			if (p.powers[pw_infinityring])
+				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
+				v.drawString((coords.firstRingWep.x+1), (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
+			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
+			for weapon=1,6
+				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
+					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(ringPatches[weapon]), ringTrans[weapon])
+					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end --40% transluent ammo counter
+				end
+			end
+			if ((p.ammoremovaltimer) and (leveltime%2==0)) v.drawString(coords.firstRingWep.x+1+p.ammoremovalweapon*20, (coords.firstRingWep.y+2), "\x85-"..p.ammoremoval, nil, "thin") end
+			v.draw((coords.firstRingWep.x-2+p.currentweapon*20), (coords.firstRingWep.y-(p.weapondelay>>2)-2), v.cachePatch("CURWEAP"))
+		end
+	end
+
 	--Reminder
 	if (CV_FindVar("rejointimeout").value!=0)
 		drawStrCentered(v, 96, "ADMIN, DISABLE THE\x87 REJOINTIMEOUT")
 		drawStrCentered(v, 104, "MM DOESN'T WORK PROPERLY WITH THIS CVAR")
 	end
 
-	--Show your role (and translate it)
-	if (p.role) and (p.role>=1) v.drawString(infoRINGS.x, infoRINGS.y+16,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], infoRINGS.f) end
-	if (p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
-		if PlayerCount(p.role)>1 v.drawString(0, 192, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
-		hud.enable("weaponrings")
-	elseif (p.spectator)
-		v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], infoRINGS.f)
-		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 128+y*8, i,8388608) end
-		if (p.role==nil)
-			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 168+y*8, i, 8388608, "thin") end
-		end
-		if (p.killedby)
-			if p.killedby=="Your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-			else v.drawString(infoRINGS.x, infoRINGS.y+24, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
-		end
-	end
 	--Are you alone? Draw the text
 	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) drawStrCentered(v, 128+y*8, i, 8388608) end end
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) v.drawString(108, 168, "\x88Showdown duel!",8388608) end
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) drawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-	elseif (p.sneak) v.drawString(infoRINGS.x, infoRINGS.y+32, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
+	elseif (p.sneak) v.drawString(infoRINGS.x, infoRINGS.y+24, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 
 	--Debug
 	if MM.devbuild
-		v.drawString(infoRINGS.x, infoRINGS.y+96, "\x87"..MM.version.."-"..MM.devbuild, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(infoRINGS.x, infoRINGS.y+104, "\x82".."AFK: \x80"..p.afk, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(infoRINGS.x, infoRINGS.y+112, "\x82".."MMLANG: \x80"..p.mmlang, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(infoRINGS.x, infoRINGS.y+120, "\x82".."KILLS: \x80"..p.kills, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-		v.drawString(infoRINGS.x, infoRINGS.y+128, "\x82".."CHATDELAY: \x80"..p.chatdelay, V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
+		v.drawString(debugHUD.x, debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
+		v.drawString(debugHUD.x, debugHUD.y+8, "\x82".."AFK: \x80"..p.afk,0,"thin")
+		v.drawString(debugHUD.x, debugHUD.y+16, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
+		v.drawString(debugHUD.x, debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
+		v.drawString(debugHUD.x, debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
 	end
 end
 local function scoresHUD(v) --SCORES TAB
@@ -159,39 +223,34 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString(coords.kills.x,coords.first.y,"\x82KILLS")
 			v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
 
-			v.drawString(coords.num.x,coords.first.y+i*16,i)
-			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,FU>>1,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name.x, coords.first.y+i*16,string.sub(plrs[i].name, 1, 17),8388608)
-			v.drawString(coords.kills.x, coords.first.y+i*16,plrs[i].kills)
+			v.drawString((coords.num.x),(coords.first.y+i*16),i)
+			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,32768,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawString((coords.name.x), (coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
+			v.drawString((coords.kills.x), (coords.first.y+i*16),plrs[i].kills)
 
-			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
-			else v.drawString(coords.role.x,coords.first.y+i*16,MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
+			if (plrs[i].role) and (plrs[i].role>=1) v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
+			else v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
 		else --if >=9 plrs present
 			v.drawFill(160,40,2,144,0) --vertical line
-			--first column
-			v.drawString(coords.num2.x,coords.first.y,"\x82#",0,"thin")
-			v.drawString(coords.name2.x,coords.first.y,"\x82NAME",0,"thin")
-			v.drawString(coords.kills2.x,coords.first.y,"\x82KILLS",0,"thin")
-			v.drawString(coords.role2.x,coords.first.y,"\x82ROLE",0,"thin")
-
-			--second column
-			v.drawString(coords.num2.x+160,coords.first.y,"\x82#",0,"thin")
-			v.drawString(coords.name2.x+160,coords.first.y,"\x82NAME",0,"thin")
-			v.drawString(coords.kills2.x+160,coords.first.y,"\x82KILLS",0,"thin")
-			v.drawString(coords.role2.x+160,coords.first.y,"\x82ROLE",0,"thin")
-
+			--names of columns
+			for i=0,1
+				v.drawString((coords.num2.x+i*160),(coords.first.y),"\x82#",0,"thin")
+				v.drawString((coords.name2.x+i*160),(coords.first.y),"\x82NAME",0,"thin")
+				v.drawString((coords.kills2.x+i*160),(coords.first.y),"\x82KILL",0,"thin")
+				v.drawString((coords.role2.x+i*160),(coords.first.y),"\x82ROLE",0,"thin")
+			end
 			if i>16 --players 17-32 are drawn on the second column
 				multiply.x=160
 				multiply.y=-128
 			end
+			--rows
+			v.drawString((coords.num2.x+multiply.x),(coords.first2.y+i*8+multiply.y),i,0,"thin")
+			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,16384,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawString((coords.name2.x+multiply.x),(coords.first2.y+i*8+multiply.y),string.sub(plrs[i].name, 1, 16),8388608,"thin")
+			v.drawString((coords.kills2.x+multiply.x),(coords.first2.y+i*8+multiply.y),plrs[i].kills,0,"thin")
 
-			v.drawString(coords.num2.x+multiply.x,coords.first2.y+i*8+multiply.y,i,0,"thin")
-			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,FU>>2,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString(coords.name2.x+multiply.x,coords.first2.y+i*8+multiply.y,string.sub(plrs[i].name, 1, 11),8388608,"thin")
-			v.drawString(coords.kills2.x+multiply.x,coords.first2.y+i*8+multiply.y,plrs[i].kills,0,"thin")
-
-			if (plrs[i].role) and (plrs[i].role>=1) v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role],0,"thin")
-			else v.drawString(coords.role2.x+multiply.x,coords.first2.y+i*8+multiply.y,MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5],0,"thin") end
+			if (plrs[i].role) and (plrs[i].role>=1) v.drawString((coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y),(MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][plrs[i].role]),0,"thin")
+			else v.drawString((coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y),(MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][5]),0,"thin") end
 		end
 	end
 

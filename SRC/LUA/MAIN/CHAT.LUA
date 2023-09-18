@@ -67,7 +67,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif m=="HELP" or m=="HELP!" chatplaySFX(sfx_emj10)
 			elseif m:find("PINGAS") chatplaySFX(sfx_emj13)
 			elseif m:find(":PAIN:") chatplaySFX(sfx_emj14)
-			elseif m:find("HUH") chatplaySFX(sfx_emj15) end
+			elseif m:find("HUH?") chatplaySFX(sfx_emj15) end
 		else return false end
 	end
 	s.chatdelay=delaytimer

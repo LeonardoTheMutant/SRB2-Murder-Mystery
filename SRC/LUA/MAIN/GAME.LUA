@@ -176,10 +176,8 @@ end, MT_SHREML)
 --
 addHook("PlayerThink", function(p)
 	if (gametype!=GT_MURDERMYSTERY) return end
-	if p.role==ROLE_MURDERER --remove weapons from Murderer
-		p.ringweapons=0
-		for i=15,20 p.powers[i]=0 end
-	elseif (p.role==ROLE_INNOCENT) p.weapondelay=1 end --Make innocents not shoot
+	if (p.role==ROLE_MURDERER) p.ringweapons=0 --remove weapons from Murderer
+	elseif (p.role==ROLE_INNOCENT) p.weapondelay=1 end --Make innocents never shoot
 
 	--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
 	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end

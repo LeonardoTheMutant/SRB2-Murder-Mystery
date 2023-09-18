@@ -136,6 +136,15 @@ end)
 rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
 	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
+rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* ocnstant
+	if (wep==1) return 1
+	elseif (wep==2) return 2
+	elseif (wep==3) return 4
+	elseif (wep==4) return 8
+	elseif (wep==5) return 16
+	elseif (wep==6) return 32
+	end
+end)
 
 --
 --CHAT.LUA
