@@ -185,7 +185,7 @@ addHook("PlayerThink", function(p)
 	--AFK logic
 	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1
 	else p.afk=0 end
-	if p.afk>afkCVAR.value*60*35
+	if p.afk>afkCVAR.value*2100
 		if p==server
 			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
 			COM_BufInsertText(server, "QUIT")

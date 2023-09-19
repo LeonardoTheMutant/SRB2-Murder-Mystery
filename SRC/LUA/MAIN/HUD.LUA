@@ -72,7 +72,7 @@ local function mainHUD(v, p) --main game HUD
 	v.drawNum(hudinfo[HUD_RINGSNUM].x, hudinfo[HUD_RINGSNUM].y, p.rings, hudinfo[HUD_RINGSNUM].f)
 
 	--Life icon, player name and role
-	v.drawScaled(hudinfo[HUD_LIVES].x*FU, hudinfo[HUD_LIVES].y*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor))
+	v.drawScaled(hudinfo[HUD_LIVES].x*FU, hudinfo[HUD_LIVES].y*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
 	v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role (and translate it)
@@ -195,7 +195,7 @@ local function scoresHUD(v) --SCORES TAB
 	-- Online
 	v.drawString(192,176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
 	-- "Sheriff Emerald is available!"
-	if (MM.shreml_dropped!=0) and (leveltime%2==0) v.drawScaled(8*FU, 184*FU, 32768, v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if (MM.shreml_dropped!=0) and (leveltime%2==0) v.drawScaled(524280,12058440,32768,v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end --8*FU, 184*FU, FU/2
 
 	if (MM.devbuild) drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
@@ -224,7 +224,7 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
 
 			v.drawString((coords.num.x),(coords.first.y+i*16),i)
-			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,32768,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,32768,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor)) --FU/2
 			v.drawString((coords.name.x),(coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
 			v.drawString((coords.kills.x),(coords.first.y+i*16),plrs[i].kills)
 
@@ -245,7 +245,7 @@ local function interHUD(v) --Custom intermission HUD
 			end
 			--rows
 			v.drawString((coords.num2.x+multiply.x),(coords.first2.y+i*8+multiply.y),i,0,"thin")
-			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,16384,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
+			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,16384,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor)) --FU/4
 			v.drawString((coords.name2.x+multiply.x),(coords.first2.y+i*8+multiply.y),string.sub(plrs[i].name, 1, 16),8388608,"thin")
 			v.drawString((coords.kills2.x+multiply.x),(coords.first2.y+i*8+multiply.y),plrs[i].kills,0,"thin")
 

@@ -11,7 +11,7 @@ addHook("MapLoad", function(map)
 end)
 
 addHook("ThinkFrame", function()
-    if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE)-1)
+    if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*2100)-1)
         G_ExitLevel()
     end
 end)
