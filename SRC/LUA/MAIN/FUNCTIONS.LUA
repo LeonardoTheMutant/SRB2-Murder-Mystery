@@ -73,9 +73,6 @@ end)
 rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	if (not p) or (not p.player) error("KillPlayer() argument #1 expects player's mobj_t") end
 	local plr = p.player
-	p.momx=0
-	p.momy=0
-	p.momz=0
 	plr.spectator=true
 	plr.role=ROLE_NONE
 	if (k) and (k.player)
@@ -136,7 +133,7 @@ end)
 rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
 	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
-rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* ocnstant
+rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1
 	elseif (wep==2) return 2
 	elseif (wep==3) return 4

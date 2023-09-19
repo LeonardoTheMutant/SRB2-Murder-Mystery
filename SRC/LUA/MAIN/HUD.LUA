@@ -82,7 +82,7 @@ local function mainHUD(v, p) --main game HUD
 	elseif (p.spectator)
 		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
-		if (p.role!=nil)
+		if (p.role==nil)
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 152+y*8, i, 8388608, "thin") end
 		end
 		if (p.killedby)
@@ -111,7 +111,7 @@ local function mainHUD(v, p) --main game HUD
 			"RAILIND"
 		}
 		--transluency for the red ring icon
-		if (p.powers[pw_infinityring]==0) and (p.rings==0) ringTrans[7]=524288 --80% transluent
+		if (p.powers[pw_infinityring]==0) and (p.rings==0) ringTrans[7]=458752 --70% transluent
 		else ringTrans[7]=0 end
 		--transluency for other weapons
 		for weapon=1,6
@@ -137,7 +137,7 @@ local function mainHUD(v, p) --main game HUD
 			for weapon=1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
 					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(ringPatches[weapon]), ringTrans[weapon])
-					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end --40% transluent ammo counter
+					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end
 				end
 			end
 			if ((p.ammoremovaltimer) and (leveltime%2==0)) v.drawString(coords.firstRingWep.x+1+p.ammoremovalweapon*20, (coords.firstRingWep.y+2), "\x85-"..p.ammoremoval, nil, "thin") end
@@ -225,8 +225,8 @@ local function interHUD(v) --Custom intermission HUD
 
 			v.drawString((coords.num.x),(coords.first.y+i*16),i)
 			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,32768,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor))
-			v.drawString((coords.name.x), (coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
-			v.drawString((coords.kills.x), (coords.first.y+i*16),plrs[i].kills)
+			v.drawString((coords.name.x),(coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
+			v.drawString((coords.kills.x),(coords.first.y+i*16),plrs[i].kills)
 
 			if (plrs[i].role) and (plrs[i].role>=1) v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
 			else v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
