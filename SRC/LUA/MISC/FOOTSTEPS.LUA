@@ -1,34 +1,3 @@
--- ASSETS.LUA
--- Miscellaneous open-assets scripts for MM functionality
-
---ShutUp Chatbug!
---made by Jiskster (Jisk)
---updated by LeonardoTheMutant
-local updaterate=CV_RegisterVar{name="acb_updaterate",defaultvalue="35",flags=CV_NETVAR,PossibleValue={MIN=1,MAX=350}}
-local resetrate=CV_RegisterVar{name="acb_resetrate",defaultvalue="70",flags=CV_NETVAR,PossibleValue={MIN=1,MAX=350}}
-local acbtoggle=CV_RegisterVar{name="acb_toggle",defaultvalue="Off",flags=CV_NETVAR,PossibleValue=CV_OnOff}
-local showdebug=CV_RegisterVar{name="acb_showdebug",defaultvalue="Off",PossibleValue=CV_OnOff}
-
---Mark player as updated (if he can send commands)
-COM_AddCommand("sendcmdupdate", function(p)
-    p.cmdupdatesent=true
-end)
-
-addHook("PlayerThink", function(p)
-    if acbtoggle.value
-        if (not leveltime%updaterate.value) COM_BufInsertText(p, "sendcmdupdate") end
-        if (not leveltime%resetrate.value)
-			if p.cmdupdatesent
-				p.cmdupdatesent=false
-				if showdebug.value print(p.name.. " Update confirmed!") end
-            else if (p.jointime>175) and (leveltime>175) COM_BufInsertText(server, "kick "..#p.." CMD never sent (Chatbug/Lag)") end end
-        end
-    end
-end)
-addHook("PlayerMsg", function(s)
-    if (acbtoggle.value) and (s.jointime<35) and (s!=server) return true end
-end)
-
 --FOOTSTEPS.LUA (fork from Modern Sonic)
 freeslot(
 "sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln",
@@ -2152,6 +2121,7 @@ local flatsounds={
 	["THZWALLA"]="stone",
 	["THZ2N3H"]="metal",
 	["THZ2FN6B"]="metal"
+	["ROCKY3"]="stone"
 }
 
 local playeraniminfo={ --only Vanilla characters are left
