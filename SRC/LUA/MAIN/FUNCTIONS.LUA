@@ -96,9 +96,10 @@ end)
 --Function to end the round, arguments here:
 --w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat
---reason is not used in this function but rather in chatprintGlobal()
+--reason is used differently for each message but usualy it is a win reason
 rawset(_G, "endRound", function(w, endtext, reason)
 	MM.winner=w
+	if (endtext=="WIN") MM.winreason=reason end
 	G_ExitLevel()
 	chatprintGlobal(endtext, reason)
 	for p in players.iterate p.spectator=false end

@@ -20,6 +20,7 @@ addHook("MapLoad", do
 		p.killedby=nil
 	end
 	MM.winner=0
+	MM.winreason=0
 	AssignRoles()
 end)
 
@@ -191,6 +192,22 @@ addHook("PlayerThink", function(p)
 			COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "kick "..#p.." AFK") end
 	end
+end)
+
+--
+-- Intermission ending theme switcher
+--
+addHook("MusicChange", function(oldname, newname)
+    if (gametype!=GT_MURDERMYSTERY) or (newname!="_inter") return end
+    if (MM.winner==0) return "NOWAY" end
+    else
+        if (MM.winreason==1) return "INTER"
+        elseif (MM.winreason==2) return "UN39"
+        elseif (MM.winreason==3) return "LANCER"
+        elseif (MM.winreason==4) return "GASTER"
+        elseif (MM.winreason==5) return "READ_M"
+        else return newname end
+    end
 end)
 
 --

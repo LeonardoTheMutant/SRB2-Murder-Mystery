@@ -905,6 +905,7 @@ rawset(_G, "MM", {
 		"\x8F" --Dead
 	},
 	winner=0, --for intermission, netsynced
+	winreason=0, --for intermission, netsynced
 	timelimit=5, --for timelimit in TIME.LUA, netsynced
 	shreml_dropped=0 --The counter of Sheriff Emeralds dropped
 })
@@ -1055,6 +1056,7 @@ addHook("NetVars", function(net)
 	MM.text = net($)
 	MM.CharStats = net($)
 	MM.winner = net($)
+	MM.winreason = net($)
 	MM.timelimit = net($)
 end)
 
