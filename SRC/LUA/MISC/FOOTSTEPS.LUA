@@ -2120,7 +2120,7 @@ local flatsounds={
 	["THZWALLF"]="metal",
 	["THZWALLA"]="stone",
 	["THZ2N3H"]="metal",
-	["THZ2FN6B"]="metal"
+	["THZ2FN6B"]="metal",
 	["ROCKY3"]="stone"
 }
 
