@@ -12,8 +12,7 @@ local function helpCMD(p, page)
 	local l=p.mmlang
 	if (page) page=$:upper() end
 	if (p==server) and (isdedicatedserver) l="EN" end --Since Dedicated server host's player_t can't contain p.mmlang we have to emulate it
-	if not page
-		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
+	if (not page) for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
 	elseif page=="INFO"
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
 		CONS_Printf(p, "Version\x81 "..MM.version.."\x80 ("..MM.releasedate..")")
@@ -34,16 +33,19 @@ local function helpCMD(p, page)
 		end
 	end
 	if (p==server) or (IsPlayerAdmin(p))
-			CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
-			CONS_Printf(p, "\x87MMCHARMODE\x80 - Turn vanilla abbilities ON/OFF (in limited form).")
-			CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
-			CONS_Printf(p, "\x87MMSPAM\x80     - Set the sending delay time in ticks to prevent chat spamming.")
-			CONS_Printf(p, "\x87MMSEMJ\x80     - Enable/Disable Sound Emojis for everyone.")
-			CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked") end
-		if MM.devbuild
-			CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
-			CONS_Printf(p, "\x87MMPLAYER\x80 - Change player state/role")
-			CONS_Printf(p, "\x87MMNODES\x80  - Display everyone's player state and role") end
+		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
+		CONS_Printf(p, "\x87MMCHARMODE\x80 - Turn vanilla abbilities ON/OFF (in limited form).")
+		CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
+		CONS_Printf(p, "\x87MMSPAM\x80     - Set the sending delay time in ticks to prevent chat spamming.")
+		CONS_Printf(p, "\x87MMSEMJ\x80     - Enable/Disable Sound Emojis for everyone.")
+		CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked")
+	end
+	if MM.devbuild
+		CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
+		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
+		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
+		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
+	end
 end
 		-- CONS_Printf(p, "\x87Welcome to Murder Mystery!") --the original MMHELP before 4.2-beta
 		-- CONS_Printf(p, "This is a MATCH based gametype where you still need to shoot but shoot only requiered players. Which?\nLet's start from the beginning:")
