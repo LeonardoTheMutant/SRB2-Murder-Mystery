@@ -199,7 +199,7 @@ end)
 --
 addHook("MusicChange", function(oldname, newname)
     if (gametype!=GT_MURDERMYSTERY) or (newname!="_inter") return end
-    if (MM.winner==0) return "NOWAY" end
+    if (MM.winner==0) return "NOWAY"
     else
         if (MM.winreason==1) return "INTER"
         elseif (MM.winreason==2) return "UN39"
@@ -296,5 +296,17 @@ if MM.devbuild
 	end)
 	COM_AddCommand("mmnodes", do
 		for p in players.iterate print(p.name..": "..tostring(p.role)..", "..tostring(p.spectator)) end
+	end)
+	COM_AddCommand("mmexitlevel", function(p, winner, reason)
+		winner = tonumber($)
+		reason = tonumber($)
+		if (winner==nil)
+			CONS_Printf(p, "\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]")
+			CONS_Printf(p, "Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians")
+			CONS_Printf(p, "Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"")
+			return
+		end
+		if (not reason) endRound(winner, "WIN", winner)
+		else endRound(winner, "WIN", reason) end
 	end)
 end
