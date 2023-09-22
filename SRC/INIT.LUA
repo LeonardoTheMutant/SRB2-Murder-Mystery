@@ -965,9 +965,9 @@ CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('tol_mm','SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_NGGYU', 'SFX_DAMFLL', 'MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
-freeslot('SFX_EMJ00', 'SFX_EMJ01', 'SFX_EMJ02', 'SFX_EMJ03', 'SFX_EMJ04', 'SFX_EMJ05', 'SFX_EMJ06', 'SFX_EMJ07', 'SFX_EMJ08', 'SFX_EMJ09', 'SFX_EMJ0A', 'SFX_EMJ0B', 'SFX_EMJ0C', 'SFX_EMJ0D', 'SFX_EMJ0E', 'SFX_EMJ0F',
-'SFX_EMJ10', 'SFX_EMJ11', 'SFX_EMJ12', 'SFX_EMJ13', 'SFX_EMJ14', 'SFX_EMJ15')
+freeslot('TOL_MM','SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_NGGYU', 'SFX_DAMFLL', 'MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
+freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
@@ -1027,13 +1027,14 @@ sfxinfo[sfx_emj0b].caption="AHA!"
 sfxinfo[sfx_emj0c].caption="NO WAY!"
 sfxinfo[sfx_emj0d].caption="nope."
 sfxinfo[sfx_emj0e].caption="GET OVER HERE"
-sfxinfo[sfx_emj0f].caption="NOOOOOoooooo..."
+sfxinfo[sfx_emj0f].caption="NOOOOoooo..."
 sfxinfo[sfx_emj10].caption="HELP"
 sfxinfo[sfx_emj11].caption="HEHEHE HA"
 sfxinfo[sfx_emj12].caption="hehe boiii..."
 sfxinfo[sfx_emj13].caption="PINGAS"
 sfxinfo[sfx_emj14].caption="PAIN"
 sfxinfo[sfx_emj15].caption="huh?"
+sfxinfo[sfx_emj16].caption="NO!"
 
 dofile("MAIN/FUNCTIONS.LUA")
 dofile("MAIN/GAME.LUA")
