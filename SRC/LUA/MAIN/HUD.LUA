@@ -86,7 +86,7 @@ local function mainHUD(v, p) --main game HUD
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 152+y*8, i, 8388608, "thin") end
 		end
 		if (p.killedby)
-			if p.killedby=="Your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
+			if p.killedby=="your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
 			else v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
 		end
 	end

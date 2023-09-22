@@ -33,10 +33,10 @@ addHook("PlayerSpawn", function(p)
 
 	--Apply language
 	if (not p.mmlang) p.mmlang="EN" end
-	--	local f=io.openlocal("client/MM.DAT", 'r') --network unsynced language save/load
+	--	local f=io.openlocal("client/MMLANG.DAT", 'r') --network unsynced language save/load
 	--	if f
 	--		local l=f:read()
-	--		if mmtxt[l]~=nil p.mmlang=l
+	--		if (mmtxt[l]) p.mmlang=l
 	--		else p.mmlang="EN" end
 	--	else p.mmlang='EN' end
 	--	f:close()
@@ -47,9 +47,10 @@ addHook("PlayerSpawn", function(p)
 	p.afk=0 --Anti-AFK init
 
 	--Player num and state check on join
+	if (PlayerCount()<2) p.role=ROLE_NONE end
 	if (PlayerCount()==2) and (p.role==nil) --Player2 joined 'singleplayer' round
-		AssignRoles() --Assign them roles
-		S_StartSound(nil,93,p) --Notify Player1 (who's probably AFK) about new player
+		AssignRoles() --Assign roles for that duel
+		for plr in players.iterate S_StartSound(nil,93,plr) end --notify player 1 (who might be AFK) about a new rival
 	elseif (PlayerCount()>2) and (p.role==nil) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
 end)
 

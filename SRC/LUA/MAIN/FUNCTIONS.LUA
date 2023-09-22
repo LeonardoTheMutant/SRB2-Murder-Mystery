@@ -20,29 +20,31 @@ rawset(_G, "AssignRoles", function()
 	if (gametype!=GT_MURDERMYSTERY) or (PlayerCount()<2) return
 	elseif (gametype==GT_MURDERMYSTERY) and (splitscreen)
 		COM_BufInsertText(server, "MAP JADE VALLEY -GAMETYPE MATCH")
-		print("\x85Hold on!\x80\nMurder Mystery (I'll short it MM from now on) is not designed for splitscreen mode! The game switched to the MATCH cuz it's as same as playing 1v1 in MM.\nDon't like it? Maybe you would like to type \x83MAP Abandoned Shelter -GAMETYPE MATCH -FORCE\x80 in this console to play MATCH inside MM maps?\nSorry but I won't make MM for splitscreen - it has no sence.\nSincerely, \x87LeonardoTheMutant")
+		print("\x85Hold on!\x80\nMurder Mystery is not designed for splitscreen mode! Your game switched to MATCH becase it's as same as playing 1v1 in MM.\nSo don't try to load Murder Mystery in splitscreen again. It will have no sense.")
 		return
 	end
-	--prepare players
-	for p in players.iterate p.role=ROLE_NONE end
+
 	--how much players with same role should exist?
 	local roleMultiplier=1
 	if (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
 	elseif (PlayerCount()>=11) and (PlayerCount()<=14) roleMultiplier=3
 	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
-	--assign roles
-    local plrs={}
-    for p in players.iterate table.insert(plrs, #p) end --get numbers of player nodes that exist
-    for r = ROLE_MURDERER, ROLE_SHERIFF --assign the Role
+
+	local plrs={}
+	for p in players.iterate --prepare players and get their player nodes
+		p.role=ROLE_NONE
+		table.insert(plrs, #p)
+	end
+    for r = ROLE_MURDERER, ROLE_SHERIFF --finally assign Murderers and Sheriffs
         for i=1, roleMultiplier
-            local randPlr=P_RandomKey(#plrs)+1
-            players[plrs[randPlr]].role=r
-            table.remove(plrs, randPlr)
+            local randPlr=P_RandomKey(#plrs)+1 --select random player
+            players[plrs[randPlr]].role=r --assign the role to that player
+            table.remove(plrs, randPlr) --and finally forget about it
         end
     end
-	--print who they are personally
+	--tell each player its role personally
 	for p in players.iterate
-		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end
+		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end --we previously didn't make Innos so make them now
 		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
 	end
 	if (MM.devbuild)
@@ -65,20 +67,20 @@ rawset(_G, "chatprintGlobal", function(msg, var)
 		elseif (msg=="INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
 		elseif msg
 			if (mmtxt[p.mmlang][msg]) chatprintf(p, mmtxt[p.mmlang][msg])
-			else chatprintf(p, msg.."; "..var) end --no text was found in the database
+			else chatprintf(p, msg.."; "..var) end --no text exists in the database
 		end
 	end
 end)
 
 rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if (not p) or (not p.player) error("KillPlayer() argument #1 expects player's mobj_t") end
+	if (not p) or (not p.player) error("KillPlayer() argument #1 require player's mobj_t") end
 	local plr = p.player
 	plr.spectator=true
 	plr.role=ROLE_NONE
 	if (k) and (k.player)
 		plr.killedby=k.player.name
 		k.player.kills=$+1
-	else plr.killedby="Your stupidity" end
+	else plr.killedby="your stupidity" end
 	P_FlashPal(plr, PAL_NUKE, 4)
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
@@ -114,18 +116,16 @@ rawset(_G, "CheckPlayers", function()
 	elseif (PlayerCount(ROLE_MURDERER)!=0) and ((PlayerCount(ROLE_SHERIFF)!=0) or (PlayerCount(ROLE_HERO)!=0)) and (PlayerCount(ROLE_INNOCENT)==0) S_ChangeMusic("SHWDWN", true) end
 end)
 
---Regular functions
 rawset(_G, "SetRandomInnoAs", function(role)
-	while true
-		for p in players.iterate
-			if (P_RandomKey(4)==0) and (p.role==ROLE_INNOCENT) and (not p.spectator)
-				p.role=role
-				if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
-				else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
-				return
-			end
-		end
+	local plrs={}
+	for plr in players.iterate
+		if (not plr.spectator) and (plr.role==ROLE_INNOCENT) table.insert(plrs, #plr) end
 	end
+    local p = players[plrs[P_RandomKey(#plrs)+1]]
+	p.role=role
+	if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
+	else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
+	return
 end)
 
 --
