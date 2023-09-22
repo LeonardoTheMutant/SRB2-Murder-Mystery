@@ -220,6 +220,8 @@ addHook("PlayerQuit", function(p)
 		p.role=ROLE_NONE
 		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_MURDERER)==0)
 			endRound(0, "LAST_LEFT", ROLE_MURDERER)
+		elseif (PlayerCount(ROLE_INNOCENT!=0) and (PlayerCount(ROLE_SHERIFF)==0) and PlayerCount(ROLE_MURDERER)==0)
+			endRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if gamestate==GS_LEVEL
 				chatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
