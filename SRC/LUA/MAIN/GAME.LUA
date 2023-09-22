@@ -21,6 +21,7 @@ addHook("MapLoad", do
 	end
 	MM.winner=0
 	MM.winreason=0
+	MM.shreml_dropped=0
 	AssignRoles()
 end)
 
@@ -218,9 +219,7 @@ addHook("PlayerQuit", function(p)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	if p.role==ROLE_MURDERER
 		p.role=ROLE_NONE
-		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_MURDERER)==0)
-			endRound(0, "LAST_LEFT", ROLE_MURDERER)
-		elseif (PlayerCount(ROLE_INNOCENT!=0) and (PlayerCount(ROLE_SHERIFF)==0) and PlayerCount(ROLE_MURDERER)==0)
+		if ((PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_MURDERER)==0)) or ((PlayerCount(ROLE_INNOCENT)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_MURDERER)==0))
 			endRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if gamestate==GS_LEVEL
