@@ -77,8 +77,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Show your role (and translate it)
 	if (p.role) and (p.role>=1) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
-	if (p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
-		if PlayerCount(p.role)>1 v.drawString(0, 192, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), V_SNAPTOBOTTOM|V_SNAPTOLEFT) end
+	if ((p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO) and (PlayerCount(p.role)>1)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), infoRINGS.f)
 	elseif (p.spectator)
 		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
