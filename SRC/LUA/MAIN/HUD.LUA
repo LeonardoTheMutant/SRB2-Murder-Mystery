@@ -5,8 +5,8 @@
 -- This script controlls HUD elements
 -- Good luck reading all of this
 --
--- Note: Some Video Flags are presented as intergers
--- V_ALLOWLOWERCASE = 8388608
+-- Note: Some Video Flags are represented directly as intergers
+-- for example V_ALLOWLOWERCASE = 8388608
 
 -- Constants
 local coords={ --HUD screen coordinates
@@ -21,14 +21,14 @@ local coords={ --HUD screen coordinates
 	kills2={x=108},
 	role2={x=134},
 	firstRingWep={ --for weapon icons
-		x=100,
-		y=156
+		x=100,y=156
+	},debugHUD={
+		x=8,y=80
 	}
 }
 local infoSCORE=hudinfo[HUD_SCORE]
 local infoTIME=hudinfo[HUD_TIME]
 local infoRINGS=hudinfo[HUD_RINGS]
-local debugHUD={x=8,y=80}
 
 local mmtxt=MM.text
 
@@ -76,8 +76,8 @@ local function mainHUD(v, p) --main game HUD
 	v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role (and translate it)
-	if (p.role) and (p.role>=1) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
-	if ((p.role) and (p.role==ROLE_MURDERER) or (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO) and (PlayerCount(p.role)>1)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), infoRINGS.f)
+	if (p.role) and (p.role>0) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+	if ((p.role) and (PlayerCount(p.role)>1)) and (p.role!=ROLE_INNOCENT) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), infoRINGS.f)
 	elseif (p.spectator)
 		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
@@ -161,11 +161,13 @@ local function mainHUD(v, p) --main game HUD
 
 	--Debug
 	if MM.devbuild
-		v.drawString(debugHUD.x, debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
-		v.drawString(debugHUD.x, debugHUD.y+8, "\x82".."AFK: \x80"..p.afk,0,"thin")
-		v.drawString(debugHUD.x, debugHUD.y+16, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
-		v.drawString(debugHUD.x, debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
-		v.drawString(debugHUD.x, debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."AFK: \x80"..p.afk,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
+
 	end
 end
 local function scoresHUD(v) --SCORES TAB

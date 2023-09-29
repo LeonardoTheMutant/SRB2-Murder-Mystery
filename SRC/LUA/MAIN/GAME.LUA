@@ -199,8 +199,8 @@ end)
 --
 -- Intermission ending theme switcher
 --
-addHook("MusicChange", function(oldname, newname)
-    if (gametype!=GT_MURDERMYSTERY) or (newname!="_inter") return end
+addHook("MusicChange", function(old, new)
+    if (gametype!=GT_MURDERMYSTERY) or (new!="_inter") return end
     if (MM.winner==0) return "NOWAY"
     else
         if (MM.winreason==1) return "INTER"
