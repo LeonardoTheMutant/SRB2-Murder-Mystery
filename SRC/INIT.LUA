@@ -119,10 +119,9 @@ rawset(_G, "MM", {
 			},
 			-- "Last [role] left!"
 			["LAST_LEFT"]={
-				"The Last \x85Murderer\x80 has left!",
-				"The Last \x84Sheriff\x80 has left!",
-				--"The Last \x83Innocent\x80 left!", --I believe this is unused now
-				"The Last \x82Hero\x80 has left!"
+				"The last \x85Murderer\x80 has left!",
+				"The last \x84Sheriff\x80 has left!",
+				"The last \x82Hero\x80 has left!"
 			},
 			-- "[role] left, replaced him"
 			["REPLACE_LEFT"]={
