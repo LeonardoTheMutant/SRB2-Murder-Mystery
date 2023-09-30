@@ -11,6 +11,20 @@ rawset(_G, "MM", {
 			["VERSION"]="8.2-BETA", --to check if lang content is not OUTDATED
 			["AUTHOR"]="MM_DEV community",
 			["MM"]="Murder Mystery",
+			["MMHELP_CMD"]={
+				["CONTENTS"]={ --Table of Contents
+					"\x8ATable of contents:",
+					"\x87MMHELP GAME\x80 - More about the game and gameplay situations;",
+					"\x87MMHELP BAD\x80  - List of things that are forbidden to do in MM;",
+					"\x87MMHELP CHAT\x80 - List of sound emojis that you can use in the chat;",
+					"\x87MMHELP INFO\x80 - Technical information and \"What's new\";",
+					"\n\x87MMLANG\x80      - Change the language of the content appearing in MM"
+				},
+				["NOTFOUND"]={ --"page not found"
+					"Page",
+					"doesn't exist. Please indroduce yourself to the Table of Contents:"
+				}
+			},
 			["MMHELP"]={ --MMHELP command
 				["MAIN"]={ --When no page specified
 					"\x87        Welcome to Murder Mystery!\nThe SRB2 interpretation of the popular multiplayer game!",
@@ -20,12 +34,7 @@ rawset(_G, "MM", {
 					" * \x85Murderer\x80 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
 					" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
 					" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
-					"\nThat's all basic information required to start playing, for more information, you can use these commands:",
-					"\x87MMHELP GAME\x80 - More about the game and gameplay situations;",
-					"\x87MMHELP BAD\x80  - List of things that are forbidden to do in MM;",
-					"\x87MMHELP CHAT\x80 - List of sound emojis that you can use in the chat;",
-					"\x87MMHELP INFO\x80 - Technical information and \"What's new\";",
-					"\n\x87MMLANG\x80      - Change the language of the content appearing in MM"
+					"\nThat's all basic information required to start playing, for more information, you can use these commands:"
 				},["GAME"]={
 					"\x87".."About the gameplay situations",
 					"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",
@@ -39,10 +48,7 @@ rawset(_G, "MM", {
 					"The \x82Hero\x80 role doesn't really differ from the \x84Sheriff\x80 except some details such as when the \x82Hero\x80 kills an \x83Innocent\x80 their role isn't shared and both just die. A Hero will not drop a \x84Sheriff's Emerald\x80 on their death.",
 					"\n* Depending on the player count, there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 amongst the players in the round. For example, starting from 7 players and more, \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
 					"\x8BTeammates\x80 can chat with each other in their team chat with the \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
-					"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!",
-					"\nFor even more information, check out:",
-					"\x87MMHELP BAD\x80  - Things you shouldn't do in MM game",
-					"\x87MMHELP CHAT\x80 - What are Sound Emojis and how to use them"
+					"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
 				},["BAD"]={
 					"\x87Things that are bad to do in Murder Mystery",
 					"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
@@ -50,43 +56,12 @@ rawset(_G, "MM", {
 					"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you will accuse every player for no reason.",
 					"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
 					"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
-					"Breaking one of these rules may result in a kick or in some cases, a ban from the Admin! Please do not break them and play fairly.",
-					"\nMore help pages that you might want to read at your console:",
-					"\x87MMHELP GAME\x80 - About gameplay situations",
-					"\x87MMHELP CHAT\x80 - List of Sound Emojis and their usage"
+					"Breaking one of these rules may result in a kick or in some cases, a ban from the Admin! Please do not break them and play fairly."
 				},["CHAT"]={
 					"\x87How to use Sound Emojis\x80",
 					"When a player sends a message that contains specific words/phrases, a sound will be played.",
 					"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
-					"Here is the full list of the Sound Emojis and how to activate each of them:\n",
-					"  \x88Keyword\x80       | \x89Sound",
-					" ---------------+-----------------------------",
-					"  :skull:       | \"Bad to the Bones\"",
-					"  :fart:        | Fart sound",
-					"  :omg:         | \"OOHhhh myyy Goooddddd...\"",
-					"  :wow:         | Anime-like \"WOW!\"",
-					"  hehe          | DOOMGUY chuckle",
-					"  \\:|           | Vine boom (Rock-eyebrow)",
-					"  bruh          | bruh",
-					"  /:|           | Vine boom (Rock-eyebrow)",
-					"  AMONGUS       | \"*AMONG US*\"",
-					"  AMONG US      | \"*AMONG US*\"",
-					"  sus           | SUS",
-					"  oh no         | Knuckles' \'OH NO\'",
-					"  AGHH          | Eggman's \'AGHHHH!\'",
-					"  AHH           | Eggman's \'AGHHHH!\'",
-					"  AHA           | Eggman's \'AHA!\'",
-					"  NO WAY        | Eggman's \'NO WAY!\'",
-					"  NOPE          | Nope.",
-					"  GET OVER HERE | \"GET OVER HERE!\"",
-					"  NOO           | \"NOOOOOOoooooo...\"",
-					"  HELP          | Tyler1's \"HELP!\"",
-					"  HEHEHE HA     | Clash Royal King's laugh",
-					"  HEHE BOI      | \"Hehe boi...\"",
-					" ---------------+-----------------------------",
-					"More help:",
-					"\x87MMHELP GAME\x80 - More about the game and gameplay situations",
-					"\x87MMHELP BAD\x80  - Things that are forbidden to do in MM"
+					"Here is the full list of the Sound Emojis and how to activate each of them:\n"
 				},["TIPS"]={
 					"Useful tips for you",
 					"We've collected some tips that can help you during your game in MM",
@@ -309,7 +284,6 @@ rawset(_G, "MM", {
 					"\x87MMHELP BAD\x80  - Cosas prohibidas en MA"
 				}
 			},
-			
 			["ROLE_GET"]={
 				"Eres el\x85 Asesino\x80! \x85Mata a todos.",
 				"Eres el\x84 Comisario\x80!\x84 Elimina a todos los Asesinos\x80. Si matas un Inocente, pierdes.",
@@ -390,8 +364,7 @@ rawset(_G, "MM", {
 				"EMPATE!",
 				"\x85".."ASESINOS",
 				"\x83".."CIVILES"
-			},
-			["MMLANG"]={
+			},["MMLANG"]={
 				"Tu idioma actual en uso es\x82 Espanol\x80\nPuedes cambiarlo con \x87MMLANG [idioma]",
 				"El idioma personal para Misterio De Asesinato fue cambiado a\x82 Espanol"
 			}
@@ -715,7 +688,19 @@ rawset(_G, "MM", {
 			["AUTHOR"]="LeonardoTheMutant",
 			["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 			["MM"]="Tajemnycia Wbywstwa",
-			["MMHELP"]={
+			["MMHELP_CMD"]={
+				["CONTENTS"]={
+					"\x8AZmist:",
+					"\x87MMHELP GAME\x80 - Bil'she pro gameplay ta igrowi sytuaciji;",
+					"\x87MMHELP BAD\x80  - Spysok zaboronenyh rechej w TW;",
+					"\x87MMHELP CHAT\x80 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
+					"\x87MMHELP INFO\x80 - Technichna informacija ta \"Sho nowogo\".",
+					"\n\x87MMLANG\x80      - Zminuty mowu kontentu w TW"
+				},["NOTFOUND"]={
+					"Storinky",
+					"ne isnuje. Bud' Laska oznajomtesia zi zmistom:"
+				}
+			},["MMHELP"]={
 				["MAIN"]={
 					"\x87              Witajemo w Tajemnyci Wbywstwa!\nInterprytacia populiarnoji bagatokorystkuwac'koji gry w SRB2",
 					"\nCil' gry poliagaje u znahodzhenni i eliminaciji usih \x85Wbywc'\x80 poky wony ne wbyly \x83usih inshyh\x80. Cia gra podibna do MATCH tomu wam znadobliatsia washi wminnia prycilennia i stril'by.",
@@ -724,12 +709,7 @@ rawset(_G, "MM", {
 					" * \x85Wbywcia\x80       - ikona cryminalu. Osobam z cijeju rolliu treba wbyty kozhnogo, ale obmezheni tikl'y odnijeju zbrojeju;",
 					" * \x84Sheryf\x80        - Cil' cijeji roli znajty i eliminuwaty usih \x85Wbywc'\x80. Sheryfy mozhut' wykorystowuwaty kozhnu zbroju jaka je dostupna na lokaciji;",
 					" * \x83Newynna osoba\x80 - Jiji cil unykaty smert' ta dopomagaty znajty \x85Wbywc'\x80.",
-					"\nCe usia potribna bazowa informacia shob pochaty graty, jaksho she chogos' ne rozumijete abo hochete znaty bil'she wykorystajte ci konsol'ni komandy:",
-					"\x87MMHELP GAME\x80 - Bil'she pro gameplay ta igrowi sytuaciji;",
-					"\x87MMHELP BAD\x80  - Spysok zaboronenyh rechej w TW;",
-					"\x87MMHELP CHAT\x80 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
-					"\x87MMHELP INFO\x80 - Technichna informacija ta \"Sho nowogo\".",
-					"\n\x87MMLANG\x80      - Zminuty mowu kontentu w TW"
+					"\nCe usia potribna bazowa informacia shob pochaty graty, jaksho she chogos' ne rozumijete abo hochete znaty bil'she wykorystajte ci konsol'ni komandy:"
 				},["GAME"]={
 					"\x87Pro gameplay ta igrowi sytuaciji",
 					"Jak skazano ranishe na pochatku cil' gry eliminuwaty usih \x85Wbywc'\x80, ale pid chas gry mozhut' wynyknuty rizni sytuaciji:",
@@ -743,10 +723,7 @@ rawset(_G, "MM", {
 					"Rol' \x82Geroja\x80 ne duzhe widrizniajet'sia wid \x84Sheryfa\x80 krim kil'koh detalej jak, napryklad, koly \x82Geroj\x80 wbywaje \x83Newynnu osobu\x80 nijaka rol' ne peredajet'sia inshym i oboje prosto gynut'. Takozh \x82Geroj\x80 ne zalyshaje \x84Smaragd Sheryfa\x80 pry swojij smerti.",
 					"\n* Dywliachys' na kilkist' grawciw online u raundi mozhut' zjawliatysia bilshe nizh odna \x85Wbywcia\x80 ta \x84Sheryf\x80. Napryklad, pochynajuchy wid 7 grawciw ta bil'she fromujut'sia \x8BKomandy\x85 Wbywc'\x80 ta \x84Sheryfiw\x80.",
 					"\x8BNaparnyky\x80 mozhut' westy peregowory odyn z odnym u swojemu Komandnomu Chati wukorystowujuchy konsol'nu komandu \x87SAYTEAM\x80 (zauwazhte sho knopka dla chatu SAYTEAM aktywuje zwychnyj chat).",
-					"Jaksho odyn z \x8Bnaparnykiw\x80 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiatajte sho inshi mozhut' pobachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!",
-					"\nDla podal'shogo rozuminia gry mozhete takozh pochytaty:",
-					"\x87MMHELP BAD\x80  - Rechi kotrych ne treba robyty w TW",
-					"\x87MMHELP CAHT\x80 - Sho take Zwukowi Emoji ta jak jih wykorystowuwaty"
+					"Jaksho odyn z \x8Bnaparnykiw\x80 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiatajte sho inshi mozhut' pobachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!"
 				},["BAD"]={
 					"\x87Rechi jaki zaboroneni w Tajemnyci Wbywstwa",
 					"Prawylo No.1 kozhnoji gry:\x82 Bud' wwichlywyj ta nasolodzhyjsia groju!\x80 Okrim ciogo...",
@@ -754,43 +731,12 @@ rawset(_G, "MM", {
 					"* Ne znushajtesia z inshyh grawciw. Zharty dozwoleno, ale w dobromu gumori. Nihto wam ne bude wiryty jaksho budete zwynuwachuwaty usih, napryklad, Wbywceju.",
 					"* Buty neaktywnyhm ce wojennyj zlochyn. Koly grawci dowgyj chas neaktywni gra wyganiaje jich (til'ky jaksho wony zhywi).",
 					"* Ne zminiujte swogo imeni grawcia PIDCHAS GRY - gra serjozna na cej wypadok i\x85 automatychno zakryje\x80 washe wikno SRB2 pry sprobi zminy imeni. Koly je u ciomu potreba prosto zachekajte na ekran rezul'tatiw shob wzhe todi mozhna bulo bezpechno zminyty swoje im'ja.",
-					"\nIgnoruwannia odnogo z cyh prawyl mozhe rezul'tuwaty kick abo w dejakyh wypadkah nawit' ban wid admina serweru. Bud' laska ne ignorujte prawyla i grajte chesno.",
-					"\nBil'she storinok dopomogy jaki wy, mozhlywo, zahochete prochytaty u konsoli:",
-					"\x87MMHELP GAME\x80 - Pro gameplay",
-					"\x87MMHELP CHAT\x80 - Spysok Zwukowyh Emoji u gri"
+					"\nIgnoruwannia odnogo z cyh prawyl mozhe rezul'tuwaty kick abo w dejakyh wypadkah nawit' ban wid admina serweru. Bud' laska ne ignorujte prawyla i grajte chesno."
 				},["CHAT"]={
 					"\x87Jak wykorystowuwaty Zwukowi Emoji",
 					"Koly grawec' nadsylaje powidomlennnia kotre mistyt' u sobi jakis' special'ni slowa-kluchi abo frazy usi pochujut' Zwukowe Emoji razom z tym powidomlenniam.",
 					"Koroche kazhuchy, koly wy nadishlete \"bruh\" u chat wsi pochujut' BRUH",
-					"Os' pownyj spysok Zwukowych Emoji ta jak jich aktywuwaty:\n",
-					"  \x88Kluchowe slowo\x80       | \x89Zwuk",
-					" ----------------------+-----------------------------",
-					"  :skull:              | \"Bad to the Bones\"",
-					"  :fart:               | Zwuk ponosu",
-					"  :omg:                | \"OOHhhh myyy Goooddddd...\"",
-					"  :wow:                | Anime \"WOW!\"",
-					"  hehe                 | Smih DOOMGUY'ja",
-					"  \\:|                  | Vine boom (Rock-eyebrow)",
-					"  bruh                 | bruh",
-					"  /:|                  | Vine boom (Rock-eyebrow)",
-					"  AMONGUS              | \"*AMONG US*\"",
-					"  AMONG US             | \"*AMONG US*\"",
-					"  sus                  | SUS",
-					"  oh no                | \'OH NO\' Knuckles'a",
-					"  AGHH                 | \'AGHHHH!\' Eggmana",
-					"  AHH                  | \'AGHHHH!\' Eggmana",
-					"  AHA                  | \'AHA!\' Eggmana",
-					"  NO WAY               | \'NO WAY!\' Eggmana",
-					"  NOPE                 | Nope.",
-					"  GET OVER HERE        | \"GET OVER HERE!\"",
-					"  NOO                  | \"NOOOOOOoooooo...\"",
-					"  HELP                 | Tyler1's \"HELP!\"",
-					"  HEHEHE HA            | Smih Korolia Clash Royal",
-					"  HEHE BOI             | \"Hehe boi...\"",
-					" ----------------------+-----------------------------",
-					"Bilshe dopomogy:",
-					"\x87MMHELP GAME\x80 - Bil'she pro gameplay i igrowi sytuaciji",
-					"\x87MMHELP BAD\x80  - Pro rechi sho zaboroneni w TW"
+					"Os' pownyj spysok Zwukowych Emoji ta jak jich aktywuwaty:\n"
 				},["TIPS"]={ --work in progress
 					"\x87Porady dla gry w TM",
 					"My zibraly dla was kil'ka porad jaki mozhut' wam staty u prygodi:",
@@ -890,9 +836,34 @@ rawset(_G, "MM", {
 				"Potochna mowa w TW \x82Ukrains'ka\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [language]",
 				"\x82Ukrains'ka\x80 wstanowlena personal'noju mowoju w TW"
 			}
-		}
-	},
-	CharStats={
+		},
+	},SEMJ_info={ --for MMHELP CHAT
+		"  \x88Keyword\x80       | \x89Sound",
+		" ---------------+---------------------------",
+		"  :skull:       | \"Bad to the Bones\"",
+		"  :fart:        | Fart sound",
+		"  :omg:         | \"OOHhhh myyy Goooddddd...\"",
+		"  :wow:         | Anime-like \"WOW!\"",
+		"  hehe          | DOOMGUY chuckle",
+		"  \\:|           | Vine boom (Rock-eyebrow)",
+		"  bruh          | bruh",
+		"  /:|           | Vine boom (Rock-eyebrow)",
+		"  AMONGUS       | \"*AMONG US*\"",
+		"  AMONG US      | \"*AMONG US*\"",
+		"  sus           | SUS",
+		"  oh no         | Knuckles' \'OH NO\'",
+		"  AGHH          | Eggman's \'AGHHHH!\'",
+		"  AHH           | Eggman's \'AGHHHH!\'",
+		"  AHA           | Eggman's \'AHA!\'",
+		"  NO WAY        | Eggman's \'NO WAY!\'",
+		"  NOPE          | Nope.",
+		"  GET OVER HERE | \"GET OVER HERE!\"",
+		"  NOO           | \"NOOOOOOoooooo...\"",
+		"  HELP          | Tyler1's \"HELP!\"",
+		"  HEHEHE HA     | Clash Royal King's laugh",
+		"  HEHE BOI      | \"Hehe boi...\"",
+		" ---------------+---------------------------"
+	},CharStats={
 		default={
 			ability=CA_NONE,
 			ability2=CA_NONE,
@@ -901,8 +872,7 @@ rawset(_G, "MM", {
 			mindash=3*FU,
 			maxdash=30*FU
 		}
-	},
-	RoleColor={
+	},RoleColor={
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent

@@ -152,6 +152,14 @@ rawset(_G, "chatplaySFX", function(sfx)
 end)
 
 --
+--CCMD.LUA
+--
+rawset(_G, "printContents", function(p,l)
+	CONS_Printf(p,"")
+	for i, str in pairs(MM.text[l]["MMHELP_CMD"]["CONTENTS"]) CONS_Printf(p, str) end
+end)
+
+--
 --GLOBAL
 --
 rawset(_G, "PlayerCount", function(role)

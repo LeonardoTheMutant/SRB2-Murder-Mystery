@@ -12,24 +12,26 @@ local function helpCMD(p, page)
 	local l=p.mmlang
 	if (page) page=$:upper() end
 	if (p==server) and (isdedicatedserver) l="EN" end --Since Dedicated server host's player_t can't contain p.mmlang we have to emulate it
-	if (not page) for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
+	if (not page)
+		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
+		printContents(p,l)
 	elseif page=="INFO"
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
 		CONS_Printf(p, "Version\x81 "..MM.version.."\x80 ("..MM.releasedate..")")
 		CONS_Printf(p, "by \x82\"SRB2 MM_DEV team\"")
 		CONS_Printf(p, "(Full credits are in README.TXT inside this .PK3)")
-		CONS_Printf(p, "\nChanges from\x81 8.1-beta\x80:")
-		CONS_Printf(p, " - Uptated Spanish language;")
-		CONS_Printf(p, " - Better Role Randomizer at the beginning of each round;")
+		CONS_Printf(p, "\nChanges from\x81 8.2-beta\x80:")
+		CONS_Printf(p, " - TODO")
 		CONS_Printf(p, "\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84".."Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
-		if (MM.text[l]["MMHELP"][page]) for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
+		if (MM.text[l]["MMHELP"][page])
+			for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
+			if (page=="CHAT") for i,str in pairs(MM.SEMJ_info) CONS_Printf(p, str) end end
+			printContents(p,l)
+			
 		else
-			CONS_Printf(p, "Can't find the \x82"..page.."\x80 page in help. Try these commands instead:")
-			CONS_Printf(p, "\x87MMHELP\x80      - The basics")
-			CONS_Printf(p, "\x87MMHELP GAME\x80 - More about gameplay and in-game situations")
-			CONS_Printf(p, "\x87MMHELP BAD\x80  - Things that are bad to do in MM")
-			CONS_Printf(p, "\x87MMHELP INFO\x80 - Technical information about version and changes")
+			CONS_Printf(p, MM.text[l]["MMHELP_CMD"]["NOTFOUND"][1].."\x82 "..page.."\x80 "..MM.text[l]["MMHELP_CMD"]["NOTFOUND"][2])
+			printContents(p,l)
 		end
 	end
 	if (p==server) or (IsPlayerAdmin(p))
@@ -70,12 +72,12 @@ local function MMlang(p, l) --player, lang
 		CONS_Printf(server, "Dedicated server host can have only ENGLISH language")
 		return
 	end
-	if not l
+	if (not l)
 		CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][1])
 		CONS_Printf(p, "Available languages:")
 		local langCount=0
 		local langOutdated=0
-		local nonascii=false
+		local nonascii
 		for lang in pairs(MM.text)
 			langCount=$+1
 			local arg1=""
@@ -90,11 +92,11 @@ local function MMlang(p, l) --player, lang
 			CONS_Printf(p, arg3.." "..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if (langOutdated!=0) CONS_Printf(p, "\x85"..langOutdated.." are outdated (they may result errors (or crashes) when selected)") end
+		if (langOutdated!=0) CONS_Printf(p, "\x85"..langOutdated.." are outdated, they may result errors (or even crashes) when selected") end
 		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All characters are simulated with English (ASCII) ones.") end
 	else
 		l=l:upper()
-		if MM.text[l]
+		if (MM.text[l])
 			p.mmlang=l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
 			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
