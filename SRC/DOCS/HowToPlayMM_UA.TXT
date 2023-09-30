@@ -1,4 +1,4 @@
-"How to play Murder Mystery" on Ukrainian language
+﻿"How to play Murder Mystery" in Ukrainian language
 This file is just a copy of the in-game MMHELP command so there's nothing to expect here
 
 
