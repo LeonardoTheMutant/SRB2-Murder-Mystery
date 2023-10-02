@@ -141,7 +141,7 @@ rawset(_G, "MM", {
 			["CHAT"]={
 				"is alive, message not sent",
 				"You're sending too many messages, please wait",
-				"You can't just \x8F die\x80 to spectate!"
+				"You can't just\x8F die\x80 to spectate!"
 			},
 			--HUD.LUA
 			-- Role names
@@ -785,7 +785,7 @@ CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
 
 --
---MM init
+--MM startup init
 --
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
@@ -863,7 +863,6 @@ sfxinfo[sfx_emj16].caption="NO!"
 
 dofile("MAIN/FUNCTIONS.LUA")
 dofile("MAIN/GAME.LUA")
-dofile("MAIN/TIME.LUA")
 dofile("MAIN/HUD.LUA")
 dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
@@ -871,11 +870,10 @@ dofile("MAIN/ABILITIES.LUA")
 dofile("MAIN/NOCHEAT.LUA")
 
 dofile("MISC/FOOTSTEPS.LUA")
-dofile("MISC/SLOPEROLL.LUA")
 
 print("\x83Murder Mystery loaded succesfuly, please note that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you're the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
 --
---end of init
+--end of startup init
 --
 
 addHook("NetVars", function(net)
@@ -884,12 +882,4 @@ addHook("NetVars", function(net)
 	MM.winner = net($)
 	MM.winreason = net($)
 	MM.timelimit = net($)
-end)
-
---stability code
-addHook("ThinkFrame", do
-	if gametype!=GT_MURDERMYSTERY return end
-	if CV_FindVar('rejointimeout').value!=0 --REJOINTIMEOUT kills Murder Mystery. Why? You have to wait X minutes for game to finally triger player quit! SRB2 2.2.11 disabled changing this CVAR from LUA. What a stupid decision
-		CONS_Printf(server, "ADMIN, DISABLE THE \x87REJOINTIMEOUT\x80, MM DOESN'T WORK PROPERLY WITH THIS CVAR")
-	end
 end)

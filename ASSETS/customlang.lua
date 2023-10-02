@@ -173,7 +173,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	["CHAT"]={
 		"is alive, message not sent", --When DEAD player attempts to PM the ALIVE player (shown in console)
 		"You're sending too many messages, please wait", --PM when player sends too much messages in one period (shown in console)
-		"You can't just \x8F die\x80 to spectate!" --Trying to use "SPECTATE" button from pause menu (shown in chat)
+		"You can't just\x8F die\x80 to spectate!" --Trying to use "SPECTATE" button from pause menu (shown in chat)
 	},
 	-- Role names (shown on main gameplay HUD, intermission HUD)
 	["ROLES_HUD"]={

@@ -144,12 +144,6 @@ local function mainHUD(v, p) --main game HUD
 		end
 	end
 
-	--Reminder
-	if (CV_FindVar("rejointimeout").value!=0)
-		drawStrCentered(v, 96, "ADMIN, DISABLE THE\x87 REJOINTIMEOUT")
-		drawStrCentered(v, 104, "MM DOESN'T WORK PROPERLY WITH THIS CVAR")
-	end
-
 	--Are you alone? Draw the text
 	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) drawStrCentered(v, 128+y*8, i, 8388608) end end
 	--"Showdown duel!"

@@ -208,6 +208,9 @@ addHook("PlayerThink", function(p)
 			COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "kick "..#p.." AFK") end
 	end
+
+	--kick forcer (when rejointimeout is not 0)
+	if (p.quittime) p.quittime=FixedMul(CV_FindVar('rejointimeout').value, 60*TICRATE)-1 end
 end)
 
 --
