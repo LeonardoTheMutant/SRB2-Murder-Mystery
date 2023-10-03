@@ -90,9 +90,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	local ap=attacker.player
 	if (ap.role==ROLE_INNOCENT)
 		CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who bypassed the limits?")
-		CONS_Printf(p, "\x83You was hit by a\85 Cheater Innocent\x83 who bypassed the game limits. \x84Report him to the admins!")
-		print("\x87"..ap.name.."\x85 hit "..vp.name.." while being an \x83Innocent")
-		return
+		print("\x87"..ap.name.."\x85 hit \x87"..vp.name.."\x85 while being an \x83Innocent")
+		return true
 	end
 	end
 	if vp.role==ROLE_MURDERER
