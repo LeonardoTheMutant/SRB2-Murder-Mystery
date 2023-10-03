@@ -3,25 +3,24 @@
 ---
 I think you have wondered at least once what some functions and constants in our LUA code do and so we present a full list of functions and constants in MM with the proper description for each of them (comments in code may be not enough sometimes).
 
-<font color="red">Please note that this project is in __BETA__ state and everything you see here can change in the future release</font>
+<font color="red">Please note that this project is in ***BETA*** state and everything you see here can be completely changed in the next release</font>
 
-| Table of Contents |
-| --- |
-| [Functions](#functions) |
-| 1. [`INIT.LUA`](#initlua)
-| 1.1 [Customisatiion API](#customisation-api) |
-| 1.2 [Miscelaneous](#miscalaneous)
-| 2. [`FUNCTIONS.LUA`](#functionslua) |
-| 2.1 [`GAME.LUA`](#gamelua) |
-| 2.2 [`HUD.LUA`](#hudlua) |
-| 2.3 [`CHAT.LUA`](#chatlua) |
-| 2.4 [`CCMD.LUA`](#ccmdlua) |
-| 2.5 [Globaly used functions](#globaly-used-functions) |
-| [Constants](#constants) |
-| 1. [Role constants (`ROLE_*`)](#role-constants-role)
-| 2. [`chatprintGlobal()` messages](#possible-messages-for-chatprintglobal)
-| 3. [Win reasons (`WIN_*`)](#win-reasons-win) |
-| 4. [The core `MM` table](#the-core-mm-table) |
+## Table of Contents
+- [Functions](#functions)
+    - [`INIT.LUA`](#initlua)
+        - [Customisatiion API](#customisation-api)
+        - [Miscelaneous](#miscalaneous)
+    - [`FUNCTIONS.LUA`](#functionslua)
+        - [`GAME.LUA`](#gamelua)
+        - [`HUD.LUA`](#hudlua)
+        - [`CHAT.LUA`](#chatlua)
+        - [`CCMD.LUA`](#ccmdlua)
+        - [Globaly used functions](#globaly-used-functions)
+- [Constants](#constants)
+    - [Role constants (`ROLE_*`)](#role-constants-role)
+    - [`chatprintGlobal()` messages](#possible-messages-for-chatprintglobal)
+    - [Win reasons (`WIN_*`)](#win-reasons-win)
+    - [The core `MM` table](#the-core-mm-table)
 
 # Functions
 
@@ -33,11 +32,6 @@ There are the functions that allow the creattion of MM mods. There are only 2 of
 | --- | --- |
 | <code>**MM.AddLang**(*string* index, *table* lang)</code> | Add a language translation into MM. `index` is usually a 2 or 3 characters long name of the language. For example `"EN"` shows that the language is English. `table` is the language data itself. The format of the `table` can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua).<br>*Note:* Index should be all characters **UPPERCASE** otherwise it won't be accesible!
 | <code>**MM.AddCharStat**(*string* skin, *table* abilities)</code> | Add a character configuration for custom character in `MMCHARMODE 1` in-game option. In this mode all characters have their abilities back but in limited form.<br>There is a table for vanilla characters which contains their character configs for this mode (`actionspd`, `ability`, `ability2`, `charflags`, etc.). If custom character has no such configuration it is threated as a Sonic (limited Thok, slower spindash and more).<br>`skin` is the name of the skin that is actually used in `skins[]` table. `table` is the config data itself. The format of `table` can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customchar.lua).
-
-### Miscalaneous
-| Name |  Description |
-| --- | --- |
-| <code>**VarChange**(*consvar_t* var)</code> | A callback function for `mmcharmode` and `mmsprint` console variables. Both are using this function to display their new values.
 
 ## `FUNCTIONS.LUA`
 There is a dedicated LUA file which contains all MM functions. Everything outside Customisation API is defined here. Some of those functions are used in only one LUA file but some are used globaly.
@@ -108,10 +102,10 @@ Win reasons for `endRound("WIN")` and `chatprintGlobal("WIN")` functions
 | Constant | Value | Description |
 | --- | --- | --- |
 | `WIN_MURD` | 1 | Murderers killed everyone |
-| `WIN_SHERI` | 2 | Sheriffs eliminated all Murderers |
-| `WIN_INNOSHERI` | 3 | Sheriff killed the last Innocent |
-| `WIN_INNOHERO` | 4 | Hero killed the last Innocent |
-| `WIN_DEFENDERS` | 5 | All Sheriffs and Heros are dead |
+| `WIN_CIVILS` | 2 | Sheriffs & Heroes  eliminated all Murderers |
+| `WIN_SHERIKILLINNO` | 3 | Sheriff killed the last Innocent |
+| `WIN_HEROKILLINNO` | 4 | Hero killed the last Innocent |
+| `WIN_NODEFENDERS` | 5 | All Sheriffs and Heros are dead |
 
 ### The core `MM` table
 The description of each value in `MM` table. The `MM` constant itself is defined in [INIT.LUA](../INIT.LUA)

@@ -2259,37 +2259,37 @@ local function has_value (tab, val)
     return false
 end
 local function getGroundTexture(mo)
-    local result=nil
+    local result
     
-    if mo.eflags & MFE_VERTICALFLIP
-		if mo.ceilingrover result=mo.ceilingrover.bottompic
-        elseif mo.standingslope and mo.standingslope == mo.subsector.sector.c_slope result=mo.subsector.sector.ceilingpic
-        elseif mo.ceilingz == mo.subsector.sector.ceilingheight result=mo.subsector.sector.ceilingpic end
+    if (mo.eflags & MFE_VERTICALFLIP)
+		if (mo.ceilingrover) result=mo.ceilingrover.bottompic
+        elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.c_slope)) result=mo.subsector.sector.ceilingpic
+        elseif (mo.ceilingz == mo.subsector.sector.ceilingheight) result=mo.subsector.sector.ceilingpic end
     else
-        if mo.floorrover result=mo.floorrover.toppic
-		elseif mo.standingslope and mo.standingslope == mo.subsector.sector.f_slope result=mo.subsector.sector.floorpic
-        elseif mo.floorz == mo.subsector.sector.floorheight result=mo.subsector.sector.floorpic end
+        if (mo.floorrover) result=mo.floorrover.toppic
+		elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.f_slope)) result=mo.subsector.sector.floorpic
+        elseif (mo.floorz == mo.subsector.sector.floorheight) result=mo.subsector.sector.floorpic end
 	end
 	return result
 end
 
 addHook("PlayerThink", function(player)
-	if gametype!=GT_MURDERMYSTERY then return end
-	if player.mo and player.mo.state ~= S_PLAY_DEAD and not player.spectator
+	if (gametype!=GT_MURDERMYSTERY) return end
+	if (player.mo) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
 		local panimInfo=PlayerAnimInfo[player.mo.skin]
-		if panimInfo~=nil
-			if player.variablesset==nil reset(player) end
+		if (panimInfo)
+			if (not player.variablesset) reset(player) end
 			player.groundtexture=getGroundTexture(player.mo)
-			if player.groundtexture==nil and player.lastgroundtexture player.groundtexture=player.lastgroundtexture end
+			if (not player.groundtexture) and (player.lastgroundtexture) player.groundtexture=player.lastgroundtexture end
 			local material
 			local soundType
 			player.playsound=false
 			if P_IsObjectOnGround(player.mo)
 				if not(player.wasfalling)
-					if player.skidtime==16
+					if (player.skidtime==16)
 						player.playsound=true
 						soundType="skid"
-					elseif not (player.powers[pw_carry]) -- removed Milne parts					
+					elseif not (player.powers[pw_carry]) -- removed Milne parts here		
 						if player.mo.state == S_PLAY_RUN
 							player.playsound=panimInfo["run"] and (player.powers[pw_super] == 0 or panimInfo["superRun"]) and (has_value(panimInfo["runFrames"], player.mo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], player.mo.frame))
 						elseif player.mo.state == S_PLAY_DASH
@@ -2313,25 +2313,25 @@ addHook("PlayerThink", function(player)
 					soundType="land"
 				end
 			else player.wasfalling=true end
-			if player.playsound and not player.sneak
+			if (player.playsound) and (not player.sneak)
 				if not (player.mo.eflags & MFE_GOOWATER)
-					if player.groundtexture material=flatsounds[player.groundtexture]
+					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end
-					if material~=nil
+					if (material)
 						player.lastgroundtexture=player.groundtexture
 						local sounds=player.soundList[material][soundType]
-						if sounds~=nil
+						if (sounds)
 							S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1])
-							if mapheaderinfo[gamemap].disablefootsteps!="True" P_SpawnMobj(player.mo.x, player.mo.y, player.mo.z, MT_MMSTEP) end
+							if (mapheaderinfo[gamemap].disablefootsteps!="True") P_SpawnMobjFromMobj(player.mo,0,0,0,MT_MMSTEP) end
 						end
 					end
 				end
 				if (player.mo.eflags & MFE_TOUCHLAVA)
 					local sounds=player.soundList["lava"][soundType]
-					if sounds~=nil S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
 				elseif (player.mo.eflags & MFE_UNDERWATER) or (player.mo.eflags & MFE_TOUCHWATER) or (player.mo.eflags & MFE_GOOWATER)
 					local sounds=player.soundList["water"][soundType]
-					if sounds~=nil S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
 				end
 			end
 		end

@@ -744,6 +744,13 @@ rawset(_G, "ROLE_SHERIFF", 2)
 rawset(_G, "ROLE_INNOCENT", 3)
 rawset(_G, "ROLE_HERO", 4)
 
+--Win reason constants
+rawset(_G, "WIN_MURD", 1)
+rawset(_G, "WIN_CIVILS", 2)
+rawset(_G, "WIN_SHERIKILLINNO", 3)
+rawset(_G, "WIN_HEROKILLINNO", 4)
+rawset(_G, "WIN_NODEFENDERS", 5)
+
 --Customization API
 MM.AddCharStat = function(skin, tb)
 	if (not skin) error("Invalid skin.") end
@@ -769,7 +776,7 @@ MM.AddLang = function(langID,langTbl)
 end
 
 --CVARs
-local function VarChange(v)
+local function VarChange(v) --callback functions called by CV_CALL flag
 	if v.name=="mmcharmode"
 		if v.value print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
 		else print("\x87Murder Mystery:\x80 \"Regular person\" character mode enabled (abbilities off)") end

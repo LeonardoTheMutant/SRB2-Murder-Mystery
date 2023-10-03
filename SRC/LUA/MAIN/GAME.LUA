@@ -93,7 +93,6 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		print("\x87"..ap.name.."\x85 hit \x87"..vp.name.."\x85 while being an \x83Innocent")
 		return true
 	end
-	end
 	if vp.role==ROLE_MURDERER
 		if ap.role==ROLE_MURDERER
 			chatprintf(ap, "\x85"..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
@@ -103,7 +102,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		KillPlayer(victim, attacker)
 		-- Murderer died, end the game if every Murd is dead
 		if PlayerCount(ROLE_MURDERER)==0
-			endRound(ROLE_SHERIFF, "WIN", 2)
+			endRound(ROLE_SHERIFF, "WIN", WIN_CIVILS)
 			return
 		else
 			chatprintGlobal("MURD_KILLED", vp.name)
@@ -116,7 +115,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			return
 		end
 		KillPlayer(victim, attacker)
-		-- Sheriff died, drop his emerald (weapon), if he's not last
+		-- Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
 		if PlayerCount(ROLE_INNOCENT)!=0
 			P_SpawnMobjFromMobj(victim,0,0,0,MT_SHREML)
 			MM.shreml_dropped=$+1
@@ -137,16 +136,16 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				SetRandomInnoAs(ROLE_SHERIFF)
 				ap.role=ROLE_INNOCENT
 			else
-				endRound(ROLE_MURDERER, "WIN", 3)
+				endRound(ROLE_MURDERER, "WIN", WIN_SHERIKILLINNO)
 				return
 			end
 		elseif ap.role==ROLE_HERO
 			KillPlayer(attacker, nil)
 			if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0)
-				endRound(ROLE_MURDERER, "WIN", 4)
+				endRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 				return
 			elseif (PlayerCount(ROLE_INNOCENT)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (MM.shreml_dropped==0)
-				endRound(ROLE_MURDERER, "WIN", 5)
+				endRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				return
 			else
 				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][2])
@@ -161,7 +160,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 		KillPlayer(victim, attacker)
 		if (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_SHERIFF)==0)
-			endRound(ROLE_MURDERER, "WIN", 5)
+			endRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			return
 		else
 			chatprintGlobal("HERO_KILLED", vp.name)

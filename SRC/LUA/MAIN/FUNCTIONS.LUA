@@ -112,7 +112,7 @@ rawset(_G, "endRound", function(w, endtext, reason)
 end)
 
 rawset(_G, "CheckPlayers", function()
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_INNOCENT)==0) endRound(ROLE_MURDERER, "WIN", 1)
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_INNOCENT)==0) endRound(ROLE_MURDERER, "WIN", WIN_MURD)
 	elseif (PlayerCount(ROLE_MURDERER)!=0) and ((PlayerCount(ROLE_SHERIFF)!=0) or (PlayerCount(ROLE_HERO)!=0)) and (PlayerCount(ROLE_INNOCENT)==0) S_ChangeMusic("SHWDWN", true) end
 end)
 

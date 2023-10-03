@@ -2,57 +2,62 @@ Thanks for opening this file, it contains really important information
 for those who are going to host this addon pack on their own server (including you)
 
 ---=== HOW TO LAUNCH THE MURDER MYSTERY GAME ===---
-A. To launch this gametype from command line you'll need to 
-	1) Add the gametype addon file with "-FILE [path_to_the_pk3]" parameter
-	2) Write name of the gametype to launch that looks like:
+A. From command line:
+	1) Add the gametype addon file with "-FILE [path_to_the_addon]" parameter;
+	2) Write the name of the gametype to launch like:
 	   -gametype "Murder Mystery"
-	   You probably don't want to start from Greenflower1 so you'll have to use "-WARP MAPK0" to start in MM maps
+	3) You probably don't want to start from Greenflower1 so you need to use "-WARP MAPK0"
+	   to start from MM maps.
 
-	The final command line should look like:
-	srb2win.exe -server (-dedicated) -file [place_where_pk3_located]/MM_MurderMystery-v[ver].pk3 -gametype "Murder Mystery" -warp MAPK0
+	The final command line should be something like:
+	srb2win.exe -server (-dedicated) -file [place_where_addon_located]/MM_MurderMystery-v[ver].pk3 -gametype "Murder Mystery" -warp MAPK0
 
-B. To launch from game console use
+B. From in-game console:
 	MAP [MMmapnum] -GAMETYPE "Murder Mystery"
-	NOTE: " brackets usage with "Murder Mystery" is very important!
+	Do not ommit " brackets in "Murder Mystery" because they are important here!
 
----=== Things MM modify at your game ===---
-This gametype features some code for improving game stability. It is mostly Chatbug and desynch fixes. The Add-On features code from "Shut Up chatbug!" (by Jisk) and "Intermission lock" (by Krabs). It is DISABLED BY DEFAULT but you can control how "Shut Up Chatbug!" works with the console variables
-described in the next chapter (their prefix is acb_)
-
-The gametype also features Language translation system that translates the MM content to given language with MMLANG command. When you use this command to
-change your MM language code that handles it will save a file in location /luafiles/client/MM.DAT the information about your language. MM uses this file
-when player is joining the server to load his prefered language. This file is saved localy for each player when they use this command.
-One last important thing to know is that MM uses a fork of Modern Sonic's footstep sounds system for the gameplay (that's why you can notice huge list of
-Sounds allocated on add-on loading log). It is highly cut and modified version of the original.
+---=== MM scripts that can break your hosted game ===---
+This gametype features some scripts that can noticably change your game. Some of those can
+improve the game stability (like fix the leaving chatbug) while others can break it (with
+modified characters). The Add-On features the "Shut Up chatbug!" script made by Jisk. It is
+DISABLED BY DEFAULT but you can control how "Shut Up Chatbug!" works with the console
+variables described in the next chapter (their prefix is acb_)
 
 ---=== Admin-only MM commands/variables ===---
 There are a couple Commands and Console Variables available for admins to use. Here are all of them:
 
 VARIABLES
-	MMSPRINT - Turn sprinting on/off. Can be used by holding CUSTOM1 button. If MMSPRINT and MMCHARMODE are disabled Sneaking will be instead enabled.
-		It is useful with SPIN button (a HUD message appears when you use it)
-	MMCHARMODE - Toggle between two Character Abbility modes. One turned on by default is "Everyone are the same (regular persons)" mode. This is very
-		similar to Sonic 1 abbilities. All characters have only spinning jump (Amy and Fang too) that can break monitors. Their speed is also lowered.
-		Second mode is "Vanilla Abbilities in limited form". As the name applies all vanilla characters recieve their abbilities back but they are
-		limited or cut versions of the original.
-	MMAFK - used as an AFK timeout value. Measured in minutes. Default value is 2 minutes. If set to 0 AFK timeout is disabled.
-	MMSPAM - Used for chat spam protection. How much time player has to wait before sending his next message. Measured in seconds (default 1)
-	MMSEMJ - Enable/Disable Sound Emojis (default "On")
-	ACB_TOGGLE - Turn "ShutUp Chatbug!" script to fork. Default is OFF.
-	ACB_UPDATERATE - How constantly player will update their status, measured in ticks. Default is 35 ticks.
-	ACB_RESETRATE - How constantly server will check the statuses. When check fails problematic player will be kicked. Default is 70 ticks.
-	ACB_SHOWDEBUG - Print console messages when player updates. Works localy. Default is OFF.
+	MMSPRINT - Turn sprinting on/off. When it's on you can use sprinting by holding CUSTOM1
+	    button. If both MMSPRINT and MMCHARMODE are disabled Sneaking will be enabled instead.
+	    Your character will sneak when you hold the SPIN button and you're on ground
+		(a message on HUD appears when you're sneaking);
+	MMCHARMODE - Switch between two Character Abbility modes. The one used on by default is
+	    "Everyone is the same (regular persons)" mode. This is very similar to Sonic 1
+		abbilities - all characters have only jump (Amy and Fang are using rolling jump state)
+		that can be used to break monitors and get through some obstacles. The speed of the
+		is also lowered. Second mode is "Vanilla Abilities in limited form". As the name
+		applies all vanilla characters recieve their abbilities back but they are limited or
+		cut versions of the original abilities they have;
+	MMAFK - used as an AFK timeout value. Measured in minutes. Default value is 2 minutes. If
+	    set to 0 AFK timeout is disabled;
+	MMSPAM - Used for chat spam protection. How much time player has to wait before sending
+	    the next message. Measured in seconds (default value is 1);
+	MMSEMJ - Enable/Disable Sound Emojis (default values is "On")
+	ACB_TOGGLE - Enable/Disable "ShutUp Chatbug!" script. Disabled by default. If it constantly
+	    kicks your players while being enabled it's better to disable it and not use again.
+	ACB_UPDATERATE - How constantly player will update their status, measured in ticks.
+	    Default is 35 ticks.
+	ACB_RESETRATE - How constantly server will check the statuses. When check fails
+	    problematic player will be kicked. Default is 70 ticks.
+	ACB_SHOWDEBUG - Print console messages when player status updates. Works localy.
+	    Default is OFF.
+
 COMMANDS
-	SAYDEAD - Command for Dedicated Server host only. This will print a message to the dead chat as it was sent from <~SERVER>. NOTE: the message must
-	be enclosed in " brackets otherwise only the first word will be sent! Usage example: SAYDEAD "Hello world!"
-
----=== IMPORTANT SERVER-SIDE SETTINGS ===---
-THIS IS NOT A JOKE CHAPTER, TAKE IS SERIOUSLY
-
-There is an important vanilla CVAR that can break Murder Mystery if its value is different from MM recomended:
-
-"rejointimeout" DISABLED (set to 0 or "off") - if this variable is enabled MM will not start AT ALL.
-Instead you are going to be constantly notified to disable this CVAR both in console and in gameplay (no one can skip it here).
+	SAYDEAD - This command is available only in Dedicated Servers and only host can be use it.
+	    The command itself is similar to SAY bu will print a message to the dead chat as it
+		was sent by <~SERVER>. INPORTANT NOTE: message must be enclosed in " brackets otherwise
+		only the first word will be sent!
+		Usage example: SAYDEAD "Hello world!"
 
 ---=== List of incompatible Add-On types ===---
 Here is the list of Add-On types that can break Murder Mystery and reasons why they break:
@@ -67,12 +72,8 @@ Here is the list of Add-On types that can break Murder Mystery and reasons why t
 | Custom character (vanilla      | MM maps can be unplayable,     |
 | chars SOC patch)               | depending on patch type.       |
 +--------------------------------+--------------------------------+
-| Custom HUD                     | Can create a mess on a screen. |
-|                                | Not much critical for MM.      |
-+--------------------------------+--------------------------------+
-| LUA (stability impove/bug      | MM has some game stability     |
-| fix of the SRB2)               | LUAs already implemented such  |
-|                                | as "ShutUp Chatbug!" script.   |
+| Custom HUD                     | Can create mess on the screen. |
+|                                | Not much critical for gameplay.|
 +--------------------------------+--------------------------------+
 | LUA (Custom abbilities)        | Can break the way MM was       |
 |                                | intended to play. Also can     |
@@ -81,14 +82,14 @@ Here is the list of Add-On types that can break Murder Mystery and reasons why t
 +--------------------------------+--------------------------------+
 | Murder Mystery Custom Language | LUA Errors might occur about   |
 | File (not matching version)    | missing string/block of text.  |
-|                                | Text may dissapear entirely if |
-|                                | such error will occur          |
+|                                | Additionaly, text may dissapear|
+|                                | entirely after those erros     |
 +--------------------------------+--------------------------------+
-Basically watch what you're adding
+Basically watch what you're adding AND NEVER ADD CUSTOM CHARACTERS!
 
 We will add more information here if something else important will be noticed,
-plesase inform us as well if you will notice ANY KIND of bug/issue first.
-Our contacts are in README.TXT
+please inform us as well if you will notice ANY KIND of bug/issue first.
+Our contacts are listed in README.TXT
 Thank you for reading and playing this
 
 LeonardoTheMutant
