@@ -78,11 +78,11 @@ rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	local plr = p.player
 	plr.spectator=true
 	plr.role=ROLE_NONE
+	plr.flashscrn=1
 	if (k) and (k.player)
 		plr.killedby=k.player.name
 		k.player.kills=$+1
 	else plr.killedby="your stupidity" end
-	P_FlashPal(plr, PAL_NUKE, 4)
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
 	if (p.skin=="tails") body.state=S_TMMDEAD

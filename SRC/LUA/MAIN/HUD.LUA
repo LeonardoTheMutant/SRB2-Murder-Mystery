@@ -162,6 +162,9 @@ local function mainHUD(v, p) --main game HUD
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	elseif (p.sneak) v.drawString(infoRINGS.x, infoRINGS.y+24, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 
+	--Flash screen when you die
+	if (p.flashscrn) v.drawStretched(-v.width()*FU,-v.height()*FU,v.width()*v.dupx()*FU,v.height()*v.dupy()*FU,v.cachePatch("HUD_FLSH"), (p.flashscrn-1)*FU) end
+
 	--Debug
 	if MM.devbuild
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
@@ -170,7 +173,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin")
+		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end
 local function scoresHUD(v) --SCORES TAB

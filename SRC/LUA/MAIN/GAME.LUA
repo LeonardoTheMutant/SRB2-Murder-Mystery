@@ -208,6 +208,12 @@ addHook("PlayerThink", function(p)
 	--role flickering timer
 	if (p.roleflicker) p.roleflicker=$-1 end
 
+	--HUD flash screen fadeout
+	if (p.flashscrn) and (leveltime%2==0)
+		p.flashscrn=$+1
+		if (p.flashscrn>=10) p.flashscrn=0 end
+	end
+
 	--AFK logic
 	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1
 	else p.afk=0 end
