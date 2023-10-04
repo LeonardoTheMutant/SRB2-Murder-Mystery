@@ -86,6 +86,7 @@ end)
 --
 addHook("MobjDamage", function(victim, inf, attacker)
 	if (gametype!=GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
+	if (gametype==GT_MURDERMYSTERY) and (leveltime<5*TICRATE) return true end --no one can hurt others in the first 5 seconds of the game
 	local vp=victim.player
 	local ap=attacker.player
 	if (ap.role==ROLE_INNOCENT)
