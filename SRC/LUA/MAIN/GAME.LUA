@@ -44,6 +44,7 @@ addHook("PlayerSpawn", function(p)
 
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
+	p.roleflicker=105
 	p.afk=0 --Anti-AFK init
 
 	--Player num and state check on join
@@ -204,8 +205,11 @@ addHook("PlayerThink", function(p)
 	--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
 	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end
 
+	--role flickering timer
+	p.roleflicker=$-1
+
 	--AFK logic
-	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1
+	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1
 	else p.afk=0 end
 	if p.afk>afkCVAR.value*60*TICRATE
 		if p==server
@@ -213,6 +217,8 @@ addHook("PlayerThink", function(p)
 			COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "kick "..#p.." AFK") end
 	end
+	p.oldangleturn=p.cmd.angleturn
+	p.oldaiming=p.cmd.aiming
 
 	--kick forcer (when rejointimeout is not 0)
 	if (p.quittime) p.quittime=FixedMul(CV_FindVar('rejointimeout').value, 60*TICRATE)-1 end
