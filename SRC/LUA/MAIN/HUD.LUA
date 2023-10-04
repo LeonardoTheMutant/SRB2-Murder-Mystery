@@ -77,8 +77,17 @@ local function mainHUD(v, p) --main game HUD
 
 	--Show your role (and translate it)
 	if (p.role) and (p.role>0) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
-	if ((p.role) and (PlayerCount(p.role)>1)) and (p.role!=ROLE_INNOCENT) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[p.role]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(p.role), infoRINGS.f)
-	elseif (p.spectator)
+	if ((p.role))
+		if (p.role==ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER)>1) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
+		elseif (p.role==ROLE_SHERIFF)
+			if (PlayerCount(ROLE_HERO)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
+			elseif (PlayerCount(ROLE_SHERIFF)>1) and (PlayerCount(ROLE_HERO)==0)  v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF), infoRINGS.f) end
+		elseif (p.role==ROLE_HERO)
+			if (PlayerCount(ROLE_SHERIFF)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO)..MM.RoleColor[ROLE_SHERIFF].." + "..PlayerCount(ROLE_SHERIFF), infoRINGS.f)
+			elseif (PlayerCount(ROLE_HERO)>1) and (PlayerCount(ROLE_SHERIFF)==0) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO), infoRINGS.f) end
+		end
+	end
+	if (p.spectator)
 		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
 		if (p.role==nil)
