@@ -44,7 +44,6 @@ addHook("PlayerSpawn", function(p)
 
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
-	p.roleflicker=105
 	p.afk=0 --Anti-AFK init
 
 	--Player num and state check on join
@@ -187,6 +186,7 @@ addHook("MobjThinker", function(mo)
 			MM.shreml_dropped=$-1
 			S_StartSound(p.mo, 97, p)
 			p.role=ROLE_HERO
+			p.roleflicker=70
 			chatprintGlobal("SHREML_PICK")
 			CheckPlayers()
 			return
@@ -206,7 +206,7 @@ addHook("PlayerThink", function(p)
 	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end
 
 	--role flickering timer
-	p.roleflicker=$-1
+	if (p.roleflicker) p.roleflicker=$-1 end
 
 	--AFK logic
 	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk=$+1

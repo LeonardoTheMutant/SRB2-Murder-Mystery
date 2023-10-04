@@ -76,7 +76,7 @@ local function mainHUD(v, p) --main game HUD
 	v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role (and translate it)
-	if (p.role) and (p.role>0) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+	if (p.role) and (p.role>0) and (p.roleflicker%4==0) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
 	if ((p.role))
 		if (p.role==ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER)>1) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
 		elseif (p.role==ROLE_SHERIFF)
@@ -170,7 +170,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
-
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin")
 	end
 end
 local function scoresHUD(v) --SCORES TAB

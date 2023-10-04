@@ -46,6 +46,7 @@ rawset(_G, "AssignRoles", function()
 	for p in players.iterate
 		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end --we previously didn't make Innos so make them now
 		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
+		p.roleflicker=105 --timer for role name flickering on HUD
 	end
 	if (MM.devbuild)
 		print("\x82".."AssignRoles() results:")
@@ -123,6 +124,7 @@ rawset(_G, "SetRandomInnoAs", function(role)
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.role=role
+	p.roleflicker=70
 	if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
 	else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
 	return
