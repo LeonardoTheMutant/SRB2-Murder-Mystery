@@ -48,7 +48,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				elseif string.upper(m):find("BOI") chatplaySFX(sfx_emj12)
 				else chatplaySFX(sfx_emj01) end
 			end
-			if string.find(string.upper(m), ":SKULL:") chatplaySFX(sfx_emj00)
+			if string.find(m:upper(), ":SKULL:") chatplaySFX(sfx_emj00)
 			elseif string.find(m:upper(),":FART:") chatplaySFX(sfx_emj02)
 			elseif m:find("OMG") chatplaySFX(sfx_emj03)
 			elseif m:upper()=="BRUH" chatplaySFX(sfx_emj04)
@@ -63,12 +63,12 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif string.upper(m)=="NOPE" chatplaySFX(sfx_emj0d)
 			elseif m:find("GET OVER HERE") chatplaySFX(sfx_emj0e)
 			elseif string.find(m,"NO")
-				if m=="NO" chatplaySFX(sfx_emj16)
+				if (m=="NO!") or (m=="NO") chatplaySFX(sfx_emj16)
 				elseif string.find(m, "NOOO") chatplaySFX(sfx_emj0f) end
 			elseif m=="HELP" or m:upper()=="HELP!" chatplaySFX(sfx_emj10)
 			elseif string.find(m:upper(),"PINGAS") chatplaySFX(sfx_emj13)
 			elseif string.find(m:upper(),":PAIN:") chatplaySFX(sfx_emj14)
-			elseif string.match(m:upper(),"HUH") chatplaySFX(sfx_emj15) end
+			elseif string.match(m:upper(),"HUH") and string.find(m:upper(),"HUH") chatplaySFX(sfx_emj15) end
 		else return false end
 	end
 	s.chatdelay=delaytimer
