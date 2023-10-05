@@ -761,6 +761,7 @@ MM.AddCharStat = function(skin, tb)
 	if type(skin)~="string" error("Skin must be string.") end
 	if type(tb)~="table" error("tb must phrase as a table.") end
 	MM.CharStats[skin]=tb;
+	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for MM")
 end
 MM.AddLang = function(langID,langTbl)
 	if (not langID) error("Invalid Language Index") end

@@ -5,54 +5,54 @@
 -- MM constant is defined in INIT.LUA
 
 -- For the ability limits
-MM.AddCharStat("sonic", {
+MM.CharStats["sonic"]={
 	ability=CA_THOK,
 	ability2=CA2_SPINDASH,
 	actionspd=1966050, --30*FU
 	charflags=0,
 	mindash=327675, --5*FU
 	maxdash=2621400 --40*FU
-})
-MM.AddCharStat("tails", {
+}
+MM.CharStats["tails"]={
 	ability=CA_FLY,
 	ability2=CA2_SPINDASH,
 	charflags=0,
 	actionspd=3276750, --50*FU
 	mindash=327675, --5*FU
 	pmaxdash=2621400, --40*FU
-})
-MM.AddCharStat("knuckles", {
+}
+MM.CharStats["knuckles"]={
 	ability=CA_GLIDEANDCLIMB,
 	ability2=CA2_SPINDASH,
 	charflags=0,
 	actionspd=655350, --10*FU
 	mindash=327675, --5*FU
 	maxdash=2621400, --40*FU
-})
-MM.AddCharStat("amy", {
+}
+MM.CharStats["amy"]={
 	ability=CA_TWINSPIN,
 	ability2=CA2_MELEE,
 	charflags=384,
 	actionspd=1638375, --25*FU
 	mindash=131072, --2*FU
 	maxdash=393210, --6*FU
-})
-MM.AddCharStat("fang", {
+}
+MM.CharStats["fang"]={
 	ability=CA_BOUNCE,
 	ability2=CA2_NONE,
 	charflags=4480,
 	actionspd=1638375, --25*FU
 	mindash=FU,
 	maxdash=2228190, --34*FU
-})
-MM.AddCharStat("metalsonic", {
+}
+MM.CharStats["metalsonic"]={
 	ability=CA_FLOAT,
 	ability2=CA2_SPINDASH,
 	actionspd=1966050, --30*FU
 	charflags=1024,
 	mindash=327675, --5*FU
 	maxdash=2621400, --40*FU
-})
+}
 
 local MMCHARMODE=CV_FindVar("mmcharmode")
 local MMSPRINT=CV_FindVar("mmsprint")
