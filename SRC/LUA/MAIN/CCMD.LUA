@@ -47,6 +47,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
 		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
+		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
 	end
 end
 		-- CONS_Printf(p, "\x87Welcome to Murder Mystery!") --the original MMHELP before 4.2-beta

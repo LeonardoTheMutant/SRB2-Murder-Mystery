@@ -18,6 +18,7 @@ addHook("MapLoad", do
 		p.spectator=false
 		p.kills=0
 		p.killedby=nil
+		p.flashscrn=0
 	end
 	MM.winner=0
 	MM.winreason=0
@@ -42,6 +43,7 @@ addHook("PlayerSpawn", function(p)
 	--	f:close()
 	--end
 
+	if (not p.roleflicker) p.roleflicker=0 end
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
 	p.afk=0 --Anti-AFK init
@@ -175,24 +177,23 @@ end, MT_PLAYER)
 -- Sheriff's Emerald pickup logic
 --
 local function mobjInRange(mo, mo2)
-	if ((abs(mo.x-mo2.x)>>16 < 32) and (abs(mo.y-mo2.y)>>16 < 32) and (abs(mo.z-mo2.z)>>16 < 6)) return true
+	if ((abs(mo.x-mo2.x) < 2097152) and (abs(mo.y-mo2.y) < 2097152) and (abs(mo.z-mo2.z) < 1048576)) return true --32*FU, 16*FU
 	else return false end
 end
 addHook("MobjThinker", function(mo)
 	if (gametype!=GT_MURDERMYSTERY) return end
-	for p in players.iterate --should be dumb but it works
-		if (not p.mo) continue end
-		if (p.role==ROLE_INNOCENT) and (mobjInRange(mo, p.mo))
-			P_RemoveMobj(mo)
+	searchBlockmap("objects", function(ref, found)
+		if (found) and (found.player) and (found.player.role==ROLE_INNOCENT) and (mobjInRange(ref, found))
+			P_RemoveMobj(ref)
 			MM.shreml_dropped=$-1
-			S_StartSound(p.mo, 97, p)
-			p.role=ROLE_HERO
-			p.roleflicker=70
+			S_StartSound(found.player.mo, 97, found.player)
+			found.player.role=ROLE_HERO
+			found.player.roleflicker=70
 			chatprintGlobal("SHREML_PICK")
 			CheckPlayers()
-			return
+			return true
 		end
-	end		
+	end, mo)
 end, MT_SHREML)
 
 --
@@ -345,5 +346,9 @@ if MM.devbuild
 		end
 		if (not reason) endRound(winner, "WIN", winner)
 		else endRound(winner, "WIN", reason) end
+	end)
+	COM_AddCommand("mmshreml", function(p)
+		P_SpawnMobjFromMobj(p.mo,0,0,0,MT_SHREML)
+		MM.shreml_dropped=$+1
 	end)
 end
