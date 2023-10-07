@@ -163,7 +163,7 @@ local function mainHUD(v, p) --main game HUD
 	elseif (p.sneak) v.drawString(infoRINGS.x, infoRINGS.y+24, "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 
 	--Flash screen when you die
-	if (p.flashscrn) v.drawStretched(-v.width()*FU,-v.height()*FU,v.width()*v.dupx()*FU,v.height()*v.dupy()*FU,v.cachePatch("HUD_FLSH"), (p.flashscrn-1)*FU) end
+	if (p.flashscrn) v.drawStretched(0,0, v.width()*FU, v.height()*FU, v.cachePatch("HUD_FLSH"), ((p.flashscrn-1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end
 
 	--Debug
 	if MM.devbuild
