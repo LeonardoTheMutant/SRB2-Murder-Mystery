@@ -13,6 +13,15 @@ local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_nggyu, sfx_emj08, sfx_emj1
 --GAME.LUA
 --
 
+-- how many players with same role should exist?
+rawset(_G, "GetRoleMultiplier", function()
+	local roleMultiplier=1
+	if (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
+	elseif (PlayerCount()>=11) and (PlayerCount()<=14) roleMultiplier=3
+	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
+	return roleMultiplier
+end)
+
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
@@ -24,19 +33,13 @@ rawset(_G, "AssignRoles", function()
 		return
 	end
 
-	--how much players with same role should exist?
-	local roleMultiplier=1
-	if (PlayerCount()>=7) and (PlayerCount()<=10) roleMultiplier=2
-	elseif (PlayerCount()>=11) and (PlayerCount()<=14) roleMultiplier=3
-	elseif (PlayerCount()>14) roleMultiplier=4 end --EVEN THIS NUMBER WAS REACHED!!!
-
 	local plrs={}
 	for p in players.iterate --prepare players and get their player nodes
 		p.role=ROLE_NONE
 		table.insert(plrs, #p)
 	end
-    for r = ROLE_MURDERER, ROLE_SHERIFF --finally assign Murderers and Sheriffs
-        for i=1, roleMultiplier
+    for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
+        for i=1, GetRoleMultiplier()
             local randPlr=P_RandomKey(#plrs)+1 --select random player
             players[plrs[randPlr]].role=r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it

@@ -24,7 +24,7 @@ addHook("MapLoad", function(map)
 	MM.winner=0
 	MM.winreason=0
 	MM.shreml_dropped=0
-	MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit) or 5
+	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + GetRoleMultiplier()
     print("Time limit for this map is "..MM.timelimit.." minutes")
 	AssignRoles()
 end)
