@@ -11,7 +11,7 @@
 local mmtxt=MM.text
 local afkCVAR=CV_FindVar("mmafk")
 
-addHook("MapLoad", do
+addHook("MapLoad", function(map)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	--prepare players & server for the new round
 	for p in players.iterate
@@ -19,10 +19,13 @@ addHook("MapLoad", do
 		p.kills=0
 		p.killedby=nil
 		p.flashscrn=0
+		p.powers[0]=7*TICRATE -- invulnerability for 10 sec
 	end
 	MM.winner=0
 	MM.winreason=0
 	MM.shreml_dropped=0
+	MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit) or 5
+    print("Time limit for this map is "..MM.timelimit.." minutes")
 	AssignRoles()
 end)
 
@@ -73,12 +76,6 @@ end)
 -- Custom TIMELIMIT code
 -- A replacement of SRB2's built-in TIMELIMIT (original sucks)
 --
-addHook("MapLoad", function(map)
-    if (gametype==GT_MURDERMYSTERY)
-        MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit) or 5
-        print("Time limit for this map is "..MM.timelimit.." minutes")
-    else return end
-end)
 addHook("ThinkFrame", function()
     if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE)-1) G_ExitLevel() end
 end)
@@ -88,11 +85,10 @@ end)
 --
 addHook("MobjDamage", function(victim, inf, attacker)
 	if (gametype!=GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
-	if (gametype==GT_MURDERMYSTERY) and (leveltime<5*TICRATE) return true end --no one can hurt others in the first 5 seconds of the game
 	local vp=victim.player
 	local ap=attacker.player
 	if (ap.role==ROLE_INNOCENT)
-		CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who bypassed the limits?")
+		CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who have bypassed the limits?")
 		print("\x87"..ap.name.."\x85 hit \x87"..vp.name.."\x85 while being an \x83Innocent")
 		return true
 	end

@@ -168,11 +168,12 @@ local function mainHUD(v, p) --main game HUD
 	--Debug
 	if MM.devbuild
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."AFK: \x80"..p.afk,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."KILLS: \x80"..p.kills,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."LEVELTIME: \x80"..leveltime,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."AFK: \x80"..p.afk,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
 		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end

@@ -808,7 +808,7 @@ G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
 	typeoflevel = TOL_MM,
-	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN|GTR_SPAWNINVUL,
+	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN,
 	intermissiontype = int_match,
 	headerleftcolor = 38,
 	headerrightcolor = 150,
