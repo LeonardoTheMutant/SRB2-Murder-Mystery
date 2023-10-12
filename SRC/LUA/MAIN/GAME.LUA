@@ -307,10 +307,6 @@ addHook("PlayerQuit", function(p)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
 	end
-	if p.name!=p.oldname
-		chatprint("\x82*"..p.oldname.." didn't read \x87MMHELP BAD\x82 carefuly, what a stupid")
-		p.oldname=p.name
-	end
 end)
 
 --
