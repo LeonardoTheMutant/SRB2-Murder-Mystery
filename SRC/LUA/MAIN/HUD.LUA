@@ -21,7 +21,7 @@ local coords={ --HUD screen coordinates
 	kills2={x=108},
 	role2={x=134},
 	firstRingWep={ --for weapon icons
-		x=100,y=156
+		x=94,y=156
 	},debugHUD={
 		x=8,y=80
 	}
@@ -137,7 +137,6 @@ local function mainHUD(v, p) --main game HUD
 			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
 			v.draw((coords.firstRingWep.x-2), (coords.firstRingWep.y-p.weapondelay-2), v.cachePatch("CURWEAP"))
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
-			coords.firstRingWep.x=100
 			if (p.powers[pw_infinityring])
 				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
 				v.drawString((coords.firstRingWep.x+1), (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
