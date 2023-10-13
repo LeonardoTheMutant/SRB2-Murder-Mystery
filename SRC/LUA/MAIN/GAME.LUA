@@ -49,6 +49,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.roleflicker) p.roleflicker=0 end
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
+	p.oldname=p.name --Anti-cheat init
 	p.afk=0 --Anti-AFK init
 
 	--Player num and state check on join
