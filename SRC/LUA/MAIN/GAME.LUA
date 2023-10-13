@@ -230,6 +230,13 @@ addHook("PlayerThink", function(p)
 end)
 
 --
+-- Kick forcer (for Intermission)
+--
+addHook("IntermissionThinker", do
+	for p in players.iterate if (p.quittime) COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
+end)
+
+--
 -- Intermission ending theme switcher
 --
 addHook("MusicChange", function(old, new)
