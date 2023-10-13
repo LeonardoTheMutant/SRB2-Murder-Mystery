@@ -81,7 +81,6 @@ rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	plr.spectator=true
 	plr.role=ROLE_NONE
 	plr.flashscrn=1
-	plr.oldname=name
 	if (k) and (k.player)
 		plr.killedby=k.player.name
 		k.player.kills=$+1
