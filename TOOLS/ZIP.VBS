@@ -18,4 +18,4 @@ objShell.NameSpace(ZipFile).CopyHere(source)
 ' Required to let the ZIP command execute
 ' If this script randomly fails or the ZIP file is not complete,
 ' just increase to more than 2 seconds
-wScript.Sleep 3000
+wScript.Sleep 4000

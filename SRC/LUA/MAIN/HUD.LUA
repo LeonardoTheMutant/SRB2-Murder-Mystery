@@ -110,14 +110,6 @@ local function mainHUD(v, p) --main game HUD
 			0, --rail
 			0  --red/infinity
 		}
-		local ringPatches={
-			"AUTOIND",
-			"BNCEIND",
-			"SCATIND",
-			"GRENIND",
-			"BOMBIND",
-			"RAILIND"
-		}
 		--transluency for the red ring icon
 		if (p.powers[pw_infinityring]==0) and (p.rings==0) ringTrans[7]=458752 --70% transluent
 		else ringTrans[7]=0 end
@@ -129,13 +121,13 @@ local function mainHUD(v, p) --main game HUD
 
 		--Ring weapons
 		if (p.role==ROLE_MURDERER)
-			coords.firstRingWep.x=152
+			local firstRingWepX=152
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
-				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
+				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND"))
 				drawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
-			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
-			v.draw((coords.firstRingWep.x-2), (coords.firstRingWep.y-p.weapondelay-2), v.cachePatch("CURWEAP"))
+			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
+			v.draw((firstRingWepX-2), (coords.firstRingWep.y-p.mmweapondelay-2), v.cachePatch("CURWEAP"))
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 			if (p.powers[pw_infinityring])
 				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
@@ -143,12 +135,12 @@ local function mainHUD(v, p) --main game HUD
 			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
 			for weapon=1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
-					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(ringPatches[weapon]), ringTrans[weapon])
+					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon])
 					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end
 				end
 			end
 			if ((p.ammoremovaltimer) and (leveltime%2==0)) v.drawString(coords.firstRingWep.x+1+p.ammoremovalweapon*20, (coords.firstRingWep.y+2), "\x85-"..p.ammoremoval, nil, "thin") end
-			v.draw((coords.firstRingWep.x-2+p.currentweapon*20), (coords.firstRingWep.y-(p.weapondelay>>2)-2), v.cachePatch("CURWEAP"))
+			v.draw((coords.firstRingWep.x-2+p.currentweapon*20), (coords.firstRingWep.y-(p.mmweapondelay>>2)-2), v.cachePatch("CURWEAP"))
 		end
 	end
 
@@ -172,7 +164,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."BOBBING: \x80"..p.bob,0,"thin")
+		--v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."MMRINGS: \x80"..p.mmrings,0,"thin")
 		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end

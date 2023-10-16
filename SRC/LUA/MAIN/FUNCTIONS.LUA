@@ -169,32 +169,31 @@ end)
 
 -- A port of P_DrainWeaponAmmo() from C source code with MM modifications
 rawset(_G, "P_DrainWeaponAmmo", function(p, weapon)
-	p.weapons[weapon]=$-1
+	p.powers[weapon]=$-1
 
-	if (p.mmrings < 1)
+	if (p.rings < 1)
 		p.ammoremovalweapon = p.currentweapon;
 		p.ammoremovaltimer  = ammoremovaltics;
 
-		if (p.weapons[weapon][5] > 0) -- can't take a ring that doesn't exist
-			p.weapons[weapon][5]=$-1
+		if (p.powers[weapon] > 0) -- can't take a ring that doesn't exist
+			p.powers[weapon]=$-1
 			p.ammoremoval = 2
 		else
 			p.ammoremoval = 1
 		end
 	else
-		p.mmrings=$-1
+		P_GivePlayerRings(p, -1)
 	end
 end)
 
 -- A port of P_SetWeaponDelay() from C source code
 rawset(_G, "P_SetWeaponDelay", function(p, delay)
-	p.weapondelay = delay;
+	p.mmweapondelay = delay;
 
 	if (p.skin == 2) -- Knuckles
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
-		p.weapondelay = $*2;
-		p.weapondelay = $/3;
+		p.mmweapondelay = ($*2)/3
 	end
 end)
 

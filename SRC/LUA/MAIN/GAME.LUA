@@ -49,6 +49,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.roleflicker) p.roleflicker=0 end
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
+	p.mmweapondelay = TICRATE
 	p.oldname=p.name --Anti-cheat init
 	p.afk=0 --Anti-AFK init
 
@@ -198,8 +199,8 @@ end, MT_SHREML)
 --
 addHook("PlayerThink", function(p)
 	if (gametype!=GT_MURDERMYSTERY) return end
-	if (p.role==ROLE_MURDERER) p.ringweapons=0 --remove weapons from Murderer
-	elseif (p.role==ROLE_INNOCENT) p.weapondelay=1 end --Make innocents never shoot
+	if (p.role==ROLE_MURDERER) p.ringweapons=0 end --remove weapons from Murderer
+	p.weapondelay=1 --vanilla weapons don't shoot anymore :)
 
 	--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
 	if (not p.spectator) p.mo.flags=$&~MF_NOGRAVITY end
