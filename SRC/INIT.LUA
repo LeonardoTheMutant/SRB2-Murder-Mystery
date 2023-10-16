@@ -874,6 +874,7 @@ sfxinfo[sfx_emj16].caption="NO!"
 
 dofile("MAIN/FUNCTIONS.LUA")
 dofile("MAIN/GAME.LUA")
+dofile("MAIN/WEAPONS.LUA")
 dofile("MAIN/HUD.LUA")
 dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
