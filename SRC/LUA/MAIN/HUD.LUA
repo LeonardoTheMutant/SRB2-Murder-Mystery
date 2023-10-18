@@ -21,7 +21,7 @@ local coords={ --HUD screen coordinates
 	kills2={x=108},
 	role2={x=134},
 	firstRingWep={ --for weapon icons
-		x=94,y=156
+		x=92,y=156
 	},debugHUD={
 		x=8,y=80
 	}
@@ -124,23 +124,23 @@ local function mainHUD(v, p) --main game HUD
 			local firstRingWepX=152
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
-				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND"))
-				drawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
-			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
-			v.draw((firstRingWepX-2), (coords.firstRingWep.y-p.mmweapondelay-2), v.cachePatch("CURWEAP"))
+				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
+				drawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
+			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
+			v.draw((firstRingWepX-2), (coords.firstRingWep.y-(p.mmweapondelay>>1)-2), v.cachePatch("CURWEAP")) --selector
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 			if (p.powers[pw_infinityring])
-				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND"))
-				v.drawString((coords.firstRingWep.x+1), (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin")
-			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end
+				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
+				v.drawString((coords.firstRingWep.x+1), (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
+			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
 			for weapon=1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
-					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon])
-					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end
+					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]) --Ring weapon icon
+					if (p.powers[weapon+14]) v.drawString(coords.firstRingWep.x+1+weapon*20, (coords.firstRingWep.y+8), p.powers[weapon+14], ringTrans[weapon], "thin") end --Ammo counter
 				end
 			end
-			if ((p.ammoremovaltimer) and (leveltime%2==0)) v.drawString(coords.firstRingWep.x+1+p.ammoremovalweapon*20, (coords.firstRingWep.y+2), "\x85-"..p.ammoremoval, nil, "thin") end
-			v.draw((coords.firstRingWep.x-2+p.currentweapon*20), (coords.firstRingWep.y-(p.mmweapondelay>>2)-2), v.cachePatch("CURWEAP"))
+			if ((p.ammoremovaltimer) and (leveltime%2==0)) v.drawString(coords.firstRingWep.x+1+p.ammoremovalweapon*20, (coords.firstRingWep.y+2), "\x85-"..p.ammoremoval, nil, "thin") end --Ammo removal penalty
+			v.draw((coords.firstRingWep.x-2+p.currentweapon*20), (coords.firstRingWep.y-(p.mmweapondelay>>2)-2), v.cachePatch("CURWEAP")) --selector
 		end
 	end
 
