@@ -49,6 +49,17 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
+	if (MM.minigame) and (p.minigame)
+		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
+			drawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		else drawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+		drawStrCentered(v, 100, "* MINIGAME GAMEPLAY *")
+		return
+	elseif (MM.minigame) and (not p.minigame)
+		drawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to spectate", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		drawStrRight(v, 8, "a minigame duel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+	end
+
 	--"People alive" (replaces SCORES)
 	v.draw(infoSCORE.x, infoSCORE.y, v.cachePatch("HUD_PPLE"), infoSCORE.f)
 	v.draw(infoSCORE.x+56, infoSCORE.y, v.cachePatch("HUD_ALVE"), infoSCORE.f)
@@ -96,6 +107,22 @@ local function mainHUD(v, p) --main game HUD
 		if (p.killedby)
 			if p.killedby=="your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
 			else v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
+		end
+	end
+
+	if (not p.spectator) and (MM.twopgame)
+		local rival
+		if (MM.duelplrs[1]==p) rival=MM.duelplrs[2]
+		elseif (MM.duelplrs[2]==p) rival=MM.duelplrs[1] end
+		if (not p.minigame) and (not rival.minigame)
+			drawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			drawStrRight(v,8,"request a \x87TicTacToe\x80 game", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		elseif (p.minigame) and (not rival.minigame)
+			drawStrRight(v,0,"Waiting for rival to accept...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			drawStrRight(v,8,"Press\x82 CUSTOM3\x80 to cancel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		elseif (not p.minigame) and (rival.minigame) and (leveltime%2==0)
+			drawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			drawStrRight(v,8,"join a \x87TicTacToe\x80 game!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 		end
 	end
 
@@ -164,7 +191,6 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
-		--v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."MMRINGS: \x80"..p.mmrings,0,"thin")
 		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end

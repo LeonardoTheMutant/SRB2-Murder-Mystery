@@ -19,13 +19,16 @@ addHook("MapLoad", function(map)
 		p.kills=0
 		p.killedby=nil
 		p.flashscrn=0
-		p.powers[0]=7*TICRATE -- invulnerability for 10 sec
+		p.powers[0]=7*TICRATE -- invulnerability for 7 sec
+		p.minigame=false
 	end
 	MM.winner=0
 	MM.winreason=0
 	MM.shreml_dropped=0
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + GetRoleMultiplier()
     print("Time limit for this map is "..MM.timelimit.." minutes")
+	MM.twopgame=false
+	if (PlayerCount()==2) MM.twopgame=true end
 	AssignRoles()
 end)
 
@@ -49,15 +52,15 @@ addHook("PlayerSpawn", function(p)
 	if (not p.roleflicker) p.roleflicker=0 end
 	if (not p.chatdelay) p.chatdelay=0 end
 	if (not p.kills) p.kills=0 end --Init kill counter
-	p.mmweapondelay = TICRATE
+	if (not p.afk) p.afk=0 end --Anti-AFK init
+	if (p.mmweapondelay==nil) p.mmweapondelay=TICRATE end
 	p.oldname=p.name --Anti-cheat init
-	p.afk=0 --Anti-AFK init
 
 	--Player num and state check on join
-	if (PlayerCount()<2) p.role=ROLE_NONE end
-	if (PlayerCount()==2) and (p.role==nil) --Player2 joined 'singleplayer' round
+	if (PlayerCount()==2) and (p.role==nil) --Player2 joined a 'singleplayer' round
 		AssignRoles() --Assign roles for that duel
 		for plr in players.iterate S_StartSound(nil,93,plr) end --notify player 1 (who might be AFK) about a new rival
+		MM.twopgame=true
 	elseif (PlayerCount()>2) and (p.role==nil) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
 end)
 

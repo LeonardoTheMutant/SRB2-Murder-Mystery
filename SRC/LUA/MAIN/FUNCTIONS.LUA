@@ -138,6 +138,9 @@ end)
 rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
 	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
+rawset(_G, "drawStrRight", function(v,y,str,flags,font)
+	v.drawString(320-v.stringWidth(str,flags,font), y, str, flags, font)
+end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1
 	elseif (wep==2) return 2
@@ -209,5 +212,14 @@ end)
 rawset(_G, "PlayersAlive", function()
 	local plrs=0
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
+	return plrs
+end)
+rawset(_G, "Get2Players", function()
+	if (PlayerCount()!=2) return false end
+	local plrs={}
+	for p in players.iterate
+		plrs[#plrs+1]=p
+		if (#plrs==2) break end
+	end
 	return plrs
 end)

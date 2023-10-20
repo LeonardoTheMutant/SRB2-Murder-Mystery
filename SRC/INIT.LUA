@@ -880,6 +880,7 @@ dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
 dofile("MAIN/ABILITIES.LUA")
 dofile("MAIN/NOCHEAT.LUA")
+dofile("MAIN/TTT.LUA")
 
 dofile("LEVELS/MAPK0.LUA")
 
@@ -896,4 +897,5 @@ addHook("NetVars", function(net)
 	MM.winner = net($)
 	MM.winreason = net($)
 	MM.timelimit = net($)
+	MM.minigame = net($)
 end)
