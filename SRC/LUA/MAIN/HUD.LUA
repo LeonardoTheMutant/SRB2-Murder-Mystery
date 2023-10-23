@@ -50,14 +50,67 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("weaponrings")
 
 	if (MM.minigame) and (p.minigame)
+		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
-			drawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-		else drawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
-		drawStrCentered(v, 100, "* MINIGAME GAMEPLAY *")
+			if (not p.minigametimeout) V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+			if (p==MM.duelplrs[1]) V_DrawStrRelCentered(v, 56, 32, "\x82YOU", V_SNAPTOLEFT)
+			elseif (p==MM.duelplrs[2]) V_DrawStrRelCentered(v, 264, 32, "\x82YOU", V_SNAPTORIGHT) end
+		else V_DrawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+		--turn timer
+		v.drawNum(164, 24, G_TicsToSeconds(MM.ttt.turntime))
+		--draw board
+		v.draw(100, 40, v.cachePatch("HUD_TTT"))
+		for i=1,9
+			local signPos=TTT_HudPos(i)
+			if (MM.ttt.board[i]==1) v.draw(signPos[1]+16, signPos[2]+30, v.cachePatch("TRNGA0"),0,v.getColormap("knuckles", 35))
+			elseif (MM.ttt.board[i]==2) v.draw(signPos[1]+18, signPos[2]+28, v.cachePatch("RNGSA0")) end
+		end
+		--draw cursor
+		if (MM.duelplrs[MM.ttt.turn]==p) and (leveltime%8<4) and (MM.ttt.winner==nil)
+			local cursorPos = TTT_HudPos(MM.ttt.cursor)
+			v.drawFill(cursorPos[1], cursorPos[2],32,32,22)
+		end
+		--winner text
+		if (MM.ttt.winner!=nil)
+			if (MM.ttt.winner==0) V_DrawStrCentered(v, 160, mmtxt[p.mmlang]["WIN_HUD"][1])
+			else V_DrawStrCentered(v, 160, MM.RoleColor[MM.ttt.winner]..mmtxt[p.mmlang]["ROLES_HUD"][MM.ttt.winner].."\x80 "..mmtxt[p.mmlang]["WON_HUD"]) end
+		end
+		--player 1 side information
+		if (MM.duelplrs[1].valid)
+			V_DrawStrRelCentered(v, 56, 120, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT) --V_ALLOWLOWERCASE
+			V_DrawStrRelCentered(v, 56, 128, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
+			v.draw(72, 48, v.getSprite2Patch(MM.duelplrs[1].skin,SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin,MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
+			if (MM.duelplrs[1].role==ROLE_MURDERER) v.draw(56, 112, v.cachePatch("TRNGA0"), V_SNAPTOLEFT, v.getColormap("knuckles", 35))
+			elseif (MM.duelplrs[1].role==ROLE_SHERIFF) v.draw(56, 112, v.cachePatch("RNGSA0"), V_SNAPTOLEFT) end
+			V_DrawStrRelCentered(v, 56, 144, "Wins: "..MM.duelplrs[1].kills, V_SNAPTOLEFT)
+		end
+		--player 2 side information
+		if (MM.duelplrs[2].valid)
+			V_DrawStrRelCentered(v, 264, 120, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT) --V_ALLOWLOWERCASE
+			V_DrawStrRelCentered(v, 264, 128, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
+			v.draw(248, 48, v.getSprite2Patch(MM.duelplrs[2].skin,SPR2_XTRA),V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin,MM.duelplrs[2].skincolor))
+			if (MM.duelplrs[2].role==ROLE_MURDERER) v.draw(264, 112, v.cachePatch("TRNGA0"), V_SNAPTORIGHT, v.getColormap("knuckles", 35))
+			elseif (MM.duelplrs[2].role==ROLE_SHERIFF) v.draw(264, 112, v.cachePatch("RNGSA0"), V_SNAPTORIGHT) end
+			V_DrawStrRelCentered(v, 264, 144, "Wins: "..MM.duelplrs[2].kills, V_SNAPTORIGHT)
+		end
+
+		if (MM.devbuild)
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87TicTacToe "..MM.version.."-"..MM.devbuild,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."Cursor:\x80 "..MM.ttt.cursor,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Turn:\x80 "..MM.ttt.turn,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Up:\x80 "..tostring(p.uppressed),0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."Down:\x80 "..tostring(p.downpressed),0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Right:\x80 "..tostring(p.rightpressed),0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Left:\x80 "..tostring(p.leftpressed),0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82Turntime\x80 "..MM.ttt.turntime,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82Winner:\x80 "..tostring(MM.ttt.winner),0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82Wintimeout\x80 "..MM.ttt.wintimeout,0,"thin")
+
+		end
 		return
 	elseif (MM.minigame) and (not p.minigame)
-		drawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to spectate", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-		drawStrRight(v, 8, "a minigame duel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to spectate", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		V_DrawStrRight(v, 8, "a minigame duel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 	end
 
 	--"People alive" (replaces SCORES)
@@ -100,9 +153,9 @@ local function mainHUD(v, p) --main game HUD
 	end
 	if (p.spectator)
 		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
-		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) drawStrCentered(v, 112+y*8, i,8388608) end
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) V_DrawStrCentered(v, 112+y*8, i,8388608) end
 		if (p.role==nil)
-			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) drawStrCentered(v, 152+y*8, i, 8388608, "thin") end
+			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrCentered(v, 152+y*8, i, 8388608, "thin") end
 		end
 		if (p.killedby)
 			if p.killedby=="your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
@@ -114,15 +167,17 @@ local function mainHUD(v, p) --main game HUD
 		local rival
 		if (MM.duelplrs[1]==p) rival=MM.duelplrs[2]
 		elseif (MM.duelplrs[2]==p) rival=MM.duelplrs[1] end
-		if (not p.minigame) and (not rival.minigame)
-			drawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-			drawStrRight(v,8,"request a \x87TicTacToe\x80 game", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-		elseif (p.minigame) and (not rival.minigame)
-			drawStrRight(v,0,"Waiting for rival to accept...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-			drawStrRight(v,8,"Press\x82 CUSTOM3\x80 to cancel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-		elseif (not p.minigame) and (rival.minigame) and (leveltime%2==0)
-			drawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-			drawStrRight(v,8,"join a \x87TicTacToe\x80 game!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+		if (rival.valid)
+			if (not p.minigame) and (not rival.minigame)
+				V_DrawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+				V_DrawStrRight(v,8,"request a \x87TicTacToe\x80 game", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			elseif (p.minigame) and (not rival.minigame)
+				V_DrawStrRight(v,0,"Waiting for rival to accept...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+				if (not p.minigametimeout) V_DrawStrRight(v,8,"Press\x82 CUSTOM3\x80 to cancel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+			elseif (not p.minigame) and (rival.minigame) and (leveltime%2==0)
+				V_DrawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+				V_DrawStrRight(v,8,"join a \x87TicTacToe\x80 game!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			end
 		end
 	end
 
@@ -152,7 +207,7 @@ local function mainHUD(v, p) --main game HUD
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
 				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
-				drawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
+				V_DrawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
 			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
 			v.draw((firstRingWepX-2), (coords.firstRingWep.y-(p.mmweapondelay>>1)-2), v.cachePatch("CURWEAP")) --selector
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
@@ -172,9 +227,9 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--Are you alone? Draw the text
-	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) drawStrCentered(v, 128+y*8, i, 8388608) end end
+	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) V_DrawStrCentered(v, 128+y*8, i, 8388608) end end
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) drawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) V_DrawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
@@ -201,10 +256,10 @@ local function scoresHUD(v) --SCORES TAB
 	end
 	local p=consoleplayer --for shortage
 	hud.disable("rankings")
-	drawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
+	V_DrawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
 
 	--Main body
-	drawStrCentered(v, 20, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP|V_ALLOWLOWERCASE)
+	V_DrawStrCentered(v, 20, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP|V_ALLOWLOWERCASE)
 	for y,i in pairs(mmtxt[p.mmlang]["HUD_SCORESTAB"])
 		v.drawString(20, (24+y*16), i, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
 	end
@@ -222,7 +277,7 @@ local function scoresHUD(v) --SCORES TAB
 	-- "Sheriff Emerald is available!"
 	if (MM.shreml_dropped!=0) and (leveltime%2==0) v.drawScaled(524280,12058440,32768,v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end --8*FU, 184*FU, FU/2
 
-	if (MM.devbuild) drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
+	if (MM.devbuild) V_DrawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
 local function interHUD(v) --Custom intermission HUD
 	if gametype!=GT_MURDERMYSTERY
@@ -235,9 +290,9 @@ local function interHUD(v) --Custom intermission HUD
 	local plrs={}
 	local multiply={x=0,y=0}
 	
-	drawStrCentered(v,4,"\x87"..mmtxt[p.mmlang]["MM"])
-	if (mapheaderinfo[gamemap].actnum==0) drawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." *")
-	else drawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *") end
+	V_DrawStrCentered(v,4,"\x87"..mmtxt[p.mmlang]["MM"])
+	if (mapheaderinfo[gamemap].actnum==0) V_DrawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." *")
+	else V_DrawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *") end
 	v.drawFill(0,40,320,2,0) --horizontal line
 	for p in players.iterate table.insert(plrs,p) end
 	
@@ -279,13 +334,13 @@ local function interHUD(v) --Custom intermission HUD
 		end
 	end
 
-	if MM.winner==0 drawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
-	else drawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1],8388608) end
+	if MM.winner==0 V_DrawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
+	else V_DrawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1],8388608) end
 
 	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else
 		v.drawString(0,184,"WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-		drawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
+		V_DrawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
 	end
 	--THANK GOD IT ENDED
 end

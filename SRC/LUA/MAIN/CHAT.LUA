@@ -44,31 +44,31 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			return true
 		elseif (type==0) and (CV_FindVar("MMSEMJ").value) --play sound emojis
 			if string.find(m:upper(),"HEHE")
-				if string.upper(m):find("HA") chatplaySFX(sfx_emj11)
-				elseif string.upper(m):find("BOI") chatplaySFX(sfx_emj12)
-				else chatplaySFX(sfx_emj01) end
+				if string.upper(m):find("HA") MM_ChatPlaySFX(sfx_emj11)
+				elseif string.upper(m):find("BOI") MM_ChatPlaySFX(sfx_emj12)
+				else MM_ChatPlaySFX(sfx_emj01) end
 			end
-			if string.find(m:upper(), ":SKULL:") chatplaySFX(sfx_emj00)
-			elseif string.find(m:upper(),":FART:") chatplaySFX(sfx_emj02)
-			elseif m:find("OMG") chatplaySFX(sfx_emj03)
-			elseif m:upper()=="BRUH" chatplaySFX(sfx_emj04)
-			elseif m:find(":|") chatplaySFX(sfx_emj05)
-			elseif string.find(m:upper(),"WOW") chatplaySFX(sfx_emj06)
-			elseif m:find("AMONG US") or m:find("AMONGUS") chatplaySFX(sfx_emj07)
-			elseif m:upper()=="OH NO" chatplaySFX(sfx_emj08)
-			elseif string.find(m:upper(),"SUS") chatplaySFX(sfx_emj09)
-			elseif m:find("AGHH") or m:find("AHH") chatplaySFX(sfx_emj0a)
-			elseif m:upper()=="AHA" chatplaySFX(sfx_emj0b)
-			elseif m:find("NO WAY") chatplaySFX(sfx_emj0c)
-			elseif string.upper(m)=="NOPE" chatplaySFX(sfx_emj0d)
-			elseif m:find("GET OVER HERE") chatplaySFX(sfx_emj0e)
+			if string.find(m:upper(), ":SKULL:") MM_ChatPlaySFX(sfx_emj00)
+			elseif string.find(m:upper(),":FART:") MM_ChatPlaySFX(sfx_emj02)
+			elseif m:find("OMG") MM_ChatPlaySFX(sfx_emj03)
+			elseif m:upper()=="BRUH" MM_ChatPlaySFX(sfx_emj04)
+			elseif m:find(":|") MM_ChatPlaySFX(sfx_emj05)
+			elseif string.find(m:upper(),"WOW") MM_ChatPlaySFX(sfx_emj06)
+			elseif m:find("AMONG US") or m:find("AMONGUS") MM_ChatPlaySFX(sfx_emj07)
+			elseif m:upper()=="OH NO" MM_ChatPlaySFX(sfx_emj08)
+			elseif string.find(m:upper(),"SUS") MM_ChatPlaySFX(sfx_emj09)
+			elseif m:find("AGHH") or m:find("AHH") MM_ChatPlaySFX(sfx_emj0a)
+			elseif m:upper()=="AHA" MM_ChatPlaySFX(sfx_emj0b)
+			elseif m:find("NO WAY") MM_ChatPlaySFX(sfx_emj0c)
+			elseif string.upper(m)=="NOPE" MM_ChatPlaySFX(sfx_emj0d)
+			elseif m:find("GET OVER HERE") MM_ChatPlaySFX(sfx_emj0e)
 			elseif string.find(m,"NO")
-				if (m=="NO!") or (m=="NO") chatplaySFX(sfx_emj16)
-				elseif string.find(m, "NOOO") chatplaySFX(sfx_emj0f) end
-			elseif m=="HELP" or m:upper()=="HELP!" chatplaySFX(sfx_emj10)
-			elseif string.find(m:upper(),"PINGAS") chatplaySFX(sfx_emj13)
-			elseif string.find(m:upper(),":PAIN:") chatplaySFX(sfx_emj14)
-			elseif string.match(m:upper(),"HUH") and string.find(m:upper(),"HUH") chatplaySFX(sfx_emj15) end
+				if (m=="NO!") or (m=="NO") MM_ChatPlaySFX(sfx_emj16)
+				elseif string.find(m, "NOOO") MM_ChatPlaySFX(sfx_emj0f) end
+			elseif m=="HELP" or m:upper()=="HELP!" MM_ChatPlaySFX(sfx_emj10)
+			elseif string.find(m:upper(),"PINGAS") MM_ChatPlaySFX(sfx_emj13)
+			elseif string.find(m:upper(),":PAIN:") MM_ChatPlaySFX(sfx_emj14)
+			elseif string.match(m:upper(),"HUH") and string.find(m:upper(),"HUH") MM_ChatPlaySFX(sfx_emj15) end
 		else return false end
 	end
 	s.chatdelay=delaytimer

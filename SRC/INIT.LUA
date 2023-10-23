@@ -191,6 +191,7 @@ rawset(_G, "MM", {
 			},
 			-- Winner stuff
 			["WINNERS_HUD"]="Winners:",
+			["WON_HUD"]="won!",
 			["WIN_HUD"]={
 				"TIE!",
 				"\x85MURDERERS", --must contain escape color code
@@ -735,7 +736,11 @@ rawset(_G, "MM", {
 	winner=0, --for intermission, netsynced
 	winreason=0, --for intermission, netsynced
 	timelimit=5, --for timelimit in TIME.LUA, netsynced
-	shreml_dropped=0 --The counter of Sheriff Emeralds dropped
+	shreml_dropped=0, --The counter of Sheriff Emeralds dropped
+	ttt={ --Some of the variables for TicTacToe minigame, netsynced
+		cell=5,
+		turn=1,
+	}
 })
 
 rawset(_G, "MurderMystery", MM) --for backwards compatibility
@@ -794,6 +799,7 @@ CV_RegisterVar{name="mmsprint",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6
 CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue={MIN=0,MAX=60}}
 CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
+CV_RegisterVar{name="mmtttlimit",defaultvalue=10,PossibleValue={MIN=5, MAX=100},flags=4}
 
 --
 --MM startup init
@@ -873,6 +879,7 @@ sfxinfo[sfx_emj15].caption="huh?"
 sfxinfo[sfx_emj16].caption="NO!"
 
 dofile("MAIN/FUNCTIONS.LUA")
+if (MM.devbuild) dofile ("MAIN/DEBUG.LUA") end
 dofile("MAIN/GAME.LUA")
 dofile("MAIN/WEAPONS.LUA")
 dofile("MAIN/HUD.LUA")
@@ -898,4 +905,5 @@ addHook("NetVars", function(net)
 	MM.winreason = net($)
 	MM.timelimit = net($)
 	MM.minigame = net($)
+	MM.ttt = net($)
 end)

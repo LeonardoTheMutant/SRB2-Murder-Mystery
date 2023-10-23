@@ -11,4 +11,7 @@ ECHO Please wait...
 ECHO.
 CScript TOOLS\ZIP.VBS SRC\ %FILENAME%.zip\
 REN %FILENAME%.zip %FILENAME%.pk3
+
+IF EXIST R:\ COPY %FILENAME%.pk3 R:\
+
 ECHO Finished making %FILENAME%.pk3 !

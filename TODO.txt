@@ -1,0 +1,3 @@
+- Spectator's momentum doesn't disappear (unable to fix?)
+- Do something with Vanilla Weapons
+- Do something with Rename Lock/Ban (unable to fix?)

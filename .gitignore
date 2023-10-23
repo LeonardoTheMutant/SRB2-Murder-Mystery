@@ -40,5 +40,4 @@ luac.out
 *.hex
 
 *.pk3
-TODO.txt
-MAKE_R.BAT
+/.vscode

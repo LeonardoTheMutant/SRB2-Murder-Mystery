@@ -18,7 +18,7 @@ I think you have wondered at least once what some functions and constants in our
         - [Globaly used functions](#globaly-used-functions)
 - [Constants](#constants)
     - [Role constants (`ROLE_*`)](#role-constants-role)
-    - [`chatprintGlobal()` messages](#possible-messages-for-chatprintglobal)
+    - [`MM_ChatprintGlobal()` messages](#possible-messages-for-chatprintglobal)
     - [Win reasons (`WIN_*`)](#win-reasons-win)
     - [The core `MM` table](#the-core-mm-table)
 
@@ -39,32 +39,32 @@ There is a dedicated LUA file which contains all MM functions. Everything outsid
 These are the functions which are used in [`GAME.LUA`](/LUA/MAIN//GAME.LUA):
 | Name | Description |
 | --- | --- |
-| <code>**AssignRoles**()</code> | The main role assigner function. Called at `MapLoad` hook or when 2nd player joins the game with one player.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it personally tells to the player the role.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution in console to every player. |
-| <code>**GetRoleMultiplier**()</code> | Get the required number of role duplicates to create among players when assigning roles. Its primarily used in `AssignRoles()` function but is also used to adjust the map timelimit when level starts. |
-| <code>**chatprintGlobal**(*string* message_id, * var)</code>  | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here](#possible-messages-for-chatprintglobal) |
-| <code>**KillPlayer**(*mobj_t* player, [*mobj_t* atacker])</code> | Make `player` *DEAD*. `atacker` is a player who killed the `player`, it is used to print killer's name for `player`. If `atacker` is not specified the killer's name is "your stupidity" instead.<br>*Note:* Both `player` and `atacker` have to be `mobj_t`! |
-| <code>**endRound**(*int* win, * var, [*int* winreason])</code> | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the [`WIN_*` constants](#win-reasons-win). |
-| <code>**CheckPlayers**()</code> | A very small function to check the current state of the game. It can announce Murderers as winners when everyone is dead or enable the music for Showdown Duel. |
-| <code>**SetRandomInnoAs**(*int* role)</code> | Similar to `AssignRoles()` but works for Innocents only in the middle of the game. In some gameplay situations there has to be a replacement of some inportant `role` and this functions selects random Innocent to give the `role` to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the `role` argument. |
+| <code>**MM_AssignRoles**()</code> | The main role assigner function. Called at `MapLoad` hook or when 2nd player joins the game with one player.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it personally tells to the player the role.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution in console to every player. |
+| <code>**MM_GetRoleMultiplier**()</code> | Get the required number of role duplicates to create among players when assigning roles. Its primarily used in `MM_AssignRoles()` function but is also used to adjust the map timelimit when level starts. |
+| <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code>  | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here](#possible-messages-for-chatprintglobal) |
+| <code>**MM_KillPlayer**(*mobj_t* player, [*mobj_t* atacker])</code> | Make `player` *DEAD*. `atacker` is a player who killed the `player`, it is used to print killer's name for `player`. If `atacker` is not specified the killer's name is "your stupidity" instead.<br>*Note:* Both `player` and `atacker` have to be `mobj_t`! |
+| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the [`WIN_*` constants](#win-reasons-win). |
+| <code>**MM_CheckPlayers**()</code> | A very small function to check the current state of the game. It can announce Murderers as winners when everyone is dead or enable the music for Showdown Duel. |
+| <code>**MM_SetRandomInnoAs**(*int* role)</code> | Similar to `MM_AssignRoles()` but works for Innocents only in the middle of the game. In some gameplay situations there has to be a replacement of some inportant `role` and this functions selects random Innocent to give the `role` to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the `role` argument. |
 
 ### `HUD.LUA`
 Functions for HUD rendering code
 | Name | Return value | Description |
 | --- | --- | --- |
-| <code>**drawStrCentered**(*drawer* v, *int* y, *string* str, [*int* videoflags, [*string* font]])</code> | *nil* | Same as `v.drawString()` but draws the string centered on the screen. |
+| <code>**V_DrawStrCentered**(*drawer* v, *int* y, *string* str, [*int* videoflags, [*string* font]])</code> | *nil* | Same as `v.drawString()` but draws the string centered on the screen. |
 | <code>**wep2rw**(*int* wep) | `RW_*` constant | Conerts `WEP_*` to `RW_*` constant |
 
 ### `CHAT.LUA`
 The only function for chat script
 | Name | Description |
 | --- | --- |
-| <code>**chatplaySFX**(*int* sfx)</code> | Start the SFX by `sfx` id for everyone. |
+| <code>**MM_ChatPlaySFX**(*int* sfx)</code> | Start the SFX by `sfx` id for everyone. |
 
 ### `CCMD.LUA`
 The only function for Console Commands script
 | Name | Description |
 | --- | --- |
-| <code>**printContents**(*player_t* player, *string* lang)</code> | Prints the contents of the `MM.text[lang]["MMHELP_CMD"]["CONTENTS"]` to `player`'s console |
+| <code>**MM_PrintContents**(*player_t* player, *string* lang)</code> | Prints the contents of the `MM.text[lang]["MMHELP_CMD"]["CONTENTS"]` to `player`'s console |
 
 ### Globaly used functions
 Functions which are used in more than one script
@@ -86,7 +86,7 @@ Here is the full list of MM constants:
 | `ROLE_INNOCENT` | 3 | Innocent |
 | `ROLE_HERO` | 4 | Hero |
 
-### Possible messages for `chatprintGlobal()`
+### Possible messages for `MM_ChatprintGlobal()`
 | `message_id` | possible value(s) for `var` | Description |
 | --- | --- | --- |
 | `"MURD_KILLED"`, `"SHERI_KILLED"`, `"HERO_KILLED"` | *string* | "Murderer/Sheriff/Hero by the name of `var` is killed!". For `"SHERI_KILLED"` it also says that *Sheriff's Emerald* is dropped
@@ -98,7 +98,7 @@ Here is the full list of MM constants:
 | `"WIN"` | One of the [`WIN_*`](#win-reasons-win) constants | The end round message. `var` is the reason of the round end. |
 
 ### Win reasons (`WIN_*`)
-Win reasons for `endRound("WIN")` and `chatprintGlobal("WIN")` functions
+Win reasons for `MM_EndRound("WIN")` and `MM_ChatprintGlobal("WIN")` functions
 
 | Constant | Value | Description |
 | --- | --- | --- |

@@ -14,7 +14,7 @@ local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_nggyu, sfx_emj08, sfx_emj1
 --
 
 -- how many players with same role should exist?
-rawset(_G, "GetRoleMultiplier", function()
+rawset(_G, "MM_GetRoleMultiplier", function()
 	if (PlayerCount()<7) return 1
 	elseif (PlayerCount()>=7) and (PlayerCount()<=10) return 2
 	elseif (PlayerCount()>=11) and (PlayerCount()<=14) return 3
@@ -24,7 +24,7 @@ end)
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
-rawset(_G, "AssignRoles", function()
+rawset(_G, "MM_AssignRoles", function()
 	if (gametype!=GT_MURDERMYSTERY) or (PlayerCount()<2) return
 	elseif (gametype==GT_MURDERMYSTERY) and (splitscreen)
 		COM_BufInsertText(server, "MAP JADE VALLEY -GAMETYPE MATCH")
@@ -38,7 +38,7 @@ rawset(_G, "AssignRoles", function()
 		table.insert(plrs, #p)
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
-        for i=1, GetRoleMultiplier()
+        for i=1, MM_GetRoleMultiplier()
             local randPlr=P_RandomKey(#plrs)+1 --select random player
             players[plrs[randPlr]].role=r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
@@ -51,7 +51,7 @@ rawset(_G, "AssignRoles", function()
 		p.roleflicker=105 --timer for role name flickering on HUD
 	end
 	if (MM.devbuild)
-		print("\x82".."AssignRoles() results:")
+		print("\x82".."MM_AssignRoles() results:")
 		for p in players.iterate print(p.name..": "..p.role) end
 	end
 end)
@@ -59,7 +59,7 @@ end)
 --Function to display global messages in chat
 --Works as regular chatprint but sends the global message personally to everyone in their (player.mmlang) language
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
-rawset(_G, "chatprintGlobal", function(msg, var)
+rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
 		if ((msg=="MURD_KILLED") or (msg=="SHERI_KILLED") or (msg=="HERO_KILLED")) chatprintf(p, mmtxt[p.mmlang][msg][1].." "..var.." "..mmtxt[p.mmlang][msg][2])
 		elseif (msg=="SHERI_KILLED_NODROP") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][3])
@@ -75,8 +75,8 @@ rawset(_G, "chatprintGlobal", function(msg, var)
 	end
 end)
 
-rawset(_G, "KillPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if (not p) or (not p.player) error("KillPlayer() argument #1 require player's mobj_t") end
+rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
+	if (not p) or (not p.player) error("MM_KillPlayer() argument #1 require player's mobj_t") end
 	local plr = p.player
 	plr.spectator=true
 	plr.role=ROLE_NONE
@@ -102,11 +102,11 @@ end)
 --w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat
 --reason is used differently for each message but usualy it is a win reason
-rawset(_G, "endRound", function(w, endtext, reason)
+rawset(_G, "MM_EndRound", function(w, endtext, reason)
 	MM.winner=w
 	if (endtext=="WIN") MM.winreason=reason end
 	G_ExitLevel()
-	chatprintGlobal(endtext, reason)
+	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	for p in players.iterate p.spectator=false end
 	if isdedicatedserver --console log for dedicated host
 		if (endtext=="WIN") CONS_Printf(server, "- "..mmtxt["EN"]["ENDROUND"][reason])
@@ -114,12 +114,12 @@ rawset(_G, "endRound", function(w, endtext, reason)
 	end
 end)
 
-rawset(_G, "CheckPlayers", function()
-	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_INNOCENT)==0) endRound(ROLE_MURDERER, "WIN", WIN_MURD)
+rawset(_G, "MM_CheckPlayers", function()
+	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_INNOCENT)==0) MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 	elseif (PlayerCount(ROLE_MURDERER)!=0) and ((PlayerCount(ROLE_SHERIFF)!=0) or (PlayerCount(ROLE_HERO)!=0)) and (PlayerCount(ROLE_INNOCENT)==0) S_ChangeMusic("SHWDWN", true) end
 end)
 
-rawset(_G, "SetRandomInnoAs", function(role)
+rawset(_G, "MM_SetRandomInnoAs", function(role)
 	local plrs={}
 	for plr in players.iterate
 		if (not plr.spectator) and (plr.role==ROLE_INNOCENT) table.insert(plrs, #plr) end
@@ -135,10 +135,13 @@ end)
 --
 --HUD.LUA
 --
-rawset(_G, "drawStrCentered", function(v,y,str,flags,font)
-	v.drawString(160-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
+rawset(_G, "V_DrawStrRelCentered", function(v,x,y,str,flags,font)
+	v.drawString(x-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
 end)
-rawset(_G, "drawStrRight", function(v,y,str,flags,font)
+rawset(_G, "V_DrawStrCentered", function(v,y,str,flags,font)
+	V_DrawStrRelCentered(v,160,y,str,flags,font)
+end)
+rawset(_G, "V_DrawStrRight", function(v,y,str,flags,font)
 	v.drawString(320-v.stringWidth(str,flags,font), y, str, flags, font)
 end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
@@ -154,14 +157,14 @@ end)
 --
 --CHAT.LUA
 --
-rawset(_G, "chatplaySFX", function(sfx)
+rawset(_G, "MM_ChatPlaySFX", function(sfx)
 	for p in players.iterate S_StartSound(p.mo, sfx, p) end
 end)
 
 --
 --CCMD.LUA
 --
-rawset(_G, "printContents", function(p,l)
+rawset(_G, "MM_PrintContents", function(p,l)
 	CONS_Printf(p,"")
 	for i, str in pairs(MM.text[l]["MMHELP_CMD"]["CONTENTS"]) CONS_Printf(p, str) end
 end)
@@ -201,6 +204,25 @@ rawset(_G, "P_SetWeaponDelay", function(p, delay)
 end)
 
 --
+--TTT.LUA
+--
+rawset(_G, "TTT_HudPos", function(value)
+	if (value==1) return {108, 48}
+	elseif (value==2) return {144, 48}
+	elseif (value==3) return {180, 48}
+	elseif (value==4) return {108, 84}
+	elseif (value==5) return {144, 84}
+	elseif (value==6) return {180, 84}
+	elseif (value==7) return {108, 120}
+	elseif (value==8) return {144, 120}
+	elseif (value==9) return {180, 120}
+	end
+end)
+rawset(_G, "TTT_ResetBoard", function()
+	MM.ttt.board={0,0,0,0,0,0,0,0,0}
+end)
+
+--
 --GLOBAL
 --
 rawset(_G, "PlayerCount", function(role)
@@ -214,7 +236,7 @@ rawset(_G, "PlayersAlive", function()
 	for p in players.iterate if (not p.spectator) plrs=$+1 end end
 	return plrs
 end)
-rawset(_G, "Get2Players", function()
+rawset(_G, "MM_Get2Players", function()
 	if (PlayerCount()!=2) return false end
 	local plrs={}
 	for p in players.iterate

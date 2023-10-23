@@ -14,7 +14,7 @@ local function helpCMD(p, page)
 	if (p==server) and (isdedicatedserver) l="EN" end --Since Dedicated server host's player_t can't contain p.mmlang we have to emulate it
 	if (not page)
 		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
-		printContents(p,l)
+		MM_PrintContents(p,l)
 	elseif page=="INFO"
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
 		CONS_Printf(p, "Version\x81 "..MM.version.."\x80 ("..MM.releasedate..")")
@@ -27,11 +27,11 @@ local function helpCMD(p, page)
 		if (MM.text[l]["MMHELP"][page])
 			for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
 			if (page=="CHAT") for i,str in pairs(MM.SEMJ_info) CONS_Printf(p, str) end end
-			printContents(p,l)
+			MM_PrintContents(p,l)
 			
 		else
 			CONS_Printf(p, MM.text[l]["MMHELP_CMD"]["NOTFOUND"][1].."\x82 "..page.."\x80 "..MM.text[l]["MMHELP_CMD"]["NOTFOUND"][2])
-			printContents(p,l)
+			MM_PrintContents(p,l)
 		end
 	end
 	if (p==server) or (IsPlayerAdmin(p))
