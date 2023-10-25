@@ -1,3 +1,3 @@
-- Spectator's momentum doesn't disappear (unable to fix?)
-- Do something with Vanilla Weapons
-- Do something with Rename Lock/Ban (unable to fix?)
+- Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
+- Add at least 2 new maps
+- Make TicTacToe synchronize

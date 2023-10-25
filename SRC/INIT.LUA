@@ -820,6 +820,8 @@ G_AddGametype({
 	headerrightcolor = 150,
 	description = "Kill everyone as Murderer or eliminate him as Sheriff! ...or be none of them and be Innocent"
 })
+
+--Objects init
 mobjinfo[MT_SHREML]={ --Sheriff Drop Emerald
 	spawnstate=S_CEMG3,
 	deathstate=S_SPRK1,
@@ -847,6 +849,8 @@ mobjinfo[MT_MMSTEP]={ --footstep mark
 	speed=FU,
 	flags=512
 }
+
+--SFX captions
 sfxinfo[sfx_mmdth1].caption="Killed"
 sfxinfo[sfx_mmdth2].caption="Good Night"
 sfxinfo[sfx_mmdth3].caption="Killed"
@@ -878,6 +882,7 @@ sfxinfo[sfx_emj14].caption="PAIN"
 sfxinfo[sfx_emj15].caption="huh?"
 sfxinfo[sfx_emj16].caption="NO!"
 
+--Script files init
 dofile("MAIN/FUNCTIONS.LUA")
 if (MM.devbuild) dofile ("MAIN/DEBUG.LUA") end
 dofile("MAIN/GAME.LUA")
