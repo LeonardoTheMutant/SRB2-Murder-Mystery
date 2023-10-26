@@ -49,6 +49,9 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
+	--Cyrillic text in SRB2!!!
+	V_DrawStrASCII(v, 160, 100, "UA", "\1\xC0\2\xC1\3\xC2")
+
 	if (MM.minigame) and (p.minigame)
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
