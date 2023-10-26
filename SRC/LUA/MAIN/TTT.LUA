@@ -99,8 +99,9 @@ addHook("ThinkFrame", do
     if (MM.twopgame)
         if (PlayerCount()==2) MM.duelplrs=MM_Get2Players() end
         if (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame=true
-        else MM.minigame=false end
+        else MM.minigame=false end  
     end
+
     if (MM.minigame)
         if (MM.ttt.winner==nil) MM.ttt.turntime=$-1 end
         if (MM.ttt.turntime<1) and (MM.ttt.winner==nil)
@@ -128,7 +129,7 @@ addHook("PlayerThink", function(p)
     if (p.cmd.buttons&BT_CUSTOM3) and (MM.twopgame)
         if (not p.custom3pressed)
             if (p.minigame) 
-                if (not p.minigametimeout) p.minigame=false end
+                if ((leveltime - p.minigametimeout) > 105) p.minigame=false end
             else
                 p.minigame=true
                 p.minigametimeout=105
@@ -136,8 +137,6 @@ addHook("PlayerThink", function(p)
         end
         p.custom3pressed = true
     else p.custom3pressed = false end
-
-    if (p.minigametimeout) and (p.minigametimeout>0) p.minigametimeout=$-1 end
 
     if (MM.minigame) and (p.minigame) and (MM.ttt.winner==nil)
         --player inputs have to be somehow disabled without disabling TTT inputs
