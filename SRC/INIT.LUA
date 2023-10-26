@@ -67,10 +67,10 @@ rawset(_G, "MM", {
 					"We've collected some tips that can help you during your game in MM",
 					"\n* If character abilities are disabled, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
 					"\n* When you pick up the \x84Sherrif's Emerald\x80, you will have access to all the weapons and rings you collected beforehand;",
-					"\n* Finding out who your teammate is by using the \x87SAYTEAM\x80 command would help as it would make you avoid shooting them and accidently making you reveal your role;",
+					"\n* Finding out who your\8B teammate\x80 is by using the \x87SAYTEAM\x80 command would help as it would make you avoid shooting them and accidently making you reveal your role;",
 					"\n* You can get hurt by obstacles like lava, spikes and fire to gain invincibility for 3 seconds;",
 					"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
-					"\n* If your role gets leaked, you can rename yourself and change skincolor \x81(keep in mind your rename will be shown in chat)"
+					"\n* If your role gets leaked, you can rename yourself and change skincolor. \x81Keep in mind your rename will be shown in chat."
 				}
 			},
 			--GAME.LUA
@@ -594,9 +594,14 @@ rawset(_G, "MM", {
 					"Koroche kazhuchy, koly wy nadishlete \"bruh\" u chat wsi pochujut' BRUH",
 					"Os' pownyj spysok Zwukowych Emoji ta jak jich aktywuwaty:\n"
 				},["TIPS"]={ --work in progress
-					"\x87Porady dla gry w TM",
+					"\x87Igrowi porady",
 					"My zibraly dla was kil'ka porad jaki mozhut' wam staty u prygodi:",
-					"\n* Koly htos' z grawciw striliaje zwernit' uwagu jakoju zrojeju korystujet'sia cia osoba. Oskil'ky \x85Wbywci\x80 mozhut' wykorystowuwaty til'ky Cherwoni Kil'cia mozhna legko wyznaty jaka nasprawdi rol' u cieji atakujuchoji osoby."
+					"\n* Jaksho special'ni mozhlywosti personazhiw wymkneno natysnit' \x82SPIN\x80 aby tyho krastysia i ne zalyshaty pisl'a sebe slidiw ta zwukiw;",
+					"\n* Koly wy pidberete \x84Smaragd Sheryfa\x80, wam stanut' dostupni usi typy zbroji, jaku wy zazdalegit' zibraly;",
+					"\n* Swoich naparnykiw u komandi mozhna legko znajty za dopomogoju komandy \x87SAYTEAM\x80, ce mozhe duzhe dopomogty wam, oskil'ky wy unyknajete strilianyny i wypadkowogo wykryttia washoji roli;",
+					"\n* Mozhna natrapyty na taki pereshkody jak: lawa, shypy ta wogon' aby otrymaty neujazwymist' na 3 sekundy;",
+					"\n* Sprobujte znajty sobi misce dl'a showanky u kozhnomu riwni. Chasamy wono dopomagaje ukrytysia wid zajwoji uwagy;",
+					"\n* Jaksho washa rol' wykryta mozhna zminyty swoje im'ja ta zminyty kolir personazhu. \x81Pam'jatajte sho zmina imeni bude wydna u chati."
 				}
 			},["ROLE_GET"]={
 				"Wy \x85Wbywcia\x80! \x85Wbyjte usih.",
