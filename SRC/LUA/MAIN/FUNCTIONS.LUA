@@ -173,7 +173,7 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 		scale=131072 --FU*2
 	end
 
-	local color=v.getStringColormap(0x80) --default to white color
+	local color=v.getStringColormap(0) --default to white color
 
 	local X0 = x-width --real X position to start drawing from
 	local symShift = 0
@@ -181,30 +181,31 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	--draw the string
 	for i=1,#str
 		local char=str:sub(i,i) --get a single symbol
+		local chr=char:byte() --numeric value of the character
 		
 		local strchar --the string version of the char number
-		if (char:byte()<100) strchar="0"..char:byte() --make the number to be 3 digit
-		else strchar=char:byte() end
+		if (chr<100) strchar="0"..chr --make the number to be 3 digit
+		else strchar=chr end
 
 		local symX=(i*width) --character's X
-		
-		if (char:byte()<16) --characters from 0x00 to 0x0f set the color
-			color=v.getStringColormap(128+char:byte()) --set color
+
+		if (chr<16) --characters from 0x00 to 0x0f set the color
+			color=v.getStringColormap(chr*4096) --set color
 			symShift=$+1 --that symbol was never supposed to be drawen
 		end
 
 		--print the character
-		if (char:byte()>=128) --extended ASCII
+		if (chr>=128) --extended ASCII
 			if (v.patchExists(charset..strchar))
 				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch(charset..strchar), flags, color)
 			else --unknown symbol, print "?"
 				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN063"), flags, color)
 			end
-		elseif (char:byte()>=16) and (char:byte()<128) --standart ASCII
+		elseif (chr>=16) and (chr<128) --standart ASCII
 			if (v.patchExists("STCFN"..strchar))
 				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN"..strchar), flags, color)
 			else --unknown symbol, print "?" unless it's a space symbol
-				if (char:byte()!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flags, color) end
+				if (chr!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flags, color) end
 			end 
 		end
 	end
