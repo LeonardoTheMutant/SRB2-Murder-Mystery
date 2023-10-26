@@ -76,7 +76,7 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 end)
 
 rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if (not p) or (not p.player) error("MM_KillPlayer() argument #1 require player's mobj_t") end
+	if (not p) or (not p.player) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator=true
 	plr.role=ROLE_NONE
@@ -143,6 +143,71 @@ rawset(_G, "V_DrawStrCentered", function(v,y,str,flags,font)
 end)
 rawset(_G, "V_DrawStrRight", function(v,y,str,flags,font)
 	v.drawString(320-v.stringWidth(str,flags,font), y, str, flags, font)
+end)
+
+--very cool function, you'll like it when I'll finish the whole thing
+rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
+	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
+	elseif (not x) x=0
+	elseif (not y) y=0
+	elseif (not str) error("V_DrawStrASCII() argument #5: string expected") end
+
+	--set the characer encoding for the given language
+	local charset
+	if (not lang) or (lang=="EN") charset="STCFN"
+	elseif (lang=="PL") charset="1250C"
+	elseif (lang=="RU" or lang=="UA") charset="1251C"
+	elseif (lang=="GR") charset="1253C" end
+
+	--set the width and the scale of symbols
+	local width
+	local scale
+	if (not fontsize) --normal
+		width=8
+		scale=FU
+	elseif (fontsize==1) --half size
+		width=4
+		scale=32768 --FU/2
+	elseif (fontsize==2) --double size
+		width=16
+		scale=131072 --FU*2
+	end
+
+	local color=v.getStringColormap(0x80) --default to white color
+
+	local X0 = x-width --real X position to start drawing from
+	local symShift = 0
+	
+	--draw the string
+	for i=1,#str
+		local char=str:sub(i,i) --get a single symbol
+		
+		local strchar --the string version of the char number
+		if (char:byte()<100) strchar="0"..char:byte() --make the number to be 3 digit
+		else strchar=char:byte() end
+
+		local symX=(i*width) --character's X
+		
+		if (char:byte()<16) --characters from 0x00 to 0x0f set the color
+			color=v.getStringColormap(128+char:byte()) --set color
+			symShift=$+1 --that symbol was never supposed to be drawen
+		end
+
+		--print the character
+		if (char:byte()>=128) --extended ASCII
+			if (v.patchExists(charset..strchar))
+				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch(charset..strchar), flags, color)
+			else --unknown symbol, print "?"
+				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN063"), flags, color)
+			end
+		elseif (char:byte()>=16) and (char:byte()<128) --standart ASCII
+			if (v.patchExists("STCFN"..strchar))
+				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN"..strchar), flags, color)
+			else --unknown symbol, print "?" unless it's a space symbol
+				if (char:byte()!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flags, color) end
+			end 
+		end
+	end
 end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1
