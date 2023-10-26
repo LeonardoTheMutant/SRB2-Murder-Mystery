@@ -58,14 +58,19 @@ rawset(_G, "MM", {
 					"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
 					"Breaking one of these rules may result in a kick or in some cases, a ban from the Admin! Please do not break them and play fairly."
 				},["CHAT"]={
-					"\x87How to use Sound Emojis\x80",
+					"\x87How to use Sound Emojis",
 					"When a player sends a message that contains specific words/phrases, a sound will be played.",
 					"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
 					"Here is the full list of the Sound Emojis and how to activate each of them:\n"
 				},["TIPS"]={
-					"Useful tips for you",
+					"\x87Useful tips",
 					"We've collected some tips that can help you during your game in MM",
-					""
+					"\n* If character abilities are disabled, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
+					"\n* When you pick up the \x84Sherrif's Emerald\x80, you will have access to all the weapons and rings you collected beforehand;",
+					"\n* Finding out who your teammate is by using the \x87SAYTEAM\x80 command would help as it would make you avoid shooting them and accidently making you reveal your role;",
+					"\n* You can get hurt by obstacles like lava, spikes and fire to gain invincibility for 3 seconds;",
+					"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
+					"\n* If your role gets leaked, you can rename yourself and change skincolor \x81(keep in mind your rename will be shown in chat)"
 				}
 			},
 			--GAME.LUA
