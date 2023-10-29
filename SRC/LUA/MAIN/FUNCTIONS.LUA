@@ -148,9 +148,12 @@ end)
 --very cool function, you'll like it when I'll finish the whole thing
 rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
-	elseif (not x) x=0
-	elseif (not y) y=0
-	elseif (not str) error("V_DrawStrASCII() argument #5: string expected") end
+	elseif (not str) error("V_DrawStrASCII() argument #5: string expected")
+	elseif (not fontsize) fontsize=FU end
+
+	local x = x or 0
+	local y = y or 0
+	local flg = flags or 0
 
 	--set the characer encoding for the given language
 	local charset
@@ -160,28 +163,33 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	elseif (lang=="GR") charset="1253C" end
 
 	--set the width and the scale of symbols
-	local width
-	local scale
-	if (not fontsize) --normal
-		width=8
-		scale=FU
-	elseif (fontsize==1) --half size
-		width=4
-		scale=32768 --FU/2
-	elseif (fontsize==2) --double size
-		width=16
-		scale=131072 --FU*2
+	local width=fontsize>>13 --fontsize/8192
+	local scale=fontsize
+
+	--set the space width
+	local spacesize=4
+	/* I hope to fix all of this
+	if (flg&V_MONOSPACE)
+		print("Monospace")
+		spacesize=8
+	elseif (flg&V_6WIDTHSPACE)
+		print("6 width space")
+		spacesize=6
+	elseif (flg&V_OLDSPACING)
+		print("Oldspacing")
+		spacesize=4
 	end
+	*/
 
 	local color=v.getStringColormap(0) --default to white color
 
 	local X0 = x-width --real X position to start drawing from
 	local symShift = 0
+	local spaceShift = 0
 	
 	--draw the string
 	for i=1,#str
-		local char=str:sub(i,i) --get a single symbol
-		local chr=char:byte() --numeric value of the character
+		local chr=string.byte(str:sub(i,i)) --numeric value of the single character
 		
 		local strchar --the string version of the char number
 		if (chr<100) strchar="0"..chr --make the number to be 3 digit
@@ -194,21 +202,45 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 			symShift=$+1 --that symbol was never supposed to be drawen
 		end
 
+		if (chr==32) spaceShift=$+1 end --space has a different character width
+
 		--print the character
 		if (chr>=128) --extended ASCII
 			if (v.patchExists(charset..strchar))
-				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch(charset..strchar), flags, color)
+				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch(charset..strchar), flg, color)
 			else --unknown symbol, print "?"
-				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN063"), flags, color)
+				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch("STCFN063"), flg, color)
 			end
 		elseif (chr>=16) and (chr<128) --standart ASCII
 			if (v.patchExists("STCFN"..strchar))
-				v.drawScaled(FU*(X0+symX-symShift*width), FU*y, scale, v.cachePatch("STCFN"..strchar), flags, color)
+				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch("STCFN"..strchar), flg, color)
 			else --unknown symbol, print "?" unless it's a space symbol
-				if (chr!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flags, color) end
+				if (chr!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flg, color) end
 			end 
 		end
 	end
+end)
+rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
+	if (not str) or (str=="") return 0 end
+	if (not fontsize) fontsize=FU end
+	local flg = flags or 0
+	local strlen=0
+	local width=fontsize>>13 --fontsize/8192
+	local spaceShift=0
+	local spacesize=4
+	/* currently doesn't work
+	if (flg&V_OLDSPACING) spacesize=4
+	elseif (flg&V_6WIDTHSPACE) spacesize=6
+	elseif (flg&V_MONOSPACE) spacesize=8 end
+	*/
+	for i=1,#str
+		local char=string.byte(str:sub(i,i)) --character number
+		if (char>16)
+			if (char==32) spaceShift=$+1 end
+			strlen=$+1
+		end
+	end
+	return ((strlen*width) - (spaceShift*spacesize))
 end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1
