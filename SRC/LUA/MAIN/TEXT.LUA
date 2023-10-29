@@ -375,7 +375,7 @@ MM.text={
 		}
 	},["PL"]={ -- Polish by sopix
 		["VERSION"]="8.1-BETA",
-		["AUTHOR"]="sopix",
+		["AUTHOR"]="sopix & LeonardoTheMutant",
 		["MM"]="Tajemnica Morderstw",
 		["MMHELP"]={
 			["MAIN"]={
@@ -511,30 +511,34 @@ MM.text={
 			"NIEWINNY",
 			"BOHATER",
 			"MARTWY"
-		},["TEAMALIVE_HUD"]="Wspolnicy zywi:",
+		},["TEAMALIVE_HUD"]="Wspo\xB3nicy \xBFywi:",
 		["KILLBY_HUD"]="Zabity przez",
-		["STUPID"]="twoj idiotyzm",
+		["STUPID"]="tw\xF3j idiotyzm",
 		["HUD_SCORESTAB"]={
 			"Tutaj nie ma wynikow! Liczniki na dole\nmoga pomoc",
-			"\nJesli jestes nowy w tym trybie uzyj\n\x87MMHELP\x80 w Konsoli",
-			"\n\n\x82\nBaw sie dobrze ;)"
+			"",
+			"Je\x9Cli jeste\x9C nowy w tym trybie u\xBFyj",
+			"\7MMHELP\0 w Konsoli",
+			"",
+			"",
+			"\2Baw sie dobrze ;)"
 		},["HUD_ROLESALIVE"]={
-			"Mordercy zywi:",
-			"Szeryfi zywi:",
-			"Niewinni zywi:"
+			"Mordercy \xBFywi:",
+			"Szeryfi \xBFywi:",
+			"Niewinni \xBFywi:"
 		},["HUD_DEAD"]={
-			"Jestes\x8F martwy",
-			"Nie mozesz sie odnawiac lub gadac do zywych"
+			"Jeste\x9C\15 martwy",
+			"Nie mozesz sie odnawia\xE6 lub gada\xE6 do \xBFywych"
 		},["HUD_MIDJOIN"]={
-			"Dolaczyles \x84w srodku rundy\x80, poczekaj na nowa runde zeby zagrac"
+			"Dolaczyle\x9C \4w \x9Crodku rundy\0, poczekaj na now\xD9 rund\xEA \xDFeby zagra\xE6"
 		},["HUD_ALONE"]={
-			"\x84".."2 graczy\x80 jest wymaganych do gry,",
-			"prosze poczekac na \x84jednego\x80 gracza do startu"
+			"\4".."2 graczy\0 jest wymaganych do gry,",
+			"prosz\xEA poczeka\xE6 na \4jednego\0 gracza do startu"
 		},["WINNERS_HUD"]="Wygrani:",
 		["WIN_HUD"]={
 			"REMIS!",
-			"\x85MORDERCY",
-			"\x83".."CYWILE"
+			"\5M\xD3RDERCY",
+			"\3CYWILE"
 		},["MMLANG"]={
 			"Twoj jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
 			"Personalny jezyk zostal ustawiony na\x82 Polski"
