@@ -140,26 +140,26 @@ local function mainHUD(v, p) --main game HUD
 	v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role (and translate it)
-	if (p.role) and (p.role>0) and (p.roleflicker%4==0) v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8,MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+	if (p.role) and (p.role>0) and (p.roleflicker%4==0) V_DrawStrASCII(v, hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, p.mmlang, MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
 	if ((p.role))
-		if (p.role==ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER)>1) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
+		if (p.role==ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER)>1) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
 		elseif (p.role==ROLE_SHERIFF)
-			if (PlayerCount(ROLE_HERO)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
-			elseif (PlayerCount(ROLE_SHERIFF)>1) and (PlayerCount(ROLE_HERO)==0)  v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF), infoRINGS.f) end
+			if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
+			elseif (PlayerCount(ROLE_SHERIFF)>1) and (PlayerCount(ROLE_HERO)==0)  V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF), infoRINGS.f) end
 		elseif (p.role==ROLE_HERO)
-			if (PlayerCount(ROLE_SHERIFF)) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO)..MM.RoleColor[ROLE_SHERIFF].." + "..PlayerCount(ROLE_SHERIFF), infoRINGS.f)
-			elseif (PlayerCount(ROLE_HERO)>1) and (PlayerCount(ROLE_SHERIFF)==0) v.drawString(infoRINGS.x, infoRINGS.y+16, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO), infoRINGS.f) end
+			if (PlayerCount(ROLE_SHERIFF)) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO)..MM.RoleColor[ROLE_SHERIFF].." + "..PlayerCount(ROLE_SHERIFF), infoRINGS.f)
+			elseif (PlayerCount(ROLE_HERO)>1) and (PlayerCount(ROLE_SHERIFF)==0) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_HERO]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_HERO), infoRINGS.f) end
 		end
 	end
 	if (p.spectator)
-		v.drawString(hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
-		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) V_DrawStrCentered(v, 112+y*8, i,8388608) end
+		V_DrawStrASCII(v, hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) V_DrawStrASCIIcentered(v, 160, 112+y*8, p.mmlang, i) end
 		if (p.role==nil)
-			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrCentered(v, 152+y*8, i, 8388608, "thin") end
+			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, 152+y*8, p.mmlang, i, 0, 32768) end --FU/2
 		end
 		if (p.killedby)
-			if p.killedby=="your stupidity" v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-			else v.drawString(infoRINGS.x, infoRINGS.y+16, "\x85"..mmtxt[p.mmlang]["KILLBY_HUD"].."\x80 "..p.killedby, infoRINGS.f|V_ALLOWLOWERCASE) end
+			if p.killedby=="your stupidity" V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
+			else V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..p.killedby, infoRINGS.f) end
 		end
 	end
 
@@ -227,7 +227,7 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--Are you alone? Draw the text
-	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) V_DrawStrCentered(v, 128+y*8, i, 8388608) end end
+	if (PlayerCount()==1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) V_DrawStrASCIIcentered(v, 160, 128+y*8, p.mmlang, i) end end
 	--"Showdown duel!"
 	if (PlayerCount(ROLE_MURDERER)!=0) and (PlayerCount(ROLE_SHERIFF)!=0 or PlayerCount(ROLE_HERO)!=0) and (PlayerCount(ROLE_INNOCENT)==0) V_DrawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
 
@@ -259,19 +259,19 @@ local function scoresHUD(v) --SCORES TAB
 	V_DrawStrCentered(v,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP)
 
 	--Main body
-	V_DrawStrCentered(v, 20, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP|V_ALLOWLOWERCASE)
+	V_DrawStrASCIIcentered(v, 160, 20, p.mmlang, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP)
 	for y,i in pairs(mmtxt[p.mmlang]["HUD_SCORESTAB"])
-		v.drawString(20, (24+y*16), i, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_RETURN8)
+		V_DrawStrASCII(v, 20, (24+y*8), p.mmlang, i, V_SNAPTOTOP|V_SNAPTOLEFT)
 	end
 
 	--Roles counter
 	-- Murderer
-	v.drawString(20,176, MM.RoleColor[1]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][1].." "..PlayerCount(ROLE_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
+	V_DrawStrASCII(v, 20, 176, p.mmlang, MM.RoleColor[1]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][1].." "..PlayerCount(ROLE_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
 	-- Sheriff (and Hero)
-	if (PlayerCount(ROLE_HERO)!=0) v.drawString(20,184, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[4].." + "..PlayerCount(ROLE_HERO), V_SNAPTOTOP|V_SNAPTOLEFT)
-	else v.drawString(20,184, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if (PlayerCount(ROLE_HERO)!=0) V_DrawStrASCII(v, 20, 184, p.mmlang, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[4].." + "..PlayerCount(ROLE_HERO), V_SNAPTOTOP|V_SNAPTOLEFT)
+	else V_DrawStrASCII(v, 20,184, p.mmlang, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT) end
 	-- Innocent
-	if (PlayerCount(ROLE_INNOCENT)!=0) v.drawString(20,192, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if (PlayerCount(ROLE_INNOCENT)!=0) V_DrawStrASCII(v, 20,192, p.mmlang, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
 	-- Online
 	v.drawString(192,176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
 	-- "Sheriff Emerald is available!"
@@ -290,7 +290,7 @@ local function interHUD(v) --Custom intermission HUD
 	local plrs={}
 	local multiply={x=0,y=0}
 	
-	V_DrawStrCentered(v,4,"\x87"..mmtxt[p.mmlang]["MM"])
+	V_DrawStrASCIIcentered(v,160, 4, p.mmlang, "\7"..mmtxt[p.mmlang]["MM"])
 	if (mapheaderinfo[gamemap].actnum==0) V_DrawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." *")
 	else V_DrawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *") end
 	v.drawFill(0,40,320,2,0) --horizontal line
@@ -308,8 +308,8 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString((coords.name.x),(coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
 			v.drawString((coords.kills.x),(coords.first.y+i*16),plrs[i].kills)
 
-			if (plrs[i].role) and (plrs[i].role>=1) v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
-			else v.drawString((coords.role.x),(coords.first.y+i*16),MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
+			if (plrs[i].role) and (plrs[i].role>=1) V_DrawStrASCII(v, (coords.role.x),(coords.first.y+i*16), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
+			else V_DrawStrASCII(v, (coords.role.x),(coords.first.y+i*16), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
 		else --if >=9 plrs present
 			v.drawFill(160,40,2,144,0) --vertical line
 			--names of columns
@@ -329,13 +329,13 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString((coords.name2.x+multiply.x),(coords.first2.y+i*8+multiply.y),string.sub(plrs[i].name, 1, 16),8388608,"thin")
 			v.drawString((coords.kills2.x+multiply.x),(coords.first2.y+i*8+multiply.y),plrs[i].kills,0,"thin")
 
-			if (plrs[i].role) and (plrs[i].role>=1) v.drawString((coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y),(MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][plrs[i].role]),0,"thin")
-			else v.drawString((coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y),(MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][5]),0,"thin") end
+			if (plrs[i].role) and (plrs[i].role>=1) V_DrawStrASCII(v, (coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y), p.mmlang, (MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][plrs[i].role]),0,"thin")
+			else V_DrawStrASCII(v, (coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y), p.mmlang, (MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][5]),0,"thin") end
 		end
 	end
 
-	if MM.winner==0 V_DrawStrCentered(v,176,mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
-	else V_DrawStrCentered(v,176,mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1],8388608) end
+	if (MM.winner==0) V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
+	else V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1]) end
 
 	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else

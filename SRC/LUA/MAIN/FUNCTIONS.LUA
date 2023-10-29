@@ -167,7 +167,7 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	local scale=fontsize
 
 	--set the space width
-	local spacesize=4
+	local spacesize=4*fontsize
 	/* I hope to fix all of this
 	if (flg&V_MONOSPACE)
 		print("Monospace")
@@ -207,13 +207,13 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 		--print the character
 		if (chr>=128) --extended ASCII
 			if (v.patchExists(charset..strchar))
-				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch(charset..strchar), flg, color)
+				v.drawScaled(FU*(X0+symX-symShift*width)-spaceShift*spacesize, FU*y, scale, v.cachePatch(charset..strchar), flg, color)
 			else --unknown symbol, print "?"
-				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch("STCFN063"), flg, color)
+				v.drawScaled(FU*(X0+symX-symShift*width)-spaceShift*spacesize, FU*y, scale, v.cachePatch("STCFN063"), flg, color)
 			end
 		elseif (chr>=16) and (chr<128) --standart ASCII
 			if (v.patchExists("STCFN"..strchar))
-				v.drawScaled(FU*(X0+symX-symShift*width-spaceShift*spacesize), FU*y, scale, v.cachePatch("STCFN"..strchar), flg, color)
+				v.drawScaled(FU*(X0+symX-symShift*width)-spaceShift*spacesize, FU*y, scale, v.cachePatch("STCFN"..strchar), flg, color)
 			else --unknown symbol, print "?" unless it's a space symbol
 				if (chr!=32) v.drawScaled(FU*((x-width)+(i*width)), FU*y, scale, v.cachePatch("STCFN063"), flg, color) end
 			end 
@@ -241,6 +241,9 @@ rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 		end
 	end
 	return ((strlen*width) - (spaceShift*spacesize))
+end)
+rawset(_G, "V_DrawStrASCIIcentered", function(v,x,y,lang,str,flags,fontsize)
+	V_DrawStrASCII(v, x-V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
 end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1

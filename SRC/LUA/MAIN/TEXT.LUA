@@ -540,15 +540,15 @@ MM.text={
 		["VERSION"]="8.2-BETA",
 		["AUTHOR"]="LeonardoTheMutant",
 		["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
-		["MM"]="Tajemnycia Wbywstwa",
+		["MM"]="\xD2\xE0\xBA\xEC\xED\xE8\xF6\xFF \xC2\xE1\xE8\xE2\xF1\xF2\xE2\xE0", --Tajemnycia Wbywstwa
 		["MMHELP_CMD"]={
 			["CONTENTS"]={
-				"\x8AZmist:",
-				"\x87MMHELP GAME\x80 - Bil'she pro gameplay ta igrowi sytuaciji;",
-				"\x87MMHELP BAD\x80  - Spysok zaboronenyh rechej w TW;",
-				"\x87MMHELP CHAT\x80 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
-				"\x87MMHELP INFO\x80 - Technichna informacija ta \"Sho nowogo\".",
-				"\n\x87MMLANG\x80      - Zminuty mowu kontentu w TW"
+				"\10\xC7\xEC\xB3\xF1\xF2:", --zmist
+				"\7MMHELP GAME\0 - Bil'she pro gameplay ta igrowi sytuaciji;",
+				"\7MMHELP BAD\0  - Spysok zaboronenyh rechej w TW;",
+				"\7MMHELP CHAT\0 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
+				"\7MMHELP INFO\0 - Technichna informacija ta \"Sho nowogo\".",
+				"\n\7MMLANG\0      - Zminuty mowu kontentu w TW"
 			},["NOTFOUND"]={
 				"Storinky",
 				"ne isnuje. Bud' Laska oznajomtesia zi zmistom:"
@@ -651,45 +651,48 @@ MM.text={
 			"Ty nadsylajesh zabagato powidomlen', bud' laska zachekaj",
 			"Ne mozhna prosto tak \x8Fpomerty\x80!"
 		},["ROLES_HUD"]={
-			"WBYWCIA",
-			"SHERYF",
-			"NEWYNNA OSOBA",
-			"GEROJ",
-			"MERTWYJ"
+			"\xC2\xC1\xC8\xC2\xD6\xDF", --WBYWCIA
+			"\xD8\xC5\xD0\xC8\xD4", --SHERYF
+			"\xCD\xC5\xC2\xC8\xCD\xCD\xC0 \xCE\xD1\xCE\xC1\xC0", --NEWYNNA OSOBA
+			"\xC3\xC5\xD0\xCE\xC9", --HEROJ
+			"\xCC\xC5\xD0\xD2\xC2\xC8\xC9" --MERTWYJ
 		},["ROLES_HUD_SHORT"]={
-			"WBYW.",
-			"SHER.",
-			"NEW.",
-			"GEROJ",
-			"MERT."
-		},["TEAMALIVE_HUD"]="Naparnykiw w zhywych:",
-		["KILLBY_HUD"]="Wbytyj",
-		["STUPID"]="twoim idiotyzmem",
+			"\xC2\xC1\xC8\xC2.", --WBYW.
+			"\xD8\xC5\xD0\xC8\xD4", --SHERYF
+			"\xCD\xC5\xC2.", --NEW.
+			"\xC3\xC5\xD0\xCE\xC9", --GEROJ.
+			"\xCC\xC5\xD0\xD2\xC2." --MERTW.
+		},["TEAMALIVE_HUD"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5:", --naparnykiw w zhywyh
+		["KILLBY_HUD"]="\xC2\xE1\xE8\xF2\xB3 \xE3\xF0\xE0\xE2\xF6\xE5\xEC:", --wbyti grawcem
+		["STUPID"]="\xF2\xE2\xEE\xBF\xEC \xB3\xE4\xB3\xEE\xF2\xE8\xE7\xEC\xE5\xEC", --twoim idiotyzmem
 		["HUD_SCORESTAB"]={
-			"Ochok tut nema! Natomist' je lichyl'nyky\nunyzu",
-			"\nJaksho ty nowachok w ciomu igrowomu\nrezhymi wykorystaj \x87MMHELP\x80 w konsoli",
-			"\n\n\x82Udachi ;)",
-			"\n\nP.S.: Klasno jaksho ty wse ce mozhesh\nprochytaty!"
+			"\xCE\xF7\xEE\xEA \xF2\xF3\xF2 \xED\xE5\xEC\xE0\x21 \xCD\xE0\xF2\xEE\xEC\xB3\xF1\xFC \xBA \xEB\xB3\xF7\xE8\xEB\xFC\xED\xE8\xEA\xE8", --Ochok tut nema! Natomist' je lichyl'nyky
+            "\xF3\xED\xE8\xE7\xF3", --unyzu
+            "",
+			"\xDF\xEA\xF9\xEE \xE2\xE8 \xED\xEE\xE2\xE0\xF7\xEE\xEA \xF3 \xF6\xB3\xEE\xEC\xF3 \xB3\xE3\xF0\xEE\xE2\xEE\xEC\xF3 \xF0\xE5\xE6\xE8\xEC\xB3", --Jaksho wy nowachok u ciomu igrowomu rezhymi 
+            "\xE2\xE8\xEA\xEE\xF0\xE8\xF1\xF2\xE0\xE9\xF2\xE5 \7MMHELP\0 \xF3 \xEA\xEE\xED\xF1\xEE\xEB\xB3", --wykorystajte MMHELP w konsoli
+            "",
+            "",
+			"\2\xD3\xE4\xE0\xF7\xB3  ;)"
 		},["HUD_ROLESALIVE"]={
-			"Wbywc' w zhywych:",
-			"Sheryfiw w zhywych:",
-			"Newynnych w zhywych:"
+			"\xC2\xE1\xE8\xE2\xF6\xFC \xE2 \xE6\xE8\xE2\xE8\xF5:", --Wbywc' w zhywych
+			"\xD8\xE5\xF0\xE8\xF4\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5:", --Sheryfiw w zhywych
+			"\xCD\xE5\xE2\xE8\xED\xED\xE8\xF5 \xE2 \xE6\xE8\xE2\xE8\xF5:" --Newynnych w zhywych
 		},["HUD_DEAD"]={
-			"Ty\x8F Mertwyj",
-			"Ne mozhesh widrodzhuwatysia ta goworyty",
-			"do zhywych grawciw"
+			"\xC2\xE8\15 \xEC\xE5\xF0\xF2\xE2\xB3", --Wy metrwi,
+			"\xED\xE5 \xEC\xEE\xE6\xE5\xF2\xE5 \xE2\xB3\xE4\xF0\xEE\xE4\xE6\xF3\xE2\xE0\xF2\xE8\xF1\xFF \xF2\xE0 \xE3\xEE\xE2\xEE\xF0\xE8\xF2\xE8", --Ne mozhete widrodzhuwatysia ta goworyty
+			"\xE4\xEE \xE6\xE8\xE2\xE8\xF5 \xE3\xF0\xE0\xE2\xF6\xB3\xE2" --do zhywych grawciw
 		},["HUD_MIDJOIN"]={
-			"Wy pryjednalysia \x84posered raundu\x80,",
-			"bud' laska zachekajte nastupnogo"
+			"\xC2\xE8 \xEF\xF0\xE8\xBA\xE4\xED\xE0\xEB\xE8\xF1\xFF \4\xEF\xEE\xF1\xE5\xF0\xE5\xE4 \xF0\xE0\xF3\xED\xE4\xF3\0, \xE1\xF3\xE4\xFC \xEB\xE0\xF1\xEA\xE0 \xE7\xE0\xF7\xE5\xEA\xE0\xE9\xF2\xE5 \xED\xE0\xF1\xF2\xF3\xEF\xED\xEE\xE3\xEE" --wy pryjednalysia posered raundu, bud' laska zachekajte nastupnogo
 		},["HUD_ALONE"]={
-			"Dla gry potrebujet's'a\x84 2 grawci\x80,",
-			"bud' laska zachekajte na \x84she odnogo",
-			"aby pochaty"
-		},["WINNERS_HUD"]="Wygraly:",
+            "\xC4\xEB\xFF \xE3\xF0\xE8 \xEF\xEE\xF2\xF0\xE5\xE1\xF3\xBA\xF2\xFC\xF1\xFF\4 2-\xBA \xE3\xF0\xE0\xE2\xF6\xB3\xE2\0,", --Dla gry potrebujetsia 2-je grawciw,
+            "\xE1\xF3\xE4\xFC \xEB\xE0\xF1\xEA\xE0\x2C \xE7\xE0\xF7\xE5\xEA\xE0\xE9\xF2\xE5 \xED\xE0\4 \xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE", --bud' laska zachekajte na she odnogo,
+            "\xE0\xE1\xE8 \xEF\xEE\xF7\xE0\xF2\xE8" --aby pochaty
+		},["WINNERS_HUD"]="\xC2\xE8\xE3\xF0\xE0\xEB\xE8:", --Wygraly:
 		["WIN_HUD"]={
-			"NICHYJA!",
-			"\x85WBYWCI",
-			"\x83".."CYWIL'NI"
+			"\xCD\xB2\xD7\xC8\xDF!", --NICHYJA!
+			"\5\xC2\xC1\xC8\xC2\xD6\xB2", --WBYWCI
+			"\3\xD6\xC8\xC2\xB2\xCB\xDC\xCD\xB2" --CYWIL'NI
 		},["MMLANG"]={
 			"Potochna mowa w TW \x82Ukrains'ka\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [language]",
 			"\x82Ukrains'ka\x80 wstanowlena personal'noju mowoju w TW"

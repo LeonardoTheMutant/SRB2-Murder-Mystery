@@ -45,11 +45,11 @@ rawset(_G, "MM", {
 			maxdash=30*FU
 		}
 	},RoleColor={
-		"\x85", --Murderer
-		"\x84", --Sheriff
-		"\x83", --Innocent
-		"\x82", --Hero
-		"\x8F" --Dead
+		"\5", --Murderer
+		"\4", --Sheriff
+		"\3", --Innocent
+		"\2", --Hero
+		"\15" --Dead
 	},
 	winner=0, --for intermission, netsynced
 	winreason=0, --for intermission, netsynced
@@ -201,9 +201,9 @@ sfxinfo[sfx_emj15].caption="huh?"
 sfxinfo[sfx_emj16].caption="NO!"
 
 --Script files init
+dofile("MAIN/TEXT.LUA")
 dofile("MAIN/FUNCTIONS.LUA")
 if (MM.devbuild) dofile ("MAIN/DEBUG.LUA") end
-dofile("MAIN/TEXT.LUA")
 dofile("MAIN/GAME.LUA")
 dofile("MAIN/WEAPONS.LUA")
 dofile("MAIN/HUD.LUA")
