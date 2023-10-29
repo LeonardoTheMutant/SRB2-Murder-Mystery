@@ -167,8 +167,11 @@ MM.text={
 		-- Scores TAB screen
 		["HUD_SCORESTAB"]={
 			"No scores here! Counters below may help",
-			"If you're new to the gametype\nuse \x87MMHELP\x80 in the Console",
-			"\n\x82Have Fun!"
+			"",
+			"If you're new to the gametype",
+			"use \7MMHELP\0 in the Console",
+			"",
+			"\2Have Fun!"
 		},
 		-- Scores TAB screen role conters
 		["HUD_ROLESALIVE"]={
@@ -178,26 +181,26 @@ MM.text={
 		},
 		-- Centered text when you're dead
 		["HUD_DEAD"]={
-			"You are\x8F dead",
+			"You are\15 dead",
 			"You can't respawn or talk to",
 			"people who aren't dead."
 		},
 		-- Centered text when you joined
 		["HUD_MIDJOIN"]={
-			"You joined \x84mid-game\x80, please wait for this round to finish."
+			"You joined \4mid-game\0, please wait for this round to finish."
 		},
 		-- Centered text when you are alone
 		["HUD_ALONE"]={
-			"\x84".."2 players\x80 are required for the game,",
-			"please wait for \x84one more\x80 player to start"
+			"\4".."2 players\0 are required for the game,",
+			"please wait for \4one more\0 player to start"
 		},
 		-- Winner stuff
 		["WINNERS_HUD"]="Winners:",
 		["WON_HUD"]="won!",
 		["WIN_HUD"]={
 			"TIE!",
-			"\x85MURDERERS", --must contain escape color code
-			"\x83".."CIVILIANS" --must contain escape color code
+			"\5MURDERERS", --must contain escape color code
+			"\3CIVILIANS" --must contain escape color code
 		},
 		--CCMD.LUA (MMLANG command)
 		["MMLANG"]={
