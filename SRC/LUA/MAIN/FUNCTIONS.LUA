@@ -220,6 +220,24 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 		end
 	end
 end)
+rawset(_G, "V_ConvertStringColor", function(str) --convert string color codes from SRB2 to MM format
+	local strng={}
+	for i=1, #str
+		local chr = string.byte(str:sub(i,i))
+		if (chr>=128) strng[i]=(chr%0x80)%0x10
+		else strng[i]=str:sub(i,i) end
+	end
+	return table.concat(strng)
+end)
+rawset(_G, "V_ConvertStringColor2", function(str) --convert string color codes from MM to SRB2 format
+	local strng={}
+	for i=1, #str
+		local chr = string.byte(str:sub(i,i))
+		if (chr<16) strng[i]=chr+0x80
+		else strng[i]=str:sub(i,i) end
+	end
+	return table.concat(strng)
+end)
 rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 	if (not str) or (str=="") return 0 end
 	if (not fontsize) fontsize=FU end

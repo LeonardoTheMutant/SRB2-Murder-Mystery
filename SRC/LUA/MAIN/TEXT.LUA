@@ -776,7 +776,7 @@ MM.text={
 		},["NEWROLE_GET"]={
 			"\x87Zhyzn' reshyla sdelat' tebia \x85Ubijcej\x87.\x85 Teper' idi i ubej wseh!",
 			"\x87Wselennaja sdelala tebia \x84Sherifom\x87! Idi i\x84 nejtraliziruj wseh Ubijc\x87!",
-			"\x87Bylo resheno chto ty snanesh \x82Gerojem\x87. Spasi wseh ot ubijc!"
+			"\x87".."Bylo resheno chto ty snanesh \x82Gerojem\x87. Spasi wseh ot ubijc!"
 		},["TEAMMATE_HIT"]={
 			"Nie wredi swoim naparnikam(cam). Ty nie hochesh choby oni mstili tebe.",
 			"Naparnik(ca) zacepil(a) tebia. Nie planiruj mesti w storonu etogo igroka."
