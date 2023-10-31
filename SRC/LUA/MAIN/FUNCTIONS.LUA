@@ -156,11 +156,7 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	local flg = flags or 0
 
 	--set the characer encoding for the given language
-	local charset
-	if (not lang) or (lang=="EN") charset="STCFN"
-	elseif (lang=="PL") charset="1250C"
-	elseif (lang=="RU" or lang=="UA") charset="1251C"
-	elseif (lang=="GR") charset="1253C" end
+	local charset = MM.text[lang]["CHARSET"] or "STCFN"
 
 	--set the width and the scale of symbols
 	local width=fontsize>>13 --fontsize/8192
