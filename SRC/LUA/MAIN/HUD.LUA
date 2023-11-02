@@ -62,8 +62,9 @@ local function mainHUD(v, p) --main game HUD
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
 			if (not p.minigametimeout) V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
-			if (p==MM.duelplrs[1]) V_DrawStrRelCentered(v, 56, 32, "\x82YOU", V_SNAPTOLEFT)
-			elseif (p==MM.duelplrs[2]) V_DrawStrRelCentered(v, 264, 32, "\x82YOU", V_SNAPTORIGHT) end
+			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 56, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
+			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 264, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
+			if (p==MM.duelplrs[MM.ttt.turn]) V_DrawStrCentered(v, 180, "\x82JUMP\x80 or\x82 FIRE\x80: leave a mark",8388608,"thin") end
 		else V_DrawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
 		--turn timer
 		v.drawNum(164, 24, G_TicsToSeconds(MM.ttt.turntime))
@@ -77,30 +78,30 @@ local function mainHUD(v, p) --main game HUD
 		--draw cursor
 		if (MM.duelplrs[MM.ttt.turn]==p) and (leveltime%8<4) and (MM.ttt.winner==nil)
 			local cursorPos = TTT_HudPos(MM.ttt.cursor)
-			v.drawFill(cursorPos[1], cursorPos[2],32,32,22)
+			v.drawFill(cursorPos[1],cursorPos[2],32,32,22)
 		end
 		--winner text
 		if (MM.ttt.winner!=nil)
-			if (MM.ttt.winner==0) V_DrawStrCentered(v, 160, mmtxt[p.mmlang]["WIN_HUD"][1])
-			else V_DrawStrCentered(v, 160, MM.RoleColor[MM.ttt.winner]..mmtxt[p.mmlang]["ROLES_HUD"][MM.ttt.winner].."\x80 "..mmtxt[p.mmlang]["WON_HUD"]) end
+			if (MM.ttt.winner==0) V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1])
+			else V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, MM.RoleColor[MM.ttt.winner]..mmtxt[p.mmlang]["ROLES_HUD"][MM.ttt.winner].."\0 "..mmtxt[p.mmlang]["WON_HUD"]) end
 		end
 		--player 1 side information
 		if (MM.duelplrs[1].valid)
-			V_DrawStrRelCentered(v, 56, 120, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT) --V_ALLOWLOWERCASE
-			V_DrawStrRelCentered(v, 56, 128, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
+			V_DrawStrRelCentered(v, 56, 120, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT)
+			V_DrawStrASCIIcentered(v, 56, 128, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
 			v.draw(72, 48, v.getSprite2Patch(MM.duelplrs[1].skin,SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin,MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			if (MM.duelplrs[1].role==ROLE_MURDERER) v.draw(56, 112, v.cachePatch("TRNGA0"), V_SNAPTOLEFT, v.getColormap("knuckles", 35))
 			elseif (MM.duelplrs[1].role==ROLE_SHERIFF) v.draw(56, 112, v.cachePatch("RNGSA0"), V_SNAPTOLEFT) end
-			V_DrawStrRelCentered(v, 56, 144, "Wins: "..MM.duelplrs[1].kills, V_SNAPTOLEFT)
+			V_DrawStrASCIIcentered(v, 56, 144, p.mmlang, mmtxt[p.mmlang]["WINS_HUD"]..": "..MM.duelplrs[1].kills, V_SNAPTOLEFT)
 		end
 		--player 2 side information
 		if (MM.duelplrs[2].valid)
-			V_DrawStrRelCentered(v, 264, 120, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT) --V_ALLOWLOWERCASE
-			V_DrawStrRelCentered(v, 264, 128, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
+			V_DrawStrRelCentered(v, 264, 120, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT)
+			V_DrawStrASCIIcentered(v, 264, 128, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
 			v.draw(248, 48, v.getSprite2Patch(MM.duelplrs[2].skin,SPR2_XTRA),V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin,MM.duelplrs[2].skincolor))
 			if (MM.duelplrs[2].role==ROLE_MURDERER) v.draw(264, 112, v.cachePatch("TRNGA0"), V_SNAPTORIGHT, v.getColormap("knuckles", 35))
 			elseif (MM.duelplrs[2].role==ROLE_SHERIFF) v.draw(264, 112, v.cachePatch("RNGSA0"), V_SNAPTORIGHT) end
-			V_DrawStrRelCentered(v, 264, 144, "Wins: "..MM.duelplrs[2].kills, V_SNAPTORIGHT)
+			V_DrawStrASCIIcentered(v, 264, 144, p.mmlang, mmtxt[p.mmlang]["WINS_HUD"]..": "..MM.duelplrs[2].kills, V_SNAPTORIGHT)
 		end
 
 		if (MM.devbuild)
@@ -150,7 +151,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Show your role (and translate it)
 	if (p.role) and (p.role>0) and (p.roleflicker%4==0) V_DrawStrASCII(v, hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, p.mmlang, MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
-	if ((p.role))
+	if (p.role)
 		if (p.role==ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER)>1) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
 		elseif (p.role==ROLE_SHERIFF)
 			if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)

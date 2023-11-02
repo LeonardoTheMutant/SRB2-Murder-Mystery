@@ -194,9 +194,11 @@ MM.text={
 			"\4".."2 players\0 are required for the game,",
 			"please wait for \4one more\0 player to start"
 		},
+		["YOU_HUD"]="YOU",
 		-- Winner stuff
 		["WINNERS_HUD"]="Winners:",
 		["WON_HUD"]="won!",
+		["WINS_HUD"]="Wins",
 		["WIN_HUD"]={
 			"TIE!",
 			"\5MURDERERS", --must contain escape color code
