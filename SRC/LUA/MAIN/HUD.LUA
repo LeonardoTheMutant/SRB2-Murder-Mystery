@@ -49,7 +49,16 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	if (MM.minigame) and (p.minigame)
+	if (p.mmhelp) and (p.mmhelp.active) --MMHELP GUI renderer
+		local str
+		for y,i in pairs(mmtxt[p.mmlang]["MMHELP"][p.mmhelp.page])
+			str=i:sub(p.mmhelp.pos.x, (p.mmhelp.pos.x+(v.width()>>3)))
+			V_DrawStrASCII(v, 0, -8+y*8, p.mmlang, V_ConvertStringColor(str))
+		end
+		return
+	end
+
+	if (MM.minigame) and (p.minigame) --TicTacToe minigame renderer
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
 			if (not p.minigametimeout) V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end

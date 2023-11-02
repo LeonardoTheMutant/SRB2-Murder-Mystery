@@ -145,7 +145,6 @@ rawset(_G, "V_DrawStrRight", function(v,y,str,flags,font)
 	v.drawString(320-v.stringWidth(str,flags,font), y, str, flags, font)
 end)
 
---very cool function, you'll like it when I'll finish the whole thing
 rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
 	elseif (not str) error("V_DrawStrASCII() argument #5: string expected")
@@ -220,7 +219,7 @@ rawset(_G, "V_ConvertStringColor", function(str) --convert string color codes fr
 	local strng={}
 	for i=1, #str
 		local chr = string.byte(str:sub(i,i))
-		if (chr>=128) strng[i]=(chr%0x80)%0x10
+		if (chr>=128) strng[i]=string.char((chr%0x80)%0x10)
 		else strng[i]=str:sub(i,i) end
 	end
 	return table.concat(strng)
@@ -229,7 +228,7 @@ rawset(_G, "V_ConvertStringColor2", function(str) --convert string color codes f
 	local strng={}
 	for i=1, #str
 		local chr = string.byte(str:sub(i,i))
-		if (chr<16) strng[i]=chr+0x80
+		if (chr<16) strng[i]=string.char(chr+0x80)
 		else strng[i]=str:sub(i,i) end
 	end
 	return table.concat(strng)
