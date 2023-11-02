@@ -359,3 +359,28 @@ rawset(_G, "MM_Get2Players", function()
 	end
 	return plrs
 end)
+--IntToExtMapNum(n)
+--Returns the extended map number as a string
+--Returns nil if n is an invalid map number
+rawset(_G, "IntToExtMapNum", function(n)
+	if n < 0 or n > 1035
+		return nil
+	end
+	if n < 10
+		return "MAP0" + n
+	end
+	if n < 100
+		return "MAP" + n
+	end
+	local x = n-100
+	local p = x/36
+	local q = x - (36*p)
+	local a = string.char(65 + p)
+	local b
+	if q < 10
+		b = q
+	else
+		b = string.char(55 + q)
+	end
+	return "MAP" + a + b
+end)
