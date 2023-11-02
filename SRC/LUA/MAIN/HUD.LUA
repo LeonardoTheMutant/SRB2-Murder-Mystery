@@ -176,7 +176,7 @@ local function mainHUD(v, p) --main game HUD
 		local rival
 		if (MM.duelplrs[1]==p) rival=MM.duelplrs[2]
 		elseif (MM.duelplrs[2]==p) rival=MM.duelplrs[1] end
-		if (rival.valid)
+		if (rival) and (rival.valid)
 			if (not p.minigame) and (not rival.minigame)
 				V_DrawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 				V_DrawStrRight(v,8,"request a \x87TicTacToe\x80 game", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
@@ -255,6 +255,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
 		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end
