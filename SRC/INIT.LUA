@@ -214,6 +214,8 @@ dofile("MAIN/NOCHEAT.LUA")
 dofile("MAIN/TTT.LUA")
 
 dofile("LEVELS/MAPK0.LUA")
+dofile("LEVELS/MAPK7.LUA")
+dofile("LEVELS/MAPK8.LUA")
 
 dofile("MISC/FOOTSTEPS.LUA")
 

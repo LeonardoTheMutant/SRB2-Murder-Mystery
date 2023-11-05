@@ -1,3 +1,7 @@
+--Adandoned Shelter (MAPK0)
+--Level script
+--Map & code by LeonardoTheMutant
+
 freeslot("sfx_doropn", "sfx_dorcls")
 sfxinfo[sfx_doropn].caption="Door open"
 sfxinfo[sfx_dorcls].caption="Door close"
