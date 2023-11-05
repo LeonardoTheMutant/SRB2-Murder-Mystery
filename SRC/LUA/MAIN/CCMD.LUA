@@ -105,12 +105,12 @@ local function MMlang(p, l) --player, lang
 			p.mmlang=l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
 			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
-			--local f=io.openlocal("client/MM.DAT", 'w')
-			--if f
-			--	f:write(l)
-			--	f:close()
-			--	CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
-			--else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
+			local f=io.openlocal("client/MM.DAT", 'w')
+			if f
+				f:write(l)
+				f:close()
+				CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
+			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
 		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present\nIf you have the MM language file for that language add it to the game with\x87 ADDFILE [lang_file.lua]\x80 in the console or contact our MM_DEV Team and help us add it to MM:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery") end
 	end
 end

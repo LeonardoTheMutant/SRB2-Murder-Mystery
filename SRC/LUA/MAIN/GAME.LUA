@@ -43,15 +43,15 @@ addHook("PlayerSpawn", function(p)
 	if (gametype!=GT_MURDERMYSTERY) return end
 
 	--Apply language
-	if (not p.mmlang) p.mmlang="EN" end
-	--	local f=io.openlocal("client/MMLANG.DAT", 'r') --network unsynced language save/load
-	--	if f
-	--		local l=f:read()
-	--		if (mmtxt[l]) p.mmlang=l
-	--		else p.mmlang="EN" end
-	--	else p.mmlang='EN' end
-	--	f:close()
-	--end
+	if (not p.mmlang)
+		local f = io.openlocal("client/MM.DAT", 'r') -- language load
+		if f
+			local l=f:read()
+			if (mmtxt[l]) p.mmlang=l
+			else p.mmlang="EN" end
+			f:close()
+		else p.mmlang='EN' end
+	end
 
 	if (not p.roleflicker) p.roleflicker=0 end
 	if (not p.chatdelay) p.chatdelay=0 end
