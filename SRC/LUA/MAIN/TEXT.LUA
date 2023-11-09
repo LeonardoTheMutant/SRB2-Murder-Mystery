@@ -24,14 +24,17 @@ MM.text={
 		},
 		["MMHELP"]={ --MMHELP command
 			["MAIN"]={ --When no page specified
-				"\x87        Welcome to Murder Mystery!\nThe SRB2 interpretation of the popular multiplayer game!",
-				"\nThe game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
+				"\7        Welcome to Murder Mystery!",
+				"\7The SRB2 interpretation of the popular multiplayer game!",
+				"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
 				"You'll need to learn some basics first before you start playing....",
-				"\nAt the beginning of each round you will recieve a \x8BRole\x80 that defines what your task is during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
-				" * \x85Murderer\x80 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
-				" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
-				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
-				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
+				"",
+				"At the beginning of each round you will recieve a \11Role\0 that defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
+				" * \5Murderer\0 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
+				" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
+				" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
+				"",
+				"That's all basic information required to start playing, for more information, you can use these commands:"
 			},["GAME"]={
 				"\x87".."About the gameplay situations",
 				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",

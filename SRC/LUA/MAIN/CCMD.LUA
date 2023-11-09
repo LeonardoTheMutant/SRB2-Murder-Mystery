@@ -13,7 +13,13 @@ local function helpCMD(p, page)
 	if (page) page=$:upper() end
 	if ((p==server) and (not isdedicatedserver)) or ((p!=server) and (isdedicatedserver))
 		if (not p.mmhelp) p.mmhelp={} end
+		if (not p.mmhelp.page)
+			if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page=page
+			else p.mmhelp.page="MAIN" end
+		end
+		if (not p.mmhelp.pos) p.mmhelp.pos={x=0, y=0} end
 		p.mmhelp.active=true
+		print(p.mmhelp.page)
 		return
 	end
 	if (not page)
@@ -117,14 +123,6 @@ end
 
 local function MMHELP_GUI_Think(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
-	if (not p.mmhelp.page)
-		if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page=page
-		else p.mmhelp.page="MAIN" end
-	elseif (not p.mmhelp.pos)
-		p.mmhelp.pos={}
-		p.mmhelp.pos.x=0
-		p.mmhelp.pos.y=0
-	end
 
 	if (p.cmd.buttons&BT_SPIN) p.mmhelp.active=false end --leave MMHELP GUI
 

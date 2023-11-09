@@ -51,9 +51,10 @@ local function mainHUD(v, p) --main game HUD
 
 	if (p.mmhelp) and (p.mmhelp.active) --MMHELP GUI renderer
 		local str
+		local scrWidth=v.dupx()
 		for y,i in pairs(mmtxt[p.mmlang]["MMHELP"][p.mmhelp.page])
-			str=i:sub(p.mmhelp.pos.x, (p.mmhelp.pos.x+(v.width()>>3)))
-			V_DrawStrASCII(v, 0, -8+y*8, p.mmlang, V_ConvertStringColor(str))
+			str=i:sub(p.mmhelp.pos.x, (p.mmhelp.pos.x+(v.width()/v.dupx())/8))
+			V_DrawStrASCII(v, 0, -8+y*8, p.mmlang, str, V_MONOSPACE)
 		end
 		return
 	end
