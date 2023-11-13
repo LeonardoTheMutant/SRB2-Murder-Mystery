@@ -151,5 +151,9 @@ addHook("PlayerThink", function(p)
             --player inputs have to be somehow disabled without disabling TTT inputs
             TTT_ThinkCmd(p)
         end
+        p.realmo.momx = 0
+        p.realmo.momy = 0
+        p.realmo.momz = 0
+        p.mo.state = S_PLAY_STND
     end
 end)
