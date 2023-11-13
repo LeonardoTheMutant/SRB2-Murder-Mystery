@@ -125,9 +125,6 @@ CV_RegisterVar{name="mmtttlimit",defaultvalue=10,PossibleValue={MIN=5, MAX=100},
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('TOL_MM','SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_NGGYU', 'SFX_DAMFLL', 'MT_SHREML', 'MT_MMSTEP', 'S_MMSTEP', 'SPR_STEPA0')
-freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
@@ -139,50 +136,37 @@ G_AddGametype({
 	description = "Kill everyone as Murderer or eliminate him as Sheriff! ...or be none of them and be Innocent"
 })
 
---Objects init
-mobjinfo[MT_SHREML]={ --Sheriff Drop Emerald
-	spawnstate=S_CEMG3,
-	deathstate=S_SPRK1,
-	deathsound=sfx_cgot,
-	spawnhealth=1000,
-	radius=16*FU,
-	height=16*FU,
-	reactiontime=8,
-	mass=16,
-	speed=EMERALD3
-}
-states[S_MMSTEP]={
-	sprite=SPR_STEPA0,
-	frame=FF_SEMIBRIGHT|FF_FLOORSPRITE|A,
-	tics=700,
-	action=A_None,
-	nextstate=S_NULL
-}
-mobjinfo[MT_MMSTEP]={ --footstep mark
-	spawnstate=S_MMSTEP,
-	spawnhealth=1,
-	radius=FU,
-	height=FU,
-	reactiontime=8,
-	speed=FU,
-	flags=512
+freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
+freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
+
+--Sheriff Drop Emerald
+mobjinfo[MT_SHREML]={
+	spawnstate = S_CEMG3,
+	deathstate = S_SPRK1,
+	deathsound = sfx_cgot,
+	spawnhealth = 1000,
+	radius = 1048576, --16*FU
+	height = 1048576, --16*FU
+	reactiontime = 8,
+	mass = 16,
+	speed = EMERALD3
 }
 
 --SFX captions
 sfxinfo[sfx_mmdth1].caption="Killed"
 sfxinfo[sfx_mmdth2].caption="Good Night"
 sfxinfo[sfx_mmdth3].caption="Killed"
-sfxinfo[sfx_nggyu].caption="Never gonna give you up..."
 --for MAPK5 (Dam Zone)
 sfxinfo[sfx_damfll].caption="Falling from the Dam..."
 --Chat sound emojis
-sfxinfo[sfx_emj00].caption="skull"
+sfxinfo[sfx_emj00].caption=":skull:"
 sfxinfo[sfx_emj01].caption="hehe"
-sfxinfo[sfx_emj02].caption="fart"
+sfxinfo[sfx_emj02].caption=":fart:"
 sfxinfo[sfx_emj03].caption="OOOOOhhhh myy gooodddd...."
 sfxinfo[sfx_emj04].caption="bruh"
-sfxinfo[sfx_emj05].caption="/:|"
-sfxinfo[sfx_emj06].caption="wow"
+sfxinfo[sfx_emj05].caption="Vine boom"
+sfxinfo[sfx_emj06].caption="WOW"
 sfxinfo[sfx_emj07].caption="AMONGUS"
 sfxinfo[sfx_emj08].caption="OH NO"
 sfxinfo[sfx_emj09].caption="SUS"
@@ -190,9 +174,9 @@ sfxinfo[sfx_emj0a].caption="AGGHHHHH"
 sfxinfo[sfx_emj0b].caption="AHA!"
 sfxinfo[sfx_emj0c].caption="NO WAY!"
 sfxinfo[sfx_emj0d].caption="nope."
-sfxinfo[sfx_emj0e].caption="GET OVER HERE"
+sfxinfo[sfx_emj0e].caption="GET OVER HERE!"
 sfxinfo[sfx_emj0f].caption="NOOOOoooo..."
-sfxinfo[sfx_emj10].caption="HELP"
+sfxinfo[sfx_emj10].caption="HELP!"
 sfxinfo[sfx_emj11].caption="HEHEHE HA"
 sfxinfo[sfx_emj12].caption="hehe boiii..."
 sfxinfo[sfx_emj13].caption="PINGAS"

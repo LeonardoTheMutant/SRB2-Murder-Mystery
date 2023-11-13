@@ -7,7 +7,7 @@
 --CONSTANTS
 --
 local mmtxt=MM.text
-local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_nggyu, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
 
 --
 --GAME.LUA

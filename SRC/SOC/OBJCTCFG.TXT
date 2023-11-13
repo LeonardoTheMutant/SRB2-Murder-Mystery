@@ -5,53 +5,89 @@ S_KMMDEAD
 S_AMMDEAD
 S_FMMDEAD
 S_MMMDEAD
+S_MMSTEP
 SPR_SDED
 SPR_TDED
 SPR_KDED
 SPR_ADED
 SPR_FDED
 SPR_MDED
+SPR_STEPA0
+MT_SHREML
+MT_MMSTEP
 MT_DEADPLR
 
+#
+# DEAD PLAYER BODY STATES
+#
+
+#Sonic
 state S_SMMDEAD
 spritename = SPR_SDED
 spriteframe = A
 DURATION = -1
 next = S_SMMDEAD
 
+#Tails
 state S_TMMDEAD
 spritename = SPR_TDED
 spriteframe = A
 DURATION = -1
 next = S_TMMDEAD
 
+#Knuckles
 state S_KMMDEAD
 spritename = SPR_KDED
 spriteframe = A
 DURATION = -1
 next = S_KMMDEAD
 
+#Amy
 state S_AMMDEAD
 spritename = SPR_ADED
 spriteframe = A
 DURATION = -1
 next = S_AMMDEAD
 
+#Fang
 state S_FMMDEAD
 spritename = SPR_FDED
 spriteframe = A
 DURATION = -1
 next = S_FMMDEAD
 
+#Metal Sonic
 state S_MMMDEAD
 spritename = SPR_MDED
 spriteframe = A
 DURATION = -1
 next = S_MMMDEAD
 
-object MT_DEADPLR
+#State for footstep mark
+State S_MMSTEP
+SpriteName = SPR_STEPA0
+SpriteFrame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A 
+Duration = 700
+Next = S_NULL
+
+#
+# OBJECTS
+#
+
+#Dead player body
+Object MT_DEADPLR
 spawnstate = S_MMMDEAD
 reactiontime = 8
-radius = 32*FRACUNIT
+radius = 2097152 #32*FU
 height = 1
 mass = 16
+
+#Footstep mark
+Object MT_MMSTEP
+SpawnState = S_MMSTEP
+SpawnHealth = 1
+Radius = FU
+Height = FU
+Reactiontime = 8
+Speed = FU
+Flags = 512
