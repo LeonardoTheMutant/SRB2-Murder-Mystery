@@ -1,4 +1,4 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
-- Add at least 2 new maps
-- Lock player movement controls during TTT minigame
+- Finish the new maps
+- Lock player camera controls during TTT minigame (unable to do?)
 - Port MMHELP command to UI
