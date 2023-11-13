@@ -24,15 +24,15 @@ MM.text={
 		},
 		["MMHELP"]={ --MMHELP command
 			["MAIN"]={ --When no page specified
-				"\7        Welcome to Murder Mystery!",
-				"\7The SRB2 interpretation of the popular multiplayer game!",
-				"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
+				"\x87        Welcome to Murder Mystery!",
+				"\x87The SRB2 interpretation of the popular multiplayer game!",
+				"The game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
 				"You'll need to learn some basics first before you start playing....",
 				"",
-				"At the beginning of each round you will recieve a \11Role\0 that defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
-				" * \5Murderer\0 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
-				" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
-				" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
+				"At the beginning of each round you will recieve a \x8BRole\x80 that defines what your task is during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
+				" * \x85Murderer\x80 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
+				" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
+				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
 				"",
 				"That's all basic information required to start playing, for more information, you can use these commands:"
 			},["GAME"]={
@@ -55,7 +55,7 @@ MM.text={
 				"* Self-spoiling of the \x8BRole\x80 will not make the game a \'Mystery\', you can tell some else's role if you are sure of it, but never tell your own.",
 				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you will accuse every player for no reason.",
 				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
-				"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
+				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename if you are alive. Just wait for the intermission to rename safely.",
 				"Breaking one of these rules may result in a kick or in some cases, a ban from the Admin! Please do not break them and play fairly."
 			},["CHAT"]={
 				"\x87How to use Sound Emojis",

@@ -11,17 +11,19 @@ local function helpCMD(p, page)
 	end
 	local l=p.mmlang or "EN"
 	if (page) page=$:upper() end
+	/*
 	if ((p==server) and (not isdedicatedserver)) or ((p!=server) and (isdedicatedserver))
 		if (not p.mmhelp) p.mmhelp={} end
 		if (not p.mmhelp.page)
 			if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page=page
 			else p.mmhelp.page="MAIN" end
 		end
-		if (not p.mmhelp.pos) p.mmhelp.pos={x=0, y=0} end
+		if (not p.mmhelp.pos) p.mmhelp.pos=0 end
 		p.mmhelp.active=true
 		print(p.mmhelp.page)
 		return
 	end
+	*/
 	if (not page)
 		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
@@ -121,32 +123,24 @@ local function MMlang(p, l) --player, lang
 	end
 end
 
+/* --not ready yet
 local function MMHELP_GUI_Think(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
 	if (p.cmd.buttons&BT_SPIN) p.mmhelp.active=false end --leave MMHELP GUI
 
 	if (p.cmd.forwardmove>0) --up
-		if not (p.uppressed) p.mmhelp.pos.y=$-1 end
+		if not (p.uppressed) p.mmhelp.pos=$-1 end
 		p.uppressed=true
 	else p.uppressed=false end
 
 	if (p.cmd.forwardmove<0) --down
-		if not (p.downpressed) p.mmhelp.pos.y=$+1 end
+		if not (p.downpressed) p.mmhelp.pos=$+1 end
 		p.downpressed=true
 	else p.downpressed=false end
-
-	if (p.cmd.sidemove>0) --right
-		if not (p.rightpressed) p.mmhelp.pos.x=$+1 end
-		p.rightpressed=true
-	else p.rightpressed=false end
-
-	if (p.cmd.sidemove<0) --left
-		if not (p.leftpressed) p.mmhelp.pos.x=$-1 end
-		p.leftpressed=true
-	else p.leftpressed=false end
 end
+*/
 
 COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
 COM_AddCommand("mmlang", MMlang, COM_LOCAL)
-addHook("PlayerThink", MMHELP_GUI_Think)
+--addHook("PlayerThink", MMHELP_GUI_Think)

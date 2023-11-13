@@ -49,15 +49,21 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
+	/* --not ready yet
 	if (p.mmhelp) and (p.mmhelp.active) --MMHELP GUI renderer
 		local str
-		local scrWidth=v.dupx()
+		local columns = (v.width()/v.dupx())/8
+		local cy = 0
 		for y,i in pairs(mmtxt[p.mmlang]["MMHELP"][p.mmhelp.page])
-			str=i:sub(p.mmhelp.pos.x, (p.mmhelp.pos.x+(v.width()/v.dupx())/8))
-			V_DrawStrASCII(v, 0, -8+y*8, p.mmlang, str, V_MONOSPACE)
+			for line = 1,(i:len()/columns)
+				str = i:sub((line*columns)+p.mmhelp.pos, line*(p.mmhelp.pos + columns))
+				V_DrawStrASCII(v, 0, cy+y*8, p.mmlang, str, V_MONOSPACE)
+			--cy = $ + 1
+			end
 		end
 		return
 	end
+	*/
 
 	if (MM.minigame) and (p.minigame) --TicTacToe minigame renderer
 		--CUSTOM3 related text and show yourself
