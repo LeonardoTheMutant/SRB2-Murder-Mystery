@@ -10,20 +10,20 @@
 
 -- Constants
 local coords={ --HUD screen coordinates
-	first={y=32}, --this and everything below for custom intermission
-	num={x=16},
-	name={x=48},
-	kills={x=192},
-	role={x=248},
-	first2={y=40},
-	num2={x=4},
-	name2={x=24},
-	kills2={x=108},
-	role2={x=134},
-	firstRingWep={ --for weapon icons
-		x=92,y=156
-	},debugHUD={
-		x=8,y=80
+	first = {y=32}, --this and everything below for custom intermission
+	num = {x=16},
+	name = {x=48},
+	kills = {x=192},
+	role = {x=248},
+	first2 = {y=40},
+	num2 = {x=4},
+	name2 = {x=24},
+	kills2 = {x=108},
+	role2 = {x=134},
+	firstRingWep = { --for weapon icons
+		x=92, y=156
+	},debugHUD = {
+		x=8, y=80
 	}
 }
 local infoSCORE=hudinfo[HUD_SCORE]
@@ -298,15 +298,15 @@ local function scoresHUD(v) --SCORES TAB
 	if (MM.devbuild) V_DrawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
 local function interHUD(v) --Custom intermission HUD
-	if gametype!=GT_MURDERMYSTERY
+	if (gametype!=GT_MURDERMYSTERY)
 		hud.enable("intermissiontally")
 		return
 	end
 	hud.disable("intermissiontally")
 	--here starts the insanity
-	local p=consoleplayer
-	local plrs={}
-	local multiply={x=0,y=0}
+	local p = consoleplayer
+	local plrs = {}
+	local multiply = {x=0,y=0}
 	
 	V_DrawStrASCIIcentered(v,160, 4, p.mmlang, "\7"..mmtxt[p.mmlang]["MM"])
 	if (mapheaderinfo[gamemap].actnum==0) V_DrawStrCentered(v,16,"* "..mapheaderinfo[gamemap].lvlttl.." *")
@@ -314,51 +314,67 @@ local function interHUD(v) --Custom intermission HUD
 	v.drawFill(0,40,320,2,0) --horizontal line
 	for p in players.iterate table.insert(plrs,p) end
 	
+	--names of columns
+	if (PlayerCount() <= 16)
+		v.drawString(coords.num.x,coords.first.y,"\x82#")
+		v.drawString(coords.name.x,coords.first.y,"\x82NAME")
+		v.drawString(coords.kills.x,coords.first.y,"\x82KILLS")
+		v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
+	else
+		v.drawFill(160,40,2,144,0) --vertical line
+		--players 1-16
+		v.drawString(coords.num2.x, coords.first.y, "\x82#",0,"thin")
+		v.drawString(coords.name2.x, coords.first.y, "\x82NAME",0,"thin")
+		v.drawString(coords.kills2.x, coords.first.y, "\x82KILL",0,"thin")
+		v.drawString(coords.role2.x, coords.first.y, "\x82ROLE",0,"thin")
+		--players 17-32
+		v.drawString((coords.num2.x + 160), coords.first.y, "\x82#",0,"thin")
+		v.drawString((coords.name2.x + 160), coords.first.y, "\x82NAME",0,"thin")
+		v.drawString((coords.kills2.x + 160), coords.first.y, "\x82KILL",0,"thin")
+		v.drawString((coords.role2.x + 160), coords.first.y, "\x82ROLE",0,"thin")
+	end
+
+	--draw player stats
 	for i=1,#plrs
-		if PlayerCount()<9
-			v.drawString(coords.num.x,coords.first.y,"\x82#")
-			v.drawString(coords.name.x,coords.first.y,"\x82NAME")
-			v.drawString(coords.kills.x,coords.first.y,"\x82KILLS")
-			v.drawString(coords.role.x,coords.first.y,"\x82ROLE")
+		if (PlayerCount() < 9) --Regular mode
+			v.drawString((coords.num.x), (coords.first.y + i*16), i)
+			v.drawScaled((coords.name.x - 20)*FU, ((coords.first.y - 4) + i*16)*FU, 32768, v.getSprite2Patch(plrs[i].skin,SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --32768 = FU/2
+			v.drawString((coords.name.x), (coords.first.y + i*16), string.sub(plrs[i].name, 1, 17), 8388608)
+			v.drawString((coords.kills.x), (coords.first.y + i*16), plrs[i].kills)
 
-			v.drawString((coords.num.x),(coords.first.y+i*16),i)
-			v.drawScaled((coords.name.x-20)*FU,((coords.first.y-4)+i*16)*FU,32768,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor)) --FU/2
-			v.drawString((coords.name.x),(coords.first.y+i*16),string.sub(plrs[i].name, 1, 17),8388608)
-			v.drawString((coords.kills.x),(coords.first.y+i*16),plrs[i].kills)
+			if (plrs[i].role) and (plrs[i].role >= 1) V_DrawStrASCII(v, (coords.role.x), (coords.first.y + i*16), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
+			else V_DrawStrASCII(v, (coords.role.x), (coords.first.y + i*16), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
+		elseif ((PlayerCount() >= 9) and (PlayerCount() <= 16)) --"Compact" mode
+			v.drawString((coords.num.x), (coords.first2.y + i*8), i, 0, "thin")
+			v.drawScaled((coords.name.x - 16)*FU, ((coords.first2.y - 1) + i*8)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --16384 = FU/4
+			v.drawString((coords.name.x), (coords.first2.y + i*8), string.sub(plrs[i].name, 1, 32), 8388608, "thin")
+			v.drawString((coords.kills.x), (coords.first2.y + i*8), plrs[i].kills, 0, "thin")
 
-			if (plrs[i].role) and (plrs[i].role>=1) V_DrawStrASCII(v, (coords.role.x),(coords.first.y+i*16), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role])
-			else V_DrawStrASCII(v, (coords.role.x),(coords.first.y+i*16), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5]) end
-		else --if >=9 plrs present
-			v.drawFill(160,40,2,144,0) --vertical line
-			--names of columns
-			for i=0,1
-				v.drawString((coords.num2.x+i*160),(coords.first.y),"\x82#",0,"thin")
-				v.drawString((coords.name2.x+i*160),(coords.first.y),"\x82NAME",0,"thin")
-				v.drawString((coords.kills2.x+i*160),(coords.first.y),"\x82KILL",0,"thin")
-				v.drawString((coords.role2.x+i*160),(coords.first.y),"\x82ROLE",0,"thin")
+			if (plrs[i].role) and (plrs[i].role >= 1) V_DrawStrASCII(v, (coords.role.x),(coords.first.y + i*16), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role], 0, 32768) --FU/2
+			else V_DrawStrASCII(v, (coords.role.x), (coords.first.y + i*16), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], 0, 32768) end --FU/2
+		elseif (PlayerCount() > 16) --"Double column compact" mode
+			if (i > 16) --players 17-32 are drawn on the second column
+				multiply.x = 160
+				multiply.y = -128
 			end
-			if i>16 --players 17-32 are drawn on the second column
-				multiply.x=160
-				multiply.y=-128
-			end
-			--rows
-			v.drawString((coords.num2.x+multiply.x),(coords.first2.y+i*8+multiply.y),i,0,"thin")
-			v.drawScaled((coords.name2.x+multiply.x-10)*FU,((coords.first2.y-1)+i*8+multiply.y)*FU,16384,v.getSprite2Patch(plrs[i].skin,SPR2_XTRA),0,v.getColormap(plrs[i].skin,plrs[i].skincolor)) --FU/4
-			v.drawString((coords.name2.x+multiply.x),(coords.first2.y+i*8+multiply.y),string.sub(plrs[i].name, 1, 16),8388608,"thin")
-			v.drawString((coords.kills2.x+multiply.x),(coords.first2.y+i*8+multiply.y),plrs[i].kills,0,"thin")
+			--back to the rows
+			v.drawString((coords.num3.x + multiply.x), (coords.first2.y + i*8 + multiply.y),i,0,"thin")
+			v.drawScaled((coords.name3.x + multiply.x - 10)*FU, ((coords.first2.y - 1) + i*8 + multiply.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
+			v.drawString((coords.name3.x + multiply.x), (coords.first2.y + i*8 + multiply.y), string.sub(plrs[i].name, 1, 16), 8388608, "thin")
+			v.drawString((coords.kills3.x + multiply.x), (coords.first2.y + i*8 + multiply.y), plrs[i].kills, 0, "thin")
 
-			if (plrs[i].role) and (plrs[i].role>=1) V_DrawStrASCII(v, (coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y), p.mmlang, (MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][plrs[i].role]),0,"thin")
-			else V_DrawStrASCII(v, (coords.role2.x+multiply.x),(coords.first2.y+i*8+multiply.y), p.mmlang, (MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][5]),0,"thin") end
+			if (plrs[i].role) and (plrs[i].role >= 1) V_DrawStrASCII(v, (coords.role2.x + multiply.x), (coords.first2.y + i*8 + multiply.y), p.mmlang, (MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][plrs[i].role]), 0, 32768) --FU/2
+			else V_DrawStrASCII(v, (coords.role2.x + multiply.x), (coords.first2.y + i*8 + multiply.y), p.mmlang, (MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD_SHORT"][5]), 0, 32768) end --FU/2
 		end
 	end
 
-	if (MM.winner==0) V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
-	else V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner+1]) end
+	if (MM.winner == 0) V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
+	else V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner + 1]) end
 
-	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|8388608|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	else
-		v.drawString(0,184,"WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-		V_DrawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
+		v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|8388608|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+		V_DrawStrCentered(v, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM)
 	end
 	--THANK GOD IT ENDED
 end
