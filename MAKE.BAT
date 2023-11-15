@@ -9,9 +9,12 @@ IF EXIST %FILENAME%.PK3 DEL %FILENAME%.PK3
 ECHO Making %FILENAME%.pk3
 ECHO Please wait...
 ECHO.
-CScript TOOLS\ZIP.VBS SRC\ %FILENAME%.zip\
-REN %FILENAME%.zip %FILENAME%.pk3
-
-IF EXIST R:\ COPY %FILENAME%.pk3 R:\
-
+IF EXIST R:\ (
+    .\TOOLS\7ZA.EXE u R:\%FILENAME%.zip .\SRC\*
+    REN R:\%FILENAME%.zip %FILENAME%.pk3
+) ELSE (
+    .\TOOLS\7ZA.EXE u .\%FILENAME%.zip .\SRC\*
+    REN %FILENAME%.zip %FILENAME%.pk3
+)
+ECHO.
 ECHO Finished making %FILENAME%.pk3 !
