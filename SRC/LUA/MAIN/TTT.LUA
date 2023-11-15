@@ -121,8 +121,6 @@ addHook("ThinkFrame", do
         MM.ttt.turntime=350
         MM.ttt.winner=nil
         MM.ttt.wintimeout=0
-        MM.ttt.musicplaying=false
-        if (S_MusicName()!=IntToExtMapNum(gamemap).."M") and ((CV_FindVar("digimusic").value) or (CV_FindVar("midimusic").value)) S_ChangeMusic(IntToExtMapNum(gamemap).."M") end
     end
 end)
 addHook("PlayerThink", function(p)
@@ -142,11 +140,6 @@ addHook("PlayerThink", function(p)
     if (p.minigametimeout) and (p.minigametimeout>0) p.minigametimeout=$-1 end
 
     if (MM.minigame) and (p.minigame)
-        if (not MM.ttt.musicplaying)
-            local TTT_MusicTrack = P_RandomKey(3)+1 --start playing one of the random Dr. Robotnik's Mean Bean Machine tracks
-            if (S_MusicName(p)!="TTT_"..TTT_MusicTrack) and ((CV_FindVar("digimusic").value) or (CV_FindVar("midimusic").value)) S_ChangeMusic("TTT_"..TTT_MusicTrack) end
-            MM.ttt.musicplaying=true
-        end
         if (MM.ttt.winner==nil)
             --player inputs have to be somehow disabled without disabling TTT inputs
             TTT_ThinkCmd(p)
