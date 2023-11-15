@@ -253,9 +253,9 @@ addHook("MusicChange", function(old, new)
     else
         if (MM.winreason==1) return "INTER"
         elseif (MM.winreason==2) return "UN39"
-        elseif (MM.winreason==3) return "LANCER"
-        elseif (MM.winreason==4) return "GASTER"
-        elseif (MM.winreason==5) return "READ_M"
+        elseif (MM.winreason==3) return "GASTER"
+        elseif (MM.winreason==4) return "OPENIN"
+        elseif (MM.winreason==5) return "VANDOM"
         else return newname end
     end
 end)
