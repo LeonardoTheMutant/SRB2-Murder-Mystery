@@ -10,11 +10,9 @@ ECHO Making %FILENAME%.pk3
 ECHO Please wait...
 ECHO.
 IF EXIST R:\ (
-    .\TOOLS\7ZA.EXE u R:\%FILENAME%.zip .\SRC\*
-    REN R:\%FILENAME%.zip %FILENAME%.pk3
+    .\TOOLS\7ZA.EXE u R:\%FILENAME%.pk3 .\SRC\* -tzip
 ) ELSE (
-    .\TOOLS\7ZA.EXE u .\%FILENAME%.zip .\SRC\*
-    REN %FILENAME%.zip %FILENAME%.pk3
+    .\TOOLS\7ZA.EXE u .\%FILENAME%.pk3 .\SRC\* -tzip
 )
 ECHO.
 ECHO Finished making %FILENAME%.pk3 !
