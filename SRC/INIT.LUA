@@ -125,6 +125,10 @@ CV_RegisterVar{name="mmtttlimit",defaultvalue=10,PossibleValue={MIN=5, MAX=100},
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
+freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
+freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
+
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
@@ -135,10 +139,6 @@ G_AddGametype({
 	headerrightcolor = 150,
 	description = "Kill everyone as Murderer or eliminate him as Sheriff! ...or be none of them and be Innocent"
 })
-
-freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
-freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
 
 --Sheriff Drop Emerald
 mobjinfo[MT_SHREML]={
