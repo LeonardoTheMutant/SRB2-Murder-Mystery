@@ -72,7 +72,10 @@ local function mainHUD(v, p) --main game HUD
 			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 56, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
 			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 264, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
 			if (p==MM.duelplrs[MM.ttt.turn]) V_DrawStrCentered(v, 180, "\x82JUMP\x80 or\x82 FIRE\x80: leave a mark",8388608,"thin") end
-		else V_DrawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+		else
+			V_DrawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+			if (not p.minigametimeout) V_DrawStrRight(v, 8, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
+		end
 		--turn timer
 		v.drawNum(164, 24, G_TicsToSeconds(MM.ttt.turntime))
 		--draw board
@@ -264,7 +267,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
-		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
+		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end
 local function scoresHUD(v) --SCORES TAB

@@ -110,7 +110,8 @@ addHook("ThinkFrame", do
         end
         if (MM.ttt.wintimeout>-1) MM.ttt.wintimeout=$-1 end
         if (MM.ttt.wintimeout==0)
-            if (MM.duelplrs[MM.ttt.turn]==CV_FindVar("MMTTTLIMIT").value) MM_EndRound(MM.ttt.turn) end
+            if (MM.duelplrs[1].kills==CV_FindVar("MMTTTLIMIT").value) MM_EndRound(MM.duelplrs[1].role)
+            elseif (MM.duelplrs[2].kills==CV_FindVar("MMTTTLIMIT").value) MM_EndRound(MM.duelplrs[2].role) end
             MM.ttt.winner=nil
             MM.ttt.turntime=350
             TTT_ResetBoard()
@@ -144,9 +145,11 @@ addHook("PlayerThink", function(p)
             --player inputs have to be somehow disabled without disabling TTT inputs
             TTT_ThinkCmd(p)
         end
-        p.realmo.momx = 0
-        p.realmo.momy = 0
-        p.realmo.momz = 0
-        p.mo.state = S_PLAY_STND
+        if (not p.spectator)
+            p.mo.momx = 0
+            p.mo.momy = 0
+            p.mo.momz = 0
+            p.mo.state = S_PLAY_STND
+        end
     end
 end)

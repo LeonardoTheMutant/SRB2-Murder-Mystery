@@ -15,24 +15,25 @@ addHook("MapLoad", function(map)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	--prepare players & server for the new round
 	for p in players.iterate
-		p.spectator=false
-		p.kills=0
-		p.killedby=nil
-		p.flashscrn=0
-		p.powers[0]=7*TICRATE -- invulnerability for 7 sec
-		p.minigame=false
+		p.spectator = false
+		p.kills = 0
+		p.killedby = nil
+		p.flashscrn = 0
+		p.powers[0] = 245 -- invulnerability for 7 sec
+		p.minigame = false
 	end
-	MM.winner=0
-	MM.winreason=0
+	MM.winner = 0
+	MM.winreason = 0
 	MM.shreml_dropped=0
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
     print("Time limit for this map is "..MM.timelimit.." minutes")
-	MM.twopgame=(PlayerCount()==2)
+	MM.twopgame = (PlayerCount()==2)
+	MM.minigame = false
 	TTT_ResetBoard()
-	MM.ttt.cursor=5
-	MM.ttt.turn=1
-	MM.ttt.turntime=350
-	MM.ttt.wintimeout=-1
+	MM.ttt.cursor = 5
+	MM.ttt.turn = 1
+	MM.ttt.turntime = 350
+	MM.ttt.wintimeout = -1
 	MM_AssignRoles()
 end)
 
@@ -256,7 +257,11 @@ addHook("MusicChange", function(old, new)
         elseif (MM.winreason==3) return "GASTER"
         elseif (MM.winreason==4) return "OPENIN"
         elseif (MM.winreason==5) return "VANDOM"
-        else return newname end
+        else
+			if (MM.winner==1) return "INTER"
+			elseif (MM.winner==2) return "UN39"
+			else return newname end
+		end
     end
 end)
 
