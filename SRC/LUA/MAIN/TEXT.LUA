@@ -5,7 +5,7 @@
 
 MM.text={
     ["EN"]={ -- English
-		["VERSION"]="8.2-BETA", --to check if lang content is not OUTDATED
+		["VERSION"]="10.0-BETA", --to check if lang content is not OUTDATED
 		["AUTHOR"]="MM_DEV community",
 		["MM"]="Murder Mystery",
 		["MMHELP_CMD"]={

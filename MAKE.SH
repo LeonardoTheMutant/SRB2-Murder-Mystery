@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="8.2-BETA"
+VERSION="10.0-BETA"
 BUILDDATE=$(date +"%d%m%y")
 CURRENTDIR=$PWD
 
