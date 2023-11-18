@@ -273,7 +273,7 @@ end)
 --CHAT.LUA
 --
 rawset(_G, "MM_ChatPlaySFX", function(sfx)
-	for p in players.iterate S_StartSound(p.mo, sfx, p) end
+	for p in players.iterate S_StartSound(nil, sfx, p) end
 end)
 
 --
