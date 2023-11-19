@@ -37,12 +37,12 @@ rawset(_G, "MM", {
 		"\n  *  Case sensitive;\n **  This keyword has to be present alone in the message to work;\n***  Both case senstive and must be alone"
 	},CharStats={
 		default={
-			ability=CA_NONE,
-			ability2=CA_NONE,
-			actionspd=40*FU,
-			charflags=0,
-			mindash=3*FU,
-			maxdash=30*FU
+			ability = CA_NONE,
+			ability2 = CA_NONE,
+			actionspd = 2621440, --40*FU
+			charflags = 0,
+			mindash = 196608, --3*FU
+			maxdash = 1966080 --30*FU
 		}
 	},RoleColor={
 		"\5", --Murderer
