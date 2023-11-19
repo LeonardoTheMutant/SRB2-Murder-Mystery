@@ -31,13 +31,17 @@ VARIABLES
 	    button. If both MMSPRINT and MMCHARMODE are disabled Sneaking will be enabled instead.
 	    Your character will sneak when you hold the SPIN button and you're on ground
 		(a message on HUD appears when you're sneaking);
-	MMCHARMODE - Switch between two Character Abbility modes. The one used on by default is
-	    "Everyone is the same (regular persons)" mode. This is very similar to Sonic 1
-		abbilities - all characters have only jump (Amy and Fang are using rolling jump state)
-		that can be used to break monitors and get through some obstacles. The speed of the
-		is also lowered. Second mode is "Vanilla Abilities in limited form". As the name
-		applies all vanilla characters recieve their abbilities back but they are limited or
-		cut versions of the original abilities they have;
+	MMCHARMODE - Switch between three Character Abbility modes. Possible values for this
+		variable are:
+		0 - "Everyone is the same (regular persons)". This is very similar to Sonic 1
+			abbilities - all characters have only jump (Amy and Fang are using rolling jump state)
+			that can be used to break monitors and get through some obstacles. The speed of the
+			characters is also lowered;
+		1 - "Vanilla Abilities in limited form". As the name applies all vanilla characters
+			recieve their abbilities back but they are limited or cut versions of the original
+			abilities they have;
+		2 - "Original Vanilla Abilities". In this mode all skin limits are removed. Same as if
+			playing in vanilla SRB2 gametypes;
 	MMAFK - used as an AFK timeout value. Measured in minutes. Default value is 2 minutes. If
 	    set to 0 AFK timeout is disabled;
 	MMSPAM - Used for chat spam protection. How much time player has to wait before sending

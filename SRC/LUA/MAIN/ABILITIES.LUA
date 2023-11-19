@@ -61,7 +61,7 @@ addHook("PlayerThink", function(p)
 	if (not p.realmo) return end
 	local s = (p.realmo.skin or "sonic") -- added an or just incase the game slips
 	local t = (MM.CharStats[s] or MM.CharStats["default"])
-	if gametype!=GT_MURDERMYSTERY -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
+	if (gametype!=GT_MURDERMYSTERY) or (MMCHARMODE.value == 2) -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
 		p.actionspd = skins[s].actionspd
@@ -69,12 +69,12 @@ addHook("PlayerThink", function(p)
 		p.maxdash = skins[s].maxdash
 		p.normalspeed = 2359296 --36*FU
 		return
-	elseif (gametype==GT_MURDERMYSTERY) and (MMCHARMODE.value) -- "Each character have limited abbilities" mode
+	elseif (gametype==GT_MURDERMYSTERY) and (MMCHARMODE.value == 1) -- "Each character have limited abbilities" mode
 		--MM.CharStats
 		if (t.ability) p.charability = t.ability
 		else p.charability = MM.CharStats["default"].ability end
 
-		if (t.ability2) p.charability = t.ability2
+		if (t.ability2) p.charability2 = t.ability2
 		else p.charability2 = MM.CharStats["default"].ability2 end
 
 		if (t.charflags) p.charflags = t.charflags
