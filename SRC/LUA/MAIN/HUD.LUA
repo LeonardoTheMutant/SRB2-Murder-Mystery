@@ -23,7 +23,7 @@ local coords={ --HUD screen coordinates
 	firstRingWep = { --for weapon icons
 		x=92, y=156
 	},debugHUD = {
-		x=8, y=80
+		x=8, y=72
 	}
 }
 local infoSCORE=hudinfo[HUD_SCORE]
@@ -125,7 +125,6 @@ local function mainHUD(v, p) --main game HUD
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82Turntime\x80 "..MM.ttt.turntime,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82Winner:\x80 "..tostring(MM.ttt.winner),0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82Wintimeout\x80 "..MM.ttt.wintimeout,0,"thin")
-
 		end
 		return
 	elseif (MM.minigame) and (not p.minigame)
@@ -267,7 +266,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
-		if (p.roleflicker) v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
+		if v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin") end
 	end
 end
 local function scoresHUD(v) --SCORES TAB
