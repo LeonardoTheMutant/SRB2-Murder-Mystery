@@ -147,7 +147,7 @@ end)
 
 rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
-	elseif (not str) error("V_DrawStrASCII() argument #5: string expected")
+	elseif (not str) or (type(str)!="string") error("V_DrawStrASCII() argument #5: string expected")
 	elseif (not fontsize) fontsize=FU end
 
 	local x = x or 0

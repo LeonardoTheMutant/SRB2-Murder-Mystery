@@ -49,23 +49,73 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	/* --not ready yet
-	if (p.mmhelp) and (p.mmhelp.active) --MMHELP GUI renderer
-		local str
-		local columns = (v.width()/v.dupx())/8
-		local cy = 0
-		for y,i in pairs(mmtxt[p.mmlang]["MMHELP"][p.mmhelp.page])
-			for line = 1,(i:len()/columns)
-				str = i:sub((line*columns)+p.mmhelp.pos, line*(p.mmhelp.pos + columns))
-				V_DrawStrASCII(v, 0, cy+y*8, p.mmlang, str, V_MONOSPACE)
-			--cy = $ + 1
+	--MMHELP UI renderer
+	--not ready yet
+	if (p.mmhelp) and (p.mmhelp.active)
+		if (MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) --page exists?
+			--init everything
+			local cx = 0
+			local cy = 0
+			local scrnColumns = ((v.width()/v.dupx())>>3) - 2
+			local scrnRows = ((v.height()/v.dupy())>>3) - 2
+			local strLen, strPixelLen, chr, strchar
+			local charset = MM.text[p.mmlang]["CHARSET"] or "STCFN"
+			local color=v.getStringColormap(0) --default to white color
+
+			--read line-by-line from the database
+			for i, str in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page])
+				strLen = string.len(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i]) --string length by characters
+				strPixelLen = V_StrWidthASCII(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i]) --string length by pixels
+
+				--draw character-by-character
+				for charID=1, strLen
+					chr = string.byte(str:sub(charID, charID)) --numeric value of the single character
+
+					if (chr<100) strchar="0"..chr --make the number to be 3 digit
+					else strchar=chr end
+
+					--characters from 0x00 to 0x0f set the color
+					if (chr<16) color=v.getStringColormap(chr*4096) end
+
+					--print the character
+					if (chr>=128) --extended ASCII
+						if (v.patchExists(charset..strchar))
+							v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						else --unknown symbol, print "?"
+							v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						end
+					elseif (chr>=16) and (chr<128) --standart ASCII
+						if (v.patchExists("STCFN"..strchar))
+							v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						else --unknown symbol, print "?" unless it's a space symbol
+							if (chr!=32) v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color) end
+						end 
+					end
+
+					--position shifting for the next character
+					if (chr>16) cx = $ + 1 end --make place for the next non-color character
+					if ((cx > scrnColumns)) --line wrap, there should be a word wrapping present as well (didn't manage to invent it yet)
+						cy = $ + 1
+						cx = 0
+					end
+					if (cy >= scrnRows) break end --end text rendering if the buffer is full
+				end
+
+				--line ended, prepare everything for the new one
+				cx = 0
+				cy = $ + 1
+				color = v.getColormap(0)
+				if (cy >= scrnRows) break end --end text rendering if the buffer is full
 			end
+		else --page does not exist
+			V_DrawStrASCII(v, cx, cy, "EN", "Failed to load page "..p.mmhelp.page)
+			V_DrawStrASCII(v, cx, cy + 8, "EN", "Press \7SPIN\0 to leave HELP")
 		end
 		return
 	end
-	*/
 
-	if (MM.minigame) and (p.minigame) --TicTacToe minigame renderer
+	--TicTacToe minigame renderer
+	if (MM.minigame) and (p.minigame)
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
 			if (not p.minigametimeout) V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
@@ -81,14 +131,14 @@ local function mainHUD(v, p) --main game HUD
 		--draw board
 		v.draw(100, 40, v.cachePatch("HUD_TTT"))
 		for i=1,9
-			local signPos=TTT_HudPos(i)
-			if (MM.ttt.board[i]==1) v.draw(signPos[1]+16, signPos[2]+30, v.cachePatch("TRNGA0"),0,v.getColormap("knuckles", 35))
-			elseif (MM.ttt.board[i]==2) v.draw(signPos[1]+18, signPos[2]+28, v.cachePatch("RNGSA0")) end
+			local signPosX, signPosY=TTT_HudPos(i)
+			if (MM.ttt.board[i]==1) v.draw((signPosX + 16), (signPosY + 30), v.cachePatch("TRNGA0"),0,v.getColormap("knuckles", 35))
+			elseif (MM.ttt.board[i]==2) v.draw((signPosX + 18), (signPosY + 28), v.cachePatch("RNGSA0")) end
 		end
 		--draw cursor
 		if (MM.duelplrs[MM.ttt.turn]==p) and (leveltime%8<4) and (MM.ttt.winner==nil)
-			local cursorPos = TTT_HudPos(MM.ttt.cursor)
-			v.drawFill(cursorPos[1],cursorPos[2],32,32,22)
+			local cursorPosX, cursorPosY = TTT_HudPos(MM.ttt.cursor)
+			v.drawFill(cursorPosX, cursorPosY, 32, 32, 22)
 		end
 		--winner text
 		if (MM.ttt.winner!=nil)
