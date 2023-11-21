@@ -5,7 +5,7 @@ CURRENTDIR=$PWD
 
 build()
 {
-    if [[ -f ${CURRENTDIR}/$1 ]]; then
+    if [ -f ${CURRENTDIR}/$1 ]; then
         echo "Updating $1"
         echo "Please wait..."
         zip -r -u ${CURRENTDIR}/$1 *
