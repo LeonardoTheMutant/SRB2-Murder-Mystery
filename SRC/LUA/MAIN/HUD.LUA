@@ -58,50 +58,52 @@ local function mainHUD(v, p) --main game HUD
 			local cy = 0
 			local scrnColumns = ((v.width()/v.dupx())>>3) - 2
 			local scrnRows = ((v.height()/v.dupy())>>3) - 2
-			local strLen, strPixelLen, chr, strchar
+			local chr, strchar, stringToRender
+			local sublines = {}
 			local charset = MM.text[p.mmlang]["CHARSET"] or "STCFN"
 			local color=v.getStringColormap(0) --default to white color
 
 			--read line-by-line from the database
-			for i, str in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page])
-				strLen = string.len(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i]) --string length by characters
-				strPixelLen = V_StrWidthASCII(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i]) --string length by pixels
+			for i, line in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) do
+				--if string is too long to fit entirely in one line we have to divide it
+				sublines = WordWrapString(line, scrnColumns)
+        		for sublineID = 1, #sublines do
+					--draw character-by-character
+					stringToRender = sublines[sublineID]
+					for charID=1, stringToRender:len() do
+						chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-				--draw character-by-character
-				for charID=1, strLen
-					chr = string.byte(str:sub(charID, charID)) --numeric value of the single character
+						if (chr<100) strchar="0"..chr --make the number to be 3 digit
+						else strchar=chr end
 
-					if (chr<100) strchar="0"..chr --make the number to be 3 digit
-					else strchar=chr end
+						--characters from 0x00 to 0x0f set the color
+						if (chr<16) color=v.getStringColormap(chr*4096) end
 
-					--characters from 0x00 to 0x0f set the color
-					if (chr<16) color=v.getStringColormap(chr*4096) end
-
-					--print the character
-					if (chr>=128) --extended ASCII
-						if (v.patchExists(charset..strchar))
-							v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
-						else --unknown symbol, print "?"
-							v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						--print the character
+						if (chr>=128) --extended ASCII
+							if (v.patchExists(charset..strchar))
+								v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+							else --unknown symbol, print "?"
+								v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+							end
+						elseif (chr>=16) and (chr<128) --standart ASCII
+							if (v.patchExists("STCFN"..strchar))
+								v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+							else --unknown symbol, print "?" unless it's a space symbol
+								if (chr!=32) v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color) end
+							end 
 						end
-					elseif (chr>=16) and (chr<128) --standart ASCII
-						if (v.patchExists("STCFN"..strchar))
-							v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
-						else --unknown symbol, print "?" unless it's a space symbol
-							if (chr!=32) v.draw(cx*8, cy*8, v.cachePatch("STCFN063"), V_SNAPTOTOP|V_SNAPTOLEFT, color) end
-						end 
-					end
 
-					--position shifting for the next character
-					if (chr>16) cx = $ + 1 end --make place for the next non-color character
-					if ((cx > scrnColumns)) --line wrap, there should be a word wrapping present as well (didn't manage to invent it yet)
-						cy = $ + 1
-						cx = 0
+						--position shifting for the next character
+						if (chr>16) cx = $ + 1 end --make place for the next non-color character
 					end
+					--subline ended, prepare everything for the next one
+					cx = 0
+					cy = $ + 1
 					if (cy >= scrnRows) break end --end text rendering if the buffer is full
 				end
 
-				--line ended, prepare everything for the new one
+				--line ended, prepare everything for the next one
 				cx = 0
 				cy = $ + 1
 				color = v.getColormap(0)

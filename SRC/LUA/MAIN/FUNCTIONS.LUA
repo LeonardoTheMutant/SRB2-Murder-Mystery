@@ -360,6 +360,22 @@ rawset(_G, "MM_Get2Players", function()
 	end
 	return plrs
 end)
+
+rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
+	x = x or 40
+	local t = {""}
+	local function cleanse(s) return s:gsub("@x%d%d%d",""):gsub("@r","") end
+	for prefix, word, suffix, newline in s:gmatch("([ \t]*)(%S*)([ \t]*)(\n?)") do
+		if #(cleanse(t[#t])) + #prefix + #cleanse(word) > x and #t > 0 then
+			table.insert(t, word..suffix) -- add new element
+		else -- add to the last element
+			t[#t] = t[#t]..prefix..word..suffix
+		end
+		if #newline > 0 then table.insert(t, "") end
+	end
+	return t
+end)
+
 --IntToExtMapNum(n)
 --Returns the extended map number as a string
 --Returns nil if n is an invalid map number
