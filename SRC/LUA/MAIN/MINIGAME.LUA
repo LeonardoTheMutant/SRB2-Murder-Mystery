@@ -7,7 +7,7 @@ local function PONG_Win(winner)
     if (winner) MM.duelplrs[winner].kills = $ + 1 end
     MM.pong.winner = winner
     MM.pong.wintimeout = 70
-    for p in players.iterate do S_StartSound(nil,114,p) end
+    MM_ChatPlaySFX(114)
 end
 
 local function PONG_Thinker()
@@ -22,10 +22,12 @@ local function PONG_Thinker()
     if (MM.pong.ball.y < 0) --top
         MM.pong.ball.y = 0
         MM.pong.velocity.y = -$
+        MM_ChatPlaySFX(204)
     end
     if (MM.pong.ball.y > 99) --bottom
         MM.pong.ball.y = 99
         MM.pong.velocity.y = -$
+        MM_ChatPlaySFX(204)
     end
     if (MM.pong.ball.x < 0) --left side
         MM.pong.velocity.x = 0
@@ -43,11 +45,13 @@ local function PONG_Thinker()
         MM.pong.hits = $ + 1
         PONG_SetVelocity(1)
         if (MM.pong.hits%10 == 9) MM.pong.speed = $ + 1 end
+        MM_ChatPlaySFX(205)
     end
     if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2]-1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(-1)
         if (MM.pong.hits%10 == 9) MM.pong.speed = $ + 1 end
+        MM_ChatPlaySFX(205)
     end
 end
 
