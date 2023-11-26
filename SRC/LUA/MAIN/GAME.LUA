@@ -30,6 +30,8 @@ addHook("MapLoad", function(map)
 	MM.twopgame = (PlayerCount()==2)
 	MM.minigame = false
 	PONG_Reset()
+	MM.pong.pads[1]= 40
+	MM.pong.pads[2]= 40
 	MM.pong.wintimeout = -1
 	MM_AssignRoles()
 end)
@@ -236,9 +238,15 @@ addHook("PlayerThink", function(p)
 end)
 
 --
--- Kick forcer (for Intermission)
+-- Intermission Thinker
 --
 addHook("IntermissionThinker", do
+	--special round win check for the minigame
+	if (MM.minigame)
+		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) MM.winner = MM.duelplrs[1].role
+		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) MM.winner = MM.duelplrs[2].role end
+	end
+	-- Kick forcer (for Intermission)
 	for p in players.iterate if (p.quittime) COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
 end)
 
@@ -247,12 +255,6 @@ end)
 --
 addHook("MusicChange", function(old, new)
     if (gametype!=GT_MURDERMYSTERY) or (new!="_inter") return end
-
-	--special round win check for the minigame
-	if (MM.minigame)
-		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) MM.winner = MM.duelplrs[1].role
-		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) MM.winner = MM.duelplrs[2].role end
-	end
 
     if (MM.winner==0) return "NOWAY"
     else

@@ -137,7 +137,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].role])
 		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].role])
 		--draw ball
-		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 1, 1, 72) end
+		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72) end
 		--winner text
 		if (MM.pong.winner != nil)
 			if (MM.pong.winner == 0) V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1])
@@ -235,9 +235,9 @@ local function mainHUD(v, p) --main game HUD
 			elseif (p.minigame) and (not rival.minigame)
 				V_DrawStrRight(v,0,"Waiting for rival to accept...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 				if (not p.minigametimeout) V_DrawStrRight(v,8,"Press\x82 CUSTOM3\x80 to cancel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
-			elseif (not p.minigame) and (rival.minigame) and (leveltime&1)
+			elseif (not p.minigame) and (rival.minigame)
 				V_DrawStrRight(v,0,"Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
-				V_DrawStrRight(v,8,"join a \x87Pong\x80 game!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
+				V_DrawStrRight(v,8,"accept the \x87Pong\x80 challenge!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 			end
 		end
 	end

@@ -339,11 +339,8 @@ rawset(_G, "PONG_SetVelocity", function(side)
 end)
 
 rawset(_G, "PONG_Reset", do
-	MM.pong.pads[1] = 40
-	MM.pong.pads[2] = 40
-
-	MM.pong.ball.x = 80
-	MM.pong.ball.y = 50
+	MM.pong.ball.x = 79
+	MM.pong.ball.y = 49
 
 	PONG_SetVelocity()
 

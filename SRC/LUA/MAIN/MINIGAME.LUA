@@ -39,12 +39,12 @@ local function PONG_Thinker()
     end
 
     --paddles
-    if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1]) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
+    if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1]-1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(1)
         if (MM.pong.hits%10 == 9) MM.pong.speed = $ + 1 end
     end
-    if ((MM.pong.ball.x >= 150) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2]) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
+    if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2]-1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(-1)
         if (MM.pong.hits%10 == 9) MM.pong.speed = $ + 1 end
