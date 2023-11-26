@@ -62,7 +62,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         p.pflags = $&~PF_ATTACKDOWN
         return
     end
-    if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay) or (not p.role) or (p.role==ROLE_INNOCENT) or (p.minigame) return end
+    if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay) or (not p.role) or (p.role==ROLE_INNOCENT) or ((MM.minigame) and (p.minigame)) return end
     p.pflags = $|PF_ATTACKDOWN
     local mo
     if (p.cmd.buttons&BT_FIRENORMAL)
