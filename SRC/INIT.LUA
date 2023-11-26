@@ -55,9 +55,13 @@ rawset(_G, "MM", {
 	winreason=0, --for intermission, netsynced
 	timelimit=5, --for timelimit in TIME.LUA, netsynced
 	shreml_dropped=0, --The counter of Sheriff Emeralds dropped
-	ttt={ --Some of the variables for TicTacToe minigame, netsynced
-		cell=5,
-		turn=1,
+	pong = { --Some of the variables for Pong minigame, netsynced
+		ball = {x=80, y=50},
+		velocity = {x=0, y=0},
+		speed = 1,
+		pads = {44, 44},
+		hits = 0,
+		padcolor = {36, 152} --player role colors
 	}
 })
 
@@ -118,7 +122,6 @@ CV_RegisterVar{name="mmsprint",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6
 CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue={MIN=0,MAX=60}}
 CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
 CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
-CV_RegisterVar{name="mmtttlimit",defaultvalue=10,PossibleValue={MIN=5, MAX=100},flags=4}
 
 --
 --MM startup init
@@ -196,7 +199,7 @@ dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
 dofile("MAIN/ABILITIES.LUA")
 dofile("MAIN/NOCHEAT.LUA")
-dofile("MAIN/TTT.LUA")
+dofile("MAIN/MINIGAME.LUA")
 
 dofile("LEVELS/MAPK0.LUA")
 dofile("LEVELS/MAPK7.LUA")
@@ -217,6 +220,6 @@ addHook("NetVars", function(net)
 	MM.timelimit = net($)
 	MM.twopgame = net($)
 	MM.minigame = net($)
-	MM.ttt = net($)
+	MM.pong = net($)
 	MM.duelplrs = net($)
 end)

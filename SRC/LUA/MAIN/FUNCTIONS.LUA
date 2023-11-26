@@ -319,22 +319,36 @@ rawset(_G, "P_SetWeaponDelay", function(p, delay)
 end)
 
 --
---TTT.LUA
+--MINIGAME.LUA
 --
-rawset(_G, "TTT_HudPos", function(value)
-	if (value==1) return {108, 48}
-	elseif (value==2) return {144, 48}
-	elseif (value==3) return {180, 48}
-	elseif (value==4) return {108, 84}
-	elseif (value==5) return {144, 84}
-	elseif (value==6) return {180, 84}
-	elseif (value==7) return {108, 120}
-	elseif (value==8) return {144, 120}
-	elseif (value==9) return {180, 120}
+rawset(_G, "PONG_SetVelocity", function(side)
+	side = $ or 0
+
+	local x = 0
+	if (side < 0) x = -1
+	elseif (side > 0) x = 1
+	else
+		while (x==0) x = P_RandomRange(-1, 1) end
 	end
+
+	local y = 0
+	while (y==0) y = P_RandomRange(-2, 2) end
+
+	MM.pong.velocity.x = x
+	MM.pong.velocity.y = y
 end)
-rawset(_G, "TTT_ResetBoard", function()
-	MM.ttt.board={0,0,0,0,0,0,0,0,0}
+
+rawset(_G, "PONG_Reset", do
+	MM.pong.pads[1] = 40
+	MM.pong.pads[2] = 40
+
+	MM.pong.ball.x = 80
+	MM.pong.ball.y = 50
+
+	PONG_SetVelocity()
+
+	MM.pong.hits = 0
+	MM.pong.speed = 1
 end)
 
 --
@@ -352,11 +366,11 @@ rawset(_G, "PlayersAlive", function()
 	return plrs
 end)
 rawset(_G, "MM_Get2Players", function()
-	if (PlayerCount()!=2) return false end
+	if (PlayerCount() != 2) return false end
 	local plrs={}
 	for p in players.iterate
-		plrs[#plrs+1]=p
-		if (#plrs==2) break end
+		plrs[#plrs + 1] = p
+		if (#plrs == 2) break end
 	end
 	return plrs
 end)
