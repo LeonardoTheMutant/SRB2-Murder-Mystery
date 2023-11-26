@@ -9,67 +9,67 @@ MM.weapons[-1]={ --Red Ring
     "RINGIND", --HUD icon
     MT_REDRING, --MOBJ_T that represents this weapon
     0, --MF2_* flag
-    16, --weapondelay
+    16 --weapondelay
 }
 MM.weapons[0]={ --Infinity Ring
     "INFNIND", --HUD icon
     MT_THROWNINFINITY, --MOBJ_T that represents this weapon
     0, --MF2_* flag
-    16, --weapondelay
+    16 --weapondelay
 }
 MM.weapons[1]={ --Automatic Ring
     "AUTOIND",
     MT_THROWNAUTOMATIC,
     MF2_AUTOMATIC,
-    2,
+    2
 }
 MM.weapons[2]={ --Bounce Ring
     "BNCEIND",
     MT_THROWNBOUNCE,
     MF2_BOUNCERING,
-    8,
+    8
 }
 MM.weapons[3]={ --Scatter Ring
     "SCATIND",
     MT_THROWNSCATTER,
     MF2_SCATTER,
-    23,
+    23
 }
 MM.weapons[4]={ --Granade Ring
     "GRENIND",
     MT_THROWNGRENADE,
     MF2_EXPLOSION,
-    11,
+    11
 }
 MM.weapons[5]={ --Explosion Ring
     "BOMBIND",
     MT_THROWNEXPLOSION,
     MF2_EXPLOSION,
-    52,
+    52
 }
 MM.weapons[6]={ --Rail Ring
     "RAILIND",
     MT_REDRING,
     MF2_RAILRING|MF2_DONTDRAW,
-    52,
+    52
 }
 
 --I recreated all vanilla ring weapons to make red rings have higher weapon delay :skull:
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype!=GT_MURDERMYSTERY) return end
-    if (p.mmweapondelay) p.mmweapondelay=$-1 end
+    if (p.mmweapondelay) p.mmweapondelay = $ - 1 end
     if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL))
-        p.pflags = $&~PF_ATTACKDOWN
+        p.pflags = $ & ~PF_ATTACKDOWN
         return
     end
     if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay) or (not p.role) or (p.role==ROLE_INNOCENT) or ((MM.minigame) and (p.minigame)) return end
     p.pflags = $|PF_ATTACKDOWN
     local mo
-    if (p.cmd.buttons&BT_FIRENORMAL)
+    if (p.cmd.buttons & BT_FIRENORMAL)
         if (p.currentweapon == 0) and (p.powers[pw_infinityring])
             P_SetWeaponDelay(p, MM.weapons[0][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
-            p.powers[pw_infinityring] = $-1
+            p.powers[pw_infinityring] = $ - 1
         else
             if (p.rings < 1) return end
             P_SetWeaponDelay(p, MM.weapons[-1][4])
@@ -78,14 +78,14 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         end
     elseif (p.currentweapon == WEP_AUTO) and (p.powers[pw_automaticring])
         P_DrainWeaponAmmo(p, pw_automaticring)
-        p.pflags = $&~PF_ATTACKDOWN
+        p.pflags = $ & ~PF_ATTACKDOWN
         P_SetWeaponDelay(p, MM.weapons[WEP_AUTO][4])
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_AUTO][2], MM.weapons[WEP_AUTO][3])
     elseif (p.currentweapon == WEP_BOUNCE) and (p.powers[pw_bouncering])
         P_DrainWeaponAmmo(p, pw_bouncering)
         P_SetWeaponDelay(p, MM.weapons[WEP_BOUNCE][4])
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_BOUNCE][2], MM.weapons[WEP_BOUNCE][3])
-        if (mo) mo.fuse=105 end
+        if (mo) mo.fuse = 105 end
     elseif (p.currentweapon == WEP_SCATTER) and (p.powers[pw_scatterring])
         local oldz = p.mo.z
         local shotangle = p.mo.angle
@@ -130,7 +130,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         if (p.currentweapon == 0) and (p.powers[pw_infinityring])
             P_SetWeaponDelay(p, MM.weapons[0][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
-            p.powers[pw_infinityring] = $-1
+            p.powers[pw_infinityring] = $ - 1
         else
             if (p.rings < 1) return end
             P_SetWeaponDelay(p, MM.weapons[-1][4])
@@ -141,7 +141,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     --Rail ring main logic (sparkles, hit detection)
     if (mo)
 		if (mo.flags & MF_MISSILE) and (mo.flags2 & MF2_RAILRING)
-			for i=0,256
+			for i=0, 256
 				if (mo.flags&~MF_NOBLOCKMAP)
 					--P_UnsetThingPosition(mo)
 					mo.flags = $|MF_NOBLOCKMAP
