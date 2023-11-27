@@ -372,6 +372,29 @@ rawset(_G, "MM_Get2Players", function()
 	return plrs
 end)
 
+-- Returns the height of the sector floor at (x, y)
+rawset(_G, "P_GetSectorFloorZAt", function(sector, x, y)
+	if (sector.f_slope) return P_GetZAt(sector.f_slope, x, y)
+	else return sector.floorheight end
+end)
+
+-- Returns the height of the sector ceiling at (x, y)
+rawset(_G, "P_GetSectorCeilingZAt", function(sector, x, y)
+	if (sector.c_slope) return P_GetZAt(sector.c_slope, x, y)
+	else return sector.ceilingheight end
+end)
+-- Returns the top height of the FOF at (x, y)
+rawset(_G, "P_GetFOFTopZAt", function(fof, x, y)
+	if (fof.t_slope) return P_GetZAt(fof.t_slope, x, y)
+	else return fof.topheight end
+end)
+
+-- Returns the height of the sector ceiling at (x, y)
+rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
+	if (fof.b_slope) return P_GetZAt(fof.b_slope, x, y)
+	else return fof.bottomheight end
+end)
+
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
 	x = x or 40
 	local t = {""}

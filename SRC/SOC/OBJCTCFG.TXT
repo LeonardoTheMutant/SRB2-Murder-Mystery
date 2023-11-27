@@ -86,8 +86,5 @@ mass = 16
 Object MT_MMSTEP
 SpawnState = S_MMSTEP
 SpawnHealth = 1
-Radius = FU
-Height = FU
-Reactiontime = 8
-Speed = FU
-Flags = 512
+Height = 1
+Flags = 524288 #nothink

@@ -2276,35 +2276,47 @@ end
 addHook("PlayerThink", function(player)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	if (player.mo) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
-		local panimInfo=PlayerAnimInfo[player.mo.skin]
+		local pmo = player.mo
+		local panimInfo=PlayerAnimInfo[pmo.skin]
 		if (panimInfo)
 			if (not player.variablesset) reset(player) end
-			player.groundtexture=getGroundTexture(player.mo)
+			player.groundtexture=getGroundTexture(pmo)
 			if (not player.groundtexture) and (player.lastgroundtexture) player.groundtexture=player.lastgroundtexture end
 			local material
 			local soundType
 			player.playsound=false
-			if P_IsObjectOnGround(player.mo)
+
+			local minHeight
+			if (pmo.eflags & MFE_VERTICALFLIP)
+				if (pmo.ceilingrover) minHeight = P_GetFOFBottomZAt(pmo.ceilingrover, pmo.x, pmo.y)
+				else minHeight = P_GetSectorCeilingZAt(pmo.subsector.sector, pmo.x, pmo.y) end
+			else
+				--pmo.floorrover (and pmo.ceilingrover) does not nil when player's origin is not on FOF but instead stands on the edge of it. This leads to afwul results in a form of "poop flying marks" on FOF edges. Any way to fix this?
+				if (pmo.floorrover) minHeight = P_GetFOFTopZAt(pmo.floorrover, pmo.x, pmo.y)
+				else minHeight = P_GetSectorFloorZAt(pmo.subsector.sector, pmo.x, pmo.y) end
+			end
+
+			if (pmo.z == minHeight)
 				if not(player.wasfalling)
 					if (player.skidtime==16)
 						player.playsound=true
 						soundType="skid"
-					elseif not (player.powers[pw_carry]) -- removed Milne parts here		
-						if player.mo.state == S_PLAY_RUN
-							player.playsound=panimInfo["run"] and (player.powers[pw_super] == 0 or panimInfo["superRun"]) and (has_value(panimInfo["runFrames"], player.mo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], player.mo.frame))
-						elseif player.mo.state == S_PLAY_DASH
-							player.playsound=panimInfo["dash"] and (player.powers[pw_super] == 0 or panimInfo["superDash"]) and (has_value(panimInfo["dashFrames"], player.mo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], player.mo.frame))
-						elseif player.mo.state == S_PLAY_WALK
-							player.playsound=panimInfo["walk"] and (player.powers[pw_super] == 0 or panimInfo["superWalk"]) and (has_value(panimInfo["walkFrames"], player.mo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], player.mo.frame))
-						elseif player.mo.state == S_PLAY_STND or player.mo.state == S_PLAY_EDGE
+					elseif not (player.powers[pw_carry])
+						if pmo.state == S_PLAY_RUN
+							player.playsound=panimInfo["run"] and (player.powers[pw_super] == 0 or panimInfo["superRun"]) and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
+						elseif pmo.state == S_PLAY_DASH
+							player.playsound=panimInfo["dash"] and (player.powers[pw_super] == 0 or panimInfo["superDash"]) and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
+						elseif pmo.state == S_PLAY_WALK
+							player.playsound=panimInfo["walk"] and (player.powers[pw_super] == 0 or panimInfo["superWalk"]) and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
+						elseif pmo.state == S_PLAY_STND or pmo.state == S_PLAY_EDGE
 							player.playsound=panimInfo["idle"] and (player.powers[pw_super] == 0 or panimInfo["superIdle"]) and player.lastanim ~= player.panim
-						elseif player.mo.state == S_PLAY_WAIT 
-							player.playsound=panimInfo["wait"] and (player.powers[pw_super] == 0 or panimInfo["superWait"])  and (has_value(panimInfo["waitFrames"], player.mo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], player.mo.frame))
+						elseif pmo.state == S_PLAY_WAIT 
+							player.playsound=panimInfo["wait"] and (player.powers[pw_super] == 0 or panimInfo["superWait"])  and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
 						end
 
 						soundType="steps"
-						player.playsound=player.playsound and player.lastframe ~= player.mo.frame
-						player.lastframe=player.mo.frame
+						player.playsound=player.playsound and player.lastframe ~= pmo.frame
+						player.lastframe=pmo.frame
 						player.lastanim=player.panim
 					end
 				else
@@ -2312,26 +2324,26 @@ addHook("PlayerThink", function(player)
 					player.playsound=true
 					soundType="land"
 				end
-			else player.wasfalling=true end
+			elseif (not P_IsObjectOnGround(pmo)) player.wasfalling=true end
 			if (player.playsound) and (not player.sneak)
-				if not (player.mo.eflags & MFE_GOOWATER)
+				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end
 					if (material)
 						player.lastgroundtexture=player.groundtexture
 						local sounds=player.soundList[material][soundType]
 						if (sounds)
-							S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1])
-							if (mapheaderinfo[gamemap].disablefootsteps!="True") P_SpawnMobjFromMobj(player.mo,0,0,0,MT_MMSTEP) end
+							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
+							if (mapheaderinfo[gamemap].disablefootsteps!="True") P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP) end
 						end
 					end
 				end
-				if (player.mo.eflags & MFE_TOUCHLAVA)
+				if (pmo.eflags & MFE_TOUCHLAVA)
 					local sounds=player.soundList["lava"][soundType]
-					if (sounds) S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
-				elseif (player.mo.eflags & MFE_UNDERWATER) or (player.mo.eflags & MFE_TOUCHWATER) or (player.mo.eflags & MFE_GOOWATER)
+					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
+				elseif (pmo.eflags & MFE_UNDERWATER) or (pmo.eflags & MFE_TOUCHWATER) or (pmo.eflags & MFE_GOOWATER)
 					local sounds=player.soundList["water"][soundType]
-					if (sounds) S_StartSound(player.mo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
 				end
 			end
 		end
