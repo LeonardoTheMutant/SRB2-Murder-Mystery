@@ -2296,7 +2296,7 @@ addHook("PlayerThink", function(player)
 				else minHeight = P_GetSectorFloorZAt(pmo.subsector.sector, pmo.x, pmo.y) end
 			end
 
-			if (pmo.z == minHeight)
+			if ((pmo.z == minHeight) or ((pmo.standingslope) and (pmo.standingslope.zdelta < 32768))) --FU/2
 				if not(player.wasfalling)
 					if (player.skidtime==16)
 						player.playsound=true
