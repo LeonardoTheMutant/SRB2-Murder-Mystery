@@ -65,10 +65,14 @@ local function mainHUD(v, p) --main game HUD
 			local charset = MM.text[p.mmlang]["CHARSET"] or "STCFN"
 			local color=v.getStringColormap(0) --default to white color
 
+			--print("scrnColumns: "..scrnColumns)
+			--print("scrnRows: "..scrnRows)
+			--print("p.mmhelp.pos difference: "..(p.mmhelp.pos + scrnRows) - V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns))
+
 			--read line-by-line from the database
 			for i, line in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) do
 				--if string is too long to fit entirely in one line we have to divide it
-				sublines = WordWrapString(line, scrnColumns)
+				sublines = WordWrapString(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i + p.mmhelp.pos], scrnColumns)
         		for sublineID = 1, #sublines do
 					--draw character-by-character
 					stringToRender = sublines[sublineID]

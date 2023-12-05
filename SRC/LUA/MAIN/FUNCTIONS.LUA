@@ -410,6 +410,17 @@ rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/question
 	return t
 end)
 
+rawset(_G, "V_GetHelpPageSize", function(l, p, x)
+	assert(MM.text[l]["MMHELP"][p], "Page specified does not exist. Is language specified correctly?")
+	local size = 0
+	for lineID, lineText in pairs(MM.text[l]["MMHELP"][p])
+		for sublineID, sublineText in pairs(WordWrapString(lineText, x))
+			size = $ + 1
+		end
+	end
+	return size
+end)
+
 --IntToExtMapNum(n)
 --Returns the extended map number as a string
 --Returns nil if n is an invalid map number

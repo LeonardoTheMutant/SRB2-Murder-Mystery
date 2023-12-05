@@ -5,29 +5,28 @@
 -- Code for MMHELP and MMLANG console commands
 
 local function helpCMD(p, page)
-	if gametype!=GT_MURDERMYSTERY
+	if (gametype != GT_MURDERMYSTERY)
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
 	end
-	local l=p.mmlang or "EN"
-	if (page) page=$:upper() end
+	local l = p.mmlang or "EN"
+	if (page) page = $:upper() end
 
-	if ((p==server) and (not isdedicatedserver)) or ((p!=server) and (isdedicatedserver))
-		if (not p.mmhelp) p.mmhelp={} end
+	if (not isdedicatedserver) or ((p!=server) and (isdedicatedserver))
+		if (not p.mmhelp) p.mmhelp = {} end
 		if (not p.mmhelp.page)
-			if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page=page
-			else p.mmhelp.page="MAIN" end
+			if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page = page
+			else p.mmhelp.page = "MAIN" end
 		end
-		if (not p.mmhelp.pos) p.mmhelp.pos=0 end
-		p.mmhelp.active=true
-		print(p.mmhelp.page)
+		if (not p.mmhelp.pos) p.mmhelp.pos = 0 end
+		p.mmhelp.active = true
 		return
 	end
 	
 	if (not page)
 		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
-	elseif page=="INFO"
+	elseif (page == "INFO")
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
 		CONS_Printf(p, "Version\x81 "..MM.version.."\x80 ("..MM.releasedate..")")
 		CONS_Printf(p, "by \x82\"SRB2 MM_DEV team\"")
@@ -38,7 +37,7 @@ local function helpCMD(p, page)
 	else
 		if (MM.text[l]["MMHELP"][page])
 			for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
-			if (page=="CHAT") for i,str in pairs(MM.SEMJ_info) CONS_Printf(p, str) end end
+			if (page == "CHAT") for i,str in pairs(MM.SEMJ_info) CONS_Printf(p, str) end end
 			MM_PrintContents(p,l)
 			
 		else
@@ -46,7 +45,7 @@ local function helpCMD(p, page)
 			MM_PrintContents(p,l)
 		end
 	end
-	if (p==server) or (IsPlayerAdmin(p))
+	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
 		CONS_Printf(p, "\x87MMCHARMODE\x80 - Turn vanilla abbilities ON/OFF (in limited form).")
 		CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
@@ -54,7 +53,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMSEMJ\x80     - Enable/Disable Sound Emojis for everyone.")
 		CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked")
 	end
-	if MM.devbuild
+	if (MM.devbuild)
 		CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
 		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
 		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
@@ -77,11 +76,11 @@ end
 		-- CONS_Printf(p, "\n(It's possible to change your language in this gametype by executing \x87MMLANG\x80)")
 
 local function MMlang(p, l) --player, lang
-	if gametype!=GT_MURDERMYSTERY
+	if (gametype != GT_MURDERMYSTERY)
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
 	end
-	if (p==server) and (isdedicatedserver)
+	if (p == server) and (isdedicatedserver)
 		CONS_Printf(server, "Dedicated server host can have only ENGLISH language")
 		return
 	end
@@ -108,12 +107,12 @@ local function MMlang(p, l) --player, lang
 		if (langOutdated!=0) CONS_Printf(p, "\x85"..langOutdated.." are outdated, they may result errors (or even crashes) when selected") end
 		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All characters are simulated with English (ASCII) ones.") end
 	else
-		l=l:upper()
+		l = $:upper()
 		if (MM.text[l])
-			p.mmlang=l
+			p.mmlang = l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
 			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
-			local f=io.openlocal("client/MM.DAT", 'w')
+			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
 				f:close()
@@ -124,23 +123,30 @@ local function MMlang(p, l) --player, lang
 end
 
 --not ready yet
-local function MMHELP_GUI_Think(p)
+local function MMHELP_GUI_ThinkCmd(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
-	if (p.cmd.buttons&BT_SPIN) p.mmhelp.active=false end --leave MMHELP UI
+	if (p.cmd.buttons&BT_SPIN) p.mmhelp.active = false end --leave MMHELP UI
 
-	if (p.cmd.forwardmove>0) --up
-		if not (p.uppressed) p.mmhelp.pos=$-1 end
-		p.uppressed=true
-	else p.uppressed=false end
+	if (p.cmd.forwardmove > 0) --up
+		if not (p.uppressed)
+			p.mmhelp.pos = $ - 1
+			if (p.mmhelp.pos < 0) p.mmhelp.pos = 0 end
+		end
+		p.uppressed = true
+	else p.uppressed = false end
 
-	if (p.cmd.forwardmove<0) --down
-		if not (p.downpressed) p.mmhelp.pos=$+1 end
-		p.downpressed=true
-	else p.downpressed=false end
+	if (p.cmd.forwardmove < 0) --down
+		if not (p.downpressed)
+			p.mmhelp.pos = $ + 1
+			--these integers are placeholders and meant to be replaced with real ScreenRows and ScreenColumns values respectively, tested with 640x400 resolution
+			if (p.mmhelp.pos + 23 > V_GetHelpPageSize(p.mmlang, p.mmhelp.page, 38)) p.mmhelp.pos = $ - 1 end
+		end
+		p.downpressed = true
+	else p.downpressed = false end
 end
 
 
 COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
 COM_AddCommand("mmlang", MMlang, COM_LOCAL)
-addHook("PlayerThink", MMHELP_GUI_Think)
+addHook("PlayerThink", MMHELP_GUI_ThinkCmd)
