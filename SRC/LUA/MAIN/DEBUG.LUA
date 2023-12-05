@@ -4,8 +4,8 @@
 -- Murder Mystery Debug commands
 -- This script is executed on startup if MM.devbuild is true
 
---change player's role (and state to alive/dead)
 if (MM.devbuild)
+	--change player's role (and state to alive/dead)
     COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
     	if (not pnum) or (not prole) or (not pdead)
     		CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role] [dead (0/1)] [killedby (optional)]")

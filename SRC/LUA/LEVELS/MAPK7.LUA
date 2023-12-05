@@ -15,6 +15,8 @@ local truthTextures = {
     4126, --"~112", green
     4086  --"~072", yellow
 }
+local rayTimer
+local rayControlLine
 
 addHook("LinedefExecute", function(l,mo) --open door 1 trigger
     if (gametype==GT_MURDERMYSTERY)
@@ -37,12 +39,16 @@ end,"K7DR3OPN")
 
 addHook("LinedefExecute", function(l,mo,s) --the truth ray
     if (gametype==GT_MURDERMYSTERY)
-        for line=1,#s.lines do
+        --find the control linedef of the ray
+        for line=1, #s.lines
             if (s.lines[line].tag == 36)
-                s.lines[line].frontside.midtexture = truthTextures[(mo.player.rings % 4)+1] --I know, bad formula
-                return
+                rayControlLine = s.lines[line]
+                break
             end
         end
+        --now edit the texture of the ray to represent the color of the role
+        rayControlLine.frontside.midtexture = truthTextures[(mo.player.rings % 4)+1] --I know, bad formula
+        rayTimer = 35
     end
 end,"K7_TRUTH")
 
@@ -51,5 +57,9 @@ addHook("ThinkFrame", do --close timer
     for doornum,doortimer in pairs(doortimers)
         if (doortimer==0) P_LinedefExecute(22+doornum*2) --close one of the doors
         else doortimers[doornum]=$-1 end
+    end
+    if (rayControlLine)
+        if (rayTimer==0) rayControlLine.frontside.midtexture = 4029 --"~015", gray
+        else rayTimer = $ - 1 end
     end
 end)

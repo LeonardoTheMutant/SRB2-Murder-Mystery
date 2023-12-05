@@ -191,7 +191,7 @@ sfxinfo[sfx_emj16].caption="NO!"
 --Script files init
 dofile("MAIN/TEXT.LUA")
 dofile("MAIN/FUNCTIONS.LUA")
-if (MM.devbuild) dofile ("MAIN/DEBUG.LUA") end
+if (MM.devbuild) dofile("MAIN/DEBUG.LUA") end
 dofile("MAIN/GAME.LUA")
 dofile("MAIN/WEAPONS.LUA")
 dofile("MAIN/HUD.LUA")
