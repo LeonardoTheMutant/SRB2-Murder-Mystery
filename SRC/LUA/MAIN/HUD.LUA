@@ -65,9 +65,10 @@ local function mainHUD(v, p) --main game HUD
 			local charset = MM.text[p.mmlang]["CHARSET"] or "STCFN"
 			local color=v.getStringColormap(0) --default to white color
 
+			v.drawString(0, 192, (p.mmhelp.pos + scrnRows) - V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns))
+
 			--print("scrnColumns: "..scrnColumns)
 			--print("scrnRows: "..scrnRows)
-			--print("p.mmhelp.pos difference: "..(p.mmhelp.pos + scrnRows) - V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns))
 
 			--read line-by-line from the database
 			for i, line in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) do

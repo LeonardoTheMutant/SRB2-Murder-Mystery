@@ -14,9 +14,11 @@ local function helpCMD(p, page)
 
 	if (not isdedicatedserver) or ((p!=server) and (isdedicatedserver))
 		if (not p.mmhelp) p.mmhelp = {} end
-		if (not p.mmhelp.page)
-			if ((page) and (MM.text[p.mmlang]["MMHELP"][page])) p.mmhelp.page = page
+		if (page)
+			if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
 			else p.mmhelp.page = "MAIN" end
+		else
+			if (not p.mmhelp.page) p.mmhelp.page = "MAIN" end
 		end
 		if (not p.mmhelp.pos) p.mmhelp.pos = 0 end
 		p.mmhelp.active = true

@@ -396,6 +396,7 @@ rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
 end)
 
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
+	if (not s) return {} end
 	x = x or 40
 	local t = {""}
 	local function cleanse(s) return s:gsub("@x%d%d%d",""):gsub("@r","") end

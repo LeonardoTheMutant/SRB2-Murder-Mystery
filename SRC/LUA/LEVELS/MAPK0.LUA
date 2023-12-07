@@ -6,17 +6,25 @@ freeslot("sfx_doropn", "sfx_dorcls")
 sfxinfo[sfx_doropn].caption="Door open"
 sfxinfo[sfx_dorcls].caption="Door close"
 
-local doorstate=1
+local doorsector
 
-addHook("LinedefExecute",do
-    if (doorstate) and (gametype==GT_MURDERMYSTERY)
+addHook("MapLoad", function(m) --finding the Eggman's Room door
+    if (gametype!=GT_MURDERMYSTERY) or (m != 460) or (doorsector) return end
+    for ID = 1, #sectors do
+        if (sectors[ID].tag == 44)
+            doorsector = sectors[ID]
+            return
+        end
+    end
+end)
+
+addHook("LinedefExecute", do
+    if ((gametype==GT_MURDERMYSTERY) and (doorsector) and (doorsector.ceilingheight == -22544384)) -- -344 map units
         P_LinedefExecute(49)
-        doorstate=0
     end
 end,"K0LOWDR")
-addHook("LinedefExecute",do
-    if (not doorstate) and (gametype==GT_MURDERMYSTERY)
+addHook("LinedefExecute", do
+    if ((gametype==GT_MURDERMYSTERY) and (doorsector) and (doorsector.ceilingheight == -33554432)) -- -512 map units
         P_LinedefExecute(48)
-        doorstate=1
     end
 end,"K0HIGDR")
