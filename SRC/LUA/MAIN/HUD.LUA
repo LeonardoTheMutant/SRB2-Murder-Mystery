@@ -52,7 +52,8 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("weaponrings")
 
 	--MMHELP UI renderer
-	--not ready yet
+	--unfinished (too hard coding challenge for me)
+	/*
 	if (p.mmhelp) and (p.mmhelp.active)
 		if (MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) --page exists?
 			--init everything
@@ -61,6 +62,7 @@ local function mainHUD(v, p) --main game HUD
 			local scrnColumns = ((v.width()/v.dupx())>>3) - 2
 			local scrnRows = ((v.height()/v.dupy())>>3) - 2
 			local chr, strchar, stringToRender
+			local pagelen = 0
 			local sublines = {}
 			local charset = MM.text[p.mmlang]["CHARSET"] or "STCFN"
 			local color=v.getStringColormap(0) --default to white color
@@ -74,6 +76,8 @@ local function mainHUD(v, p) --main game HUD
 			for i, line in pairs(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page]) do
 				--if string is too long to fit entirely in one line we have to divide it
 				sublines = WordWrapString(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i + p.mmhelp.pos], scrnColumns)
+				pagelen = $ + #WordWrapString(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i + p.mmhelp.pos], scrnColumns)
+
         		for sublineID = 1, #sublines do
 					--draw character-by-character
 					stringToRender = sublines[sublineID]
@@ -116,12 +120,14 @@ local function mainHUD(v, p) --main game HUD
 				color = v.getColormap(0)
 				if (cy >= scrnRows) break end --end text rendering if the buffer is full
 			end
+			v.drawString(32, 192, pagelen)
 		else --page does not exist
 			V_DrawStrASCII(v, cx, cy, "EN", "Failed to load page "..p.mmhelp.page)
 			V_DrawStrASCII(v, cx, cy + 8, "EN", "Press \7SPIN\0 to leave HELP")
 		end
 		return
 	end
+	*/
 
 	--TicTacToe minigame renderer
 	if (MM.minigame) and (p.minigame)

@@ -12,19 +12,23 @@ local function helpCMD(p, page)
 	local l = p.mmlang or "EN"
 	if (page) page = $:upper() end
 
+	--MMHELP GUI
+	/*
 	if (not isdedicatedserver) or ((p!=server) and (isdedicatedserver))
 		if (not p.mmhelp) p.mmhelp = {} end
+		if (not p.mmhelp.pos) or ((p.mmhelp.pos) and (p.mmhelp.page!=page)) p.mmhelp.pos = 0 end
 		if (page)
 			if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
 			else p.mmhelp.page = "MAIN" end
 		else
 			if (not p.mmhelp.page) p.mmhelp.page = "MAIN" end
 		end
-		if (not p.mmhelp.pos) p.mmhelp.pos = 0 end
 		p.mmhelp.active = true
-		return
+		if (not IsPlayerAdmin(p)) return end
 	end
-	
+	*/
+
+	--legacy MMHELP command
 	if (not page)
 		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
@@ -47,6 +51,7 @@ local function helpCMD(p, page)
 			MM_PrintContents(p,l)
 		end
 	end
+
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
 		CONS_Printf(p, "\x87MMCHARMODE\x80 - Turn vanilla abbilities ON/OFF (in limited form).")
@@ -63,7 +68,8 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
 	end
 end
-		-- CONS_Printf(p, "\x87Welcome to Murder Mystery!") --the original MMHELP before 4.2-beta
+		--the original MMHELP before 4.2-beta
+		-- CONS_Printf(p, "\x87Welcome to Murder Mystery!")
 		-- CONS_Printf(p, "This is a MATCH based gametype where you still need to shoot but shoot only requiered players. Which?\nLet's start from the beginning:")
 		-- CONS_Printf(p, "\nAt the start of the round you'll get the\x8B role\x80 that can be seen in your HUD, it can also be seen it in the chat (do not spoil your role!)")
 		-- CONS_Printf(p, "\nThe \x8Broles\x80 are:\n\x83Innocent\x80 - You must run away from the \x85Murderer\x80 and help the \x84Sheriff\x80 find him.")
@@ -113,18 +119,20 @@ local function MMlang(p, l) --player, lang
 		if (MM.text[l])
 			p.mmlang = l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
-			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
+			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
 				f:close()
-				CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
+				--CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
 			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
 		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present\nIf you have the MM language file for that language add it to the game with\x87 ADDFILE [lang_file.lua]\x80 in the console or contact our MM_DEV Team and help us add it to MM:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery") end
 	end
 end
 
+--MMHELP UI input thinker
 --not ready yet
+/*
 local function MMHELP_GUI_ThinkCmd(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
@@ -147,8 +155,8 @@ local function MMHELP_GUI_ThinkCmd(p)
 		p.downpressed = true
 	else p.downpressed = false end
 end
-
+*/
 
 COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
 COM_AddCommand("mmlang", MMlang, COM_LOCAL)
-addHook("PlayerThink", MMHELP_GUI_ThinkCmd)
+--addHook("PlayerThink", MMHELP_GUI_ThinkCmd)

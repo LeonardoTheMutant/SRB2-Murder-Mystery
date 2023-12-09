@@ -395,9 +395,10 @@ rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
 	else return fof.bottomheight end
 end)
 
+/*
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
 	if (not s) return {} end
-	x = x or 40
+	x = x or 38
 	local t = {""}
 	local function cleanse(s) return s:gsub("@x%d%d%d",""):gsub("@r","") end
 	for prefix, word, suffix, newline in s:gmatch("([ \t]*)(%S*)([ \t]*)(\n?)") do
@@ -414,13 +415,14 @@ end)
 rawset(_G, "V_GetHelpPageSize", function(l, p, x)
 	assert(MM.text[l]["MMHELP"][p], "Page specified does not exist. Is language specified correctly?")
 	local size = 0
-	for lineID, lineText in pairs(MM.text[l]["MMHELP"][p])
-		for sublineID, sublineText in pairs(WordWrapString(lineText, x))
+	for lineID = 0, #MM.text[l]["MMHELP"][p] do
+		for sublineID, sublineText in pairs(WordWrapString(MM.text[l]["MMHELP"][p][lineID], x))
 			size = $ + 1
 		end
 	end
 	return size
 end)
+*/
 
 --IntToExtMapNum(n)
 --Returns the extended map number as a string
