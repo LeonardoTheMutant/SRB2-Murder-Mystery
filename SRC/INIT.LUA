@@ -7,34 +7,35 @@ rawset(_G, "MM", {
 	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	SEMJ_info={ --for MMHELP CHAT
-		"  	 \x88Keyword\x80       | \x89Sound",
-		"  	---------------+---------------------------",
-		"  	 :skull:       | \"Bad to the Bones\"",
-		"  	 :fart:        | Fart sound",
-		"    :pain:        | Very load pain scream",
-		"  	 :wow:         | Anime-like \"WOW!\"",
-		"  	 :|            | Vine boom",
-		"  * OMG           | \"OOHhhh myyy Goooddddd...\"",
-		" ** bruh          | \"bruh\"",
-		"  	 sus           | SUS",
-		"  * AMONGUS       | \"*AMONG US*\"",
-		"  	 AMONG US      | \"*AMONG US*\"",
-		" ** OH NO         | Knuckles' \'OH NO\'",
-		"  * AGHH / AHH    | Eggman's \'AGHHHH!\'",
-		" ** AHA           | Eggman's \'AHA!\'",
-		"  * NO WAY        | Eggman's \'NO WAY!\'",
-		" ** NOPE          | Nope.",
-		"  * GET OVER HERE | \"GET OVER HERE!\"",
-		"  * NOOO          | Shadow screaming \"NOOOOOOoooooo...\"",
-		"*** NO            | Heavy's \'NO!\'",
-		"*** HELP          | Tyler1's \'HELP!\'",
-		"  	 hehe          | DOOMGUY chuckle",
-		"  	 HEHEHE HA     | Clash Royal King's laugh",
-		"  	 hehe boi      | \"Hehe boi...\"",
-		"    PINGAS        | \"SnooPING AS usual I see?\"",
-		"    HUH           | \"Huh?\"",
-		"  	---------------+---------------------------",
-		"\n  *  Case sensitive;\n **  This keyword has to be present alone in the message to work;\n***  Both case senstive and must be alone"
+		"   \x88Keyword\x80       | \x89Sound",
+		"  ---------------+---------------------------",
+		"  	:skull:       | \"Bad to the Bones\"",
+		"  	:fart:        | Fart sound",
+		"   :pain:        | Very load pain scream",
+		"  	:wow:         | Anime-like \"WOW!\"",
+		"  	:|            | Vine boom",
+		"   OMG           | \"OOHhhh myyy Goooddddd...\"",
+		" * bruh          | \"bruh\"",
+		"   sus           | SUS",
+		"   AMONGUS       | \"*AMONG US*\"",
+		"  	AMONG US      | \"*AMONG US*\"",
+		" * OH NO         | Knuckles' \'OH NO\'",
+		"   AGHH / AHH    | Eggman's \'AGHHHH!\'",
+		" * AHA           | Eggman's \'AHA!\'",
+		"   NO WAY        | Eggman's \'NO WAY!\'",
+		" * NOPE          | Nope.",
+		"   GET OVER HERE | \"GET OVER HERE!\"",
+		"   NOOO          | Shadow screaming \"NOOOOOOoooooo...\"",
+		" * NO!           | Heavy's \'NO!\'",
+		" * HELP          | Tyler1's \'HELP!\'",
+		"  	hehe          | DOOMGUY chuckle",
+		"  	HEHEHE HA     | Clash Royal King's laugh",
+		"  	hehe boi      | \"Hehe boi...\"",
+		"   PINGAS        | \"SnooPING AS usual I see?\"",
+		"   HUH           | \"Huh?\"",
+		"   HAH           | \"HAH!\"",
+		"  ---------------+---------------------------",
+		"\n *  This keyword has to be present in the message alone to work"
 	},CharStats={
 		default={
 			ability = CA_NONE,
@@ -131,7 +132,7 @@ print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
 freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -187,6 +188,8 @@ sfxinfo[sfx_emj13].caption="PINGAS"
 sfxinfo[sfx_emj14].caption="PAIN"
 sfxinfo[sfx_emj15].caption="huh?"
 sfxinfo[sfx_emj16].caption="NO!"
+sfxinfo[sfx_emj17].caption="HAH!"
+sfxinfo[sfx_emj18].caption="SIREN"
 
 --Script files init
 dofile("MAIN/TEXT.LUA")
