@@ -212,8 +212,8 @@ local function mainHUD(v, p) --main game HUD
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role (and translate it)
-	if (p.role) and (p.role > 0) and (p.roleflicker & 4) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
 	if (p.role)
+		if ((p.role > 0) and (p.roleflicker % 4 == 0)) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColor[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
 		if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER) > 1) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColor[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
 		elseif (p.role == ROLE_SHERIFF)
 			if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), p.mmlang, MM.RoleColor[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
@@ -224,8 +224,8 @@ local function mainHUD(v, p) --main game HUD
 		end
 	end
 	if (p.spectator)
-		V_DrawStrASCII(v, hudinfo[HUD_LIVES].x+18, hudinfo[HUD_LIVES].y+8, p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
-		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) V_DrawStrASCIIcentered(v, 160, (112 + y*8), p.mmlang, i) end
+		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) do V_DrawStrASCIIcentered(v, 160, (112 + y*8), p.mmlang, i) end
 		if (p.role == nil)
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, (152 + y*8), p.mmlang, i, 0, 32768) end --FU/2
 		end

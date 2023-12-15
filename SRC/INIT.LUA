@@ -35,7 +35,7 @@ rawset(_G, "MM", {
 		"   HUH           | \"Huh?\"",
 		"   HAH           | \"HAH!\"",
 		"  ---------------+---------------------------",
-		"\n *  This keyword has to be present in the message alone to work"
+		"\n * This keyword has to be present in the message alone to work"
 	},CharStats={
 		default={
 			ability = CA_NONE,
