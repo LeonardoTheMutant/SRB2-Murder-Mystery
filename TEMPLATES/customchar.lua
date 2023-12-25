@@ -1,4 +1,4 @@
--- SRB2 MURDER MYSTERY Custom Character Config file asset
+-- SRB2 MURDER MYSTERY Custom Character Config file template
 -- THIS FILE MUST BE LOADED AFTER THE MAIN MM .PK3
 --
 -- You can use this file as a template to add a configuration for 

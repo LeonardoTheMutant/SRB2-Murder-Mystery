@@ -1,5 +1,5 @@
 ﻿"How to play Murder Mystery" in Ukrainian language
-This file is just a copy of the in-game MMHELP command so there's nothing to expect here
+This file is a copy of the in-game MMHELP command so there's nothing to expect here
 
 
 

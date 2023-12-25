@@ -64,6 +64,7 @@ addHook("PlayerThink", function(p)
 	if (gametype!=GT_MURDERMYSTERY) or (MMCHARMODE.value == 2) -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
+		p.charflags = skins[s].flags
 		p.actionspd = skins[s].actionspd
 		p.mindash = skins[s].mindash
 		p.maxdash = skins[s].maxdash

@@ -118,11 +118,11 @@ local function VarChange(v) --callback functions called by CV_CALL flag
 		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
 	end
 end
-CV_RegisterVar{name="mmcharmode",defaultvalue=0,PossibleValue={MIN=0,MAX=2},flags=6,func=VarChange}
-CV_RegisterVar{name="mmsprint",defaultvalue="Off",PossibleValue=CV_OnOff,flags=6,func=VarChange}
-CV_RegisterVar{name="mmspam", defaultvalue=1, flags=4, PossibleValue={MIN=0,MAX=60}}
-CV_RegisterVar{name="mmafk",defaultvalue=2,PossibleValue={MIN=0,MAX=10},flags=4}
-CV_RegisterVar{name="mmsemj",defaultvalue="On",PossibleValue=CV_OnOff,flags=4}
+CV_RegisterVar{name = "mmcharmode", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange}
+CV_RegisterVar{name = "mmsprint", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
+CV_RegisterVar{name = "mmspam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX=60}, flags = 4}
+CV_RegisterVar{name = "mmafk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
+CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 
 --
 --MM startup init
@@ -210,7 +210,7 @@ dofile("LEVELS/MAPK8.LUA")
 
 dofile("MISC/FOOTSTEPS.LUA")
 
-print("\x83Murder Mystery loaded succesfuly, please note that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you're the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
+print("\x83Murder Mystery loaded succesfuly\nNote that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
 --
 --end of startup init
 --

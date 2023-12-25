@@ -1,4 +1,4 @@
--- SRB2 MURDER MYSTERY language file asset
+-- SRB2 MURDER MYSTERY language file template
 -- THIS FILE MUST BE LOADED AFTER THE MAIN MM .PK3
 --
 -- You can use this file as a template to add your own language to MM,

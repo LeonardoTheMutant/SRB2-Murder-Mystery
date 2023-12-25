@@ -1,5 +1,5 @@
 ## List of Murder Mystery Functions and Constants
-### For Murder Mystery `9.0-BETA` 
+### For Murder Mystery `10.0-BETA` 
 ---
 I think you have wondered at least once what some functions and constants in our LUA code do and so we present a full list of functions and constants in MM with the proper description for each of them (comments in code may be not enough sometimes).
 
