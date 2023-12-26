@@ -1310,26 +1310,6 @@ WallTexture "STONE7", 64, 128
 	Patch "RW18_4", 0, 0
 }
 
-WallTexture "STUCCO", 64, 128
-{
-	Patch "RW8_1", 0, 0
-}
-
-WallTexture "STUCCO1", 64, 128
-{
-	Patch "RW8_2", 0, 0
-}
-
-WallTexture "STUCCO2", 64, 128
-{
-	Patch "RW8_3", 0, 0
-}
-
-WallTexture "STUCCO3", 64, 128
-{
-	Patch "RW8_4", 0, 0
-}
-
 WallTexture "SUPPORT2", 64, 128
 {
 	Patch "SUPPORT2", 0, 0
@@ -1500,21 +1480,6 @@ WallTexture "ZIMMER3", 64, 128
 WallTexture "ZIMMER4", 64, 128
 {
 	Patch "RW20_4", 0, 0
-}
-
-WallTexture "ZIMMER5", 64, 128
-{
-	Patch "RW42_1", 0, 0
-}
-
-WallTexture "ZIMMER7", 64, 128
-{
-	Patch "RW42_3", 0, 0
-}
-
-WallTexture "ZIMMER8", 64, 128
-{
-	Patch "RW42_4", 0, 0
 }
 
 WallTexture "AASTINKY", 32, 72
@@ -2200,36 +2165,6 @@ WallTexture "A-BROCK2", 128, 128
 	Patch "BROCK2", 0, 0
 }
 
-WallTexture "A-BROWN1", 128, 128
-{
-	Patch "BROWN1", 0, 0
-}
-
-WallTexture "A-BROWN2", 128, 128
-{
-	Patch "BROWN2", 0, 0
-}
-
-WallTexture "A-BROWN3", 128, 128
-{
-	Patch "BROWN3", 0, 0
-}
-
-WallTexture "A-BROWN4", 128, 128
-{
-	Patch "BROWN1", 0, 0
-	Patch "W111_2", 0, 0
-	Patch "W111_3", 64, 64
-	Patch "W111_2", 0, 64
-	Patch "W111_3", 64, 0
-	Patch "SKULFACE", 40, 35
-}
-
-WallTexture "A-BROWN5", 128, 128
-{
-	Patch "BROWN5", 0, 0
-}
-
 WallTexture "A-CAMO1", 128, 128
 {
 	Patch "CAMO1", 0, 0
@@ -2666,21 +2601,6 @@ WallTexture "AQPIPE01", 64, 128
 	Patch "AQPIPE01", 0, 0
 }
 
-WallTexture "AQPIPE02", 64, 128
-{
-	Patch "AQPIPE02", 0, 0
-}
-
-WallTexture "AQPIPE03", 64, 128
-{
-	Patch "AQPIPE03", 0, 0
-}
-
-WallTexture "AQPIPE04", 64, 128
-{
-	Patch "AQPIPE04", 0, 0
-}
-
 WallTexture "AQPIPE05", 64, 128
 {
 	Patch "AQPIPE05", 0, 0
@@ -2689,36 +2609,6 @@ WallTexture "AQPIPE05", 64, 128
 WallTexture "AQPIPE08", 64, 128
 {
 	Patch "AQPIPE08", 0, 0
-}
-
-WallTexture "AQPIPE09", 128, 128
-{
-	Patch "AQPIPE09", 0, 0
-}
-
-WallTexture "AQPIPE10", 128, 128
-{
-	Patch "AQPIPE10", 0, 0
-}
-
-WallTexture "AQPIPE11", 128, 128
-{
-	Patch "AQPIPE11", 0, 0
-}
-
-WallTexture "AQPIPE12", 128, 128
-{
-	Patch "AQPIPE12", 0, 0
-}
-
-WallTexture "AQPIPE13", 128, 128
-{
-	Patch "AQPIPE13", 0, 0
-}
-
-WallTexture "AQPIPE14", 128, 128
-{
-	Patch "AQPIPE14", 0, 0
 }
 
 WallTexture "AQRUST01", 64, 128
@@ -2937,84 +2827,14 @@ WallTexture "AQTRIM08", 64, 128
 	Patch "AQTRIM08", 0, 112
 }
 
-WallTexture "AQSECT01", 128, 128
-{
-	Patch "AQSECT01", 0, 0
-}
-
-WallTexture "AQSECT02", 64, 128
-{
-	Patch "AQSECT02", 0, 0
-}
-
-WallTexture "AQSECT03", 64, 128
-{
-	Patch "AQSECT03", 0, 0
-}
-
 WallTexture "AQSECT04", 128, 128
 {
 	Patch "AQSECT04", 0, 0
 }
 
-WallTexture "AQSECT05", 128, 128
-{
-	Patch "AQSECT05", 0, 0
-}
-
-WallTexture "AQSECT06", 64, 128
-{
-	Patch "AQSECT06", 0, 0
-}
-
-WallTexture "AQSECT07", 64, 128
-{
-	Patch "AQSECT07", 0, 0
-}
-
-WallTexture "AQSECT08", 128, 128
-{
-	Patch "AQSECT08", 0, 0
-}
-
 WallTexture "AQSECT09", 128, 128
 {
 	Patch "AQSECT09", 0, 0
-}
-
-WallTexture "AQSECT10", 128, 128
-{
-	Patch "AQSECT10", 0, 0
-}
-
-WallTexture "AQSECT11", 128, 128
-{
-	Patch "AQSECT11", 0, 0
-}
-
-WallTexture "AQSECT12", 128, 128
-{
-	Patch "AQSECT12", 0, 0
-}
-
-WallTexture "AQSECT13", 128, 128
-{
-	Patch "AQSECT13", 0, 0
-}
-
-WallTexture "AQSECT14", 128, 128
-{
-	Patch "AQSECT14", 0, 0
-}
-
-WallTexture "AQSECT15", 128, 128
-{
-	Patch "AQSECT15", 0, 0
-}
-
-WallTexture "AQSECT16", 128, 128
-{
-	Patch "AQSECT16", 0, 0
 }
 
 WallTexture "AQCOMP01", 256, 128
