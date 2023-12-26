@@ -132,7 +132,7 @@ print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
 freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -190,6 +190,7 @@ sfxinfo[sfx_emj15].caption="huh?"
 sfxinfo[sfx_emj16].caption="NO!"
 sfxinfo[sfx_emj17].caption="HAH!"
 sfxinfo[sfx_emj18].caption="SIREN"
+sfxinfo[sfx_emj19].caption="Hello there"
 
 --Script files init
 dofile("MAIN/TEXT.LUA")
