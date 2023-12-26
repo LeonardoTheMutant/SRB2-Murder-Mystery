@@ -3085,11 +3085,6 @@ WallTexture "CGRATE1", 128, 128
 	Patch "CGRATE1", 0, 0
 }
 
-WallTexture "A-BRBK28", 128, 128
-{
-	Patch "BRBRIK28", 0, 0
-}
-
 WallTexture "A-BROK28", 128, 128
 {
 	Patch "BROCK28", 0, 0
