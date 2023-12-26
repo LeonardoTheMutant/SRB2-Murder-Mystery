@@ -4,18 +4,22 @@ Murder Mystery Add-On gametype for the Sonic Robo Blast 2
 A port of the popular multiplayer game in SRB2
 
 ## How to build your **MurderMystery.PK3** from this repository
+
+***Please note that MAKE scripts generate the Debug (Test) versions of the Add-On and it is highly recomended to HOST THESE BUILDS ONLY ON PRIVATE SERVERS.***
+Release versions of the Add-On, which are tested and approved to be showcased publicly, are available in **Releases**
+
 ### If you have `git` installed in your OS
 1. Open your *Terminal* (*Command Prompt* in Windows)
 2. Clone this repository with `git clone https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery` command
-3. Go to the cloned repository folder (`cd SRB2-MurderMystery`)
-4. Run the `MAKE` script for your OS ([MAKE.BAT](MAKE.BAT) for Windows and [MAKE.SH](MAKE.SH) for macOS/Linux)
+3. Go to the folder of the cloned repository (`cd SRB2-MurderMystery`)
+4. Launch one of the `MAKE` scripts ([MAKE.BAT](MAKE.BAT) for Windows or [MAKE.SH](MAKE.SH) for macOS/Linux) to generate the **Debug version** of the Add-On
 
 ### You don't have `git` in your OS
 1. Download the contents of this repository as a .ZIP archive
 2. Unarchive the downloaded .ZIP wherever you want on your machine
-3. Go to the unarchived folder and run the `MAKE` script for your OS (use [MAKE.BAT](MAKE.BAT) for Windows and [MAKE.SH](MAKE.SH) for macOS/Linux)
+3. Go to the unarchived folder and run one of the `MAKE` ([MAKE.BAT](MAKE.BAT) for Windows or [MAKE.SH](MAKE.SH) for macOS/Linux) scripts to generate the **Debug version** of the SRB2-MM Add-On
 
-## How to start the multiplayer server with Murder Mystery
+## How to start the server with Murder Mystery Add-On
 ### From command line
 1. Add the `-server` parameter to your prompt to make SRB2 start as Listen Server host
 1. Add `-file` with a path to the add-on file you wanna use like `-file [path_to_the_addon]`
@@ -33,9 +37,9 @@ Brackets are important in `"Murder Mystery"`! As a `[MMmapnum]` you can use **MA
 ## Open assets used in this project
 - Heavily modified ModernSonic's footsteps engine, [original fork of the script](https://mb.srb2.org/addons/footsteps.1378/) by Gomynola - Used to make footstep sounds and marks when players walk.
 
-## For people who might want to translate this gametype
-Yes you read it right, this gametype supports language translations. You can add your own language to the project by either
-1. Modifying the source code you are watching right now
+## For people who want to contribute to the project
+All contributions would be greatly appreciated especially maps, music, graphics, ideas, bug fixes or even translations! Yes you read it right, this gametype supports localisations on different languages. You can add your own language to the project by either
+1. Modifying the source code you are having right now
 2. Making a **Custom Language File** from the [template](ASSETS/customlang.lua) and then adding it as a regular ADD-ON together with MM (Main Add-On has to be loaded first)
 
 ## For modders who want to mod this

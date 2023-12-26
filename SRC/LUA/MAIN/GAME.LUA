@@ -222,7 +222,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--AFK logic
-	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value!=0) p.afk = $ + 1
+	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value) p.afk = $ + 1
 	else p.afk=0 end
 	if (p.afk > afkCVAR.value*60*TICRATE)
 		if p==server
@@ -279,7 +279,7 @@ addHook("PlayerQuit", function(p)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
-		if ((PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_MURDERER)==0)) or ((PlayerCount(ROLE_INNOCENT)!=0) and (PlayerCount(ROLE_SHERIFF)==0) and (PlayerCount(ROLE_MURDERER)==0))
+		if ((PlayerCount(ROLE_INNOCENT)==0) or (PlayerCount(ROLE_INNOCENT) and (PlayerCount(ROLE_SHERIFF)==0)) and PlayerCount(ROLE_MURDERER)==0)
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if (gamestate == GS_LEVEL)

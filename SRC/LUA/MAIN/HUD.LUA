@@ -2,7 +2,7 @@
 -- Base code by Tedvin11
 -- Improved and developed further by LeonardoTheMutant
 --
--- This script controlls HUD elements
+-- This script takes care of HUD elements
 -- Good luck reading all of this
 --
 -- Note: Some Video Flags are represented directly as intergers
@@ -28,11 +28,16 @@ local coords={ --HUD screen coordinates
 		x=80, y=50
 	}
 }
+
+local firstRingWepX = 152
+
 local infoSCORE=hudinfo[HUD_SCORE]
 local infoTIME=hudinfo[HUD_TIME]
 local infoRINGS=hudinfo[HUD_RINGS]
 
 local mmtxt=MM.text
+
+-- Hook Functions
 
 local function mainHUD(v, p) --main game HUD
 	if gametype!=GT_MURDERMYSTERY --in case if switched from MM to other gametype
@@ -269,39 +274,38 @@ local function mainHUD(v, p) --main game HUD
 		else ringTrans[7]=0 end
 		--transluency for other weapons
 		for weapon=1,6
-			if ((p.powers[weapon + 14]) and (not (p.ringweapons&wep2rw(weapon))) or ((not p.powers[weapon + 14]) and (p.ringweapons&wep2rw(weapon)))) ringTrans[weapon] = 458752 --70% transluent
+			if ((p.powers[weapon + 14]) and (not (p.ringweapons & wep2rw(weapon))) or ((not p.powers[weapon + 14]) and (p.ringweapons & wep2rw(weapon)))) ringTrans[weapon] = 458752 --70% transluent
 			else ringTrans[weapon] = 0 end
 		end
 
 		--Ring weapons
 		if (p.role == ROLE_MURDERER)
-			local firstRingWepX = 152
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
 				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
 				V_DrawStrCentered(v, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
 			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
-			v.draw((firstRingWepX - 2), (coords.firstRingWep.y-(p.mmweapondelay>>1)-2), v.cachePatch("CURWEAP")) --selector
+			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay>>1) - 2), v.cachePatch("CURWEAP")) --selector
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 			if (p.powers[pw_infinityring])
 				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
 				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
 			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
-			for weapon=1,6
+			for weapon = 1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
-					v.draw((coords.firstRingWep.x+weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]) --Ring weapon icon
+					v.draw((coords.firstRingWep.x + weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]) --Ring weapon icon
 					if (p.powers[weapon + 14]) v.drawString((coords.firstRingWep.x + 1 + weapon*20), (coords.firstRingWep.y + 8), p.powers[weapon + 14], ringTrans[weapon], "thin") end --Ammo counter
 				end
 			end
-			if ((p.ammoremovaltimer) and (leveltime&1)) v.drawString((coords.firstRingWep.x + 1 + p.ammoremovalweapon*20), (coords.firstRingWep.y + 2), "\x85-"..p.ammoremoval, nil, "thin") end --Ammo removal penalty
-			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay >> 2) - 2), v.cachePatch("CURWEAP")) --selector
+			if ((p.ammoremovaltimer) and (leveltime & 1)) v.drawString((coords.firstRingWep.x + 1 + p.ammoremovalweapon*20), (coords.firstRingWep.y + 2), "\x85-"..p.ammoremoval, nil, "thin") end --Ammo removal penalty
+			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP")) --selector
 		end
 	end
 
 	--Are you alone? Draw the text
 	if (PlayerCount() == 1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) do V_DrawStrASCIIcentered(v, 160, (128 + y*8), p.mmlang, i) end end
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER) != 0) and ((PlayerCount(ROLE_SHERIFF) != 0) or (PlayerCount(ROLE_HERO) != 0)) and (PlayerCount(ROLE_INNOCENT) == 0) V_DrawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
+	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and PlayerCount(ROLE_INNOCENT)==0) V_DrawStrCentered(v, 184, "\x88Showdown duel!",8388608) end
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
@@ -341,14 +345,14 @@ local function scoresHUD(v) --SCORES TAB
 	-- Murderer
 	V_DrawStrASCII(v, 20, 176, p.mmlang, MM.RoleColor[1]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][1].." "..PlayerCount(ROLE_MURDERER), V_SNAPTOTOP|V_SNAPTOLEFT)
 	-- Sheriff (and Hero)
-	if (PlayerCount(ROLE_HERO) != 0) V_DrawStrASCII(v, 20, 184, p.mmlang, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[4].." + "..PlayerCount(ROLE_HERO), V_SNAPTOTOP|V_SNAPTOLEFT)
+	if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, 20, 184, p.mmlang, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColor[4].." + "..PlayerCount(ROLE_HERO), V_SNAPTOTOP|V_SNAPTOLEFT)
 	else V_DrawStrASCII(v, 20, 184, p.mmlang, MM.RoleColor[2]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][2].." "..PlayerCount(ROLE_SHERIFF), V_SNAPTOTOP|V_SNAPTOLEFT) end
 	-- Innocent
-	if (PlayerCount(ROLE_INNOCENT) != 0) V_DrawStrASCII(v, 20,192, p.mmlang, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
+	if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20,192, p.mmlang, MM.RoleColor[3]..mmtxt[p.mmlang]["HUD_ROLESALIVE"][3].." "..PlayerCount(ROLE_INNOCENT), V_SNAPTOTOP|V_SNAPTOLEFT) end
 	-- Online
 	v.drawString(192, 176, "ONLINE: "..PlayerCount(), V_SNAPTOTOP|V_SNAPTOLEFT)
 	-- "Sheriff Emerald is available!"
-	if (MM.shreml_dropped != 0) and (leveltime & 1) v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end --8*FU, 184*FU, FU/2
+	if ((MM.shreml_dropped) and (leveltime & 1)) v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3"), V_SNAPTOTOP|V_SNAPTOLEFT) end --8*FU, 184*FU, FU/2
 
 	if (MM.devbuild) V_DrawStrCentered(v,160,"\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!",V_SNAPTOTOP|V_SNAPTOBOTTOM) end
 end
@@ -390,7 +394,7 @@ local function interHUD(v) --Custom intermission HUD
 	end
 
 	--draw player stats
-	for i=1,#plrs
+	for i = 1,#plrs
 		if (PlayerCount() < 9) --Regular mode
 			v.drawString((coords.num.x), (coords.first.y + i*16), i)
 			v.drawScaled((coords.name.x - 20)*FU, (((coords.first.y - 4) + i*16)*FU), 32768, v.getSprite2Patch(plrs[i].skin,SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --32768 = FU/2
