@@ -34,6 +34,7 @@ rawset(_G, "MM", {
 		"   PINGAS        | \"SnooPING AS usual I see?\"",
 		"   HUH           | \"Huh?\"",
 		"   HAH           | \"HAH!\"",
+		"	Hello there   | Obi-Wan's iconic phrase",
 		"  ---------------+---------------------------",
 		"\n * This keyword has to be present in the message alone to work"
 	},CharStats={
