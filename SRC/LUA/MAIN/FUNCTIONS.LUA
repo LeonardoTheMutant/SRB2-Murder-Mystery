@@ -229,13 +229,17 @@ rawset(_G, "V_ConvertStringColor2", function(str) --convert string color codes f
 	return table.concat(strng)
 end)
 rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
-	if (not str) or (str=="") return 0 end
-	if (not fontsize) fontsize=FU end
-	local flg = flags or 0
-	local pixelLen = 0
+	if (not str) or (str == "") return 0 end
 
 	--symbol width
-	local width = fontsize >> 13 --fontsize/8192
+	local width
+	if (fontsize) width = fontsize >> 13 --fontsize/8192
+	else
+		width = 8
+		fontsize = FU
+	end
+	local flg = flags or 0
+	local pixelLen = 0
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
@@ -248,16 +252,16 @@ rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 	local char
 
 	for i=1,#str
-		char=string.byte(str:sub(i,i)) --character number
-		if (char>16) --character should be not a MM color code
-			if (char==32) pixelLen=$+spaceSize --space
-			else pixelLen=$+width end --regular character
+		char=string.byte(str:sub(i, i)) --character number
+		if (char > 16) --character should be not a MM color code
+			if (char == 32) pixelLen = $ + spaceSize --space
+			else pixelLen = $ + width end --regular character
 		end
 	end
 	return pixelLen
 end)
 rawset(_G, "V_DrawStrASCIIcentered", function(v,x,y,lang,str,flags,fontsize)
-	V_DrawStrASCII(v, x-V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
+	V_DrawStrASCII(v, x - V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
 end)
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1

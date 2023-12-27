@@ -242,7 +242,7 @@ end)
 --
 addHook("IntermissionThinker", do
 	--special round win check for the minigame
-	if (MM.minigame)
+	if (MM.minigame and MM.duelplrs[1].valid and MM.duelplrs[2].valid)
 		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) MM.winner = MM.duelplrs[1].role
 		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) MM.winner = MM.duelplrs[2].role end
 	end

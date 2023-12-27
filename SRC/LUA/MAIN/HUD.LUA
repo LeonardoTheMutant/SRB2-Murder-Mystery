@@ -140,8 +140,8 @@ local function mainHUD(v, p) --main game HUD
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
 			if (not p.minigametimeout) V_DrawStrRight(v, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
-			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 48, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
-			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 272, 32, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
+			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
+			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
 		else
 			V_DrawStrRight(v, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin")
 			if (not p.minigametimeout) V_DrawStrRight(v, 8, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin") end
@@ -161,16 +161,16 @@ local function mainHUD(v, p) --main game HUD
 		end
 		--player 1 side information
 		if (MM.duelplrs[1].valid)
-			V_DrawStrRelCentered(v, 48, 120, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT)
-			V_DrawStrASCIIcentered(v, 48, 128, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
-			v.draw(64, 48, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin,MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
+			v.drawString(16, 176, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT)
+			V_DrawStrASCII(v, 16, 184, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
+			v.draw(48, 88, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin,MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 36, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..MM.duelplrs[1].kills, V_SNAPTOLEFT)
 		end
 		--player 2 side information
 		if (MM.duelplrs[2].valid)
-			V_DrawStrRelCentered(v, 272, 120, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT)
-			V_DrawStrASCIIcentered(v, 272, 128, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
-			v.draw(256, 48, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin,MM.duelplrs[2].skincolor))
+			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT)
+			V_DrawStrASCII(v, (304 - V_StrWidthASCII(mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role])), 184, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
+			v.draw(272, 88, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin,MM.duelplrs[2].skincolor))
 			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 36, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..MM.duelplrs[2].kills, V_SNAPTORIGHT)
 		end
 

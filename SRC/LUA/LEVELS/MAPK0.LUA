@@ -19,12 +19,12 @@ addHook("MapLoad", function(m) --finding the Eggman's Room door
 end)
 
 addHook("LinedefExecute", do
-    if ((gametype==GT_MURDERMYSTERY) and (doorsector) and (doorsector.ceilingheight == -22544384)) -- -344 map units
+    if ((gametype==GT_MURDERMYSTERY) and ((doorsector) and doorsector.valid) and (doorsector.ceilingheight == -22544384)) -- -344 map units
         P_LinedefExecute(49)
     end
 end,"K0LOWDR")
 addHook("LinedefExecute", do
-    if ((gametype==GT_MURDERMYSTERY) and (doorsector) and (doorsector.ceilingheight == -33554432)) -- -512 map units
+    if ((gametype==GT_MURDERMYSTERY) and ((doorsector) and doorsector.valid) and (doorsector.ceilingheight == -33554432)) -- -512 map units
         P_LinedefExecute(48)
     end
 end,"K0HIGDR")
