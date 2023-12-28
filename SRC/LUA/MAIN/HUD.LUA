@@ -301,7 +301,7 @@ local function mainHUD(v, p) --main game HUD
 			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP")) --selector
 		end
 	elseif ((p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)) --innocents have Sheriff Emerald radar instead of weapon dock
-		v.draw(152, 156, v.cachePatch("HOMING"..MM_GetSHREMLiconID(fixint(p.shreml_dist))))
+		v.draw(154, 156, v.cachePatch("HOMING"..V_GetSHREMLiconID(fixint(p.shreml_dist))))
 	end
 
 
