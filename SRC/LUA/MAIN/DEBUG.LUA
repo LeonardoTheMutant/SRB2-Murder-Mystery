@@ -36,7 +36,6 @@ if (MM.devbuild)
     end)
     --Spawn Sheriff's Emerald at player's position
     COM_AddCommand("mmshreml", function(p)
-    	P_SpawnMobjFromMobj(p.mo,0,0,0,MT_SHREML)
-    	MM.shreml_dropped=$+1
+    	MM_SpawnSHREML(p.realmo.x, p.realmo.y, p.realmo.z)
     end)
 end

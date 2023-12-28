@@ -56,8 +56,8 @@ rawset(_G, "MM", {
 	winner=0, --for intermission, netsynced
 	winreason=0, --for intermission, netsynced
 	timelimit=5, --for timelimit in TIME.LUA, netsynced
-	shreml_dropped=0, --The counter of Sheriff Emeralds dropped
-	pong = { --Some of the variables for Pong minigame, netsynced
+	shremls={}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
+	pong = { --some of the variables for Pong minigame, netsynced
 		ball = {x=80, y=50},
 		velocity = {x=0, y=0},
 		speed = 1,
@@ -220,6 +220,7 @@ print("\x83Murder Mystery loaded succesfuly\nNote that this is WORK IN PROGRESS 
 addHook("NetVars", function(net)
 	MM.text = net($)
 	MM.CharStats = net($)
+	MM.shremls = net($)
 	MM.winner = net($)
 	MM.winreason = net($)
 	MM.timelimit = net($)

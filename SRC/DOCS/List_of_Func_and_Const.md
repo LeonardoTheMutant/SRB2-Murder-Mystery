@@ -9,12 +9,13 @@ I think you have wondered at least once what some functions and constants in our
 - [Functions](#functions)
     - [`INIT.LUA`](#initlua)
         - [Customisatiion API](#customisation-api)
-        - [Miscelaneous](#miscalaneous)
     - [`FUNCTIONS.LUA`](#functionslua)
         - [`GAME.LUA`](#gamelua)
         - [`HUD.LUA`](#hudlua)
         - [`CHAT.LUA`](#chatlua)
         - [`CCMD.LUA`](#ccmdlua)
+        - [`WEAPONS.LUA`](#weaponslua)
+        - [`MINIGAME.LUA`](#minigamelua)
         - [Globaly used functions](#globaly-used-functions)
 - [Constants](#constants)
     - [Role constants (`ROLE_*`)](#role-constants-role)
@@ -34,18 +35,20 @@ There are the functions that allow the creattion of MM mods. There are only 2 of
 | <code>**MM.AddCharStat**(*string* skin, *table* abilities)</code> | Add a character configuration for custom character in `MMCHARMODE 1` in-game option. In this mode all characters have their abilities back but in limited form.<br>There is a table for vanilla characters which contains their character configs for this mode (`actionspd`, `ability`, `ability2`, `charflags`, etc.). If custom character has no such configuration it is threated as a Sonic (limited Thok, slower spindash and more).<br><code>skin</code> is the name of the skin that is actually used in `skins[]` table. <code>table</code> is the config data itself. The format of <code>table</code> can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customchar.lua).
 
 ## `FUNCTIONS.LUA`
-There is a dedicated LUA file which contains all MM functions. Everything outside Customisation API is defined here. Some of those functions are used in only one LUA file but some are used globaly.
+There is a dedicated LUA script which contains the code for some internal MM functions. Some of those functions are used in only one LUA script but some are used globaly.
+
 ### `GAME.LUA`
-These are the functions which are used in [`GAME.LUA`](/LUA/MAIN//GAME.LUA):
-| Name | Description |
-| --- | --- |
-| <code>**MM_AssignRoles**()</code> | The main role assigner function. Called at `MapLoad` hook or when 2nd player joins the game with one player.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it personally tells to the player the role.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution in console to every player. |
-| <code>**MM_GetRoleMultiplier**()</code> | Get the required number of role duplicates to create among players when assigning roles. Its primarily used in `MM_AssignRoles()` function but is also used to adjust the map timelimit when level starts. |
-| <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code>  | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here] (#possible-messages-for-chatprintglobal) |
-| <code>**MM_KillPlayer**(*mobj_t* player, [*mobj_t* atacker])</code> | Make <code>player</code> *DEAD*. <code>atacker</code> is a player who killed the <code>player</code>, it is used to print killer's name for <code>player</code>. If <code>atacker</code> is not specified the killer's name is `"your stupidity"` instead.<br>*Note:* Both <code>player</code> and <code>atacker</code> have to be `mobj_t`! |
-| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the [`WIN_*` constants](#win-reasons-win). |
-| <code>**MM_CheckPlayers**()</code> | A very small function to check the current state of the game. It can announce Murderers as winners when everyone is dead or enable the music for Showdown Duel. |
-| <code>**MM_SetRandomInnoAs**(*int* role)</code> | Similar to `MM_AssignRoles()` but works for Innocents only in the middle of the game. In some gameplay situations there has to be a replacement of some inportant <code>role</code> and this functions selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument. |
+These are the functions which are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA):
+| Name | Return value | Description |
+| --- | --- | --- |
+| <code>**MM_AssignRoles**()</code> | nil | The main role assigner function. Called at `MapLoad` hook or when 2nd player joins the game with one player.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it personally tells to the player the role.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution in console to every player. |
+| <code>**MM_GetRoleMultiplier**()</code> | nil | Get the required number of role duplicates to create among players when assigning roles. Its primarily used in `MM_AssignRoles()` function but is also used to adjust the map timelimit when level starts. |
+| <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code> | nil | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here] (#possible-messages-for-chatprintglobal) |
+| <code>**MM_KillPlayer**(*mobj_t* player, [*mobj_t* atacker])</code> | nil | Make <code>player</code> *DEAD*. <code>atacker</code> is a player who killed the <code>player</code>, it is used to print killer's name for <code>player</code>. If <code>atacker</code> is not specified the killer's name is `"your stupidity"` instead.<br>*Note:* Both <code>player</code> and <code>atacker</code> have to be `mobj_t`! |
+| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the [`WIN_*` constants](#win-reasons-win). |
+| <code>**MM_CheckPlayers**()</code> | nil | A very small function to check the current state of the game. It can announce Murderers as winners when everyone is dead or enable the music for Showdown Duel. |
+| <code>**MM_SetRandomInnoAs**(*int* role)</code> | nil | Similar to `MM_AssignRoles()` but works for Innocents only in the middle of the game. In some gameplay situations there has to be a replacement of some inportant <code>role</code> and this functions selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument. |
+| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the distance. Used for Innocents' Sheriff Emerald radar. |
 
 ### `HUD.LUA`
 Functions for HUD rendering code
@@ -59,6 +62,7 @@ Functions for HUD rendering code
 | <code>**V_ConvertStringColor**(*string* str) | *string* | Converts the SRB2 text coloring symbols in string to MM format. Used for `V_DrawStrASCII()` functions as they use different text coloring format. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
 | <code>**V_ConvertStringColor2**(*string* str) | *string* | Converts the MM text coloring symbols in string to SRB2 format. Used for `v.drawString` to render the MM-formatted strings. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
 | <code>**wep2rw**(*int* wep) | `RW_*` constant | Conerts `WEP_*` to `RW_*` constant |
+| <code>**V_GetSHREMLiconID**(*int* dist)</code> | *int* | Get the Emerald Radar icon ID based on the distance. Used for Innocets' Sheriff Emerald radar. |
 
 ### `CHAT.LUA`
 The only function for chat script
@@ -72,12 +76,32 @@ The only function for Console Commands script
 | --- | --- |
 | <code>**MM_PrintContents**(*player_t* player, *string* lang)</code> | Prints the contents of the `MM.text[lang]["MMHELP_CMD"]["CONTENTS"]` to `player`'s console |
 
+### `WEAPONS.LUA`
+Functions used for vanilla weapon rings recreation. **Functions from this section are ported directly from SRB2 C source code**
+| Name | Description |
+| --- | --- |
+| <code>**P_DrainWeaponAmmo**(*player_t* player, *int* weapon)</code> | Drain weapon ring ammo from player. |
+| <code>**P_SetWeaponDelay**(*player_t* player, *int* delay)</code> | Make `player` unable to shoot for `delay` tics. Knuckles has a special exception here and has only 2/3 of the regular delay time. |
+
+### `MINIGAME.LUA`
+Functions of global visibility for Pong 2-player Minigame
+| Name | Description |
+| --- | --- |
+| <code>**PONG_SetVelocity**(*int* side) </code> | Set the Pong Ball's velocity. `side` determines the ball's direction, accepted values are:<table><tr><th><code>side</code> value</th> <th>Direction</th></tr><tr><td><code>< 0</code></td> <td>Left</td></tr><tr><td><code>0</code></td> <td>Random</td></tr><tr> <td><code>> 0</code></td> <td>Right</td></tr></table> |
+| <code>**PONG_Reset**()</code> | Reset the PONG minigame |
+
 ### Globaly used functions
 Functions which are used in more than one script
 | Name | Return value | Description |
 | --- | --- | --- |
-| <code>**PlayerCount**([*int* role])</code> | *int* | Get the total number of players online. If `role` is specified return the total number of players with `role`. |
-| <code>**PlayersAlive**()</code> | *int* | Get the number of players who are still alive (`player.spectator==false`).
+| <code>**PlayerCount**([*int* role])</code> | *int* | Get the total number of players online. If `role` is specified return the total number of players who have the `role`. |
+| <code>**PlayersAlive**()</code> | *int* | Get the number of players who are still alive (aren't spectator). |
+| <code>**MM_SpawnSHREML**(*int* x, *int* y, *int* z)</code> | nil | Spawn the Sheriff's Emerald at (x, y, z) position
+| <code>**P_GetSectorFloorZAt**(*sector_t* sector, *int* x, *int* y)</code> | *fixed_t* | Returns the height of the sector floor at (x, y), works both for regular sectors and slopes. Ported from SRB2 source code. |
+| <code>**P_GetSectorCeilingZAt**(*sector_t* sector, *int* x, *int* y)</code> | *fixed_t* | Returns the height of the sector ceiling at (x, y), works both for regular sectors and slopes. Ported from SRB2 source code. |
+| <code>**P_GetFOFTopZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the top height of the FOF at (x, y). Ported from SRB2 source code. |
+| <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code. |
+
 
 # Constants
 Here is the full list of MM constants:
@@ -118,16 +142,17 @@ Win reasons for `MM_EndRound("WIN")` and `MM_ChatprintGlobal("WIN")` functions
 The description of each value in `MM` table. The `MM` constant itself is defined in [INIT.LUA](../INIT.LUA)
 | Name | Type | Description | Example value |
 | --- | --- | --- | --- |
-| `version` | *string* | Version number of the build | `"9.0-BETA"` |
-| `devbuild` | *string* | Date of the build compilation, if not `nil` this variable enables the *Debug Mode* | `"dev021023"` |
-| `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"October 2nd 2023"` |
-| `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the example file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua) |
-| `SEMJ_info` | multiple *strings* | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
-| `CharStats` | *table* | The character configurations for ***MMCHARMODE 1*** character mode. This variable is **netsynced** | [*See `INIT.LUA`*](../INIT.LUA) |
-| `RoleColor` | multiple *strings* | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
+| `version` | *string* | Version number of the build | `"10.0-BETA"` |
+| `devbuild` | *string* | Date of the build compilation, if not `nil` this variable enables the *Debug Mode* | `"dev281223"` |
+| `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"December 28th 2023"` |
+| `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua) |
+| `SEMJ_info` | table of *string* values | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
+| `CharStats` | *table* | The character configurations for ***MMCHARMODE 1*** character mode. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/ABILITIES.LUA`](../LUA/MAIN/ABILITIES.LUA)* |
+| `RoleColor` | table of *string* values | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
 | `winner` | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros & Innocents). This variable is **netsynced** | 0 |
 | `winreason` | *int* | The win reason, can be one of the [`WIN_*` constants](#win-reasons-win). This variable is **netsynced** | 1 |
 | `timelimit` | *int* | Works as SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
-| `shreml_dropped` | *int* | The current number of *Sheriff Emeralds* dropped | 0 |
+| `shremls` | table of *mobj_t* values | The table containing all dropped *Sheriff Emerald* objects | none |
+| `pong` | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/MINIGAME.LUA`](../LUA/MAIN/MINIGAME.LUA)*|
 
 # That's all folks!

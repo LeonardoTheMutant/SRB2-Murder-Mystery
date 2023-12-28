@@ -132,6 +132,15 @@ rawset(_G, "MM_SetRandomInnoAs", function(role)
 	return
 end)
 
+rawset(_G, "MM_GetSHREMLinterval", function(dist)
+	if (dist < 256) return 5
+	elseif (dist < 512) return 10
+	elseif (dist < 1024) return 20
+	elseif (dist < 2048) return 30
+	elseif (dist < 3072) return 35
+	else return 0 end
+end)
+
 --
 --HUD.LUA
 --
@@ -260,9 +269,11 @@ rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 	end
 	return pixelLen
 end)
+
 rawset(_G, "V_DrawStrASCIIcentered", function(v,x,y,lang,str,flags,fontsize)
 	V_DrawStrASCII(v, x - V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
 end)
+
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	if (wep==1) return 1
 	elseif (wep==2) return 2
@@ -271,6 +282,15 @@ rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
 	elseif (wep==5) return 16
 	elseif (wep==6) return 32
 	end
+end)
+
+rawset(_G, "V_GetSHREMLiconID", function(dist)
+	if (dist < 256) return 6
+	elseif (dist < 512) return 5
+	elseif (dist < 1024) return 4
+	elseif (dist < 2048) return 3
+	elseif (dist < 3072) return 2
+	else return 1 end
 end)
 
 --
@@ -331,9 +351,7 @@ rawset(_G, "PONG_SetVelocity", function(side)
 	local x = 0
 	if (side < 0) x = -1
 	elseif (side > 0) x = 1
-	else
-		while (x==0) x = P_RandomRange(-1, 1) end
-	end
+	else while (x==0) do x = P_RandomRange(-1, 1) end end
 
 	local y = 0
 	while (y==0) y = P_RandomRange(-2, 2) end
@@ -374,6 +392,12 @@ rawset(_G, "MM_Get2Players", function()
 		if (#plrs == 2) break end
 	end
 	return plrs
+end)
+
+--spawn Sheriff Emerald
+rawset(_G, "MM_SpawnSHREML", function(x, y, z)
+	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREML(int x, int y, int z)") end
+	table.insert(MM.shremls, (#MM.shremls + 1), P_SpawnMobj(x ,y, z, MT_SHREML))
 end)
 
 -- Returns the height of the sector floor at (x, y)
@@ -427,29 +451,3 @@ rawset(_G, "V_GetHelpPageSize", function(l, p, x)
 	return size
 end)
 */
-
---IntToExtMapNum(n)
---Returns the extended map number as a string
---Returns nil if n is an invalid map number
-rawset(_G, "IntToExtMapNum", function(n)
-	if n < 0 or n > 1035
-		return nil
-	end
-	if n < 10
-		return "MAP0" + n
-	end
-	if n < 100
-		return "MAP" + n
-	end
-	local x = n-100
-	local p = x/36
-	local q = x - (36*p)
-	local a = string.char(65 + p)
-	local b
-	if q < 10
-		b = q
-	else
-		b = string.char(55 + q)
-	end
-	return "MAP" + a + b
-end)

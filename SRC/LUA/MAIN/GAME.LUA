@@ -24,14 +24,14 @@ addHook("MapLoad", function(map)
 	end
 	MM.winner = 0
 	MM.winreason = 0
-	MM.shreml_dropped=0
+	MM.shremls = {}
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
     print("Time limit for this map is "..MM.timelimit.." minutes")
 	MM.twopgame = (PlayerCount()==2)
 	MM.minigame = false
 	PONG_Reset()
-	MM.pong.pads[1]= 40
-	MM.pong.pads[2]= 40
+	MM.pong.pads[1] = 40
+	MM.pong.pads[2] = 40
 	MM.pong.wintimeout = -1
 	MM_AssignRoles()
 end)
@@ -125,8 +125,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		MM_KillPlayer(victim, attacker)
 		-- Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
 		if (PlayerCount(ROLE_INNOCENT) != 0)
-			P_SpawnMobjFromMobj(victim,0,0,0,MT_SHREML)
-			MM.shreml_dropped = $ + 1
+			MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (PlayerCount(ROLE_INNOCENT) == 0) and (PlayerCount(ROLE_SHERIFF) != 0)
@@ -152,7 +151,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			if (PlayerCount(ROLE_INNOCENT) == 0) and (PlayerCount(ROLE_SHERIFF) == 0) and (PlayerCount(ROLE_HERO) == 0)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 				return
-			elseif (PlayerCount(ROLE_INNOCENT) != 0) and (PlayerCount(ROLE_SHERIFF) == 0) and (PlayerCount(ROLE_HERO) == 0) and (MM.shreml_dropped==0)
+			elseif (PlayerCount(ROLE_INNOCENT) != 0) and (PlayerCount(ROLE_SHERIFF) == 0) and (PlayerCount(ROLE_HERO) == 0) and (not #MM.shremls)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				return
 			else
@@ -181,16 +180,17 @@ end, MT_PLAYER)
 --
 -- Sheriff's Emerald pickup logic
 --
-local function mobjInRange(mo, mo2)
-	if ((abs(mo.x-mo2.x) < 2097152) and (abs(mo.y-mo2.y) < 2097152) and (abs(mo.z-mo2.z) < 1048576)) return true --32*FU, 16*FU
-	else return false end
-end
 addHook("MobjThinker", function(mo)
 	if (gametype!=GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.role==ROLE_INNOCENT) and (mobjInRange(ref, found))
-			P_RemoveMobj(ref)
-			MM.shreml_dropped = $ - 1
+		if (found) and (found.player) and (found.player.role==ROLE_INNOCENT) and (P_AproxDistance(P_AproxDistance(found.x - ref.x, found.y - ref.y), found.z - ref.z) < 2097152) --32*FU
+			for emeraldID = 1, #MM.shremls do
+				if ((MM.shremls[emeraldID].x == ref.x) and (MM.shremls[emeraldID].y == ref.y) and (MM.shremls[emeraldID].z == ref.z))
+					table.remove(MM.shremls, emeraldID)
+					P_RemoveMobj(ref)
+					break
+				end
+			end
 			S_StartSound(found.player.mo, 97, found.player)
 			found.player.role=ROLE_HERO
 			found.player.roleflicker = 70 --2 seconds
@@ -216,14 +216,27 @@ addHook("PlayerThink", function(p)
 	if (p.roleflicker) p.roleflicker = $ - 1 end
 
 	--HUD flash screen fadeout
-	if (p.flashscrn) and (leveltime%2 == 0)
+	if (p.flashscrn) and (leveltime % 4 == 0)
 		p.flashscrn = $ + 1
 		if (p.flashscrn >= 10) p.flashscrn = 0 end
 	end
 
+	--Sheriff Emerald Radar distance logic
+	if ((#MM.shremls) and (p.role == ROLE_INNOCENT) and (not p.spectator))
+		--find the distance to the closest emerald
+		local shreml_dist = {}
+		for emeraldID = 1, #MM.shremls do if (MM.shremls[emeraldID].valid) then table.insert(shreml_dist, (#shreml_dist + 1), P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremls[emeraldID].x, p.mo.y - MM.shremls[emeraldID].y), p.mo.z - MM.shremls[emeraldID].z)) end end
+		table.sort(shreml_dist)
+		p.shreml_dist = shreml_dist[1]
+
+		--play sound
+		local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
+		if (interval and (leveltime % interval) == 0) S_StartSound(nil, 165, p) end
+	end
+
 	--AFK logic
-	if (p.cmd.forwardmove==0) and (p.cmd.sidemove==0) and (p.cmd.buttons==0) and (p.oldangleturn==p.cmd.angleturn) and (p.oldaiming==p.cmd.aiming) and (not p.spectator) and (PlayerCount()!=1) and (afkCVAR.value) p.afk = $ + 1
-	else p.afk=0 end
+	if (p.cmd.forwardmove == 0) and (p.cmd.sidemove == 0) and (p.cmd.buttons == 0) and (p.oldangleturn == p.cmd.angleturn) and (p.oldaiming == p.cmd.aiming) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value) p.afk = $ + 1
+	else p.afk = 0 end
 	if (p.afk > afkCVAR.value*60*TICRATE)
 		if p==server
 			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
