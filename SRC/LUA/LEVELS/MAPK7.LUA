@@ -10,10 +10,10 @@ local doortimers={
 local doordelay=35
 
 local truthTextures = {
-    4049, --"~035", red
     4166, --"~152", blue
     4126, --"~112", green
-    4086  --"~072", yellow
+    4086, --"~072", yellow
+    4049  --"~035", red
 }
 local rayTimer
 local rayControlLine
@@ -49,7 +49,7 @@ addHook("LinedefExecute", function(l,mo,s) --the truth ray
             end
         end
         --now edit the texture of the ray to represent the color of the role
-        if (rayControlLine and rayControlLine.valid) rayControlLine.frontside.midtexture = truthTextures[(mo.player.rings % 4)+1] end --I know, bad formula
+        if (rayControlLine and rayControlLine.valid) rayControlLine.frontside.midtexture = truthTextures[(mo.player.kills % 4)+1] end --I know, bad formula
         rayTimer = 35
     end
 end,"K7_TRUTH")
