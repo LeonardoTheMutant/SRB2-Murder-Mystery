@@ -1,5 +1,7 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
 - Finish the new maps
-- Lock player camera controls during TTT minigame (unable to do?)
-- Port MMHELP command to UI
+- Port MMHELP command to UI (help needed)
 - Test 8-16 player intermission screen
+- Redesign the "Mountain Fort" (MAPK3)
+- Try to fix "Wall hug" bug
+- Make an artbox
