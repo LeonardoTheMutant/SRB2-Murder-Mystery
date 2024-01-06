@@ -66,18 +66,19 @@ Music = None
 NoZone = True
 Act = 0
 TypeOfLevel = mm
-NextLevel = K9
+NextLevel = K7
 Lua.Author = LeoTM
 Lua.DisableFootsteps = True
 
 Level K7
 LevelName = Space Base
+Subtitle = Prerelease showcase
 SelectHeading = Murder Mystery
 NoZone = True
 Act = 0
 SkyNum = 21
 TypeOfLevel = mm
-NextLevel = K8
+NextLevel = K9
 Lua.Author = LeoTM
 
 Level K8
