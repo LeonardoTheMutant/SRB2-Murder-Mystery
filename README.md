@@ -1,7 +1,16 @@
 # SRB2 Murder Mystery
-Murder Mystery Add-On gametype for the Sonic Robo Blast 2
+Murder Mystery gametype add-on for [Sonic Robo Blast 2](https://www.srb2.org)
 
 A port of the popular multiplayer game in SRB2
+
+<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/graphs/contributors" alt="Contributors">
+  <img src="https://img.shields.io/github/contributors/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
+<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulse" alt="Activity">
+  <img src="https://img.shields.io/github/commit-activity/m/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
+<a href="https://srb2.org">
+  <img src="https://img.shields.io/badge/SRB2_compatibility-v2.2.13-darkblue"></a>
+<a href="https://discord.gg/UgG8h2djFE">
+  <img src="https://img.shields.io/discord/1075825170658381926?logo=discord" alt="chat on Discord"></a>
 
 ## How to build your **MurderMystery.PK3** from this repository
 
