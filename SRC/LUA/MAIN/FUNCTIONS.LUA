@@ -25,30 +25,36 @@ end)
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
 rawset(_G, "MM_AssignRoles", function()
-	if (gametype!=GT_MURDERMYSTERY) or (PlayerCount()<2) return
-	elseif (gametype==GT_MURDERMYSTERY) and (splitscreen)
+	if (gametype != GT_MURDERMYSTERY) return
+	elseif (gametype == GT_MURDERMYSTERY) and (splitscreen)
 		COM_BufInsertText(server, "MAP JADE VALLEY -GAMETYPE MATCH")
 		print("\x85Hold on!\x80\nMurder Mystery is not designed for splitscreen mode! Your game switched to MATCH becase it's as same as playing 1v1 in MM.\nSo don't try to load Murder Mystery in splitscreen again. It will have no sense.")
 		return
 	end
 
-	local plrs={}
+	-- Take care of the lonely player
+	if (PlayerCount() == 1)
+		for p in players.iterate do p.role = nil end
+		return
+	end
+
+	local plrs = {}
 	for p in players.iterate --prepare players and get their player nodes
-		p.role=ROLE_NONE
+		p.role = ROLE_NONE
 		table.insert(plrs, #p)
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
-        for i=1, MM_GetRoleMultiplier()
-            local randPlr=P_RandomKey(#plrs)+1 --select random player
-            players[plrs[randPlr]].role=r --assign the role to that player
+        for i = 1, MM_GetRoleMultiplier()
+            local randPlr = P_RandomKey(#plrs) + 1 --select random player
+            players[plrs[randPlr]].role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
         end
     end
 	--tell each player its role personally
 	for p in players.iterate
-		if (p.role==ROLE_NONE) p.role=ROLE_INNOCENT end --we previously didn't make Innos so make them now
+		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
 		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
-		p.roleflicker=105 --timer for role name flickering on HUD
+		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
 	if (MM.devbuild)
 		print("\x82".."MM_AssignRoles() results:")

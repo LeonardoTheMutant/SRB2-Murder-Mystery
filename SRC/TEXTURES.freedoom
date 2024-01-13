@@ -40,25 +40,11 @@ WallTexture "BIGDOOR4", 128, 128
 	Patch "DOOR9_1", 0, 0
 }
 
-WallTexture "BIGDOOR5", 128, 128
-{
-	Patch "WALL40_1", 0, 0
-	Patch "WALL42_3", 0, 0
-	Patch "WALL42_3", 51, 0
-	Patch "WALL42_3", 104, 0
-}
-
 WallTexture "BIGDOOR6", 128, 112
 {
 	Patch "DOOR11_1", -48, 0
 	Patch "DOOR11_1", 32, 0
 	Patch "DOOR11_1", 5, 0
-}
-
-WallTexture "BIGDOOR7", 128, 128
-{
-	Patch "W105_1", -5, 0
-	Patch "W105_1", 123, 0
 }
 
 WallTexture "BLAKWAL1", 64, 128
@@ -1067,12 +1053,6 @@ WallTexture "SKINMET2", 256, 128
 	Patch "W99_2", 128, 0
 }
 
-WallTexture "SKINSYMB", 256, 128
-{
-	Patch "W103_1", 0, 0
-	Patch "W103_2", 128, 0
-}
-
 WallTexture "SLADPOIS", 64, 128
 {
 	Patch "WLA128_1", 0, 0
@@ -1397,23 +1377,12 @@ WallTexture "TEKLITE2", 64, 128
 	Patch "RW43_4", 0, 0
 }
 
-WallTexture "TEKWALL4", 128, 128
-{
-	Patch "W94_1", 0, 0
-}
-
 WallTexture "TEKWALL6", 256, 128
 {
 	Patch "RW25_1", 0, 0
 	Patch "RW25_2", 128, 0
 	Patch "RW25_3", 64, 0
 	Patch "RW25_4", 192, 0
-}
-
-WallTexture "WOOD1", 256, 128
-{
-	Patch "WALL40_1", 128, 0
-	Patch "WALL40_2", 0, 0
 }
 
 WallTexture "WOOD10", 128, 128
@@ -1424,27 +1393,6 @@ WallTexture "WOOD10", 128, 128
 WallTexture "WOOD12", 64, 128
 {
 	Patch "RW41_2", 0, 0
-}
-
-WallTexture "WOOD5", 256, 128
-{
-	Patch "W96_2", 128, 0
-	Patch "W96_1", 0, 0
-}
-
-WallTexture "WOOD6", 64, 128
-{
-	Patch "RW9_1", 0, 0
-}
-
-WallTexture "WOOD7", 64, 128
-{
-	Patch "RW9_2", 0, 0
-}
-
-WallTexture "WOOD8", 64, 128
-{
-	Patch "RW9_3", 0, 0
 }
 
 WallTexture "WOODMET1", 64, 128
@@ -2227,14 +2175,6 @@ WallTexture "A-RAIL1", 64, 32
 WallTexture "A-ROCK", 128, 128
 {
 	Patch "ROCK", 0, 0
-}
-
-WallTexture "SLIME1", 128, 128
-{
-	Patch "RW41_1", 0, 0
-	Patch "RW41_1", 64, 0
-	Patch "RW9_1", 0, 0
-	Patch "RW9_1", 64, 0
 }
 
 WallTexture "SLIME2", 128, 128
