@@ -33,7 +33,7 @@ rawset(_G, "MM_AssignRoles", function()
 	end
 
 	-- Take care of the lonely player
-	if (PlayerCount() == 1)
+	if (PlayerCount() < 2)
 		for p in players.iterate do p.role = nil end
 		return
 	end
