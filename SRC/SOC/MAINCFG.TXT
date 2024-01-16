@@ -31,7 +31,6 @@ Lua.Author = LeoTM
 
 Level K3
 Levelname = Mountain Fort
-Subtitle = Zombie Escape map remake
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
