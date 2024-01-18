@@ -131,7 +131,7 @@ CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, f
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL')
+freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL', 'MT_MMKNIFE')
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
 freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19')
 
@@ -157,6 +157,13 @@ mobjinfo[MT_SHREML]={
 	reactiontime = 8,
 	mass = 16,
 	speed = EMERALD3
+}
+
+--Knife weapon
+mobjinfo[MT_MMKNIFE] = {
+	spawnhealth = 1,
+	spawnstate = S_SPRK1,
+	flags = MF_NOGRAVITY|MF_NOBLOCKMAP
 }
 
 --SFX captions
