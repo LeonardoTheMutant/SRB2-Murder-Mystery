@@ -7,7 +7,7 @@ MM.weapons={}
 
 -- VANILLA WEAPONS
 MM.weapons[-1]={ --Knife
-    "RINGIND", --HUD icon, gonna be replaced
+    "MMKNIFE", --HUD icon, gonna be replaced
     MT_MMKNIFE, --MOBJ_T that represents this weapon
     0, --MF2_* flag
     60 --weapondelay
@@ -178,7 +178,7 @@ end)
 -- You can watch Decino's much more detailed explanation here:
 -- https://www.youtube.com/watch?v=kRC7hGDrNsM
 
-addHook("MapLoad", do
+addHook("ThinkFrame", do
     for weapon = 0, #MM.weapons do
         if (gametype == GT_MURDERMYSTERY)
             mobjinfo[MM.weapons[weapon][2]].radius = 28*FU

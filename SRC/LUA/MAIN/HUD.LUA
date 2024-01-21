@@ -282,15 +282,15 @@ local function mainHUD(v, p) --main game HUD
 		if (p.role == ROLE_MURDERER)
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
-				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
+				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
 				v.drawString(160, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin-center") --Infinite Ring ammo counter
-			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
+			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]) end --Red Ring icon
 			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay>>1) - 2), v.cachePatch("CURWEAP")) --selector
 		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
 			if (p.powers[pw_infinityring])
-				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("INFNIND")) --Infinite Ring icon
+				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
 				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
-			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch("RINGIND"), ringTrans[7]) end --Red Ring icon
+			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]) end --Red Ring icon
 			for weapon = 1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
 					v.draw((coords.firstRingWep.x + weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]) --Ring weapon icon
