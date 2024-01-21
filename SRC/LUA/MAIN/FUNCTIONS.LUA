@@ -150,16 +150,6 @@ end)
 --
 --HUD.LUA
 --
-rawset(_G, "V_DrawStrRelCentered", function(v,x,y,str,flags,font)
-	v.drawString(x-v.stringWidth(str,flags,font)>>1, y, str, flags, font)
-end)
-rawset(_G, "V_DrawStrCentered", function(v,y,str,flags,font)
-	V_DrawStrRelCentered(v,160,y,str,flags,font)
-end)
-rawset(_G, "V_DrawStrRight", function(v,y,str,flags,font)
-	v.drawString(320-v.stringWidth(str,flags,font), y, str, flags, font)
-end)
-
 rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
 	elseif (not str) or (type(str)!="string") error("V_DrawStrASCII() argument #5: string expected")
