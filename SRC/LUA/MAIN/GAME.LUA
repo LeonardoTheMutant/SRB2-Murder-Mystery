@@ -21,6 +21,7 @@ addHook("MapLoad", function(map)
 		p.flashscrn = 0
 		p.powers[0] = 245 -- invulnerability for 7 sec
 		p.minigame = false
+		p.mmweapondelay = 0
 	end
 	MM.winner = 0
 	MM.winreason = 0

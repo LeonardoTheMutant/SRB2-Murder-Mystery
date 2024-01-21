@@ -161,8 +161,10 @@ mobjinfo[MT_SHREML]={
 
 --Knife weapon
 mobjinfo[MT_MMKNIFE] = {
-	spawnhealth = 1,
+	spawnhealth = 1000,
 	spawnstate = S_SPRK1,
+	radius = FU,
+	height = FU,
 	flags = MF_NOGRAVITY|MF_NOBLOCKMAP
 }
 

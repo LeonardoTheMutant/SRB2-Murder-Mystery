@@ -58,14 +58,14 @@ MM.weapons[6]={ --Rail Ring
 -- Knife logic
 local function MM_DoKnife(p)
     P_SetWeaponDelay(p, MM.weapons[-1][4])
-    local m = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
+    local mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
     P_GivePlayerRings(p, -1)
 
     searchBlockmap("objects", function(ref, fmo)
         if ((fmo.valid) and (fmo.player) and (fmo.player.valid) and (fmo != ref.target) and (P_AproxDistance(P_AproxDistance(fmo.x - ref.x, fmo.y - ref.y), fmo.z - ref.z) < USERANGE))
             P_DamageMobj(fmo, ref, ref.target)
         end
-    end, m)
+    end, mo)
 
     if (not p.sneak) S_StartSound(p.mo, sfx_thok) end --yeah, stealth included
 end
@@ -85,8 +85,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     if (p.cmd.buttons & BT_FIRENORMAL)
         -- KNIFE --
-        if (p.rings < 1) return end
-        MM_DoKnife(p)
+        if (p.rings > 0) MM_DoKnife(p) end
     elseif (p.currentweapon == WEP_AUTO) and (p.powers[pw_automaticring])
         -- AUTOMATIC --
         P_DrainWeaponAmmo(p, pw_automaticring)
@@ -151,8 +150,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
             p.powers[pw_infinityring] = $ - 1
         else
             -- KNIFE --
-            if (p.rings < 1) return end
-            MM_DoKnife(p)
+            if (p.rings > 0) MM_DoKnife(p) end
         end
     end
     --Rail ring main logic (sparkles, hit detection)
