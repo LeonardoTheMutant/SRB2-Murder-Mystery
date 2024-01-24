@@ -2,6 +2,4 @@
 - Finish the new maps
 - Port MMHELP command to UI (help needed)
 - Test 8-16 player intermission screen
-- Redesign the "Mountain Fort" (MAPK3)
-- Try to fix "Wall hug" bug
 - Make an artbox
