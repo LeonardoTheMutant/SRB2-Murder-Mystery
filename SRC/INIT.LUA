@@ -131,7 +131,7 @@ CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, f
 print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
-freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_DAMFLL', 'MT_MMKNIFE')
+freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_DAMFLL', 'MT_MMKNIFE')
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
 freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19')
 
@@ -168,10 +168,15 @@ mobjinfo[MT_MMKNIFE] = {
 	flags = MF_NOGRAVITY|MF_NOBLOCKMAP
 }
 
---SFX captions
-sfxinfo[sfx_mmdth1].caption="Killed"
-sfxinfo[sfx_mmdth2].caption="Good Night"
+--
+--SFX closed captions
+--
+
+--Death sounds
+sfxinfo[sfx_mmdth1].caption="Good Night"
+sfxinfo[sfx_mmdth2].caption="Killed"
 sfxinfo[sfx_mmdth3].caption="Killed"
+sfxinfo[sfx_mmdth4].caption="Killed"
 --for MAPK5 (Dam Zone)
 sfxinfo[sfx_damfll].caption="Falling from the Dam..."
 --Chat sound emojis

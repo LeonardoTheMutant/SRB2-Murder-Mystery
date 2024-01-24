@@ -7,7 +7,7 @@
 --CONSTANTS
 --
 local mmtxt=MM.text
-local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
 
 --
 --GAME.LUA
@@ -82,26 +82,26 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 end)
 
 rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if (not p) or (not p.player) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
+	if ((not p) or (not p.player)) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
-	plr.spectator=true
-	plr.role=ROLE_NONE
-	plr.flashscrn=1
-	if (k) and (k.player)
-		plr.killedby=k.player.name
-		k.player.kills=$+1
-	else plr.killedby="your stupidity" end
+	plr.spectator = true
+	plr.role = ROLE_NONE
+	plr.flashscrn = 1
+	if ((k) and (k.player))
+		plr.killedby = k.player.name
+		k.player.kills = $ + 1
+	else plr.killedby = "your stupidity" end
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (p.skin=="tails") body.state=S_TMMDEAD
-	elseif (p.skin=="knuckles") body.state=S_KMMDEAD
-	elseif (p.skin=="amy") body.state=S_AMMDEAD
-	elseif (p.skin=="fang") body.state=S_FMMDEAD
-	elseif (p.skin=="metalsonic") body.state=S_MMMDEAD
-	else body.state=S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
-	body.color=p.color
+	if (p.skin == "tails") body.state = S_TMMDEAD
+	elseif (p.skin == "knuckles") body.state = S_KMMDEAD
+	elseif (p.skin == "amy") body.state = S_AMMDEAD
+	elseif (p.skin == "fang") body.state = S_FMMDEAD
+	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
+	else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
+	body.color = p.color
 
-	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx)+1], plr) --play random death sound personally
+	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
 end)
 
 --Function to end the round, arguments here:
