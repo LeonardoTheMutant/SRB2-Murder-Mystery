@@ -3,15 +3,15 @@ if MM or MurderMystery
 	return
 end
 rawset(_G, "MM", {
-	version="10.0-BETA", --string, VERSION NUMBER
-	devbuild="GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
+	version="10.0-BETA-RC1", --string, VERSION NUMBER
+	devbuild=nil, --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
 	releasedate="not released yet", --string, meant to contain the day of release
 	SEMJ_info={ --for MMHELP CHAT
 		"   \x88Keyword\x80       | \x89Sound",
 		"  ---------------+---------------------------",
 		"  	:skull:       | \"Bad to the Bones\"",
 		"  	:fart:        | Fart sound",
-		"   :pain:        | Very load pain scream",
+		"   :pain:        | Very loud pain scream",
 		"  	:wow:         | Anime-like \"WOW!\"",
 		"  	:|            | Vine boom",
 		"   OMG           | \"OOHhhh myyy Goooddddd...\"",

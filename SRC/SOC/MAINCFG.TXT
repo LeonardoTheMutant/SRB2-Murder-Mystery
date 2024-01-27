@@ -71,24 +71,25 @@ Lua.DisableFootsteps = True
 
 Level K7
 LevelName = Space Base
-Subtitle = Prerelease showcase
+Subtitle = Release Candidate showcase
 SelectHeading = Murder Mystery
 NoZone = True
 Act = 0
 SkyNum = 21
 TypeOfLevel = mm
-NextLevel = K9
+NextLevel = K8
 Lua.Author = LeoTM
 
 Level K8
 LevelName = 8-Ball Hotel
+Subtitle = Release Candidate showcase
 SelectHeading = Murder Mystery
 SkyNum = 6
 Act = 0
 NoZone = True
 Weather = 3
 TypeOfLevel = mm
-NextLevel = K0
+NextLevel = K9
 Lua.Author = SuperOfSrb2, LeoTM
 
 Level K9

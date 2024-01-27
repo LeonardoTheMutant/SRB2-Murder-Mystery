@@ -1781,7 +1781,7 @@ local flatsounds={
 	["F_SKY1"]="stone",
 	["GEOBMP1"]="stone",
 	["GEOBMP1S"]="stone",
-	["GLASS3"]="stone",
+	["GLASS3"]="glass",
 	["GRASS1"]="grass",
 	["GRASS2"]="grass",
 	["GRASS3"]="grass",
@@ -2122,6 +2122,11 @@ local flatsounds={
 	["THZ2N3H"]="metal",
 	["THZ2FN6B"]="metal",
 	["ROCKY3"]="stone",
+	["LIBRARYA"]="wood",
+	["SFLR27"]="ground",
+	["GLASSTEX"]="glass",
+	["DCWAL22"]="stone",
+	["THDOOR2B"]="stone",
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
 	["AQF001"]="metal",
@@ -2163,6 +2168,15 @@ local flatsounds={
 	["FLOOR5_2"]="stone",
 	["RROCK19"]="grass",
 	["SLIME14"]="metal",
+	--8-Ball Hotel textures
+	["8BDOOR"]="wood",
+	["8BGRASS"]="grass",
+	["8BWALL0"]="stone",
+	["8BWALL1"]="stone",
+	["8BWALL4"]="stone",
+	["8BWALL5"]="stone",
+	["8BWALL7"]="stone",
+	
 
 }
 

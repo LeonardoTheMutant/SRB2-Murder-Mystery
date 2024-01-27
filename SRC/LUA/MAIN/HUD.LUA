@@ -367,6 +367,7 @@ local function interHUD(v) --Custom intermission HUD
 		return
 	end
 	hud.disable("intermissiontally")
+	
 	--here starts the insanity
 	local p = consoleplayer
 	local plrs = {}
