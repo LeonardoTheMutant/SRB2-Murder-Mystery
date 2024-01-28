@@ -3,10 +3,10 @@ if MM or MurderMystery
 	return
 end
 rawset(_G, "MM", {
-	version="10.0-BETA-RC1", --string, VERSION NUMBER
-	devbuild=nil, --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
-	releasedate="not released yet", --string, meant to contain the day of release
-	SEMJ_info={ --for MMHELP CHAT
+	version = "10.0-BETA-RC2", --string, VERSION NUMBER
+	devbuild = "GITHUB", --string, meant to be a devbuild number. If set to nil it disables all debug functionality in MM
+	releasedate = "not released yet", --string, meant to contain the day of release
+	SEMJ_info = { --for MMHELP CHAT
 		"   \x88Keyword\x80       | \x89Sound",
 		"  ---------------+---------------------------",
 		"  	:skull:       | \"Bad to the Bones\"",
@@ -37,8 +37,8 @@ rawset(_G, "MM", {
 		"	Hello there   | Obi-Wan's iconic phrase",
 		"  ---------------+---------------------------",
 		"\n * This keyword has to be present in the message alone to work"
-	},CharStats={
-		default={
+	},CharStats = {
+		default = {
 			ability = CA_NONE,
 			ability2 = CA_NONE,
 			actionspd = 2621440, --40*FU
@@ -46,17 +46,17 @@ rawset(_G, "MM", {
 			mindash = 196608, --3*FU
 			maxdash = 1966080 --30*FU
 		}
-	},RoleColor={
+	},RoleColor = {
 		"\5", --Murderer
 		"\4", --Sheriff
 		"\3", --Innocent
 		"\2", --Hero
 		"\15" --Dead
 	},
-	winner=0, --for intermission, netsynced
-	winreason=0, --for intermission, netsynced
-	timelimit=5, --for timelimit in TIME.LUA, netsynced
-	shremls={}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
+	winner = 0, --for intermission, netsynced
+	winreason = 0, --for intermission, netsynced
+	timelimit = 5, --for timelimit in TIME.LUA, netsynced
+	shremls = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
 	pong = { --some of the variables for Pong minigame, netsynced
 		ball = {x=80, y=50},
 		velocity = {x=0, y=0},
@@ -87,41 +87,41 @@ rawset(_G, "WIN_NODEFENDERS", 5)
 MM.AddCharStat = function(skin, tb)
 	if (not skin) error("Invalid skin.") end
 	if (not tb) error("Invalid table.") end
-	if type(skin)~="string" error("Skin must be string.") end
-	if type(tb)~="table" error("tb must phrase as a table.") end
+	if (type(skin) ~= "string") error("Skin must be string.") end
+	if (type(tb) ~= "table") error("tb must phrase as a table.") end
 	MM.CharStats[skin]=tb;
 	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for MM")
 end
 MM.AddLang = function(langID,langTbl)
 	if (not langID) error("Invalid Language Index") end
 	if (not langTbl) error("Invalid Language Table.") end
-	if type(langID)~="string" error("Language ID should be string and contain 2-3 characters long") end
-	if type(langTbl)~="table" error("Language Talbe shoulb be table.") end
+	if (type(langID) ~= "string") error("Language ID should be string and contain 2-3 characters long") end
+	if (type(langTbl) ~= "table") error("Language Talbe shoulb be table.") end
 	for l in pairs(MM.text)
-		if l==langID
+		if (l == langID)
 			print("\x82"..langID.."\x85 lang has already been added. Language was not added. Resart the SRB2 to clear the file from loaded mods")
 			return
 		end
 	end
-	MM.text[langID:upper()]=langTbl
+	MM.text[langID:upper()] = langTbl
 	print("\x83Succesfuly added \x82"..langID.." \x83(by "..tostring(MM.text[langID:upper()]["AUTHOR"])..") lang as a MM language.")
-	if MM.text[langID:upper()]["VERSION"]~=MM.version print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
+	if (MM.text[langID:upper()]["VERSION"] ~= MM.version) print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 end
 
 --CVARs
 local function VarChange(v) --callback functions called by CV_CALL flag
-	if (v.name=="mmcharmode")
-		if (v.value==2) print("\x87Murder Mystery:\x80 Every character have their abilities back")
-		elseif (v.value==1) print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
+	if (v.name == "mmcharmode")
+		if (v.value == 2) print("\x87Murder Mystery:\x80 Every character have their abilities back")
+		elseif (v.value == 1) print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
 		else print("\x87Murder Mystery:\x80 \"Regular person\" character mode enabled (abbilities off)") end
-	elseif (v.name=="mmsprint")
+	elseif (v.name == "mmsprint")
 		if (v.value) print("\x87Murder Mystery:\x80 Everyone now can use sprinting by holding CUSTOM1 button!")
 		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
 	end
 end
 CV_RegisterVar{name = "mmcharmode", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange}
 CV_RegisterVar{name = "mmsprint", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mmspam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX=60}, flags = 4}
+CV_RegisterVar{name = "mmspam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
 CV_RegisterVar{name = "mmafk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
 CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 

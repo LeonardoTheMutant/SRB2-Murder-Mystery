@@ -70,7 +70,7 @@ MM.text={
 				"\n* You can get hurt by obstacles like lava, spikes and fire to gain invincibility for 3 seconds;",
 				"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
 				"\n* If your role gets leaked, you can rename yourself and/or change skincolor. \x81Keep in mind your rename will be shown in chat;",
-				"\n* Knife does not produce an attack sound if you sneak. Also,\x82 FIRENORMAL\x80 button allows to use Knife anywhere as long as you have rings (Innocents do not have a knife)"
+				"\n*\x82 FIRENORMAL\x80 button allows to use Knife anywhere as long as you have rings (Innocents do not have a knife). Also, Knife does not produce an attack sound if you sneak."
 			}
 		},
 		--GAME.LUA
@@ -174,6 +174,9 @@ MM.text={
 			"",
 			"If you're new to the gametype",
 			"use \7MMHELP\0 in the Console",
+			"",
+			"Use \7MMLANG\0 command to change",
+			"the language in this gametype",
 			"",
 			"",
 			"\2Have Fun!"
@@ -453,7 +456,7 @@ MM.text={
 				"\n* Mozesz zostac zraniony przez przeszkody takie jak lawa, kolce i ogien zeby dostac effekt niezwyciezosci na 3 sekundy;",
 				"\n* Sproboj znalezc miejsce dla kryjowke na mapie. Czasami, pomaga to pozbyc sie niechcianej publicznosci;",
 				"\n* Jezeli twoja rola przestanie byc tajemnica, mozhesz zmienic swoje imie i/lub zmienic swoj kolor postaci. \x81Pamietaj, ze zmiana imieni bedzie widoczna w czacie;",
-				"\n* Noz nie robi dzwiekow ataku jezeli skradzasz sie. Takze, przycisk\x82 FIRENORMAL\x80 pozwala wykorzystywac Noz wszedzie, jak masz Ringi (Niewinni nie posiadaja Noza)"
+				"\n* Przycisk\x82 FIRENORMAL\x80 pozwala wykorzystywac Noz wszedzie, jak masz Ringi (Niewinni nie posiadaja Noza). Takze, Noz nie robi dzwiekow ataku jezeli skradzasz sie."
 			}
 		},["ROLE_GET"]={
 			"Jestes \x85Morderca\x80! \x85Zamorduj wszystkich.",
@@ -529,6 +532,8 @@ MM.text={
 			"Je\x9Cli ten tryb jest ci nowy u\xBFyj",
 			"\7MMHELP\0 w Konsoli dla pomocy",
 			"",
+			"Wykonaj polecenie \7MMLANG\0 \xBF".."eby",
+			"zmieni\xE6 j\xEAzyk w \1TM",
 			"",
 			"\2Baw si\xEA dobrze ;)"
 		},["HUD_ROLESALIVE"]={
@@ -537,7 +542,7 @@ MM.text={
 			"Niewinni \xBFywi:"
 		},["HUD_DEAD"]={
 			"Jeste\x9C\15 martwy(a)",
-			"Nie mozesz sie odnawia\xE6 lub gada\xE6 do \xBFywych"
+			"Nie mozesz si\xEA odnawia\xE6 lub gada\xE6 do \xBFywych"
 		},["HUD_MIDJOIN"]={
 			"Pan(i) dolaczy\xB3(a) \4w \x9Crodku rundy\0, prosze poczeka\xE6 na now\xB9 rund\xEA \xBF".."eby zagra\xE6"
 		},["HUD_ALONE"]={
@@ -634,7 +639,7 @@ MM.text={
 				"\n* Mozhna natrapyty na taki pereshkody jak: lawa, shypy ta wogon' aby otrymaty neujazwymist' na 3 sekundy;",
 				"\n* Sprobujte znajty sobi misce dl'a showanky u kozhnomu riwni. Chasamy wono dopomagaje ukrytysia wid zajwoji uwagy;",
 				"\n* Jaksho washa rol' wykryta mozhna zminyty swoje im'ja ta/abo zminyty kolir personazhu. \x81Pamijatajte sh'o zmina imeni bude wydna u chati.",
-				"\n* Nizh nie robyt' zwukiw ataky jaksho wy kradetesia. Takozh, knopka\x82 FIRENORMAL\x80 dozwoliaje wykorystowuwaty Niz usiudy, jaksho wy majete kil'cia (Newynni ne majut' Nozha)"
+				"\n* Knopka\x82 FIRENORMAL\x80 dozwoliaje wykorystowuwaty Niz usiudy, jaksho wy majete kil'cia (Newynni ne majut' Nozha). Takozh, Nizh nie robyt' zwukiw ataky jaksho wy kradetesia."
 			}
 		},["ROLE_GET"]={
 			"Wy \x85Wbywcia\x80! \x85Wbyjte usih.",
@@ -706,8 +711,12 @@ MM.text={
 			"\xCE\xF7\xEE\xEA \xF2\xF3\xF2 \xED\xE5\xEC\xE0, \xE0\xEB\xE5 \xEB\xB3\xF7\xE8\xEB\xFC\xED\xE8\xEA\xE8 \xF3\xED\xE8\xE7\xF3", --Ochok tut nema, ale lichyl'nyky unyzu
             "\xEC\xEE\xE6\xF3\xF2\xFC \xE4\xEE\xEF\xEE\xEC\xEE\xE3\xF2\xE8 \xF3 \xF0\xEE\xF1\xEB\xB3\xE4\xF3\xE2\xE0\xED\xED\xB3!", --mozhut' dopomogty w rosliduwanni!
             "",
-			"\xDF\xEA\xF9\xEE \xE2\xE8 \xED\xEE\xE2\xE0\xF7\xEE\xEA \xF3 \xF6\xB3\xEE\xEC\xF3 \xB3\xE3\xF0\xEE\xE2\xEE\xEC\xF3 \xF0\xE5\xE6\xE8\xEC\xB3", --Jaksho wy nowachok u ciomu igrowomu rezhymi 
+			"\xDF\xEA\xF9\xEE \xE2\xE8 \xE3\xF0\xE0\xBA\xF2\xE5 \xEF\xE5\xF0\xF8\xE8\xE9 \xF0\xE0\xE7 \xF3 \xF6\xFE \xE3\xF0\xF3", --Jaksho wy grajete pershyj raz u ciu gru
             "\xE2\xE8\xEA\xEE\xF0\xE8\xF1\xF2\xE0\xE9\xF2\xE5 \7MMHELP\0 \xF3 \xEA\xEE\xED\xF1\xEE\xEB\xB3", --wykorystajte MMHELP w konsoli
+			"\xE4\xEB\xFF \xB3\xED\xF4\xEE\xF0\xEC\xE0\xF6\xB3\xBF \xF2\xE0 \xEF\xF0\xE0\xE2\xE8\xEB",
+			"",
+			"\xC2\xE8\xEA\xEE\xED\xE0\xE9\xF2\xE5 \xEA\xEE\xEC\xE0\xED\xE4\xF3 \7MMLANG\0 \xE0\xE1\xE8 \xE7\xEC\xB3\xED\xE8\xF2\xE8", --Wykonajte komandu MMLANG aby zminyty
+			"\xEC\xEE\xE2\xF3 \xF3 \xF6\xFC\xEE\xEC\xF3 \xB3\xE3\xF0\xEE\xE2\xEE\xEC\xF3 \xF0\xE5\xE6\xE8\xEC\xB3", --mowu u ciomu igrowomu rezhymi
             "",
             "",
 			"\2\xD3\xE4\xE0\xF7\xB3  ;)" --Udachi

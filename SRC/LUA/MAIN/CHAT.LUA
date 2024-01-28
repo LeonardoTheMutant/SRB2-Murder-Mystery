@@ -35,11 +35,12 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	else
 		if (type == 1) --SAYTEAM
 			for p in players.iterate
-				if (s.role == p.role)
-					if (s.role==ROLE_MURDERER) chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
-					elseif (s.role==ROLE_SHERIFF) or (s.role==ROLE_HERO) chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m) end
-					if (s.role!=ROLE_INNOCENT) S_StartSound(nil,170,p) end
+				if ((p.role == s.role) and (s.role == ROLE_MURDERER)) chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
+				elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
+					if(s.role == ROLE_SHERIFF) chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
+					elseif (s.role == ROLE_HERO) chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m) end
 				end
+				if ((s.role == ROLE_MURDERER) or (s.role == ROLE_SHERIFF) or (s.role == ROLE_HERO)) S_StartSound(nil, sfx_radio, p) end
 			end
 			return true
 		elseif (type == 0) and (CV_FindVar("MMSEMJ").value) --find and play sound emojis

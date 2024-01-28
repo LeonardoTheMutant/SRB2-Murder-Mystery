@@ -45,6 +45,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\n - HUD text can now display your language's native letters, it is much more readable now!")
 		CONS_Printf(p, "\n - Your role on HUD flickers each time it changes to make sure you don't miss it!")
 		CONS_Printf(p, "\n - \x84Sheriffs\x80 and \x82Heros\x80 can see each other's teammate count on HUD;")
+		CONS_Printf(p, "\n - \x84Sheriffs\x80 and \x82Heros\x80 have shared team chat;")
 		CONS_Printf(p ,"\n - Added a \x81PONG\x80 minigame for 2-players who are alone on the server. A nice way to get rid of the boredom... for some time...")
 		CONS_Printf(p, "\n - Added Round Ending themes for intermission. Each ending has its own musical theme!")
 		CONS_Printf(p, "\n - Changed the Custom Language File's format for the new update;")
@@ -121,31 +122,31 @@ local function MMlang(p, l) --player, lang
 	if (not l)
 		CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][1])
 		CONS_Printf(p, "Available languages:")
-		local langCount=0
-		local langOutdated=0
+		local langCount = 0
+		local langIncomp = 0
 		local nonascii
 		for lang in pairs(MM.text)
-			langCount=$+1
-			local arg1=""
-			local arg2=""
-			local arg3=" "
-			if (MM.text[lang]["VERSION"]!=MM.version) langOutdated=$+1 end
-			if (MM.text[lang]["NONASCII"]) nonascii=true end
+			langCount = $ + 1
+			local arg1 = ""
+			local arg2 = ""
+			local arg3 = " "
+			if (MM.text[lang]["VERSION"]!=MM.version) langIncomp = $ + 1 end
+			if (MM.text[lang]["NONASCII"]) nonascii = true end
 
-			if (p.mmlang==lang) arg1="\x82 (current lang)" end
-			if (MM.text[lang]["VERSION"]!=MM.version) arg2="\x85 (OUTDATED)" end
-			if (MM.text[lang]["NONASCII"]) arg3="*" end
+			if (p.mmlang == lang) arg1 = "\x82 (current lang)" end
+			if (MM.text[lang]["VERSION"] != MM.version) arg2 = "\x85 (INCOMPATIBLE)" end
+			if (MM.text[lang]["NONASCII"]) arg3 = "*" end
 			CONS_Printf(p, arg3.." "..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if (langOutdated!=0) CONS_Printf(p, "\x85"..langOutdated.." are outdated, they may result errors (or even crashes) when selected") end
-		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All characters are simulated with English (ASCII) ones.") end
+		if (langIncomp != 0) CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
+		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
 	else
 		l = $:upper()
 		if (MM.text[l])
 			p.mmlang = l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
-			if (MM.text[l]["VERSION"]!=MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
+			if (MM.text[l]["VERSION"] != MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)

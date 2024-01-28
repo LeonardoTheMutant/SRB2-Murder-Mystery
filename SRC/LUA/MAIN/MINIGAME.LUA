@@ -90,7 +90,7 @@ addHook("ThinkFrame", do
         if (MM.pong.wintimeout == 0)
             MM.pong.winner = nil
             PONG_Reset()
-            for p in players.iterate do if (p.minigame) S_StartSound(nil,279,p) end end
+            for p in players.iterate do if (p.minigame) S_StartSound(nil, sfx_gravch, p) end end
         end
     else
         MM.pong.winner = nil

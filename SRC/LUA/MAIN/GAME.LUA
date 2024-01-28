@@ -41,30 +41,30 @@ end)
 -- Player spawn
 --
 addHook("PlayerSpawn", function(p)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
 
 	--Apply language
 	if (not p.mmlang)
 		local f = io.openlocal("client/MM.DAT", 'r') -- language load
 		if f
-			local l=f:read()
-			if (mmtxt[l]) p.mmlang=l
+			local l = f:read()
+			if (mmtxt[l]) p.mmlang = l
 			else p.mmlang="EN" end
 			f:close()
-		else p.mmlang='EN' end
+		else p.mmlang = 'EN' end
 	end
 
-	if (not p.roleflicker) p.roleflicker=0 end
-	if (not p.chatdelay) p.chatdelay=0 end
-	if (not p.kills) p.kills=0 end --Init kill counter
-	if (not p.afk) p.afk=0 end --Anti-AFK init
-	if (p.mmweapondelay==nil) p.mmweapondelay=TICRATE end
-	p.oldname=p.name --Anti-cheat init
+	if (not p.roleflicker) p.roleflicker = 0 end
+	if (not p.chatdelay) p.chatdelay = 0 end
+	if (not p.kills) p.kills = 0 end --Init kill counter
+	if (not p.afk) p.afk = 0 end --Anti-AFK init
+	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end
+	p.oldname = p.name --Anti-cheat init
 
 	--Player num and state check on join
 	if (PlayerCount() == 2) and (p.role == nil) --Player2 joined a 'singleplayer' round
 		MM_AssignRoles() --Assign roles for that duel
-		for plr in players.iterate S_StartSound(nil,93,plr) end --notify player 1 (who might be AFK) about a new rival
+		for plr in players.iterate S_StartSound(nil, sfx_bkpoof, plr) end --notify player 1 (who might be AFK) about a new rival
 		MM.twopgame = true
 	elseif (PlayerCount() > 2) and (p.role == nil) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
 end)
@@ -87,7 +87,7 @@ end)
 -- A replacement of SRB2's built-in TIMELIMIT (original sucks)
 --
 addHook("ThinkFrame", function()
-    if (gametype==GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE)-1) G_ExitLevel() end
+    if (gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE) - 1) G_ExitLevel() end
 end)
 
 --
@@ -138,7 +138,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		if (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove role "Sheriff" from the player if there are more of Innos,
 			-- otherwise Murderers win
-			if PlayerCount(ROLE_INNOCENT)>0
+			if (PlayerCount(ROLE_INNOCENT) > 0)
 				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][1])
 				MM_ChatprintGlobal("INNO_HURT", 1)
 				MM_SetRandomInnoAs(ROLE_SHERIFF)
@@ -182,7 +182,7 @@ end, MT_PLAYER)
 -- Sheriff's Emerald pickup logic
 --
 addHook("MobjThinker", function(mo)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
 		if (found) and (found.player) and (found.player.role==ROLE_INNOCENT) and (P_AproxDistance(P_AproxDistance(found.x - ref.x, found.y - ref.y), found.z - ref.z) < 2097152) --32*FU
 			for emeraldID = 1, #MM.shremls do
@@ -192,8 +192,8 @@ addHook("MobjThinker", function(mo)
 					break
 				end
 			end
-			S_StartSound(found.player.mo, 97, found.player)
-			found.player.role=ROLE_HERO
+			S_StartSound(found.player.mo, sfx_cgot, found.player)
+			found.player.role = ROLE_HERO
 			found.player.roleflicker = 70 --2 seconds
 			MM_ChatprintGlobal("SHREML_PICK")
 			MM_CheckPlayers()
@@ -206,7 +206,7 @@ end, MT_SHREML)
 -- Player Thinker
 --
 addHook("PlayerThink", function(p)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
 	if (p.role == ROLE_MURDERER) p.ringweapons = 0 end --remove weapons from Murderer
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore :)
 
@@ -232,7 +232,7 @@ addHook("PlayerThink", function(p)
 
 		--play sound
 		local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
-		if (interval and (leveltime % interval) == 0) S_StartSound(nil, 165, p) end
+		if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 	end
 
 	--AFK logic

@@ -341,7 +341,7 @@ local function scoresHUD(v) --SCORES TAB
 	v.drawString(160 ,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP, "center")
 
 	--Main body
-	V_DrawStrASCIIcentered(v, 160, 20, p.mmlang, mmtxt[p.mmlang]["MM"], V_SNAPTOTOP)
+	V_DrawStrASCIIcentered(v, 160, 20, p.mmlang, "\1"..mmtxt[p.mmlang]["MM"], V_SNAPTOTOP)
 	for y,i in pairs(mmtxt[p.mmlang]["HUD_SCORESTAB"])
 		V_DrawStrASCII(v, 20, (24 + y*8), p.mmlang, i, V_SNAPTOTOP|V_SNAPTOLEFT)
 	end
