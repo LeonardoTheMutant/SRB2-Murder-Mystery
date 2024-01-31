@@ -16,13 +16,6 @@ B. From in-game console:
 	MAP [MMmapnum] -GAMETYPE "Murder Mystery"
 	Do not ommit " brackets in "Murder Mystery" because they are important here!
 
----=== MM scripts that can break your hosted game ===---
-This gametype features some scripts that can noticably change your game. Some of those can
-improve the game stability (like fix the leaving chatbug) while others can break it (with
-modified characters). The Add-On features the "Shut Up chatbug!" script made by Jisk. It is
-DISABLED BY DEFAULT but you can control how "Shut Up Chatbug!" works with the console
-variables described in the next chapter (their prefix is acb_)
-
 ---=== Admin-only MM commands/variables ===---
 There are a couple Commands and Console Variables available for admins to use. Here are all of them:
 
@@ -47,14 +40,6 @@ VARIABLES
 	MMSPAM - Used for chat spam protection. How much time player has to wait before sending
 	    the next message. Measured in seconds (default value is 1);
 	MMSEMJ - Enable/Disable Sound Emojis (default values is "On")
-	ACB_TOGGLE - Enable/Disable "ShutUp Chatbug!" script. Disabled by default. If it constantly
-	    kicks your players while being enabled it's better to disable it and not use again.
-	ACB_UPDATERATE - How constantly player will update their status, measured in ticks.
-	    Default is 35 ticks.
-	ACB_RESETRATE - How constantly server will check the statuses. When check fails
-	    problematic player will be kicked. Default is 70 ticks.
-	ACB_SHOWDEBUG - Print console messages when player status updates. Works localy.
-	    Default is OFF.
 
 COMMANDS
 	SAYDEAD - This command is available only in Dedicated Servers and only host can be use it.
@@ -89,7 +74,7 @@ Here is the list of Add-On types that can break Murder Mystery and reasons why t
 |                                | Additionaly, text may dissapear|
 |                                | entirely after those erros     |
 +--------------------------------+--------------------------------+
-Basically watch what you're adding AND NEVER ADD CUSTOM CHARACTERS!
+Basically watch what you're adding AND TRY TO NOT ADD CUSTOM CHARACTERS (they'll be useless anyway)!
 
 We will add more information here if something else important will be noticed,
 please inform us as well if you will notice ANY KIND of bug/issue first.

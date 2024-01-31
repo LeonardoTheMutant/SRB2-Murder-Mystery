@@ -1,7 +1,7 @@
 ## List of Murder Mystery Functions and Constants
 ### For Murder Mystery `10.0-BETA` 
 ---
-I think you have wondered at least once what some functions and constants in our LUA code do and so we present a full list of functions and constants in MM with the proper description for each of them (comments in code may be not enough sometimes).
+This document contains the description of some important functions and constants which are used in Murder Mystery's LUA source code.
 
 <font color="red">Please note that this project is in ***BETA*** state and everything you see here can be completely changed in the next release</font>
 
@@ -19,7 +19,7 @@ I think you have wondered at least once what some functions and constants in our
         - [Globaly used functions](#globaly-used-functions)
 - [Constants](#constants)
     - [Role constants (`ROLE_*`)](#role-constants-role)
-    - [`MM_ChatprintGlobal()` messages](#possible-messages-for-chatprintglobal)
+    - [`MM_ChatprintGlobal()` messages](#possible-messages-for-mmchatprintglobal)
     - [Win reasons (`WIN_*`)](#win-reasons-win)
     - [The core `MM` table](#the-core-mm-table)
 
@@ -27,40 +27,40 @@ I think you have wondered at least once what some functions and constants in our
 
 ## `INIT.LUA`
 ### Customisation API
-There are the functions that allow the creattion of MM mods. There are only 2 of them and both are defined in `MM` which is defined in `INIT.LUA`.
+There are the two customization functions in initialization script which allow to create your own mods for Murder Mystery gametype. Both functions are defined in `MM` table inside the code.
 
 | Name | Description |
 | --- | --- |
-| <code>**MM.AddLang**(*string* index, *table* lang)</code> | Add a language translation into MM. `index` is usually a 2 or 3 characters long name of the language. For example `"EN"` shows that the language is English. `table` is the language data itself. The format of the `table` can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua).<br>*Note:* Index should be all characters **UPPERCASE** otherwise it won't be accesible!
-| <code>**MM.AddCharStat**(*string* skin, *table* abilities)</code> | Add a character configuration for custom character in `MMCHARMODE 1` in-game option. In this mode all characters have their abilities back but in limited form.<br>There is a table for vanilla characters which contains their character configs for this mode (`actionspd`, `ability`, `ability2`, `charflags`, etc.). If custom character has no such configuration it is threated as a Sonic (limited Thok, slower spindash and more).<br><code>skin</code> is the name of the skin that is actually used in `skins[]` table. <code>table</code> is the config data itself. The format of <code>table</code> can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customchar.lua).
+| <code>**MM.AddLang**(*string* index, *table* lang)</code> | Add a translation into MM. `index` is usually a 2 or 3 characters long name of the language. For example `"EN"` shows that the language is English. `table` is the translation data itself. The format of the `table` can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua).<br>*Note:* Index should be all characters **UPPERCASE** otherwise it won't be accesible!
+| <code>**MM.AddCharConf**(*string* skin, *table* abilities)</code> | Add an add-on character configuration for `MMCHARMODE 1` in-game option. In this mode all characters have their abilities back but in limited form.<br>There is a built-in table in MM for vanilla characters which contains their character configs for this mode (`actionspd`, `ability`, `ability2`, `charflags`, etc.). If custom character has no such configuration it is threated as a Sonic (limited Thok, slower spindash and more).<br><code>skin</code> is the name of the skin that is actually used in `skins[]` table. <code>table</code> is the config data itself. The format of <code>table</code> can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customchar.lua).
 
 ## `FUNCTIONS.LUA`
-There is a dedicated LUA script which contains the code for some internal MM functions. Some of those functions are used in only one LUA script but some are used globaly.
+There is a dedicated LUA script which contains the code of some MM functions. Some of those functions are used in only one LUA script and some are used globaly.
 
 ### `GAME.LUA`
 These are the functions which are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA):
 | Name | Return value | Description |
 | --- | --- | --- |
-| <code>**MM_AssignRoles**()</code> | nil | The main role assigner function. Called at `MapLoad` hook or when 2nd player joins the game with one player.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it personally tells to the player the role.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution in console to every player. |
-| <code>**MM_GetRoleMultiplier**()</code> | nil | Get the required number of role duplicates to create among players when assigning roles. Its primarily used in `MM_AssignRoles()` function but is also used to adjust the map timelimit when level starts. |
-| <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code> | nil | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here] (#possible-messages-for-chatprintglobal) |
+| <code>**MM_AssignRoles**()</code> | nil | The main role assigner function. Called durring `MapLoad` hook and when another player joins the game with single player online.<br>Iterates through all players and makes them **Murderer**, **Sheriff** or **Innocent** randomly. Then it tells the assigned role to each player personally.<br>If splitscreen game is loaded it switches the game to MATCH and prints a warning message.<br>*In Debug Mode*: Prints the results of the function execution globally in console. |
+| <code>**MM_GetRoleMultiplier**()</code> | nil | Get the number of role duplicates. Its primarily used in `MM_AssignRoles()` to understand how many players should share **Murderer** or **Sheriff** role. It is also used to adjust the map timelimit when level starts. |
+| <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code> | nil | Works similarly to `chatprint()` but prints the message in player's language. Unlike `chatprint()` this function can print only the MM game messages. Possible values for the arguments of this function are shown [here](#possible-messages-for-mmchatprintglobal) |
 | <code>**MM_KillPlayer**(*mobj_t* player, [*mobj_t* atacker])</code> | nil | Make <code>player</code> *DEAD*. <code>atacker</code> is a player who killed the <code>player</code>, it is used to print killer's name for <code>player</code>. If <code>atacker</code> is not specified the killer's name is `"your stupidity"` instead.<br>*Note:* Both <code>player</code> and <code>atacker</code> have to be `mobj_t`! |
 | <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the [`WIN_*` constants](#win-reasons-win). |
 | <code>**MM_CheckPlayers**()</code> | nil | A very small function to check the current state of the game. It can announce Murderers as winners when everyone is dead or enable the music for Showdown Duel. |
-| <code>**MM_SetRandomInnoAs**(*int* role)</code> | nil | Similar to `MM_AssignRoles()` but works for Innocents only in the middle of the game. In some gameplay situations there has to be a replacement of some inportant <code>role</code> and this functions selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument. |
-| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the distance. Used for Innocents' Sheriff Emerald radar. |
+| <code>**MM_SetRandomInnoAs**(*int* role)</code> | nil | Similar to `MM_AssignRoles()` but works for only for Innocents. In some gameplay situations there has to be a replacement of the player with some important <code>role</code> and this functions selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument. |
+| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the `dist` distance. Used for Innocents' Sheriff Emerald radar. |
 
 ### `HUD.LUA`
 Functions for HUD rendering code
 | Name | Return value | Description |
 | --- | --- | --- |
-| <code>**V_DrawStrASCII**(*drawer* v, *int* x, *int* y, *string* lang_index, *string* str, [*int* videoflags, [*fixed_t* scale]]) | *nil* | An alternative to `v.drawString()` - supports text rendering in different character encodings. `lang_index` specifies the language to use (takes the `"CHARSET"` value from the language). <code>str</code> is the string to render. <code>scale</code> sets the scale of the letters, for example `FRACUNIT/2` is half a size and `FRACUNIT*4` is four times larger than normal<br>*Note:* Extended ASCII characters (0x80-0xFF) in the `str` should be typed as an escape code of the character |
-| <code>**V_DrawStrASCIIcentered**(*drawer* v, *int* x, *int* y, *string* lang_index, *string* str, [*int* videoflags, [*fixed_t* scale]]) | *nil* | Same as `V_DrawStrASCII()` but renders the string relatively centered to the <code>x</code> coordinate |
-| <code>**V_StrWidthASCII**(*string* str, [*int* videoflags, [*fixed_t* scale]]) | *int* | Alternative to the `v.stringWidth()` but for `V_DrawStrASCII()` drawing functions. Get the width of the string in pixels, arguments like <code>videoflags</code> or <code>scale</code> are also accounted in the final size. |
-| <code>**V_ConvertStringColor**(*string* str) | *string* | Converts the SRB2 text coloring symbols in string to MM format. Used for `V_DrawStrASCII()` functions as they use different text coloring format. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
-| <code>**V_ConvertStringColor2**(*string* str) | *string* | Converts the MM text coloring symbols in string to SRB2 format. Used for `v.drawString` to render the MM-formatted strings. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
-| <code>**wep2rw**(*int* wep) | `RW_*` constant | Conerts `WEP_*` to `RW_*` constant |
-| <code>**V_GetSHREMLiconID**(*int* dist)</code> | *int* | Get the Emerald Radar icon ID based on the distance. Used for Innocets' Sheriff Emerald radar. |
+| <code>**V_DrawStrASCII**(*drawer* v, *int* x, *int* y, *string* lang_index, *string* str, [*int* videoflags, [*fixed_t* scale]]) | nil | An alternative to `v.drawString()`. This functions supports text rendering in different character encodings. `lang_index` specifies the language to use (takes the `"CHARSET"` value from the language data). <code>str</code> is the string to render. <code>scale</code> sets the scale of the letters, for example `FRACUNIT/2` is half a size and `FRACUNIT*4` is four times larger than normal<br>*Note:* Each character from the Extended ASCII range (0x80-0xFF) should be typed as an escape code of the character in `str` string|
+| <code>**V_DrawStrASCIIcentered**(*drawer* v, *int* x, *int* y, *string* lang_index, *string* str, [*int* videoflags, [*fixed_t* scale]]) | nil | Same as `V_DrawStrASCII()` but renders the string relatively centered to the <code>x</code> coordinate |
+| <code>**V_StrWidthASCII**(*string* str, [*int* videoflags, [*fixed_t* scale]]) | *int* | Alternative to the `v.stringWidth()` but for `V_DrawStrASCII()` drawing function. Get the width of the string in pixels, arguments like <code>videoflags</code> or <code>scale</code> are also accounted in the final size. |
+| <code>**V_ConvertStringColor**(*string* str) | *string* | Converts the SRB2 text coloring symbols in `str` to MM format. Used for `V_DrawStrASCII()` function as it uses a different text coloring format. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
+| <code>**V_ConvertStringColor2**(*string* str) | *string* | Converts the MM text coloring symbols in `str` to SRB2 format. Used for `v.drawString()` to render the MM-formatted strings. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
+| <code>**wep2rw**(*int* wep) | *`RW_*` constant* | Conerts `WEP_*` to `RW_*` constant |
+| <code>**V_GetSHREMLiconID**(*int* dist)</code> | *int* | Get the Emerald Radar icon ID based on the `dist` distance. Used for Innocets' Sheriff Emerald radar. |
 
 ### `CHAT.LUA`
 The only function for chat script
@@ -149,7 +149,7 @@ The description of each value in `MM` table. The `MM` constant itself is defined
 | `RoleColor` | table of *string* values | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
 | `winner` | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros & Innocents). This variable is **netsynced** | 0 |
 | `winreason` | *int* | The win reason, can be one of the [`WIN_*` constants](#win-reasons-win). This variable is **netsynced** | 1 |
-| `timelimit` | *int* | Works as SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
+| `timelimit` | *int* | Works just like SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
 | `shremls` | table of *mobj_t* values | The table containing all dropped *Sheriff Emerald* objects | none |
 | `pong` | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/MINIGAME.LUA`](../LUA/MAIN/MINIGAME.LUA)*|
 

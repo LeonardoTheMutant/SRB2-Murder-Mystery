@@ -236,10 +236,10 @@ addHook("PlayerThink", function(p)
 	end
 
 	--AFK logic
-	if (p.cmd.forwardmove == 0) and (p.cmd.sidemove == 0) and (p.cmd.buttons == 0) and (p.oldangleturn == p.cmd.angleturn) and (p.oldaiming == p.cmd.aiming) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value) p.afk = $ + 1
+	if (p.cmd.forwardmove == 0) and (p.cmd.sidemove == 0) and (p.cmd.buttons == 0) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value) p.afk = $ + 1
 	else p.afk = 0 end
 	if (p.afk > afkCVAR.value*60*TICRATE)
-		if p==server
+		if (p == server)
 			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
 			COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "kick "..#p.." AFK") end

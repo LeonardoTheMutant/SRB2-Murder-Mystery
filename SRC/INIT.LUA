@@ -84,13 +84,13 @@ rawset(_G, "WIN_HEROKILLINNO", 4)
 rawset(_G, "WIN_NODEFENDERS", 5)
 
 --Customization API
-MM.AddCharStat = function(skin, tb)
+MM.AddCharConf = function(skin, tb)
 	if (not skin) error("Invalid skin.") end
 	if (not tb) error("Invalid table.") end
 	if (type(skin) ~= "string") error("Skin must be string.") end
 	if (type(tb) ~= "table") error("tb must phrase as a table.") end
 	MM.CharStats[skin]=tb;
-	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for MM")
+	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for \"MMCHARMODE 1\"")
 end
 MM.AddLang = function(langID,langTbl)
 	if (not langID) error("Invalid Language Index") end

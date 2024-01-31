@@ -78,9 +78,10 @@ local function PONG_ThinkCmd(p)
 end
 
 addHook("ThinkFrame", do
-    if (gametype!=GT_MURDERMYSTERY) return end
+    if (gametype != GT_MURDERMYSTERY) return end
     if (MM.twopgame)
         if (PlayerCount() == 2) MM.duelplrs = MM_Get2Players() end
+        if (not MM.duelplrs) return end
         if (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame=true
         else MM.minigame = false end
     end

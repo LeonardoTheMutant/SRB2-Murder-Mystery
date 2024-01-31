@@ -67,13 +67,13 @@ end)
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
 rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
-		if ((msg=="MURD_KILLED") or (msg=="SHERI_KILLED") or (msg=="HERO_KILLED")) chatprintf(p, mmtxt[p.mmlang][msg][1].." "..var.." "..mmtxt[p.mmlang][msg][2])
-		elseif (msg=="SHERI_KILLED_NODROP") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][3])
-		elseif (msg=="LAST_LEFT") or (msg=="ONE_LEFT") or (msg=="REPLACE_LEFT")
-			if (var!=ROLE_HERO) chatprintf(p, mmtxt[p.mmlang][msg][var]) --for Murd and Sheri
+		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED")) chatprintf(p, mmtxt[p.mmlang][msg][1].." "..var.." "..mmtxt[p.mmlang][msg][2])
+		elseif (msg == "SHERI_KILLED_NODROP") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][3])
+		elseif ((msg == "LAST_LEFT") or (msg=="ONE_LEFT") or (msg=="REPLACE_LEFT"))
+			if (var != ROLE_HERO) chatprintf(p, mmtxt[p.mmlang][msg][var]) --for Murd and Sheri
 			else chatprintf(p, mmtxt[p.mmlang][msg][3]) end --for Hero
-		elseif (msg=="WIN") chatprintf(p, mmtxt[p.mmlang]["ENDROUND"][var])
-		elseif (msg=="INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
+		elseif (msg == "WIN") chatprintf(p, mmtxt[p.mmlang]["ENDROUND"][var])
+		elseif (msg == "INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
 		elseif msg
 			if (mmtxt[p.mmlang][msg]) chatprintf(p, mmtxt[p.mmlang][msg])
 			else chatprintf(p, msg.."; "..var) end --no text exists in the database

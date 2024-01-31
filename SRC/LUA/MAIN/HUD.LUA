@@ -242,8 +242,10 @@ local function mainHUD(v, p) --main game HUD
 
 	if (not p.spectator) and (MM.twopgame)
 		local rival
-		if (MM.duelplrs[1] == p) rival = MM.duelplrs[2]
-		elseif (MM.duelplrs[2] == p) rival = MM.duelplrs[1] end
+		if (MM.duelplrs and MM.duelplrs[1] and MM.duelplrs[2])
+			if ((MM.duelplrs[1].valid) and (MM.duelplrs[1] == p)) rival = MM.duelplrs[2]
+			elseif (MM.duelplrs[2] == p) rival = MM.duelplrs[1] end
+		end
 		if ((rival) and (rival.valid))
 			if ((not p.minigame) and (not rival.minigame))
 				v.drawString(320, 0, "Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
@@ -338,7 +340,7 @@ local function scoresHUD(v) --SCORES TAB
 	end
 	local p = consoleplayer --for shortage
 	hud.disable("rankings")
-	v.drawString(160 ,0,"WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP, "center")
+	v.drawString(160, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP, "center")
 
 	--Main body
 	V_DrawStrASCIIcentered(v, 160, 20, p.mmlang, "\1"..mmtxt[p.mmlang]["MM"], V_SNAPTOTOP)
@@ -415,15 +417,15 @@ local function interHUD(v) --Custom intermission HUD
 			v.drawString((coords.name.x), (coords.first2.y + i*8), string.sub(plrs[i].name, 1, 32), 8388608, "thin")
 			v.drawString((coords.kills.x), (coords.first2.y + i*8), plrs[i].kills, 0, "thin")
 
-			if (plrs[i].role) and (plrs[i].role >= 1) V_DrawStrASCII(v, (coords.role.x),(coords.first.y + i*16), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role], 0, 32768) --FU/2
-			else V_DrawStrASCII(v, (coords.role.x), (coords.first.y + i*16), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], 0, 32768) end --FU/2
+			if (plrs[i].role) and (plrs[i].role >= 1) V_DrawStrASCII(v, (coords.role.x), (coords.first.y + 8 + i*8), p.mmlang, MM.RoleColor[plrs[i].role]..mmtxt[p.mmlang]["ROLES_HUD"][plrs[i].role], 0, 32768) --FU/2
+			else V_DrawStrASCII(v, (coords.role.x), (coords.first.y + 8 + i*8), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], 0, 32768) end --FU/2
 		elseif (PlayerCount() > 16) --"Double column compact" mode
 			if (i > 16) --players 17-32 are drawn on the second column
 				multiply.x = 160
 				multiply.y = -128
 			end
 			--back to the rows
-			v.drawString((coords.num3.x + multiply.x), (coords.first2.y + i*8 + multiply.y),i,0,"thin")
+			v.drawString((coords.num3.x + multiply.x), (coords.first2.y + i*8 + multiply.y), i, 0, "thin")
 			v.drawScaled((coords.name3.x + multiply.x - 10)*FU, ((coords.first2.y - 1) + i*8 + multiply.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			v.drawString((coords.name3.x + multiply.x), (coords.first2.y + i*8 + multiply.y), string.sub(plrs[i].name, 1, 16), 8388608, "thin")
 			v.drawString((coords.kills3.x + multiply.x), (coords.first2.y + i*8 + multiply.y), plrs[i].kills, 0, "thin")
