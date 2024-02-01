@@ -5,7 +5,6 @@ SET BUILDDATE=%date:~8,2%%date:~5,2%%date:~2,2%
 
 SET FILENAME=MM_MurderMystery_v%VERSION%_dev%BUILDDATE%
 
-IF EXIST %FILENAME%.PK3 DEL %FILENAME%.PK3
 ECHO Making %FILENAME%.pk3
 ECHO Please wait...
 ECHO.

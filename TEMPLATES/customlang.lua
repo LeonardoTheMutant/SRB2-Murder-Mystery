@@ -60,7 +60,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	--
 	["CHARSET"]="STCFN", --"Standart Console Font", can be found in srb2.pk3
 
-	["NONASCII"]=false --set this to true if your language is not Latin-based. This only marks the language with * in MMLANG language list
+	["NONASCII"]=false, --set this to true if your language is not Latin-based. This only marks the language with * in MMLANG language list
 	["MMHELP_CMD"]={
 		["CONTENTS"]={ --Table of Contents
 			"\x8ATable of contents:",
