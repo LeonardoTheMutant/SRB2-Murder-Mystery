@@ -221,7 +221,7 @@ MM.text={
 		["VERSION"]="10.0-BETA",
 		["AUTHOR"]="Jesus.B",
 		["MM"]="Murder Mystery",
-		["CHARSET"]="1252C",
+		["CHARSET"]="1254C",
 		["MMHELP_CMD"]={
 			["CONTENTS"]={
 				"\x8ATabla de contenidos:",

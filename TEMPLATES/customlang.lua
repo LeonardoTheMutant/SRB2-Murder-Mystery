@@ -54,10 +54,10 @@ local language={ --Language must be a table variable, you can name the variable 
 	--If your graphic file name is something like "FONTL097" your prefix is "FONTL"
 	--
 	--Murder Mystery has some character sets pre-bundled, use one for your language or create a custom one:
-	-- "1250C" - "Windows1250" charset, Central & Eastern European latin-based languages (unfinished, has only Polish support)
-	-- "1251C" - "Windows1251" charset, Cyrilic-based languages
-	-- "1252C" - "Windows1252" charset, Roman and Germanic languages (unfinished, has only Spanish support)
-	--
+	-- "1250C" - "Windows1250", Central & Eastern European latin-based languages (unfinished, has only German & Polish support)
+	-- "1251C" - "Windows1251", Cyrilic-based languages
+	-- "1254C" - "Windows1254", Turkish, and most Western European languages (unfinished, has only German, Spanish & Turkish support)
+
 	["CHARSET"]="STCFN", --"Standart Console Font", can be found in srb2.pk3
 
 	["NONASCII"]=false, --set this to true if your language is not Latin-based. This only marks the language with * in MMLANG language list
