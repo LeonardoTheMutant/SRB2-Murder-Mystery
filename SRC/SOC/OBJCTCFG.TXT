@@ -87,3 +87,4 @@ Object MT_MMSTEP
 SpawnState = S_MMSTEP
 SpawnHealth = 1
 Height = 1
+Flags = 512 #nogravity
