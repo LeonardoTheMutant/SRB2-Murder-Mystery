@@ -566,6 +566,176 @@ MM.text={
 			"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
 			"Personalny jezyk zostal ustawiony na\x82 Polski"
 		}
+	},["TR"]={ --Turkish by Mobillia
+		["VERSION"]="10.0-BETA",
+		["AUTHOR"]="Mobillia",
+		["MM"]="Murder Mystery",
+		["CHARSET"]="1254C",
+		["MMHELP_CMD"]={
+			["CONTENTS"]={
+				"\x8AOyun icerikleri:",
+				"\x87MMHELP GAME\x80 - Oyun ve oynanis durumlari hakkinda daha fazla bilgi;",
+				"\x87MMHELP BAD\x80  - MM'de yapilmasi yasak olan seylerin listesi;",
+				"\x87MMHELP CHAT\x80 - Sohbette kullanabileceginiz Ses Emojilerinin listesi;",
+				"\x87MMHELP TIPS\x80 - Sizin icin kucuk bir koleksiyon;";
+				"\x87MMHELP INFO\x80 - Teknik bilgiler ve \"Yenilikler\";",
+				"\n\x87MMLANG\x80      - MM'de gorunen icerigin dilini degistirme"
+			},
+			["NOTFOUND"]={
+				"sayfa",
+				"Yok. Lutfen kendinizi Icindekiler Tablosuna tanitin:"
+			}
+		},["MMHELP"]={
+			["MAIN"]={
+				"\x87Murder Mystery'e hosgeldiniz!",
+				"\x87Populer cok oyunculu oyunun SRB2 cevirisi!",
+				"Oyunun amaci, diger herkesi oldurmeden once tum \x85Katiller\x80'i bulup ortadan kaldirmaktir. Bu oyun turu daha cok MATCH'a benzer, bu nedenle bu oyun turu icin nisan alma ve atis becerilerinize ihtiyaciniz olacak.",
+				"Oynamaya baslamadan once bazi temel bilgileri ogrenmeniz gerekiyor...",
+				"\nHer turun basinda, oyun sirasindaki gorevinizin ne oldugunu tanimlayan bir \x8BRol\x80 alacaksiniz. Iste alabileceginiz 3 olasi \x8BRoller\x80:",
+				" * \x85Katil\x80 - Gercek bir suclu. Herkesi oldurmek zorundalar, ancak sadece Bicak ve Kirmizi Yuzuklerle donatilmislardir",
+				" * \x84Serif\x80  - Gorevleri, \x85Katil(ler)\x80i bulmak ve ortadan kaldirmaktir. Serifler haritada bulunan her silah yuzuklerini kullanabilir;",
+				" * \x83Masum\x80 - Tamamen silahsiz siviller, oldurulmekten kacinmalari gerekir ama ayni zamanda \x85Katil\x80'i bulmaya da yardimci olmalari gerekir.",
+				"\nOynamaya baslamak icin gereken tum temel bilgiler bu kadar, daha fazla bilgi icin su komutlari kullanabilirsiniz:"
+			},["GAME"]={
+				"\x87".."Oynanis durumlari hakkinda",
+				"Temel bilgilerde daha once aciklandigi gibi, seriflerin amaci tum \x85Katil(ler)\x80i ortadan kaldirmaktir, ancak farkli oyun durumlari ortaya cikabilir:",
+				"\n* Oldurulurseniz, \x8F Olu\x80 durumuna girersiniz. Bu durumdaki oyuncular yeniden dogamaz veya hala hayatta olan oyuncularla kuresel olarak konusamaz, mesajlari yalnizca diger \x8F olu\x80 oyuncular tarafindan gorulebilir.",
+				"\x8F Olu\x80 iken hala hayatta olan oyuncularla konusamazsin/PM yapamazsin.",
+				"Ayrica\x82 KENDINIZI YENIDEN ADLANDIRMAYA CALISMAYIN\x80, bununla ilgili daha fazla ayrinti \x87MMHELP BAD\x80'de.",
+				"\n* \x84Serif'in \x80 gorevi, etraftaki tum \x85Katilleri\x80'i ortadan kaldirmaktir, ancak kazara bir \x83Masum\x80'u vurmalari mumkundur.",
+				"Bu gerceklesirse, \x84Serif\x80 bir \x83Masum\x80'a donusecek ve rastgele bir \x83Masum\x80 sinsice rolunu ustlenecektir. Bir dahaki sefere birini \x84serif\x80 olarak vurmak istediginizde, o tetigi cekmeden once iki kez dusunun!",
+				"\n* Bir \x85Katil\x80, bir \x84Serif\x80'i oldururse ve hala \x83Masum\x80 hayatta kalirsa, serif \x84serif'in Zumrutu\x80'i cesedinin yanina birakacaktir.",
+				"7 Kaos Zumrutu'nun aksine, bu zumrut \x82Kahraman\x80 rolunu onu alan herhangi bir \x83Masum\x80'a atayacak. \x83Masumlar\x80'dan biriyseniz, bu bir Kahraman olma ve herkesi \x85Katil(ler)\x80'den kurtarma sansiniz!",
+				"\x82Kahraman\x80 rolu, \x84Serif\x80'den bazi detaylar disinda farkli degildir, ornegin \x82Kahraman\x80 bir \x83Masum\x80 oldurdugunde, rolu paylasilmaz ve her ikisi de olur Bir Kahraman olumunde \x84serif'in Zumrutu\x80 dusmeyecektir",
+				"\n* Oyuncu sayisina bagli olarak, turdaki oyuncular arasinda birden fazla \x85Katil\x80 ve \x84serif\x80 olabilir. Ornegin, 7 ve daha fazla oyuncudan baslayarak, \x85Katiller\x80 ve \x84Serifler\x80'den \x8BTakimlar\x80 olusturulacaktir.",
+				"\x8BTakim arkadaslari\x80, \x87SAYTEAM\x80 konsol komutuyla takim sohbetlerinde birbirleriyle sohbet edebilir (SAYTEAM sohbet dugmesinin normal sohbetle ayni sekilde calisacagini unutmayin).",
+				"Bir \x8BTakim arkadasi\x80 baska bir takim arkadasina vurursa, her ikisi de birbirlerini tanimalarini saglayacak kisisellestirilmis bir uyari alir. Baskalarinin 'arkadasca' etkilesiminizi gorebilecegini ve kim oldugunuzu anlayabilecegini unutmayin!"
+			},["BAD"]={
+				"\x87Murder Mystery'de yapilmasi kotu olan seyler",
+				"Herhangi bir oyunun 1 numarali kurali:\x82 Nazik olun ve eglenin!\x80 Bunun disinda...",
+				"* \x8BRol\x80un kendini simartmasi oyunu bir 'gizem' yapmaz, eger eminseniz baskasinin rolunu soyleyebilirsiniz, ancak kendinizinkini asla soylemeyin.",
+				"* Diger oyunculara hakaret etmeyin, sakalara izin verilir, ancak yalnizca arkadasca bir ruh hali icinde. Her oyuncuyu sebepsiz yere suclarsaniz kimse size guvenmez.",
+				"* AFK olmak bir savas sucudur. Bombalar atilacak ve cok uzun sure hareketsiz kalirsaniz sunucudan otomatik olarak cikarsiniz.",
+				"* Oluyken bir tur sirasinda kendinizi yeniden adlandirmayin, bunu yapmak sizi sunucudan atacaktir. Hayattaysaniz yeniden adlandirabilirsiniz. Aranin guvenli bir sekilde yeniden adlandirilmasini bekleyin.",
+				"Bu kurallardan birini ihlal etmek, oyundan atilma veya bazi durumlarda Yonetici tarafindan yasaklanma ile sonuclanabilir! Lutfen onlari kirmayin ve adil oynayin."
+			},["CHAT"]={
+				"\x87Ses Emojisi nasil kullanilir?",
+				"Bir oyuncu belirli kelimeleri/cumleleri iceren bir mesaj gonderdiginde, bir ses calinacaktir.",
+				"Ornegin, \"bruh\" iceren bir mesaj gonderdiginizde, herkes \"BRUH\" sesini duyacaktir",
+				"Iste Ses Emojilerinin tam listesi ve her birinin nasil etkinlestirilecegi:"
+			},["TIPS"]={
+				"\x87Faydali ipuclari",
+				"MM'deki oyununuz sirasinda size yardimci olabilecek bazi ipuclari topladik:",
+				"\n* Karakter yetenekleri yonetici tarafindan devre disi birakilirsa, iz birakmadan veya gurultu yapmadan gizlice dolasmak icin \x82SPIN\x80 tusuna basin;",
+				"\n* \x84Serif'in Zumrutu\x80'nu aldiginizda, onceden topladiginiz tum silahlara ve yuzuklere erisebileceksiniz;",
+				"\n* \x87SAYTEAM\x80 komutunu kullanarak \x8BTakim\x80'inizin kim oldugunu bulmak, onlari vurmaktan kacinmanizi ve yanlislikla rolunuzu ortaya cikarmanizi saglayacagi icin yardimci olacaktir;",
+				"\n* 3 saniyeligine yenilmezlik kazanmak icin lav, sivri uclar ve ates gibi engellerden zarar alabilirsiniz;",
+				"\n* Haritada saklanacak bir yer aramaya calisin. Bazen istenmeyen tanitimlardan kurtulmaya yardimci olur;",
+				"\n* Rolunuz sizdirilirsa, kendinizi yeniden adlandirabilir ve/veya ten rengini degistirebilirsiniz. \x81Yeniden adlandirmanizin sohbette gosterilecegini unutmayin;",
+				"\n* Gizlice girerseniz bicak saldiri sesi cikarmaz. Ayrica,\x82 FIRENORMAL\x80 dugmesi, yuzukleriniz oldugu surece Bicagi her yerde kullanmaniza izin verir (Masumlarin bicagi yoktur)"
+			}
+		},["ROLE_GET"]={
+			"Sen \x85Katilsin\x80! \x85Herkesi oldur!",
+			"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.",
+			"Sen bir \x83Masum\x80'sun! saklan ve sorusturmaya yardim et."
+		},["NEWROLE_GET"]={
+			"\x87Hayat rastgele karar verdi \x85Katil\x87.\x85 simdi git herkesi oldur!",
+    	    "\x87Senin rolun \x84Serif\x87! Git ve\x84 tum Katilleri ortadan kaldir\x87!",
+			"\x82Kahraman\x87 olmaniza karar verildi. Herkesi Katillerden kurtarin!"
+		},["TEAMMATE_HIT"]={
+			"Bu oyuncu senin takim arkadasin. sizden intikam almalarini istemediginiz icin bir dahaki sefere takim arkadaslariniza vurmayin.",
+			"Bir takim arkadasiniz size vurdu. Ondan intikam almayi planlamayin."
+		},["MURD_KILLED"]={
+			"\x85Katil\x87",
+			"\x80olduruldu"
+		},["SHERI_KILLED"]={
+			"\x84serif\x87",
+			"\x80olduruldu! Onun\x84 Zumrut\x80'unu bulun!",
+			"\x80olduruldu!"
+		},["HERO_KILLED"]={
+			"\x82Kahraman\x87",
+			"\x80olduruldu!"
+		},["SHREML_PICK"]="Birisi \x84Serif'in Zumrut\x80'unu aldi...",
+		["INNO_HURT_PM"]={
+			"\x87Sen ldurdun bir \x83Masum\x87! Kovuldun. (Artik bir serif degilsin)",
+			"\x82Kahramanlar\x87, \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin olum cezasi aldiniz."
+		},["INNO_HURT"]={
+			"\x84Serif\x80 bir \x83Masum\x80'u oldurdu! Isi baskasi bitirmeli!",
+			"\x82Kahraman\x80 bir aptal, bir \x83Masum\x80'u oldurdu. simdi ikisi de olu yatiyor. Yaziklar olsun \x82 Aptal\x80"
+		},["ONE_LEFT"]={
+			"\x85Katillerden biri\x80 cikti!",
+			"\x84seriflerden biri\x80 cikti!!!",
+			"\x82Kahramanlardan biri\x80 bizi terk etti!"
+		},["LAST_LEFT"]={
+			"son \x85Katil\x80 cikti!",
+			"son \x84Serif\x80 cikti!",
+			"son \x82Kahraman\x80 cikti!"
+		},["REPLACE_LEFT"]={
+			"\x85Katil\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
+			"\x84serif\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
+			"Bir \x82Kahraman\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!"
+		},["ENDROUND"]={
+			"Herkes oldu. \x85Katiller\x80 kazandi!",
+			"Tum \x85Katiller\x80 olduruldu! \x83 Siviller\x80 kazandi!",
+			"\x85Katiller\x80 kazandi cunku \x84Serif\x80 son Masum'u oldurdu! \x84serif\x80'e yaziklar olsun",
+			"\x82Kahraman\x80 son Masum'u oldurmeyi secti. \x85Katiller\x80 kazandi!",
+			"\x83 Masumlarin savunuculari\x80 oldu. \x85Katiller\x80 kazandi!"
+		},["CHAT"]={
+			"Canli, mesaj gonderilmedi",
+			"Cok fazla mesaj gonderiyorsun, lutfen bekle",
+			"Izleyici moduna gecmek icin \x8F ol\x80!"
+		},["ROLES_HUD"]={
+			"KATIL",
+			"\xDE".."ERIF",
+			"MASUM",
+			"KAHRAMAN",
+			"\xD6L\xDC"
+		},["ROLES_HUD_SHORT"]={
+			"KATI",
+			"\xDE".."ERI",
+			"MASU",
+			"KAHR",
+			"\xD6L\xDC"
+		},["TEAMALIVE_HUD"]="Takim arkada\xFElari hayatta:",
+		["KILLBY_HUD"]="Tarafindan \xF6ld\xFCr\xFCld\xFC",
+		["STUPID"]="senin aptall\xFD\xF0\xFDn",
+		["HUD_SCORESTAB"]={
+			"Burada puan yok! Ama alttaki saya\xE7lar",
+			"soru\xFEturmada size yardimci olabilir!",
+			"",
+			"Oyun turunde yeniyseniz konsola",
+			"\7MMHELP\0 yazin.",
+			"",
+			"Oyun i\xE7".."eri\xF0inin dilini de\xF0i\xFEtirmek i\xE7in",
+			"konsola \7MMLANG [dil]\0 yazin.",
+			"",
+			"\2Iyi e\xF0lenceler!"
+		},["HUD_ROLESALIVE"]={
+			"Katiller yasiyor:",
+			"\xDE".."erifler yasiyor:",
+			"Masumlar yasiyor:"
+		},["HUD_DEAD"]={
+			"\15Oldun!",
+			"Yeniden do\xF0".."amaz veya konu\xFE".."amazsin",
+			"olmemis insanlar."
+		},["HUD_MIDJOIN"]={
+			"\4tur ortasinda\0 katildiniz, l\xfCtfen bu turun bitmesini bekleyin."
+		},["HUD_ALONE"]={
+			"Oyunun ba\xFElamasi i\xE7in en az \4".."2 oyuncu",
+			"gereklidir, Lutfen \4bir ki\xFEinin\0 daha",
+			"gelmesini bekleyin"
+		},["YOU_HUD"]="SEN",
+		["WINNERS_HUD"]="Kazananlar:",
+		["WON_HUD"]="kazandi!",
+		["WINS_HUD"]="Kazandi",
+		["WIN_HUD"]={
+			"BERABERE!",
+			"\5KATILLER",
+			"\3SIVILLER"
+		},["MMLANG"]={
+			"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola sunu yazarak degistirebilirsiniz: \x87MMLANG [dil]",
+			"Murder Mystery icin kisisel dil \x82Turkce olarak ayarlanmistir"
+		}
 	},["UA"]={ -- Ukrainian
 		["VERSION"]="10.0-BETA",
 		["AUTHOR"]="LeonardoTheMutant",

@@ -67,7 +67,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\n - Added the \x84Sheriff Emerald Radar\x80 for \x83Innocents\x80, it is now much easier to find the emerald with this;")
 		CONS_Printf(p, "\n - Removed \"Shut Up Chatbug!\" functionality for compatibility reasons;")
 		CONS_Printf(p, "\n - Bugfixes, of course;")
-		CONS_Printf(p, "\n\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84".."Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
+		CONS_Printf(p, "\n\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84  Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		if (MM.text[l]["MMHELP"][page])
 			for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
