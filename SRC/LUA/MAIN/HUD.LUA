@@ -175,7 +175,7 @@ local function mainHUD(v, p) --main game HUD
 		end
 
 		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87Pong "..MM.version.."-"..MM.devbuild,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87Pong "..MM.version,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
@@ -308,9 +308,13 @@ local function mainHUD(v, p) --main game HUD
 
 
 	--Are you alone? Draw the text
-	if (PlayerCount() == 1) for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) do V_DrawStrASCIIcentered(v, 160, (128 + y*8), p.mmlang, i) end end
+	if (PlayerCount() == 1)
+		for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) do V_DrawStrASCIIcentered(v, 160, (128 + y*8), p.mmlang, i) end
+	end
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and PlayerCount(ROLE_INNOCENT)==0) v.drawString(160, 184, "\x88Showdown duel!", 8388608, "center") end
+	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and PlayerCount(ROLE_INNOCENT) == 0)
+		V_DrawStrASCIIcentered(v, 160, 192, p.mmlang, "\8"..mmtxt[p.mmlang]["HUD_SHOWDOWN"])
+	end
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, infoRINGS.y+32, "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
@@ -321,7 +325,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Debug
 	if MM.devbuild
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87"..MM.version.."-"..MM.devbuild,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")",0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."LEVELTIME: \x80"..leveltime,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."AFK: \x80"..p.afk,0,"thin")
@@ -438,11 +442,8 @@ local function interHUD(v) --Custom intermission HUD
 	if (MM.winner == 0) V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1]) --tie
 	else V_DrawStrASCIIcentered(v, 160, 176, p.mmlang, mmtxt[p.mmlang]["WINNERS_HUD"].." "..mmtxt[p.mmlang]["WIN_HUD"][MM.winner + 1]) end
 
-	if (not MM.devbuild) v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|8388608|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-	else
-		v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version.."-"..MM.devbuild, V_RETURN8|8388608|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-		v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM, "center")
-	end
+	v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|8388608|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
 end
 

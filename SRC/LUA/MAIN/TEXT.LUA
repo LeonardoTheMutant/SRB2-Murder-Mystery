@@ -5,7 +5,7 @@
 
 MM.text={
     ["EN"]={ -- English
-		["VERSION"]="10.0-BETA", --to check if lang content is not OUTDATED
+		["VERSION"]="10.1-BETA", --to check if lang content is not OUTDATED
 		["AUTHOR"]="MM_DEV community",
 		["MM"]="Murder Mystery",
 		["MMHELP_CMD"]={
@@ -202,6 +202,8 @@ MM.text={
 			"\4".."2 players\0 are required for the game,",
 			"please wait for \4one more\0 player to start"
 		},
+		-- "Showdown duel!"
+		["HUD_SHOWDOWN"]="Showdown duel!",
 		["YOU_HUD"]="YOU",
 		-- Winner stuff
 		["WINNERS_HUD"]="Winners:",
@@ -218,7 +220,7 @@ MM.text={
 			"Personal language for Murder Mystery is set to\x82 English"
 		}
 	},["ES"]={ --Spanish by SlainLBS & Jesus.B
-		["VERSION"]="10.0-BETA",
+		["VERSION"]="10.1-BETA",
 		["AUTHOR"]="Jesus.B",
 		["MM"]="Murder Mystery",
 		["CHARSET"]="1254C",
@@ -377,7 +379,8 @@ MM.text={
 			"\4".."2 jugadores\0 son requieridos para",
 			" la partida, porfavor espera un jugador",
 			"\4mas\0 para empezar"
-		},["YOU_HUD"]="TU",
+		},["HUD_SHOWDOWN"]="Showdown duel!",
+		["YOU_HUD"]="TU",
 		["WINNERS_HUD"]="Ganadores:",
 		["WON_HUD"]="ganaron!",
 		["WINS_HUD"]="Ganan",
@@ -390,7 +393,7 @@ MM.text={
 			"Tu idioma personal de Murder Mystery ha sido cambiado a\x82 Espanol"
 		}
 	},["PL"]={ -- Polish by sopix
-		["VERSION"]="10.0-BETA",
+		["VERSION"]="10.1-BETA",
 		["AUTHOR"]="sopix & LeonardoTheMutant",
 		["CHARSET"]="1250C",
 		["MM"]="Tajemnica Morderstw",
@@ -554,7 +557,8 @@ MM.text={
 			"\4".."2 graczy\0 jest wymaganych do gry,",
 			"prosz\xEA poczeka\xE6 na \4jeszcze jednego\0 gracza",
 			"dla startu"
-		},["YOU_HUD"]="TY",
+		},["HUD_SHOWDOWN"]="Showdown duel!",
+		["YOU_HUD"]="TY",
 		["WINNERS_HUD"]="Wygrani:",
 		["WON_HUD"]="zwyci\xEA\xBFyl(a)!",
 		["WINS_HUD"]="Wygrano",
@@ -567,7 +571,7 @@ MM.text={
 			"Personalny jezyk zostal ustawiony na\x82 Polski"
 		}
 	},["TR"]={ --Turkish by Mobillia
-		["VERSION"]="10.0-BETA",
+		["VERSION"]="10.1-BETA",
 		["AUTHOR"]="Mobillia",
 		["MM"]="Murder Mystery",
 		["CHARSET"]="1254C",
@@ -724,7 +728,8 @@ MM.text={
 			"Oyunun ba\xFElamasi i\xE7in en az \4".."2 oyuncu",
 			"gereklidir, Lutfen \4bir ki\xFEinin\0 daha",
 			"gelmesini bekleyin"
-		},["YOU_HUD"]="SEN",
+		},["HUD_SHOWDOWN"]="Showdown duel!",
+		["YOU_HUD"]="SEN",
 		["WINNERS_HUD"]="Kazananlar:",
 		["WON_HUD"]="kazandi!",
 		["WINS_HUD"]="Kazandi",
@@ -737,7 +742,7 @@ MM.text={
 			"Murder Mystery icin kisisel dil \x82Turkce olarak ayarlanmistir"
 		}
 	},["UA"]={ -- Ukrainian
-		["VERSION"]="10.0-BETA",
+		["VERSION"]="10.1-BETA",
 		["AUTHOR"]="LeonardoTheMutant",
 		["CHARSET"]="1251C",
 		["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
@@ -910,7 +915,8 @@ MM.text={
             "\xC4\xEB\xFF \xF1\xF2\xE0\xF0\xF2\xF3 \xE3\xF0\xE8 \xEF\xEE\xF2\xF0\xB3\xE1\xED\xEE\4 2-\xBA \xE3\xF0\xE0\xE2\xF6\xB3\xE2\0,", --Dl'a startu gry potrebujetsia 2-je grawciw,
             "\xE1\xF3\xE4\xFC \xEB\xE0\xF1\xEA\xE0\x2C \xE7\xE0\xF7\xE5\xEA\xE0\xE9\xF2\xE5 \xED\xE0\4 \xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE", --bud' laska zachekajte na she odnogo,
             "\xE0\xE1\xE8 \xEF\xEE\xF7\xE0\xF2\xE8" --aby pochaty
-		},["YOU_HUD"]="\xD2\xC8", --TY
+		},["HUD_SHOWDOWN"]="\xC2\xE8\xF0\xB3\xF8\xE0\xEB\xFC\xED\xE0 \xE4\xF3\xE5\xEB\xFC!", --Wyrishal'na duel'!
+		["YOU_HUD"]="\xD2\xC8", --TY
 		["WINNERS_HUD"]="\xC2\xE8\xE3\xF0\xE0\xEB\xE8:", --Wygraly:
 		["WON_HUD"]="\xE2\xE8\xE3\xF0\xE0\xE2(\xEB\xE0)!", --Wygraw(la)!
 		["WINS_HUD"]="\xCF\xE5\xF0\xE5\xEC\xEE\xE3", --Peremog

@@ -89,7 +89,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked")
 	end
 	if (MM.devbuild)
-		CONS_Printf(p, "\n\x82".."DEVELOPER BUILD DEBUG COMMANDS")
+		CONS_Printf(p, "\n\x82".."DEVELOPER DEBUG COMMANDS")
 		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
 		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")

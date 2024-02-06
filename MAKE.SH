@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="10.0-BETA"
+VERSION="10.1-BETA"
 BUILDDATE=$(date +"%d%m%y")
 
 build()

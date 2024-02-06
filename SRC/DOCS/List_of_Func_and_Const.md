@@ -141,7 +141,7 @@ The description of each value in `MM` table. The `MM` constant itself is defined
 | Name | Type | Description | Example value |
 | --- | --- | --- | --- |
 | `version` | *string* | Version number of the build | `"10.0-BETA"` |
-| `devbuild` | *string* | Date of the build compilation, if not `nil` this variable enables the *Debug Mode* | `"dev281223"` |
+| `devbuild` | *boolean* | Mark add-on build as a *Developer Build*, when set to `true` it enables the *Debug Mode* in the add-on | `true` |
 | `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"December 28th 2023"` |
 | `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua) |
 | `SEMJ_info` | table of *string* values | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
