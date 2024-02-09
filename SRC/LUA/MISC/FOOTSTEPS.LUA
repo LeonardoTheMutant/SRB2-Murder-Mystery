@@ -2385,9 +2385,9 @@ addHook("PlayerThink", function(player)
 				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end
-					if (material)
-						player.lastgroundtexture=player.groundtexture
-						local sounds=player.soundList[material][soundType]
+					if (material and soundType)
+						player.lastgroundtexture = player.groundtexture
+						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
 							if (mapheaderinfo[gamemap].disablefootsteps!="True") P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP) end
