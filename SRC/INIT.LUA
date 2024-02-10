@@ -55,13 +55,13 @@ rawset(_G, "MM", {
 	},
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
-	timelimit = 5, --for timelimit in TIME.LUA, netsynced
+	timelimit = 5, --for custom timelimit, netsynced
 	shremls = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
 	pong = { --some of the variables for Pong minigame, netsynced
-		ball = {x=80, y=50},
+		ball = {x=80, y=40},
 		velocity = {x=0, y=0},
 		speed = 1,
-		pads = {44, 44},
+		pads = {32, 32},
 		hits = 0,
 		padcolor = {36, 152} --player role colors
 	}
@@ -238,6 +238,7 @@ addHook("NetVars", function(net)
 	MM.winner = net($)
 	MM.winreason = net($)
 	MM.timelimit = net($)
+	MM.onepgame = net($)
 	MM.twopgame = net($)
 	MM.minigame = net($)
 	MM.pong = net($)

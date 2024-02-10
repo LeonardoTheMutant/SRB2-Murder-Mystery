@@ -300,14 +300,13 @@ end)
 --CCMD.LUA
 --
 rawset(_G, "MM_PrintContents", function(p,l)
-	CONS_Printf(p,"")
+	CONS_Printf(p, "")
 	for i, str in pairs(MM.text[l]["MMHELP_CMD"]["CONTENTS"]) CONS_Printf(p, str) end
 end)
 
 --
 --WEAPONS.LUA
 --
-
 -- A port of P_DrainWeaponAmmo() from C source code with MM modifications
 rawset(_G, "P_DrainWeaponAmmo", function(p, weapon)
 	p.powers[weapon]=$-1
@@ -317,7 +316,7 @@ rawset(_G, "P_DrainWeaponAmmo", function(p, weapon)
 		p.ammoremovaltimer  = ammoremovaltics;
 
 		if (p.powers[weapon] > 0) -- can't take a ring that doesn't exist
-			p.powers[weapon]=$-1
+			p.powers[weapon] = $ - 1
 			p.ammoremoval = 2
 		else
 			p.ammoremoval = 1
@@ -347,10 +346,10 @@ rawset(_G, "PONG_SetVelocity", function(side)
 	local x = 0
 	if (side < 0) x = -1
 	elseif (side > 0) x = 1
-	else while (x==0) do x = P_RandomRange(-1, 1) end end
+	else while (x == 0) do x = P_RandomRange(-1, 1) end end
 
 	local y = 0
-	while (y==0) y = P_RandomRange(-2, 2) end
+	while (y == 0) y = P_RandomRange(-2, 2) end
 
 	MM.pong.velocity.x = x
 	MM.pong.velocity.y = y
@@ -358,7 +357,7 @@ end)
 
 rawset(_G, "PONG_Reset", do
 	MM.pong.ball.x = 79
-	MM.pong.ball.y = 49
+	MM.pong.ball.y = 39
 
 	PONG_SetVelocity()
 
@@ -371,18 +370,18 @@ end)
 --
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
-	if (role) for p in players.iterate if (p.role==role) plrc=$+1 end end
-	else for p in players.iterate plrc=$+1 end end
+	if (role) for p in players.iterate if (p.role == role) plrc = $ + 1 end end
+	else for p in players.iterate plrc = $ + 1 end end
 	return plrc
 end)
 rawset(_G, "PlayersAlive", function()
-	local plrs=0
-	for p in players.iterate if (not p.spectator) plrs=$+1 end end
+	local plrs = 0
+	for p in players.iterate if (not p.spectator) plrs = $ + 1 end end
 	return plrs
 end)
 rawset(_G, "MM_Get2Players", function()
 	if (PlayerCount() != 2) return false end
-	local plrs={}
+	local plrs = {}
 	for p in players.iterate
 		plrs[#plrs + 1] = p
 		if (#plrs == 2) break end

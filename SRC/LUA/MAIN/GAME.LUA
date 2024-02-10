@@ -27,12 +27,13 @@ addHook("MapLoad", function(map)
 	MM.winreason = 0
 	MM.shremls = {}
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
-    print("Time limit for this map is "..MM.timelimit.." minutes")
-	MM.twopgame = (PlayerCount()==2)
+    print("Time limit for this round is "..MM.timelimit.." minutes")
+	MM.onepgame = (PlayerCount() == 1)
+	MM.twopgame = (PlayerCount() == 2)
 	MM.minigame = false
 	PONG_Reset()
-	MM.pong.pads[1] = 40
-	MM.pong.pads[2] = 40
+	MM.pong.pads[1] = 32
+	MM.pong.pads[2] = 32
 	MM.pong.wintimeout = -1
 	MM_AssignRoles()
 end)
