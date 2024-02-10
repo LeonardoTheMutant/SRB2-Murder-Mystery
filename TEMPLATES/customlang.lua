@@ -262,6 +262,18 @@ local language={ --Language must be a table variable, you can name the variable 
 		"\4".."2 players\0 are required for the game,",
 		"please wait for \4one more\0 player to start"
 	},
+	-- "Showdown duel!"
+	["HUD_SHOWDOWN"]="Showdown duel!",
+	--minigame stuff
+	["MINIGAME_PRESS"]="Press\2 CUSTOM3\0 to", --must contain MM escape color codes
+	["MINIGAME_LEAVE"]="leave",
+	["MINIGAME_CANCEL"]="cancel",
+	["MINIGAME_SPECT"]="spectate",
+	["MINIGAME_DUEL"]="a minigame duel",
+	["MINIGAME_REQ"]="request a \7PONG\0 game", --must contain MM escape color codes
+	["MINIGAME_ACCEPT"]="accept the \7PONG\0 challenge!", --must contain MM escape color codes
+	["MINIGAME_WAIT"]="Waiting for the rival to accept...",
+	["MINIGAME_SPECTN"]="Spectating a duel...",
 	["YOU_HUD"]="YOU",
 	-- Winner stuff
 	["WINNERS_HUD"]="Winners:",

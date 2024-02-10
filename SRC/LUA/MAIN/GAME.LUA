@@ -111,7 +111,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 		MM_KillPlayer(victim, attacker)
 		-- Murderer died, end the game if every Murd is dead
-		if (PlayerCount(ROLE_MURDERER) == 0)
+		if (not PlayerCount(ROLE_MURDERER))
 			MM_EndRound(ROLE_SHERIFF, "WIN", WIN_CIVILS)
 			return
 		else
@@ -126,11 +126,11 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 		MM_KillPlayer(victim, attacker)
 		-- Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
-		if (PlayerCount(ROLE_INNOCENT) != 0)
+		if (PlayerCount(ROLE_INNOCENT))
 			MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
-		elseif (PlayerCount(ROLE_INNOCENT) == 0) and (PlayerCount(ROLE_SHERIFF) != 0)
+		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF))
 			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 		end
@@ -139,7 +139,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		if (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove role "Sheriff" from the player if there are more of Innos,
 			-- otherwise Murderers win
-			if (PlayerCount(ROLE_INNOCENT) > 0)
+			if (PlayerCount(ROLE_INNOCENT))
 				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][1])
 				MM_ChatprintGlobal("INNO_HURT", 1)
 				MM_SetRandomInnoAs(ROLE_SHERIFF)
@@ -150,10 +150,10 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			end
 		elseif (ap.role == ROLE_HERO)
 			MM_KillPlayer(attacker, nil)
-			if (PlayerCount(ROLE_INNOCENT) == 0) and (PlayerCount(ROLE_SHERIFF) == 0) and (PlayerCount(ROLE_HERO) == 0)
+			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 				return
-			elseif (PlayerCount(ROLE_INNOCENT) != 0) and (PlayerCount(ROLE_SHERIFF) == 0) and (PlayerCount(ROLE_HERO) == 0) and (not #MM.shremls)
+			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				return
 			else
@@ -168,7 +168,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			return
 		end
 		MM_KillPlayer(victim, attacker)
-		if (PlayerCount(ROLE_HERO) == 0) and (PlayerCount(ROLE_SHERIFF) == 0)
+		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			return
 		else
@@ -195,7 +195,7 @@ addHook("MobjThinker", function(mo)
 			end
 			S_StartSound(found.player.mo, sfx_cgot, found.player)
 			found.player.role = ROLE_HERO
-			found.player.roleflicker = 70 --2 seconds
+			found.player.roleflicker = 70 --2 secs
 			MM_ChatprintGlobal("SHREML_PICK")
 			MM_CheckPlayers()
 			return true
@@ -269,20 +269,16 @@ end)
 -- Intermission ending theme switcher
 --
 addHook("MusicChange", function(old, new)
-    if (gametype!=GT_MURDERMYSTERY) or (new!="_inter") return end
+    if (gametype != GT_MURDERMYSTERY) or (new != "_inter") return end
 
-    if (MM.winner==0) return "NOWAY"
+    if (not MM.winner) return "NOWAY" --Sonic 3 & Knuckles "No way!"
     else
-        if (MM.winreason==1) return "INTER"
-        elseif (MM.winreason==2) return "UN39"
-        elseif (MM.winreason==3) return "GASTER"
-        elseif (MM.winreason==4) return "OPENIN"
-        elseif (MM.winreason==5) return "VANDOM"
-        else
-			if (MM.winner==1) return "INTER"
-			elseif (MM.winner==2) return "UN39"
-			else return newname end
-		end
+        if (MM.winreason == 1) return "INTER" --DOOM I "Intermission" / "Episode 2 Map 3"
+        elseif (MM.winreason == 2) return "UN39" --"Unused DOOM track 39"
+        elseif (MM.winreason == 3) return "GASTER" --Undertale "Gaster's theme"
+        elseif (MM.winreason == 4) return "11H_IN" --Main theme of "The 11th Hour: The sequel to The 7th Guest"
+        elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
+		else return "PBW_DC" end --Pokemon Black & White "Driftevil City"
     end
 end)
 
@@ -291,10 +287,10 @@ end)
 -- end the game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
 --
 addHook("PlayerQuit", function(p)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
-		if ((PlayerCount(ROLE_INNOCENT)==0) or (PlayerCount(ROLE_INNOCENT) and (PlayerCount(ROLE_SHERIFF)==0)) and PlayerCount(ROLE_MURDERER)==0)
+		if ((not PlayerCount(ROLE_INNOCENT)) or (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF))) and PlayerCount(ROLE_MURDERER)==0)
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif PlayerCount(ROLE_MURDERER)==0
 			if (gamestate == GS_LEVEL)
@@ -311,10 +307,10 @@ addHook("PlayerQuit", function(p)
 		end
 	elseif (p.role == ROLE_SHERIFF)
 		p.role = ROLE_NONE
-		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_SHERIFF)==0)
-			if (PlayerCount(ROLE_HERO)==0) MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF)
+		if (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF)==0)
+			if (not PlayerCount(ROLE_HERO)) MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF)
 			else MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF) end
-		elseif PlayerCount(ROLE_SHERIFF)==0
+		elseif (not PlayerCount(ROLE_SHERIFF))
 			if gamestate==GS_LEVEL
 				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
 				MM_SetRandomInnoAs(ROLE_SHERIFF)
@@ -332,11 +328,11 @@ addHook("PlayerQuit", function(p)
 		MM_CheckPlayers()
 	elseif (p.role == ROLE_HERO)
 		p.role = ROLE_NONE
-		if (PlayerCount(ROLE_INNOCENT)==0) and (PlayerCount(ROLE_HERO)==0)
-			if (PlayerCount(ROLE_SHERIFF)==0) MM_EndRound(0, "LAST_LEFT", ROLE_HERO)
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
+			if (not PlayerCount(ROLE_SHERIFF)) MM_EndRound(0, "LAST_LEFT", ROLE_HERO)
 			else MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO) end
-		elseif (PlayerCount(ROLE_HERO)==0) and (PlayerCount(ROLE_SHERIFF)==0)
-			if gamestate==GS_LEVEL
+		elseif (not PlayerCount(ROLE_HERO)) and (PlayerCount(ROLE_SHERIFF)==0)
+			if (gamestate == GS_LEVEL)
 				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
 				MM_SetRandomInnoAs(ROLE_HERO)
 				if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end

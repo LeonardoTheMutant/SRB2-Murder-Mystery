@@ -144,12 +144,12 @@ local function mainHUD(v, p) --main game HUD
 		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
-			if (not p.minigametimeout) v.drawString(320, 0, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right") end
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
 			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
 			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
 		else
-			v.drawString(320, 0, "Spectating a duel...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
-			if (not p.minigametimeout) v.drawString(320, 8, "Press\x82 CUSTOM3\x80 to leave", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right") end
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_SPECTN"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_SPECTN"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
 		end
 
 		--Time
@@ -174,7 +174,7 @@ local function mainHUD(v, p) --main game HUD
 		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72) end
 		--winner text
 		if (MM.pong.winner != nil)
-			if (MM.pong.winner == 0) V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1])
+			if (not MM.pong.winner) V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, mmtxt[p.mmlang]["WIN_HUD"][1])
 			else V_DrawStrASCIIcentered(v, 160, 160, p.mmlang, MM.RoleColor[MM.duelplrs[MM.pong.winner].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[MM.pong.winner].role].."\0 "..mmtxt[p.mmlang]["WON_HUD"]) end
 		end
 		--player 1 side information
@@ -182,22 +182,22 @@ local function mainHUD(v, p) --main game HUD
 			--player name
 			v.drawString(16, 176, MM.duelplrs[1].name, 8388608|V_SNAPTOLEFT)
 			--role
-			V_DrawStrASCII(v, 16, 184, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role], V_SNAPTOLEFT)
+			V_DrawStrASCII(v, 16, 184, p.mmlang, (MM.RoleColor[MM.duelplrs[1].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[1].role]), V_SNAPTOLEFT)
 			--character picture
-			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin,MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
+			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), 8388608|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			--win count
-			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, p.mmlang, MM.RoleColor[MM.duelplrs[1].role]..MM.duelplrs[1].kills, V_SNAPTOLEFT)
+			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, p.mmlang, (MM.RoleColor[MM.duelplrs[1].role]..MM.duelplrs[1].kills), V_SNAPTOLEFT)
 		end
 		--player 2 side information
 		if (MM.duelplrs[2].valid)
 			--name
 			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, 8388608|V_SNAPTORIGHT)
 			--role
-			V_DrawStrASCII(v, (304 - V_StrWidthASCII(mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role])), 184, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role], V_SNAPTORIGHT)
+			V_DrawStrASCII(v, (304 - V_StrWidthASCII(mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role])), 184, p.mmlang, (MM.RoleColor[MM.duelplrs[2].role]..mmtxt[p.mmlang]["ROLES_HUD"][MM.duelplrs[2].role]), V_SNAPTORIGHT)
 			--charpic
-			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin,MM.duelplrs[2].skincolor))
+			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 			--win
-			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, p.mmlang, MM.RoleColor[MM.duelplrs[2].role]..MM.duelplrs[2].kills, V_SNAPTORIGHT)
+			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, p.mmlang, (MM.RoleColor[MM.duelplrs[2].role]..MM.duelplrs[2].kills), V_SNAPTORIGHT)
 		end
 
 		if (MM.devbuild)
@@ -212,8 +212,8 @@ local function mainHUD(v, p) --main game HUD
 		end
 		return
 	elseif (MM.minigame) and (not p.minigame)
-		v.drawString(320, 0, "Press\x82 CUSTOM3\x80 to spectate", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
-		v.drawString(320, 8, "a minigame duel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_SPECT"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_SPECT"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_DUEL"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
 	--"People alive" (replaces SCORES)
@@ -260,7 +260,7 @@ local function mainHUD(v, p) --main game HUD
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColor[5]..mmtxt[p.mmlang]["ROLES_HUD"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_DEAD"]) do V_DrawStrASCIIcentered(v, 160, (112 + y*8), p.mmlang, i) end
 		if (p.role == nil)
-			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, (152 + y*8), p.mmlang, i, 0, 32768) end --FU/2
+			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, (152 + y*4), p.mmlang, i, 0, 32768) end --FU/2
 		end
 		if (p.killedby)
 			if (p.killedby == "your stupidity") V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
@@ -276,14 +276,16 @@ local function mainHUD(v, p) --main game HUD
 		end
 		if ((rival) and (rival.valid))
 			if ((not p.minigame) and (not rival.minigame))
-				v.drawString(320, 0, "Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
-				v.drawString(320, 8, "request a \x87Pong\x80 game", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_REQ"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_REQ"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			elseif ((p.minigame) and (not rival.minigame))
-				v.drawString(320, 0, "Waiting for rival to accept...", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
-				if (not p.minigametimeout) v.drawString(320,8,"Press\x82 CUSTOM3\x80 to cancel", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right") end
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_WAIT"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_WAIT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				if (not p.minigametimeout)
+					V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_CANCEL"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_CANCEL"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				end
 			elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
-				v.drawString(320, 0, "Press\x82 CUSTOM3\x80 to", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
-				v.drawString(320, 8, "accept the \x87Pong\x80 challenge!", V_SNAPTOTOP|V_SNAPTORIGHT, "thin-right")
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_ACCEPT"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_ACCEPT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			end
 		end
 	end

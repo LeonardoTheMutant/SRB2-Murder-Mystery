@@ -204,6 +204,16 @@ MM.text={
 		},
 		-- "Showdown duel!"
 		["HUD_SHOWDOWN"]="Showdown duel!",
+		--minigame stuff
+		["MINIGAME_PRESS"]="Press\2 CUSTOM3\0 to", --must contain MM escape color codes
+		["MINIGAME_LEAVE"]="leave",
+		["MINIGAME_CANCEL"]="cancel",
+		["MINIGAME_SPECT"]="spectate",
+		["MINIGAME_DUEL"]="a minigame duel",
+		["MINIGAME_REQ"]="request a \7PONG\0 game", --must contain MM escape color codes
+		["MINIGAME_ACCEPT"]="accept the \7PONG\0 challenge!", --must contain MM escape color codes
+		["MINIGAME_WAIT"]="Waiting for the rival to accept...",
+		["MINIGAME_SPECTN"]="Spectating a duel...",
 		["YOU_HUD"]="YOU",
 		-- Winner stuff
 		["WINNERS_HUD"]="Winners:",
@@ -916,6 +926,15 @@ MM.text={
             "\xE1\xF3\xE4\xFC \xEB\xE0\xF1\xEA\xE0\x2C \xE7\xE0\xF7\xE5\xEA\xE0\xE9\xF2\xE5 \xED\xE0\4 \xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE", --bud' laska zachekajte na she odnogo,
             "\xE0\xE1\xE8 \xEF\xEE\xF7\xE0\xF2\xE8" --aby pochaty
 		},["HUD_SHOWDOWN"]="\xC2\xE8\xF0\xB3\xF8\xE0\xEB\xFC\xED\xE0 \xE4\xF3\xE5\xEB\xFC!", --Wyrishal'na duel'!
+		["MINIGAME_PRESS"]="\xCD\xE0\xF2\xE8\xF1\xED\xB3\xF2\xFC\2 CUSTOM3\0 \xE0\xE1\xE8", --Natysnit' CUSTOM3 aby
+		["MINIGAME_LEAVE"]="\xE2\xE8\xE9\xF2\xE8", --wyjty
+		["MINIGAME_CANCEL"]="\xF1\xEA\xE0\xF1\xF3\xE2\xE0\xF2\xE8", --skasuwaty
+		["MINIGAME_SPECT"]="\xED\xE0\xE3\xEB\xFF\xE4\xE0\xF2\xE8", --nagliadaty
+		["MINIGAME_DUEL"]="\xE7\xE0 \xE4\xF3\xE5\xEB\xFC\xED\xEE\xFE \xEC\xB3\xED\xB3\xE3\xF0\xEE\xFE", --za duel'noju minigroju
+		["MINIGAME_REQ"]="\xE7\xB3\xE3\xF0\xE0\xF2\xE8 \xF3 \7PONG", --zigraty u PONG
+		["MINIGAME_ACCEPT"]="\xEF\xF0\xE8\xE9\xED\xFF\xF2\xE8 \xE2\xE8\xEA\xEB\xE8\xEA \xF3 \7PONG\0!", --pryjniaty wyklyk u PONG!
+		["MINIGAME_WAIT"]="\xD7\xE5\xEA\xE0\xBA\xEC\xEE \xED\xE0 \xE2\xB3\xE4\xEF\xEE\xE2\xB3\xF2\xFC \xEF\xF0\xEE\xF2\xE8\xE2\xED\xE8\xEA\xE0...", --Czekajemo na widpowid' protywnyka...
+		["MINIGAME_SPECTN"]="\xCD\xE0\xE3\xEB\xFF\xE4\xFF\xBA\xEC\xEE \xE7\xE0 \xE3\xF0\xEE\xFE...", --Nagliadajemo za groju...
 		["YOU_HUD"]="\xD2\xC8", --TY
 		["WINNERS_HUD"]="\xC2\xE8\xE3\xF0\xE0\xEB\xE8:", --Wygraly:
 		["WON_HUD"]="\xE2\xE8\xE3\xF0\xE0\xE2(\xEB\xE0)!", --Wygraw(la)!

@@ -218,6 +218,9 @@ local flatsounds={
 	["STKBOXK3"]="metal",
 	["STKBOXK4"]="metal",
 	["THZBOX"]="metal",
+	["THZBOX01"]="metal",
+	["THZBOX02"]="metal",
+	["THZBOX03"]="metal",
 	["THZBOXF1"]="metal",
 	["THZBOXF2"]="metal",
 	["THZBOXF3"]="metal",
@@ -2127,6 +2130,7 @@ local flatsounds={
 	["GLASSTEX"]="glass",
 	["DCWAL22"]="stone",
 	["THDOOR2B"]="stone",
+
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
 	["AQF001"]="metal",

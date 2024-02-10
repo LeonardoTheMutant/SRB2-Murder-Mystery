@@ -2051,11 +2051,6 @@ WallTexture "SMSTONE6", 128, 128
 	Patch "PIVY3", 0, 0
 }
 
-WallTexture "STONEW1", 128, 128
-{
-	Patch "STONEW1", 0, 0
-}
-
 WallTexture "STWALL", 128, 128
 {
 	Patch "STWALL", 0, 0
