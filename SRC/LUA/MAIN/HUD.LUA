@@ -216,29 +216,43 @@ local function mainHUD(v, p) --main game HUD
 		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_DUEL"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
-	--"People alive" (replaces SCORES)
-	v.draw(infoSCORE.x, infoSCORE.y, v.cachePatch("HUD_PPLE"), infoSCORE.f)
-	v.draw((infoSCORE.x + 56), infoSCORE.y, v.cachePatch("HUD_ALVE"), infoSCORE.f)
+	--PEOPLE ALIVE (replaces SCORES)
+	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_PEOPLE"])
+	V_DrawTextPatch(v, (infoSCORE.x + 6 + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_PEOPLE"])), infoSCORE.y, mmtxt[p.mmlang]["BMP_ALIVE"])
 	local plrsAlive = PlayersAlive()
 	if (plrsAlive < 10) v.draw((infoSCORE.x + 104), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
-	else v.drawNum((infoSCORE.x + 120), infoSCORE.y, plrsAlive, infoSCORE.f) end
-
-	--Time
-	if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTRTIME"), infoTIME.f)
-	else v.draw(infoTIME.x, infoTIME.y, v.cachePatch("STTTIME"), infoTIME.f) end
-	
-	v.draw((hudinfo[HUD_MINUTES].x - 8), hudinfo[HUD_MINUTES].y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)), hudinfo[HUD_MINUTES].f)
-	v.draw(hudinfo[HUD_TIMECOLON].x, hudinfo[HUD_TIMECOLON].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIMECOLON].f)
-	if (G_TicsToSeconds(timeleft) > 9) v.drawNum((hudinfo[HUD_SECONDS].x), hudinfo[HUD_SECONDS].y, G_TicsToSeconds(timeleft), hudinfo[HUD_SECONDS].f)
 	else
-		v.draw((hudinfo[HUD_SECONDS].x - 16), hudinfo[HUD_SECONDS].y, v.cachePatch("STTNUM0"), hudinfo[HUD_SECONDS].f)
-		v.draw((hudinfo[HUD_SECONDS].x - 8), hudinfo[HUD_SECONDS].y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft)), hudinfo[HUD_SECONDS].f)
+		v.draw((infoSCORE.x + 104), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
+		v.draw((infoSCORE.x + 112), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
 	end
 
-	--Rings
-	if ((not p.rings) and leveltime & 4) v.draw(infoRINGS.x, infoRINGS.y, v.cachePatch("STTRRING"), infoRINGS.f)
-	else v.draw(infoRINGS.x, infoRINGS.y, v.cachePatch("STTRINGS"), infoRINGS.f) end
-	v.drawNum(hudinfo[HUD_RINGSNUM].x, hudinfo[HUD_RINGSNUM].y, p.rings, hudinfo[HUD_RINGSNUM].f)
+	--TIME
+	--"TIME" text
+	local timePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_TIME"])
+	if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, infoTIME.x, infoTIME.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_TIME"], 0x49, 0x25))
+	else V_DrawTextPatch(v, infoTIME.x, infoTIME.y, mmtxt[p.mmlang]["BMP_TIME"]) end
+	--minutes
+	if (G_TicsToMinutes(timeleft) > 9)
+		v.draw((infoTIME.x + timePatchWidth + 6), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10)), infoTIME.f) --first digit
+		v.draw((infoTIME.x + timePatchWidth + 14), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10)), infoTIME.f) --second digit
+	else
+		v.draw((infoTIME.x + timePatchWidth + 14), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)), infoTIME.f)
+	end
+	--colon
+	v.draw((infoTIME.x + timePatchWidth + 22), infoTIME.y, v.cachePatch("STTCOLON"), infoTIME.f)
+	--seconds
+	if (G_TicsToSeconds(timeleft) > 9)
+		v.draw((infoTIME.x + timePatchWidth + 30), infoTIME.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10)), infoTIME.f) --first digit
+		v.draw((infoTIME.x + timePatchWidth + 38), infoTIME.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10)), infoTIME.f) --second digit
+	else
+		v.draw((infoTIME.x + timePatchWidth + 30), infoTIME.y, v.cachePatch("STTNUM0"), infoTIME.f) --first digit is always 0
+		v.draw((infoTIME.x + timePatchWidth + 38), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft)), infoTIME.f) --second digit
+	end
+
+	--RINGS
+	if (not p.rings) and (leveltime & 4) V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_RINGS"], 0x49, 0x25))
+	else V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, mmtxt[p.mmlang]["BMP_RINGS"]) end
+	v.drawNum((infoRINGS.x + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_RINGS"]) + 38), infoRINGS.y, p.rings, infoRINGS.f)
 
 	--Life icon, player name and role
 	v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
@@ -355,7 +369,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Debug
 	if MM.devbuild
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version,0,"thin")
+		--v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")",0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."LEVELTIME: \x80"..leveltime,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."AFK: \x80"..p.afk,0,"thin")

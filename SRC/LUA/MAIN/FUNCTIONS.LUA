@@ -295,7 +295,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
 
 	for row = 1, #patch do
 		for column = 1, #patch[row] do
-			pixelColor = patch[row]:byte(column, column) --get the pixel data
+			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
 				v.drawFill((x + column), (y + row), 1, 1, pixelColor) --draw it
 			end
@@ -303,12 +303,35 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
 	end
 end)
 
+rawset(_G, "V_TextPatch_SwapColor", function(patch, color1, color2)
+	assert(patch, "V_TextPatch_SwapColor() argument #1: patch text data expected")
+	local color1 = color1
+	if (type(color1) == "string") color1 = color1:byte() end
+	local color2 = color2
+	if (type(color2) == "string") color2 = color2:byte() end
+
+	local ptch = {} --the returned copy
+	local pixelColor
+
+	for row = 1, #patch do
+		ptch[row] = patch[row] --copy line from original to copy
+		for column = 1, #patch[row] do
+			pixelColor = patch[row]:byte(column, column) --get the pixel color value
+			if (pixelColor == color1) --swap the color
+				ptch[row] = $:sub(1, column - 1) .. string.char(color2) .. $:sub(column + 1)
+			end
+		end
+	end
+
+	return ptch
+end)
+
 rawset(_G, "V_TextPatchWidth", function(patch)
 	assert(patch, "V_TextPatchWidth() argument #1: patch text data expected")
 	local width = 0
 
 	for row = 1, #patch do
-		if (#row > width) width = #row end
+		if (#patch[row] > width) width = #patch[row] end
 	end
 
 	return width
