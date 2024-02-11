@@ -59,6 +59,8 @@ Functions for HUD rendering code
 | <code>**V_StrWidthASCII**(*string* str, [*int* videoflags, [*fixed_t* scale]]) | *int* | Alternative to the `v.stringWidth()` but for `V_DrawStrASCII()` drawing function. Get the width of the string in pixels, arguments like <code>videoflags</code> or <code>scale</code> are also accounted in the final size. |
 | <code>**V_ConvertStringColor**(*string* str) | *string* | Converts the SRB2 text coloring symbols in `str` to MM format. Used for `V_DrawStrASCII()` function as it uses a different text coloring format. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
 | <code>**V_ConvertStringColor2**(*string* str) | *string* | Converts the MM text coloring symbols in `str` to SRB2 format. Used for `v.drawString()` to render the MM-formatted strings. **Murder Mystery string format** is explained [here](/SRC/DOCS/MM_String_Format.md). |
+| <code>**V_DrawTextPatch**(*drawer* v, *int* x, *int* y, *string[]* data) | nil | Draws a patch using the `data` in a text form. `data` is a table of strings, each table element represents row and each symbol in `data[row]` coresponds to the color value from the SRB2's palette. |
+| <code>**V_TextPatchWidth**(*string[]* data) | *int* | Returns the width of the Text Patch in pixels |
 | <code>**wep2rw**(*int* wep) | *`RW_*` constant* | Conerts `WEP_*` to `RW_*` constant |
 | <code>**V_GetSHREMLiconID**(*int* dist)</code> | *int* | Get the Emerald Radar icon ID based on the `dist` distance. Used for Innocets' Sheriff Emerald radar. |
 

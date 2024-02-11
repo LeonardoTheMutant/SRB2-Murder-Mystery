@@ -150,10 +150,12 @@ end)
 --
 --HUD.LUA
 --
-rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
-	if (not v) error("V_DrawStrASCII() argument #1: drawer variable expected")
-	elseif (not str) or (type(str)!="string") error("V_DrawStrASCII() argument #5: string expected")
-	elseif (not fontsize) fontsize=FU end
+rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
+	--Draw strings in Murder Mystery format with swapable ASCII table
+
+	assert(v, "V_DrawStrASCII() argument #1: drawer variable expected")
+	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected")
+	elseif (not fontsize) fontsize = FU end
 
 	local x = x or 0
 	local y = y or 0
@@ -163,15 +165,15 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	local charset = MM.text[lang]["CHARSET"] or "STCFN"
 
 	--set the width of symbols
-	local width=fontsize>>13 --fontsize/8192
+	local width = fontsize >> 13 --fontsize/8192
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg&3072) spaceSize = 8 --V_MONOSPACE
-	elseif (flg&1024) spaceSize = 6 end --V_6WIDTHSPACE
+	if (flg & 3072) spaceSize = 8 --V_MONOSPACE
+	elseif (flg & 1024) spaceSize = 6 end --V_6WIDTHSPACE
 	--scale for different font sizes
-	if (fontsize<FU) spaceSize = $/(FU/fontsize)
-	elseif (fontsize>FU) spaceSize = $*fontsize/FU end
+	if (fontsize < FU) spaceSize = $/(FU/fontsize)
+	elseif (fontsize > FU) spaceSize = $*fontsize/FU end
 
 	--text
 	local color=v.getStringColormap(0) --default to white color
@@ -184,56 +186,65 @@ rawset(_G, "V_DrawStrASCII", function(v,x,y,lang,str,flags,fontsize)
 	local strchar --the string version of the char number
 	
 	--draw the string
-	for i=1,#str
-		chr=string.byte(str:sub(i,i)) --numeric value of the single character
+	for i = 1,#str
+		chr = string.byte(str:sub(i,i)) --numeric value of the single character
 		
-		if (chr<100) strchar="0"..chr --make the number to be 3 digit
-		else strchar=chr end
+		if (chr < 100) strchar = "0"..chr --make the number to be 3 digit
+		else strchar = chr end
 
 		--characters from 0x00 to 0x0f set the color
-		if (chr<16) color=v.getStringColormap(chr*4096) end
+		if (chr < 16) color = v.getStringColormap(chr*4096) end
 
 		--print the character
-		if (chr>=128) --extended ASCII
+		if (chr >= 128) --extended ASCII
 			if (v.patchExists(charset..strchar))
 				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch(charset..strchar), flg, color)
 			else --unknown symbol, print "?"
 				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color)
 			end
-		elseif (chr>=16) and (chr<128) --standart ASCII
+		elseif (chr >= 16) and (chr < 128) --standart ASCII
 			if (v.patchExists("STCFN"..strchar))
 				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
 			else --unknown symbol, print "?" unless it's a space symbol
-				if (chr!=32) v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color) end
+				if (chr != 32) v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color) end
 			end 
 		end
 
 		--shift X position for the next character
-		if (chr==32) cx = $+spaceSize --space has a different character width
-		elseif (chr>16) and (chr!=32) cx = $+width end --it's a regular character
+		if (chr == 32) cx = $ + spaceSize --space has a different character width
+		elseif (chr > 16) and (chr != 32) cx = $ + width end --it's a regular character
 	end
 end)
-rawset(_G, "V_ConvertStringColor", function(str) --convert string color codes from SRB2 to MM format
-	local strng={}
+
+rawset(_G, "V_ConvertStringColor", function(str)
+	--convert string color codes from SRB2 to MM format
+
+	local strng = {}
 	local chr
-	for i=1, #str
+	for i = 1, #str
 		chr = string.byte(str:sub(i,i))
-		if (chr>=128) strng[i]=string.char((chr%0x80)%0x10)
-		else strng[i]=str:sub(i,i) end
+		if (chr >= 128) strng[i] = string.char((chr%0x80)%0x10)
+		else strng[i] = str:sub(i,i) end
 	end
 	return table.concat(strng)
 end)
-rawset(_G, "V_ConvertStringColor2", function(str) --convert string color codes from MM to SRB2 format
-	local strng={}
+
+rawset(_G, "V_ConvertStringColor2", function(str)
+	--convert string color codes from MM to SRB2 format
+
+	local strng = {}
 	local chr
-	for i=1, #str
+	for i = 1, #str
 		chr = string.byte(str:sub(i,i))
-		if (chr<16) strng[i]=string.char(chr+0x80)
-		else strng[i]=str:sub(i,i) end
+		if (chr < 16) strng[i] = string.char(chr + 0x80)
+		else strng[i] = str:sub(i,i) end
 	end
 	return table.concat(strng)
 end)
-rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
+
+rawset(_G, "V_StrWidthASCII", function(str, flags, fontsize)
+	--Get string width for the V_DrawStrASCII() function
+
 	if (not str) or (str == "") return 0 end
 
 	--symbol width
@@ -248,15 +259,15 @@ rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg&3072) spaceSize = 8 --V_MONOSPACE
-	elseif (flg&1024) spaceSize = 6 end --V_6WIDTHSPACE
+	if (flg & 3072) spaceSize = 8 --V_MONOSPACE
+	elseif (flg & 1024) spaceSize = 6 end --V_6WIDTHSPACE
 	--scale for different font sizes
-	if (fontsize<FU) spaceSize = $/(FU/fontsize)
-	elseif (fontsize>FU) spaceSize = $*(fontsize/FU) end
+	if (fontsize < FU) spaceSize = $/(FU/fontsize)
+	elseif (fontsize > FU) spaceSize = $*(fontsize/FU) end
 
 	local char
 
-	for i=1,#str
+	for i = 1,#str
 		char=string.byte(str:sub(i, i)) --character number
 		if (char > 16) --character should be not a MM color code
 			if (char == 32) pixelLen = $ + spaceSize --space
@@ -266,8 +277,41 @@ rawset(_G, "V_StrWidthASCII", function(str,flags,fontsize)
 	return pixelLen
 end)
 
-rawset(_G, "V_DrawStrASCIIcentered", function(v,x,y,lang,str,flags,fontsize)
+rawset(_G, "V_DrawStrASCIIcentered", function(v, x, y, lang, str, flags, fontsize)
 	V_DrawStrASCII(v, x - V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
+end)
+
+rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
+	--draw an image from the text data, similar to v.draw()
+	--the text data itself is a table of strings containing the
+	--SRB2 palette's color values
+
+	assert(v, "V_DrawTextPatch() argument #1: drawer variable expected")
+	local x = x or 0
+	local y = y or 0
+	assert(patch, "V_DrawTextPatch() argument #4: patch text data expected")
+
+	local pixelColor
+
+	for row = 1, #patch do
+		for column = 1, #patch[row] do
+			pixelColor = patch[row]:byte(column, column) --get the pixel data
+			if (pixelColor != 0xFF) --pixel is not transparent
+				v.drawFill((x + column), (y + row), 1, 1, pixelColor) --draw it
+			end
+		end
+	end
+end)
+
+rawset(_G, "V_TextPatchWidth", function(patch)
+	assert(patch, "V_TextPatchWidth() argument #1: patch text data expected")
+	local width = 0
+
+	for row = 1, #patch do
+		if (#row > width) width = #row end
+	end
+
+	return width
 end)
 
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
