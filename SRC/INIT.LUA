@@ -47,6 +47,12 @@ rawset(_G, "MM", {
 			maxdash = 1966080 --30*FU
 		}
 	},RoleColor = {
+		"\x85", --Murderer
+		"\x84", --Sheriff
+		"\x83", --Innocent
+		"\x82", --Hero
+		"\x8F" --Dead
+	},RoleColorHUD = {
 		"\5", --Murderer
 		"\4", --Sheriff
 		"\3", --Innocent

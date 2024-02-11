@@ -144,13 +144,14 @@ The description of each value in `MM` table. The `MM` constant itself is defined
 | `devbuild` | *boolean* | Mark add-on build as a *Developer Build*, when set to `true` it enables the *Debug Mode* in the add-on | `true` |
 | `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"December 28th 2023"` |
 | `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua) |
-| `SEMJ_info` | table of *string* values | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
+| `SEMJ_info` | *string[]* | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
 | `CharStats` | *table* | The character configurations for ***MMCHARMODE 1*** character mode. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/ABILITIES.LUA`](../LUA/MAIN/ABILITIES.LUA)* |
-| `RoleColor` | table of *string* values | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
+| `RoleColor` | *string[]* | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
+| `RoleColor` | *string[]* | The HUD text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
 | `winner` | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros & Innocents). This variable is **netsynced** | 0 |
 | `winreason` | *int* | The win reason, can be one of the [`WIN_*` constants](#win-reasons-win). This variable is **netsynced** | 1 |
 | `timelimit` | *int* | Works just like SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
-| `shremls` | table of *mobj_t* values | The table containing all dropped *Sheriff Emerald* objects | none |
+| `shremls` | *mobj_t[]* | The table containing all dropped *Sheriff Emerald* objects | none |
 | `pong` | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/MINIGAME.LUA`](../LUA/MAIN/MINIGAME.LUA)*|
 
 # That's all folks!
