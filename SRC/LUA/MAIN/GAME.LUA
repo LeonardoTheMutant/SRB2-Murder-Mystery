@@ -232,8 +232,10 @@ addHook("PlayerThink", function(p)
 		p.shreml_dist = shreml_dist[1]
 
 		--play sound
-		local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
-		if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
+		if (p.shreml_dist)
+			local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
+			if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
+		end
 	end
 
 	--AFK logic
