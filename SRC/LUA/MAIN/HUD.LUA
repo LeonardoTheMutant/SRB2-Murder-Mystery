@@ -201,7 +201,7 @@ local function mainHUD(v, p) --main game HUD
 		end
 
 		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87Pong "..MM.version,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87PONG",0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
@@ -260,7 +260,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Show your role (and translate it)
 	if (p.role)
-		if ((p.role > 0) and (p.roleflicker % 4 == 0)) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColorHUD[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+		if ((p.role > ROLE_NONE) and (not (p.roleflicker % 4))) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColorHUD[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
 		if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER) > 1) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, p.mmlang, MM.RoleColorHUD[ROLE_MURDERER]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
 		elseif (p.role == ROLE_SHERIFF)
 			if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), p.mmlang, MM.RoleColorHUD[ROLE_SHERIFF]..mmtxt[p.mmlang]["TEAMALIVE_HUD"].." "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
@@ -316,10 +316,10 @@ local function mainHUD(v, p) --main game HUD
 			0  --red/infinity
 		}
 		--transluency for the red ring icon
-		if ((p.powers[pw_infinityring] == 0) and (p.rings == 0)) ringTrans[7]=458752 --70% transluent
-		else ringTrans[7]=0 end
+		if ((p.powers[pw_infinityring] == 0) and (p.rings == 0)) ringTrans[7] = 458752 --70% transluent
+		else ringTrans[7] = 0 end
 		--transluency for other weapons
-		for weapon=1,6
+		for weapon = 1,6
 			if ((p.powers[weapon + 14]) and (not (p.ringweapons & wep2rw(weapon))) or ((not p.powers[weapon + 14]) and (p.ringweapons & wep2rw(weapon)))) ringTrans[weapon] = 458752 --70% transluent
 			else ringTrans[weapon] = 0 end
 		end
@@ -331,8 +331,8 @@ local function mainHUD(v, p) --main game HUD
 				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
 				v.drawString(160, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin-center") --Infinite Ring ammo counter
 			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]) end --Red Ring icon
-			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay>>1) - 2), v.cachePatch("CURWEAP")) --selector
-		elseif (p.role==ROLE_SHERIFF) or (p.role==ROLE_HERO)
+			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay >> 1) - 2), v.cachePatch("CURWEAP")) --selector
+		elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
 			if (p.powers[pw_infinityring])
 				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
 				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
@@ -347,7 +347,7 @@ local function mainHUD(v, p) --main game HUD
 			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP")) --selector
 		end
 	elseif ((p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)) --innocents have Sheriff Emerald radar instead of weapon dock
-		v.drawScaled(153*FU, 156*FU, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))))
+		v.drawScaled(10027008, 10223616, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist)))) --153*FU, 156*FU, FU/2
 	end
 
 
@@ -382,6 +382,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+80, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist),0,"thin")
 	end
 end
+
 local function scoresHUD(v) --SCORES TAB
 	if (gametype != GT_MURDERMYSTERY)
 		hud.enable("rankings")
@@ -412,6 +413,7 @@ local function scoresHUD(v) --SCORES TAB
 
 	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOTOP|V_SNAPTOBOTTOM, "center") end
 end
+
 local function interHUD(v) --Custom intermission HUD
 	if (gametype!=GT_MURDERMYSTERY)
 		hud.enable("intermissiontally")

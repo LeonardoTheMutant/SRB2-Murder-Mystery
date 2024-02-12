@@ -2,7 +2,7 @@
 -- Code by LeonardoTheMutant
 -- Translations by awesome MM_DEV members
 --
--- Code for MMHELP and MMLANG console commands
+-- Code for MMHELP and MMLANG console comands
 
 local function helpCMD(p, page)
 	if (gametype != GT_MURDERMYSTERY)

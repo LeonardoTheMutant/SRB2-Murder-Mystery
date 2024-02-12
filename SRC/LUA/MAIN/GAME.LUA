@@ -3,16 +3,13 @@
 -- Improved and developed further by LeonardoTheMutant
 -- With the additional help of Jesus.B
 --
--- The core logic spcript of Murder Mystery, takes control of each player Join/Quit,
+-- The core logic script of Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, AFK logic and round endings
 
--- Constants
-
-local mmtxt=MM.text
-local afkCVAR=CV_FindVar("mmafk")
+local afkCVAR = CV_FindVar("mmafk")
 
 addHook("MapLoad", function(map)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
 	--prepare players & server for the new round
 	for p in players.iterate
 		p.spectator = false
@@ -23,18 +20,22 @@ addHook("MapLoad", function(map)
 		p.minigame = false
 		p.mmweapondelay = 0
 	end
+
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremls = {}
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
     print("Time limit for this round is "..MM.timelimit.." minutes")
+
 	MM.onepgame = (PlayerCount() == 1)
 	MM.twopgame = (PlayerCount() == 2)
 	MM.minigame = false
+
 	PONG_Reset()
 	MM.pong.pads[1] = 32
 	MM.pong.pads[2] = 32
 	MM.pong.wintimeout = -1
+
 	MM_AssignRoles()
 end)
 
@@ -46,13 +47,13 @@ addHook("PlayerSpawn", function(p)
 
 	--Apply language
 	if (not p.mmlang)
-		local f = io.openlocal("client/MM.DAT", 'r') -- language load
+		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
 		if f
-			local l = f:read()
-			if (mmtxt[l]) p.mmlang = l
-			else p.mmlang="EN" end
-			f:close()
-		else p.mmlang = 'EN' end
+			local l = f:read() --read data
+			if (MM.text[l]) p.mmlang = l --is such language imported into the game?
+			else p.mmlang="EN" end --no
+			f:close() --file close
+		else p.mmlang = 'EN' end --failed to open the file
 	end
 
 	if (not p.roleflicker) p.roleflicker = 0 end
@@ -67,17 +68,17 @@ addHook("PlayerSpawn", function(p)
 		MM_AssignRoles() --Assign roles for that duel
 		for plr in players.iterate S_StartSound(nil, sfx_bkpoof, plr) end --notify player 1 (who might be AFK) about a new rival
 		MM.twopgame = true
-	elseif (PlayerCount() > 2) and (p.role == nil) p.spectator=true end --Players >=3 who joined are DEAD (spectators)
+	elseif (PlayerCount() > 2) and (p.role == nil) p.spectator = true end --Players >=3 who joined are DEAD (spectators)
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
-	if (gametype==GT_MURDERMYSTERY) return true end
+	if (gametype == GT_MURDERMYSTERY) return true end
 end)
 addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
-	if (gametype==GT_MURDERMYSTERY)
-		if (not p.spectator)
-			local lang = p.mmlang or "EN"
-			chatprintf(p, mmtxt[lang]["CHAT"][3])
+	if (gametype == GT_MURDERMYSTERY)
+		local lang = p.mmlang or "EN"
+		if (not p.spectator) --Alive -> Spectator
+			chatprintf(p, MM.text[lang]["CHAT"][3])
 		end
 		return false
 	else return true end
@@ -105,8 +106,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	end
 	if (vp.role == ROLE_MURDERER)
 		if (ap.role == ROLE_MURDERER)
-			chatprintf(ap, "\x85"..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
-			chatprintf(vp, "\x85"..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
+			chatprintf(ap, "\x85"..MM.text[ap.mmlang]["TEAMMATE_HIT"][1])
+			chatprintf(vp, "\x85"..MM.text[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
 		end
 		MM_KillPlayer(victim, attacker)
@@ -120,8 +121,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 	elseif (vp.role == ROLE_SHERIFF)
 		if (ap.role == ROLE_SHERIFF) or (ap.role == ROLE_HERO)
-			chatprintf(ap, MM.RoleColor[vp.role]..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
-			chatprintf(vp, MM.RoleColor[ap.role]..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
+			chatprintf(ap, MM.RoleColor[vp.role]..MM.text[ap.mmlang]["TEAMMATE_HIT"][1])
+			chatprintf(vp, MM.RoleColor[ap.role]..MM.text[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
 		end
 		MM_KillPlayer(victim, attacker)
@@ -140,7 +141,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			-- Sheriff killed an innocent, remove role "Sheriff" from the player if there are more of Innos,
 			-- otherwise Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
-				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][1])
+				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
 				MM_ChatprintGlobal("INNO_HURT", 1)
 				MM_SetRandomInnoAs(ROLE_SHERIFF)
 				ap.role = ROLE_INNOCENT
@@ -157,14 +158,14 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				return
 			else
-				chatprintf(ap, mmtxt[ap.mmlang]["INNO_HURT_PM"][2])
+				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][2])
 				MM_ChatprintGlobal("INNO_HURT", 2)
 			end
 		end
 	elseif (vp.role == ROLE_HERO)
 		if (ap.role == ROLE_HERO) or (ap.role == ROLE_SHERIFF)
-			chatprintf(ap, MM.RoleColor[vp.role]..mmtxt[ap.mmlang]["TEAMMATE_HIT"][1])
-			chatprintf(vp, MM.RoleColor[ap.role]..mmtxt[vp.mmlang]["TEAMMATE_HIT"][2])
+			chatprintf(ap, MM.RoleColor[vp.role]..MM.text[ap.mmlang]["TEAMMATE_HIT"][1])
+			chatprintf(vp, MM.RoleColor[ap.role]..MM.text[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
 		end
 		MM_KillPlayer(victim, attacker)
@@ -210,15 +211,17 @@ addHook("PlayerThink", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
 	if (p.role == ROLE_MURDERER) p.ringweapons = 0 end --remove weapons from Murderer
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore :)
-
-	--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
-	if (not p.spectator) p.mo.flags = $ & ~MF_NOGRAVITY end
+	
+	if (not p.spectator)
+		--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
+		p.mo.flags = $ & ~MF_NOGRAVITY
+	end
 
 	--role flickering timer
 	if (p.roleflicker) p.roleflicker = $ - 1 end
 
 	--HUD flash screen fadeout
-	if (p.flashscrn) and (leveltime % 4 == 0)
+	if (p.flashscrn) and (not (leveltime % 4))
 		p.flashscrn = $ + 1
 		if (p.flashscrn >= 10) p.flashscrn = 0 end
 	end

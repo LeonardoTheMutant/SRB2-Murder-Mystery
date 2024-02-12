@@ -7,15 +7,15 @@
 -- NOTES BEFORE TRANSLATING:
 -- You can apply color to the text strings in SRB2. Coloring is possible with ESCAPE COLOR CODES. They look like "\x##",
 -- where ## is the HEXADECIMAL value. But you can you decimal value instead of hexadecimals
--- I will explain everthing with the HEX color codes
+-- I will explain everything with the HEX color codes
 --
 -- Escape Color Codes will paint the string FROM where they are TO the end of the string (or the other color code).
 -- Sounds strange? Well you'll get it better with this example:
 --
 -- "\x85Hello \x83world!"
 --
--- HELLO will appear in red color and WORLD! will appear in green. Still don't understand it? https://wiki.srb2.org/wiki/Lua
--- explains text coloring much better.
+-- HELLO will appear in red color and WORLD! will appear in green. Still don't understand it?
+-- https://wiki.srb2.org/wiki/Lua explains SRB2 text coloring much better.
 -- 
 -- Here's another cool trick to make several lines in one string. Place the "\n" symbol inside your string where you would
 -- normally press ENTER in the text editor.
