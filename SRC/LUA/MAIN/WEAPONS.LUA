@@ -197,8 +197,9 @@ end)
 addHook("ThinkFrame", do
     for weapon = 0, #MM.weapons do
         if (gametype == GT_MURDERMYSTERY)
-            mobjinfo[MM.weapons[weapon][2]].radius = 28*FU
-            mobjinfo[MM.weapons[weapon][2]].speed = 28*FU
+			--weapons are still broken but at least there are less chances of wallclip
+            mobjinfo[MM.weapons[weapon][2]].radius = 16*FU
+            mobjinfo[MM.weapons[weapon][2]].speed = 32*FU
         else --return everything to default if gametype is not MM
             mobjinfo[MM.weapons[weapon][2]].radius = 16*FU
             mobjinfo[MM.weapons[weapon][2]].speed = 60*FU
