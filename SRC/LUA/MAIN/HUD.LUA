@@ -85,7 +85,7 @@ local function mainHUD(v, p) --main game HUD
 				sublines = WordWrapString(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i + p.mmhelp.pos], scrnColumns)
 				pagelen = $ + #WordWrapString(MM.text[p.mmlang]["MMHELP"][p.mmhelp.page][i + p.mmhelp.pos], scrnColumns)
 
-        		for sublineID = 1, #sublines do
+				for sublineID = 1, #sublines do
 					--draw character-by-character
 					stringToRender = sublines[sublineID]
 					for charID=1, stringToRender:len() do
@@ -217,7 +217,7 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--PEOPLE ALIVE (replaces SCORES)
-	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_PEOPLE"])
+	--V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_PALIVE"])
 	V_DrawTextPatch(v, (infoSCORE.x + 6 + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_PEOPLE"])), infoSCORE.y, mmtxt[p.mmlang]["BMP_ALIVE"])
 	local plrsAlive = PlayersAlive()
 	if (plrsAlive < 10) v.draw((infoSCORE.x + 104), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
@@ -369,7 +369,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--Debug
 	if MM.devbuild
-		--v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version.." DEBUG,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")",0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82".."LEVELTIME: \x80"..leveltime,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82".."AFK: \x80"..p.afk,0,"thin")

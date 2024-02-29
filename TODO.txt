@@ -1,5 +1,10 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
-- Finish the new maps
+- Rework the "BACKROOMS"
+- Finish the "8-Ball Hotel"
+- Fix mistakes in "Mountain Fort"
 - Port MMHELP command to UI (help needed)
-- Test 8-16 player intermission screen
 - Make an artbox
+- Fix "SAYDEAD" command for everyone
+- Draw graphics for "PEOPLE ALIVE"-"TIME"-"RINGS" for each translation
+- Make "Sonic Run" 1-player minigame (Google Dino)
+- Tweak Weapong Rings' speed and collision

@@ -282,6 +282,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	["TEAMALIVE_HUD"]="Teammates alive:",
 	["KILLBY_HUD"]="Killed by",
 	["STUPID"]="your stupidity",
+
 	-- Scores TAB screen
 	["HUD_SCORESTAB"]={
 		"No scores here! But the counters below",
@@ -293,22 +294,26 @@ local language={ --Language must be a table variable, you can name the variable 
 		"",
 		"\2Have Fun!"
 	},
+
 	-- Scores TAB screen role conters
 	["HUD_ROLESALIVE"]={
 		"Murderers alive:",
 		"Sheriffs alive:",
 		"Innocents alive:"
 	},
+
 	-- Centered text when you're dead
 	["HUD_DEAD"]={
 		"You are\15 dead",
 		"You can't respawn or talk to",
 		"people who aren't dead."
 	},
+
 	-- Centered text when you joined
 	["HUD_MIDJOIN"]={
 		"You joined \4mid-game\0, please wait for this round to finish."
 	},
+
 	-- Centered text when you are alone
 	["HUD_ALONE"]={
 		"\4".."2 players\0 are required for the game,",
@@ -316,6 +321,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	},
 	-- "Showdown duel!"
 	["HUD_SHOWDOWN"]="Showdown duel!",
+
 	--minigame stuff
 	["MINIGAME_PRESS"]="Press\2 CUSTOM3\0 to", --must contain MM escape color codes
 	["MINIGAME_LEAVE"]="leave",
@@ -327,6 +333,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	["MINIGAME_WAIT"]="Waiting for the rival to accept...",
 	["MINIGAME_SPECTN"]="Spectating a duel...",
 	["YOU_HUD"]="YOU",
+
 	-- Winner stuff
 	["WINNERS_HUD"]="Winners:",
 	["WON_HUD"]="won!",
@@ -353,7 +360,7 @@ local language={ --Language must be a table variable, you can name the variable 
 MM.AddLang("MYLANG", language)
 --if everything is done correctly you will recieve no errors when loading this file and in the gameplay process
 --
---If this language is going to be posted on SRB2 Message Board please rename this file like:
+--If this language is going to be posted on SRB2 Message Board please rename this file to something like:
 -- MML_[full_lang_name]_v[MM_version].lua
 
 
