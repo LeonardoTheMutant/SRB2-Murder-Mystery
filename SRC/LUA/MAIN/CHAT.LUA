@@ -3,27 +3,22 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
-if (isdedicatedserver)
-	COM_AddCommand("SAYDEAD", function(p, m) --SAY but to the DEAD CHAT as SERVER
-		if (p != server)
-			CONS_Printf(p, "You're not server to use this command")
-			return
-		end
-		if (m)
-			for t in players.iterate do
-				if (t.spectator) chatprintf(t, "\x86{~SERVER} "..m) end
-			end
-		else CONS_Printf(p, "Usage: SAYDEAD [message]\nSend message to the dead chat as SERVER\nNOTE: message must be enclosed into \" brackets otherwise only the first word will be sent!") end
-	end, COM_ADMIN)
-end
-
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	local delaytimer = CV_FindVar("mmspam").value*TICRATE
 	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
-	if (s.chatdelay != 0) and (not (isdedicatedserver and s == server))
+	if (s.chatdelay) and (not (isdedicatedserver and s == server))
 		CONS_Printf(s, MM.text[s.mmlang]["CHAT"][2])
 		return true
 	end
+
+	if ((isdedicatedserver) and (s == server) and (m:sub(1,1) == "^")) --Dedicated Server can send messages to the DEAD chat
+		for p in players.iterate do
+			if (p.spectator) chatprintf(p, "\x86{~SERVER} "..m:sub(2)) end
+		end
+		CONS_Printf(server, "{~SERVER} "..m:sub(2))
+		return true
+	end
+
 	if (s.spectator)
 		if (type == 0) --If dead player sends message, make that messsage appear only to dead players
 			for p in players.iterate do if (p.spectator) chatprintf(p, "\x86{"..s.name.."} "..m) end end

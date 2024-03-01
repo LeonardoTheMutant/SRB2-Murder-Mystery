@@ -13,7 +13,7 @@ build()
     echo "Finished making $FILENAME !"
 }
 
-FILENAME="MM_MurderMystery_${VERSION}_dev${BUILDDATE}.pk3"
+FILENAME="MM_MurderMystery_v${VERSION}_dev${BUILDDATE}.pk3"
 if [ -f ./MAKE.SH ] && [ -d ./SRC/ ]; then
     cd ./SRC
     build $FILENAME
