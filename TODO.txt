@@ -7,3 +7,4 @@
 - Fix "SAYDEAD" command for everyone
 - Draw graphics for "PEOPLE ALIVE"-"TIME"-"RINGS" for each translation
 - Make "Sonic Run" 1-player minigame (Google Dino)
+- Mute rings loss sound when players die

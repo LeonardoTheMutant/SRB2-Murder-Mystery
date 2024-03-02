@@ -75,7 +75,7 @@ rawset(_G, "MM", {
 
 rawset(_G, "MurderMystery", MM) --for backwards compatibility
 
---Roles constants
+--Role constants
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
 rawset(_G, "ROLE_SHERIFF", 2)
@@ -90,7 +90,7 @@ rawset(_G, "WIN_HEROKILLINNO", 4)
 rawset(_G, "WIN_NODEFENDERS", 5)
 
 --Customization API
-MM.AddCharConf = function(skin, tb)
+MM.AddSkinConf = function(skin, tb)
 	if (not skin) error("Invalid skin.") end
 	if (not tb) error("Invalid table.") end
 	if (type(skin) ~= "string") error("Skin must be string.") end
@@ -149,7 +149,7 @@ G_AddGametype({
 	intermissiontype = int_match,
 	headerleftcolor = 38,
 	headerrightcolor = 150,
-	description = "Kill everyone as Murderer or eliminate him as Sheriff! ...or be none of them and be Innocent"
+	description = "Kill everyone as Murderer or eliminate them as Sheriff! ...or be none of them and be Innocent"
 })
 
 --Sheriff Drop Emerald

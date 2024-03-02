@@ -91,10 +91,10 @@ addHook("PlayerThink", function(p)
 		else p.maxdash = MM.CharStats["default"].maxdash end
 
 		-- SA1 Tails flight by TeriosSonic
-		if ((s=="tails") and (p.powers[pw_tailsfly]>70)) p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
+		if ((s == "tails") and (p.powers[pw_tailsfly] > 70)) p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
 		if (MMSPRINT.value)
-			if ((p.cmd.buttons & BT_CUSTOM1) and (P_IsObjectOnGround(p.realmo))) p.normalspeed=2621440 --40*FU
-			else p.normalspeed=1638400 end --25*FU
+			if ((p.cmd.buttons & BT_CUSTOM1) and (P_IsObjectOnGround(p.realmo))) p.normalspeed = 2621440 --40*FU
+			else p.normalspeed = 1638400 end --25*FU
 		end
 	elseif ((gametype==GT_MURDERMYSTERY) and (not MMCHARMODE.value)) --"Everyone are regular persons" mode
 		p.charability = 0

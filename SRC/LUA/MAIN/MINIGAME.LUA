@@ -46,16 +46,18 @@ local function PONG_Thinker()
     end
 
     --paddles
-    if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1]-1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
+    if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1] - 1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(1)
-        if (MM.pong.hits % 10 == 9) MM.pong.speed = $ + 1 end
+		--increase ball speed each 10 hits
+        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end
         PONG_PlaySFX(sfx_mario2)
     end
-    if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2]-1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
+    if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2] - 1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(-1)
-        if (MM.pong.hits % 10 == 9) MM.pong.speed = $ + 1 end
+		--increase ball speed each 10 hits
+        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end
         PONG_PlaySFX(sfx_mario2)
     end
 end
@@ -102,7 +104,7 @@ addHook("ThinkFrame", do
 end)
 
 addHook("PlayerThink", function(p)
-    if (gametype!=GT_MURDERMYSTERY) return end
+    if (gametype != GT_MURDERMYSTERY) return end
     if (p.cmd.buttons & BT_CUSTOM3) and (MM.twopgame)
         if (not p.custom3pressed)
             if (p.minigame) 
