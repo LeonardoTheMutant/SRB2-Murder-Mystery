@@ -3,19 +3,30 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
+--SAYDEAD command - Say to the Dead Chat as Dedicated server
+COM_AddCommand("SAYDEAD", function(s, ...) --sender, message
+	local arg = {...}
+	--get the message string
+	local m = ""
+	for i = 1, #arg do
+		m = $ + arg[i]
+		if (i < #arg) m = $ + " " end --add space between words (arguments)
+	end
+	if ((s == server) and (#m))
+		for p in players.iterate do
+			if (p.spectator) chatprintf(p, "\x86{~SERVER} "..m) end
+		end
+		CONS_Printf(server, "{~SERVER} "..m)
+	else
+		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat. Only the Dedicated Host can use this command")
+	end
+end, COM_ADMIN)
+
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	local delaytimer = CV_FindVar("mmspam").value*TICRATE
 	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
 		CONS_Printf(s, MM.text[s.mmlang]["CHAT"][2])
-		return true
-	end
-
-	if ((isdedicatedserver) and (s == server) and (m:sub(1,1) == "^")) --Dedicated Server can send messages to the DEAD chat
-		for p in players.iterate do
-			if (p.spectator) chatprintf(p, "\x86{~SERVER} "..m:sub(2)) end
-		end
-		CONS_Printf(server, "{~SERVER} "..m:sub(2))
 		return true
 	end
 
@@ -89,11 +100,15 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	end
 	s.chatdelay = delaytimer
 end)
+
+--chat delay timers
+--gameplay timer
 addHook("PlayerThink", function(p)
 	if (not p.chatdelay) p.chatdelay = 0 end
 	if (p.chatdelay != 0) p.chatdelay = $ - 1 end
 	if (p.chatdelay <= 0) p.chatdelay = 0 end
 end)
+--intermission timer
 addHook("IntermissionThinker", do
 	for p in players.iterate
 		if (not p.chatdelay) p.chatdelay = 0 end

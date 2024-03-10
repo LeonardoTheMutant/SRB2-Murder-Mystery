@@ -217,13 +217,13 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--PEOPLE ALIVE (replaces SCORES)
+	local peoplePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_PALIVE"]) + 14
 	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_PALIVE"])
-	--V_DrawTextPatch(v, (infoSCORE.x + 6 + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_PEOPLE"])), infoSCORE.y, mmtxt[p.mmlang]["BMP_ALIVE"])
 	local plrsAlive = PlayersAlive()
-	if (plrsAlive < 10) v.draw((infoSCORE.x + 104), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
+	if (plrsAlive < 10) v.draw((infoSCORE.x + peoplePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
 	else
-		v.draw((infoSCORE.x + 104), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
-		v.draw((infoSCORE.x + 112), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
+		v.draw((infoSCORE.x + peoplePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
+		v.draw((infoSCORE.x + peoplePatchWidth + 8), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
 	end
 
 	--TIME
@@ -250,9 +250,11 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 	--RINGS
-	if (not p.rings) and (leveltime & 4) V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_RINGS"], 0x49, 0x25))
-	else V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, mmtxt[p.mmlang]["BMP_RINGS"]) end
-	v.drawNum((infoRINGS.x + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_RINGS"]) + 38), infoRINGS.y, p.rings, infoRINGS.f)
+	if (not p.spectator)
+		if (not p.rings) and (leveltime & 4) V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_RINGS"], 0x49, 0x25))
+		else V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, mmtxt[p.mmlang]["BMP_RINGS"]) end
+		v.drawNum((infoRINGS.x + V_TextPatchWidth(mmtxt[p.mmlang]["BMP_RINGS"]) + 38), infoRINGS.y, p.rings, infoRINGS.f)
+	end
 
 	--Life icon, player name and role
 	v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
@@ -277,8 +279,8 @@ local function mainHUD(v, p) --main game HUD
 			for y,i in pairs(mmtxt[p.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, (152 + y*4), p.mmlang, i, 0, 32768) end --FU/2
 		end
 		if (p.killedby)
-			if (p.killedby == "your stupidity") V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
-			else V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..p.killedby, infoRINGS.f) end
+			if (p.killedby == "your stupidity") V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
+			else V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..p.killedby, infoRINGS.f) end
 		end
 	end
 
@@ -364,8 +366,8 @@ local function mainHUD(v, p) --main game HUD
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, (infoRINGS.y + 32), "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	elseif (p.sneak) v.drawString(infoRINGS.x, (infoRINGS.y + 24), "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
 
-	--Flash screen when you die
-	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("HUD_FLSH"), ((p.flashscrn-1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end
+	--red Flash effect when you die
+	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("HUD_FLSH"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end
 
 	--Debug
 	if MM.devbuild

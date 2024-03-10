@@ -65,7 +65,7 @@ addHook("PlayerSpawn", function(p)
 
 	--Player num and state check on join
 	if ((not MM.onepgame) and (not MM.twopgame)) MM.singleplr = p end
-	if (MM.onepgame) and (p.role == nil) --Player2 joined a 'singleplayer' round
+	if ((MM.onepgame) and (p.role == nil)) --Player2 joined a 'singleplayer' round
 		MM_AssignRoles() --Assign roles for that duel
 		
 		MM.twopgame = true
@@ -73,12 +73,13 @@ addHook("PlayerSpawn", function(p)
 	elseif ((PlayerCount() > 2) and (p.role == nil))
 		if (MM.twopgame)
 			p.role = ROLE_INNOCENT
-			chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][3]
+			chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][3])
 			roleflicker = 105
 			MM.twopgame = false
 		else
-			p.spectator = true end --Players >=4 who joined are DEAD (spectators)
+			p.spectator = true --Players >=4 who joined are DEAD (spectators)
 		end
+	end
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
