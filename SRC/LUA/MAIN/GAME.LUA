@@ -89,7 +89,7 @@ addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	if (gametype == GT_MURDERMYSTERY)
 		local lang = p.mmlang or "EN"
 		if (not p.spectator) --Alive -> Spectator
-			chatprintf(p, MM.text[lang]["CHAT"][3])
+			CONS_Printf(p, MM.SysMsg[3])
 		end
 		return false
 	else return true end

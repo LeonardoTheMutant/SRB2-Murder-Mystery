@@ -142,12 +142,6 @@ MM.text={
 			"The \x82Hero\x80 chose to kill the last Innocent. The \x85Murderers\x80 win!",
 			"The Defenders of the\x83 Innocents\x80 are dead. The \x85Murderers\x80 win!"
 		},
-		--CHAT.LUA
-		["CHAT"]={
-			"is alive, message not sent",
-			"You're sending too many messages, please wait",
-			"You can't just\x8F die\x80 to spectate!"
-		},
 		--HUD.LUA
 		-- Bitmap patches
 		["BMP_PALIVE"]={
@@ -383,10 +377,6 @@ MM.text={
 			"Los\x85 Asesinos\x80 ganan porque el\x84 Comisario\x80 mato al ultimo Inocente! Que verguenza para el\x84 Comisario\x80",
 			"El \x82Heroe\x80 escogio matar al ultimo Inocente. Los\x85 Asesinos\x80 ganan!",
 			"Los Defensores de los\x83 Inocentes\x80 estan muertos. Los\x85 Asesinos\x80 ganan!"
-		},["CHAT"]={
-			"esta vivo, el mensaje no ha sido enviado",
-			"Estas enviando muchos mensajes, porfavor espera",
-			"No puedes solamente\x8F morir\x80 para espectar!"
 		},["BMP_PEOPLE"]={
 			"\xFFIIIII\x1F\xFF\xFFIIIIII\x1F\xFF\xFFIIII\x1F\xFF\xFFIIIII\x1F\xFF\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
 			"\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
@@ -611,10 +601,6 @@ MM.text={
 			"\x85Mordercy\x80 wygrywaja, poniewaz \x84Szeryf\x80 zamordowal ostatniego Niewinnego!",
 			"\x82".."Bohater\x80 wybral do zabicia ostatniego Niewinnego. \x85Moredrcy\x80 Wygrywaja!",
 			"Wszyscy Szeryfi i Bohaterzy zginely, \x85Mordercy\x80 wygrywaja!"
-		},["CHAT"]={
-			"zyje, wiadomosc nie wyslana",
-			"Wysylasz za duzo wiadomosci, prosze poczekac",
-			"Nie mozesz poprostu stac sie\x8F martwym\x80 do ogladania!"
 		},["BMP_PALIVE"]={
 			"\xFFII\x1F\x1FII\x1F\xFFII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\xFF\xFFII\x1F\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFFII\x1F\xFFII\x1F",
 			"\xFFIIIIII\x1F\xFFII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFFII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFFII\x1F",
@@ -818,10 +804,6 @@ MM.text={
 			"\x85Katiller\x80 kazandi cunku \x84Serif\x80 son Masum'u oldurdu! \x84serif\x80'e yaziklar olsun",
 			"\x82Kahraman\x80 son Masum'u oldurmeyi secti. \x85Katiller\x80 kazandi!",
 			"\x83 Masumlarin savunuculari\x80 oldu. \x85Katiller\x80 kazandi!"
-		},["CHAT"]={
-			"Canli, mesaj gonderilmedi",
-			"Cok fazla mesaj gonderiyorsun, lutfen bekle",
-			"Izleyici moduna gecmek icin \x8F ol\x80!"
 		},["BMP_PEOPLE"]={
 			"\xFFIIIII\x1F\xFF\xFFIIIIII\x1F\xFF\xFFIIII\x1F\xFF\xFFIIIII\x1F\xFF\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
 			"\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
@@ -1050,10 +1032,6 @@ MM.text={
 			"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80 wbyw ostanniogo Newynnogo!",
 			"\x82Geroj\x80 wbyw ostanniogo Newynnogo. \x85Wbywci\x80 wygraly!",
 			"Wsi Sheryfy ta Geroji mertwi, \x85Wbywci\x80 wygraly!"
-		},["CHAT"]={
-			"sh'e zyje, powidomlennia ne nadislano",
-			"Ty nadsylajesz zabagato powidomlen', bud' laska zachekaj",
-			"Ne mozhna prosto tak \x8Fpomerty\x80 shob dywytysia za groju!"
 		},["BMP_PEOPLE"]={
 			"\xFFIIIII\x1F\xFF\xFFIIIIII\x1F\xFF\xFFIIII\x1F\xFF\xFFIIIII\x1F\xFF\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
 			"\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F",
@@ -1283,10 +1261,6 @@ MM.text={
 			"\x85Ubijcy\x80 wyigrali potomuchto \x84Sherif\x80 ubil(a) poslednego Newinnogo! Styd \x84Sherifu\x80",
 			"\x82Geroj\x80 wybral temnuju storonu i ubil poslednego Newinnogo. \x85Ubijcy\x80 wyigrali!",
 			"Wse zashitniki\x83 Newinnych\x80 pogibli. \x85Ubijcy\x80 wyigrali!"
-		},["CHAT"]={
-			"esh'e nie mertw(a), soobshenie nie otprawleno",
-			"Ty shlesh slishkom mnogo soobshenij, pozhalujsta podozhdi",
-			"Nie mozhna prosto tak\x8F umeret'\x80 i stat' spektatorom!"
 		},["ROLES_HUD"]={
 			"\xD3\xC1\xC8\xC9\xD6\xC0", --UBIJCA
 			"\xD8\xC5\xD0\xC8\xD4", --SHERIF

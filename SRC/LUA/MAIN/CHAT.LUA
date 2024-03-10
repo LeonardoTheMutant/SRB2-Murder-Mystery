@@ -26,7 +26,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	local delaytimer = CV_FindVar("mmspam").value*TICRATE
 	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
-		CONS_Printf(s, MM.text[s.mmlang]["CHAT"][2])
+		CONS_Printf(s, MM.SysMsg[2])
 		return true
 	end
 
@@ -38,7 +38,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			if (t.spectator)
 				chatprintf(t, "\x86[PM]{"..s.name.."} "..m)
 				chatprintf(s, "\x86[TO]{"..t.name.."} "..m)
-			else CONS_Printf(s, t.name.." "..MM.text[s.mmlang]["CHAT"][1]) end
+			else CONS_Printf(s, t.name.." "..MM.SysMsg[1]) end
 		end
 		return true
 	else

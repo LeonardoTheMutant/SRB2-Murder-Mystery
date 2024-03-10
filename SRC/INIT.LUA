@@ -37,6 +37,10 @@ rawset(_G, "MM", {
 		"	Hello there   | Obi-Wan's iconic phrase",
 		"  ---------------+---------------------------",
 		"\n * This keyword has to be present in the message alone to work"
+	},SysMsg={ --internal console messages
+		"is alive, message not sent",
+		"You're sending too many messages, please wait",
+		"You can't just\x8F die\x80 to spectate!"
 	},CharStats = {
 		default = {
 			ability = CA_NONE,
