@@ -125,7 +125,6 @@ addHook("PlayerThink", function(p)
         if (not p.spectator)
             p.mo.momx = 0
             p.mo.momy = 0
-            p.mo.momz = 0
             p.mo.state = S_PLAY_STND
         end
     end

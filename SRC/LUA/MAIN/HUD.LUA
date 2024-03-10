@@ -378,10 +378,9 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82".."MMLANG: \x80"..p.mmlang,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82".."KILLS: \x80"..p.kills,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82".."CHATDELAY: \x80"..p.chatdelay,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."ONEPGAME: \x80"..tostring(MM.onepgame),0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin")
-		v.drawString(coords.debugHUD.x, coords.debugHUD.y+80, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist),0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist),0,"thin")
 	end
 end
 

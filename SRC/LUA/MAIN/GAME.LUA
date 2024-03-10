@@ -27,7 +27,6 @@ addHook("MapLoad", function(map)
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
     print("Time limit for this round is "..MM.timelimit.." minutes")
 
-	MM.onepgame = (PlayerCount() == 1)
 	MM.twopgame = (PlayerCount() == 2)
 	MM.minigame = false
 
@@ -64,21 +63,11 @@ addHook("PlayerSpawn", function(p)
 	p.oldname = p.name --Anti-cheat init
 
 	--Player num and state check on join
-	if ((not MM.onepgame) and (not MM.twopgame)) MM.singleplr = p end
-	if ((MM.onepgame) and (p.role == nil)) --Player2 joined a 'singleplayer' round
+	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
 		MM_AssignRoles() --Assign roles for that duel
-		
 		MM.twopgame = true
-		MM.onepgame = false
 	elseif ((PlayerCount() > 2) and (p.role == nil))
-		if (MM.twopgame)
-			p.role = ROLE_INNOCENT
-			chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][3])
-			roleflicker = 105
-			MM.twopgame = false
-		else
-			p.spectator = true --Players >=4 who joined are DEAD (spectators)
-		end
+		p.spectator = true
 	end
 end)
 
@@ -304,6 +293,7 @@ end)
 --
 addHook("PlayerQuit", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
+
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
 		if ((not PlayerCount(ROLE_INNOCENT)) or (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF))) and PlayerCount(ROLE_MURDERER)==0)

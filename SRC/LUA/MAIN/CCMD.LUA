@@ -89,7 +89,7 @@ local function MMlang(p, l) --player, lang
 		return
 	end
 	if (p == server) and (isdedicatedserver)
-		CONS_Printf(server, "Dedicated server host can have only ENGLISH language")
+		CONS_Printf(server, "Dedicated Host can have only ENGLISH language")
 		return
 	end
 	if (not l)
