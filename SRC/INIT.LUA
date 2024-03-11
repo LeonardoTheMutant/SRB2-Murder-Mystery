@@ -228,7 +228,7 @@ dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
 dofile("MAIN/ABILITIES.LUA")
 dofile("MAIN/NOCHEAT.LUA")
-dofile("MAIN/MINIGAME.LUA")
+dofile("MAIN/MINIGAMES.LUA")
 
 dofile("LEVELS/MAPK0.LUA")
 dofile("LEVELS/MAPK7.LUA")

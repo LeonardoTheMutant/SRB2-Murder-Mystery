@@ -1,8 +1,11 @@
--- MINIGAME.LUA
+-- MINIGAMES.LUA
 -- Code LeonardoTheMutant
 --
--- Pong two-player duel minigame
+-- Murder Mystery minigames to not become bored
 
+--
+-- PONG MINIGAME
+--
 local function PONG_PlaySFX(sfx)
     for p in players.iterate do if (p.minigame) then S_StartSound(nil, sfx, p) end end
 end
@@ -81,6 +84,49 @@ local function PONG_ThinkCmd(p)
     end
 end
 
+--
+-- SONIC RUN MINIGAME
+--
+local function SONIC_Reset(p)
+    p.SonicRun = {
+        score = 0,
+        Y = 0,
+        velocity = 0,
+        jumpVelocity = 8,
+        state = 0,
+        timeout = 140
+    }
+end
+local function SONIC_Thinker(p)
+    if (p.SonicRun.timeout)
+        p.SonicRun.state = 0
+        p.SonicRun.timeout = $ - 1
+        if (p.SonicRun.timeout > TICRATE)
+            --if (not p.SonicRun.timeout % TICRATE) S_StartSound()
+            return
+        end
+    end
+
+    if (not p.SonicRun.Y)
+        p.SonicRun.state = 1 --running
+
+        if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --up (jump)
+            p.SonicRun.state = 2 --jump
+            --p.SonicRun.velocity = jumpVelocity
+        end
+
+        if ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
+            p.SonicRun.state = 2 --spin
+        end
+    else
+        --p.SonicRun.velocity = $ + gravity
+    end
+
+    --p.SonicRun.Y = 0
+    p.SonicRun.score = $ + 1
+end
+
+--global Pong thinker
 addHook("ThinkFrame", do
     if (gametype != GT_MURDERMYSTERY) return end
     if (MM.twopgame)
@@ -103,29 +149,45 @@ addHook("ThinkFrame", do
     end
 end)
 
+--Player Thinker (Pong inputs, Sonic Run Thinker for each player)
 addHook("PlayerThink", function(p)
     if (gametype != GT_MURDERMYSTERY) return end
-    if (p.cmd.buttons & BT_CUSTOM3) and (MM.twopgame)
+
+    --Player's minigame toggle
+    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
         if (not p.custom3pressed)
-            if (p.minigame) 
+            if (p.minigame)
                 if (not p.minigametimeout) p.minigame=false end
             else
                 p.minigame = true
                 p.minigametimeout = 105
+                SONIC_Reset(p)
             end
         end
         p.custom3pressed = true
     else p.custom3pressed = false end
 
+    --timeout logic
     if (p.minigametimeout) and (p.minigametimeout > 0) p.minigametimeout = $ - 1 end
 
-    if (MM.minigame) and (p.minigame)
-        if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
-        --Disable player movement (kinda)
-        if (not p.spectator)
-            p.mo.momx = 0
-            p.mo.momy = 0
-            p.mo.state = S_PLAY_STND
+    --Player is in minigame state
+    if (p.minigame)
+        if ((MM.minigame) and (MM.twopgame)) --PONG
+            if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
+            --Disable player movement (kinda)
+            if ((p.realmo) and (p.realmo.valid))
+                p.realmo.momx = 0
+                p.realmo.momy = 0
+                p.realmo.state = S_PLAY_STND
+            end
+        elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
+            SONIC_Thinker(p)
+            if ((p.realmo) and (p.realmo.valid))
+                p.realmo.momx = 0
+                p.realmo.momy = 0
+                p.realmo.momz = 0
+                p.realmo.state = S_PLAY_STND
+            end
         end
     end
 end)

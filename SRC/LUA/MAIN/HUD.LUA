@@ -26,6 +26,8 @@ local coords={ --HUD screen coordinates
 		x=8, y=48
 	},pong = { --offset cordinates from screen's (0,0)
 		x=80, y=60
+	},sonicRun = { --offset cordinates from screen's (0,0)
+		x=60, y=60
 	},minigameTime = {
 		x=124, y=24
 	}
@@ -139,29 +141,113 @@ local function mainHUD(v, p) --main game HUD
 	--timer calculation
 	local timeleft = (MM.timelimit * 2100) - leveltime
 
+	if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
+		--CUSTOM3 related text
+		if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
+
+		--TIME
+		--"TIME" text
+		local timePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_TIME"])
+		if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_TIME"], 0x49, 0x25))
+		else V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, mmtxt[p.mmlang]["BMP_TIME"]) end
+		--minutes
+		if (G_TicsToMinutes(timeleft) > 9)
+			v.draw((coords.minigameTime.x + timePatchWidth + 6), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10))) --first digit
+			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10))) --second digit
+		else
+			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)))
+		end
+		--colon
+		v.draw((coords.minigameTime.x + timePatchWidth + 22), coords.minigameTime.y, v.cachePatch("STTCOLON"))
+		--seconds
+		if (G_TicsToSeconds(timeleft) > 9)
+			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10))) --first digit
+			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10))) --second digit
+		else
+			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM0")) --first digit is always 0
+			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft))) --second digit
+		end
+
+		--white screen background
+		v.drawFill(coords.sonicRun.x, coords.sonicRun.y, 200, 80, 0)
+
+		--Sonic
+		local sonicSprite
+		if (p.SonicRun.state == 0)
+			sonicSprite = "SNC_STND"
+		elseif (p.SonicRun.state == 1)
+			if (leveltime & 1) sonicSprite = "SNC_RUN1"
+			else sonicSprite = "SNC_RUN2" end
+		elseif (p.SonicRun.state == 2)
+			if (leveltime % 4 == 0) sonicSprite = "SNC_SPN1"
+			elseif (leveltime % 4 == 1) sonicSprite = "SNC_SPN3"
+			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN2"
+			elseif (leveltime % 4 == 3) sonicSprite = "SNC_SPN3" end
+		end
+		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (57 - p.SonicRun.Y)), v.cachePatch(sonicSprite))
+
+		--black screen outline
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31) --left side
+		v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y), 16, 80, 31) --right
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31) --top
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31) --bottom
+
+		--score
+		local scoreWidth = v.stringWidth(p.SonicRun.score)
+		v.drawString((coords.sonicRun.x + 200 - scoreWidth), (coords.sonicRun.y - 8), p.SonicRun.score, V_SNAPTORIGHT|V_BLUEMAP)
+
+		--player side information
+		--character icon
+		v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
+		--name
+		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
+		--role
+		if (p.role) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), p.mmlang, MM.RoleColorHUD[p.role]..mmtxt[p.mmlang]["ROLES_HUD"][p.role], hudinfo[HUD_LIVES].f) end
+
+		if (MM.devbuild)
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87SONIC RUN",0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Leveltime\x80 "..leveltime,0,"thin")
+		end
+		return
+	end
 	--PONG minigame renderer
 	if (MM.minigame) and (p.minigame)
 		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
 		--CUSTOM3 related text and show yourself
 		if (p==MM.duelplrs[1]) or (p==MM.duelplrs[2])
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
 			if (p==MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTOLEFT)
 			elseif (p==MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, p.mmlang, "\2"..mmtxt[p.mmlang]["YOU_HUD"], V_SNAPTORIGHT) end
 		else
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_SPECTN"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_SPECTN"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["SPECTATING"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
 		end
 
-		--Time
-		if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) v.draw(coords.minigameTime.x, coords.minigameTime.y, v.cachePatch("STTRTIME"), infoTIME.f)
-		else v.draw(coords.minigameTime.x, coords.minigameTime.y, v.cachePatch("STTTIME"), infoTIME.f) end
-
-		v.drawNum((coords.minigameTime.x + 48), coords.minigameTime.y, G_TicsToMinutes(timeleft), hudinfo[HUD_MINUTES].f)
-		v.draw((coords.minigameTime.x + 48), coords.minigameTime.y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIMECOLON].f)
-		if (G_TicsToSeconds(timeleft) > 9) v.drawNum((coords.minigameTime.x + 72), coords.minigameTime.y, G_TicsToSeconds(timeleft), hudinfo[HUD_SECONDS].f)
+		--TIME
+		--"TIME" text
+		local timePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_TIME"])
+		if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, V_TextPatch_SwapColor(mmtxt[p.mmlang]["BMP_TIME"], 0x49, 0x25))
+		else V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, mmtxt[p.mmlang]["BMP_TIME"]) end
+		--minutes
+		if (G_TicsToMinutes(timeleft) > 9)
+			v.draw((coords.minigameTime.x + timePatchWidth + 6), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10))) --first digit
+			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10))) --second digit
 		else
-			v.draw((coords.minigameTime.x + 56), coords.minigameTime.y, v.cachePatch("STTNUM0"), hudinfo[HUD_SECONDS].f)
-			v.draw((coords.minigameTime.x + 64), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft)), hudinfo[HUD_SECONDS].f)
+			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)))
+		end
+		--colon
+		v.draw((coords.minigameTime.x + timePatchWidth + 22), coords.minigameTime.y, v.cachePatch("STTCOLON"))
+		--seconds
+		if (G_TicsToSeconds(timeleft) > 9)
+			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10))) --first digit
+			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10))) --second digit
+		else
+			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM0")) --first digit is always 0
+			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft))) --second digit
 		end
 
 		--draw board
@@ -212,8 +298,8 @@ local function mainHUD(v, p) --main game HUD
 		end
 		return
 	elseif (MM.minigame) and (not p.minigame)
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_SPECT"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_SPECT"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_DUEL"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["SPECTATE"]), 0, 32768)), 0, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["SPECTATE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["DUEL"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
 	--PEOPLE ALIVE (replaces SCORES)
@@ -282,6 +368,11 @@ local function mainHUD(v, p) --main game HUD
 			if (p.killedby == "your stupidity") V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
 			else V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..p.killedby, infoRINGS.f) end
 		end
+		if (not (p.minigame and MM.twopgame and MM.minigame))
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["BORED"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["BORED"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["PRESS"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["START"], 0, 32768)), 8, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["START"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		end
 	end
 
 	if (not p.spectator) and (MM.twopgame)
@@ -292,16 +383,16 @@ local function mainHUD(v, p) --main game HUD
 		end
 		if ((rival) and (rival.valid))
 			if ((not p.minigame) and (not rival.minigame))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_REQ"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_REQ"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["REQUEST"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["REQUEST"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			elseif ((p.minigame) and (not rival.minigame))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_WAIT"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_WAIT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["WAIT"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["WAIT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 				if (not p.minigametimeout)
-					V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_CANCEL"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME_PRESS"].." "..mmtxt[p.mmlang]["MINIGAME_CANCEL"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+					V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["CANCEL"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["CANCEL"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 				end
 			elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME_PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME_ACCEPT"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME_ACCEPT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["PRESS"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["ACCEPT"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["ACCEPT"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			end
 		end
 	end
@@ -353,9 +444,14 @@ local function mainHUD(v, p) --main game HUD
 	end
 
 
-	--Are you alone? Draw the text
+	--Are you alone?
 	if (PlayerCount() == 1)
+		--Draw the text
 		for y,i in pairs(mmtxt[p.mmlang]["HUD_ALONE"]) do V_DrawStrASCIIcentered(v, 160, (128 + y*8), p.mmlang, i) end
+		--suggest a minigame
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["BORED"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["BORED"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["PRESS"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["START"], 0, 32768)), 8, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["START"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 	--"Showdown duel!"
 	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)))

@@ -64,6 +64,8 @@ addHook("PlayerSpawn", function(p)
 
 	--Player num and state check on join
 	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
+		for player in players.iterate do player.minigame = false end
+		MM.minigame = false
 		MM_AssignRoles() --Assign roles for that duel
 		MM.twopgame = true
 	elseif ((PlayerCount() > 2) and (p.role == nil))
