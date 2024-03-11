@@ -303,9 +303,9 @@ local function mainHUD(v, p) --main game HUD
 		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["DUEL"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
-	--PEOPLE ALIVE (replaces SCORES)
-	local peoplePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_PALIVE"]) + 14
-	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_PALIVE"])
+	--SUSPECTS (replaces SCORES)
+	local peoplePatchWidth = V_TextPatchWidth(mmtxt[p.mmlang]["BMP_SUS"]) + 14
+	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[p.mmlang]["BMP_SUS"])
 	local plrsAlive = PlayersAlive()
 	if (plrsAlive < 10) v.draw((infoSCORE.x + peoplePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
 	else
