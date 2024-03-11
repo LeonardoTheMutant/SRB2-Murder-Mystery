@@ -316,7 +316,8 @@ local language={ --Language must be a table variable, you can name the variable 
 		["ACCEPT"]="accept the \7PONG\0 challenge!", --must contain MM escape color codes
 		["WAIT"]="Waiting for the rival to accept...",
 		["SPECTATING"]="Spectating a duel...",
-		["BORED"]="Bored?"
+		["BORED"]="Bored?",
+		["PONGBALL"]="Spectators can change the ball's direction"
 	},
 	["YOU_HUD"]="YOU",
 

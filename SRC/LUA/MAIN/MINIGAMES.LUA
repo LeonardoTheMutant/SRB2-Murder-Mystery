@@ -77,6 +77,25 @@ local function PONG_ThinkCmd(p)
         elseif (MM.duelplrs[2] == p) MM.pong.pads[2] = $ + 2 end
     end
 
+    if ((MM.duelplrs[1] != p) and (MM.duelplrs[2] != p) and (p.spectator)) --you are spectator
+        --spectators are allowed to manipulate the ball ;P
+        if (not p.mmweapondelay)
+            if (p.cmd.forwardmove > 0) --up
+                MM.pong.velocity.y = -1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.forwardmove < 0) --down
+                MM.pong.velocity.y = 1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.sidemove > 0) --right
+                MM.pong.velocity.x = 1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.sidemove < 0) --left
+                MM.pong.velocity.x = -1
+                p.mmweapondelay = TICRATE
+            end
+        end
+    end
+
     --check if pads are out of bounds
     for pad = 1, 2 do
         if (MM.pong.pads[pad] < 0) MM.pong.pads[pad] = 0
@@ -99,30 +118,33 @@ local function SONIC_Reset(p)
 end
 local function SONIC_Thinker(p)
     if (p.SonicRun.timeout)
-        p.SonicRun.state = 0
         p.SonicRun.timeout = $ - 1
         if (p.SonicRun.timeout > TICRATE)
-            --if (not p.SonicRun.timeout % TICRATE) S_StartSound()
+            p.SonicRun.state = 0
+            if (not (p.SonicRun.timeout % TICRATE)) S_StartSound(nil, sfx_thok, p) end
             return
         end
     end
 
-    if (not p.SonicRun.Y)
+    if (p.SonicRun.Y < 1) --touching the ground?
         p.SonicRun.state = 1 --running
+        p.SonicRun.velocity = 0
 
+        --controls
         if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --up (jump)
             p.SonicRun.state = 2 --jump
-            --p.SonicRun.velocity = jumpVelocity
-        end
-
-        if ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
+            p.SonicRun.velocity = 8
+        elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
             p.SonicRun.state = 2 --spin
         end
     else
-        --p.SonicRun.velocity = $ + gravity
+        p.SonicRun.velocity = $ - 1
     end
 
-    --p.SonicRun.Y = 0
+    p.SonicRun.Y = $ + p.SonicRun.velocity
+    --reposition Sonic so he doesn't move underground
+    while (p.SonicRun.Y < 0) p.SonicRun.Y = $ + 1 end
+
     p.SonicRun.score = $ + 1
 end
 

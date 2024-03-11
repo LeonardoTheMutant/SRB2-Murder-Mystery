@@ -184,7 +184,7 @@ local function mainHUD(v, p) --main game HUD
 			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN2"
 			elseif (leveltime % 4 == 3) sonicSprite = "SNC_SPN3" end
 		end
-		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (57 - p.SonicRun.Y)), v.cachePatch(sonicSprite))
+		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (57 - p.SonicRun.Y)), v.cachePatch(sonicSprite), V_SNAPTOBOTTOM)
 
 		--black screen outline
 		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31) --left side
@@ -225,6 +225,7 @@ local function mainHUD(v, p) --main game HUD
 		else
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["SPECTATING"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
 			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), 0, 32768)), 4, p.mmlang, (mmtxt[p.mmlang]["MINIGAME"]["PRESS"].." "..mmtxt[p.mmlang]["MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
+			V_DrawStrASCIIcentered(v, 160, 152, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PONGBALL"]) --spectator ball text
 		end
 
 		--TIME
@@ -368,7 +369,7 @@ local function mainHUD(v, p) --main game HUD
 			if (p.killedby == "your stupidity") V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..mmtxt[p.mmlang]["STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT)
 			else V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y), p.mmlang, "\5"..mmtxt[p.mmlang]["KILLBY_HUD"].."\0 "..p.killedby, infoRINGS.f) end
 		end
-		if (not (p.minigame and MM.twopgame and MM.minigame))
+		if ((not p.minigame) and (not MM.twopgame) and (not MM.minigame))
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["BORED"], 0, 32768)), 0, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["BORED"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["PRESS"], 0, 32768)), 4, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["PRESS"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[p.mmlang]["MINIGAME"]["START"], 0, 32768)), 8, p.mmlang, mmtxt[p.mmlang]["MINIGAME"]["START"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
