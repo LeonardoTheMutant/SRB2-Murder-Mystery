@@ -57,14 +57,17 @@ int main(int argc, char *argv[])
 
 	printf("Width: %hu\nHeight: %hu\nOffset X: %hu\nOffset Y: %hu\n\n", patchWidth, patchHeight, patchOffsetX, patchOffsetY);
 
-	//prepare a table which contains the end picture
-	uint8_t pixels[patchWidth][patchHeight];
-	for (uint16_t y = 0; y < patchHeight; y++) for (uint16_t x = 0; x < patchWidth; x++) pixels[y][x] = 0xFF; //transparent pixel
+	//prepare a table which will contain the pixels data
+	uint8_t pixels[patchHeight][patchWidth];
+	//clear the table
+	for (uint16_t y = 0; y < patchHeight; y++)
+		for (uint16_t x = 0; x < patchWidth; x++)
+			pixels[y][x] = 0xFF; //transparent pixel
 
 	//table containing column data offsets
 	uint32_t pointers[patchWidth];
 
-	//read column offset addresses
+	//read POST addresses (POST = Column data)
 	for (uint16_t column = 0; column < patchWidth; column++)
 	{
 		fread(&columnPointer, 4, 1, patchfile);
@@ -72,9 +75,12 @@ int main(int argc, char *argv[])
 	}
 
 	//iterate through POSTs
+
+	//note that Patches describe image from top to bottom
+	//and not from left to right as it's usually done
 	for (uint16_t i = 0; i < patchWidth; i++)
 	{
-		//go to the column's address
+		//go to the POST's address in the file
 		fseek(patchfile, pointers[i], SEEK_SET);
 
 		rowstart = 0;
@@ -83,10 +89,11 @@ int main(int argc, char *argv[])
 		{
 			//rowstart offset
 			fread(&rowstart, 1, 1, patchfile);
-			if (rowstart == 0xFF) break; //end of the file
+			if (rowstart == 0xFF) break; //end of the POST
 
 			fread(&length, 1, 1, patchfile); //length of this POST
 			fread(&dummy, 1, 1, patchfile); //dummy byte
+
 			//read pixel color data to the buffer
 			for (uint8_t j = 0; j < length; j++)
 			{
@@ -101,14 +108,14 @@ int main(int argc, char *argv[])
 	fclose(patchfile); //patch file close
 
 	//generate the LUA-compatible table
-	outputfile = fopen("OUTPUT.LUA", "w"); //create an output file
-	if (outputfile == NULL) //failed to create?
+	outputfile = fopen("OUTPUT.LUA", "w"); //create (or open existing) an output file
+	if (outputfile == NULL) //failed to create/open?
 	{
 		printf("ERROR: Failed to open an output file\n");
         return 1;
 	}
 
-	printf("Pixel data:\n");
+	printf("Pixel data:\n"); //debug
 	fprintf(outputfile, "local OUTPUT_BITMAP = {\n"); //table declaration
 	for (uint32_t row = 0; row < patchHeight; row++)
 	{
@@ -116,18 +123,18 @@ int main(int argc, char *argv[])
 		for (uint32_t column = 0; column < patchWidth; column++)
 		{
 			currPixel = pixels[row][column];
-			printf("%X ", currPixel);
-			if ((((currPixel >= 0x47) && (currPixel <= 0x5A)) || ((currPixel >= 0x67) && (currPixel <= 0x7A))) && ((argc > 2) && (argv[2][0] == '-'))) //check if the compressiion option enabled (dash would be enough)
+			printf("%X ", currPixel); //debug
+			if ((((currPixel >= 0x20) && (currPixel <= 0x2F)) || ((currPixel >= 0x47) && (currPixel <= 0x5A)) || ((currPixel >= 0x67) && (currPixel <= 0x7A))) && ((argc > 2) && (argv[2][0] == '-'))) //check if the compressiion option enabled (dash would be enough)
 			{
 				//compression enabled, type the printable character
 				fprintf(outputfile, "%c", currPixel);
 			} else {
-				//write in HEX format
-				if (currPixel < 0x10) fprintf(outputfile, "\\x0%X", currPixel); //add missing zero
+				//compression disabled or non-convertable symbol, write in HEX format
+				if (currPixel < 0x10) fprintf(outputfile, "\\x0%X", currPixel); //add missing zero for numbers 0-15
 				else fprintf(outputfile, "\\x%X", currPixel);
 			}
 		}
-		printf("\n");
+		printf("\n"); //debug
 		fprintf(outputfile, "\",\n"); //end of the row line
 	}
 	fprintf(outputfile, "}\n"); //end of the table
