@@ -180,11 +180,16 @@ local function mainHUD(v, p) --main game HUD
 			else sonicSprite = "SNC_RUN2" end
 		elseif (p.SonicRun.state == 2)
 			if (leveltime % 4 == 0) sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 1) sonicSprite = "SNC_SPN3"
-			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN2"
+			elseif (leveltime % 4 == 1) sonicSprite = "SNC_SPN2"
+			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN1"
 			elseif (leveltime % 4 == 3) sonicSprite = "SNC_SPN3" end
 		end
-		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (57 - p.SonicRun.Y)), v.cachePatch(sonicSprite), V_SNAPTOBOTTOM)
+		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), v.cachePatch(sonicSprite))
+
+		--hazards
+		for id, hazard in pairs(p.SonicRun.hazards)
+			v.drawScaled((coords.sonicRun.x + hazard.x + 16)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch("SPIKA0")) --FU/2
+		end
 
 		--black screen outline
 		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31) --left side
@@ -208,9 +213,12 @@ local function mainHUD(v, p) --main game HUD
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87SONIC RUN",0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
 			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Leveltime\x80 "..leveltime,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Height:\x80 "..p.SonicRun.Height,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
+			v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
 		end
 		return
 	end

@@ -110,10 +110,13 @@ local function SONIC_Reset(p)
     p.SonicRun = {
         score = 0,
         Y = 0,
+        Height = 20,
         velocity = 0,
         jumpVelocity = 8,
         state = 0,
-        timeout = 140
+        timeout = 140,
+        hazards = {},
+        hazardsTimeout = 0
     }
 end
 local function SONIC_Thinker(p)
@@ -126,26 +129,70 @@ local function SONIC_Thinker(p)
         end
     end
 
+    --
+    -- Sonic (Player) logic
+    --
     if (p.SonicRun.Y < 1) --touching the ground?
         p.SonicRun.state = 1 --running
         p.SonicRun.velocity = 0
 
         --controls
         if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --up (jump)
-            p.SonicRun.state = 2 --jump
-            p.SonicRun.velocity = 8
+            p.SonicRun.state = 2
+            p.SonicRun.velocity = 10
         elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
-            p.SonicRun.state = 2 --spin
+            p.SonicRun.state = 2
         end
     else
         p.SonicRun.velocity = $ - 1
     end
+
+    --adjust Sonic's hitbox
+    if (p.SonicRun.state == 2) p.SonicRun.Height = 14
+    else p.SonicRun.Height = 20 end
 
     p.SonicRun.Y = $ + p.SonicRun.velocity
     --reposition Sonic so he doesn't move underground
     while (p.SonicRun.Y < 0) p.SonicRun.Y = $ + 1 end
 
     p.SonicRun.score = $ + 1
+
+    --
+    -- Hazard logic
+    --
+    p.SonicRun.hazardsTimeout = $ - 1
+
+    --hazard spawning
+    if (p.SonicRun.hazardsTimeout <= 0)
+        local hazardType = P_RandomKey(5)
+        if (hazardType == 0)
+            table.insert(p.SonicRun.hazards, {x = 200, y = 0})
+        elseif (hazardType == 1)
+            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
+        elseif (hazardType == 2)
+            table.insert(p.SonicRun.hazards, {x = 200, y = 48})
+        elseif (hazardType == 3)
+            table.insert(p.SonicRun.hazards, {x = 200, y = 0})
+            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
+        elseif (hazardType == 4)
+            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 200, y = 32})
+        end
+        p.SonicRun.hazardsTimeout = (P_RandomKey(2) * TICRATE) + 15
+    end
+
+    --hazards thinker and collision
+    for id, hazard in ipairs(p.SonicRun.hazards)
+        hazard.x = $ - 4 --move
+        if (hazard.x > 30) break end --ignore cuz its too far to collide
+
+        if ((((hazard.x + 16) >= 16) and (hazard.x <= 20)) and (((hazard.y + 16) >= p.SonicRun.Y) and (hazard.y <= (p.SonicRun.Y + p.SonicRun.Height))))
+            --die
+            p.SonicRun.state = 0 --for now Sonic just pretends to die
+        elseif (hazard.x <= -16) --out of bounds
+            table.remove(p.SonicRun.hazards, id)
+        end
+    end
 end
 
 --global Pong thinker
