@@ -198,6 +198,16 @@ local function mainHUD(v, p) --main game HUD
 		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31) --top
 		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31) --bottom
 
+		--Startup timer
+		if (p.SonicRun.timeout)
+			local secondsLeft = p.SonicRun.timeout / TICRATE
+			if (secondsLeft)
+				local countdownPatch = "RACE3"
+				if (secondsLeft <= 2) countdownPatch = "RACE"..secondsLeft end
+				v.draw(152, 100, v.cachePatch(countdownPatch))
+			elseif v.draw(142, 100, v.cachePatch("RACEGO")) end
+		end
+
 		--score
 		local scoreWidth = v.stringWidth(p.SonicRun.score)
 		v.drawString((coords.sonicRun.x + 200 - scoreWidth), (coords.sonicRun.y - 12), p.SonicRun.score, V_SNAPTORIGHT|V_BLUEMAP)

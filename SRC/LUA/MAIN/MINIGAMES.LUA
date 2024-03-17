@@ -115,21 +115,12 @@ local function SONIC_Reset(p)
         velocity = 0,
         jumpVelocity = 8,
         state = 0,
-        timeout = 140,
+        timeout = 141,
         hazards = {},
         hazardsTimeout = 0,
     }
 end
 local function SONIC_Thinker(p)
-    if (p.SonicRun.timeout)
-        p.SonicRun.timeout = $ - 1
-        if (p.SonicRun.timeout > TICRATE)
-            p.SonicRun.state = 0
-            if (not (p.SonicRun.timeout % TICRATE)) S_StartSound(nil, sfx_thok, p) end
-            return
-        end
-    end
-
     --
     -- Sonic (Player) logic
     --
@@ -255,7 +246,15 @@ addHook("PlayerThink", function(p)
                 p.realmo.state = S_PLAY_STND
             end
         elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
-            if (p.SonicRun.active) SONIC_Thinker(p) end
+            if (p.SonicRun.timeout)
+                p.SonicRun.timeout = $ - 1
+                if (p.SonicRun.timeout > TICRATE)
+                    p.SonicRun.state = 0
+                    if (not (p.SonicRun.timeout % TICRATE)) S_StartSound(nil, sfx_s3ka7, p) end
+                    return
+                elseif (p.SonicRun.timeout == TICRATE) S_StartSound(nil, sfx_s3kad, p) end
+            end
+            if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end
             if ((p.realmo) and (p.realmo.valid))
                 p.realmo.momx = 0
                 p.realmo.momy = 0
