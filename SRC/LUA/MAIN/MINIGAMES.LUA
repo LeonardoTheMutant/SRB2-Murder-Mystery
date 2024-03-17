@@ -117,7 +117,7 @@ local function SONIC_Reset(p)
         state = 0,
         timeout = 141,
         hazards = {},
-        hazardsTimeout = 0,
+        hazardsTimeout = 0
     }
 end
 local function SONIC_Thinker(p)
@@ -132,12 +132,13 @@ local function SONIC_Thinker(p)
         if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --up (jump)
             p.SonicRun.state = 2
             p.SonicRun.velocity = 10
+            S_StartSound(nil, sfx_cdfm02, p)
         elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
             p.SonicRun.state = 2
-        end
-    else
-        p.SonicRun.velocity = $ - 1
-    end
+            if (not p.SonicRun.SpinSound) S_StartSound(nil, sfx_spin, p) end
+            p.SonicRun.SpinSound = 1
+        else p.SonicRun.SpinSound = 0 end
+    else p.SonicRun.velocity = $ - 1 end
 
     --adjust Sonic's hitbox
     if (p.SonicRun.state == 2) p.SonicRun.Height = 14
@@ -251,7 +252,6 @@ addHook("PlayerThink", function(p)
                 if (p.SonicRun.timeout > TICRATE)
                     p.SonicRun.state = 0
                     if (not (p.SonicRun.timeout % TICRATE)) S_StartSound(nil, sfx_s3ka7, p) end
-                    return
                 elseif (p.SonicRun.timeout == TICRATE) S_StartSound(nil, sfx_s3kad, p) end
             end
             if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end

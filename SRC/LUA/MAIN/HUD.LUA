@@ -189,7 +189,7 @@ local function mainHUD(v, p) --main game HUD
 		--hazards
 		local hazardSprite = "SPIK"..string.char(65 + ((leveltime % 16) >> 1)).."0"
 		for id, hazard in pairs(p.SonicRun.hazards)
-			v.drawScaled((coords.sonicRun.x + hazard.x + 16)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
+			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
 		end
 
 		--black screen outline
