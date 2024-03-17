@@ -376,7 +376,7 @@ end)
 --
 -- A port of P_DrainWeaponAmmo() from C source code with MM modifications
 rawset(_G, "P_DrainWeaponAmmo", function(p, weapon)
-	p.powers[weapon]=$-1
+	p.powers[weapon] = $ - 1
 
 	if (p.rings < 1)
 		p.ammoremovalweapon = p.currentweapon;
@@ -413,10 +413,10 @@ rawset(_G, "PONG_SetVelocity", function(side)
 	local x = 0
 	if (side < 0) x = -1
 	elseif (side > 0) x = 1
-	else while (x == 0) do x = P_RandomRange(-1, 1) end end
+	else while (not x) do x = P_RandomRange(-1, 1) end end
 
 	local y = 0
-	while (y == 0) y = P_RandomRange(-2, 2) end
+	while (not y) y = P_RandomRange(-2, 2) end
 
 	MM.pong.velocity.x = x
 	MM.pong.velocity.y = y
@@ -437,13 +437,16 @@ end)
 --
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
-	if (role) for p in players.iterate if (p.role == role) plrc = $ + 1 end end
-	else for p in players.iterate plrc = $ + 1 end end
+	if (role)
+		for p in players.iterate do if (p.role == role) plrc = $ + 1 end end
+	else
+		for p in players.iterate do plrc = $ + 1 end
+	end
 	return plrc
 end)
 rawset(_G, "PlayersAlive", function()
 	local plrs = 0
-	for p in players.iterate if (not p.spectator) plrs = $ + 1 end end
+	for p in players.iterate do if (not p.spectator) plrs = $ + 1 end end
 	return plrs
 end)
 rawset(_G, "MM_Get2Players", function()

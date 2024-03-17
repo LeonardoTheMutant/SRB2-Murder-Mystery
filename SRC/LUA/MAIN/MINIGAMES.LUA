@@ -113,7 +113,6 @@ local function SONIC_Reset(p)
         Y = 0,
         Height = 20,
         velocity = 0,
-        jumpVelocity = 8,
         state = 0,
         timeout = 141,
         hazards = {},
@@ -186,7 +185,7 @@ local function SONIC_Thinker(p)
         if ((((p.SonicRun.hazards[id].x + 16) >= 16) and (p.SonicRun.hazards[id].x <= 20)) and (((p.SonicRun.hazards[id].y + 16) >= p.SonicRun.Y) and (p.SonicRun.hazards[id].y <= (p.SonicRun.Y + p.SonicRun.Height))))
             --die
             p.SonicRun.active = 0
-        elseif (p.SonicRun.hazards[id].x <= -16) --out of bounds
+        elseif (p.SonicRun.hazards[id].x < -15) --out of bounds
             table.remove(p.SonicRun.hazards, id)
         end
     end
@@ -199,7 +198,7 @@ addHook("ThinkFrame", do
         if (PlayerCount() == 2) MM.duelplrs = MM_Get2Players() end
         if (not MM.duelplrs) return end
         if (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame = true
-        else MM.minigame = false end
+        else MM.minigame = 0 end
     end
     if (MM.minigame)
         if (MM.pong.wintimeout > -1) MM.pong.wintimeout = $ - 1
@@ -223,18 +222,18 @@ addHook("PlayerThink", function(p)
     if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
         if (not p.custom3pressed)
             if (p.minigame)
-                if (not p.minigametimeout) p.minigame=false end
+                if (not p.minigametimeout) p.minigame = 0 end
             else
-                p.minigame = true
+                p.minigame = 1
                 p.minigametimeout = 105
                 SONIC_Reset(p)
             end
         end
-        p.custom3pressed = true
-    else p.custom3pressed = false end
+        p.custom3pressed = 1
+    else p.custom3pressed = 0 end
 
-    --timeout logic
-    if (p.minigametimeout) and (p.minigametimeout > 0) p.minigametimeout = $ - 1 end
+    --CUSTOM3 timeout logic
+    if ((p.minigametimeout) and (p.minigametimeout)) p.minigametimeout = $ - 1 end
 
     --Player is in minigame state
     if (p.minigame)

@@ -12,13 +12,14 @@ COM_AddCommand("SAYDEAD", function(s, ...) --sender, message
 		m = $ + arg[i]
 		if (i < #arg) m = $ + " " end --add space between words (arguments)
 	end
+	--send the message
 	if ((s == server) and (#m))
 		for p in players.iterate do
 			if (p.spectator) chatprintf(p, "\x86{~SERVER} "..m) end
 		end
 		CONS_Printf(server, "{~SERVER} "..m)
 	else
-		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat. Only the Dedicated Host can use this command")
+		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat. Only the Host can use this command")
 	end
 end, COM_ADMIN)
 
@@ -87,7 +88,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif (mu:find("HELLO THERE")) MM_ChatPlaySFX(sfx_emj19)
 
 			--First, this is a bad word to use, Second, it's fun to look at the execution of this code
-			--actually this should be in NOCHEAT.LUA I guess
+			--I believe this should be in NOCHEAT.LUA instead
 			elseif (mu:match("NIGGA") or mu:match("NIGGER"))
 				MM_ChatPlaySFX(sfx_emj18)
 				chatprint("\x85\27\27\27 \x81RACIST PLAYER DETECTED\x85 \27\27\27")

@@ -50,25 +50,25 @@ addHook("PlayerSpawn", function(p)
 		if f
 			local l = f:read() --read data
 			if (MM.text[l]) p.mmlang = l --is such language imported into the game?
-			else p.mmlang="EN" end --no
+			else p.mmlang = "EN" end --no
 			f:close() --file close
 		else p.mmlang = 'EN' end --failed to open the file
 	end
 
-	if (not p.roleflicker) p.roleflicker = 0 end
-	if (not p.chatdelay) p.chatdelay = 0 end
-	if (not p.kills) p.kills = 0 end --Init kill counter
-	if (not p.afk) p.afk = 0 end --Anti-AFK init
-	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end
-	p.oldname = p.name --Anti-cheat init
+	if (not p.roleflicker) p.roleflicker = 0 end --Role flickering on HUD
+	if (not p.chatdelay) p.chatdelay = 0 end --Chat spam protection
+	if (not p.kills) p.kills = 0 end --Kill counter
+	if (not p.afk) p.afk = 0 end --Anti-AFK
+	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
+	p.oldname = p.name --Anti-RenameCheat init
 
-	--Player num and state check on join
+	--Check player num and state on join
 	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
-		for player in players.iterate do player.minigame = false end
-		MM.minigame = false
+		for player in players.iterate do player.minigame = false end --Shutdown Player1's minigame session
+		MM.minigame = false --Tell server to disable the PONG minigame
 		MM_AssignRoles() --Assign roles for that duel
 		MM.twopgame = true
-	elseif ((PlayerCount() > 2) and (p.role == nil))
+	elseif ((PlayerCount() > 2) and (p.role == nil)) --Other players are dead on join
 		p.spectator = true
 	end
 end)
@@ -78,7 +78,6 @@ addHook("HurtMsg", do --disable Ringslier hurt messages
 end)
 addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	if (gametype == GT_MURDERMYSTERY)
-		local lang = p.mmlang or "EN"
 		if (not p.spectator) --Alive -> Spectator
 			CONS_Printf(p, MM.SysMsg[3])
 		end
@@ -86,19 +85,17 @@ addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	else return true end
 end)
 
---
 -- Custom TIMELIMIT code
 -- A replacement of SRB2's built-in TIMELIMIT (original sucks)
---
 addHook("ThinkFrame", function()
-    if (gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit*60*TICRATE) - 1) G_ExitLevel() end
+    if ((gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1)) G_ExitLevel() end
 end)
 
 --
 -- Main hit/kill detector
 --
 addHook("MobjDamage", function(victim, inf, attacker)
-	if (gametype!=GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
+	if (gametype != GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
 	local vp = victim.player
 	local ap = attacker.player
 	if (ap.role == ROLE_INNOCENT)
@@ -122,7 +119,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Murd) died") end
 		end
 	elseif (vp.role == ROLE_SHERIFF)
-		if (ap.role == ROLE_SHERIFF) or (ap.role == ROLE_HERO)
+		if ((ap.role == ROLE_SHERIFF) or (ap.role == ROLE_HERO))
 			chatprintf(ap, MM.RoleColor[vp.role]..MM.text[ap.mmlang]["TEAMMATE_HIT"][1])
 			chatprintf(vp, MM.RoleColor[ap.role]..MM.text[vp.mmlang]["TEAMMATE_HIT"][2])
 			return
@@ -140,7 +137,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	elseif (vp.role == ROLE_INNOCENT)
 		MM_KillPlayer(victim, attacker)
 		if (ap.role == ROLE_SHERIFF)
-			-- Sheriff killed an innocent, remove role "Sheriff" from the player if there are more of Innos,
+			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 			-- otherwise Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
 				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
@@ -152,7 +149,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				return
 			end
 		elseif (ap.role == ROLE_HERO)
-			MM_KillPlayer(attacker, nil)
+			MM_KillPlayer(attacker)
 			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 				return
@@ -232,9 +229,16 @@ addHook("PlayerThink", function(p)
 	if ((#MM.shremls) and (p.role == ROLE_INNOCENT) and (not p.spectator))
 		--find the distance to the closest emerald
 		local shreml_dist = {}
-		for emeraldID = 1, #MM.shremls do if (MM.shremls[emeraldID].valid) then table.insert(shreml_dist, (#shreml_dist + 1), P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremls[emeraldID].x, p.mo.y - MM.shremls[emeraldID].y), p.mo.z - MM.shremls[emeraldID].z)) end end
-		table.sort(shreml_dist)
-		p.shreml_dist = shreml_dist[1]
+		for emeraldID = 1, #MM.shremls do
+			if (MM.shremls[emeraldID].valid)
+				table.insert(shreml_dist, #shreml_dist, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremls[emeraldID].x, p.mo.y - MM.shremls[emeraldID].y), p.mo.z - MM.shremls[emeraldID].z))
+			end
+		end
+		local closest = shreml_dist[0]
+		for emeraldID = 1, #shreml_dist do
+			if (shreml_dist[emeraldID] < closest) then closest = shreml_dist[emeraldID] end
+		end
+		p.shreml_dist = closest
 
 		--play sound
 		if (p.shreml_dist)
@@ -244,19 +248,31 @@ addHook("PlayerThink", function(p)
 	end
 
 	--AFK logic
-	if (p.cmd.forwardmove == 0) and (p.cmd.sidemove == 0) and (p.cmd.buttons == 0) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value) p.afk = $ + 1
+	if ((not p.cmd.forwardmove) and (not p.cmd.sidemove) and (not p.cmd.buttons) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value))
+		p.afk = $ + 1
 	else p.afk = 0 end
 	if (p.afk > afkCVAR.value*2100)
 		if (p == server)
-			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...")
+			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...") --I believe this line is never printed, gonna remove it next time
 			COM_BufInsertText(server, "QUIT")
-		else COM_BufInsertText(server, "kick "..#p.." AFK") end
+		else COM_BufInsertText(server, "KICK "..#p.." AFK") end
 	end
 	p.oldangleturn = p.cmd.angleturn
 	p.oldaiming = p.cmd.aiming
 
 	--kick forcer (when rejointimeout is not 0)
-	if (p.quittime) p.quittime = FixedMul(CV_FindVar('rejointimeout').value, 2100) - 1 end
+	if (p.quittime) COM_BufInsertText(server, "KICK "..#p.." Player leave") end
+
+	--Anti-RenameCheat
+	if ((p.name != p.oldname) and (p.spectator))
+		if (p == server)
+			print("\x85HOST PLAYER TRIED TO CHEAT WITH RENAMING!!!") --I believe this line is never printed too
+			COM_BufInsertText(server, "QUIT")
+		end
+		COM_BufInsertText(server, "KICK "..#p.." Do not rename when dead!")
+		return
+	end
+	p.oldname = p.name
 end)
 
 --
@@ -264,12 +280,12 @@ end)
 --
 addHook("IntermissionThinker", do
 	--special round win check for the minigame
-	if (MM.minigame and MM.duelplrs[1].valid and MM.duelplrs[2].valid)
-		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) MM.winner = MM.duelplrs[1].role
-		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) MM.winner = MM.duelplrs[2].role end
+	if ((MM.minigame) and (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid))
+		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[1].role
+		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[2].role end
 	end
 	-- Kick forcer (for Intermission)
-	for p in players.iterate if (p.quittime) COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
+	for p in players.iterate do if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
 end)
 
 --
@@ -298,9 +314,9 @@ addHook("PlayerQuit", function(p)
 
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_INNOCENT)) or (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF))) and PlayerCount(ROLE_MURDERER)==0)
+		if ((not PlayerCount(ROLE_INNOCENT)) or (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF))) and (not PlayerCount(ROLE_MURDERER)))
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
-		elseif PlayerCount(ROLE_MURDERER)==0
+		elseif (not PlayerCount(ROLE_MURDERER))
 			if (gamestate == GS_LEVEL)
 				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
 				MM_SetRandomInnoAs(ROLE_MURDERER)

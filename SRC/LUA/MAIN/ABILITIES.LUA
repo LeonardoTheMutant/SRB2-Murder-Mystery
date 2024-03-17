@@ -61,7 +61,7 @@ addHook("PlayerThink", function(p)
 	if (not p.realmo) return end
 	local s = (p.realmo.skin or "sonic") -- added an or just incase the game slips
 	local t = (MM.CharStats[s] or MM.CharStats["default"])
-	if (gametype!=GT_MURDERMYSTERY) or (MMCHARMODE.value == 2) -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
+	if (gametype != GT_MURDERMYSTERY) or (MMCHARMODE.value == 2) -- return abbilities to everyone if the gametype IS NOT MURDER MYSTERY
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
 		p.charflags = skins[s].flags
@@ -70,7 +70,7 @@ addHook("PlayerThink", function(p)
 		p.maxdash = skins[s].maxdash
 		p.normalspeed = 2359296 --36*FU
 		return
-	elseif (gametype==GT_MURDERMYSTERY) and (MMCHARMODE.value == 1) -- "Each character have limited abbilities" mode
+	elseif (gametype == GT_MURDERMYSTERY) and (MMCHARMODE.value == 1) -- "Each character have limited abbilities" mode
 		--MM.CharStats
 		if (t.ability) p.charability = t.ability
 		else p.charability = MM.CharStats["default"].ability end
@@ -91,7 +91,7 @@ addHook("PlayerThink", function(p)
 		else p.maxdash = MM.CharStats["default"].maxdash end
 
 		-- SA1 Tails flight by TeriosSonic
-		if ((s == "tails") and (p.powers[pw_tailsfly] > 70)) p.powers[pw_tailsfly]=70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
+		if ((s == "tails") and (p.powers[pw_tailsfly] > 70)) then p.powers[pw_tailsfly] = 70 end -- If your flight timer is higher than 2 seconds it will be set to 2 seconds.
 		if (MMSPRINT.value)
 			if ((p.cmd.buttons & BT_CUSTOM1) and (P_IsObjectOnGround(p.realmo))) p.normalspeed = 2621440 --40*FU
 			else p.normalspeed = 1638400 end --25*FU

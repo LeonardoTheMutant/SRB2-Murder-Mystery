@@ -13,10 +13,10 @@ MM.weapons[-1]={ --Red Ring
     16 --weapondelay
 }
 MM.weapons[0]={ --Infinity Ring
-    "INFNIND", --HUD icon
-    MT_THROWNINFINITY, --MOBJ_T that represents this weapon
-    0, --MF2_* flag
-    16 --weapondelay
+    "INFNIND",
+    MT_THROWNINFINITY,
+    0,
+    16
 }
 MM.weapons[1]={ --Automatic Ring
     "AUTOIND",
@@ -171,7 +171,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     end
     --Rail ring main logic (sparkles, hit detection)
     if ((mo) and (mo.flags & MF_MISSILE) and (mo.flags2 & MF2_RAILRING))
-	    for i = 0, 256
+	    for i = 0, 255
             if (mo.flags & ~MF_NOBLOCKMAP)
                 --P_UnsetThingPosition(mo)
                 mo.flags = $|MF_NOBLOCKMAP
@@ -190,7 +190,7 @@ end)
 -- Bug explanation:
 -- Some projectiles can go through walls if they have travel speed higher than radius.
 -- In SRB2 all weapons are like this and if the players "hugs" the wall there is a chance
--- that your weapon will clip through wall and be at the other side of it.
+-- that your weapon projectile will clip through wall and be at the other side of it.
 -- You can watch Decino's much more detailed explanation here:
 -- https://www.youtube.com/watch?v=kRC7hGDrNsM
 
