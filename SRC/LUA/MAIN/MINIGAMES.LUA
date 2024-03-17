@@ -108,6 +108,7 @@ end
 --
 local function SONIC_Reset(p)
     p.SonicRun = {
+        active = 1,
         score = 0,
         Y = 0,
         Height = 20,
@@ -116,7 +117,7 @@ local function SONIC_Reset(p)
         state = 0,
         timeout = 140,
         hazards = {},
-        hazardsTimeout = 0
+        hazardsTimeout = 0,
     }
 end
 local function SONIC_Thinker(p)
@@ -164,32 +165,36 @@ local function SONIC_Thinker(p)
 
     --hazard spawning
     if (p.SonicRun.hazardsTimeout <= 0)
-        local hazardType = P_RandomKey(5)
+        local hazardType = P_RandomKey(6)
         if (hazardType == 0)
-            table.insert(p.SonicRun.hazards, {x = 200, y = 0})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 0})
         elseif (hazardType == 1)
-            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 16})
         elseif (hazardType == 2)
-            table.insert(p.SonicRun.hazards, {x = 200, y = 48})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 32})
         elseif (hazardType == 3)
-            table.insert(p.SonicRun.hazards, {x = 200, y = 0})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 0})
             table.insert(p.SonicRun.hazards, {x = 200, y = 16})
         elseif (hazardType == 4)
-            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
-            table.insert(p.SonicRun.hazards, {x = 200, y = 32})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+        elseif (hazardType == 5)
+            table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 48})
         end
-        p.SonicRun.hazardsTimeout = (P_RandomKey(2) * TICRATE) + 15
+        p.SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 16
     end
 
     --hazards thinker and collision
-    for id, hazard in ipairs(p.SonicRun.hazards)
-        hazard.x = $ - 4 --move
-        if (hazard.x > 30) break end --ignore cuz its too far to collide
+    for id = 1, #p.SonicRun.hazards do
+        if (not p.SonicRun.hazards[id]) break end
+        --I have no idea why hazards desync in their movement
+        p.SonicRun.hazards[id].x = $ - 5 --move
 
-        if ((((hazard.x + 16) >= 16) and (hazard.x <= 20)) and (((hazard.y + 16) >= p.SonicRun.Y) and (hazard.y <= (p.SonicRun.Y + p.SonicRun.Height))))
+        if ((((p.SonicRun.hazards[id].x + 16) >= 16) and (p.SonicRun.hazards[id].x <= 20)) and (((p.SonicRun.hazards[id].y + 16) >= p.SonicRun.Y) and (p.SonicRun.hazards[id].y <= (p.SonicRun.Y + p.SonicRun.Height))))
             --die
-            p.SonicRun.state = 0 --for now Sonic just pretends to die
-        elseif (hazard.x <= -16) --out of bounds
+            p.SonicRun.active = 0
+        elseif (p.SonicRun.hazards[id].x <= -16) --out of bounds
             table.remove(p.SonicRun.hazards, id)
         end
     end
@@ -250,7 +255,7 @@ addHook("PlayerThink", function(p)
                 p.realmo.state = S_PLAY_STND
             end
         elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
-            SONIC_Thinker(p)
+            if (p.SonicRun.active) SONIC_Thinker(p) end
             if ((p.realmo) and (p.realmo.valid))
                 p.realmo.momx = 0
                 p.realmo.momy = 0

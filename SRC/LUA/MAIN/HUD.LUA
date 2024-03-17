@@ -187,8 +187,9 @@ local function mainHUD(v, p) --main game HUD
 		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), v.cachePatch(sonicSprite))
 
 		--hazards
+		local hazardSprite = "SPIK"..string.char(65 + ((leveltime % 16) >> 1)).."0"
 		for id, hazard in pairs(p.SonicRun.hazards)
-			v.drawScaled((coords.sonicRun.x + hazard.x + 16)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch("SPIKA0")) --FU/2
+			v.drawScaled((coords.sonicRun.x + hazard.x + 16)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
 		end
 
 		--black screen outline
@@ -199,7 +200,11 @@ local function mainHUD(v, p) --main game HUD
 
 		--score
 		local scoreWidth = v.stringWidth(p.SonicRun.score)
-		v.drawString((coords.sonicRun.x + 200 - scoreWidth), (coords.sonicRun.y - 8), p.SonicRun.score, V_SNAPTORIGHT|V_BLUEMAP)
+		v.drawString((coords.sonicRun.x + 200 - scoreWidth), (coords.sonicRun.y - 12), p.SonicRun.score, V_SNAPTORIGHT|V_BLUEMAP)
+
+		if (not p.SonicRun.active)
+			v.drawString(160, (coords.sonicRun.y + 84), "GAME OVER", 0, "center")
+		end
 
 		--player side information
 		--character icon
