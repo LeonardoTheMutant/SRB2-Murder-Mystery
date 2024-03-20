@@ -99,7 +99,7 @@ MM.AddSkinConf = function(skin, tb)
 	if (not tb) error("Invalid table.") end
 	if (type(skin) ~= "string") error("Skin must be string.") end
 	if (type(tb) ~= "table") error("tb must phrase as a table.") end
-	MM.CharStats[skin]=tb;
+	MM.CharStats[skin] = tb;
 	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for \"MMCHARMODE 1\"")
 end
 MM.AddLang = function(langID,langTbl)
@@ -227,7 +227,6 @@ dofile("MAIN/HUD.LUA")
 dofile("MAIN/CHAT.LUA")
 dofile("MAIN/CCMD.LUA")
 dofile("MAIN/ABILITIES.LUA")
-dofile("MAIN/NOCHEAT.LUA")
 dofile("MAIN/MINIGAMES.LUA")
 
 dofile("LEVELS/MAPK0.LUA")

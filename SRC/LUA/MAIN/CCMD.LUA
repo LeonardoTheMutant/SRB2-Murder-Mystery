@@ -30,7 +30,7 @@ local function helpCMD(p, page)
 
 	--legacy MMHELP command
 	if (not page)
-		for i,str in pairs(MM.text[l]["MMHELP"]["MAIN"]) CONS_Printf(p, str) end
+		for i,str in ipairs(MM.text[l]["MMHELP"]["MAIN"]) do CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
 	elseif (page == "INFO")
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
@@ -42,8 +42,8 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\n\nFound an issue or just want to help with \x87Murder Mystery for SRB2\x80 development? Any contribution to the project matters and can help!\n\x84  Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		if (MM.text[l]["MMHELP"][page])
-			for i,str in pairs(MM.text[l]["MMHELP"][page]) CONS_Printf(p, str) end
-			if (page == "CHAT") for i,str in pairs(MM.SEMJ_info) CONS_Printf(p, str) end end
+			for i,str in ipairs(MM.text[l]["MMHELP"][page]) do CONS_Printf(p, str) end
+			if (page == "CHAT") for i,str in ipairs(MM.SEMJ_info) do CONS_Printf(p, str) end end
 			MM_PrintContents(p,l)
 			
 		else
@@ -98,28 +98,34 @@ local function MMlang(p, l) --player, lang
 		local langCount = 0
 		local langIncomp = 0
 		local nonascii
-		for lang in pairs(MM.text)
+
+		--sort languages order
+		local langkeys = {}
+		for langEntry in pairs(MM.text) do table.insert(langkeys, langEntry) end
+		table.sort(langkeys)
+
+		for id, lang in ipairs(langkeys)
 			langCount = $ + 1
 			local arg1 = ""
 			local arg2 = ""
-			local arg3 = " "
+			local arg3 = "  "
 			if (MM.text[lang]["VERSION"]!=MM.version) langIncomp = $ + 1 end
 			if (MM.text[lang]["NONASCII"]) nonascii = true end
 
 			if (p.mmlang == lang) arg1 = "\x82 (current lang)" end
 			if (MM.text[lang]["VERSION"] != MM.version) arg2 = "\x85 (INCOMPATIBLE)" end
-			if (MM.text[lang]["NONASCII"]) arg3 = "*" end
-			CONS_Printf(p, arg3.." "..lang..arg1..arg2)
+			if (MM.text[lang]["NONASCII"]) arg3 = "* " end
+			CONS_Printf(p, arg3..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if (langIncomp != 0) CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
+		if (langIncomp) CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
 		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
 	else
 		l = $:upper()
 		if (MM.text[l])
 			p.mmlang = l
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
-			if (MM.text[l]["VERSION"] != MM.version) CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
+			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
