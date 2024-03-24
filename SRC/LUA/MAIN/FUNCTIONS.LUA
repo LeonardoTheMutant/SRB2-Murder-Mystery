@@ -278,10 +278,10 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, fontsize)
 end)
 
 rawset(_G, "V_DrawStrASCIIcentered", function(v, x, y, lang, str, flags, fontsize)
-	V_DrawStrASCII(v, x - V_StrWidthASCII(str,flags,fontsize)>>1, y, lang, str, flags, fontsize)
+	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str,flags,fontsize) >> 1)), y, lang, str, flags, fontsize)
 end)
 
-rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
+rawset(_G, "V_DrawTextPatch", function(v, x, y, patch, flags)
 	--draw an image from the text data, similar to v.draw()
 	--the text data itself is a table of strings containing the
 	--SRB2 palette's color values
@@ -290,6 +290,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
 	local x = x or 0
 	local y = y or 0
 	assert(patch, "V_DrawTextPatch() argument #4: patch text data expected")
+	local flg = flags or 0
 
 	local pixelColor
 
@@ -297,7 +298,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.drawFill((x + column), (y + row), 1, 1, pixelColor) --draw it
+				v.drawFill((x + column), (y + row), 1, 1, pixelColor|flg) --draw it
 			end
 		end
 	end

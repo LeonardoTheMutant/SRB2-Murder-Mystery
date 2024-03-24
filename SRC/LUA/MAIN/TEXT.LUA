@@ -206,11 +206,9 @@ MM.text={
 			"No scores here! But the counters below",
 			"may help you in the investigation!",
 			"",
-			"If you're new to the gametype",
-			"use \7MMHELP\0 in the Console",
-			"",
-			"Use \7MMLANG\0 command to change",
-			"the language in this gametype",
+			"If you're new to the gametype use \7MMHELP\0 ",
+			"command in the Console for help and",
+			"\7MMLANG\0 to change the language here",
 			"",
 			"",
 			"\2Have Fun!"
@@ -236,8 +234,7 @@ MM.text={
 			"\4".."2 players\0 are required for the game,",
 			"please wait for \4one more\0 player to start"
 		},
-		-- "Showdown duel!"
-		["HUD_SHOWDOWN"]="Showdown duel!",
+		["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 		--minigame stuff
 		["MINIGAME"]={
 			["PRESS"] = "Press\2 CUSTOM3\0 to", --must contain MM escape color codes
@@ -677,7 +674,7 @@ MM.text={
 			"\4".."2 graczy\0 jest wymaganych do gry,",
 			"prosz\xEA poczeka\xE6 na \4jeszcze jednego\0 gracza",
 			"dla startu"
-		},["HUD_SHOWDOWN"]="Showdown duel!",
+		},["HUD_SHOWDOWN"]="Pojedynek losu!",
 		["MINIGAME"]={
 			["PRESS"] = "Naci\x9Cnij\2 CUSTOM3\0, aby", --must contain MM escape color codes
 			["LEAVE"]="opu\x9C".."ci\xE6 gr\xEA",
@@ -1097,7 +1094,7 @@ MM.text={
 			"\xCE\xF7\xEE\xEA \xF2\xF3\xF2 \xED\xE5\xEC\xE0, \xE0\xEB\xE5 \xEB\xB3\xF7\xE8\xEB\xFC\xED\xE8\xEA\xE8 \xF3\xED\xE8\xE7\xF3", --Ochok tut nema, ale lichyl'nyky unyzu
             "\xEC\xEE\xE6\xF3\xF2\xFC \xE4\xEE\xEF\xEE\xEC\xEE\xE3\xF2\xE8 \xF3 \xF0\xEE\xF1\xEB\xB3\xE4\xF3\xE2\xE0\xED\xED\xB3!", --mozhut' dopomogty w rosliduwanni!
             "",
-			"\xDF\xEA\xF9\xEE \xE2\xE8 \xE3\xF0\xE0\xBA\xF2\xE5 \xEF\xE5\xF0\xF8\xE8\xE9 \xF0\xE0\xE7 \xF3 \xF6\xFE \xE3\xF0\xF3", --Jaksho wy grajete pershyj raz u ciu gru
+			"\xDF\xEA\xF9\xEE \xE2\xE8 \xE3\xF0\xE0\xBA\xF2\xE5 \xE2 \xEF\xE5\xF0\xF8\xE8\xE9 \xF0\xE0\xE7 \xF3 \xF6\xFE \xE3\xF0\xF3", --Jaksho wy grajete w pershyj raz u ciu gru
             "\xE2\xE8\xEA\xEE\xF0\xE8\xF1\xF2\xE0\xE9\xF2\xE5 \7MMHELP\0 \xF3 \xEA\xEE\xED\xF1\xEE\xEB\xB3", --wykorystajte MMHELP w konsoli
 			"\xE4\xEB\xFF \xB3\xED\xF4\xEE\xF0\xEC\xE0\xF6\xB3\xBF \xF2\xE0 \xEF\xF0\xE0\xE2\xE8\xEB",
             "",

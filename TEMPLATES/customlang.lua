@@ -301,8 +301,8 @@ local language={ --Language must be a table variable, you can name the variable 
 		"\4".."2 players\0 are required for the game,",
 		"please wait for \4one more\0 player to start"
 	},
-	-- "Showdown duel!"
-	["HUD_SHOWDOWN"]="Showdown duel!",
+
+	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 
 	--minigame stuff
 	["MINIGAME"]={
