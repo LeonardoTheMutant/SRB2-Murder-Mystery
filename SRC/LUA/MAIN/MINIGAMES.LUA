@@ -197,7 +197,7 @@ addHook("ThinkFrame", do
     if (MM.twopgame)
         if (PlayerCount() == 2) MM.duelplrs = MM_Get2Players() end
         if (not MM.duelplrs) return end
-        if (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame = true
+        if ((MM.duelplrs[1]) and (MM.duelplrs[2]) and (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame)) MM.minigame = true
         else MM.minigame = 0 end
     end
     if (MM.minigame)

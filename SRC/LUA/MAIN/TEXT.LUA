@@ -197,28 +197,26 @@ MM.text={
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\x1F"
 		},
 		-- Role names
-		["ROLES_HUD"]={
+		["HUD_ROLES"]={
 			"MURDERER",
 			"SHERIFF",
 			"INNOCENT",
 			"HERO",
 			"DEAD"
 		},
-		["ROLES_HUD_SHORT"]={ --used for 8-32 players intermission screen
+		["HUD_ROLES_SHORT"]={ --used for 8-32 players intermission screen
 			"MURD",
 			"SHERI",
 			"INNO",
 			"HERO",
 			"DEAD"
 		},
-		["TEAMALIVE_HUD"]="Teammates alive:",
-		["KILLBY_HUD"]="Killed by",
-		["STUPID"]="your stupidity",
+		["HUD_TEAMALIVE"]="Teammates alive",
+		["HUD_TEAMMATES"]="Teammates",
+		["HUD_KILLBY"]="Killed by",
+		["HUD_STUPID"]="your stupidity",
 		-- Scores TAB screen
 		["HUD_SCORESTAB"]={
-			"No scores here! But the counters below",
-			"may help you in the investigation!",
-			"",
 			"If you're new to the gametype use \7MMHELP\0 ",
 			"command in the Console for help and",
 			"\7MMLANG\0 to change the language here",
@@ -228,9 +226,9 @@ MM.text={
 		},
 		-- Scores TAB screen role conters
 		["HUD_ROLESALIVE"]={
-			"Murderers alive:",
-			"Sheriffs alive:",
-			"Innocents alive:"
+			"Murderers",
+			"Sheriffs",
+			"Innocents"
 		},
 		-- Centered text when you're dead
 		["HUD_DEAD"]={
@@ -249,7 +247,7 @@ MM.text={
 		},
 		["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 		--minigame stuff
-		["MINIGAME"]={
+		["HUD_MINIGAME"]={
 			["PRESS"] = "Press\2 CUSTOM3\0 to", --must contain MM escape color codes
 			["LEAVE"]="leave",
 			["CANCEL"]="cancel",
@@ -263,12 +261,12 @@ MM.text={
 			["BORED"]="Bored?",
 			["PONGBALL"]="Spectators can change the ball's direction"
 		},
-		["YOU_HUD"]="YOU",
+		["HUD_YOU"]="YOU",
 		-- Winner stuff
-		["WINNERS_HUD"]="Winners:",
-		["WON_HUD"]="won!",
-		["WINS_HUD"]="Wins",
-		["WIN_HUD"]={
+		["HUD_WINNERS"]="Winners:",
+		["HUD_WON"]="won!",
+		["HUD_WINS"]="Wins",
+		["HUD_WIN"]={
 			"TIE!",
 			"\5MURDERERS", --must contain MM escape color code
 			"\3CIVILIANS" --must contain MM escape color code
@@ -440,21 +438,21 @@ MM.text={
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\x1FII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F",
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\x1F",
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\x1F"
-		},["ROLES_HUD"]={
+		},["HUD_ROLES"]={
 			"ASESINO",
 			"COMISARIO",
 			"INOCENTE",
 			"HEROE",
 			"MUERTO"
-		},["ROLES_HUD_SHORT"]={
+		},["HUD_ROLES_SHORT"]={
 			"ASES",
 			"COMI",
 			"INOC",
 			"HERO",
 			"MRTO"
-		},["TEAMALIVE_HUD"]="Aliados vivos:",
-		["KILLBY_HUD"]="Asesinado por",
-		["STUPID"]="tu estupidez",
+		},["HUD_TEAMALIVE"]="Aliados vivos",
+		["HUD_KILLBY"]="Asesinado por",
+		["HUD_STUPID"]="tu estupidez",
 		["HUD_SCORESTAB"]={
 			"No hay puntaje aqui! Pero los contadores",
 			"de abajo pueden ayudarte en la",
@@ -466,9 +464,9 @@ MM.text={
 			"",
 			"\2Diviertete!"
 		},["HUD_ROLESALIVE"]={
-			"Asesinos vivos:",
-			"Comisarios vivos:",
-			"Inocentes vivos:"
+			"Asesinos vivos",
+			"Comisarios vivos",
+			"Inocentes vivos"
 		},["HUD_DEAD"]={
 			"Estas\15 muerto",
 			"No puedes reaparecer o hablarle",
@@ -480,11 +478,11 @@ MM.text={
 			" la partida, porfavor espera un jugador",
 			"\4mas\0 para empezar"
 		},["HUD_SHOWDOWN"]="Showdown duel!",
-		["YOU_HUD"]="TU",
-		["WINNERS_HUD"]="Ganadores:",
-		["WON_HUD"]="ganaron!",
-		["WINS_HUD"]="Ganan",
-		["WIN_HUD"]={
+		["HUD_YOU"]="TU",
+		["HUD_WINNERS"]="Ganadores:",
+		["HUD_WON"]="ganaron!",
+		["HUD_WINS"]="Ganan",
+		["HUD_WIN"]={
 			"EMPATE!",
 			"\5ASESINOS",
 			"\3CIVILES"
@@ -661,22 +659,23 @@ MM.text={
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\x1FII\x1F\xFFIIIIII\x1F\xFFII\x1F",
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFFII\x1F",
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F"
-		},["ROLES_HUD"]={
+		},["HUD_ROLES"]={
 			"MORDERCA",
 			"SZERYF",
 			"NIEWINNY",
 			"BOHATER",
 			"MARTWY"
-		},["ROLES_HUD_SHORT"]={
+		},["HUD_ROLES_SHORT"]={
 			"MORD.",
 			"SZER.",
 			"NIEW.",
 			"BOH.",
 			"MARTW."
 		},
-		["TEAMALIVE_HUD"]="Wspo\xB3nicy \xBFywi:",
-		["KILLBY_HUD"]="Zabity przez",
-		["STUPID"]="tw\xF3j idiotyzm",
+		["HUD_TEAMALIVE"]="Wspo\xB3nicy \xBFywi",
+		["HUD_TEAMMATES"]="Cz\xB3onkowie dru\xBFyny",
+		["HUD_KILLBY"]="Zabity przez",
+		["HUD_STUPID"]="tw\xF3j idiotyzm",
 		["HUD_SCORESTAB"]={
 			"Tutaj nie ma wynik\xF3w, ale liczniki na",
 			"dol\xEA mog\xB9 pom\xF3".."c w dochodzeniu!",
@@ -687,9 +686,9 @@ MM.text={
 			"",
 			"\2Baw si\xEA dobrze ;)"
 		},["HUD_ROLESALIVE"]={
-			"Mordercy \xBFywi:",
-			"Szeryfi \xBFywi:",
-			"Niewinni \xBFywi:"
+			"Morderc\xF3w",
+			"Szeryf\xF3w",
+			"Niewinnych"
 		},["HUD_DEAD"]={
 			"Jeste\x9C\15 martwy(a)",
 			"Nie mozesz si\xEA odnawia\xE6 lub gada\xE6 do \xBFywych"
@@ -700,7 +699,7 @@ MM.text={
 			"prosz\xEA poczeka\xE6 na \4jeszcze jednego\0 gracza",
 			"dla startu"
 		},["HUD_SHOWDOWN"]="Pojedynek losu!",
-		["MINIGAME"]={
+		["HUD_MINIGAME"]={
 			["PRESS"] = "Naci\x9Cnij\2 CUSTOM3\0, aby", --must contain MM escape color codes
 			["LEAVE"]="opu\x9C".."ci\xE6 gr\xEA",
 			["CANCEL"]="anulowa\xE6",
@@ -713,11 +712,11 @@ MM.text={
 			["SPECTATING"]="Ogl\xB9".."damy za pojedynkiem...",
 			["BORED"]="Nudzisz si\xEA?",
 			["PONGBALL"]="Jako widz mo\xBF".."esz zmienia\xE6 kierunek pilki"
-		},["YOU_HUD"]="TY",
-		["WINNERS_HUD"]="Wygrani:",
-		["WON_HUD"]="zwyci\xEA\xBFyl(a)!",
-		["WINS_HUD"]="Wygrano",
-		["WIN_HUD"]={
+		},["HUD_YOU"]="TY",
+		["HUD_WINNERS"]="Wygrani:",
+		["HUD_WON"]="zwyci\xEA\xBFyl(a)!",
+		["HUD_WINS"]="Wygrano",
+		["HUD_WIN"]={
 			"REMIS!",
 			"\5M\xD3RDERCY",
 			"\3CYWILE"
@@ -887,21 +886,21 @@ MM.text={
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\x1FII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F",
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\x1F",
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\x1F"
-		},["ROLES_HUD"]={
+		},["HUD_ROLES"]={
 			"KATIL",
 			"\xDE".."ERIF",
 			"MASUM",
 			"KAHRAMAN",
 			"\xD6L\xDC"
-		},["ROLES_HUD_SHORT"]={
+		},["HUD_ROLES_SHORT"]={
 			"KATI",
 			"\xDE".."ERI",
 			"MASU",
 			"KAHR",
 			"\xD6L\xDC"
-		},["TEAMALIVE_HUD"]="Takim arkada\xFElari hayatta:",
-		["KILLBY_HUD"]="Tarafindan \xF6ld\xFCr\xFCld\xFC",
-		["STUPID"]="senin aptall\xFD\xF0\xFDn",
+		},["HUD_TEAMALIVE"]="Takim arkada\xFElari hayatta",
+		["HUD_KILLBY"]="Tarafindan \xF6ld\xFCr\xFCld\xFC",
+		["HUD_STUPID"]="senin aptall\xFD\xF0\xFDn",
 		["HUD_SCORESTAB"]={
 			"Burada puan yok! Ama alttaki saya\xE7lar",
 			"soru\xFEturmada size yardimci olabilir!",
@@ -912,9 +911,9 @@ MM.text={
 			"",
 			"\2Iyi e\xF0lenceler!"
 		},["HUD_ROLESALIVE"]={
-			"Katiller yasiyor:",
-			"\xDE".."erifler yasiyor:",
-			"Masumlar yasiyor:"
+			"Katiller yasiyor",
+			"\xDE".."erifler yasiyor",
+			"Masumlar yasiyor"
 		},["HUD_DEAD"]={
 			"\15Oldun!",
 			"Yeniden do\xF0".."amaz veya konu\xFE".."amazsin",
@@ -926,11 +925,11 @@ MM.text={
 			"gereklidir, Lutfen \4bir ki\xFEinin\0 daha",
 			"gelmesini bekleyin"
 		},["HUD_SHOWDOWN"]="Showdown duel!",
-		["YOU_HUD"]="SEN",
-		["WINNERS_HUD"]="Kazananlar:",
-		["WON_HUD"]="kazandi!",
-		["WINS_HUD"]="Kazandi",
-		["WIN_HUD"]={
+		["HUD_YOU"]="SEN",
+		["HUD_WINNERS"]="Kazananlar:",
+		["HUD_WON"]="kazandi!",
+		["HUD_WINS"]="Kazandi",
+		["HUD_WIN"]={
 			"BERABERE!",
 			"\5KATILLER",
 			"\3SIVILLER"
@@ -1112,21 +1111,22 @@ MM.text={
 			"II\x1F\xFFII\x1F\xFFII\x1F\xFFIII\x1F\xFFII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFF\xFFII\x1F\xFFII\x1F",
 			"II\x1F\xFFII\x1F\xFFII\x1F\xFFII\x1F\xFF\xFFII\x1F\xFFIIIII\x1F\xFF\xFFIIIIIII\x1F\xFFII\x1F\xFFII\x1F",
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\x1F\x1FII\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F"
-		},["ROLES_HUD"]={
+		},["HUD_ROLES"]={
 			"\xC2\xC1\xC8\xC2\xD6\xDF", --WBYWCIA
 			"\xD8\xC5\xD0\xC8\xD4", --SHERYF
 			"\xCD\xC5\xC2\xC8\xCD\xCD\xC0 \xCE\xD1\xCE\xC1\xC0", --NEWYNNA OSOBA
 			"\xC3\xC5\xD0\xCE\xC9", --HEROJ
 			"\xCC\xC5\xD0\xD2\xC2\xC8\xC9" --MERTWYJ
-		},["ROLES_HUD_SHORT"]={
+		},["HUD_ROLES_SHORT"]={
 			"\xC2\xC1\xC8\xC2.", --WBYW.
 			"\xD8\xC5\xD0\xC8\xD4", --SHERYF
 			"\xCD\xC5\xC2.", --NEW.
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
 			"\xCC\xC5\xD0\xD2\xC2." --MERTW.
-		},["TEAMALIVE_HUD"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5:", --naparnykiw w zhywyh
-		["KILLBY_HUD"]="\xC2\xE8 \xE2\xE1\xE8\xF2\xB3", --wy wbyti
-		["STUPID"]="\xC2\xE0\xF8\xE8\xEC \xB3\xE4\xB3\xEE\xF2\xE8\xE7\xEC\xE5\xEC", --washym idiotyzmem
+		},["HUD_TEAMALIVE"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5", --naparnykiw w zhywyh
+		["HUD_TEAMMATES"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xE8", --naparnyky
+		["HUD_KILLBY"]="\xC2\xE8 \xE2\xE1\xE8\xF2\xB3", --wy wbyti
+		["HUD_STUPID"]="\xC2\xE0\xF8\xE8\xEC \xB3\xE4\xB3\xEE\xF2\xE8\xE7\xEC\xE5\xEC", --washym idiotyzmem
 		["HUD_SCORESTAB"]={
 			"\xCE\xF7\xEE\xEA \xF2\xF3\xF2 \xED\xE5\xEC\xE0, \xE0\xEB\xE5 \xEB\xB3\xF7\xE8\xEB\xFC\xED\xE8\xEA\xE8 \xF3\xED\xE8\xE7\xF3", --Ochok tut nema, ale lichyl'nyky unyzu
             "\xEC\xEE\xE6\xF3\xF2\xFC \xE4\xEE\xEF\xEE\xEC\xEE\xE3\xF2\xE8 \xF3 \xF0\xEE\xF1\xEB\xB3\xE4\xF3\xE2\xE0\xED\xED\xB3!", --mozhut' dopomogty w rosliduwanni!
@@ -1138,9 +1138,9 @@ MM.text={
             "",
 			"\2\xD3\xE4\xE0\xF7\xB3  ;)" --Udachi
 		},["HUD_ROLESALIVE"]={
-			"\xC2\xE1\xE8\xE2\xF6\xFC \xE2 \xE6\xE8\xE2\xE8\xF5:", --Wbywc' w zhywych
-			"\xD8\xE5\xF0\xE8\xF4\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5:", --Sheryfiw w zhywych
-			"\xCD\xE5\xE2\xE8\xED\xED\xE8\xF5 \xE2 \xE6\xE8\xE2\xE8\xF5:" --Newynnych w zhywych
+			"\xC2\xE1\xE8\xE2\xF6\xFC", --Wbywc'
+			"\xD8\xE5\xF0\xE8\xF4\xB3\xE2", --Sheryfiw
+			"\xCD\xE5\xE2\xE8\xED\xED\xE8\xF5" --Newynnych
 		},["HUD_DEAD"]={
 			"\xC2\xE8 \15\xEC\xE5\xF0\xF2\xE2\xB3", --Wy metrwi,
 			"\xC2\xE8 \xED\xE5 \xEC\xEE\xE6\xE5\xF2\xE5 \xE2\xB3\xE4\xF0\xEE\xE4\xE6\xF3\xE2\xE0\xF2\xE8\xF1\xFF \xF2\xE0 \xE3\xEE\xE2\xEE\xF0\xE8\xF2\xE8", --Ne mozhete widrodzhuwatysia ta goworyty
@@ -1153,7 +1153,7 @@ MM.text={
             "\xE1\xF3\xE4\xFC \xEB\xE0\xF1\xEA\xE0\x2C \xE7\xE0\xF7\xE5\xEA\xE0\xE9\xF2\xE5 \xED\xE0\4 \xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE", --bud' laska zachekajte na she odnogo,
             "\xE0\xE1\xE8 \xEF\xEE\xF7\xE0\xF2\xE8" --aby pochaty
 		},["HUD_SHOWDOWN"]="\xC2\xE8\xF0\xB3\xF8\xE0\xEB\xFC\xED\xE0 \xE4\xF3\xE5\xEB\xFC!", --Wyrishal'na duel'!
-		["MINIGAME"]={
+		["HUD_MINIGAME"]={
 			["PRESS"]="\xCD\xE0\xF2\xE8\xF1\xED\xB3\xF2\xFC\2 CUSTOM3\0 \xE0\xE1\xE8", --Natysnit' CUSTOM3 aby
 			["LEAVE"]="\xE2\xE8\xE9\xF2\xE8", --wyjty
 			["CANCEL"]="\xF1\xEA\xE0\xF1\xF3\xE2\xE0\xF2\xE8", --skasuwaty
@@ -1166,11 +1166,11 @@ MM.text={
 			["SPECTATING"]="\xCD\xE0\xE3\xEB\xFF\xE4\xFF\xBA\xEC\xEE \xE7\xE0 \xE3\xF0\xEE\xFE...", --Nagliadajemo za groju...
 			["BORED"]="\xCD\xF3\xE4\xED\xEE?", --nudno?
 			["PONGBALL"]="\xCD\xE0\xE3\xEB\xFF\xE4\xE0\xF7\xB3 \xEC\xEE\xE6\xF3\xF2\xFC \xE7\xEC\xB3\xED\xFE\xE2\xE0\xF2\xE8 \xEA\xE5\xF0\xF3\xED\xEE\xEA \xEC'\xFF\xF7\xE0"
-		},["YOU_HUD"]="\xD2\xC8", --TY
-		["WINNERS_HUD"]="\xC2\xE8\xE3\xF0\xE0\xEB\xE8:", --Wygraly:
-		["WON_HUD"]="\xE2\xE8\xE3\xF0\xE0\xE2(\xEB\xE0)!", --Wygraw(la)!
-		["WINS_HUD"]="\xCF\xE5\xF0\xE5\xEC\xEE\xE3", --Peremog
-		["WIN_HUD"]={
+		},["HUD_YOU"]="\xD2\xC8", --TY
+		["HUD_WINNERS"]="\xC2\xE8\xE3\xF0\xE0\xEB\xE8:", --Wygraly
+		["HUD_WON"]="\xE2\xE8\xE3\xF0\xE0\xE2(\xEB\xE0)!", --Wygraw(la)!
+		["HUD_WINS"]="\xCF\xE5\xF0\xE5\xEC\xEE\xE3", --Peremog
+		["HUD_WIN"]={
 			"\xCD\xB2\xD7\xC8\xDF!", --NICHYJA!
 			"\5\xC2\xC1\xC8\xC2\xD6\xB2", --WBYWCI
 			"\3\xD6\xC8\xC2\xB2\xCB\xDC\xCD\xB2" --CYWIL'NI
@@ -1294,21 +1294,21 @@ MM.text={
 			"\x85Ubijcy\x80 wyigrali potomuchto \x84Sherif\x80 ubil(a) poslednego Newinnogo! Styd \x84Sherifu\x80",
 			"\x82Geroj\x80 wybral temnuju storonu i ubil poslednego Newinnogo. \x85Ubijcy\x80 wyigrali!",
 			"Wse zashitniki\x83 Newinnych\x80 pogibli. \x85Ubijcy\x80 wyigrali!"
-		},["ROLES_HUD"]={
+		},["HUD_ROLES"]={
 			"\xD3\xC1\xC8\xC9\xD6\xC0", --UBIJCA
 			"\xD8\xC5\xD0\xC8\xD4", --SHERIF
 			"\xCD\xC5\xC2\xC8\xCD\xCD\xDB\xC9", --NIEWINNYJ
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
 			"\xCC\xC5\xD0\xD2\xC2(\xE0)" --MERTW(A)
-		},["ROLES_HUD_SHORT"]={
+		},["HUD_ROLES_SHORT"]={
 			"\xD3\xC1.", --UB
 			"\xD8\xC5\xD0.", --SHER
 			"\xCD\xC5\xC2.", --NEW
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
 			"\xCC\xC5\xD0\xD2\xC2(\xE0)" --MERTW(A)
-		},["TEAMALIVE_HUD"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xEE\xE2 \xE2 \xE6\xFB\xE2\xFB\xF5:",
-		["KILLBY_HUD"]="\xD3\xE1\xE8\xF2(\xE0)",
-		["STUPID"]="\xF2\xE2\xEE\xE8\xEC \xE8\xE4\xE8\xEE\xF2\xE8\xE7\xEC\xEE\xEC",
+		},["HUD_TEAMALIVE"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xEE\xE2 \xE2 \xE6\xFB\xE2\xFB\xF5:",
+		["HUD_KILLBY"]="\xD3\xE1\xE8\xF2(\xE0)",
+		["HUD_STUPID"]="\xF2\xE2\xEE\xE8\xEC \xE8\xE4\xE8\xEE\xF2\xE8\xE7\xEC\xEE\xEC",
 		["HUD_SCORESTAB"]={
 			"\xCE\xF7\xEA\xEE\xE2 \xF2\xF3\xF2 \xED\xE5\xF2\x21 \xC2\xEC\xE5\xF1\xF2\xEE \xFD\xF2\xEE\xE3\xEE \xF2\xF3\xF2 \xE5\xF1\xF2\xFC \xF1\xF7\xB8\xF2\xF7\xE8\xEA\xE8",
 			"",
@@ -1329,11 +1329,11 @@ MM.text={
 		},["HUD_ALONE"]={
 			"\xC4\xEB\xFF \xED\xE0\xF7\xE0\xEB\xE0 \xE8\xE3\xF0\xFB \xF2\xF0\xE5\xE1\xF3\xE5\xF2\xF1\xFF\4 2-\xE5\x20\xE8\xE3\xF0\xEE\xEA\xEE\xE2\0,",
 			"\xEF\xEE\xE6\xE0\xEB\xF3\xE9\xF1\xF2\xE0 \xEF\xEE\xE4\xEE\xE6\xE4\xE8\xF2\xE5 \xED\xE0 \4\xE5\xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE"
-		},["YOU_HUD"]="\xD2\xDB",
-		["WINNERS_HUD"]="\xC2\xFB\xE8\xE3\xF0\xE0\xEB\xE8:",
-		["WON_HUD"]="\xE2\xFB\xE8\xE3\xF0\xE0\xEB(\xE0)!",
-		["WINS_HUD"]="\xCF\xEE\xE1\xE5\xE4",
-		["WIN_HUD"]={
+		},["HUD_YOU"]="\xD2\xDB",
+		["HUD_WINNERS"]="\xC2\xFB\xE8\xE3\xF0\xE0\xEB\xE8:",
+		["HUD_WON"]="\xE2\xFB\xE8\xE3\xF0\xE0\xEB(\xE0)!",
+		["HUD_WINS"]="\xCF\xEE\xE1\xE5\xE4",
+		["HUD_WIN"]={
 			"\xC2\xFB\xE8\xE3\xF0\xE0\xEB!",
 			"\5\xD3\xC1\xC8\xC9\xD6\xDB",
 			"\3\xD6\xDB\xC2\xC8\xCB\xDC\xCD\xDB\xC5"

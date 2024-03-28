@@ -260,29 +260,27 @@ local language={ --Language must be a table variable, you can name the variable 
 	--For more details read /SRC/DOCS/MM_String_Format.md
 
 	-- Role names
-	["ROLES_HUD"]={
+	["HUD_ROLES"]={
 		"MURDERER", --Murderer
 		"SHERIFF", --Sheriff
 		"INNOCENT", --Innocent
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
-	["ROLES_HUD_SHORT"]={ --used for 8-32 players intermission screen
+	["HUD_ROLES_SHORT"]={ --used for 8-32 players intermission screen
 		"MURD", --Murderer
 		"SHERI", --Sheriff
 		"INNO", --Innocent
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
-	["TEAMALIVE_HUD"]="Teammates alive:",
-	["KILLBY_HUD"]="Killed by",
-	["STUPID"]="your stupidity",
+	["HUD_TEAMALIVE"]="Teammates alive",
+	["HUD_TEAMMATES"]="Teammates"
+	["HUD_KILLBY"]="Killed by",
+	["HUD_STUPID"]="your stupidity",
 
 	-- Scores TAB screen
 	["HUD_SCORESTAB"]={
-		"No scores here! But the counters below",
-		"may help you in the investigation!",
-		"",
 		"If you're new to the gametype",
 		"use \7MMHELP\0 in the Console",
 		"",
@@ -292,9 +290,9 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Scores TAB screen role conters
 	["HUD_ROLESALIVE"]={
-		"Murderers alive:",
-		"Sheriffs alive:",
-		"Innocents alive:"
+		"Murderers",
+		"Sheriffs",
+		"Innocents"
 	},
 
 	-- Centered text when you're dead
@@ -318,7 +316,7 @@ local language={ --Language must be a table variable, you can name the variable 
 	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 
 	--minigame stuff
-	["MINIGAME"]={
+	["HUD_MINIGAME"]={
 		["PRESS"]="Press\2 CUSTOM3\0 to", --must contain MM escape color codes
 		["LEAVE"]="leave",
 		["CANCEL"]="cancel",
@@ -332,13 +330,13 @@ local language={ --Language must be a table variable, you can name the variable 
 		["BORED"]="Bored?",
 		["PONGBALL"]="Spectators can change the ball's direction"
 	},
-	["YOU_HUD"]="YOU",
+	["HUD_YOU"]="YOU",
 
 	-- Winner stuff
-	["WINNERS_HUD"]="Winners:",
-	["WON_HUD"]="won!",
-	["WINS_HUD"]="Wins",
-	["WIN_HUD"]={
+	["HUD_WINNERS"]="Winners:",
+	["HUD_WON"]="won!",
+	["HUD_WINS"]="Wins",
+	["HUD_WIN"]={
 		"TIE!",
 		"\5MURDERERS", --must contain MM escape color code
 		"\3CIVILIANS" --must contain MM escape color code
