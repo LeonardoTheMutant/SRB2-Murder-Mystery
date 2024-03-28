@@ -61,6 +61,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.afk) p.afk = 0 end --Anti-AFK
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
+	p.sneak = false
 
 	--Check player num and state on join
 	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
