@@ -332,14 +332,18 @@ local function mainHUD(v, p) --main game HUD
 		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[consoleplayer.mmlang]["MINIGAME"]["DUEL"], 0, 32768)), 4, consoleplayer.mmlang, mmtxt[consoleplayer.mmlang]["MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
-	--SUSPECTS (replaces SCORES)
-	local peoplePatchWidth = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_SUS"]) + 14
-	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[consoleplayer.mmlang]["BMP_SUS"], infoSCORE.f)
-	local plrsAlive = PlayersAlive()
-	if (plrsAlive < 10) v.draw((infoSCORE.x + peoplePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
+	--SUSPECTS/VICTIMS (replaces SCORES)
+	local scorePatchName
+	if ((p.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS" --attention to detail
+	else scorePatchName = "BMP_SUSPECTS" end
+	
+	local scorePatchWidth = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 14
+	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[consoleplayer.mmlang][scorePatchName], infoSCORE.f)
+	local plrsAlive = PlayersAlive() - 1
+	if (plrsAlive < 10) v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
 	else
-		v.draw((infoSCORE.x + peoplePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
-		v.draw((infoSCORE.x + peoplePatchWidth + 8), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
+		v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
+		v.draw((infoSCORE.x + scorePatchWidth + 8), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
 	end
 
 	--TIME
