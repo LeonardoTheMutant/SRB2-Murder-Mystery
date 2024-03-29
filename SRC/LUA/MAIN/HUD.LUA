@@ -20,7 +20,7 @@ local coords={ --HUD screen coordinates
 	teammateInfo = {
 		x=20, y=120
 	},
-	teammateInfoOffset1 = {x=8},
+	teammateInfoOffset1 = {x=18},
 	teammateInfoOffset2 = {x=36},
 	firstRingWep = { --for weapon icons
 		x=92, y=156
@@ -523,7 +523,7 @@ local function scoresHUD(v) --SCORES TAB
 		return
 	end
 	hud.disable("rankings")
-	v.drawString(160, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, 0, "center")
+	v.drawString(160, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP, "center")
 
 	--Text
 	V_DrawStrASCIIcentered(v, 160, 12, consoleplayer.mmlang, "\1"..mmtxt[consoleplayer.mmlang]["MM"])
@@ -546,20 +546,17 @@ local function scoresHUD(v) --SCORES TAB
 			if (consoleplayer == p) continue end
 			if (((consoleplayer.role == ROLE_MURDERER) and (p.role == ROLE_MURDERER)) or (((consoleplayer.role == ROLE_SHERIFF) or (consoleplayer.role == ROLE_HERO)) and ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO))))
 				--character icon
-				v.drawScaled((coords.teammateInfo.x*FU), ((coords.teammateInfo.y + (16*teammateNo))*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
-				--role
-				V_DrawStrASCII(v, (coords.teammateInfo.x + 18), (coords.teammateInfo.y + (16*teammateNo)), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..mmtxt[consoleplayer.mmlang]["HUD_ROLES"][p.role])
-				--player name
-				v.drawString((coords.teammateInfo.x + 18), (coords.teammateInfo.y + 8 + (16*teammateNo)), p.name, V_ALLOWLOWERCASE)
-				local roleNameWidth = V_StrWidthASCII(mmtxt[consoleplayer.mmlang]["HUD_ROLES"][p.role])
+				v.drawScaled(coords.teammateInfo.x*FU, (coords.teammateInfo.y + (16*teammateNo))*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
+				--player name (colored as role)
+				v.drawString((coords.teammateInfo.x + 18), (coords.teammateInfo.y + (16*teammateNo)), MM.RoleColor[p.role]..p.name, V_ALLOWLOWERCASE)
 				--icon of the currently held weapon
-				v.drawScaled((coords.teammateInfo.x + 18 + coords.teammateInfoOffset1.x + roleNameWidth)*FU, (coords.teammateInfo.y + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[p.currentweapon][1]))
+				v.drawScaled((coords.teammateInfo.x + coords.teammateInfoOffset1.x)*FU, (coords.teammateInfo.y + 8 + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[p.currentweapon][1])) --FU/2
 				--amount of currently held weapon ammo
-				v.drawString((coords.teammateInfo.x + 36 + coords.teammateInfoOffset1.x + roleNameWidth), (coords.teammateInfo.y + (16*teammateNo)), p.powers[pw_infinityring + p.currentweapon], 0, "thin")
+				v.drawString((coords.teammateInfo.x + coords.teammateInfoOffset1.x + 18), (coords.teammateInfo.y + 8 + (16*teammateNo)), p.powers[pw_infinityring + p.currentweapon], 0, "thin")
 				--red ring icon
-				v.drawScaled((coords.teammateInfo.x + 18 + coords.teammateInfoOffset1.x + coords.teammateInfoOffset2.x + roleNameWidth)*FU, (coords.teammateInfo.y + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[-1][1]), V_SNAPTOTOP)
-				--amount of red rings
-				v.drawString((coords.teammateInfo.x + 36 + coords.teammateInfoOffset1.x + coords.teammateInfoOffset2.x + roleNameWidth), (coords.teammateInfo.y + (16*teammateNo)), p.rings, 0, "thin")
+				v.drawScaled((coords.teammateInfo.x + coords.teammateInfoOffset1.x + coords.teammateInfoOffset2.x)*FU, (coords.teammateInfo.y + 8 + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[-1][1])) --FU/2
+				--amount of [red] rings
+				v.drawString((coords.teammateInfo.x + coords.teammateInfoOffset1.x + coords.teammateInfoOffset2.x + 18), (coords.teammateInfo.y + 8 + (16*teammateNo)), p.rings, 0, "thin")
 				teammateNo = $ + 1
 			end
 		end
@@ -624,7 +621,7 @@ local function interHUD(v) --Custom intermission HUD
 	for i = 1,#plrs
 		if (PlayerCount() < 9) --Regular mode
 			v.drawString((coords.num.x), (coords.first.y + i*16), i)
-			v.drawScaled((coords.name.x - 20)*FU, (((coords.first.y - 4) + i*16)*FU), 32768, v.getSprite2Patch(plrs[i].skin,SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --32768 = FU/2
+			v.drawScaled((coords.name.x - 20)*FU, (((coords.first.y - 4) + i*16)*FU), 32768, v.getSprite2Patch(plrs[i].skin,SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			v.drawString((coords.name.x), (coords.first.y + i*16), string.sub(plrs[i].name, 1, 17), V_ALLOWLOWERCASE)
 			v.drawString((coords.kills.x), (coords.first.y + i*16), plrs[i].kills)
 
@@ -632,7 +629,7 @@ local function interHUD(v) --Custom intermission HUD
 			else V_DrawStrASCII(v, (coords.role.x), (coords.first.y + i*16), consoleplayer.mmlang, MM.RoleColorHUD[5]..mmtxt[consoleplayer.mmlang]["HUD_ROLES"][5]) end
 		elseif ((PlayerCount() >= 9) and (PlayerCount() <= 16)) --"Compact" mode
 			v.drawString((coords.num.x), (coords.first2.y + i*8), i, 0, "thin")
-			v.drawScaled((coords.name.x - 16)*FU, ((coords.first2.y - 1) + i*8)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --16384 = FU/4
+			v.drawScaled((coords.name.x - 16)*FU, ((coords.first2.y - 1) + i*8)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			v.drawString((coords.name.x), (coords.first2.y + i*8), string.sub(plrs[i].name, 1, 32), V_ALLOWLOWERCASE, "thin")
 			v.drawString((coords.kills.x), (coords.first2.y + i*8), plrs[i].kills, 0, "thin")
 
