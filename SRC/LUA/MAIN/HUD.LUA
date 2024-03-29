@@ -336,12 +336,13 @@ local function mainHUD(v, p) --main game HUD
 
 	--SUSPECTS/VICTIMS (replaces SCORES)
 	local scorePatchName
-	if ((p.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS" --attention to detail
+	if ((p.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS"
 	else scorePatchName = "BMP_SUSPECTS" end
 	
 	local scorePatchWidth = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 14
 	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[consoleplayer.mmlang][scorePatchName], infoSCORE.f)
 	local plrsAlive = PlayersAlive() - 1
+	if (plrsAlive < 0) plrsAlive = 0 end
 	if (plrsAlive < 10) v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
 	else
 		v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)

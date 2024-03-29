@@ -2130,6 +2130,7 @@ local flatsounds={
 	["GLASSTEX"]="glass",
 	["DCWAL22"]="stone",
 	["THDOOR2B"]="stone",
+	["CEZRCK0"]="stone",
 
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
