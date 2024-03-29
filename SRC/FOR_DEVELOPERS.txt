@@ -16,15 +16,14 @@ MM_MurderMystery_[x.x-BETA].pk3
 |     +--MAIN--\
 |     |        +-ABILITIES.LUA - Responsible for character abilities
 |     |        +-CCMD.LUA - MMHELP and MMLANG commands
-|     |        +-CHAT.LUA - controls CHAT
+|     |        +-CHAT.LUA - Chat management
 |     |        +-DEBUG.LUA - This script is used only in Debug Builds of MM
 |     |        +-FUNCTIONS.LUA - Function definitions for the rest of the source code
 |     |        +-GAME.LUA - The main core of the game logic, everything usually happens here
 |     |        +-HUD.LUA - HUD renderer
-|     |        +-MINIGAME.LUA - Code for PONG 2-player minigame
-|     |        +-NOCHEAT.LUA - Makes sure you don't cheat ;P
+|     |        +-MINIGAME.LUA - Code for "PONG" and "SONIC RUN" minigames
 |     |        +-TEXT.LUA - All text and its translations used in MM
-|     |        \-WEAPONS.LUA - Weapons code
+|     |        \-WEAPONS.LUA - Recreation of the Vanilla Weapon Rings
 |     |
 |     +--MISC--\
 |     |        \-FOOTSTEPS.LUA - Modified ModernSonic's footsteps engine
