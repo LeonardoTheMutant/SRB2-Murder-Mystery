@@ -211,7 +211,6 @@ MM.text={
 			"HERO",
 			"DEAD"
 		},
-		["HUD_TEAMALIVE"]="Teammates alive",
 		["HUD_TEAMMATES"]="Teammates",
 		["HUD_KILLBY"]="Killed by",
 		["HUD_STUPID"]="your stupidity",
@@ -450,7 +449,7 @@ MM.text={
 			"INOC",
 			"HERO",
 			"MRTO"
-		},["HUD_TEAMALIVE"]="Aliados vivos",
+		},
 		["HUD_KILLBY"]="Asesinado por",
 		["HUD_STUPID"]="tu estupidez",
 		["HUD_SCORESTAB"]={
@@ -672,7 +671,6 @@ MM.text={
 			"BOH.",
 			"MARTW."
 		},
-		["HUD_TEAMALIVE"]="Wspo\xB3nicy \xBFywi",
 		["HUD_TEAMMATES"]="Cz\xB3onkowie dru\xBFyny",
 		["HUD_KILLBY"]="Zabity przez",
 		["HUD_STUPID"]="tw\xF3j idiotyzm",
@@ -898,7 +896,7 @@ MM.text={
 			"MASU",
 			"KAHR",
 			"\xD6L\xDC"
-		},["HUD_TEAMALIVE"]="Takim arkada\xFElari hayatta",
+		},
 		["HUD_KILLBY"]="Tarafindan \xF6ld\xFCr\xFCld\xFC",
 		["HUD_STUPID"]="senin aptall\xFD\xF0\xFDn",
 		["HUD_SCORESTAB"]={
@@ -1123,7 +1121,7 @@ MM.text={
 			"\xCD\xC5\xC2.", --NEW.
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
 			"\xCC\xC5\xD0\xD2\xC2." --MERTW.
-		},["HUD_TEAMALIVE"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xB3\xE2 \xE2 \xE6\xE8\xE2\xE8\xF5", --naparnykiw w zhywyh
+		},
 		["HUD_TEAMMATES"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xE8", --naparnyky
 		["HUD_KILLBY"]="\xC2\xE8 \xE2\xE1\xE8\xF2\xB3", --wy wbyti
 		["HUD_STUPID"]="\xC2\xE0\xF8\xE8\xEC \xB3\xE4\xB3\xEE\xF2\xE8\xE7\xEC\xE5\xEC", --washym idiotyzmem
@@ -1306,7 +1304,7 @@ MM.text={
 			"\xCD\xC5\xC2.", --NEW
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
 			"\xCC\xC5\xD0\xD2\xC2(\xE0)" --MERTW(A)
-		},["HUD_TEAMALIVE"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xEE\xE2 \xE2 \xE6\xFB\xE2\xFB\xF5:",
+		},
 		["HUD_KILLBY"]="\xD3\xE1\xE8\xF2(\xE0)",
 		["HUD_STUPID"]="\xF2\xE2\xEE\xE8\xEC \xE8\xE4\xE8\xEE\xF2\xE8\xE7\xEC\xEE\xEC",
 		["HUD_SCORESTAB"]={

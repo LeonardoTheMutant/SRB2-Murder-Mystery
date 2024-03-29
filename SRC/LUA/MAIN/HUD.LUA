@@ -20,6 +20,17 @@ local coords={ --HUD screen coordinates
 	teammateInfo = {
 		x=20, y=120
 	},
+
+
+
+
+
+
+
+
+
+
+
 	teammateInfoOffset1 = {x=18},
 	teammateInfoOffset2 = {x=36},
 	firstRingWep = { --for weapon icons
@@ -384,17 +395,10 @@ local function mainHUD(v, p) --main game HUD
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 
 	--Show your role
-	if (p.role)
-		if ((p.role > ROLE_NONE) and (not (p.roleflicker % 4))) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..mmtxt[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f) end
-		if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_MURDERER) > 1) V_DrawStrASCII(v, infoRINGS.x, infoRINGS.y+16, consoleplayer.mmlang, MM.RoleColorHUD[ROLE_MURDERER]..mmtxt[consoleplayer.mmlang]["HUD_TEAMALIVE"]..": "..PlayerCount(ROLE_MURDERER), infoRINGS.f)
-		elseif (p.role == ROLE_SHERIFF)
-			if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), consoleplayer.mmlang, MM.RoleColorHUD[ROLE_SHERIFF]..mmtxt[consoleplayer.mmlang]["HUD_TEAMALIVE"]..": "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..PlayerCount(ROLE_HERO), infoRINGS.f)
-			elseif (PlayerCount(ROLE_SHERIFF) > 1) and (PlayerCount(ROLE_HERO) == 0)  V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), consoleplayer.mmlang, MM.RoleColorHUD[ROLE_SHERIFF]..mmtxt[consoleplayer.mmlang]["HUD_TEAMALIVE"]..": "..PlayerCount(ROLE_SHERIFF), infoRINGS.f) end
-		elseif (p.role == ROLE_HERO)
-			if (PlayerCount(ROLE_SHERIFF)) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), consoleplayer.mmlang, MM.RoleColorHUD[ROLE_HERO]..mmtxt[consoleplayer.mmlang]["HUD_TEAMALIVE"]..": "..PlayerCount(ROLE_HERO)..MM.RoleColorHUD[ROLE_SHERIFF].." + "..PlayerCount(ROLE_SHERIFF), infoRINGS.f)
-			elseif (PlayerCount(ROLE_HERO) > 1) and (PlayerCount(ROLE_SHERIFF) == 0) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 16), consoleplayer.mmlang, MM.RoleColorHUD[ROLE_HERO]..mmtxt[consoleplayer.mmlang]["HUD_TEAMALIVE"]..": "..PlayerCount(ROLE_HERO), infoRINGS.f) end
-		end
+	if ((p.role) and  (p.role > ROLE_NONE) and (not (p.roleflicker % 4)))
+		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..mmtxt[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
 	end
+
 	if (p.spectator)
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[5]..mmtxt[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f)
 		for y,i in pairs(mmtxt[consoleplayer.mmlang]["HUD_DEAD"]) do V_DrawStrASCIIcentered(v, 160, (112 + y*8), consoleplayer.mmlang, i) end
