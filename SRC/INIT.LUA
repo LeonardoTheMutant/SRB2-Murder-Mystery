@@ -32,7 +32,7 @@ rawset(_G, "MM", {
 		"  	HEHEHE HA     | Clash Royal King's laugh",
 		"  	hehe boi      | \"Hehe boi...\"",
 		"   PINGAS        | \"SnooPING AS usual I see?\"",
-		"   HUH           | \"Huh?\"",
+		"   imbouttoblow  | Dreamybull's \"imbouttoblow\"",
 		"   HAH           | \"HAH!\"",
 		"	Hello there   | Obi-Wan's iconic phrase",
 		"  ---------------+---------------------------",
@@ -211,7 +211,7 @@ sfxinfo[sfx_emj11].caption="HEHEHE HA"
 sfxinfo[sfx_emj12].caption="hehe boiii..."
 sfxinfo[sfx_emj13].caption="PINGAS"
 sfxinfo[sfx_emj14].caption="PAIN"
-sfxinfo[sfx_emj15].caption="huh?"
+sfxinfo[sfx_emj15].caption="imbouttoblow"
 sfxinfo[sfx_emj16].caption="NO!"
 sfxinfo[sfx_emj17].caption="HAH!"
 sfxinfo[sfx_emj18].caption="SIREN"

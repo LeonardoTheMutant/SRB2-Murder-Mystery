@@ -83,7 +83,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif (m == "HELP" or mu == "HELP!") MM_ChatPlaySFX(sfx_emj10)
 			elseif (mu:find("PINGAS")) MM_ChatPlaySFX(sfx_emj13)
 			elseif (mu:find(":PAIN:")) MM_ChatPlaySFX(sfx_emj14)
-			elseif (mu:find("HUH") or m:upper():find("HUH?")) MM_ChatPlaySFX(sfx_emj15)
+			elseif (mu:find("BOUT") and mu:find("BLOW")) MM_ChatPlaySFX(sfx_emj15)
 			elseif (mu == "HAH" or m:upper() == "HAH!") MM_ChatPlaySFX(sfx_emj17)
 			elseif (mu:find("HELLO THERE")) MM_ChatPlaySFX(sfx_emj19)
 
