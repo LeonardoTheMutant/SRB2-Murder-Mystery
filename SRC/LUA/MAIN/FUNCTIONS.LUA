@@ -161,6 +161,14 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
 	local y = y or 0
 	local flg = flags or 0
 
+	--if the string has no Extended ASCII symbols and is meant to be printed in normal size
+	--use SRB2 built-in function instead (it's faster)
+	if (isStandartASCII(str) and (fontsize == FU))
+		v.drawString(x, y, str, flg|V_ALLOWLOWERCASE)
+		return
+	end
+
+
 	--set the characer encoding for the given language
 	local charset = MM.text[lang]["CHARSET"] or "STCFN"
 
@@ -176,7 +184,7 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
 	elseif (fontsize > FU) spaceSize = $*fontsize/FU end
 
 	--text
-	local color=v.getStringColormap(0) --default to white color
+	local color = v.getStringColormap(0) --default to white color
 
 	--character X position
 	local cx = x
@@ -196,23 +204,19 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
 		if (chr < 16) color = v.getStringColormap(chr*4096) end
 
 		--print the character
-		if (chr >= 128) --extended ASCII
-			if (v.patchExists(charset..strchar))
+		if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --is symbol from Extended ASCII range?
+			if (v.patchExists(charset..strchar)) --Extended ASCII
 				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch(charset..strchar), flg, color)
 			else --unknown symbol, print "?"
 				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color)
 			end
-		elseif (chr >= 16) and (chr < 128) --standart ASCII
-			if (v.patchExists("STCFN"..strchar))
-				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
-			else --unknown symbol, print "?" unless it's a space symbol
-				if (chr != 32) v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color) end
-			end 
+		elseif (chr > 32) and (chr < 128) --Standart ASCII (printable symbols)
+			v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
 		end
 
 		--shift X position for the next character
 		if (chr == 32) cx = $ + spaceSize --space has a different character width
-		elseif (chr > 16) and (chr != 32) cx = $ + width end --it's a regular character
+		elseif (chr >= 16) and (chr != 32) cx = $ + width end --it's a regular character
 	end
 end)
 
@@ -489,7 +493,23 @@ rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
 	else return fof.bottomheight end
 end)
 
-/*
+rawset(_G, "isExtendedASCII", function(str)
+	--does string contain Extended ASCII symbols? (0x80 - 0xFF)
+	for CharID = 1, #str do
+		if (string.byte(str:sub(CharID, CharID)) >= 128) then return true end
+	end
+	return false
+end)
+rawset(_G, "isStandartASCII", function(str)
+	--is the whole string made of Standart ASCII symbols which are printable? (0x20 - 0x7F)
+	local CharCode
+	for CharID = 1, #str do
+		CharCode = string.byte(str:sub(CharID, CharID))
+		if ((CharCode < 32) or (CharCode >= 128)) then return false end
+	end
+	return true
+end)
+
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
 	if (not s) return {} end
 	x = x or 38
@@ -505,15 +525,3 @@ rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/question
 	end
 	return t
 end)
-
-rawset(_G, "V_GetHelpPageSize", function(l, p, x)
-	assert(MM.text[l]["MMHELP"][p], "Page specified does not exist. Is language specified correctly?")
-	local size = 0
-	for lineID = 0, #MM.text[l]["MMHELP"][p] do
-		for sublineID, sublineText in pairs(WordWrapString(MM.text[l]["MMHELP"][p][lineID], x))
-			size = $ + 1
-		end
-	end
-	return size
-end)
-*/

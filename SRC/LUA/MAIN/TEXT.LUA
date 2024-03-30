@@ -26,7 +26,7 @@ MM.text={
 		["MMHELP"]={ --MMHELP command
 			["MAIN"]={ --When no page specified
 				"\x87Welcome to Murder Mystery!",
-				"\x87The SRB2 interpretation of the popular multiplayer game!",
+				"\x87The SRB2 interpretation of the popular multiplayer game!\n",
 				"The game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 				"You need to learn some basics first before you can start playing...",
 				"\nAt the beginning of each round you will get a \x8BRole\x80 which defines what your task is during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
@@ -35,7 +35,7 @@ MM.text={
 				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
 				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
 			},["GAME"]={
-				"\x87".."About the gameplay situations",
+				"\x87".."About the gameplay situations\n",
 				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",
 				"\n* If you get killed, you'll enter the\x8F Dead\x80 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
 				"You can't talk to/PM players who are still alive while you are\x8F Dead\x80.",
@@ -49,7 +49,7 @@ MM.text={
 				"\x8BTeammates\x80 can chat with each other in their team chat with the \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
 				"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
 			},["BAD"]={
-				"\x87Things that are bad to do in Murder Mystery",
+				"\x87Things that are bad to do in Murder Mystery\n",
 				"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
 				"* Self-spoiling of the \x8BRole\x80 will not make the game a \'Mystery\', you can tell someone else's role if you are sure of it, but never tell your own.",
 				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.",
@@ -57,12 +57,12 @@ MM.text={
 				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
 				"Breaking one of these rules may result in a kick or sometimes, a ban from the Admin! Please do not break them and play fairly."
 			},["CHAT"]={
-				"\x87How to use Sound Emojis",
+				"\x87How to use Sound Emojis\n",
 				"When a player sends a message that contains specific words/phrases, a sound will be played.",
 				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
 				"Here is the full list of the Sound Emojis and how to activate each of them:"
 			},["TIPS"]={
-				"\x87Useful tips",
+				"\x87Useful tips\n",
 				"We've collected some tips that can help you during your game in MM:",
 				"\n* If character abilities are disabled by admin, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
 				"\n* When you pick up the \x84Sherrif's Emerald\x80, you will have access to all the weapons and rings you collected beforehand;",
@@ -297,7 +297,7 @@ MM.text={
 		},["MMHELP"]={
 			["MAIN"]={
 				"\x87 Bienvenido a Murder Mystery!",
-				"\x87La interpretacion en SRB2 del popular juego multijugador!",
+				"\x87La interpretacion en SRB2 del popular juego multijugador!\n",
 				"El objetivo del juego es encontrar y eliminar a todos los\x85 Asesinos\x80 antes de que maten a\x83 todos los demas\x80. Este modo de juego es tipo MATCH por lo que nesecitaras de tus habilidades de apuntar y disparar para este modo de juego.",
 				"Pero necesitaras aprender lo basico antes de empezar a jugar...",
 				"\nAl inicio de cada ronda recibiras un \x8BRol\x80 que define cual es tu tarea en la partida. Aqui estan los 3 posibles \x8BRoles\x80 que puedes conseguir:",
@@ -306,7 +306,7 @@ MM.text={
 				" * \x83Inocente\x80 - Civil completamente sin armas, deben evitar ser asesinados pero tambien deben ayudar en la busqueda del\x85 Asesino\x80.",
 				"\nEsa es toda la informacion basica requerida para empezar a jugar, para mas informacion, puedes usar estos comandos:"
 			},["GAME"]={
-				"\x87".."Sobre las situaciones de gameplay",
+				"\x87".."Sobre las situaciones de gameplay\n",
 				"Como se explico anteriormente en lo basico, el objetivo de los comisarios es eliminar a todos los\x85 Asesinos\x80, pero diferentes situaciones de gameplay pueden ocurrir:",
 				"\n* Si te matan, entraras en el estado de\x8F Muerto\x80. Los jugadores en este estado no pueden reaparecer o hablarle globalmente a jugadores que siguen vivos, sus mensajes solo seran visibles para otros jugadores\x8F Muertos\x80.",
 				"No puedes enviar mensajes/mensajes directos a jugadores que siguen vivos mientras estas\x8F Muerto\x80.",
@@ -320,7 +320,7 @@ MM.text={
 				"Los\x8B Aliados\x80 pueden chatear entre si en su chat de equipo con el comando de consola \x87SAYTEAM\x80 (notar que el boton de chat de SAYTEAM funcionara igual que el chat normal).",
 				"Si un\x8B aliado\x80 golpea a otro aliado, ambos conseguiran una advertencia personalizada que hara que se reconozcan. Recuerda que otros pueden ver tu interaccion 'amistosa' y darse cuenta de quien eres!"
 			},["BAD"]={
-				"\x87 Cosas malas de hacer en Murder Mystery",
+				"\x87 Cosas malas de hacer en Murder Mystery\n",
 				"La regla No.1 de cualquier juego:\x82 Se amable y diviertete!\x80 Ademas de esto...",
 				"* Las autorevelaciones de los \x8BRoles\x80 no hara el juego un \'Misterio\', puedes decir el rol de alguien mas si estas seguro de ello, pero nunca digas el tuyo.",
 				"* No insultes otros jugadores, las bromas o chistes son permitidos, pero solo en un animo amigable. Nadie te creera si acusaras a cualquier jugador sin razon.",
@@ -328,12 +328,12 @@ MM.text={
 				"* No te renombres durante una ronda estando muerto, hacer esto te expulsara del servidor. Puedes renombrarte si estas vivo. Solo espera la intermission para renombrarte de manera segura.",
 				"Romper una de estas reglas puede resultar en una expulsion, o en algunos casos un ban por el Admin! Porfavor no las rompas y juega justamente."
 			},["CHAT"]={
-				"\x87 Como usar Emojis de Sonido",
+				"\x87 Como usar Emojis de Sonido\n",
 				"Cuando un jugador envia un mensaje que tenga palabras/frases especificas, se reproducira un sonido.",
 				"Por ejemplo, cuando envias un mensaje que tenga la palabra \"bruh\", todos escucharan el sonido de \"BRUH\"",
 				"Aqui hay una lista completa de los Emojis de Sonido y como activar cualquiera de ellos:"
 			},["TIPS"]={
-				"\x87 Consejos utiles",
+				"\x87 Consejos utiles\n",
 				"Hemos coleccionado algunos consejos que te puedan ayudar durante tu partida de MM:",
 				"\n* Si las habilidades de personajes son desactivadas por un admin, presiona \x82SPIN\x80 para escabullirte sigilosamente sin dejar rastros o hacer ruido;",
 				"\n* Cuando recojas la\x84 Esmeralda del comisario\x80, tendras acceso a todas las armas y anillos que recolectaste de antemano;",
@@ -511,8 +511,8 @@ MM.text={
 		},
 		["MMHELP"]={
 			["MAIN"]={
-				"\x87        Witaj w Tajemnicy Morderstw!\nInterpretacji popularnej gry multiplayer w SRB2",
-				"\nCelem gry jest znalezienie i wyeliminowanie wszystkich \x85Mordercow\x80 zanim zabija\x83 wszystkich\x80. Ten typ gry jest jak MATCH wiec musisz potrafic strzelac.",
+				"\x87Witaj w Tajemnicy Morderstw!\nInterpretacji popularnej gry multiplayer w SRB2\n",
+				"Celem gry jest znalezienie i wyeliminowanie wszystkich \x85Mordercow\x80 zanim zabija\x83 wszystkich\x80. Ten typ gry jest jak MATCH wiec musisz potrafic strzelac.",
 				"Bedziesz potrzebowac kilku podstaw....",
 				"\nNa poczatku kazdej rundy dostaniesz \x8BRole\x80 ktora dyktuje co masz robic w grze. To sa 3 mozliwe \x8BRole\x80 ktore mozesz dostac:",
 				" * \x85Morderca\x80 - prawdziwy kryminalista. Ma zabic wszystkich, ale posiada tylko Noz ta Czerwone Ringi;",
@@ -520,7 +520,7 @@ MM.text={
 				" * \x83Niewinny\x80 - kompletnie bezbronny cywil, musi nie zostac zabity i pomoc w znalezieniu \x85Mordercy\x80.",
 				"\nTo cala podstawa do gry, jesli nadal czegos nie wiesz lub chcesz dowiedziec sie wiecej, uzyj tych komend:"
 			},["GAME"]={
-				"\x87O sytuacjach w grze",
+				"\x87O sytuacjach w grze\n",
 				"Jak wyjasniono wczesniej, celem jest wyeliminowanie wszystkich \x85Mordercow\x80, ale rozne sytuacje moga zastac:",
 				"\n* Jesli ktos cie zastrzeli to staniesz sie\x8F Martwy\x80. Gracze w tym stanie nie moga sie odnowic ani gadac na globalnym czacie, twoje wiadomosci sa tylko widoczne dla innych\x8F martwych\x80 graczy.",
 				"Nie mozesz uzyc \x87SAYTO\x80 lub PW do osoby ktora jest zywa jako\x8F MARTWY\x80.",
@@ -537,7 +537,7 @@ MM.text={
 				"\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinno sie robic w TM",
 				"\x87MMHELP CHAT\x80 - Co to sa Dzwieki i jak ich uzyc"
 			},["BAD"]={
-				"\x87Rzeczy ktorych nie wolno robic w Tajemnicy Morderstw",
+				"\x87Rzeczy ktorych nie wolno robic w Tajemnicy Morderstw\n",
 				"Zasada numer 1 kazdej gry:\x82 Badz mily i sie baw!\x80 Oprocz tego...",
 				"* Wypowiedzenie swojej \x8BRoli\x80 sprawi ze gra nie bedzie juz \'Tajemnica\', mozesz wypowiedziec role kogos innego jak wiesz ale nigdy swojej.",
 				"* Nie badz nie mily dla innych graczy, zarty sa dozwolone ale tylko w przyjaznej atmosferze. Nikt ci nie bedzie ufal jak bedziesz ciagle oskarzal innych bez powodu.",
@@ -548,12 +548,12 @@ MM.text={
 				"\x87MMHELP GAME\x80 - O sytuacjach w grze",
 				"\x87MMHELP CHAT\x80 - Lista dzwiekow i jak ich uzyc"
 			},["CHAT"]={
-				"\x87Jak uzyc dzwiekow\x80",
+				"\x87Jak uzyc dzwiekow\n",
 				"Jesli gracz wysle wiadomosc zawierajaca specjalne slowa lub frazy to zagra specjalny dzwiek.",
 				"w skrocie jesli wyslesz wiadomosc \"bruh\" wszyscy uslysza dzwiek BRUH",
 				"To jest lista dzwiekow i jak je aktywowac:"
 			},["TIPS"]={
-				"\x87Przydatne porady",
+				"\x87Przydatne porady\n",
 				"Zebralismy kilka porad ktorzy moga przydac ci w twojej grze w TM:",
 				"\n* Jezeli zdolnosci postaci sa wylaczone adminem, zacisnij \x82SPIN\x80 zeby skradac sie ukradkiem i nie zostawiac za soba sladow;",
 				"\n* Kiedy podniesiesz \x84Szmaragd Szeryfa\x80 bedziesz miec dostep do kazdej broni i ringow, ktorzy zebrales uprzednio;",
@@ -744,7 +744,7 @@ MM.text={
 		},["MMHELP"]={
 			["MAIN"]={
 				"\x87Murder Mystery'e hosgeldiniz!",
-				"\x87Populer cok oyunculu oyunun SRB2 cevirisi!",
+				"\x87Populer cok oyunculu oyunun SRB2 cevirisi!\n",
 				"Oyunun amaci, diger herkesi oldurmeden once tum \x85Katiller\x80'i bulup ortadan kaldirmaktir. Bu oyun turu daha cok MATCH'a benzer, bu nedenle bu oyun turu icin nisan alma ve atis becerilerinize ihtiyaciniz olacak.",
 				"Oynamaya baslamadan once bazi temel bilgileri ogrenmeniz gerekiyor...",
 				"\nHer turun basinda, oyun sirasindaki gorevinizin ne oldugunu tanimlayan bir \x8BRol\x80 alacaksiniz. Iste alabileceginiz 3 olasi \x8BRoller\x80:",
@@ -753,7 +753,7 @@ MM.text={
 				" * \x83Masum\x80 - Tamamen silahsiz siviller, oldurulmekten kacinmalari gerekir ama ayni zamanda \x85Katil\x80'i bulmaya da yardimci olmalari gerekir.",
 				"\nOynamaya baslamak icin gereken tum temel bilgiler bu kadar, daha fazla bilgi icin su komutlari kullanabilirsiniz:"
 			},["GAME"]={
-				"\x87".."Oynanis durumlari hakkinda",
+				"\x87".."Oynanis durumlari hakkinda\n",
 				"Temel bilgilerde daha once aciklandigi gibi, seriflerin amaci tum \x85Katil(ler)\x80i ortadan kaldirmaktir, ancak farkli oyun durumlari ortaya cikabilir:",
 				"\n* Oldurulurseniz, \x8F Olu\x80 durumuna girersiniz. Bu durumdaki oyuncular yeniden dogamaz veya hala hayatta olan oyuncularla kuresel olarak konusamaz, mesajlari yalnizca diger \x8F olu\x80 oyuncular tarafindan gorulebilir.",
 				"\x8F Olu\x80 iken hala hayatta olan oyuncularla konusamazsin/PM yapamazsin.",
@@ -767,7 +767,7 @@ MM.text={
 				"\x8BTakim arkadaslari\x80, \x87SAYTEAM\x80 konsol komutuyla takim sohbetlerinde birbirleriyle sohbet edebilir (SAYTEAM sohbet dugmesinin normal sohbetle ayni sekilde calisacagini unutmayin).",
 				"Bir \x8BTakim arkadasi\x80 baska bir takim arkadasina vurursa, her ikisi de birbirlerini tanimalarini saglayacak kisisellestirilmis bir uyari alir. Baskalarinin 'arkadasca' etkilesiminizi gorebilecegini ve kim oldugunuzu anlayabilecegini unutmayin!"
 			},["BAD"]={
-				"\x87Murder Mystery'de yapilmasi kotu olan seyler",
+				"\x87Murder Mystery'de yapilmasi kotu olan seyler\n",
 				"Herhangi bir oyunun 1 numarali kurali:\x82 Nazik olun ve eglenin!\x80 Bunun disinda...",
 				"* \x8BRol\x80un kendini simartmasi oyunu bir 'gizem' yapmaz, eger eminseniz baskasinin rolunu soyleyebilirsiniz, ancak kendinizinkini asla soylemeyin.",
 				"* Diger oyunculara hakaret etmeyin, sakalara izin verilir, ancak yalnizca arkadasca bir ruh hali icinde. Her oyuncuyu sebepsiz yere suclarsaniz kimse size guvenmez.",
@@ -775,12 +775,12 @@ MM.text={
 				"* Oluyken bir tur sirasinda kendinizi yeniden adlandirmayin, bunu yapmak sizi sunucudan atacaktir. Hayattaysaniz yeniden adlandirabilirsiniz. Aranin guvenli bir sekilde yeniden adlandirilmasini bekleyin.",
 				"Bu kurallardan birini ihlal etmek, oyundan atilma veya bazi durumlarda Yonetici tarafindan yasaklanma ile sonuclanabilir! Lutfen onlari kirmayin ve adil oynayin."
 			},["CHAT"]={
-				"\x87Ses Emojisi nasil kullanilir?",
+				"\x87Ses Emojisi nasil kullanilir?\n",
 				"Bir oyuncu belirli kelimeleri/cumleleri iceren bir mesaj gonderdiginde, bir ses calinacaktir.",
 				"Ornegin, \"bruh\" iceren bir mesaj gonderdiginizde, herkes \"BRUH\" sesini duyacaktir",
 				"Iste Ses Emojilerinin tam listesi ve her birinin nasil etkinlestirilecegi:"
 			},["TIPS"]={
-				"\x87Faydali ipuclari",
+				"\x87Faydali ipuclari\n",
 				"MM'deki oyununuz sirasinda size yardimci olabilecek bazi ipuclari topladik:",
 				"\n* Karakter yetenekleri yonetici tarafindan devre disi birakilirsa, iz birakmadan veya gurultu yapmadan gizlice dolasmak icin \x82SPIN\x80 tusuna basin;",
 				"\n* \x84Serif'in Zumrutu\x80'nu aldiginizda, onceden topladiginiz tum silahlara ve yuzuklere erisebileceksiniz;",
@@ -955,10 +955,9 @@ MM.text={
 				"ne isnuje. Bud' Laska oznajomtesia zi zmistom:"
 			}
 		},["MMHELP"]={
-			/*
 			["MAIN"]={
 				"\7\xC2\xB3\xF2\xE0\xBA\xEC\xEE \xE2 \xD2\xE0\xBA\xEC\xED\xE8\xF6\xB3 \xC2\xE1\xE8\xE2\xF1\xF2\xE2\xE0!",
-				"\7\xB2\xED\xF2\xE5\xF0\xEF\xF0\xE5\xF2\xE0\xF6\xB3\xFF \xEF\xEE\xEF\xF3\xEB\xFF\xF0\xED\xEE\xBF \xE1\xE0\xE3\xE0\xF2\xEE\xEA\xEE\xF0\xE8\xF1\xF2\xEA\xF3\xE2\xE0\xF6\xFC\xEA\xEE\xBF \xE3\xF0\xE8 \xE2 SRB2",
+				"\7\xB2\xED\xF2\xE5\xF0\xEF\xF0\xE5\xF2\xE0\xF6\xB3\xFF \xEF\xEE\xEF\xF3\xEB\xFF\xF0\xED\xEE\xBF \xE1\xE0\xE3\xE0\xF2\xEE\xEA\xEE\xF0\xE8\xF1\xF2\xEA\xF3\xE2\xE0\xF6\xFC\xEA\xEE\xBF \xE3\xF0\xE8 \xE2 SRB2\0\n",
 				"\xD6\xB3\xEB\xFC \xE3\xF0\xE8 \xEF\xEE\xEB\xFF\xE3\xFF\xBA \xF3 \xE7\xED\xE0\xF5\xEE\xE4\xE6\xE5\xED\xED\xB3 \xB3 \xE5\xEB\xB3\xEC\xB3\xED\xE0\xF6\xB3\xBF \xF3\xF1\xB3\xF5 \5\xE2\xE1\xE8\xE2\xF6\xFC\0 \xEF\xEE\xEA\xE8 \xE2\xEE\xED\xE8 \xED\xE5 \xE2\xE1\xE8\xEB\xE8 \3\xF3\xF1\xB3\xF5 \xB3\xED\xF8\xE8\xF5\0. \xD6\xFF \xE3\xF0\xE0 \xEF\xEE\xE4\xB3\xE1\xED\xE0 \xE4\xEE \xF0\xE5\xE6\xE8\xEC\xF3 MATCH \xF2\xEE\xEC\xF3 \xE2\xE0\xEC \xE7\xED\xE0\xE4\xEE\xE1\xEB\xFF\xF2\xFC\xF1\xFF \xE2\xE0\xF8\xB3 \xE2\xEC\xB3\xED\xED\xFF \xEF\xF0\xE8\xF6\xB3\xEB\xFE\xE2\xE0\xED\xED\xFF \xB3 \xF1\xF2\xF0\xB3\xEB\xFC\xE1\xE8.",
 				"\xC0\xEB\xE5 \xF1\xEF\xE5\xF0\xF8\xF3 \xE2\xE0\xEC \xF2\xF0\xE5\xE1\xE0 \xEF\xEE\xFF\xF1\xED\xE8\xF2\xE8 \xE1\xE0\xE7\xEE\xE2\xB3 \xF0\xE5\xF7\xB3 \xEF\xE5\xF0\xF8 \xED\xB3\xE6 \xE2\xE8 \xEF\xEE\xF7\xED\xE5\xF2\xE5 \xE3\xF0\xE0\xF2\xE8...",
 				"\n\xCD\xE0 \xEF\xEE\xF7\xE0\xF2\xEA\xF3 \xEA\xEE\xE6\xED\xEE\xE3\xEE \xF0\xE0\xF3\xED\xE4\xF3 \xE2\xE0\xEC \xE2\xE8\xE4\xE0\xE4\xF3\xF2\xFC \11\xF0\xEE\xEB\xFC\0 \xEA\xEE\xF2\xF0\xE0 \xE2\xE8\xE7\xED\xE0\xF7\xE0\xF2\xE8\xEC\xE5 \xF9\xEE \xE2\xE8 \xE1\xF3\xE4\xE5\xF2\xE5 \xF0\xEE\xE1\xE8\xF2\xE8 \xED\xE0\xEF\xF0\xEE\xF2\xFF\xE7\xB3 \xE3\xF0\xB3. \xCE\xF1\xFC \xF3\xF1\xB3 3 \xEC\xEE\xE6\xEB\xE8\xE2\xB3 \11\xF0\xEE\xEB\xB3\0 \xFF\xEA\xB3 \xEC\xEE\xE6\xED\xE0 \xEE\xF2\xF0\xE8\xEC\xE0\xF2\xE8 \xEF\xF0\xE8 \xF1\xF2\xE0\xF0\xF2\xB3:",
@@ -966,10 +965,11 @@ MM.text={
 				" * \4\xD8\xE5\xF0\xE8\xF4\0 - \xD6\xB3\xEB\xFC \xEF\xEE\xEB\xB3\xF6\xB3\xBF \xF3 \xF6\xB3\xE9 \xE3\xF0\xE8 \xEF\xEE\xEB\xFF\xE3\xFF\xBA \xED\xE0 \4\xE7 \xED\xE0\xF5\xEE\xE4\xE6\xE5\xED\xED\xB3 \xB3 \xE5\xEB\xB3\xEC\xB3\xED\xE0\xF6\xB3\xBF\0 \xF3\xF1\xB3\xF5 \5\xE2\xE1\xE8\xE2\xF6\xFC\0. \xD8\xE5\xF0\xE8\xF4\xE0\xEC \xE4\xEE\xF1\xF2\xF3\xEF\xED\xB3 \xEA\xEE\xE6\xED\xB3 \xF2\xE8\xEF\xE8 \xE7\xE1\xF0\xEE\xBF \xE4\xEE\xF1\xF2\xF3\xEF\xED\xB3 \xED\xE0 \xEB\xEE\xEA\xE0\xF6\xB3\xBF;",
 				" * \3\xCD\xE5\xE2\xE8\xED\xED\xE0 \xEE\xF1\xEE\xE1\xE0\0 - \xD6\xE8 \xEB\xFE\xE4\xFF\xEC \xF2\xF0\xE5\xE1\xE0 \xEE\xF1\xF2\xE5\xF0\xB3\xE3\xE0\xF2\xE8\xF1\xFF \xEA\xEE\xED\xF2\xE0\xEA\xF2\xF3 \xE7 \xE2\xE1\xE8\xE2\xF6\xFF\xEC\xE8 \xB3 \xE7\xE0\xEB\xE8\xF8\xE0\xF2\xE8\xF1\xFF \xE6\xE8\xE2\xE8\xEC\xE8.",
 				"\n\xD6\xE5 \xF3\xF1\xFF \xE1\xE0\xE7\xEE\xE2\xE0 \xB3\xED\xF4\xEE\xF0\xEC\xE0\xF6\xB3\xFF \xEF\xEE\xF2\xF0\xB3\xE1\xED\xE0 \xE0\xE1\xE8\x20\xEF\xEE\xF7\xE0\xF2\xE8 \xE3\xF0\xE0\xF2\xE8\x2E \xDF\xEA\xF9\xEE \xE2\xE8 \xF9\xE5 \xF7\xEE\xE3\xEE\xF1\xFC \xED\xE5 \xF0\xEE\xE7\xF3\xEC\xB3\xBA\xF2\xE5 \xE0\xE1\xEE \xF5\xEE\xF7\xE5\xF2\xE5 \xE7\xED\xE0\xF2\xE8 \xE1\xB3\xEB\xFC\xF8\xE5\x2C \xF2\xEE \xEF\xF0\xEE\xEF\xEE\xED\xF3\xBA\xEC\xEE \xE2\xE0\xEC \xEF\xF0\xEE\xF7\xE8\xF2\xE0\xF2\xE8 \xF6\xE5\xE9 \xEC\xE0\xED\xF3\xE0\xEB \xE4\xEE \xEA\xB3\xED\xF6\xFF"
-			*/
+			},
+			/*
 			["MAIN"]={
 				"\x87Witajemo w Tajemnyci Wbywstwa!",
-				"\x87Inteprytaciji populiarnoji bagatokorystuwac'koji gry w SRB2",
+				"\x87Inteprytaciji populiarnoji bagatokorystuwac'koji gry w SRB2\n",
 				"Cil' gry poliagaje u znahodzhenni i eliminaciji usih \x85Wbywc'\x80 poky wony ne wbyly \x83inshyh grawciw\x80. Cia gra podibna do rezhymu MATCH tomu wam znadobliatsia washi wminnia pryciliuwannia i stril'by.",
 				"Ale spershu wam treba pojasnyty dejaki bazowi rechi persh nizh wy pochnete graty...",
 				"\nNa pochatku kozhnogo raundu wam wydadut' \x8BRol'\x80 kotra wyznachatyme shio wy budete robyty naptotiazi gry, os' usi try mozhlywi \x8Broli\x80 kotri mozhna otrymaty na starti:",
@@ -977,8 +977,10 @@ MM.text={
 				" * \x84Sheryf\x80 - Cil' policiji u cij gri poliagaje na \x84znahodzhenni i eliminaciji usih Wbywc'\x80. Sheryfam dostupna usia zbroja jaka je na lokaciji;",
 				" * \x83Newynna osoba\x80 - Cym grawciam treba osterigatysia kontaktu z Wbywciamy i zalyshatysia zhywymy.",
 				"\nCe usia bazowa informacia potribna aby pochaty graty. Jaksho wy she chogos' ne rozumijete abo hochete znaty bil'she, to proponujemo wam prochytaty cej manual do kin'cia"
-			},["GAME"]={
-				"\x87Pro gameplay ta igrowi sytuaciji",
+			},
+			*/
+			["GAME"]={
+				"\x87Pro gameplay ta igrowi sytuaciji\n",
 				"Jak skazano ranishe na pochatku cil' gry - eliminuwaty usih \x85Wbywc'\x80, ale pid chas gry mozhut' wynyknuty rizni sytuaciji:",
 				"\n* Jaksho u was htos' popade kil'cem wy stanete \x8FMertwym\x80. Grawci w ciomu stani ne mozhut' widrodzhuwatysia ta goworyty do zhywych grawciw, jih powidomlennia mozhut' bachyty til'ky inshi \x8FMertwi\x80 grawci.",
 				"Wy ne mozhete goworyty abo nadsylaty prywatni powidomlenia poky wy \x8FMertwi\x80.",
@@ -992,7 +994,7 @@ MM.text={
 				"\x8BNaparnyky\x80 mozhut' westy peregowory odyn z odnym u swojemu Komandnomu Chati wukorystowujuchy konsol'nu komandu \x87SAYTEAM\x80 (zauwazhte sho knopka dla chatu SAYTEAM aktywuje zwychnyj chat).",
 				"Jaksho odyn z \x8Bnaparnykiw\x80 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiatajte sho inshi mozhut' pobachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!"
 			},["BAD"]={
-				"\x87Rechi jaki zaboroneni w Tajemnyci Wbywstwa",
+				"\x87Rechi jaki zaboroneni w Tajemnyci Wbywstwa\n",
 				"Prawylo No.1 kozhnoji gry:\x82 Bud' wwichlywyj ta nasolodzhyjsia groju!\x80 Okrim ciogo...",
 				"\n* Gra ne stanowyt'sia \'tajemnychoju\' koly wy wsim opowidajete pro swoju \x8BRol'\x80. Wy mozhete rozkazaty usim pro roli inshyh, ale nikoly ne powidomliajte pro swoju.",
 				"* Ne znushajtesia z inshyh grawciw. Zharty dozwoleno, ale w dobromu gumori. Nihto wam ne bude wiryty jaksho budete zwynuwachuwaty usih, napryklad, Wbywceju.",
@@ -1000,12 +1002,12 @@ MM.text={
 				"* Ne zminiujte swogo imeni grawcia POKY WY MERTWI - gra serjozna na cej wypadok i\x85 automatychno wyzhene\x80 was z gry jaksho wy ce zrobyte. Prosto zachekajte na ekran zakinczennia raundu aby bezpechno zminity im'ja.",
 				"\nIgnoruwannia odnogo z cyh prawyl mozhe rezul'tuwaty kick abo w dejakyh wypadkah nawit' ban wid admina serweru. Bud' laska ne ignorujte prawyla i grajte chesno."
 			},["CHAT"]={
-				"\x87Jak wykorystowuwaty Zwukowi Emodzhi",
+				"\x87Jak wykorystowuwaty Zwukowi Emodzhi\n",
 				"Koly grawec' nadsylaje powidomlennnia kotre mistyt' u sobi jakis' special'ni slowa-kluchi abo frazy usi pochujut' Zwukowe Emodzhi razom z tym powidomlenniam.",
 				"W osnownomy, koly wy nadishlete \"bruh\" u chat usi pochujut' BRUH razom iz washym powidomlenniam",
 				"Os' pownyj spysok Zwukowych Emodzhi ta jak jich aktywuwaty:\n"
 			},["TIPS"]={ --work in progress
-				"\x87Igrowi porady",
+				"\x87Igrowi porady\n",
 				"My zibraly dla was kil'ka porad jaki mozhut' wam staty u prygodi:",
 				"\n* Jaksho special'ni mozhlywosti personazhiw wymkneno natysnit' \x82SPIN\x80 aby tyho krastysia i ne zalyshaty pisl'a sebe slidiw ta zwukiw;",
 				"\n* Koly wy pidberete \x84Smaragd Sheryfa\x80, wam stanut' dostupni usi typy zbroji, jaku wy zazdalegit' zibraly;",

@@ -13,20 +13,20 @@ local function helpCMD(p, page)
 	if (page) page = $:upper() end
 
 	--MMHELP GUI
-	/*
-	if (not isdedicatedserver) or ((p!=server) and (isdedicatedserver))
+	if ((not isdedicatedserver) and (not IsPlayerAdmin(p) or (p != server)))
 		if (not p.mmhelp) p.mmhelp = {} end
-		if (not p.mmhelp.pos) or ((p.mmhelp.pos) and (p.mmhelp.page!=page)) p.mmhelp.pos = 0 end
+		if (not p.mmhelp.pos) or ((p.mmhelp.pos) and (p.mmhelp.page != page)) p.mmhelp.pos = 0 end
 		if (page)
 			if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
 			else p.mmhelp.page = "MAIN" end
 		else
 			if (not p.mmhelp.page) p.mmhelp.page = "MAIN" end
 		end
-		p.mmhelp.active = true
-		if (not IsPlayerAdmin(p)) return end
+		if (not IsPlayerAdmin(p) or (p != server))
+			p.mmhelp.active = true
+			return
+		end
 	end
-	*/
 
 	--legacy MMHELP command
 	if (not page)
@@ -124,6 +124,8 @@ local function MMlang(p, l) --player, lang
 		l = $:upper()
 		if (MM.text[l])
 			p.mmlang = l
+			if (not p.mmhelp) p.mmhelp = {} end
+			p.mmhelp.pos = 0
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
 			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
@@ -136,13 +138,32 @@ local function MMlang(p, l) --player, lang
 	end
 end
 
---MMHELP UI input thinker
---not ready yet
-/*
-local function MMHELP_GUI_ThinkCmd(p)
+COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
+COM_AddCommand("mmlang", MMlang, COM_LOCAL)
+
+--
+-- MMHELP UI
+--
+--Get the length of the given MMHELP page depending on the screen size
+local function V_GetHelpPageSize(l, p, x)
+	assert(MM.text[l]["MMHELP"][p], "Page specified does not exist. Is language specified correctly?")
+	local size = 0
+	for lineID = 0, #MM.text[l]["MMHELP"][p] do
+		for sublineID, sublineText in ipairs(WordWrapString(MM.text[l]["MMHELP"][p][lineID], x))
+			size = $ + 1
+		end
+	end
+	return size
+end
+
+local scrnColumns = 0
+local scrnRows = 0
+
+--input handler
+addHook("PlayerThink", function(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
-	if (p.cmd.buttons&BT_SPIN) p.mmhelp.active = false end --leave MMHELP UI
+	if (p.cmd.buttons & BT_SPIN) p.mmhelp.active = false end --leave MMHELP UI
 
 	if (p.cmd.forwardmove > 0) --up
 		if not (p.uppressed)
@@ -155,14 +176,77 @@ local function MMHELP_GUI_ThinkCmd(p)
 	if (p.cmd.forwardmove < 0) --down
 		if not (p.downpressed)
 			p.mmhelp.pos = $ + 1
-			--these integers are placeholders and meant to be replaced with real ScreenRows and ScreenColumns values respectively, tested with 640x400 resolution
-			if (p.mmhelp.pos + 23 > V_GetHelpPageSize(p.mmlang, p.mmhelp.page, 38)) p.mmhelp.pos = $ - 1 end
+			--hit the end of the page
+			if (p.mmhelp.pos + scrnRows > V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns)) then p.mmhelp.pos = $ - 1 end
 		end
 		p.downpressed = true
 	else p.downpressed = false end
-end
-*/
+end)
 
-COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
-COM_AddCommand("mmlang", MMlang, COM_LOCAL)
---addHook("PlayerThink", MMHELP_GUI_ThinkCmd)
+--renderer
+hud.add(function(v, p)
+	if (p.mmhelp) and (p.mmhelp.active) and (gametype == GT_MURDERMYSTERY)
+		if (MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page]) --page exists?
+			--init everything
+			local cx = 0
+			local cy = 0
+			scrnColumns = ((v.width()/v.dupx())>>3) - 2
+			scrnRows = ((v.height()/v.dupy())>>3) - 2
+			local pagelen = 0
+			local buffer = {}
+			local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
+			local color = v.getStringColormap(0) --default to white color
+			local chr, strchar, stringToRender, wordWrapTemp
+
+			--read line-by-line from the database and fill the screen buffer
+			for i, line in ipairs(MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page]) do
+				--if string is too long to fit entirely in one line we have to make it wrap
+				wordWrapTemp = WordWrapString(line, scrnColumns)
+				for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
+				pagelen = $ + #wordWrapTemp
+			end
+
+			--draw the data from the screen buffer
+			for lineID = (1 + p.mmhelp.pos), #buffer do
+				stringToRender = buffer[lineID]
+
+				--draw the line character-by-character
+				for charID = 1, stringToRender:len() do
+					chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
+
+					if (chr<100) strchar="0"..chr --make the number to be 3 digit
+					else strchar=chr end
+
+					--characters from 0x00 to 0x0f set the color
+					if (chr<16) color=v.getStringColormap(chr*4096) end
+
+					--print the character
+					if (((chr >= 16) and (chr < 32)) or (chr>=128)) --Extended ASCII
+						if (v.patchExists(charset..strchar))
+							v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						else --unknown symbol, print "?"
+							v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT, color)
+						end
+					elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
+						v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					end
+
+					--position shifting for the next character
+					if (chr>=16) cx = $ + 1 end --make place for the next non-color character
+				end
+
+				--line is drawn, prepare everything for the next one
+				cx = 0
+				cy = $ + 1
+				if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
+			end
+			v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+			V_DrawStrASCII(v, 0, 192, "EN", "Use Forward/Backward to scroll, Left/Right to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+			V_DrawStrASCII(v, 0, 196, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+			v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
+		else --page does not exist
+			V_DrawStrASCII(v, cx, cy, "EN", "Failed to load page "..p.mmhelp.page, V_SNAPTOTOP|V_SNAPTOLEFT)
+			V_DrawStrASCII(v, cx, cy + 8, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOTOP|V_SNAPTOLEFT)
+		end
+	end
+end, "game")

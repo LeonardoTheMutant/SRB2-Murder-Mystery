@@ -274,7 +274,6 @@ local language={ --Language must be a table variable, you can name the variable 
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
-	["HUD_TEAMALIVE"]="Teammates alive",
 	["HUD_TEAMMATES"]="Teammates"
 	["HUD_KILLBY"]="Killed by",
 	["HUD_STUPID"]="your stupidity",
