@@ -10,28 +10,30 @@ local function helpCMD(p, page)
 		return
 	end
 	local l = p.mmlang or "EN"
-	page = $ or 1
 
 	--MMHELP GUI
 	if ((not isdedicatedserver) and (not IsPlayerAdmin(p) or (p != server)))
 		--first time init
-		if (not p.mmhelp) p.mmhelp = {} end
-		if (not p.mmhelp.pos) or ((p.mmhelp.pos) and (p.mmhelp.page != page)) p.mmhelp.pos = 0 end
+		if (not p.mmhelp) p.mmhelp = {page = 1, pos = 0} end
 
 		--load HELP page
-		if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
-		else p.mmhelp.page = 1 end
+		if (page)
+			if (MM.text[p.mmlang]["MMHELP"][page])
+				p.mmhelp.page = page
+				p.mmhelp.pos = 0
+			else p.mmhelp.page = 1 end
+		end
 
 		--enable the UI for non-admins
 		if (not IsPlayerAdmin(p) or (p != server))
 			p.UIbackground = 0
 			p.disablemovement = true
 			p.mmhelp.active = true
-			return
 		end
 	end
 
 	--legacy MMHELP command
+	/*
 	if (not page)
 		for i,str in ipairs(MM.text[l]["MMHELP"][1]) do CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
@@ -54,6 +56,7 @@ local function helpCMD(p, page)
 			MM_PrintContents(p,l)
 		end
 	end
+	*/
 
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
@@ -128,7 +131,7 @@ local function MMlang(p, l) --player, lang
 		l = $:upper()
 		if (MM.text[l])
 			p.mmlang = l
-			if (not p.mmhelp) p.mmhelp = {} end
+			if (not p.mmhelp) p.mmhelp = {page = 1} end
 			p.mmhelp.pos = 0
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
 			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
@@ -148,33 +151,25 @@ COM_AddCommand("mmlang", MMlang, COM_LOCAL)
 --
 -- MMHELP UI
 --
---Get the length of the given MMHELP page depending on the screen size
-local function V_GetHelpPageSize(l, p, x)
-	assert(MM.text[l]["MMHELP"][p], "Page specified does not exist. Is language specified correctly?")
-	local size = 0
-	for lineID = 0, #MM.text[l]["MMHELP"][p] do
-		for sublineID, sublineText in ipairs(WordWrapString(MM.text[l]["MMHELP"][p][lineID], x))
-			size = $ + 1
-		end
-	end
-	return size
-end
-
-local function MM_ChangePage(p, pageNo)
-	
-end
-
 local scrnColumns = 0
 local scrnRows = 0
 local pagelen = 0
 local realPagelen
 local pagestep
+local buffer = {}
+
+--Get the length of the given MMHELP page depending on the screen size
+local function V_GetBufferSize()
+	local size = 0
+	for lineID, line in ipairs(buffer) do size = $ + 1 end
+	return size
+end
 
 --input handler & UI back-end
 addHook("PlayerThink", function(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
-	if (p.cmd.buttons & BT_SPIN) --leave MMHELP UI
+	if (p.cmd.buttons) --leave MMHELP UI
 		p.disablemovement = false
 		p.mmhelp.active = false
 	end
@@ -191,7 +186,7 @@ addHook("PlayerThink", function(p)
 		if (not p.downpressed)
 			p.mmhelp.pos = $ + 1
 			--hit the end of the page
-			if (p.mmhelp.pos + scrnRows > V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns)) then p.mmhelp.pos = $ - 1 end
+			if (p.mmhelp.pos + scrnRows > V_GetBufferSize()) then p.mmhelp.pos = $ - 1 end
 		end
 		p.downpressed = true
 	else p.downpressed = false end
@@ -199,7 +194,8 @@ addHook("PlayerThink", function(p)
 	if (p.cmd.sidemove > 0) --right
 		if (not p.rightpressed)
 			p.mmhelp.page = $ + 1
-			if (p.mmhelp.page > 5) p.mmhelp.page = 5 end
+			p.mmhelp.pos = 0
+			if (p.mmhelp.page > #MM.text[p.mmlang]["MMHELP"]) p.mmhelp.page = #MM.text[p.mmlang]["MMHELP"] end
 		end
 		p.rightpressed = true
 	else p.rightpressed = false end
@@ -207,6 +203,7 @@ addHook("PlayerThink", function(p)
 	if (p.cmd.sidemove < 0) --left
 		if (not p.leftpressed)
 			p.mmhelp.page = $ - 1
+			p.mmhelp.pos = 0
 			if (p.mmhelp.page < 1) p.mmhelp.page = 1 end
 		end
 		p.leftpressed = true
@@ -222,7 +219,7 @@ hud.add(function(v, p)
 		scrnColumns = ((v.width()/v.dupx())>>3) - 2
 		scrnRows = ((v.height()/v.dupy())>>3) - 2
 		pagelen = 0
-		local buffer = {}
+		buffer = {}
 		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 		local color = v.getStringColormap(0) --default to white color
 		local chr, strchar, stringToRender, wordWrapTemp
@@ -233,6 +230,14 @@ hud.add(function(v, p)
 			wordWrapTemp = WordWrapString(line, scrnColumns)
 			for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
 			pagelen = $ + #wordWrapTemp
+		end
+
+		if (p.mmhelp.page == 4) --chat
+			for i, line in ipairs(MM.SEMJ_info) do
+				wordWrapTemp = WordWrapString(line, scrnColumns)
+				for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
+				pagelen = $ + #wordWrapTemp
+			end
 		end
 
 		--draw the data from the screen buffer
@@ -278,8 +283,9 @@ hud.add(function(v, p)
 		v.drawFill(312, (p.mmhelp.pos*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT)
 
 		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
-		V_DrawStrASCII(v, 0, 192, "EN", "Use Forward/Backward to scroll, Left/Right to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-		V_DrawStrASCII(v, 0, 196, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 192, "EN", "Use \7Forward\0/\7Backward\0 to scroll, \7Left\0/\7Right\0 to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 196, "EN", "Press \7any other button\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
 		v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
+		v.drawString(144, 184, pagelen, V_SNAPTOBOTTOM|V_SNAPTORIGHT)
 	end
 end, "game")

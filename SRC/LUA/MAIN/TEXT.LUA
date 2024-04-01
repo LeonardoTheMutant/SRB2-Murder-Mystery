@@ -8,54 +8,39 @@ MM.text={
 		["VERSION"]="10.1-BETA", --to check if lang content is not OUTDATED
 		["AUTHOR"]="MM_DEV community",
 		["MM"]="Murder Mystery",
-		["MMHELP_CMD"]={
-			["CONTENTS"]={ --Table of Contents
-				"\x8ATable of contents:",
-				"\x87MMHELP GAME\x80 - More about the game and gameplay situations;",
-				"\x87MMHELP BAD\x80  - List of things that are forbidden to do in MM;",
-				"\x87MMHELP CHAT\x80 - List of sound emojis that you can use in the chat;",
-				"\x87MMHELP TIPS\x80 - A small collection of tips for you;",
-				"\x87MMHELP INFO\x80 - Technical information and \"What's new\";",
-				"\n\x87MMLANG\x80      - Change the language of the content appearing in MM"
-			},
-			["NOTFOUND"]={ --"page not found"
-				"Page",
-				"doesn't exist. Please introduce yourself to the Table of Contents:"
-			},
-		},
 		["MMHELP"]={ --MMHELP command
 			{ --MAIN
-				"\x87Welcome to Murder Mystery!",
-				"\x87The SRB2 interpretation of the popular multiplayer game!\n",
-				"The game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
+				"\7Welcome to Murder Mystery!",
+				"\7The SRB2 interpretation of the popular multiplayer game!\0\n",
+				"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 				"You need to learn some basics first before you can start playing...",
-				"\nAt the beginning of each round you will get a \x8BRole\x80 which defines what your task is during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
-				" * \x85Murderer\x80 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings",
-				" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
-				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
+				"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\x80 you might get:",
+				" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings",
+				" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
+				" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
 				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
 			},
 			--GAME
 			{
-				"\x87".."About the gameplay situations\n",
-				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",
-				"\n* If you get killed, you'll enter the\x8F Dead\x80 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
-				"You can't talk to/PM players who are still alive while you are\x8F Dead\x80.",
-				"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this are in \x87MMHELP BAD\x80.",
-				"\n* The \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but they can accidentally shoot an \x83Innocent\x80.",
-				"If this occurs, the \x84Sheriff\x80 will turn into an \x83Innocent\x80 and a random \x83Innocent\x80 will silently take his role. Next time you want to shoot somebody as a \x84Sheriff\x80 think twice before pulling that trigger!",
-				"\n* When a \x85Murderer\x80 kills a \x84Sheriff\x80 and there are still \x83Innocents\x80 alive, the Sheriff will drop the \x84Sheriff's Emerald\x80 near their corpse.",
-				"Unlike the 7 Chaos Emeralds, this emerald will assign the \x82Hero\x80 role to any \x83Innocent\x80 that picks it up. If you're one of the \x83Innocents\x80, it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
-				"The \x82Hero\x80 role does not differ from the \x84Sheriff\x80 except for some details such as when the \x82Hero\x80 kills an \x83Innocent\x80 their role isn't shared and both just die. A Hero will not drop a \x84Sheriff's Emerald\x80 on their death.",
-				"\n* Depending on the player count, there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 amongst the players in the round. For example, starting from 7 players and more, \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
-				"\x8BTeammates\x80 can chat with each other in their team chat with the \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
-				"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
+				"\7".."About the gameplay situations\0\n",
+				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \5Murderer(s)\0, but different gameplay situations may occur:",
+				"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
+				"You can't talk to/PM players who are still alive while you are\15 Dead\0.",
+				"Also\2 DO NOT TRY TO RENAME YOURSELF\0, more details on this are in \7MMHELP BAD\0.",
+				"\n* The \4Sheriff's\0 task is to eliminate all the \5Murderers\0 around, but they can accidentally shoot an \3Innocent\0.",
+				"If this occurs, the \4Sheriff\0 will turn into an \3Innocent\0 and a random \3Innocent\0 will silently take his role. Next time you want to shoot somebody as a \4Sheriff\0 think twice before pulling that trigger!",
+				"\n* When a \5Murderer\0 kills a \4Sheriff\0 and there are still \3Innocents\0 alive, the Sheriff will drop the \4Sheriff's Emerald\0 near their corpse.",
+				"Unlike the 7 Chaos Emeralds, this emerald will assign the \2Hero\0 role to any \3Innocent\0 that picks it up. If you're one of the \3Innocents\0, it's your chance to be a Hero and save everyone from the \5Murderer(s)\0!",
+				"The \2Hero\0 role does not differ from the \4Sheriff\0 except for some details such as when the \2Hero\0 kills an \3Innocent\0 their role isn't shared and both just die. A Hero will not drop a \4Sheriff's Emerald\0 on their death.",
+				"\n* Depending on the player count, there can be more than one \5Murderer\0 and \4Sheriff\0 amongst the players in the round. For example, starting from 7 players and more, \11Teams\0 of \5Murderers\0 and \4Sheriffs\0 will be formed.",
+				"\11Teammates\0 can chat with each other in their team chat with the \7SAYTEAM\0 console command (note that SAYTEAM chat button will work as same as regular chat).",
+				"If one \11teammate\0 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
 			},
 			--BAD
 			{
-				"\x87Things that are bad to do in Murder Mystery\n",
-				"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
-				"* Self-spoiling of the \x8BRole\x80 will not make the game a \'Mystery\', you can tell someone else's role if you are sure of it, but never tell your own.",
+				"\7Things that are bad to do in Murder Mystery\0\n",
+				"Rule No.1 of any game: \2Be kind and have fun!\0 Other than this...",
+				"* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\', you can tell someone else's role if you are sure of it, but never tell your own.",
 				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.",
 				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
 				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
@@ -63,22 +48,22 @@ MM.text={
 			},
 			--CHAT
 			{
-				"\x87How to use Sound Emojis\n",
+				"\7How to use Sound Emojis\0\n",
 				"When a player sends a message that contains specific words/phrases, a sound will be played.",
 				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
 				"Here is the full list of the Sound Emojis and how to activate each of them:"
 			},
 			--TIPS
 			{
-				"\x87Useful tips\n",
+				"\7Useful tips\0\n",
 				"We've collected some tips that can help you during your game in MM:",
-				"\n* If character abilities are disabled by admin, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
-				"\n* When you pick up the \x84Sherrif's Emerald\x80, you will have access to all the weapons and rings you collected beforehand;",
-				"\n* Finding out who your \x8Bteammate\x80 is by using the \x87SAYTEAM\x80 command would help as it would make you avoid shooting them and accidently making you reveal your role;",
+				"\n* If character abilities are disabled by admin, press \2SPIN\0 to sneak around quietly without leaving traces or making noise;",
+				"\n* When you pick up the \4Sherrif's Emerald\0, you will have access to all the weapons and rings you collected beforehand;",
+				"\n* Finding out who your \11teammate\0 is by using the \7SAYTEAM\0 command would help as it would make you avoid shooting them and accidentally making you reveal your role;",
 				"\n* You can get hurt by obstacles like lava, spikes, fire to gain invincibility for 3 seconds;",
 				"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
-				"\n* If your role gets leaked, you can rename yourself and/or change skincolor. \x81Keep in mind your rename will be shown in chat;",
-				"\n*\x82 FIRENORMAL\x80 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
+				"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \1Keep in mind that your rename will be shown in chat\0;",
+				"\n*\2 FIRENORMAL\0 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
 			}
 		},
 		--GAME.LUA
@@ -231,7 +216,7 @@ MM.text={
 			"",
 			"\2Have Fun!"
 		},
-		-- Scores TAB screen role conters
+		-- Scores TAB screen role counters
 		["HUD_ROLESALIVE"]={
 			"Murderers",
 			"Sheriffs",
@@ -250,7 +235,7 @@ MM.text={
 		-- Centered text when you are alone
 		["HUD_ALONE"]={
 			"\4".."2 players\0 are required for the game,",
-			"please wait for \4one more\0 player to start"
+			"Please wait for \4one more\0 player to start"
 		},
 		["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 		--minigame stuff
