@@ -77,17 +77,6 @@ WallTexture "BRICK2", 64, 128
 	Patch "RW1_4", 0, 0
 }
 
-WallTexture "BRICK4", 64, 128
-{
-	Patch "RW5_2", 0, 0
-}
-
-WallTexture "BRICK5", 128, 128
-{
-	Patch "RW5_3", 0, 0
-	Patch "RW5_4", 64, 0
-}
-
 WallTexture "BRICK6", 64, 128
 {
 	Patch "RW24_1", 0, 0
@@ -214,11 +203,6 @@ WallTexture "BROWNHUG", 64, 128
 	Patch "WALL04_5", 16, 64
 	Patch "WALL04_7", 32, 64
 	Patch "WALL04_3", 48, 64
-}
-
-WallTexture "BRWINDOW", 64, 128
-{
-	Patch "RW6_1", 0, 0
 }
 
 WallTexture "BSTONE1", 64, 128
@@ -802,11 +786,6 @@ WallTexture "MIDBRONZ", 64, 128
 	Patch "RW10_4", 0, 0
 }
 
-WallTexture "MIDGRATE", 128, 128
-{
-	Patch "M1_1", 0, 0
-}
-
 WallTexture "MIDSPACE", 64, 128
 {
 	Patch "RW47_1", 0, 0
@@ -882,66 +861,6 @@ WallTexture "NUKEPOIS", 128, 128
 	Patch "NUKEDGE", 64, 105
 }
 
-WallTexture "PANBLACK", 64, 128
-{
-	Patch "RW16_1", 0, 0
-}
-
-WallTexture "PANBLUE", 64, 128
-{
-	Patch "RW16_3", 0, 0
-}
-
-WallTexture "PANBOOK", 64, 128
-{
-	Patch "RW21_5", 0, 0
-}
-
-WallTexture "PANBORD1", 32, 128
-{
-	Patch "RW21_1", 0, 0
-}
-
-WallTexture "PANBORD2", 16, 128
-{
-	Patch "RW21_2", 0, 0
-}
-
-WallTexture "PANCASE1", 64, 128
-{
-	Patch "RW21_3", 0, 0
-}
-
-WallTexture "PANCASE2", 64, 128
-{
-	Patch "RW21_4", 0, 0
-}
-
-WallTexture "PANEL1", 64, 128
-{
-	Patch "RW15_1", 0, 0
-}
-
-WallTexture "PANEL2", 64, 128
-{
-	Patch "RW15_2", 0, 0
-}
-
-WallTexture "PANEL3", 64, 128
-{
-	Patch "RW15_3", 0, 0
-}
-
-WallTexture "PANEL4", 64, 128
-{
-	Patch "RW15_4", 0, 0
-}
-
-WallTexture "PANEL5", 64, 128
-{
-	Patch "RW16_4", 0, 0
-}
-
 WallTexture "PANEL6", 64, 128
 {
 	Patch "RW19_1", 0, 0
@@ -960,11 +879,6 @@ WallTexture "PANEL8", 64, 128
 WallTexture "PANEL9", 64, 128
 {
 	Patch "RW19_4", 0, 0
-}
-
-WallTexture "PANRED", 64, 128
-{
-	Patch "RW16_2", 0, 0
 }
 
 WallTexture "PIPES", 64, 128
@@ -1045,12 +959,6 @@ WallTexture "SKINMET1", 256, 128
 {
 	Patch "W98_1", 0, 0
 	Patch "W98_2", 128, 0
-}
-
-WallTexture "SKINMET2", 256, 128
-{
-	Patch "W99_1", 0, 0
-	Patch "W99_2", 128, 0
 }
 
 WallTexture "SLADPOIS", 64, 128
@@ -1290,16 +1198,6 @@ WallTexture "STONE7", 64, 128
 	Patch "RW18_4", 0, 0
 }
 
-WallTexture "SUPPORT2", 64, 128
-{
-	Patch "SUPPORT2", 0, 0
-	Patch "SUPPORT2", 40, 0
-	Patch "SUPPORT2", 20, 0
-	Patch "SUPPORT2", 0, 64
-	Patch "SUPPORT2", 20, 64
-	Patch "SUPPORT2", 40, 64
-}
-
 WallTexture "SUPPORT3", 64, 128
 {
 	Patch "WALL42_3", 20, 0
@@ -1448,14 +1346,6 @@ WallTexture "BROVINE", 256, 128
 	Patch "WALL02_1", 128, 56
 	Patch "WALL02_1", 128, 0
 	Patch "W107_1", 0, 0
-}
-
-WallTexture "BROWNWEL", 256, 72
-{
-	Patch "WALL03_4", 0, 0
-	Patch "WALL03_4", 64, 0
-	Patch "WALL03_4", 192, 0
-	Patch "WALL03_3", 128, 0
 }
 
 WallTexture "COMPOHSO", 128, 128
@@ -1941,13 +1831,6 @@ WallTexture "CR64LG", 64, 128
 	Patch "BTNTCRAT", 16, 96
 }
 
-WallTexture "DOC1", 128, 128
-{
-	Patch "AG128_1", 0, 0
-	Patch "AG128_1", 64, 0
-	Patch "REDTNT2", 4, 32
-}
-
 WallTexture "DOGLPANL", 64, 128
 {
 	Patch "DOGLPANL", 0, 0
@@ -1993,21 +1876,6 @@ WallTexture "LITERED2", 8, 128
 	Patch "REDLITE2", 0, 0
 }
 
-WallTexture "LITEYEL1", 32, 128
-{
-	Patch "YELLITE1", 0, 0
-}
-
-WallTexture "LITEYEL2", 8, 128
-{
-	Patch "YELLITE2", 0, 0
-}
-
-WallTexture "LITEYEL3", 128, 128
-{
-	Patch "YELLITE3", 0, 0
-}
-
 WallTexture "M_TEC", 256, 128
 {
 	Patch "RW33_1", 0, 0
@@ -2045,30 +1913,9 @@ WallTexture "M_YDOOR", 128, 128
 	Patch "W46_39", 108, 22
 }
 
-WallTexture "SMSTONE6", 128, 128
-{
-	Patch "PSTON2", 0, 0
-	Patch "PIVY3", 0, 0
-}
-
-WallTexture "STWALL", 128, 128
-{
-	Patch "STWALL", 0, 0
-}
-
 WallTexture "TNTDOOR", 128, 128
 {
 	Patch "DOTNTDR", 0, 0
-}
-
-WallTexture "TYIRONLG", 128, 128
-{
-	Patch "FENCE4", 0, 0
-}
-
-WallTexture "TYIRONSM", 64, 72
-{
-	Patch "FENCE5", 0, 0
 }
 
 WallTexture "TYWHEEL1", 128, 64
@@ -2079,13 +1926,6 @@ WallTexture "TYWHEEL1", 128, 64
 WallTexture "TYUNDER1", 64, 64
 {
 	Patch "TYUNDER1", 0, 0
-}
-
-WallTexture "YELMETAL", 128, 128
-{
-	Patch "RW38_1", 0, 0
-	Patch "RW38_1", 64, 0
-	Patch "YELTNT", 0, 0
 }
 
 WallTexture "A-BRICK1", 128, 128
@@ -2137,39 +1977,9 @@ WallTexture "A-GRATE", 128, 128
 	Patch "GRATE", 0, 0
 }
 
-WallTexture "A-MARBLE", 128, 128
-{
-	Patch "MARBLE1", 0, 0
-}
-
-WallTexture "A-MOSROK", 128, 128
-{
-	Patch "MOSSROCK", 0, 0
-}
-
-WallTexture "A-MOSRK2", 128, 128
-{
-	Patch "MOSROK2", 0, 0
-}
-
-WallTexture "A-MOULD", 128, 128
-{
-	Patch "MOULD", 0, 0
-}
-
-WallTexture "A-POIS", 64, 64
-{
-	Patch "POISON", 0, 0
-}
-
 WallTexture "A-RAIL1", 64, 32
 {
 	Patch "RAILING", 0, 0
-}
-
-WallTexture "A-ROCK", 128, 128
-{
-	Patch "ROCK", 0, 0
 }
 
 WallTexture "SLIME2", 128, 128
@@ -2211,11 +2021,6 @@ WallTexture "SLIME8", 128, 128
 	Patch "RW41_1", 0, 0
 	Patch "RW41_1", 64, 0
 	Patch "T14_5", 20, 32
-}
-
-WallTexture "A-TILE", 128, 128
-{
-	Patch "TILE", 0, 0
 }
 
 WallTexture "A-VINE1", 256, 128

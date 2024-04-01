@@ -73,7 +73,7 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	if ((consoleplayer.mmhelp) and (consoleplayer.mmhelp.active)) return end
+	if (((consoleplayer.mmhelp) and (consoleplayer.mmhelp.active)) or (consoleplayer.debugdrawer)) return end
 
 	--timer calculation
 	local timeleft = (MM.timelimit * 2100) - leveltime

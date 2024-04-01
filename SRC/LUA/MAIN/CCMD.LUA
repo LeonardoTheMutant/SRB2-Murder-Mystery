@@ -10,19 +10,22 @@ local function helpCMD(p, page)
 		return
 	end
 	local l = p.mmlang or "EN"
-	if (page) page = $:upper() end
+	page = $ or 1
 
 	--MMHELP GUI
 	if ((not isdedicatedserver) and (not IsPlayerAdmin(p) or (p != server)))
+		--first time init
 		if (not p.mmhelp) p.mmhelp = {} end
 		if (not p.mmhelp.pos) or ((p.mmhelp.pos) and (p.mmhelp.page != page)) p.mmhelp.pos = 0 end
-		if (page)
-			if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
-			else p.mmhelp.page = "MAIN" end
-		else
-			if (not p.mmhelp.page) p.mmhelp.page = "MAIN" end
-		end
+
+		--load HELP page
+		if (MM.text[p.mmlang]["MMHELP"][page]) p.mmhelp.page = page
+		else p.mmhelp.page = 1 end
+
+		--enable the UI for non-admins
 		if (not IsPlayerAdmin(p) or (p != server))
+			p.UIbackground = 0
+			p.disablemovement = true
 			p.mmhelp.active = true
 			return
 		end
@@ -30,7 +33,7 @@ local function helpCMD(p, page)
 
 	--legacy MMHELP command
 	if (not page)
-		for i,str in ipairs(MM.text[l]["MMHELP"]["MAIN"]) do CONS_Printf(p, str) end
+		for i,str in ipairs(MM.text[l]["MMHELP"][1]) do CONS_Printf(p, str) end
 		MM_PrintContents(p,l)
 	elseif (page == "INFO")
 		CONS_Printf(p, "\x87SRB2 Murder Mystery\x80")
@@ -66,6 +69,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
+		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
 	end
 end
 		--the original MMHELP before 4.2-beta
@@ -156,17 +160,27 @@ local function V_GetHelpPageSize(l, p, x)
 	return size
 end
 
+local function MM_ChangePage(p, pageNo)
+	
+end
+
 local scrnColumns = 0
 local scrnRows = 0
+local pagelen = 0
+local realPagelen
+local pagestep
 
---input handler
+--input handler & UI back-end
 addHook("PlayerThink", function(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype!=GT_MURDERMYSTERY)) return end
 
-	if (p.cmd.buttons & BT_SPIN) p.mmhelp.active = false end --leave MMHELP UI
+	if (p.cmd.buttons & BT_SPIN) --leave MMHELP UI
+		p.disablemovement = false
+		p.mmhelp.active = false
+	end
 
 	if (p.cmd.forwardmove > 0) --up
-		if not (p.uppressed)
+		if (not p.uppressed)
 			p.mmhelp.pos = $ - 1
 			if (p.mmhelp.pos < 0) p.mmhelp.pos = 0 end
 		end
@@ -174,79 +188,98 @@ addHook("PlayerThink", function(p)
 	else p.uppressed = false end
 
 	if (p.cmd.forwardmove < 0) --down
-		if not (p.downpressed)
+		if (not p.downpressed)
 			p.mmhelp.pos = $ + 1
 			--hit the end of the page
 			if (p.mmhelp.pos + scrnRows > V_GetHelpPageSize(p.mmlang, p.mmhelp.page, scrnColumns)) then p.mmhelp.pos = $ - 1 end
 		end
 		p.downpressed = true
 	else p.downpressed = false end
+
+	if (p.cmd.sidemove > 0) --right
+		if (not p.rightpressed)
+			p.mmhelp.page = $ + 1
+			if (p.mmhelp.page > 5) p.mmhelp.page = 5 end
+		end
+		p.rightpressed = true
+	else p.rightpressed = false end
+
+	if (p.cmd.sidemove < 0) --left
+		if (not p.leftpressed)
+			p.mmhelp.page = $ - 1
+			if (p.mmhelp.page < 1) p.mmhelp.page = 1 end
+		end
+		p.leftpressed = true
+	else p.leftpressed = false end
 end)
 
 --renderer
 hud.add(function(v, p)
 	if (p.mmhelp) and (p.mmhelp.active) and (gametype == GT_MURDERMYSTERY)
-		if (MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page]) --page exists?
-			--init everything
-			local cx = 0
-			local cy = 0
-			scrnColumns = ((v.width()/v.dupx())>>3) - 2
-			scrnRows = ((v.height()/v.dupy())>>3) - 2
-			local pagelen = 0
-			local buffer = {}
-			local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
-			local color = v.getStringColormap(0) --default to white color
-			local chr, strchar, stringToRender, wordWrapTemp
+		--init everything
+		local cx = 0
+		local cy = 0
+		scrnColumns = ((v.width()/v.dupx())>>3) - 2
+		scrnRows = ((v.height()/v.dupy())>>3) - 2
+		pagelen = 0
+		local buffer = {}
+		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
+		local color = v.getStringColormap(0) --default to white color
+		local chr, strchar, stringToRender, wordWrapTemp
 
-			--read line-by-line from the database and fill the screen buffer
-			for i, line in ipairs(MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page]) do
-				--if string is too long to fit entirely in one line we have to make it wrap
-				wordWrapTemp = WordWrapString(line, scrnColumns)
-				for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
-				pagelen = $ + #wordWrapTemp
-			end
+		--read line-by-line from the database and fill the screen buffer
+		for i, line in ipairs(MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page]) do
+			--if string is too long to fit entirely in one line we have to make it wrap
+			wordWrapTemp = WordWrapString(line, scrnColumns)
+			for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
+			pagelen = $ + #wordWrapTemp
+		end
 
-			--draw the data from the screen buffer
-			for lineID = (1 + p.mmhelp.pos), #buffer do
-				stringToRender = buffer[lineID]
+		--draw the data from the screen buffer
+		for lineID = (1 + p.mmhelp.pos), #buffer do
+			stringToRender = buffer[lineID]
 
-				--draw the line character-by-character
-				for charID = 1, stringToRender:len() do
-					chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
+			--draw the line character-by-character
+			for charID = 1, stringToRender:len() do
+				chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-					if (chr<100) strchar="0"..chr --make the number to be 3 digit
-					else strchar=chr end
+				if (chr<100) strchar="0"..chr --make the number to be 3 digit
+				else strchar=chr end
 
-					--characters from 0x00 to 0x0f set the color
-					if (chr<16) color=v.getStringColormap(chr*4096) end
+				--characters from 0x00 to 0x0f set the color
+				if (chr<16) color=v.getStringColormap(chr*4096) end
 
-					--print the character
-					if (((chr >= 16) and (chr < 32)) or (chr>=128)) --Extended ASCII
-						if (v.patchExists(charset..strchar))
-							v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
-						else --unknown symbol, print "?"
-							v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT, color)
-						end
-					elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
-						v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				--print the character
+				if (((chr >= 16) and (chr < 32)) or (chr>=128)) --Extended ASCII
+					if (v.patchExists(charset..strchar))
+						v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					else --unknown symbol, print "?"
+						v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT)
 					end
-
-					--position shifting for the next character
-					if (chr>=16) cx = $ + 1 end --make place for the next non-color character
+				elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
+					v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				end
 
-				--line is drawn, prepare everything for the next one
-				cx = 0
-				cy = $ + 1
-				if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
+				--position shifting for the next character
+				if (chr>=16) cx = $ + 1 end --make place for the next non-color character
 			end
-			v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
-			V_DrawStrASCII(v, 0, 192, "EN", "Use Forward/Backward to scroll, Left/Right to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-			V_DrawStrASCII(v, 0, 196, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-			v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
-		else --page does not exist
-			V_DrawStrASCII(v, cx, cy, "EN", "Failed to load page "..p.mmhelp.page, V_SNAPTOTOP|V_SNAPTOLEFT)
-			V_DrawStrASCII(v, cx, cy + 8, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOTOP|V_SNAPTOLEFT)
+
+			--line is drawn, prepare everything for the next one
+			cx = 0
+			cy = $ + 1
+			if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
 		end
+		--draw the scroll bar
+		--not quite finished
+		v.drawFill(312, 0, 8, 200, 16|V_SNAPTOTOP|V_SNAPTORIGHT)
+		if ((pagelen - scrnColumns) <= 0) realPagelen = scrnColumns
+		else realPagelen = pagelen - scrnColumns end
+		pagestep = pagelen/scrnColumns
+		v.drawFill(312, (p.mmhelp.pos*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT)
+
+		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+		V_DrawStrASCII(v, 0, 192, "EN", "Use Forward/Backward to scroll, Left/Right to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 196, "EN", "Press \7SPIN\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
 	end
 end, "game")

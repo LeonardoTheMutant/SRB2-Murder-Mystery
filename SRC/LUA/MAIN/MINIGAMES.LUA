@@ -254,12 +254,7 @@ addHook("PlayerThink", function(p)
                 elseif (p.SonicRun.timeout == TICRATE) S_StartSound(nil, sfx_s3kad, p) end
             end
             if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end
-            if ((p.realmo) and (p.realmo.valid))
-                p.realmo.momx = 0
-                p.realmo.momy = 0
-                p.realmo.momz = 0
-                p.realmo.state = S_PLAY_STND
-            end
+            p.disablemovement = true
         end
     end
 end)

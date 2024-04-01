@@ -21,10 +21,10 @@ MM.text={
 			["NOTFOUND"]={ --"page not found"
 				"Page",
 				"doesn't exist. Please introduce yourself to the Table of Contents:"
-			}
+			},
 		},
 		["MMHELP"]={ --MMHELP command
-			["MAIN"]={ --When no page specified
+			{ --MAIN
 				"\x87Welcome to Murder Mystery!",
 				"\x87The SRB2 interpretation of the popular multiplayer game!\n",
 				"The game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
@@ -34,7 +34,9 @@ MM.text={
 				" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
 				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
 				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
-			},["GAME"]={
+			},
+			--GAME
+			{
 				"\x87".."About the gameplay situations\n",
 				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",
 				"\n* If you get killed, you'll enter the\x8F Dead\x80 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
@@ -48,7 +50,9 @@ MM.text={
 				"\n* Depending on the player count, there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 amongst the players in the round. For example, starting from 7 players and more, \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
 				"\x8BTeammates\x80 can chat with each other in their team chat with the \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
 				"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
-			},["BAD"]={
+			},
+			--BAD
+			{
 				"\x87Things that are bad to do in Murder Mystery\n",
 				"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
 				"* Self-spoiling of the \x8BRole\x80 will not make the game a \'Mystery\', you can tell someone else's role if you are sure of it, but never tell your own.",
@@ -56,12 +60,16 @@ MM.text={
 				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
 				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
 				"Breaking one of these rules may result in a kick or sometimes, a ban from the Admin! Please do not break them and play fairly."
-			},["CHAT"]={
+			},
+			--CHAT
+			{
 				"\x87How to use Sound Emojis\n",
 				"When a player sends a message that contains specific words/phrases, a sound will be played.",
 				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
 				"Here is the full list of the Sound Emojis and how to activate each of them:"
-			},["TIPS"]={
+			},
+			--TIPS
+			{
 				"\x87Useful tips\n",
 				"We've collected some tips that can help you during your game in MM:",
 				"\n* If character abilities are disabled by admin, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
@@ -955,7 +963,7 @@ MM.text={
 				"ne isnuje. Bud' Laska oznajomtesia zi zmistom:"
 			}
 		},["MMHELP"]={
-			["MAIN"]={
+			{
 				"\7\xC2\xB3\xF2\xE0\xBA\xEC\xEE \xE2 \xD2\xE0\xBA\xEC\xED\xE8\xF6\xB3 \xC2\xE1\xE8\xE2\xF1\xF2\xE2\xE0!",
 				"\7\xB2\xED\xF2\xE5\xF0\xEF\xF0\xE5\xF2\xE0\xF6\xB3\xFF \xEF\xEE\xEF\xF3\xEB\xFF\xF0\xED\xEE\xBF \xE1\xE0\xE3\xE0\xF2\xEE\xEA\xEE\xF0\xE8\xF1\xF2\xEA\xF3\xE2\xE0\xF6\xFC\xEA\xEE\xBF \xE3\xF0\xE8 \xE2 SRB2\0\n",
 				"\xD6\xB3\xEB\xFC \xE3\xF0\xE8 \xEF\xEE\xEB\xFF\xE3\xFF\xBA \xF3 \xE7\xED\xE0\xF5\xEE\xE4\xE6\xE5\xED\xED\xB3 \xB3 \xE5\xEB\xB3\xEC\xB3\xED\xE0\xF6\xB3\xBF \xF3\xF1\xB3\xF5 \5\xE2\xE1\xE8\xE2\xF6\xFC\0 \xEF\xEE\xEA\xE8 \xE2\xEE\xED\xE8 \xED\xE5 \xE2\xE1\xE8\xEB\xE8 \3\xF3\xF1\xB3\xF5 \xB3\xED\xF8\xE8\xF5\0. \xD6\xFF \xE3\xF0\xE0 \xEF\xEE\xE4\xB3\xE1\xED\xE0 \xE4\xEE \xF0\xE5\xE6\xE8\xEC\xF3 MATCH \xF2\xEE\xEC\xF3 \xE2\xE0\xEC \xE7\xED\xE0\xE4\xEE\xE1\xEB\xFF\xF2\xFC\xF1\xFF \xE2\xE0\xF8\xB3 \xE2\xEC\xB3\xED\xED\xFF \xEF\xF0\xE8\xF6\xB3\xEB\xFE\xE2\xE0\xED\xED\xFF \xB3 \xF1\xF2\xF0\xB3\xEB\xFC\xE1\xE8.",
@@ -979,21 +987,21 @@ MM.text={
 				"\nCe usia bazowa informacia potribna aby pochaty graty. Jaksho wy she chogos' ne rozumijete abo hochete znaty bil'she, to proponujemo wam prochytaty cej manual do kin'cia"
 			},
 			*/
-			["GAME"]={
-				"\x87Pro gameplay ta igrowi sytuaciji\n",
-				"Jak skazano ranishe na pochatku cil' gry - eliminuwaty usih \x85Wbywc'\x80, ale pid chas gry mozhut' wynyknuty rizni sytuaciji:",
-				"\n* Jaksho u was htos' popade kil'cem wy stanete \x8FMertwym\x80. Grawci w ciomu stani ne mozhut' widrodzhuwatysia ta goworyty do zhywych grawciw, jih powidomlennia mozhut' bachyty til'ky inshi \x8FMertwi\x80 grawci.",
-				"Wy ne mozhete goworyty abo nadsylaty prywatni powidomlenia poky wy \x8FMertwi\x80.",
-				"Uwaga: \x82NE NAMAGAJTESIA ZMINYTY SWOJE IM'JA GRAWCIA\x80, detal'nishe pro ce opysano w \x87MMHELP BAD\x80.",
-				"\n* Zadacha \x84Sheryfa\x80 poliagaje na eliminaciji usih \x85Wbywc'\x80, ale inodi Sheryf mozhe wypadkowo wbyty \x83Newynnych\x80.",
-				"Koly ce stajet'sia \x84Sheryf\x80 peretworyt'sia na cywilnogo i wypadkowa \x83Newynna osoba\x80 otrymaje ciu rol'. Nastupnogo razu jak nadumajete striliaty w kogos' podumajte kogo wy zbyrajetesia wbywaty jak \x84Sheryf\x80!",
-				"\n* Koly \x85Wbywcia\x80 wbywaje \x84Sheryfa\x80 gynuchyj zachystnyk mozhe zalyshyty swij \x84Smaragd Sheryfa\x80 bilia swogo trupa.",
-				"Na widminu wid 7-my Haos Smaragdiw cej smaragd daje rol' \x82Geroja\x80 kozhnij \x83Newynnij osobi\x80 jaka persha znajde ta pidbere jogo. Jaksho wy odna z \x83Newynnych osoib\x80 to ce wash shans staty Gerojem i wriatuwaty usih wid \x85Wbywc'\x80!",
-				"Rol' \x82Geroja\x80 ne duzhe widrizniajet'sia wid \x84Sheryfa\x80 krim kil'koh detalej jak, napryklad, koly \x82Geroj\x80 wbywaje \x83Newynnu osobu\x80 nijaka rol' ne peredajet'sia inshym i oboje prosto gynut'. Takozh \x82Geroj\x80 ne zalyshaje \x84Smaragd Sheryfa\x80 pry swojij smerti.",
-				"\n* Dywliachys' na kilkist' grawciw online u raundi mozhut' zjawliatysia bilshe nizh odna \x85Wbywcia\x80 ta \x84Sheryf\x80. Napryklad, pochynajuchy wid 7 grawciw ta bil'she fromujut'sia \x8BKomandy\x85 Wbywc'\x80 ta \x84Sheryfiw\x80.",
-				"\x8BNaparnyky\x80 mozhut' westy peregowory odyn z odnym u swojemu Komandnomu Chati wukorystowujuchy konsol'nu komandu \x87SAYTEAM\x80 (zauwazhte sho knopka dla chatu SAYTEAM aktywuje zwychnyj chat).",
-				"Jaksho odyn z \x8Bnaparnykiw\x80 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiatajte sho inshi mozhut' pobachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!"
-			},["BAD"]={
+			{
+				"\7Pro gameplay ta igrowi sytuaciji\0\n",
+				"Jak skazano ranishe na pochatku cil' gry - eliminuwaty usih \5Wbywc'\0, ale pid chas gry mozhut' wynyknuty rizni sytuaciji:",
+				"\n* Jaksho u was htos' popade kil'cem wy stanete \x15Mertwym\0. Grawci w ciomu stani ne mozhut' widrodzhuwatysia ta goworyty do zhywych grawciw, jih powidomlennia mozhut' bachyty til'ky inshi \15Mertwi\0 grawci.",
+				"Wy ne mozhete goworyty abo nadsylaty prywatni powidomlenia poky wy \15Mertwi\0.",
+				"Uwaga: \2NE NAMAGAJTESIA ZMINYTY SWOJE IM'JA GRAWCIA\0, detal'nishe pro ce opysano w \7MMHELP BAD\0.",
+				"\n* Zadacha \4Sheryfa\0 poliagaje na eliminaciji usih \5Wbywc'\0, ale inodi Sheryf mozhe wypadkowo wbyty \3Newynnych\0.",
+				"Koly ce stajet'sia \4Sheryf\0 peretworyt'sia na cywilnogo i wypadkowa \3Newynna osoba\0 otrymaje ciu rol'. Nastupnogo razu jak nadumajete striliaty w kogos' podumajte kogo wy zbyrajetesia wbywaty jak \4Sheryf\0!",
+				"\n* Koly \5Wbywcia\0 wbywaje \4Sheryfa\0 gynuchyj zachystnyk mozhe zalyshyty swij \4Smaragd Sheryfa\0 bilia swogo trupa.",
+				"Na widminu wid 7-my Haos Smaragdiw cej smaragd daje rol' \2Geroja\0 kozhnij \3Newynnij osobi\0 jaka persha znajde ta pidbere jogo. Jaksho wy odna z \3Newynnych osoib\0 to ce wash shans staty Gerojem i wriatuwaty usih wid \5Wbywc'\0!",
+				"Rol' \2Geroja\0 ne duzhe widrizniajet'sia wid \4Sheryfa\0 krim kil'koh detalej jak, napryklad, koly \2Geroj\0 wbywaje \3Newynnu osobu\0 nijaka rol' ne peredajet'sia inshym i oboje prosto gynut'. Takozh \2Geroj\0 ne zalyshaje \4Smaragd Sheryfa\0 pry swojij smerti.",
+				"\n* Dywliachys' na kilkist' grawciw online u raundi mozhut' zjawliatysia bilshe nizh odna \5Wbywcia\0 ta \4Sheryf\0. Napryklad, pochynajuchy wid 7 grawciw ta bil'she fromujut'sia \11Komandy\5 Wbywc'\0 ta \4Sheryfiw\0.",
+				"\11Naparnyky\0 mozhut' westy peregowory odyn z odnym u swojemu Komandnomu Chati wukorystowujuchy konsol'nu komandu \7SAYTEAM\0 (zauwazhte sho knopka dla chatu SAYTEAM aktywuje zwychnyj chat).",
+				"Jaksho odyn z \11naparnykiw\0 nashkodyt' inshomu oboje otrymajut' personalizowane poperedzhennia jake \'poznajomyt'\' jich dwoch. Pamiatajte sho inshi mozhut' pobachyty washu 'druzhniu' sutychku ta zrozumity hto wy nasprawdi!"
+			},{
 				"\x87Rechi jaki zaboroneni w Tajemnyci Wbywstwa\n",
 				"Prawylo No.1 kozhnoji gry:\x82 Bud' wwichlywyj ta nasolodzhyjsia groju!\x80 Okrim ciogo...",
 				"\n* Gra ne stanowyt'sia \'tajemnychoju\' koly wy wsim opowidajete pro swoju \x8BRol'\x80. Wy mozhete rozkazaty usim pro roli inshyh, ale nikoly ne powidomliajte pro swoju.",
@@ -1001,12 +1009,12 @@ MM.text={
 				"* Buty neaktywnyhm ce wojennyj zlochyn. Koly grawci dowgyj chas neaktywni gra wyganiaje jich (til'ky jaksho wony zhywi).",
 				"* Ne zminiujte swogo imeni grawcia POKY WY MERTWI - gra serjozna na cej wypadok i\x85 automatychno wyzhene\x80 was z gry jaksho wy ce zrobyte. Prosto zachekajte na ekran zakinczennia raundu aby bezpechno zminity im'ja.",
 				"\nIgnoruwannia odnogo z cyh prawyl mozhe rezul'tuwaty kick abo w dejakyh wypadkah nawit' ban wid admina serweru. Bud' laska ne ignorujte prawyla i grajte chesno."
-			},["CHAT"]={
+			},{
 				"\x87Jak wykorystowuwaty Zwukowi Emodzhi\n",
 				"Koly grawec' nadsylaje powidomlennnia kotre mistyt' u sobi jakis' special'ni slowa-kluchi abo frazy usi pochujut' Zwukowe Emodzhi razom z tym powidomlenniam.",
 				"W osnownomy, koly wy nadishlete \"bruh\" u chat usi pochujut' BRUH razom iz washym powidomlenniam",
 				"Os' pownyj spysok Zwukowych Emodzhi ta jak jich aktywuwaty:\n"
-			},["TIPS"]={ --work in progress
+			},{
 				"\x87Igrowi porady\n",
 				"My zibraly dla was kil'ka porad jaki mozhut' wam staty u prygodi:",
 				"\n* Jaksho special'ni mozhlywosti personazhiw wymkneno natysnit' \x82SPIN\x80 aby tyho krastysia i ne zalyshaty pisl'a sebe slidiw ta zwukiw;",

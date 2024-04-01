@@ -274,6 +274,14 @@ addHook("PlayerThink", function(p)
 		return
 	end
 	p.oldname = p.name
+
+	--disable player movement (alternative to vanilla movement disable)
+	if ((p.disablemovement) and (p.realmo) and (p.realmo.valid))
+        p.realmo.momx = 0
+        p.realmo.momy = 0
+        p.realmo.momz = 0
+        p.realmo.state = S_PLAY_STND
+	end
 end)
 
 --
