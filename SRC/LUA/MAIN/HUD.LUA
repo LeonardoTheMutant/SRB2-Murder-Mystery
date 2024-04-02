@@ -20,17 +20,6 @@ local coords={ --HUD screen coordinates
 	teammateInfo = {
 		x=20, y=120
 	},
-
-
-
-
-
-
-
-
-
-
-
 	teammateInfoOffset1 = {x=18},
 	teammateInfoOffset2 = {x=36},
 	firstRingWep = { --for weapon icons

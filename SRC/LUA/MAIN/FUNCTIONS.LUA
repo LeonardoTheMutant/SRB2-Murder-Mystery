@@ -87,9 +87,12 @@ rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	plr.spectator = true
 	plr.role = ROLE_NONE
 	plr.flashscrn = 1
+	P_PlayerRingBurst(plr, -1)
+	P_PlayerWeaponPanelOrAmmoBurst(plr)
 	if ((k) and (k.player))
 		plr.killedby = k.player.name
 		k.player.kills = $ + 1
+		if (not k.player.sneak) P_PlayDeathSound(p) end
 	else plr.killedby = "your stupidity" end
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
@@ -102,6 +105,14 @@ rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	body.color = p.color
 
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
+end)
+
+rawset(_G, "MM_HitTeammate", function(v, a)
+	chatprintf(a, MM.RoleColor[v.role]..MM.text[a.mmlang]["TEAMMATE_HIT"][1])
+	chatprintf(v, MM.RoleColor[a.role]..MM.text[v.mmlang]["TEAMMATE_HIT"][2])
+	P_DoPlayerPain(v)
+	P_PlayerWeaponAmmoBurst(v)
+	v.powers[pw_flashing] = 105
 end)
 
 --Function to end the round, arguments here:

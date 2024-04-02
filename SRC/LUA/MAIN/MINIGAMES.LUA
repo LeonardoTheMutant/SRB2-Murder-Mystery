@@ -119,20 +119,21 @@ local function SONIC_Reset(p)
         hazardsTimeout = 0
     }
 end
+
+--
+-- Main SONIC RUN logic & input handler
+--
 local function SONIC_Thinker(p)
-    --
-    -- Sonic (Player) logic
-    --
     if (p.SonicRun.Y < 1) --touching the ground?
         p.SonicRun.state = 1 --running
         p.SonicRun.velocity = 0
 
         --controls
-        if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --up (jump)
+        if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --FORWARD/JUMP (jump)
             p.SonicRun.state = 2
             p.SonicRun.velocity = 10
             S_StartSound(nil, sfx_cdfm02, p)
-        elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --down (spin)
+        elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --BACKWARD/SPIN (spin)
             p.SonicRun.state = 2
             if (not p.SonicRun.SpinSound) S_StartSound(nil, sfx_spin, p) end
             p.SonicRun.SpinSound = 1
@@ -222,7 +223,10 @@ addHook("PlayerThink", function(p)
     if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
         if (not p.custom3pressed)
             if (p.minigame)
-                if (not p.minigametimeout) p.minigame = 0 end
+                if (not p.minigametimeout)
+                    p.minigame = 0
+                    p.disablemovement = false
+                end
             else
                 p.minigame = 1
                 p.minigametimeout = 105

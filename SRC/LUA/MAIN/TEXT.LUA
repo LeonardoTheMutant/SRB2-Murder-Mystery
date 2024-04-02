@@ -40,10 +40,10 @@ MM.text={
 			{
 				"\7Things that are bad to do in Murder Mystery\0\n",
 				"Rule No.1 of any game: \2Be kind and have fun!\0 Other than this...",
-				"* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\', you can tell someone else's role if you are sure of it, but never tell your own.",
-				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.",
-				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
-				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
+				"* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\' (even if you are joking), you can tell someone else's role if you are sure of it, but never tell your own.\n",
+				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.\n",
+				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.\n",
+				"* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.\n",
 				"Breaking one of these rules may result in a kick or sometimes, a ban from the Admin! Please do not break them and play fairly."
 			},
 			--CHAT
