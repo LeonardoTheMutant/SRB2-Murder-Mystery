@@ -8,6 +8,15 @@ MM.text={
 		["VERSION"]="10.1-BETA", --to check if lang content is not OUTDATED
 		["AUTHOR"]="MM_DEV community",
 		["MM"]="Murder Mystery",
+
+		--The following sections contain strings that allow your language's native letters to display.
+		--These strings also use "Murder Mystery string format", which means that vanilla color codes WILL NOT WORK HERE.
+		--Color codes in "MM string format" are ranged from 0 to 15 (ASCII) and do not support translucency
+		--For more details read /SRC/DOCS/MM_String_Format.md
+		["MMHELP_CMD"]={
+			"Use \7Up\0/\7Down\0 arrow keys to scroll, \7Left\0/\7Right\0 keys to switch pages",
+			"Press \7ESC\0 to leave HELP"
+		},
 		["MMHELP"]={ --MMHELP command
 			{ --MAIN
 				"\7Welcome to Murder Mystery!",
@@ -65,6 +74,16 @@ MM.text={
 				"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \1Keep in mind that your rename will be shown in chat\0;",
 				"\n*\2 FIRENORMAL\0 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
 			}
+		},
+
+		--
+		-- Console/Chat messages (vanilla formatted)
+		--
+
+		--MMLANG command
+		["MMLANG"]={
+			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]",
+			"Personal language for Murder Mystery is set to\x82 English"
 		},
 		--GAME.LUA
 		-- "You got the role"
@@ -189,6 +208,11 @@ MM.text={
 			"II\x1F\xFFII\x1F\xFF\xFFII\x1F\xFF\xFFII\x1F\xFF\xFF\xFFII\x1F\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\x1F",
 			"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\x1F"
 		},
+
+		--
+		--MM String formatted HUD section
+		--
+
 		-- Role names
 		["HUD_ROLES"]={
 			"MURDERER",
@@ -262,11 +286,6 @@ MM.text={
 			"TIE!",
 			"\5MURDERERS", --must contain MM escape color code
 			"\3CIVILIANS" --must contain MM escape color code
-		},
-		--CCMD.LUA (MMLANG command)
-		["MMLANG"]={
-			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]",
-			"Personal language for Murder Mystery is set to\x82 English"
 		}
 	},["ES"]={ --Spanish by SlainLBS & Jesus.B
 		["VERSION"]="10.1-BETA",
@@ -336,6 +355,9 @@ MM.text={
 				"\n* Si se revela tu rol, puedes renombrarte y/o cambiar tu skincolor. \x81Ten en cuenta que tu renombre se mostrara en el chat;",
 				"\n* El cuchillo no produce un sonido de ataque mientras te escabullas. Y tambien, el boton\x82 FIRENORMAL\x80 te permite usar tu cuchillo donde sea siempre y tengas anillos (Los Inocentes no tienen cuchillos)"
 			}
+		},["MMLANG"]={
+			"El idioma que estas usando actualmente es\x82 Espanol\x80\nPuedes cambiarlo con \x87MMLANG [idioma]",
+			"Tu idioma personal de Murder Mystery ha sido cambiado a\x82 Espanol"
 		},["ROLE_GET"]={
 			"Eres el\x85 Asesino\x80! \x85Mata a todos!",
 			"Eres el\x84 Comisario\x80!\x84 Elimina a todos los asesinos\x80. Si matas a un inocente, se te removera tu rol.",
@@ -478,9 +500,6 @@ MM.text={
 			"EMPATE!",
 			"\5ASESINOS",
 			"\3CIVILES"
-		},["MMLANG"]={
-			"El idioma que estas usando actualmente es\x82 Espanol\x80\nPuedes cambiarlo con \x87MMLANG [idioma]",
-			"Tu idioma personal de Murder Mystery ha sido cambiado a\x82 Espanol"
 		}
 	},["PL"]={ -- Polish by sopix
 		["VERSION"]="10.1-BETA",
@@ -488,19 +507,8 @@ MM.text={
 		["CHARSET"]="1250C",
 		["MM"]="Tajemnica Morderstw",
 		["MMHELP_CMD"]={
-			["CONTENTS"]={ --Table of Contents
-				"\x8ASpis tresci:",
-				"\x87MMHELP GAME\x80 - Wiecej o grze i gameplay;",
-				"\x87MMHELP BAD\x80  - Lista rzeczy, ktore sa zabronione w TM;",
-				"\x87MMHELP CHAT\x80 - Lista Dzwiekowych Emotikonow ktore mozhna wykorzystowac w czacie;",
-				"\x87MMHELP TIPS\x80 - Mala kolekjca porad dla ciebie;";
-				"\x87MMHELP INFO\x80 - Informacja techniczna i \"Co nowego\";",
-				"\n\x87MMLANG\x80      - Zmienic jezyk kontentu w TM"
-			},
-			["NOTFOUND"]={ --"page not found"
-				"Strona",
-				"nie istnieje. Prosze zapoznac sie ze spisem tresci:"
-			}
+			"",
+			""
 		},
 		["MMHELP"]={
 			["MAIN"]={
@@ -556,6 +564,9 @@ MM.text={
 				"\n* Jezeli twoja rola przestanie byc tajemnica, mozhesz zmienic swoje imie i/lub zmienic swoj kolor postaci. \x81Pamietaj, ze zmiana imieni bedzie widoczna w czacie;",
 				"\n* Przycisk\x82 FIRENORMAL\x80 pozwala wykorzystywac Noz wszedzie, jak masz Ringi (Niewinni nie posiadaja Noza). Takze, Noz nie robi dzwiekow ataku jezeli skradzasz sie."
 			}
+		},["MMLANG"]={
+			"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
+			"Personalny jezyk zostal ustawiony na\x82 Polski"
 		},["ROLE_GET"]={
 			"Jestes \x85Morderca\x80! \x85Zamorduj wszystkich.",
 			"Jestes \x84Szeryfem\x80!\x84 Wyeliminuj wszystkich Mordercow\x80. Jesli zabijesz Niewinnego, stracisz role.",
@@ -711,9 +722,6 @@ MM.text={
 			"REMIS!",
 			"\5M\xD3RDERCY",
 			"\3CYWILE"
-		},["MMLANG"]={
-			"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
-			"Personalny jezyk zostal ustawiony na\x82 Polski"
 		}
 	},["TR"]={ --Turkish by Mobillia
 		["VERSION"]="10.1-BETA",
@@ -783,6 +791,9 @@ MM.text={
 				"\n* Rolunuz sizdirilirsa, kendinizi yeniden adlandirabilir ve/veya ten rengini degistirebilirsiniz. \x81Yeniden adlandirmanizin sohbette gosterilecegini unutmayin;",
 				"\n* Gizlice girerseniz bicak saldiri sesi cikarmaz. Ayrica,\x82 FIRENORMAL\x80 dugmesi, yuzukleriniz oldugu surece Bicagi her yerde kullanmaniza izin verir (Masumlarin bicagi yoktur)"
 			}
+		},["MMLANG"]={
+			"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola sunu yazarak degistirebilirsiniz: \x87MMLANG [dil]",
+			"Murder Mystery icin kisisel dil \x82Turkce olarak ayarlanmistir"
 		},["ROLE_GET"]={
 			"Sen \x85Katilsin\x80! \x85Herkesi oldur!",
 			"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.",
@@ -924,9 +935,6 @@ MM.text={
 			"BERABERE!",
 			"\5KATILLER",
 			"\3SIVILLER"
-		},["MMLANG"]={
-			"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola sunu yazarak degistirebilirsiniz: \x87MMLANG [dil]",
-			"Murder Mystery icin kisisel dil \x82Turkce olarak ayarlanmistir"
 		}
 	},["UA"]={ -- Ukrainian by LeonardoTheMutant
 		["VERSION"]="10.1-BETA",
@@ -935,18 +943,8 @@ MM.text={
 		["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 		["MM"]="\xD2\xE0\xBA\xEC\xED\xE8\xF6\xFF \xC2\xE1\xE8\xE2\xF1\xF2\xE2\xE0", --Tajemnycia Wbywstwa
 		["MMHELP_CMD"]={
-			["CONTENTS"]={
-				"\x8AZmist:", --zmist
-				"\x87MMHELP GAME\x80 - Bil'she pro gameplay ta igrowi sytuaciji;",
-				"\x87MMHELP BAD\x80  - Spysok zaboronenyh rechej w TW;",
-				"\x87MMHELP CHAT\x80 - Spysok Zwukowych Emoji kotri mozhna wykorystaty w chati;",
-				"\x87MMHELP TIPS\x80 - Mala kolekcija porad dlia tebe;";
-				"\x87MMHELP INFO\x80 - Technichna informacija ta \"Sho nowogo\".",
-				"\n\x87MMLANG\x80      - Zminuty mowu kontentu w TW"
-			},["NOTFOUND"]={
-				"Storinka",
-				"ne isnuje. Bud' Laska oznajomtesia zi zmistom:"
-			}
+			"",
+			""
 		},["MMHELP"]={
 			{
 				"\7\xC2\xB3\xF2\xE0\xBA\xEC\xEE \xE2 \xD2\xE0\xBA\xEC\xED\xE8\xF6\xB3 \xC2\xE1\xE8\xE2\xF1\xF2\xE2\xE0!",
@@ -1010,6 +1008,9 @@ MM.text={
 				"\n* Jaksho washa rol' wykryta mozhna zminyty swoje im'ja ta/abo zminyty kolir personazhu. \x81Pamijatajte sh'o zmina imeni bude wydna u chati.",
 				"\n* Knopka\x82 FIRENORMAL\x80 dozwoliaje wykorystowuwaty Niz usiudy, jaksho wy majete kil'cia (Newynni ne majut' Nozha). Takozh, Nizh nie robyt' zwukiw ataky jaksho wy kradetesia."
 			}
+		},["MMLANG"]={
+			"Potochna mowa w TW wstanowlena na \x82Ukrains'ku\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [mowa]",
+			"\x82Ukrains'ka\x80 wstanowlena jak washa personal'na mowa w TW"
 		},["ROLE_GET"]={
 			"Wy \x85Wbywcia\x80! \x85Wbyjte usih.",
 			"Wy \x84Sheryf\x80!\x84 Eliminujte usih Wbywc'\x80. Dumajte kogo wbywajete, bo ryzykujete swojeju rolliu.",
@@ -1167,9 +1168,6 @@ MM.text={
 			"\xCD\xB2\xD7\xC8\xDF!", --NICHYJA!
 			"\5\xC2\xC1\xC8\xC2\xD6\xB2", --WBYWCI
 			"\3\xD6\xC8\xC2\xB2\xCB\xDC\xCD\xB2" --CYWIL'NI
-		},["MMLANG"]={
-			"Potochna mowa w TW wstanowlena na \x82Ukrains'ku\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [mowa]",
-			"\x82Ukrains'ka\x80 wstanowlena jak washa personal'na mowa w TW"
 		}
 	},
 	--Russian, hard to convert to Latin letters

@@ -272,7 +272,7 @@ local function mainHUD(v, p) --main game HUD
 	else scorePatchName = "BMP_SUSPECTS" end
 	expectedHudInfoSize[1] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 40
 	--TIME
-	expectedHudInfoSize[2] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"]) + 48
+	expectedHudInfoSize[2] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"]) + 56
 	--RINGS
 	expectedHudInfoSize[3] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_RINGS"]) + 52
 
@@ -400,25 +400,25 @@ local function mainHUD(v, p) --main game HUD
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
 				v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
-				v.drawString(160, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7], "thin-center") --Infinite Ring ammo counter
-			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]) end --Red Ring icon
-			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay >> 1) - 2), v.cachePatch("CURWEAP")) --selector
+				v.drawString(160, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM, "thin-center") --Infinite Ring ammo counter
+			else v.draw(firstRingWepX, (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM) end --Red Ring icon
+			v.draw((firstRingWepX - 2), (coords.firstRingWep.y - (p.mmweapondelay >> 1) - 2), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM) --selector
 		elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
 			if (p.powers[pw_infinityring])
-				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1])) --Infinite Ring icon
-				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7], "thin") --Infinite Ring ammo counter
-			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]) end --Red Ring icon
+				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM) --Infinite Ring icon
+				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM, "thin") --Infinite Ring ammo counter
+			else v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM) end --Red Ring icon
 			for weapon = 1,6
 				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
-					v.draw((coords.firstRingWep.x + weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]) --Ring weapon icon
-					if (p.powers[weapon + 14]) v.drawString((coords.firstRingWep.x + 1 + weapon*20), (coords.firstRingWep.y + 8), p.powers[weapon + 14], ringTrans[weapon], "thin") end --Ammo counter
+					v.draw((coords.firstRingWep.x + weapon*20), (coords.firstRingWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]|V_SNAPTOBOTTOM) --Ring weapon icon
+					if (p.powers[weapon + 14]) v.drawString((coords.firstRingWep.x + 1 + weapon*20), (coords.firstRingWep.y + 8), p.powers[weapon + 14], ringTrans[weapon]|V_SNAPTOBOTTOM, "thin") end --Ammo counter
 				end
 			end
-			if ((p.ammoremovaltimer) and (leveltime & 1)) v.drawString((coords.firstRingWep.x + 1 + p.ammoremovalweapon*20), (coords.firstRingWep.y + 2), "\x85-"..p.ammoremoval, nil, "thin") end --Ammo removal penalty
-			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP")) --selector
+			if ((p.ammoremovaltimer) and (leveltime & 1)) v.drawString((coords.firstRingWep.x + 1 + p.ammoremovalweapon*20), (coords.firstRingWep.y + 2), "\x85-"..p.ammoremoval, V_SNAPTOBOTTOM, "thin") end --Ammo removal penalty
+			v.draw((coords.firstRingWep.x - 2 + p.currentweapon*20), (coords.firstRingWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM) --selector
 		end
 	elseif ((p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)) --innocents have Sheriff Emerald radar instead of weapon dock
-		v.drawScaled(10027008, 10223616, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist)))) --153*FU, 156*FU, FU/2
+		v.drawScaled(10027008, 10223616, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))), V_SNAPTOBOTTOM) --153*FU, 156*FU, FU/2
 	end
 
 

@@ -61,6 +61,17 @@ local language={ --Language must be a table variable, you can name the variable 
 	["CHARSET"]="STCFN", --"Standart Console Font", can be found in srb2.pk3
 
 	["NONASCII"]=false, --set this to true if your language is not Latin-based. This only marks the language with * in MMLANG language list
+
+	--The following sections contain strings that allow your language's native letters to display.
+	--These strings also use "Murder Mystery string format", which means that vanilla color codes WILL NOT WORK HERE.
+
+	--Color codes in "MM string format" are ranged from 0 to 15 (ASCII) and do not support translucency
+
+	--For more details read /SRC/DOCS/MM_String_Format.md
+	["MMHELP_CMD"]={
+		"Use \7Up\0/\7Down\0 arrow keys to scroll, \7Left\0/\7Right\0 keys to switch pages",
+		"Press \7ESC\0 to leave HELP"
+	},
 	["MMHELP"]={ --MMHELP command
 		{ --MAIN
 			"\7Welcome to Murder Mystery!",
@@ -119,6 +130,16 @@ local language={ --Language must be a table variable, you can name the variable 
 			"\n*\2 FIRENORMAL\0 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
 		}
 	},
+
+	--
+	--console/chat messages, these messages can support only ASCII (English-only) characters. Color is made with Vanilla Color Escape Codes
+	--
+
+	--MMLANG command
+	["MMLANG"]={
+		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]", --when typed MMHELP with no argument
+		"Personal language for Murder Mystery is set to\x82 English" --when typed MMHELP with language argument (it sets the new language)
+	}
 	-- "You got the role" personal messages
 	["ROLE_GET"]={
 		"You're the \x85Murderer\x80! \x85Murder everyone!", --Murderer
@@ -190,6 +211,7 @@ local language={ --Language must be a table variable, you can name the variable 
 		"The \x82Hero\x80 chose to kill the last Innocent. The \x85Murderers\x80 win!", --Hero killed the last Innocent
 		"The Defenders of the\x83 Innocents\x80 are dead. The \x85Murderers\x80 win!" --All sheriffs and Heroes are dead
 	},
+
 	--HUD.LUA
 
 	-- Bitmap patches
@@ -245,12 +267,11 @@ local language={ --Language must be a table variable, you can name the variable 
 		"\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\x1F"
 	},
 
-	--The following section contains a string that allows your language's native letters to display.
+	--
+	--MM string formatted HUD section
+	--
+	--The following section contains strings that allow your language's native letters to display.
 	--These strings also use "Murder Mystery string format", which means that vanilla color codes WILL NOT WORK HERE.
-
-	--Color codes in "MM string format" are ranged from 0 to 15 (ASCII) and do not support translucency
-
-	--For more details read /SRC/DOCS/MM_String_Format.md
 
 	-- Role names
 	["HUD_ROLES"]={
@@ -273,8 +294,9 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Scores TAB screen
 	["HUD_SCORESTAB"]={
-		"If you're new to the gametype",
-		"use \7MMHELP\0 in the Console",
+		"If you're new to the gametype use \7MMHELP\0 ",
+		"command in the Console for help and",
+		"\7MMLANG\0 to change the language here",
 		"",
 		"",
 		"\2Have Fun!"
@@ -333,13 +355,6 @@ local language={ --Language must be a table variable, you can name the variable 
 		"\5MURDERERS", --must contain MM escape color code
 		"\3CIVILIANS" --must contain MM escape color code
 	},
-
-	--CCMD.LUA (MMLANG command)
-	--These strings are using the vanilla format.
-	["MMLANG"]={
-		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]",
-		"Personal language for Murder Mystery is set to\x82 English"
-	}
 }
 --finally import your language to the MM
 -- There is already a function to add the language in the game
