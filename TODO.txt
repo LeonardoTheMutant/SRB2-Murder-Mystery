@@ -1,10 +1,8 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
-- Rework the "BACKROOMS"
+- Rework/remake the "BACKROOMS"
 - Finish the "8-Ball Hotel"
 - Fix mistakes in "Mountain Fort"
-- Port MMHELP command to UI (help needed)
-- Make an artbox
-- Fix "SAYDEAD" command for everyone
-- Draw graphics for "PEOPLE ALIVE"-"TIME"-"RINGS" for each translation
-- Make "Sonic Run" 1-player minigame (Google Dino)
-- Mute rings loss sound when players die
+- Finish the MMHELP UI
+- Make a logo
+- Make some kind of background for "Sonic Run"
+- Create at least 5 more maps (to make 15 in total)

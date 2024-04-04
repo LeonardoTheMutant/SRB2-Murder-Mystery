@@ -37,11 +37,14 @@ local coords={ --HUD screen coordinates
 
 local firstRingWepX = 152
 
-local infoSCORE=hudinfo[HUD_SCORE]
-local infoTIME=hudinfo[HUD_TIME]
-local infoRINGS=hudinfo[HUD_RINGS]
+local infoSCORE = hudinfo[HUD_SCORE]
+local infoTIME = hudinfo[HUD_TIME]
+local infoRINGS = hudinfo[HUD_RINGS]
 
-local mmtxt=MM.text
+local mmtxt = MM.text
+
+local expectedHudInfoSize = {0,0,0}
+local maxHudIfnfoSize = 0
 
 -- Hook Functions
 
@@ -258,26 +261,46 @@ local function mainHUD(v, p) --main game HUD
 		V_DrawStrASCII(v, (320 - V_StrWidthASCII(mmtxt[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], 0, 32768)), 4, consoleplayer.mmlang, mmtxt[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
+	--
+	-- SUSPECTS - TIME - RINGS
+	--
+
+	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
 	local scorePatchName
 	if ((p.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS"
 	else scorePatchName = "BMP_SUSPECTS" end
-	
-	local scorePatchWidth = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 14
+	expectedHudInfoSize[1] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 40
+	--TIME
+	expectedHudInfoSize[2] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"]) + 48
+	--RINGS
+	expectedHudInfoSize[3] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_RINGS"]) + 52
+
+	--find the longest element
+	maxHudIfnfoSize = expectedHudInfoSize[1]
+	for element = 2, 3 do if (expectedHudInfoSize[element] > maxHudIfnfoSize) then maxHudIfnfoSize = expectedHudInfoSize[element] end end
+
+	--now we can draw
+
+	--SUSPECTS/VICTIMS
 	V_DrawTextPatch(v, infoSCORE.x, infoSCORE.y, mmtxt[consoleplayer.mmlang][scorePatchName], infoSCORE.f)
 	local plrsAlive = PlayersAlive() - 1
 	if (plrsAlive < 0) plrsAlive = 0 end
-	if (plrsAlive < 10) v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
-	else
-		v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
-		v.draw((infoSCORE.x + scorePatchWidth + 8), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
-	end
+	v.drawNum(((infoSCORE.x + maxHudIfnfoSize) - 16), infoSCORE.y, plrsAlive, infoSCORE.f)
+	--if (plrsAlive < 10) v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..plrsAlive), infoSCORE.f)
+	--else
+	--	v.draw((infoSCORE.x + scorePatchWidth), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive/10)), infoSCORE.f)
+	--	v.draw((infoSCORE.x + scorePatchWidth + 8), infoSCORE.y, v.cachePatch("STTNUM"..(plrsAlive%10)), infoSCORE.f)
+	--end
 
 	--TIME
-	--"TIME" text
-	local timePatchWidth = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"])
-	if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, infoTIME.x, infoTIME.y, V_TextPatch_SwapColor(mmtxt[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), infoTIME.f)
+	if ((not G_TicsToMinutes(timeleft)) and (leveltime & 4))
+		V_DrawTextPatch(v, infoTIME.x, infoTIME.y, V_TextPatch_SwapColor(mmtxt[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), infoTIME.f)
 	else V_DrawTextPatch(v, infoTIME.x, infoTIME.y, mmtxt[consoleplayer.mmlang]["BMP_TIME"], infoTIME.f) end
+	v.drawPaddedNum(((infoTIME.x + maxHudIfnfoSize) - 16), infoTIME.y, G_TicsToSeconds(timeleft), 2, infoTIME.f) --seconds
+	v.draw(((infoTIME.x + maxHudIfnfoSize) - 40), infoTIME.y, v.cachePatch("STTCOLON"), infoTIME.f) --colon
+	v.drawNum(((infoTIME.x + maxHudIfnfoSize) - 40), infoTIME.y, G_TicsToMinutes(timeleft), infoTIME.f) --minutes
+	/*
 	--minutes
 	if (G_TicsToMinutes(timeleft) > 9)
 		v.draw((infoTIME.x + timePatchWidth + 6), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10)), infoTIME.f) --first digit
@@ -295,12 +318,13 @@ local function mainHUD(v, p) --main game HUD
 		v.draw((infoTIME.x + timePatchWidth + 30), infoTIME.y, v.cachePatch("STTNUM0"), infoTIME.f) --first digit is always 0
 		v.draw((infoTIME.x + timePatchWidth + 38), infoTIME.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft)), infoTIME.f) --second digit
 	end
+	*/
 
 	--RINGS
 	if (not p.spectator)
 		if (not p.rings) and (leveltime & 4) V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, V_TextPatch_SwapColor(mmtxt[consoleplayer.mmlang]["BMP_RINGS"], 0x49, 0x25), infoRINGS.f)
 		else V_DrawTextPatch(v, infoRINGS.x, infoRINGS.y, mmtxt[consoleplayer.mmlang]["BMP_RINGS"], infoRINGS.f) end
-		v.drawNum((infoRINGS.x + V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_RINGS"]) + 38), infoRINGS.y, p.rings, infoRINGS.f)
+		v.drawNum(((infoRINGS.x + maxHudIfnfoSize) - 16), infoRINGS.y, p.rings, infoRINGS.f)
 	end
 
 	--Life icon, player name and role
