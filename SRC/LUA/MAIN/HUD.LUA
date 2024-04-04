@@ -148,6 +148,8 @@ local function mainHUD(v, p) --main game HUD
 			v.drawString(160, (coords.sonicRun.y + 84), "GAME OVER", 0, "center")
 		end
 
+		v.drawString(160, (coords.sonicRun.y + 100), "Controls: \x87JUMP\x80 & \x87SPIN\x80", 0, "center")
+
 		--player side information
 		--character icon
 		v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2

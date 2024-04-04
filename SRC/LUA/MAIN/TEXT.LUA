@@ -20,14 +20,14 @@ MM.text={
 		["MMHELP"]={ --MMHELP command
 			{ --MAIN
 				"\7Welcome to Murder Mystery!",
-				"\7The SRB2 interpretation of the popular multiplayer game!\0\n",
+				"\7The SRB2 interpretation of the \7popular \7multiplayer \7game!\0\n",
 				"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 				"You need to learn some basics first before you can start playing...",
-				"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\x80 you might get:",
+				"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
 				" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings",
 				" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
 				" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
-				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
+				"\nThat is all basic information required to start playing, for more information, read this manual to the end"
 			},
 			--GAME
 			{
@@ -35,20 +35,20 @@ MM.text={
 				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \5Murderer(s)\0, but different gameplay situations may occur:",
 				"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
 				"You can't talk to/PM players who are still alive while you are\15 Dead\0.",
-				"Also\2 DO NOT TRY TO RENAME YOURSELF\0, more details on this are in \7MMHELP BAD\0.",
+				"Also\2 DO \2NOT \2TRY \2TO \2RENAME \2YOURSELF\0, more details on this are on the next page.",
 				"\n* The \4Sheriff's\0 task is to eliminate all the \5Murderers\0 around, but they can accidentally shoot an \3Innocent\0.",
 				"If this occurs, the \4Sheriff\0 will turn into an \3Innocent\0 and a random \3Innocent\0 will silently take his role. Next time you want to shoot somebody as a \4Sheriff\0 think twice before pulling that trigger!",
 				"\n* When a \5Murderer\0 kills a \4Sheriff\0 and there are still \3Innocents\0 alive, the Sheriff will drop the \4Sheriff's Emerald\0 near their corpse.",
 				"Unlike the 7 Chaos Emeralds, this emerald will assign the \2Hero\0 role to any \3Innocent\0 that picks it up. If you're one of the \3Innocents\0, it's your chance to be a Hero and save everyone from the \5Murderer(s)\0!",
-				"The \2Hero\0 role does not differ from the \4Sheriff\0 except for some details such as when the \2Hero\0 kills an \3Innocent\0 their role isn't shared and both just die. A Hero will not drop a \4Sheriff's Emerald\0 on their death.",
+				"The \2Hero\0 role does not differ from the \4Sheriff\0 except for some details such as when the \2Hero\0 kills an \3Innocent\0 their role isn't shared and both just die. A Hero will not drop a \4Sheriff's \4Emerald\0 on their death.",
 				"\n* Depending on the player count, there can be more than one \5Murderer\0 and \4Sheriff\0 amongst the players in the round. For example, starting from 7 players and more, \11Teams\0 of \5Murderers\0 and \4Sheriffs\0 will be formed.",
 				"\11Teammates\0 can chat with each other in their team chat with the \7SAYTEAM\0 console command (note that SAYTEAM chat button will work as same as regular chat).",
 				"If one \11teammate\0 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
 			},
 			--BAD
 			{
-				"\7Things that are bad to do in Murder Mystery\0\n",
-				"Rule No.1 of any game: \2Be kind and have fun!\0 Other than this...",
+				"\7Things that are bad to \7do \7in \7Murder \7Mystery\0\n",
+				"Rule No.1 of any game: \2Be \2kind \2and \2have \2fun!\0 Other than this...\n",
 				"* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\' (even if you are joking), you can tell someone else's role if you are sure of it, but never tell your own.\n",
 				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.\n",
 				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.\n",
@@ -67,11 +67,11 @@ MM.text={
 				"\7Useful tips\0\n",
 				"We've collected some tips that can help you during your game in MM:",
 				"\n* If character abilities are disabled by admin, press \2SPIN\0 to sneak around quietly without leaving traces or making noise;",
-				"\n* When you pick up the \4Sherrif's Emerald\0, you will have access to all the weapons and rings you collected beforehand;",
+				"\n* When you pick up the \4Sherrif's \4Emerald\0, you will have access to all the weapons and rings you collected beforehand;",
 				"\n* Finding out who your \11teammate\0 is by using the \7SAYTEAM\0 command would help as it would make you avoid shooting them and accidentally making you reveal your role;",
 				"\n* You can get hurt by obstacles like lava, spikes, fire to gain invincibility for 3 seconds;",
 				"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
-				"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \1Keep in mind that your rename will be shown in chat\0;",
+				"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \1Keep \1in \1mind \1that \1your \1rename \1will \1be \1shown \1in \1chat\0;",
 				"\n*\2 FIRENORMAL\0 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
 			}
 		},
@@ -507,62 +507,56 @@ MM.text={
 		["CHARSET"]="1250C",
 		["MM"]="Tajemnica Morderstw",
 		["MMHELP_CMD"]={
-			"",
-			""
+			"Dla scrollingu wci\x9Cnij klawisz\xEA \7G\xF3ra\0/\7D\xF3l\0, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \7Lewo\0/\7Prawo\0",
+			"\7ESC\0 - wyj\x9C\xE6 z menu pomocy"
 		},
 		["MMHELP"]={
-			["MAIN"]={
-				"\x87Witaj w Tajemnicy Morderstw!\nInterpretacji popularnej gry multiplayer w SRB2\n",
-				"Celem gry jest znalezienie i wyeliminowanie wszystkich \x85Mordercow\x80 zanim zabija\x83 wszystkich\x80. Ten typ gry jest jak MATCH wiec musisz potrafic strzelac.",
-				"Bedziesz potrzebowac kilku podstaw....",
-				"\nNa poczatku kazdej rundy dostaniesz \x8BRole\x80 ktora dyktuje co masz robic w grze. To sa 3 mozliwe \x8BRole\x80 ktore mozesz dostac:",
-				" * \x85Morderca\x80 - prawdziwy kryminalista. Ma zabic wszystkich, ale posiada tylko Noz ta Czerwone Ringi;",
-				" * \x84Szeryf\x80  - Jego zadaniem jest znalezienie i wyeliminowanie \x85Mordercow\x80. Szeryfi moga uzywac wszystkich typow pierscieni;",
-				" * \x83Niewinny\x80 - kompletnie bezbronny cywil, musi nie zostac zabity i pomoc w znalezieniu \x85Mordercy\x80.",
-				"\nTo cala podstawa do gry, jesli nadal czegos nie wiesz lub chcesz dowiedziec sie wiecej, uzyj tych komend:"
-			},["GAME"]={
-				"\x87O sytuacjach w grze\n",
-				"Jak wyjasniono wczesniej, celem jest wyeliminowanie wszystkich \x85Mordercow\x80, ale rozne sytuacje moga zastac:",
-				"\n* Jesli ktos cie zastrzeli to staniesz sie\x8F Martwy\x80. Gracze w tym stanie nie moga sie odnowic ani gadac na globalnym czacie, twoje wiadomosci sa tylko widoczne dla innych\x8F martwych\x80 graczy.",
-				"Nie mozesz uzyc \x87SAYTO\x80 lub PW do osoby ktora jest zywa jako\x8F MARTWY\x80.",
-				"Takze,\x82 NIE PROBUJ ZMIENIAC NAZWY\x80, wiecej detali w \x87MMHELP BAD\x80.",
-				"\n* Zadaniem \x84Szeryfa\x80 jest wyeliminowanie wszystkich \x85Mordercow\x80, ale czasami szeryf moze zabic jednego \x83Niewinnego\x80 przez przypadek.",
-				"Jesli to sie stanie \x84Szeryf\x80 stanie sie cywilem i inny \x83Niewinny\x80 po cichu przejmie jego role. Nastepnym razem jak strzelisz w kogos jako \x84Szeryf\x80 pomysl kogo zabijasz!",
-				"\n* Kiedy \x85Morderca\x80 zabije \x84Szeryfa\x80 i zostana zywi \x83Niewinni\x80 szeryf upusci \x84Szmaragd Szeryfa\x80 obok jego ciala.",
-				"W przeciwienstwie do Szmaragdow Chaosu ten szmaragd daje role\x82 Bohatera\x80 do \x83Niewinnego\x80 ktory go pierwszy podniosl. Jesli jestes \x83Niewinnym\x80 to twoja szansa zostac bohaterem i uratowac wszystkich od \x85Mordercow\x80!",
-				"\x82".."Bohater\x80 nie rozni sie za bardzo od \x84Szeryfa\x80 oprocz kilku detali jak kiedy\x82 Bohater\x80 zabija \x83Niewinnego\x80 jego rola nie jest oddawana i obydwoje gina. Bohater nie upusci \x84Szmaragdu Szeryfa\x80 przy jego smierci.",
-				"\n* Zaleznie od ilosci graczy, moze byc wiecej niz jeden \x85Mordercow\x80 i \x84Szeryfow\x80 posrod graczy w grze. Na przyklad, gdy jest wiecej niz 7 graczy to\x8B Druzyny\x80 \x85Mordercow\x80 i \x84Szeryfow\x80 beda zformowane.",
-				"\x8BWspolnicy\x80 moga czatowac z druzyna za pomoca komendy \x87SAYTEAM\x80 (przycisk SAYTEAM bedzie tak samo dzialal jak normalny czat).",
-				"Jesli jeden \x8Bwspolnik\x80 strzeli drugiego to dostanie wiadomosc zeby nie strzelal do wspolnika. Pamietaj ze inni moga zobaczyc twoja 'przyjazna' rozmowe i dowiedziec sie kim jestes!",
-				"\nJesli chcesz zrozumiec wiecej przeczytaj:",
-				"\x87MMHELP BAD\x80 - Rzeczy ktorych nie powinno sie robic w TM",
-				"\x87MMHELP CHAT\x80 - Co to sa Dzwieki i jak ich uzyc"
-			},["BAD"]={
-				"\x87Rzeczy ktorych nie wolno robic w Tajemnicy Morderstw\n",
-				"Zasada numer 1 kazdej gry:\x82 Badz mily i sie baw!\x80 Oprocz tego...",
-				"* Wypowiedzenie swojej \x8BRoli\x80 sprawi ze gra nie bedzie juz \'Tajemnica\', mozesz wypowiedziec role kogos innego jak wiesz ale nigdy swojej.",
-				"* Nie badz nie mily dla innych graczy, zarty sa dozwolone ale tylko w przyjaznej atmosferze. Nikt ci nie bedzie ufal jak bedziesz ciagle oskarzal innych bez powodu.",
-				"* Bycie AFK to zbrodnia wojenna. Jesli bedziesz sie nie ruszal przez dluzszy czas zostaniesz wykopany (tylko jesli zyjesz).",
-				"* Nie zmieniaj swojej nazwy poki jestes Martwy(a) - gra jest bardzo scisla i\x85 wyrzuci\x80 ci z gry jezeli to zrobisz. Po prostu zaczekaj na ekran zakonczenia rundy zeby znow bezpiecznie zmieniac imie.",
-				"Zlamanie tych zasad moze spowodowac ze zostaniesz wykopany a czasami zbanowany przez Admina, prosimy ich nie lamac i grac fer.",
-				"\nWiecej stron pomocy ktore mozesz chciec przeczytac w konsoli:",
-				"\x87MMHELP GAME\x80 - O sytuacjach w grze",
-				"\x87MMHELP CHAT\x80 - Lista dzwiekow i jak ich uzyc"
-			},["CHAT"]={
-				"\x87Jak uzyc dzwiekow\n",
-				"Jesli gracz wysle wiadomosc zawierajaca specjalne slowa lub frazy to zagra specjalny dzwiek.",
-				"w skrocie jesli wyslesz wiadomosc \"bruh\" wszyscy uslysza dzwiek BRUH",
-				"To jest lista dzwiekow i jak je aktywowac:"
-			},["TIPS"]={
-				"\x87Przydatne porady\n",
-				"Zebralismy kilka porad ktorzy moga przydac ci w twojej grze w TM:",
-				"\n* Jezeli zdolnosci postaci sa wylaczone adminem, zacisnij \x82SPIN\x80 zeby skradac sie ukradkiem i nie zostawiac za soba sladow;",
-				"\n* Kiedy podniesiesz \x84Szmaragd Szeryfa\x80 bedziesz miec dostep do kazdej broni i ringow, ktorzy zebrales uprzednio;",
-				"\n* Mozna dowiedziec sie kim jest twoj \x8Bkolega\x80 z druzyny bez wykorzystania broni, po prostu wysli powiadomlenie za pomoca komendy \x87SAYTEAM\x80 w konsoli i zaczekaj az poki na nia ktos odpowie z twojej druzyny. Pomoze ci to nie ujawnic roli wszystkim;",
-				"\n* Mozesz zostac zraniony przez przeszkody takie jak lawa, kolce i ogien zeby dostac effekt niezwyciezosci na 3 sekundy;",
-				"\n* Sproboj znalezc miejsce dla kryjowke na mapie. Czasami, pomaga to pozbyc sie niechcianej publicznosci;",
-				"\n* Jezeli twoja rola przestanie byc tajemnica, mozhesz zmienic swoje imie i/lub zmienic swoj kolor postaci. \x81Pamietaj, ze zmiana imieni bedzie widoczna w czacie;",
-				"\n* Przycisk\x82 FIRENORMAL\x80 pozwala wykorzystywac Noz wszedzie, jak masz Ringi (Niewinni nie posiadaja Noza). Takze, Noz nie robi dzwiekow ataku jezeli skradzasz sie."
+			{
+				"\7Witaj w Tajemnicy Morderstw!\n\7Interpretacji popularnej gry multiplayer w SRB2!\0\n",
+				"Celem gry jest znalezienie i wyeliminowanie wszystkich \5Morderc\xF3w\0 zanim zabij\xB9\3 wszystkich\0. Ten typ gry jest jak MATCH wi\xEA".."c musisz potrafi\xE6 strzela\xE6.",
+				"B\xEA".."dziesz potrzebowa\xE6 kilku podstaw....",
+				"\nNa pocz\xB9tku ka\xBF".."dej rundy dostaniesz \11Role\0 kt\xF3ra dyktuje co masz robi\xE6 w grze. To s\xB9 3 mozliwe \11Role\0 kt\xF3re mo\xBF".."esz dosta\xE6:",
+				" * \5Morderca\0 - Prawdziwy kryminalista. Ma zabi\xE6 wszystkich, ale posiada tylko N\xF3\xBF ta Czerwone Ringi;",
+				" * \4Szeryf\0   - Jego zadaniem jest znalezienie i wyeliminowanie \5Morderc\xF3w\0. Szeryfi mog\xB9 u\xBFywa\xE6 wszystkich typ\xF3w pier\x9C".."cieni;",
+				" * \3Niewinny\0 - Kompletnie bezbronny cywil, musi nie zosta\xE6 zabity i pom\xF3".."c w znalezieniu \5Mordercy\0.",
+				"\nTo cala podstawa do gry, je\x9Cli nadal czego\x9C nie wiesz lub chcesz dowiedzie\xE6 si\xEA wi\xEA".."cej przeczytaj ten podr\xEA".."cznik do ko\xF1".."ca"
+			},{
+				"\7O sytuacjach w grze\0\n",
+				"Jak wyja\x9Cniono wcze\x9Cniej, ce\xB3".."em jest wyeliminowanie wszystkich \5Morderc\xF3w\0, ale r\xF3\xBFne sytuacje mog\xB9 zasta\xE6:",
+				"\n* Je\x9Cli kto\x9C ci\xEA zastrzeli to staniesz si\xEA\15 Martwy\0. Gracze w tym stanie nie mog\xB9 si\xEA odnowi\xE6 ani gada\xE6 na globalnym czacie, twoje wiadomo\x9C".."ci s\xB9 tylko widoczne dla innych\x15 martwych\0 graczy.",
+				"Nie mo\xBF".."esz u\xBFy\xE6 \7SAYTO\0 lub PW do osoby kt\xF3ra jest \xBFywa jako\15 MARTWY\0.",
+				"Tak\xBF".."e,\2 NIE PR\xD3".."BUJ ZMIENIA\xC6 NAZWY\0, wi\xEAcej detali na nast\xEApnej stroni\xEA.",
+				"\n* Zadaniem \4Szeryfa\0 jest wyeliminowanie wszystkich \5Morderc\xF3w\0, ale czasami Szeryf mo\xBF".."e zabi\xE6 \3Niewinn\xB9 \3osob\xEA\0 przez przypadek.",
+				"Je\x9Cli to si\xEA stanie \4Szeryf\0 stanie si\xEA cywilem i inna \3Niewinna \3osoba\0 po cichu przejmie jego rol\xEA. Nast\xEApnym razem jak strzelisz w kogo\x9C jako \4Szeryf\0 pomy\x9Cl kogo zabijasz!",
+				"\n* Kiedy \5Morderca\0 zabije \4Szeryfa\0 i zostan\xB9 \xBFywi \3Niewinni\0 Szeryf upu\x9C".."ci \4Szmaragd Szeryfa\0 obok jego cia\xB3".."a.",
+				"W przeciwie\xF1stwie do Szmaragd\xF3w Chaosu ten Szmaragd daje role\2 Bohatera\0 do \3Niewinnego\0 kt\xF3ry go pierwszy podnios\xB3. Je\x9Cli jeste\x9C \3Niewinn\xB9 \3osob\xB9\0 to twoja szansa zosta\xE6 bohaterem i uratowa\xE6 wszystkich od \5Morderc\xF3w\0!",
+				"\2Bohater\0 nie r\xF3\xBFni si\xEA za bardzo od \4Szeryfa\0 opr\xF3".."cz kilku detali jak kiedy\2 Bohater\0 zabija \3Niewinnego\0 jego rola nie jest oddawana i obydwoje gin\xB9. Bohater nie upu\x9C".."ci \4Szmaragdu \4Szeryfa\0 przy jego \x9Cmierci.",
+				"\n* Zale\xBFnie od ilosci graczy, mo\xBF".."e by\xE6 wi\xEA".."cej ni\xBF jeden \5Morderc\xF3w\0 i \4Szeryfx\xF3w\0 po\x9Cr\xF3".."d graczy w grze. Na przyk\xB3".."ad, gdy jest wi\xEA".."cej ni\xBf 7 graczy to\11 Dru\xBFyny\0 \5Morderc\xF3w\0 i \4Szeryf\xF3w\0 b\xEA".."d\xB9 zformowane.",
+				"\11Wsp\xF3\xB3nicy\0 mog\xB9 czatowa\xE6 z dru\xBFyn\xB9 za pomoc\xB9 komendy \7SAYTEAM\0 (przycisk SAYTEAM b\xEA".."dzie tak samo dziala\xB3 jak normalny czat).",
+				"Je\x9Cli jeden \11wsp\xF3lnik\0 strzeli drugiego to dostanie wiadomo\x9C\xE6 \xBF".."eby nie strzelal do wspx\xF3\xB3nika. Pami\xEAtaj \xBF".."e inni mog\xB9 zobaczy\xE6 twoj\xB9 'przyjazn\xB9' rozmow\xEA i dowiedzie\xE6 si\xEA kim jeste\x9C!",
+			},{
+				"\7Rzeczy kt\xF3rych nie wolno \7robi\xE6 \7w \7Tajemnicy \7Morderstw\0\n",
+				"Zasada numer 1 ka\xBF".."dej gry:\2 B\xB9".."d\x9F mi\xB3y \2i \2si\xEA \2baw!\0 Opr\xF3".."cz tego...",
+				"* Wypowiedzenie swojej \11Roli\0 sprawi \xBF".."e gra nie b\xEA".."dzie ju\xBF \'Tajemnic\xB9\', mo\xBF".."esz wypowiedzie\xE6 role kogo\x9C innego jak wiesz ale nigdy swojej.",
+				"* Nie b\xB9".."d\x9F nie mi\xB3y dla innych graczy, \xBF".."arty s\xB9 dozwolone ale tylko w przyjaznej atmosferze. Nikt ci nie b\xEA".."dzie ufa\xB3 jak b\xEA".."dziesz ci\xB9gle oskarza\xB3 innych bez powodu.",
+				"* Bycie AFK to zbrodnia wojenna. Je\x9Cli b\xEA".."dziesz si\xEA nie ruszal przez dluzszy czas zostaniesz wykopany (tylko je\x9Cli \xBFyjesz).",
+				"* Nie zmieniaj swojej nazwy p\xF3ki jeste\x9C Martwy(a) - gra jest bardzo \x9C".."cis\xB3".."a i\5 wyrzuci\0 ci z gry je\xBF".."eli to zrobisz. Po prostu zaczekaj na ekran zako\xF1".."czenia rundy \xBF".."eby zn\xF3w bezpiecznie zmienia\xE6 imi\xEA.",
+				"Z\xB3".."amanie tych zasad mo\xBF".."e spowodowa\xE6 \xBF".."e zostaniesz wykopany a czasami zbanowany przez Administratora, prosimy ich nie \xB3".."ama\xE6 i gra\xE6 fer.",
+			},{
+				"\7Jak uzy\xE6 dzwi\xEAk\xF3w\0\n",
+				"Je\x9Cli gracz wy\x9Cl\xEA wiadomo\x9C\xE6 zawieraj\xB9".."c\xB9 specjalne s\xB3owa lub frazy to zagra specjalny dzwi\xEAk.",
+				"w skr\xF3".."cie je\x9Cli wy\x9Clesz wiadomo\x9C\xEA \"bruh\" wszyscy us\xB3ysz\xB9 dzwi\xEAk BRUH",
+				"To jest lista dzwi\xEAk\xF3w i jak je aktywowa\xE6:"
+			},{
+				"\7Przydatne porady\0\n",
+				"Zebrali\x9Cmy kilka porad kt\xF3rzy mog\xB9 przyda\xE6 ci w twojej grze w TM:",
+				"\n* Je\xBF".."eli zdolno\x9C".."ci postaci s\xB9 wy\xB3\xB9".."czone administratorem, zaci\x9Cnij \2SPIN\0 \xBF".."eby skrada\xE6 si\xEA ukradkiem i nie zostawia\xE6 za sob\xB9 \x9Clad\xF3w;",
+				"\n* Kiedy podniesiesz \4Szmaragd \4Szeryfa\0 b\xEA".."dziesz mie\xE6 dost\xEAp do ka\xBF".."dej broni i ring\xF3w, kt\xF3rzy zebrale\x9C uprzednio;",
+				"\n* Mo\xBFna dowiedzie\xE6 si\xEA kim jest tw\xF3j \11kolega\0 z dru\xBFyny bez wykorzystania broni, po prostu wy\x9Cli powiadomienie za pomoc\xB9 komendy \7SAYTEAM\0 w konsoli i zaczekaj a\xBF p\xF3ki na ni\xB9 kto\x9C odpowie z twojej dru\xBFyny.;",
+				"\n* Mo\xBF".."esz zosta\xE6 zraniony przez przeszkody takie jak lawa, kolce i ogie\xF1 \xBF".."eby dosta\xE6 effekt niezwyci\xEAzo\x9C".."ci na 3 sekundy;",
+				"\n* Spr\xF3".."buj znale\x9F\xE6 miejsce dla kryj\xF3wke na mapie. Czasami, pomaga to pozby\xE6 si\xEA niechcianej publiczno\x9C".."ci;",
+				"\n* Je\xBF".."eli twoja rola przestanie by\xE6 tajemnic\xB9, mo\xBF".."esz zmieni\xE6 swoje imi\xEA i zmieni\xE6 sw\xF3j kolor postaci. \1Pami\xEAtaj, \1\xBF".."e \1zmiana \1imienia \1b\xEA".."dzie \1widoczna \1w \1czacie\0;",
+				"\n* Przycisk\2 FIRENORMAL\0 pozwala wykorzystywa\xE6 N\xF3\xBF wsz\xEA".."dzie, jak masz Ringi (Niewinni nie posiadaj\xB9 No\xBF".."a). Tak\xBF".."e, N\xF3\xBF nie robi dzwi\xEAk\xF3w ataku je\xBF".."eli skradzasz si\xEA."
 			}
 		},["MMLANG"]={
 			"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
@@ -679,11 +673,9 @@ MM.text={
 		["HUD_KILLBY"]="Zabity przez",
 		["HUD_STUPID"]="tw\xF3j idiotyzm",
 		["HUD_SCORESTAB"]={
-			"Tutaj nie ma wynik\xF3w, ale liczniki na",
-			"dol\xEA mog\xB9 pom\xF3".."c w dochodzeniu!",
-			"",
 			"Je\x9Cli ten tryb jest ci nowy u\xBFyj",
-			"\7MMHELP\0 w Konsoli dla pomocy",
+			"komendy \7MMHELP\0 w Konsoli dla pomocy",
+			"i \7MMLANG\0 dla zmiany j\xEAzyka tutaj",
 			"",
 			"",
 			"\2Baw si\xEA dobrze ;)"

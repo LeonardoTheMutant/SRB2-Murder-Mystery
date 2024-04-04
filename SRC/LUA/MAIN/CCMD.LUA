@@ -276,8 +276,8 @@ hud.add(function(v, p)
 
 		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
-		V_DrawStrASCII(v, 0, 192, "EN", "Use \7Up\0/\7Down\0 arrow keys to scroll, \7Left\0/\7Right\0 keys to switch pages", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-		V_DrawStrASCII(v, 0, 196, "EN", "Press \7ESC\0 to leave HELP", V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 192, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][1], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 196, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][2], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
 		v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
 	end
 end, "game")
