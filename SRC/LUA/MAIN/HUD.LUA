@@ -274,7 +274,7 @@ local function mainHUD(v, p) --main game HUD
 	else scorePatchName = "BMP_SUSPECTS" end
 	expectedHudInfoSize[1] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang][scorePatchName]) + 40
 	--TIME
-	expectedHudInfoSize[2] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"]) + 56
+	expectedHudInfoSize[2] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_TIME"]) + 64
 	--RINGS
 	expectedHudInfoSize[3] = V_TextPatchWidth(mmtxt[consoleplayer.mmlang]["BMP_RINGS"]) + 52
 
@@ -440,7 +440,7 @@ local function mainHUD(v, p) --main game HUD
 
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(infoRINGS.x, (infoRINGS.y + 32), "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-	elseif (p.sneak) v.drawString(infoRINGS.x, (infoRINGS.y + 24), "Sneaking...", V_SNAPTOTOP|V_SNAPTOLEFT, "thin") end
+	elseif (p.sneak) V_DrawStrASCII(v, infoRINGS.x, (infoRINGS.y + 24), consoleplayer.mmlang, mmtxt[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT, 32768) end --FU/2
 
 	--red Flash effect when you die
 	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("HUD_FLSH"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end

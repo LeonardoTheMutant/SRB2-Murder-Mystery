@@ -103,7 +103,7 @@ local language={ --Language must be a table variable, you can name the variable 
 		--BAD
 		{
 			"\7Things that are bad to \7do \7in \7Murder \7Mystery\0\n",
-			"Rule No.1 of any game: \2Be \2kind \2and \2have \2fun!\0 Other than this...\n",
+			"Rule No.1 of any game: \1Be \1kind \1and \1have \1fun!\0 Other than this...\n",
 			"* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\' (even if you are joking), you can tell someone else's role if you are sure of it, but never tell your own.\n",
 			"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.\n",
 			"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.\n",
@@ -327,6 +327,7 @@ local language={ --Language must be a table variable, you can name the variable 
 		"Please wait for \4one more\0 player to start"
 	},
 
+	["HUD_SNEAKING"]="Sneaking...", --Sneaking
 	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
 
 	--minigame stuff
