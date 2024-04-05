@@ -39,7 +39,114 @@ But you may wonder now how to color this new text. Characters like `\0x80` or `\
 Let's say you want to use this cool string format with colors but you don't want to rewrite your 50+ Kilobytes text to convert every color code manually. <code>V_ConvertStringColor()</code> exists just for this purpose - it converts SRB2 color codes in your string to MM format and as a return value it returns your modified string. You can do vise-versa with the <code>V_ConvertStringColor2()</code> function which converts MM color codes to vanilla SRB2 ones. Just remember to use MM strings with <code>V_DrawStrASCII()</code> and regular SRB2 strings with <code>v.drawString()</code> because they're not compatible with each other.
 <br><br>
 
-### Guess that's it
+## Extended ASCII Character Sets
+List of Extended ASCII tables and the available characters which are included in MM
+### Windows1250 (1250C)
+Based on [Windows1250](https://wikipedia.org/wiki/Windows-1250) codepage.
+Central and Eastern European Latin-based languages such as Polish, Czech, Slovak, Hungarian, German
+<table>
+    <tr>
+        <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+    </tr>
+    <tr>
+        <th>8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Š</td><td></td><td>Ś</td><td>Ť</td><td>Ž</td><td>Ź</td>
+    </tr>
+    <tr>
+        <th>9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>š</td><td></td><td>ś</td><td>ť</td><td>ž</td><td>ź</td>
+    </tr>
+    <tr>
+        <th>A</th><td></td><td></td><td></td><td>Ł</td><td></td><td>Ą</td><td></td><td></td><td></td><td></td><td>Ş</td><td></td><td></td><td></td><td></td><td>Ż</td>
+    </tr>
+    <tr>
+        <th>B</th><td></td><td></td><td></td><td>ł</td><td></td><td></td><td></td><td></td><td></td><td>ą</td><td>ş</td><td></td><td>Ľ</td><td></td><td>ľ</td><td>ż</td>
+    </tr>
+    <tr>
+        <th>C</th><td>Ŕ</td><td></th><td></th><td></th><td>Ä</th><td></th><td>Ć</td><td>Ç</td><td>Č</td><td>É</td><td>Ę</td><td>Ë</td><td>Ě</td><td>Í</td><td>Î</td><td>Ď</td>
+    </tr>
+    <tr>
+        <th>D</th><td></td><td>Ń</td><td>Ň</td><td>Ó</td><td>Ô</td><td>Ő</td><td>Ö</td><td></td><td>Ř</td><td></td><td>Ú</td><td>Ű</td><td>Ü</td><td>Ý</td><td></td><td>ß</td>
+    </tr>
+    <tr>
+        <th>E</th><td>ŕ</td><td>á</td><td>â</td><td>ă</td><td>ä</td><td></td><td>ć</td><td>ç</td><td>č</td><td>é</td><td>ę</td><td>ë</td><td>ě</td><td>í</td><td>î</td><td>ď</td>
+    </tr>
+    <tr>
+        <th>F</th><td></td><td>ń</td><td>ň</td><td>ó</td><td>ô</td><td>ő</td><td>ö</td><td></td><td>ř</td><td></td><td>ú</td><td>ű</td><td>ü</td><td>ý</td><td></td><td></td>
+    </tr>
+</table>
+
+<hr>
+
+### Windows1251 (1251C)
+Based on [Windows1251](https://wikipedia.org/wiki/Windows-1251) codepage.
+Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonian
+<table>
+    <tr>
+        <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+    </tr>
+    <tr>
+        <th>8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>A</th><td></td><td></td><td></td><td></td><td></td><td>Ґ</td><td></td><td></td><td>Ё</td><td></td><td>Є</td><td></td><td></td><td></td><td></td><td>Ї</td>
+    </tr>
+    <tr>
+        <th>B</th><td></td><td></td><td>І</td><td>і</td><td>ґ</td><td></td><td></td><td></td><td>ё</td><td></td><td>є</td><td></td><td></td><td></td><td></td><td>ї</td>
+    </tr>
+    <tr>
+        <th>C</th><td>А</td><td>Б</th><td>В</th><td>Г</th><td>Д</th><td>Е</th><td>Ж</td><td>З</td><td>И</td><td>Й</td><td>К</td><td>Л</td><td>М</td><td>Н</td><td>О</td><td>П</td>
+    </tr>
+    <tr>
+        <th>D</th><td>Р</td><td>С</td><td>Т</td><td>У</td><td>Ф</td><td>Х</td><td>Ц</td><td>Ч</td><td>Ш</td><td>Щ</td><td>Ъ</td><td>Ы</td><td>Ь</td><td>Э</td><td>Ю</td><td>Я</td>
+    </tr>
+    <tr>
+        <th>E</th><td>а</td><td>б</td><td>в</td><td>г</td><td>д</td><td>е</td><td>ж</td><td>з</td><td>и</td><td>й</td><td>к</td><td>л</td><td>м</td><td>н</td><td>о</td><td>п</td>
+    </tr>
+    <tr>
+        <th>F</th><td>р</td><td>с</td><td>т</td><td>у</td><td>ф</td><td>х</td><td>ц</td><td>ч</td><td>ш</td><td>щ</td><td>ъ</td><td>ы</td><td>ь</td><td>э</td><td>ю</td><td>я</td>
+    </tr>
+</table>
+
+<hr>
+
+### Windows1254 (1254C)
+Based on [Windows1254](https://wikipedia.org/wiki/Windows-1254) codepage.
+Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also supports Turkish letters
+<table>
+    <tr>
+        <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+    </tr>
+    <tr>
+        <th>8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Š</td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>š</td><td></td><td></td><td></td><td></td><td>Ÿ</td>
+    </tr>
+    <tr>
+        <th>A</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>B</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>C</th><td></td><td></th><td></th><td></th><td>Ä</th><td></th><td></td><td>Ç</td><td></td><td>É</td><td></td><td>Ë</td><td></td><td>Í</td><td>Î</td><td>Ï</td>
+    </tr>
+    <tr>
+        <th>D</th><td>Ğ</td><td>Ń</td><td>Ň</td><td>Ó</td><td>Ô</td><td>Ő</td><td>Ö</td><td></td><td></td><td>Ù</td><td>Ú</td><td></td><td>Ü</td><td>İ</td><td>Ş</td><td>ß</td>
+    </tr>
+    <tr>
+        <th>E</th><td></td><td>á</td><td>â</td><td></td><td>ä</td><td></td><td></td><td>ç</td><td></td><td>é</td><td></td><td>ë</td><td></td><td>í</td><td>î</td><td>ï</td>
+    </tr>
+    <tr>
+        <th>F</th><td>ğ</td><td>ñ</td><td>ò</td><td>ó</td><td>ô</td><td>ő</td><td>ö</td><td></td><td></td><td>ù</td><td>ú</td><td></td><td>ü</td><td>ı</td><td>ş</td><td>ÿ</td>
+    </tr>
+</table>
+
+<hr>
+
+## Guess that's it
 I hope that you have an understanding of the MM string format now. If you still don't understand it... well, it may be a problem with me trying to explain things like this... You can dig into the code anytime to understand things better or find something that is not documented here. This library will most likely be posted on the Message Board as an Open Asset in the future so everyone can have a look at it.
 
 Happy coding!
