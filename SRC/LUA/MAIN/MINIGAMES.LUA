@@ -220,7 +220,7 @@ addHook("PlayerThink", function(p)
     if (gametype != GT_MURDERMYSTERY) return end
 
     --Player's minigame toggle
-    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
+    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1) and (not p.mmhelp.active))
         if (not p.custom3pressed)
             if (p.minigame)
                 if (not p.minigametimeout)

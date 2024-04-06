@@ -69,8 +69,8 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	--For more details read /SRC/DOCS/MM_String_Format.md
 	["MMHELP_CMD"]={
-		"Use \7Up\0/\7Down\0 arrow keys to scroll, \7Left\0/\7Right\0 keys to switch pages",
-		"Press \7ESC\0 to leave HELP"
+		"Use \7JUMP\0/\7SPIN\0 to scroll, \7Next\0/\7Prev Weapon\0 to switch pages",
+		"Press \7FIRE\0 to leave HELP"
 	},
 	["MMHELP"]={ --MMHELP command
 		{ --MAIN

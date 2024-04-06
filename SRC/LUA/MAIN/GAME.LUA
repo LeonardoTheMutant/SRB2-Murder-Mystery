@@ -271,9 +271,13 @@ addHook("PlayerThink", function(p)
 	p.oldname = p.name
 
 	--disable player movement
-	if ((p.disablemovement) and (p.realmo) and (p.realmo.valid)) then p.powers[25] = 1
-	else p.powers[25] = 0 end
-
+	if ((p.disablemovement) and (p.realmo) and (p.realmo.valid))
+		if (p.spectator)
+			p.realmo.momx = 0
+			p.realmo.momy = 0
+			p.realmo.momz = 0
+		else p.powers[pw_nocontrol] = 2 end
+	end
 end)
 
 --

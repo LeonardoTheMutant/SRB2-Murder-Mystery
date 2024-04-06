@@ -30,11 +30,11 @@ Let's imagine that we're making a Greek translation for Murder Mystery. We use *
     }
     MM.AddLang("GR", greekText)
 
-And now when we kindly ask to print the Delta character (Δ, `\0xC4` in hex, `\192` in decimal) MM will try to load the file by the name of `"1253C192"` and draw this graphic on the screen. Wow, it works now! Amazing isn't it?
+And now when we kindly ask to print the Delta character (Δ, `0xC4` in hex, `\192` in decimal) MM will try to load the file by the name of `"1253C192"` and draw this graphic on the screen. Wow, it works now! Amazing isn't it?
 <br><br>
 In theory, you can create your character encoding standard that no one will understand. The possibilities are endless.
 <br><br>
-But you may wonder now how to color this new text. Characters like `\0x80` or `\0x85` are now reserved for your character encoding. Technically SRB2 never uses characters from `\0x00` to `\0x0F` so we can probably use them as our new color codes. We can and <code>V_DrawStrASCII()</code> uses this range of characters as color codes. This is cool but there are also problems in making a new line in a string now: `\n` or "Carriage return" symbol is in this range and now is used as a color code. This is one of the cons of the MM string format.
+But you may wonder now how to color this new text. Characters like `0x80` or `0x85` are now reserved for your character encoding. Technically SRB2 never uses characters from `0x00` to `0x0F` so we can probably use them as our new color codes. We can and <code>V_DrawStrASCII()</code> uses this range of characters as color codes. This is cool but there are also problems in making a new line in a string now: `\n` or "Carriage return" symbol is in this range and now is used as a color code. This is one of the cons of the MM string format.
 <br><br>
 Let's say you want to use this cool string format with colors but you don't want to rewrite your 50+ Kilobytes text to convert every color code manually. <code>V_ConvertStringColor()</code> exists just for this purpose - it converts SRB2 color codes in your string to MM format and as a return value it returns your modified string. You can do vise-versa with the <code>V_ConvertStringColor2()</code> function which converts MM color codes to vanilla SRB2 ones. Just remember to use MM strings with <code>V_DrawStrASCII()</code> and regular SRB2 strings with <code>v.drawString()</code> because they're not compatible with each other.
 <br><br>

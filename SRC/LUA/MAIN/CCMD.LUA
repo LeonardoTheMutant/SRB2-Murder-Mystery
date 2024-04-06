@@ -155,61 +155,69 @@ local scrnRows = 0
 local scrnColumns = 0
 local realPagelen
 local pagestep
-local buffer = {}
 
 --insert an array of data to the screen buffer
-local function V_InsertToBuffer(array)
+local function V_InsertToBuffer(player, array)
 	for i, line in ipairs(array) do
 		local wordWrapTemp = WordWrapString(line, scrnColumns)
-		for lineWrap = 1, #wordWrapTemp do table.insert(buffer, wordWrapTemp[lineWrap]) end
+		for lineWrap = 1, #wordWrapTemp do table.insert(player.buffer, wordWrapTemp[lineWrap]) end
 	end
 end
 
---addHook("PlayerThink", function(p)
---	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype != GT_MURDERMYSTERY)) return end
---end)
+--input handler & backend
+addHook("PlayerThink", function(p)
+	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype != GT_MURDERMYSTERY)) return end
 
---input handler
-addHook("KeyDown", function(k)
-    --MMHELP UI
-    if ((consoleplayer.mmhelp) and (consoleplayer.mmhelp.active))
-        if (k.num == 27) --ESC leave MMHELP UI
-            consoleplayer.disablemovement = false
-            consoleplayer.mmhelp.active = false
-            return true
-        end
+	p.buffer = {}
 
-        if (k.num == 230) --up
-            consoleplayer.mmhelp.pos = $ - 1
-            if (consoleplayer.mmhelp.pos < 1) consoleplayer.mmhelp.pos = 1 end
-            return true
-        end
+	if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
+		V_InsertToBuffer(p, MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page])
+	end
 
-        if (k.num == 238) --down
-            consoleplayer.mmhelp.pos = $ + 1
-            --hit the end of the page
-            if (consoleplayer.mmhelp.pos + scrnRows > #buffer) then consoleplayer.mmhelp.pos = $ - 1 end
-            return true
-        end
+	if (p.mmhelp.page == 4) then V_InsertToBuffer(p, SEMJ_info) end --Sound Emojis info for Chat page
 
-        if (k.num == 235) --right
-            consoleplayer.mmhelp.page = $ + 1
-            consoleplayer.mmhelp.pos = 1
-            if (consoleplayer.mmhelp.page >= (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) consoleplayer.mmhelp.page = (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1) end
-            return true
-        end
+	if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
+		V_InsertToBuffer(p, tech_info)
+	end
 
-        if (k.num == 233) --left
-            consoleplayer.mmhelp.page = $ - 1
-            consoleplayer.mmhelp.pos = 1
-            if (consoleplayer.mmhelp.page <= 1) consoleplayer.mmhelp.page = 1 end
-            return true
-        end
+	if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
+		p.disablemovement = false
+		p.mmhelp.active = false
+	end
+
+	if (p.cmd.buttons & BT_JUMP) --JUMP, up
+		if (not (p.lastbuttons & BT_JUMP))
+			p.mmhelp.pos = $ - 1
+        	if (p.mmhelp.pos < 1) p.mmhelp.pos = 1 end
+		end
+    end
+
+	if (p.cmd.buttons & BT_SPIN) --SPIN, down
+		if (not (p.lastbuttons & BT_SPIN))
+        	p.mmhelp.pos = $ + 1
+        	--hit the end of the page
+        	if (p.mmhelp.pos + scrnRows > (#p.buffer + 1)) then p.mmhelp.pos = $ - 1 end
+		end
+    end
+
+    if (p.cmd.buttons & BT_WEAPONNEXT) --Next weapon, right
+		if (not (p.lastbuttons & BT_WEAPONNEXT))
+        	p.mmhelp.page = $ + 1
+        	p.mmhelp.pos = 1
+        	if (p.mmhelp.page >= (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) p.mmhelp.page = (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1) end
+		end
+    end
+
+    if (p.cmd.buttons & BT_WEAPONPREV) --Prev weapon, left
+		if (not (p.lastbuttons & BT_WEAPONPREV))
+        	p.mmhelp.page = $ - 1
+        	p.mmhelp.pos = 1
+        	if (p.mmhelp.page <= 1) p.mmhelp.page = 1 end
+		end
     end
 end)
 
-
---renderer
+--renderer, frontend
 hud.add(function(v, p)
 	if (p.mmhelp) and (p.mmhelp.active) and (gametype == GT_MURDERMYSTERY)
 		--init everything
@@ -217,24 +225,13 @@ hud.add(function(v, p)
 		local cy = 0
 		scrnColumns = ((v.width()/v.dupx())>>3) - 2
 		scrnRows = ((v.height()/v.dupy())>>3) - 2
-		buffer = {}
 		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 		local color = v.getStringColormap(0) --default to white color
 		local chr, strchar, stringToRender, wordWrapTemp
 
-		if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
-			V_InsertToBuffer(MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page])
-		end
-
-		if (p.mmhelp.page == 4) then V_InsertToBuffer(SEMJ_info) end --Sound Emojis info for Chat page
-
-		if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
-			V_InsertToBuffer(tech_info)
-		end
-
 		--draw the data from the screen buffer
-		for lineID = p.mmhelp.pos, #buffer do
-			stringToRender = buffer[lineID]
+		for lineID = p.mmhelp.pos, #p.buffer do
+			stringToRender = p.buffer[lineID]
 
 			--draw the line character-by-character
 			for charID = 1, stringToRender:len() do
@@ -267,17 +264,16 @@ hud.add(function(v, p)
 			if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
 		end
 		--scroll bar
-		--not quite finished
+		--quite unfinished
 		v.drawFill(312, 0, 8, 200, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
-		if ((#buffer - scrnColumns) <= 0) realPagelen = scrnColumns
-		else realPagelen = #buffer - scrnColumns end
-		pagestep = #buffer/scrnColumns
+		if ((#p.buffer - scrnColumns) <= 0) realPagelen = scrnColumns
+		else realPagelen = #p.buffer - scrnColumns end
+		pagestep = #p.buffer/scrnColumns
 		v.drawFill(312, ((p.mmhelp.pos - 1)*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
 
 		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
 		V_DrawStrASCII(v, 0, 192, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][1], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
 		V_DrawStrASCII(v, 0, 196, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][2], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-		v.drawString(144, 192, "\x81Work in progress UI", V_SNAPTOBOTTOM|V_SNAPTORIGHT)
 	end
 end, "game")

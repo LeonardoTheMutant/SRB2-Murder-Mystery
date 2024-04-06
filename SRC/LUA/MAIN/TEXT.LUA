@@ -14,8 +14,8 @@ MM.text={
 		--Color codes in "MM string format" are ranged from 0 to 15 (ASCII) and do not support translucency
 		--For more details read /SRC/DOCS/MM_String_Format.md
 		["MMHELP_CMD"]={
-			"Use \7Up\0/\7Down\0 arrow keys to scroll, \7Left\0/\7Right\0 keys to switch pages",
-			"Press \7ESC\0 to leave HELP"
+			"Use \7JUMP\0/\7SPIN\0 to scroll, \7Next\0/\7Prev Weapon\0 to switch pages",
+			"Press \7FIRE\0 to leave HELP"
 		},
 		["MMHELP"]={ --MMHELP command
 			{ --MAIN
@@ -508,7 +508,7 @@ MM.text={
 		["CHARSET"]="1250C",
 		["MM"]="Tajemnica Morderstw",
 		["MMHELP_CMD"]={
-			"Dla scrollingu wci\x9Cnij klawisz\xEA \7G\xF3ra\0/\7D\xF3l\0, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \7Lewo\0/\7Prawo\0",
+			"Dla scrollingu wci\x9Cnij klawisz\xEA \7JUMP\0/\7SPIN\0, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \7Nast.\0/\7Poprz. bro\xF1\0",
 			"\7ESC\0 - wyj\x9C\xE6 z menu pomocy"
 		},
 		["MMHELP"]={
@@ -1151,168 +1151,4 @@ MM.text={
 			"\3\xD6\xC8\xC2\xB2\xCB\xDC\xCD\xB2" --CYWIL'NI
 		}
 	},
-	--Russian, hard to convert to Latin letters
-	/*
-	["RU"]={
-		["VERSION"]="8.2-BETA",
-		["AUTHOR"]="LeonardoTheMutant",
-		["CHARSET"]="1251C",
-		["NONASCII"]=true,
-		["MM"]="\xD2\xE0\xE9\xED\xE0 \xF3\xE1\xE8\xE9\xF1\xF2\xE2\xE0", --Tajna ubijstwa
-		["MMHELP_CMD"]={
-			["CONTENTS"]={ --Table of Contents
-				"\x8ASoderzhanie:",
-				"\x87MMHELP GAME\x80 - Pro gameplay i igrowyje situacyji;",
-				"\x87MMHELP BAD\x80  - Spisok plohih weshej w TU;",
-				"\x87MMHELP CHAT\x80 - Spisok Zwykowyh Emoji i kak imi pol'zowatsa;",
-				"\x87MMHELP INFO\x80 - Tehnicheskaja informacja i \"Chto nowogo\";",
-				"\n\x87MMLANG\x80      - Izmenit' jazyk contenta w TU"
-			},
-			["NOTFOUND"]={ --"page not found"
-				"Stranica",
-				"nie sushestwujet. Pozhalujsta oznakomtes' s soderzhaniem:"
-			}
-		},
-		["MMHELP"]={ --MMHELP command
-			["MAIN"]={ --When no page specified
-				"\x87        Dobro pozhalowat' w Tajnu Ubijstwa!\nSRB2 interpretacyja popularnoj multiplejernoj igry!",
-				"\nThe game's goal is to find and eliminate all the \x85Murderers\x80 before they kill\x83 everyone else\x80. This gametype is more like MATCH so you'll your need your aiming and shooting skills for this game.",
-				"You'll need to learn some basics first before you start playing....",
-				"\nAt the beginning of each round you will recieve a \x8BRole\x80 that defines what your task is during the game. Here are all 3 possible \x8BRoles\x80 you might get:",
-				" * \x85Murderer\x80 - A True Criminal. They have to kill everyone, but they're not allowed to pick up any weapon rings.",
-				" * \x84Sheriff\x80  - Their task is to find and eliminate the \x85Murderer(s)\x80. Sheriffs may use every Weapon Ring available on the map;",
-				" * \x83Innocent\x80 - Completely armless civilian, they must avoid being killed but also can help to find the \x85Murderer\x80.",
-				"\nThat's all basic information required to start playing, for more information, you can use these commands:"
-			},["GAME"]={
-				"\x87".."About the gameplay situations",
-				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \x85Murderer(s)\x80, but different gameplay situations may occur:",
-				"\n* If you get killed, you'll enter the \x8F Dead\x80 state. Players with this state cannot respawn or talk globaly to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
-				"You can't \x87talk to\x80/PM players who are still alive while you're\x8F Dead\x80.",
-				"Also\x82 DO NOT TRY TO RENAME YOURSELF\x80, more details on this is in \x87MMHELP BAD\x80.",
-				"\n* The \x84Sheriff's\x80 task is to eliminate all the \x85Murderers\x80 around, but it is possible for them to shoot an \x83Innocent\x80 on accident.",
-				"If this occurs, the \x84Sheriff\x80 will turn into an \x83Innocent\x80 and a random \x83Innocent\x80 will sliently take his role. Next time you want to shoot somebody as a \x84Sheriff\x80 think twice before pulling that trigger!",
-				"\n* When a \x85Murderer\x80 kills a \x84Sheriff\x80 and there are still \x83Innocents\x80 alive, the Sheriff will drop the \x84Sheriff's Emerald\x80 near their corpse.",
-				"Unlike the 7 Chaos Emeralds, this emerald will assign the \x82Hero\x80 role to any \x83Innocent\x80 that picks it up. If you're one of the \x83Innocents\x80, it's your chance to be a Hero and save everyone from the \x85Murderer(s)\x80!",
-				"The \x82Hero\x80 role doesn't really differ from the \x84Sheriff\x80 except some details such as when the \x82Hero\x80 kills an \x83Innocent\x80 their role isn't shared and both just die. A Hero will not drop a \x84Sheriff's Emerald\x80 on their death.",
-				"\n* Depending on the player count, there can be more than one \x85Murderer\x80 and \x84Sheriff\x80 amongst the players in the round. For example, starting from 7 players and more, \x8BTeams\x80 of \x85Murderers\x80 and \x84Sheriffs\x80 will be formed.",
-				"\x8BTeammates\x80 can chat with each other in their team chat with the \x87SAYTEAM\x80 console command (note that SAYTEAM chat button will work as same as regular chat).",
-				"If one \x8Bteammate\x80 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
-			},["BAD"]={
-				"\x87Things that are bad to do in Murder Mystery",
-				"Rule No.1 of any game:\x82 Be kind and have fun!\x80 Other than this...",
-				"* Self-spoiling of the \x8BRole\x80 will not make the game a \'Mystery\', you can tell some else's role if you are sure of it, but never tell your own.",
-				"* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you will accuse every player for no reason.",
-				"* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
-				"* Do not rename yourself during a round. The game will close your SRB2 window. This made to prevent cheating. Just wait for the intermission to rename safely.",
-				"Breaking one of these rules may result in a kick or in some cases, a ban from the Admin! Please do not break them and play fairly."
-			},["CHAT"]={
-				"\x87How to use Sound Emojis",
-				"When a player sends a message that contains specific words/phrases, a sound will be played.",
-				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
-				"Here is the full list of the Sound Emojis and how to activate each of them:\n"
-			},["TIPS"]={
-				"\x87Useful tips",
-				"We've collected some tips that can help you during your game in MM",
-				"\n* If character abilities are disabled, press \x82SPIN\x80 to sneak around stealthily without leaving traces or making noise;",
-				"\n* When you pick up the \x84Sherrif's Emerald\x80, you will have access to all the weapons and rings you collected beforehand;",
-				"\n* Finding out who your\8B teammate\x80 is by using the \x87SAYTEAM\x80 command would help as it would make you avoid shooting them and accidently making you reveal your role;",
-				"\n* You can get hurt by obstacles like lava, spikes and fire to gain invincibility for 3 seconds;",
-				"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
-				"\n* If your role gets leaked, you can rename yourself and change skincolor. \x81Keep in mind your rename will be shown in chat."
-			}
-		},["ROLE_GET"]={
-			"Ty \x85Ubijca\x80! \x85Ubej wseh!",
-			"Ty \x84Sherif\x80!\x84 Nejtralizuj wseh Ubijc\x80. Jesli ub'jesh Niewinnogo ty pot'eriajesh rol'.",
-			"Ty \x83Newinnyj(a)\x80! Spiachsia i pomogi s rasledowaniem."
-		},["NEWROLE_GET"]={
-			"\x87Zhyzn' reshyla sdelat' tebia \x85Ubijcej\x87.\x85 Teper' idi i ubej wseh!",
-			"\x87Wselennaja sdelala tebia \x84Sherifom\x87! Idi i\x84 nejtraliziruj wseh Ubijc\x87!",
-			"\x87".."Bylo resheno chto ty snanesh \x82Gerojem\x87. Spasi wseh ot ubijc!"
-		},["TEAMMATE_HIT"]={
-			"Nie wredi swoim naparnikam(cam). Ty nie hochesh choby oni mstili tebe.",
-			"Naparnik(ca) zacepil(a) tebia. Nie planiruj mesti w storonu etogo igroka."
-		},["MURD_KILLED"]={
-			"\x85Ubijca\x87",
-			"\x80nejtralizirowan(a)!"
-		},["SHERI_KILLED"]={
-			"\x84Sherif\x87",
-			"\x80ubit(a)! Najdite\x84 Izumrud\x80!",
-			"\x80ubit(a)!"
-		},["HERO_KILLED"]={
-			"\x82Geroj\x87",
-			"\x80ubit(a)!"
-		},["SHREML_PICK"]="Kto-to podnial \x84Izumrud Sherifa\x80...",
-		["INNO_HURT_PM"]={
-			"\x87Ty ubil(a) \x83Niewinnogo\x87! Tebia uwoleno. (Ty bol'she nie Sherif)",
-			"\x82Geroji\x87 nie dolzhny ubiwat' \x83Niewinnych\x87. Ty poluchil(a) smertel'noje nakazanie za twoj postupok."
-		},["INNO_HURT"]={
-			"\x84Sherif\x80 ubil(a) \x83Niewinnogo\x80! Kto-to dolzhen zakon'chit' robotu Sherifa!",
-			"\x82Geroj\x80 idiot, on(a) ubil(a) \x83Niewinnogo\x80. Teper' oba mertwy. Pozor na takogo\x82 Idiota\x80"
-		},["ONE_LEFT"]={
-			"Odin iz igrokow s rol'ju \x85Ubijca\x80 pokinul(a) igru!",
-			"Odin iz igrokow s rol'ju \x84Sherif\x80 pokinul(a) igru!!!",
-			"Odin iz igrokow s rol'ju \x82Geroj\x80 pokinul(a) nas!"
-		},["LAST_LEFT"]={
-			"Poslednij igrok s rol'ju \x85Ubijca\x80 pokinul(a) igru!",
-			"Poslednij igrok s rol'ju \x84Sherif\x80 pokinul(a) igru!",
-			"Poslednij igrok s rol'ju \x82Geroj\x80 pokinul(a)!"
-		},["REPLACE_LEFT"]={
-			"\x85Ubijca\x80 pokinul(a) igru! Kto-to iz \x83Niewinnyh\x80 woz'met etu rol'!",
-			"\x84Sherif\x80 pokinul(a)! Kto-to iz \x83Niewinnyh\x80 woz'met etu rol'!",
-			"\x82Geroj\x80 pokinul! Kto-to iz \x83Niewinnyh\x80 woz'met etu rol'!!"
-		},["ENDROUND"]={
-			"Wse mertwy. \x85Ubijcy\x80 wyigrali!",
-			"Wse \x85Ubijcy\x80 byli nejtralizirowany!\x83 Cywil'nyje\x80 wyigrali!",
-			"\x85Ubijcy\x80 wyigrali potomuchto \x84Sherif\x80 ubil(a) poslednego Newinnogo! Styd \x84Sherifu\x80",
-			"\x82Geroj\x80 wybral temnuju storonu i ubil poslednego Newinnogo. \x85Ubijcy\x80 wyigrali!",
-			"Wse zashitniki\x83 Newinnych\x80 pogibli. \x85Ubijcy\x80 wyigrali!"
-		},["HUD_ROLES"]={
-			"\xD3\xC1\xC8\xC9\xD6\xC0", --UBIJCA
-			"\xD8\xC5\xD0\xC8\xD4", --SHERIF
-			"\xCD\xC5\xC2\xC8\xCD\xCD\xDB\xC9", --NIEWINNYJ
-			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
-			"\xCC\xC5\xD0\xD2\xC2(\xE0)" --MERTW(A)
-		},["HUD_ROLES_SHORT"]={
-			"\xD3\xC1.", --UB
-			"\xD8\xC5\xD0.", --SHER
-			"\xCD\xC5\xC2.", --NEW
-			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
-			"\xCC\xC5\xD0\xD2\xC2(\xE0)" --MERTW(A)
-		},
-		["HUD_KILLBY"]="\xD3\xE1\xE8\xF2(\xE0)",
-		["HUD_STUPID"]="\xF2\xE2\xEE\xE8\xEC \xE8\xE4\xE8\xEE\xF2\xE8\xE7\xEC\xEE\xEC",
-		["HUD_SCORESTAB"]={
-			"\xCE\xF7\xEA\xEE\xE2 \xF2\xF3\xF2 \xED\xE5\xF2\x21 \xC2\xEC\xE5\xF1\xF2\xEE \xFD\xF2\xEE\xE3\xEE \xF2\xF3\xF2 \xE5\xF1\xF2\xFC \xF1\xF7\xB8\xF2\xF7\xE8\xEA\xE8",
-			"",
-			"\xC5\xF1\xEB\xE8 \xF2\xFB \xED\xEE\xE2\xE8\xF7\xEE\xEA \xE2 \xFD\xF2\xEE\xE9 \xE8\xE3\xF0\xE5 \xE2\xEE\xF1\xEF\xEE\xEB\xFC\xE7\xF3\xE9\xF1\xFF \xEA\xEE\xEC\xEC\xE0\xED\xE4\xEE\xE9",
-			"\7MMHELP\0 \xE2 \xEA\xEE\xED\xF1\xEE\xEB\xE8",
-			"",
-			"\2\xD3\xE4\xE0\xF7\xE8!"
-		},["HUD_ROLESALIVE"]={
-			"\xD3\xE1\xE8\xE9\xF6 \xE2 \xE6\xFB\xE2\xFB\xF5:",
-			"\xD8\xE5\xF0\xE8\xF4\xEE\xE2 \xE2 \xE6\xFB\xE2\xFB\xF5:",
-			"\xCD\xE5\xE2\xE8\xED\xED\xFB\xF5 \xE2 \xE6\xFB\xE2\xFB\xF5:"
-		},["HUD_DEAD"]={
-			"\xC2\xFB \15\xEC\xE5\xF0\xF2\xE2\xFB",
-			"\xC2\xFB \xED\xE5 \xEC\xEE\xE6\xE5\xF2\xE5 \xE2\xEE\xE7\xF0\xEE\xE6\xE4\xE0\xF2\xF1\xFF \xE8\xEB\xE8",
-			"\xE3\xEE\xE2\xEE\xF0\xE8\xF2\xFC \xEA \xE6\xFB\xE2\xFB\xEC \xE8\xE3\xF0\xEE\xEA\xE0\xEC"
-		},["HUD_MIDJOIN"]={
-			"\xC2\xFB \xEF\xF0\xE8\xF1\xEE\xE5\xE4\xE8\xED\xE8\xEB\xE8\xF1\xFC \4\xE2 \xF1\xE5\xF0\xE5\xE4\xE8\xED\xE5 \xF0\xE0\xF3\xED\xE4\xE0\0, \xEF\xEE\xE6\xE0\xEB\xF3\xE9\xF1\xF2\xE0 \xEF\xEE\xE4\xEE\xE6\xE4\xE8\xF2\xE5 \xE5\xE3\xEE \xEE\xEA\xEE\xED\xF7\xE0\xED\xE8\xFF"
-		},["HUD_ALONE"]={
-			"\xC4\xEB\xFF \xED\xE0\xF7\xE0\xEB\xE0 \xE8\xE3\xF0\xFB \xF2\xF0\xE5\xE1\xF3\xE5\xF2\xF1\xFF\4 2-\xE5 \xE8\xE3\xF0\xEE\xEA\xEE\xE2\0,",
-			"\xEF\xEE\xE6\xE0\xEB\xF3\xE9\xF1\xF2\xE0 \xEF\xEE\xE4\xEE\xE6\xE4\xE8\xF2\xE5 \xED\xE0 \4\xE5\xF9\xE5 \xEE\xE4\xED\xEE\xE3\xEE"
-		},["HUD_YOU"]="\xD2\xDB",
-		["HUD_WINNERS"]="\xC2\xFB\xE8\xE3\xF0\xE0\xEB\xE8:",
-		["HUD_WON"]="\xE2\xFB\xE8\xE3\xF0\xE0\xEB(\xE0)!",
-		["HUD_WINS"]="\xCF\xEE\xE1\xE5\xE4",
-		["HUD_WIN"]={
-			"\xC2\xFB\xE8\xE3\xF0\xE0\xEB!",
-			"\5\xD3\xC1\xC8\xC9\xD6\xDB",
-			"\3\xD6\xDB\xC2\xC8\xCB\xDC\xCD\xDB\xC5"
-		},["MMLANG"]={
-			"Wash tekushij personal'nyj jazyk w ispol'zowanii eto \x82 Russkij\x80\nWy mozhete pomieniat' jeog z pomoshiu kommandy \x87MMLANG [language]",
-			"Personal'nyj jazyk dla Tajny Ubijstwa izmenen na\x82 Russkij"
-		}
-	}
-	*/
 }
