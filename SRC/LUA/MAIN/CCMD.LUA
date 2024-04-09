@@ -49,28 +49,6 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
 	end
-	local l = p.mmlang or "EN"
-
-	--MMHELP GUI
-	if (not isdedicatedserver)
-		--first time init
-		if (not p.mmhelp) p.mmhelp = {page = 1, pos = 1} end
-
-		--load HELP page
-		if (page)
-			if (MM.text[p.mmlang]["MMHELP"][page])
-				p.mmhelp.page = page
-				p.mmhelp.pos = 1
-			else p.mmhelp.page = 1 end
-		end
-
-		--enable the UI for non-admins
-		if (not IsPlayerAdmin(p) or (p != server))
-			p.UIbackground = 0
-			p.disablemovement = true
-			p.mmhelp.active = true
-		end
-	end
 
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
@@ -88,6 +66,20 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
 	end
+
+	if (isdedicatedserver) return end
+
+	--MMHELP GUI
+	--load HELP page
+	if (page)
+		if (MM.text[p.mmlang]["MMHELP"][page])
+			p.mmhelp.page = page
+			p.mmhelp.pos = 1
+		else p.mmhelp.page = 1 end
+	end
+
+	--enable the UI
+	p.mmhelp.active = true
 end
 
 local function MMlang(p, l) --player, lang
@@ -168,6 +160,8 @@ end
 addHook("PlayerThink", function(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype != GT_MURDERMYSTERY)) return end
 
+	--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
+
 	p.buffer = {}
 
 	if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
@@ -181,7 +175,6 @@ addHook("PlayerThink", function(p)
 	end
 
 	if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
-		p.disablemovement = false
 		p.mmhelp.active = false
 	end
 

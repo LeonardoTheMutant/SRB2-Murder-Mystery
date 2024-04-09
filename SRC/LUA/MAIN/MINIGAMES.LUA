@@ -135,9 +135,9 @@ local function SONIC_Thinker(p)
             S_StartSound(nil, sfx_cdfm02, p)
         elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --BACKWARD/SPIN (spin)
             p.SonicRun.state = 2
-            if (not p.SonicRun.SpinSound) S_StartSound(nil, sfx_spin, p) end
-            p.SonicRun.SpinSound = 1
-        else p.SonicRun.SpinSound = 0 end
+            if (not p.SonicRun.spinsound) S_StartSound(nil, sfx_spin, p) end
+			p.SonicRun.spinsound = 1
+        else p.SonicRun.spinsound = 0 end
     else p.SonicRun.velocity = $ - 1 end
 
     --adjust Sonic's hitbox
@@ -220,13 +220,11 @@ addHook("PlayerThink", function(p)
     if (gametype != GT_MURDERMYSTERY) return end
 
     --Player's minigame toggle
-    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1) and (not p.mmhelp.active))
+    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
+		if ((p.mmhelp) and (p.mmhelp.active)) return end
         if (not p.custom3pressed)
             if (p.minigame)
-                if (not p.minigametimeout)
-                    p.minigame = 0
-                    p.disablemovement = false
-                end
+                if (not p.minigametimeout) p.minigame = 0 end
             else
                 p.minigame = 1
                 p.minigametimeout = 105
@@ -258,7 +256,7 @@ addHook("PlayerThink", function(p)
                 elseif (p.SonicRun.timeout == TICRATE) S_StartSound(nil, sfx_s3kad, p) end
             end
             if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end
-            p.disablemovement = true
+			p.powers[pw_nocontrol] = 1
         end
     end
 end)

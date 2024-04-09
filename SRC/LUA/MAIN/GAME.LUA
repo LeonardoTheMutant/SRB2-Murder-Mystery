@@ -59,6 +59,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.chatdelay) p.chatdelay = 0 end --Chat spam protection
 	if (not p.kills) p.kills = 0 end --Kill counter
 	if (not p.afk) p.afk = 0 end --Anti-AFK
+	if (not p.mmhelp) p.mmhelp = {page = 1, pos = 1, active = false} end --MMHELP UI init
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
 	p.sneak = false
@@ -269,15 +270,6 @@ addHook("PlayerThink", function(p)
 		return
 	end
 	p.oldname = p.name
-
-	--disable player movement
-	if ((p.disablemovement) and (p.realmo) and (p.realmo.valid))
-		if (p.spectator)
-			p.realmo.momx = 0
-			p.realmo.momy = 0
-			p.realmo.momz = 0
-		else p.powers[pw_nocontrol] = 2 end
-	end
 end)
 
 --
