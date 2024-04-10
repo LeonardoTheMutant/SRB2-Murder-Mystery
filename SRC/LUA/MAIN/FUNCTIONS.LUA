@@ -6,8 +6,8 @@
 --
 --CONSTANTS
 --
-local mmtxt=MM.text
-local dthsfx={sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+local dthsfx = {sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+local shwdwn_music = {"S2MSBS", "S2GGBS", "DRRMBM"}
 
 --
 --GAME.LUA
@@ -53,7 +53,7 @@ rawset(_G, "MM_AssignRoles", function()
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
-		chatprintf(p, mmtxt[p.mmlang]["ROLE_GET"][p.role])
+		chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
 	if (MM.devbuild)
@@ -67,15 +67,15 @@ end)
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
 rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
-		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED")) chatprintf(p, mmtxt[p.mmlang][msg][1].." "..var.." "..mmtxt[p.mmlang][msg][2])
-		elseif (msg == "SHERI_KILLED_NODROP") chatprintf(p, mmtxt[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..mmtxt[p.mmlang]["SHERI_KILLED"][3])
+		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED")) chatprintf(p, MM.text[p.mmlang][msg][1].." "..var.." "..MM.text[p.mmlang][msg][2])
+		elseif (msg == "SHERI_KILLED_NODROP") chatprintf(p, MM.text[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..MM.text[p.mmlang]["SHERI_KILLED"][3])
 		elseif ((msg == "LAST_LEFT") or (msg=="ONE_LEFT") or (msg=="REPLACE_LEFT"))
-			if (var != ROLE_HERO) chatprintf(p, mmtxt[p.mmlang][msg][var]) --for Murd and Sheri
-			else chatprintf(p, mmtxt[p.mmlang][msg][3]) end --for Hero
-		elseif (msg == "WIN") chatprintf(p, mmtxt[p.mmlang]["ENDROUND"][var])
-		elseif (msg == "INNO_HURT") chatprintf(p, mmtxt[p.mmlang]["INNO_HURT"][var])
+			if (var != ROLE_HERO) chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
+			else chatprintf(p, MM.text[p.mmlang][msg][3]) end --for Hero
+		elseif (msg == "WIN") chatprintf(p, MM.text[p.mmlang]["ENDROUND"][var])
+		elseif (msg == "INNO_HURT") chatprintf(p, MM.text[p.mmlang]["INNO_HURT"][var])
 		elseif msg
-			if (mmtxt[p.mmlang][msg]) chatprintf(p, mmtxt[p.mmlang][msg])
+			if (MM.text[p.mmlang][msg]) chatprintf(p, MM.text[p.mmlang][msg])
 			else chatprintf(p, msg.."; "..var) end --no text exists in the database
 		end
 	end
@@ -126,14 +126,14 @@ rawset(_G, "MM_EndRound", function(w, endtext, reason)
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	for p in players.iterate p.spectator=false end
 	if isdedicatedserver --console log for dedicated host
-		if (endtext=="WIN") CONS_Printf(server, "- "..mmtxt["EN"]["ENDROUND"][reason])
-		else CONS_Printf(server, "- "..mmtxt["EN"][endtext][reason]) end
+		if (endtext=="WIN") CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
+		else CONS_Printf(server, "- "..MM.text["EN"][endtext][reason]) end
 	end
 end)
 
 rawset(_G, "MM_CheckPlayers", function()
 	if (PlayerCount(ROLE_MURDERER)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)) MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
-	elseif (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) S_ChangeMusic("SHWDWN", 1) end
+	elseif (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) S_ChangeMusic(shwdwn_music[P_RandomKey(#shwdwn_music) + 1], 1) end
 end)
 
 rawset(_G, "MM_SetRandomInnoAs", function(role)
