@@ -70,15 +70,19 @@ local function MM_DoKnife(p)
     if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
 end
 
---I recreated all vanilla ring weapons to make red rings have higher weapon delay :skull:
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_MURDERMYSTERY) return end
-    if (p.mmweapondelay) then p.mmweapondelay = $ - 1 end
+
+    if (p.mmweapondelay) p.mmweapondelay = $ - 1 end
     if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL))
         p.pflags = $ & ~PF_ATTACKDOWN
         return
     end
-    if ((p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay) or (not p.role) or (p.role == ROLE_INNOCENT) or ((MM.minigame) and (p.minigame)) or (p.playerstate == PST_DEAD) or (p.spectator)) return end
+
+    if ((p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
+		or (not p.role) or (p.role == ROLE_INNOCENT) or ((MM.minigame) and (p.minigame))
+		or (p.playerstate == PST_DEAD) or (p.spectator))
+	then return end
 
     p.pflags = $|PF_ATTACKDOWN
     local mo

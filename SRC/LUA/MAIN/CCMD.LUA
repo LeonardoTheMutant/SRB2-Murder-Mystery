@@ -145,8 +145,8 @@ COM_AddCommand("mmlang", MMlang, COM_LOCAL)
 --
 local scrnRows = 0
 local scrnColumns = 0
-local realPagelen
-local pagestep
+--local realPagelen
+--local pagestep
 
 --insert an array of data to the screen buffer
 local function V_InsertToBuffer(player, array)
@@ -156,7 +156,9 @@ local function V_InsertToBuffer(player, array)
 	end
 end
 
---input handler & backend
+--input handler
+--I was unable to lock player controls here because clients would desynchronise each time they press something
+--Enjoy what you already have
 addHook("PlayerThink", function(p)
 	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype != GT_MURDERMYSTERY)) return end
 
@@ -175,7 +177,9 @@ addHook("PlayerThink", function(p)
 	end
 
 	if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
+		p.pflags = $|PF_ATTACKDOWN --this does not help
 		p.mmhelp.active = false
+		return --this also doesn't
 	end
 
 	if (p.cmd.buttons & BT_JUMP) --JUMP, up
@@ -216,7 +220,7 @@ hud.add(function(v, p)
 		--init everything
 		local cx = 0
 		local cy = 0
-		scrnColumns = ((v.width()/v.dupx())>>3) - 2
+		scrnColumns = ((v.width()/v.dupx())>>3)-- - 2
 		scrnRows = ((v.height()/v.dupy())>>3) - 2
 		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 		local color = v.getStringColormap(0) --default to white color
@@ -256,13 +260,16 @@ hud.add(function(v, p)
 			cy = $ + 1
 			if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
 		end
+
 		--scroll bar
 		--quite unfinished
-		v.drawFill(312, 0, 8, 200, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
-		if ((#p.buffer - scrnColumns) <= 0) realPagelen = scrnColumns
-		else realPagelen = #p.buffer - scrnColumns end
-		pagestep = #p.buffer/scrnColumns
-		v.drawFill(312, ((p.mmhelp.pos - 1)*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
+
+		--v.drawFill(312, 0, 8, 200, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
+		--if ((#p.buffer - scrnColumns) <= 0) realPagelen = scrnColumns
+		--else realPagelen = #p.buffer - scrnColumns end
+
+		--pagestep = #p.buffer/scrnColumns
+		--v.drawFill(312, ((p.mmhelp.pos - 1)*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
 
 		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
