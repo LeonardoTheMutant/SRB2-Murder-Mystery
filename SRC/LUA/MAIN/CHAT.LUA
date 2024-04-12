@@ -28,7 +28,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	local delaytimer = CV_FindVar("mmspam").value*TICRATE
 	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
-		CONS_Printf(s, MM.SysMsg[2])
+		CONS_Printf(s, "You are sending too many messages, please wait")
 		return true
 	end
 
@@ -40,7 +40,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			if (t.spectator)
 				chatprintf(t, "\x86[PM]{"..s.name.."} "..m)
 				chatprintf(s, "\x86[TO]{"..t.name.."} "..m)
-			else CONS_Printf(s, t.name.." "..MM.SysMsg[1]) end
+			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
 		end
 		return true
 	else
@@ -60,7 +60,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			local mu = m:upper()
 
 			if (mu:find("HEHE"))
-				if (mu:find("HA")) MM_ChatPlaySFX(sfx_emj11)
+				if (mu:find("HA") and not mu:find("WHA")) MM_ChatPlaySFX(sfx_emj11)
 				elseif (mu:find("BOI")) MM_ChatPlaySFX(sfx_emj12)
 				else MM_ChatPlaySFX(sfx_emj01) end
 			end
@@ -72,7 +72,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif (mu:find("WOW")) MM_ChatPlaySFX(sfx_emj06)
 			elseif (mu:find("AMONG US") or m:upper():find("AMONGUS")) MM_ChatPlaySFX(sfx_emj07)
 			elseif (mu == "OH NO") MM_ChatPlaySFX(sfx_emj08)
-			elseif (mu:find("SUS")) MM_ChatPlaySFX(sfx_emj09)
+			elseif (mu:find("SUS") and not mu:find("JESUS")) MM_ChatPlaySFX(sfx_emj09)
 			elseif (mu:find("AGHH") or m:upper():find("AHH")) MM_ChatPlaySFX(sfx_emj0a)
 			elseif (mu == "AHA") MM_ChatPlaySFX(sfx_emj0b)
 			elseif (mu:find("NO WAY")) MM_ChatPlaySFX(sfx_emj0c)
@@ -87,6 +87,8 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif (mu:find("BOUT") and mu:find("BLOW")) MM_ChatPlaySFX(sfx_emj15)
 			elseif (mu == "HAH" or m:upper() == "HAH!") MM_ChatPlaySFX(sfx_emj17)
 			elseif (mu:find("HELLO THERE")) MM_ChatPlaySFX(sfx_emj19)
+			elseif (mu == "GOOD" or mu == "GUD") MM_ChatPlaySFX(sfx_emj1a)
+			elseif (mu:find("WHAT") and (mu:find("THE") or mu:find("DA")) and mu:find("HELL")) MM_ChatPlaySFX(sfx_emj1b)
 
 			--First, this is a bad word to use, Second, it's fun to look at the execution of this code
 			--I believe this should be in NOCHEAT.LUA instead

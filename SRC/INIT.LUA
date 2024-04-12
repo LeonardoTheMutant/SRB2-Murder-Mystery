@@ -6,11 +6,7 @@ rawset(_G, "MM", {
 	version = "10.1-BETA", --string, VERSION NUMBER
 	devbuild = true, --boolean, if set to true it enables debug functionality in MM
 	releasedate = "not released yet", --string, meant to contain the day of release
-	SysMsg={ --internal console messages
-		"is alive, message not sent",
-		"You're sending too many messages, please wait",
-		"You can't just\x8F die\x80 to spectate!"
-	},CharStats = {
+	CharStats = {
 		default = {
 			ability = CA_NONE,
 			ability2 = CA_NONE,
@@ -19,13 +15,15 @@ rawset(_G, "MM", {
 			mindash = 196608, --3*FU
 			maxdash = 1966080 --30*FU
 		}
-	},RoleColor = {
+	},
+	RoleColor = {
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
 		"\x8F" --Dead
-	},RoleColorHUD = {
+	},
+	RoleColorHUD = {
 		"\5", --Murderer
 		"\4", --Sheriff
 		"\3", --Innocent
@@ -111,8 +109,10 @@ print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
 freeslot('TOL_MM', 'MT_SHREML', 'SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_DAMFLL', 'MT_MMKNIFE')
+--Freeslot emoji sounds
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19', 'sfx_emj1a', 'sfx_emj1b')
+
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -185,6 +185,8 @@ sfxinfo[sfx_emj16].caption="NO!"
 sfxinfo[sfx_emj17].caption="HAH!"
 sfxinfo[sfx_emj18].caption="SIREN"
 sfxinfo[sfx_emj19].caption="Hello there"
+sfxinfo[sfx_emj1a].caption="Good"
+sfxinfo[sfx_emj1b].caption="WHAT THE HELL"
 
 --Script files init
 dofile("MAIN/TEXT.LUA")

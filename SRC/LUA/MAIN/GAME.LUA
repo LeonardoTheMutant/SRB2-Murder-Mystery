@@ -81,7 +81,7 @@ end)
 addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
 	if (gametype == GT_MURDERMYSTERY)
 		if (not p.spectator) --Alive -> Spectator
-			CONS_Printf(p, MM.SysMsg[3])
+			CONS_Printf(p, "You cannot just\x8F die\x80 to spectate!")
 		end
 		return false
 	else return true end

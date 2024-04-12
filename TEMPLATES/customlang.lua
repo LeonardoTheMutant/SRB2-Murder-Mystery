@@ -79,10 +79,10 @@ local language={ --Language must be a table variable, you can name the variable 
 			"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 			"You need to learn some basics first before you can start playing...",
 			"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
-			" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings",
+			" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings;",
 			" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
 			" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
-			"\nThat is all basic information required to start playing, for more information, read this manual to the end"
+			"\nThat is all basic information required to start playing, for more information, read this manual to the end."
 		},
 		--GAME
 		{
@@ -114,8 +114,8 @@ local language={ --Language must be a table variable, you can name the variable 
 		{
 			"\7How to use Sound Emojis\0\n",
 			"When a player sends a message that contains specific words/phrases, a sound will be played.",
-			"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
-			"Here is the full list of the Sound Emojis and how to activate each of them:"
+			"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound.",
+			"Here is the full list of the Sound Emoji keyphrases:"
 		},
 		--TIPS
 		{

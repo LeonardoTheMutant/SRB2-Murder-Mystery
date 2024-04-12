@@ -24,10 +24,10 @@ MM.text={
 				"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 				"You need to learn some basics first before you can start playing...",
 				"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
-				" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings",
+				" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings;",
 				" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
 				" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
-				"\nThat is all basic information required to start playing, for more information, read this manual to the end"
+				"\nThat is all basic information required to start playing, for more information, read this manual to the end."
 			},
 			--GAME
 			{
@@ -59,8 +59,8 @@ MM.text={
 			{
 				"\7How to use Sound Emojis\0\n",
 				"When a player sends a message that contains specific words/phrases, a sound will be played.",
-				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound",
-				"Here is the full list of the Sound Emojis and how to activate each of them:"
+				"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound.",
+				"Here is the full list of the Sound Emoji keyphrases:"
 			},
 			--TIPS
 			{
@@ -547,7 +547,7 @@ MM.text={
 				"\7Jak uzy\xE6 dzwi\xEAk\xF3w\0\n",
 				"Je\x9Cli gracz wy\x9Cl\xEA wiadomo\x9C\xE6 zawieraj\xB9".."c\xB9 specjalne s\xB3owa lub frazy to zagra specjalny dzwi\xEAk.",
 				"w skr\xF3".."cie je\x9Cli wy\x9Clesz wiadomo\x9C\xEA \"bruh\" wszyscy us\xB3ysz\xB9 dzwi\xEAk BRUH",
-				"To jest lista dzwi\xEAk\xF3w i jak je aktywowa\xE6:"
+				"To jest lista wszystkich kluczowych fraz dla dzwi\xEAk\xF3w:"
 			},{
 				"\7Przydatne porady\0\n",
 				"Zebrali\x9Cmy kilka porad kt\xF3rzy mog\xB9 przyda\xE6 ci w twojej grze w TM:",
@@ -977,7 +977,7 @@ MM.text={
 				"\7\xDF\xEA \xE2\xE8\xEA\xEE\xF0\xE8\xF1\xF2\xEE\xE2\xF3\xE2\xE0\xF2\xE8 \xC7\xE2\xF3\xEA\xEE\xE2\xB3 \xC5\xEC\xEE\xE4\xE6\xB3\0\n",
 				"\xCA\xEE\xEB\xE8 \xE3\xF0\xE0\xE2\xE5\xF6\xFC \xED\xE0\xE4\xF1\xE8\xEB\xE0\xBA \xEF\xEE\xE2\xB3\xE4\xEE\xEC\xEB\xE5\xED\xED\xFF \xEA\xEE\xF2\xF0\xE5 \xEC\xB3\xF1\xF2\xE8\xF2\xFC\xF3 \xF1\xEE\xE1\xB3 \xFF\xEA\xB3\xF1\xFC \xF1\xEF\xE5\xF6\xB3\xE0\xEB\xFC\xED\xB3 \xF1\xEB\xEE\xE2\xE0-\xEA\xEB\xFE\xF7\xB3 \xE0\xE1\xEE \xF4\xF0\xE0\xE7\xE8 \xE2\xF1\xB3 \xEF\xEE\xF7\xF3\xFE\xF2\xFC \xC7\xE2\xF3\xEA\xEE\xE2\xE5 \xC5\xEC\xEE\xE4\xE6\xB3 \xEF\xEE\xE2'\xFF\xE7\xE0\xED\xE5 \xE7 \xF2\xE8\xEC \xEA\xEB\xFE\xF7\xE5\xEC.",
 				"\xCD\xE0\xEF\xF0\xE8\xEA\xEB\xE0\xE4, \xEA\xEE\xEB\xE8 \xE2\xE8 \xED\xE0\xE4\xB3\xF1\xEB\xE5\xF2\xE5 \"bruh\" \xF3 \xF7\xE0\xF2 \xF3\xF1\xB3 \xEF\xEE\xF7\xF3\xFE\xF2\xFC BRUH \xF0\xE0\xE7\xEE\xEC \xE7 \xE2\xE0\xF8\xE8\xEC \xEF\xEE\xE2\xB3\xE4\xEE\xEC\xEB\xE5\xED\xED\xFF\xEC.",
-				"\xCE\xF1\xFC \xEF\xEE\xE2\xED\xE8\xE9 \xF1\xEF\xE8\xF1\xEE\xEA \xC7\xE2\xF3\xEA\xEE\xE2\xE8\xF5 \xC5\xEC\xEE\xE4\xE6\xB3 \xF2\xE0 \xFF\xEA \xBF\xF5 \xE0\xEA\xF2\xE8\xE2\xF3\xE2\xE0\xF2\xE8:\n"
+				"\xCE\xF1\xFC \xF1\xEF\xE8\xF1\xEE\xEA \xF3\xF1\xB3\xF5 \xEA\xEB\xFE\xF7\xEE\xE2\xE8\xF5 \xF4\xF0\xE0\xE7 \xE4\xEB\xFF \xC5\xEC\xEE\xE4\xE6\xB3:"
 			},{
 				"\7\xB2\xE3\xF0\xEE\xE2\xB3 \xEF\xEE\xF0\xE0\xE4\xE8\0\n",
 				"\xCC\xE8 \xE7\xB3\xE1\xF0\xE0\xEB\xE8 \xE4\xEB\xFF \xE2\xE0\xF1 \xEA\xB3\xEB\xFC\xEA\xE0 \xEF\xEE\xF0\xE0\xE4 \xFF\xEA\xB3 \xEC\xEE\xE6\xF3\xF2\xFC \xF1\xF2\xE0\xF2\xE8 \xE2\xE0\xEC \xF3 \xEF\xF0\xE8\xE3\xEE\xE4\xB3:",
