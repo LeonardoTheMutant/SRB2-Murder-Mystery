@@ -269,6 +269,7 @@ addHook("PlayerThink", function(p)
 		COM_BufInsertText(server, "KICK "..#p.." Do not rename when dead!")
 		return
 	end
+
 	p.oldname = p.name
 end)
 
@@ -289,17 +290,23 @@ end)
 -- Intermission ending theme switcher
 --
 addHook("MusicChange", function(old, new)
-    if (gametype != GT_MURDERMYSTERY) or (new != "_inter") return end
+    if (gametype != GT_MURDERMYSTERY) return end
 
-    if (not MM.winner) return "NOWAY" --Sonic 3 & Knuckles "No way!"
-    else
-        if (MM.winreason == 1) return "INTER" --DOOM I "Intermission" / "Episode 2 Map 3"
-        elseif (MM.winreason == 2) return "UN39" --"Unused DOOM track 39"
-        elseif (MM.winreason == 3) return "GASTER" --Undertale "Gaster's theme"
-        elseif (MM.winreason == 4) return "11H_IN" --Main theme of "The 11th Hour: The sequel to The 7th Guest"
-        elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
-		else return "PBW_DC" end --Pokemon Black & White "Driftevil City"
-    end
+	--Showdown Duel music
+	if ((gamestate == GS_LEVEL) and (MM.shwdwn)) return MM.shwdwn end
+
+	--Intermission theme
+	if (new == "_inter")
+		if (not MM.winner) return "NOWAY" --Sonic 3 & Knuckles "No way!"
+		else
+			if (MM.winreason == 1) return "INTER" --DOOM I "Intermission" / "Episode 2 Map 3"
+			elseif (MM.winreason == 2) return "UN39" --"Unused DOOM track 39"
+			elseif (MM.winreason == 3) return "GASTER" --Undertale "Gaster's theme"
+			elseif (MM.winreason == 4) return "11H_IN" --Main theme of "The 11th Hour: The sequel to The 7th Guest"
+			elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
+			else return "PBW_DC" end --Pokemon Black & White "Driftevil City"
+		end
+	end
 end)
 
 --

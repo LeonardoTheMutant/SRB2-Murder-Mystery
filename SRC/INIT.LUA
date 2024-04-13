@@ -30,6 +30,7 @@ rawset(_G, "MM", {
 		"\2", --Hero
 		"\15" --Dead
 	},
+	shwdwn = false, --is it Showdown Duel right now?
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced

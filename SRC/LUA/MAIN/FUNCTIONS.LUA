@@ -7,7 +7,12 @@
 --CONSTANTS
 --
 local dthsfx = {sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
-local shwdwn_music = {"S2MSBS", "S2GGBS", "DRRMBM"}
+local shwdwn_music = { --Tracks used as Showdown Duel themes
+	"S2MSBS", --Sonic 2 Master System Boss
+	"S2GGBS", --Sonic 2 Game Gear Boss
+	"DRMBMF", --Dr. Robotnik's Mean Bean Machine "Final battle with Robotnik"
+	"DRMBM2"  --Dr. Robotnik's Mean Bean Machine "2 Player Vs."
+}
 
 --
 --GAME.LUA
@@ -122,6 +127,7 @@ end)
 rawset(_G, "MM_EndRound", function(w, endtext, reason)
 	MM.winner=w
 	if (endtext=="WIN") MM.winreason=reason end
+	MM.shwdwn = false
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	for p in players.iterate p.spectator=false end
@@ -133,7 +139,10 @@ end)
 
 rawset(_G, "MM_CheckPlayers", function()
 	if (PlayerCount(ROLE_MURDERER)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)) MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
-	elseif (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) S_ChangeMusic(shwdwn_music[P_RandomKey(#shwdwn_music) + 1], 1) end
+	elseif (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT))
+		MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
+		S_ChangeMusic(MM.shwdwn, true)
+	end
 end)
 
 rawset(_G, "MM_SetRandomInnoAs", function(role)
