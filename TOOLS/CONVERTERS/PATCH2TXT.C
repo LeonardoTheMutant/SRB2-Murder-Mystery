@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("PATCH2TXT [patch_file] [-c]\n");
+        printf("PATCH2TXT patch_file [-c]\n");
         printf("Convert the Patch in DOOM GFX Format to LUA-compatible code\n");
 		printf("Output will be written to ./OUTPUT.LUA\n");
         printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");

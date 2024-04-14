@@ -41,8 +41,21 @@ local tech_info = {
 	"by \2\"SRB2 MM_DEV team\"\0",
 	"(Full credits are in README.TXT inside this .PK3)",
 	"\nChanges from\1 10.0-BETA\0:",
-	"\n - TODO",
-	"\n\nFound an issue or just want to help with \7Murder Mystery for SRB2\0 development? Any kind of contribution to the project matters and can help!\n\4  Discord (MM_DEV team): https://discord.com/invite/UgG8h2djFE\0\n  \6GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery"
+	"\n - \7MMHELP\0 command is now completely UI based and supports non-English letters;",
+	"\n - HUD is able to translate and display more labels in other languages;",
+	"\n - Murderers and Dead players see \2VICTIMS\0 instead of \2SUSPECTS\0 on HUD;",
+	"\n - Spectators are able to control the ball's direction in \7PONG\0 minigame ;",
+	"\n - Added a new singleplay minigame - \7Sonic Run\0 (a Google Dino ripoff), spectators are also able to play this while they are \15Dead\0;",
+	"\n - More Showdown Duel themes;",
+	"\n - Intermission Screen is redesigned to fit more players on one screen;",
+	"\n - You can see your teamates (and what weapons they have) in SCORES TAB now;",
+	"\n - Weapon Rings' size and speed are tweaked again;",
+	"\n - Reworked the \7SAYDEAD\0 command for Dedicated Server hosts;",
+	"\n - Languages in the \7MMLANG\0 command are sorted alphabetically;",
+	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
+	"\4Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\0\n",
+	"\6GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\0\n",
+	"\11Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\0\n"
 }
 
 local function helpCMD(p, page)
@@ -69,6 +82,11 @@ local function helpCMD(p, page)
 	end
 
 	if (isdedicatedserver) return end
+
+	if (p.minigame)
+		CONS_Printf(p, "Unable to open MMHELP UI right now")
+		return
+	end
 
 	--MMHELP GUI
 	--load HELP page

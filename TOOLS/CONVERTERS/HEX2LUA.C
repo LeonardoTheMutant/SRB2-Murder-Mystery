@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("HEX2LUA [raw_hex_data] [-c]\n");
+        printf("HEX2LUA raw_hex_data [-c]\n");
         printf("Convert the raw hexadecimal data to C or LUA-compatible code\n");
         printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
         return 0;

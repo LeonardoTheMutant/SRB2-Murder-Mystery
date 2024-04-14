@@ -281,7 +281,7 @@ local language={ --Language must be a table variable, you can name the variable 
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
-	["HUD_ROLES_SHORT"]={ --used for 8-32 players intermission screen
+	["HUD_ROLES_SHORT"]={ --used for intermission screen (unused in 10.1-BETA)
 		"MURD", --Murderer
 		"SHERI", --Sheriff
 		"INNO", --Innocent
