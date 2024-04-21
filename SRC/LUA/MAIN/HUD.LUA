@@ -226,7 +226,7 @@ local function mainHUD(v, p) --main game HUD
 			--character picture
 			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			--win count
-			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills), V_SNAPTOLEFT)
+			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills))
 		end
 		--player 2 side information
 		if (MM.duelplrs[2].valid)
@@ -237,7 +237,7 @@ local function mainHUD(v, p) --main game HUD
 			--charpic
 			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 			--win
-			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills), V_SNAPTORIGHT)
+			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills))
 		end
 
 		if (MM.devbuild)

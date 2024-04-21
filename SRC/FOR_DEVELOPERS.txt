@@ -7,7 +7,7 @@ Now, if you want to modify this Add-On let me introduce you to our file structur
 
 MM_MurderMystery_[x.x-BETA].pk3
 |
-+-MANUALS-\
++-DEV_DOCS-\
 |          +-List_of_Func_and_Const.md - Documentation of functions and constants
 |          \-MM_String_Format.md - Documentation of "Murder Mystery string format"
 |

@@ -3,63 +3,79 @@
   I hope you enjoyed the mod!"
 
 ADD-ON TECHNICAL INFORMATION
-------------------+--------------------------------------------------
+------------------+------------------------------------------------------------
 Add-On name       | Murder Mystery for SRB2
 Add-On version    | 10.1-BETA
 Add-On type       | New gametype
 REUSABLE          | Yes
+                  |
 Modifies vanilla  |
-experience        | No
-New maps          | Yes, 10 (MAPK0-MAPK9)
+experience        | Should not
+                  |
+New maps          | Yes (MAPK0-MAPK9)
 LUA included      | Yes
 Custom characters | Vanilla modified*
 New sounds        | Yes
 New graphics      | Yes
 New textures      | Yes
-New objects       | Yes, 4 non-map placeable objects
+New objects       | Yes (Non map-placable objects)
 HUD modification  | Yes
-New music         | Yes (9 map + 6 intermission + 3 additional tracks)
+New music         | Yes (9 map + 6 intermission + 4 additional tracks)
 Digital music     | No
 MIDI music        | Yes
-------------------+---------------------------------------------------
+                  |
+Includes          |
+translations for  | English, Spanish, Turkish, Russian, Polish, Ukrainian
+------------------+-------------------------------------------------------------
 * please read READ_BEFORE_HOSTING.txt for details
 
 
-Credits go to:
-tedvin11 for the idea, base code, and leadership during the very early development
-Musicians from FREEDOOM community for the wonderful map MIDIs
-MM2 on Roblox for the Murder Mystery idea to tedvin11
-SRB2 MM_DEV team
 
-SRB2 MurderMystery_DEVelopment team is:
-  LeonardoTheMutant - "CEO of the project", mapper, coder, Ukrainian & Polish translator
-  Jesus.B ----------- coder, Spanish translator
-  tedbasher3000 ----- coder, support
-  sopix ------------- Polish translator
-  SlainLBS ---------- Spanish translator
-  asdhio ------------ Ukrainian translator
-  Mr. Quack --------- musician
+=================================================
+ "Murder Mystery for SRB2" is made by SRB2MM_DEV
+=================================================
+
+SRB2MM_DEV team is:
+  LeonardoTheMutant - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian & Polish translator
+  tedbasher3000     - Coder, support
+  Jesus.B           - Coder, Spanish translator
+  sopix             - Polish translator
+  Arnie37           - Russian translator
+  SlainLBS          - Spanish translator
+  Mobillia          - Turkish translator
+  asdhio            - Ukrainian translator
+  Mr. Quack         - Musician
+  LexTheGamer95     - Ambassador of North America
+  lamon             - Ambassador of the United Kingdom
+
+Former members:
+  SuperOfSRB2       - Ambassador of North America
   White Tails {UKR} - Ambassador of Lituana
-  SuperOfSRB2 ------- Ambassador of North America
-  LexTheGamer95 ----- Ambassador of North America
-  lamon ------------- Ambassador of the United Kingdom
-  Piksqu ------------ former mapper, former French translator
-  King Jonas -------- Ambassador of Brazil, former Portuguese translator
-  ToeiSamurai ------- former coder
-  Jisk -------------- former coder
-  and every player who played the BETA versions on our servers hosted by Ambassadors
+  Piksqu            - Mapper & French translator
+  King Jonas        - Ambassador of Brazil & Portuguese translator
+  ToeiSamurai       - Coder
+  Jisk              - Coder
+
+Special Thanks:
+ - tedvin11 for the idea, base code, and leadership during the very early development
+ - Musicians from FREEDOOM community for the wonderful map MIDIs
+ - King Meteor for his high-quality MIDI arragements of songs from Sonic games
+ - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
+ - Every player who played the BETA versions on our servers hosted by Ambassadors
+ - Sonic Team Junior for the best Sonic fan game ever
+
+and thank YOU for playing this add-on!
 
 
-Thanks to STJr for the best Sonic fan game ever
-    and thank YOU for playing this add-on!
 
-If you are going to host this gametype yourself please read the READ_BEFORE_HOSTING.txt file for the correct
-server setup and important notes.
 
-If you're interested in modding this gametype please take a look at our GitHub repository and/or read the developer
-documentation prepared for you in /MANUALS folder
+If you are going to host this gametype yourself please read the READ_BEFORE_HOSTING.TXT file for
+the correct server setup and important notes.
 
-You can contact us in our "MM_DEV" Discord where you can describe issues and suggest 
+If you're interested in modding this gametype please take a look at our GitHub repository and/or
+read the developer documentation prepared for you in /DEV_DOCS folder
+
+You can contact us in our "SRB2MM_DEV" Discord where you can describe issues and suggest 
 new things (as well as talk with us):
   Discord: https://discord.com/invite/UgG8h2djFE
   GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery

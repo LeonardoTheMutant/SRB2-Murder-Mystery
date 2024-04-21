@@ -1,9 +1,9 @@
 ## List of Murder Mystery Functions and Constants
-### For Murder Mystery `10.0-BETA` 
+### For Murder Mystery `10.1-BETA` 
 ---
 This document contains the description of some important functions and constants which are used in Murder Mystery's LUA source code.
 
-<font color="red">Please note that this project is in ***BETA*** state and everything you see here can be completely changed in the next release</font>
+<font color="red">Please note that this project is in the ***BETA*** state and everything you see here can be completely changed in the next release</font>
 
 ## Table of Contents
 - [Functions](#functions)

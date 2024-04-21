@@ -40,7 +40,7 @@ Let's say you want to use this cool string format with colors but you don't want
 <br><br>
 
 ## Extended ASCII Character Sets
-List of Extended ASCII tables and the available characters which are included in MM
+List of Extended ASCII tables and the available characters which are included in MM. You can also see the characters directly in the game by using the `MMCHARSET [charset_prefix]` console command (available only in developer builds)
 ### Windows1250 (1250C)
 Based on [Windows1250](https://wikipedia.org/wiki/Windows-1250) codepage.
 Central and Eastern European Latin-based languages such as Polish, Czech, Slovak, Hungarian, German
@@ -106,6 +106,41 @@ Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonia
     </tr>
     <tr>
         <th>F</th><td>р</td><td>с</td><td>т</td><td>у</td><td>ф</td><td>х</td><td>ц</td><td>ч</td><td>ш</td><td>щ</td><td>ъ</td><td>ы</td><td>ь</td><td>э</td><td>ю</td><td>я</td>
+    </tr>
+</table>
+
+<hr>
+
+### Windows1253 (12513)
+Based on [Windows1253](https://wikipedia.org/wiki/Windows-1253) codepage.
+Greek alphabet
+<table>
+    <tr>
+        <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+    </tr>
+    <tr>
+        <th>8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>A</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>B</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <th>C</th><td>ΐ</td><td>Α</th><td>Β</th><td>Γ</th><td>Δ</th><td>Ε</th><td>Ζ</td><td>Η</td><td>Θ</td><td>Ι</td><td>Κ</td><td>Λ</td><td>Μ</td><td>Ν</td><td>Ξ</td><td>Ο</td>
+    </tr>
+    <tr>
+        <th>D</th><td>Π</td><td>Ρ</td><td></td><td>Σ</td><td>Τ</td><td>Υ</td><td>Φ</td><td>Χ</td><td>Ψ</td><td>Ω</td><td>Ϊ</td><td>Ϋ</td><td>ά</td><td>έ</td><td>ή</td><td>ί</td>
+    </tr>
+    <tr>
+        <th>E</th><td>ΰ</td><td>α</td><td>β</td><td>γ</td><td>δ</td><td>ε</td><td>ζ</td><td>η</td><td>θ</td><td>ι</td><td>κ</td><td>λ</td><td>μ</td><td>ν</td><td>ξ</td><td>ο</td>
+    </tr>
+    <tr>
+        <th>F</th><td>π</td><td>ρ</td><td>ς</td><td>σ</td><td>τ</td><td>υ</td><td>φ</td><td>χ</td><td>ψ</td><td>ω</td><td>ϊ</td><td>ϋ</td><td>ό</td><td>ύ</td><td>ώ</td><td></td>
     </tr>
 </table>
 

@@ -51,7 +51,4 @@ All contributions would be greatly appreciated especially maps, music, graphics,
 1. Modifying the source code you are having right now
 2. Making a **Custom Language File** from the [template](ASSETS/customlang.lua) and then adding it as a regular ADD-ON together with MM (Main Add-On has to be loaded first)
 
-## For modders who want to mod this
-If you want to edit the code there is a [short description of each script file](SRC/FOR_DEVELOPERS.txt) used in this project. Hope that this will let you spend less time to find the script that you want to mod as a programmer. You might also want to read the [functions and constants documentation](/SRC/DOCS/List_of_Func_and_Const.md) for even better understanding of the code.
-
-## Please read the [READ_BEFORE_HOSTING.txt](SRC/READ_BEFORE_HOSTING.txt) file before starting the server with Murder Mystery for more hosting details and warings
+## Please read the [READ_BEFORE_HOSTING.TXT](SRC/READ_BEFORE_HOSTING.TXT) file before starting the server with Murder Mystery add-on for the correct host setup
