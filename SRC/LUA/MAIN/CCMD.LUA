@@ -44,7 +44,7 @@ local tech_info = {
 	"\n - \7MMHELP\0 command is now completely UI based and supports non-English letters;",
 	"\n - HUD is able to translate and display more labels in other languages;",
 	"\n - Murderers and Dead players see \2VICTIMS\0 instead of \2SUSPECTS\0 on HUD;",
-	"\n - Spectators are able to control the ball's direction in \7PONG\0 minigame ;",
+	"\n - Spectators are able to control the ball's direction in \7PONG\0 minigame;",
 	"\n - Added a new singleplay minigame - \7Sonic Run\0 (a Google Dino ripoff), spectators are also able to play this while they are \15Dead\0;",
 	"\n - More Showdown Duel themes;",
 	"\n - Intermission Screen is redesigned to fit more players on one screen;",
@@ -244,6 +244,13 @@ hud.add(function(v, p)
 		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 		local color = v.getStringColormap(0) --default to white color
 		local chr, strchar, stringToRender, wordWrapTemp
+		
+		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_F"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+		
+		for i=-3,3
+			v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
+			v.draw(((i*320) + (leveltime%320)), 180, v.cachePatch("NTSATKB1"), V_SNAPTOBOTTOM)
+		end
 
 		--draw the data from the screen buffer
 		for lineID = p.mmhelp.pos, #p.buffer do

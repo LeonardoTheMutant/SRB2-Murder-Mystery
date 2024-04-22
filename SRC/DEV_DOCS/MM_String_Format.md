@@ -111,7 +111,7 @@ Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonia
 
 <hr>
 
-### Windows1253 (12513)
+### Windows1253 (1253C)
 Based on [Windows1253](https://wikipedia.org/wiki/Windows-1253) codepage.
 Greek alphabet
 <table>

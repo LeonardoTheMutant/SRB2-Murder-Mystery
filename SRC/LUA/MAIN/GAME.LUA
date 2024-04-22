@@ -26,6 +26,7 @@ addHook("MapLoad", function(map)
 	MM.shremls = {}
 	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
     print("Time limit for this round is "..MM.timelimit.." minutes")
+	MM.shwdwn = false
 
 	MM.twopgame = (PlayerCount() == 2)
 	MM.minigame = false
@@ -130,12 +131,17 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
-		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF))
+		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
+			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
 	elseif (vp.role == ROLE_INNOCENT)
 		MM_KillPlayer(victim, attacker)
+		if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
+			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
+		end
 		if (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 			-- otherwise Murderers win
@@ -160,7 +166,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 		end
 	elseif (vp.role == ROLE_HERO)
 		if (ap.role == ROLE_HERO) or (ap.role == ROLE_SHERIFF)
-		MM_HitTeammate(vp, ap)
+			MM_HitTeammate(vp, ap)
 			return true
 		end
 		MM_KillPlayer(victim, attacker)
@@ -171,7 +177,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
 		end
 	end
-	MM_CheckPlayers()
+	
+	MM_CheckShowdown()
 	return true
 end, MT_PLAYER)
 
@@ -194,7 +201,7 @@ addHook("MobjThinker", function(mo)
 			found.player.role = ROLE_HERO
 			found.player.roleflicker = 70 --2 secs
 			MM_ChatprintGlobal("SHREML_PICK")
-			MM_CheckPlayers()
+			MM_CheckShowdown()
 			return true
 		end
 	end, mo)
@@ -284,6 +291,8 @@ addHook("IntermissionThinker", do
 	end
 	-- Kick forcer (for Intermission)
 	for p in players.iterate do if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
+	
+	MM.shwdwn = false
 end)
 
 --
@@ -353,7 +362,11 @@ addHook("PlayerQuit", function(p)
 		end
 	elseif (p.role == ROLE_INNOCENT)
 		p.role = ROLE_NONE
-		MM_CheckPlayers()
+		if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			MM_EndRound(0, "LAST_LEFT", ROLE_INNOCENT)
+		else
+			MM_CheckShowdown()
+		end
 	elseif (p.role == ROLE_HERO)
 		p.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))

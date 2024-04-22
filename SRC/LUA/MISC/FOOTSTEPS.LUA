@@ -2390,8 +2390,8 @@ addHook("PlayerThink", function(player)
 				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end
-					if (material and soundType)
-						player.lastgroundtexture = player.groundtexture
+					player.lastgroundtexture = player.groundtexture
+					if (material) and (soundType) and (player.soundList[material][soundType])
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])

@@ -125,21 +125,20 @@ end)
 --endtext is the text to display in the chat
 --reason is used differently for each message but usualy it is a win reason
 rawset(_G, "MM_EndRound", function(w, endtext, reason)
-	MM.winner=w
-	if (endtext=="WIN") MM.winreason=reason end
+	MM.winner = w
+	if (endtext=="WIN") MM.winreason = reason end
 	MM.shwdwn = false
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
-	for p in players.iterate p.spectator=false end
+	for p in players.iterate p.spectator = false end
 	if isdedicatedserver --console log for dedicated host
 		if (endtext=="WIN") CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
 		else CONS_Printf(server, "- "..MM.text["EN"][endtext][reason]) end
 	end
 end)
 
-rawset(_G, "MM_CheckPlayers", function()
-	if (PlayerCount(ROLE_MURDERER)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)) MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
-	elseif (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT))
+rawset(_G, "MM_CheckShowdown", function()
+	if (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
 		MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
 		S_ChangeMusic(MM.shwdwn, true)
 	end
