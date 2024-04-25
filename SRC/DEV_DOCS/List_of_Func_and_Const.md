@@ -146,12 +146,13 @@ The description of each value in the `MM` table. The `MM` constant itself is def
 | --- | --- | --- | --- |
 | `version` | *string* | Version number of the build | `"10.0-BETA"` |
 | `devbuild` | *boolean* | Mark add-on build as a *Developer Build*, when set to `true` it enables the *Debug Mode* in the add-on | `true` |
-| `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"December 28th 2023"` |
+| `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"April 22nd 2024"` |
 | `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/ASSETS/customlang.lua) |
 | `SEMJ_info` | *string[]* | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
 | `CharStats` | *table* | The character configurations for ***MMCHARMODE 1*** character mode. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/ABILITIES.LUA`](../LUA/MAIN/ABILITIES.LUA)* |
 | `RoleColor` | *string[]* | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
-| `RoleColor` | *string[]* | The HUD text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
+| `RoleColorHUD` | *string[]* | The HUD text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
+| `shwdwn` | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not | "S2MSBS" |
 | `winner` | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros & Innocents). This variable is **netsynced** | 0 |
 | `winreason` | *int* | The win reason, can be one of the [`WIN_*` constants](#win-reasons-win). This variable is **netsynced** | 1 |
 | `timelimit` | *int* | Works just like SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |

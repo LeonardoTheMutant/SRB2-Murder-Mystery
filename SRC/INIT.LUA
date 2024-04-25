@@ -3,7 +3,7 @@ if MM or MurderMystery
 	return
 end
 rawset(_G, "MM", {
-	version = "10.1-BETA-RC3", --string, VERSION NUMBER
+	version = "1.0-ALPHA", --string, VERSION NUMBER
 	devbuild = true, --boolean, if set to true it enables debug functionality in MM
 	releasedate = "not released yet", --string, meant to contain the day of release
 	CharStats = {

@@ -5,7 +5,7 @@ If you're reading this file from GitHub this is great - you have more content to
 
 Now, if you want to modify this Add-On let me introduce you to our file structure:
 
-MM_MurderMystery_[x.x-BETA].pk3
+MM_MurderMystery_[x.x-ALPHA].pk3
 |
 +-DEV_DOCS-\
 |          +-List_of_Func_and_Const.md - Documentation of functions and constants

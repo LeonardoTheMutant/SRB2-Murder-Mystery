@@ -1,8 +1,5 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
 - Rework/remake the "BACKROOMS"
-- Finish the "8-Ball Hotel"
-- Fix mistakes in "Mountain Fort"
-- Finish the MMHELP UI
 - Make a logo
 - Make some kind of background for "Sonic Run"
 - Create at least 5 more maps (to make 15 in total)

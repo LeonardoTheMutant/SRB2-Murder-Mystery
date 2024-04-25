@@ -5,22 +5,26 @@
 
 --SAYDEAD command - Say to the Dead Chat as Dedicated server
 COM_AddCommand("SAYDEAD", function(s, ...) --sender, message
-	if ((isdedicatedserver) and (#m))
-		--get the message string
-		local arg = {...}
-		local m = ""
-		for i = 1, #arg do
-			m = $ + arg[i]
-			if (i < #arg) m = $ + " " end --add space between words (arguments)
-		end
-
+	--get the message string
+	local arg = {...}
+	local m = ""
+	for i = 1, #arg do
+		m = $ + arg[i]
+		if (i < #arg) m = $ + " " end --add space between words (arguments)
+	end
+	
+	local sender
+	if (s == server) sender = "~SERVER"
+	else sender = s.name end
+	
+	if (#m)
 		--send the message
 		for p in players.iterate do
-			if (p.spectator) chatprintf(p, "\x86{~SERVER} "..m) end
+			if (p.spectator) chatprintf(p, "\x86{"..sender.."} "..m) end
 		end
-		CONS_Printf(server, "{~SERVER} "..m)
+		CONS_Printf(server, "{"..sender.."} "..m)
 	else
-		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat. Only the Dedicated Host can use this command")
+		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat.")
 	end
 end, COM_ADMIN)
 

@@ -5,7 +5,7 @@
 ADD-ON TECHNICAL INFORMATION
 ------------------+------------------------------------------------------------
 Add-On name       | Murder Mystery for SRB2
-Add-On version    | 10.1-BETA
+Add-On version    | 1.0-ALPHA
 Add-On type       | New gametype
 REUSABLE          | Yes
                   |
