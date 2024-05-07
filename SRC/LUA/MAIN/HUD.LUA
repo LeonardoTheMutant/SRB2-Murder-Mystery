@@ -279,8 +279,13 @@ local function mainHUD(v, p) --main game HUD
 
 	--SUSPECTS/VICTIMS
 	V_DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, MM.text[consoleplayer.mmlang][scorePatchName], hudinfo[HUD_SCORE].f)
-	local plrsAlive = PlayersAlive() - 1
-	if (plrsAlive < 0) plrsAlive = 0 end
+	local plrsAlive
+	if (p.spectator) plrsAlive = PlayersAlive()
+	else
+		plrsAlive = PlayersAlive() - 1
+		if (plrsAlive < 0) plrsAlive = 0 end
+	end
+
 	v.drawNum(((hudinfo[HUD_SCORE].x + maxHudIfnfoSize) - 16), hudinfo[HUD_SCORE].y, plrsAlive, hudinfo[HUD_SCORE].f)
 	--if (plrsAlive < 10) v.draw((hudinfo[HUD_SCORE].x + scorePatchWidth), hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM"..plrsAlive), hudinfo[HUD_SCORE].f)
 	--else
