@@ -44,7 +44,6 @@ LevelName = West City
 SelectHeading = Murder Mystery
 SkyNum = 13
 Act = 0
-NoZone = True
 TypeOfLevel = mm
 NextLevel = K5
 Lua.Author = LeoTM
@@ -95,5 +94,49 @@ LevelName = Greenflower Mystery
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
+TypeOfLevel = mm
+NextLevel = K0
+
+Level KA
+LevelName = Mirage Express
+SubTitle = Under Construction
+SelectHeading = Murder Mystery
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = KB
+
+Level KB
+LevelName = Myst Island
+SubTitle = Under Construction
+SelectHeading = Murder Mystery
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = KC
+
+Level KC
+LevelName = Stauf's Mansion
+SubTitle = Under Construction
+SelectHeading = Murder Mystery
+Music = 11H_00
+Act = 0
+NoZone = True
+TypeOfLevel = mm
+NextLevel = KD
+
+Level KD
+LevelName = East City
+SubTitle = Under Construction
+SelectHeading = Murder Mystery
+Act = 0
+TypeOfLevel = mm
+NextLevel = KE
+
+Level KE
+LevelName = Dubious Depths?
+SubTitle = Under Construction
+SelectHeading = Murder Mystery
+Act = 0
 TypeOfLevel = mm
 NextLevel = K0
