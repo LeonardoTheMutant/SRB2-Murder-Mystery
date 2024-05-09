@@ -87,7 +87,7 @@ MM.AddLang = function(langID,langTbl)
 end
 
 --CVARs
-local function VarChange(v) --callback functions called by CV_CALL flag
+local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mmcharmode")
 		if (v.value == 2) print("\x87Murder Mystery:\x80 Every character have their abilities back")
 		elseif (v.value == 1) print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
@@ -95,6 +95,9 @@ local function VarChange(v) --callback functions called by CV_CALL flag
 	elseif (v.name == "mmsprint")
 		if (v.value) print("\x87Murder Mystery:\x80 Everyone now can use sprinting by holding CUSTOM1 button!")
 		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
+	elseif (v.name == "mmduelmode")
+		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x87 now have access to all weapons during the Showdown Duel")
+		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
 	end
 end
 CV_RegisterVar{name = "mmcharmode", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange}
@@ -102,6 +105,8 @@ CV_RegisterVar{name = "mmsprint", defaultvalue = "Off", PossibleValue = CV_OnOff
 CV_RegisterVar{name = "mmspam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
 CV_RegisterVar{name = "mmafk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
 CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
+CV_RegisterVar{name = "mmduelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
+CV_RegisterVar{name = "mmautofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 
 --
 --MM startup init

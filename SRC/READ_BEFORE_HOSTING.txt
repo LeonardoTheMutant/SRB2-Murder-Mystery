@@ -23,7 +23,7 @@ VARIABLES
 	MMSPRINT - Turn sprinting on/off. When it's on you can use sprinting by holding CUSTOM1
 	    button. If both MMSPRINT and MMCHARMODE are disabled Sneaking will be enabled instead.
 	    Your character will sneak when you hold the SPIN button and you're on the ground
-		(a message on HUD appears when you're sneaking);
+	    (a message on HUD appears when you're sneaking);
 	MMCHARMODE - Switch between three Character Ability modes. Possible values for this
 		variable is:
 		0 - "Everyone is the same (regular persons)". This is very similar to Sonic 1
@@ -40,6 +40,8 @@ VARIABLES
 	MMSPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
 	MMSEMJ - Enable/Disable sound from Chat Sound Emojis (default value is "On")
+	MMDUELMODE - Enable/Disable access to all weapons for Murderers during the Showtime Duel. The default value is OFF.
+	MMAUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
 
 COMMANDS
 	SAYDEAD - This command is available only for the host player and can be used to send a message to the

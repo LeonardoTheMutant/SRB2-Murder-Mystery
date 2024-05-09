@@ -55,21 +55,6 @@ MM.weapons[6]={ --Rail Ring
     52
 }
 
--- Knife logic
-local function MM_DoKnife(p)
-    P_SetWeaponDelay(p, 60)
-    local mo = P_SpawnPlayerMissile(p.mo, MT_MMKNIFE, 0)
-    P_GivePlayerRings(p, -1)
-
-    searchBlockmap("objects", function(ref, fmo)
-        if ((fmo.valid) and (fmo.player) and (fmo.player.valid) and (fmo != ref.target) and (P_AproxDistance(P_AproxDistance(fmo.x - ref.x, fmo.y - ref.y), fmo.z - ref.z) < USERANGE))
-            P_DamageMobj(fmo, ref, ref.target)
-        end
-    end, mo)
-
-    if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
-end
-
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_MURDERMYSTERY) return end
 
@@ -84,7 +69,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		or (p.playerstate == PST_DEAD) or (p.spectator))
 	then return end
 
-    p.pflags = $|PF_ATTACKDOWN
+    if (not CV_FindVar("mmautofire").value) p.pflags = $|PF_ATTACKDOWN end
     local mo
 
     if (p.cmd.buttons & BT_FIRENORMAL)

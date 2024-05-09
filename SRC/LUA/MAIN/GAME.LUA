@@ -3,7 +3,7 @@
 -- Improved and developed further by LeonardoTheMutant
 -- With the additional help of Jesus.B
 --
--- The core logic script of Murder Mystery, takes control of each player Join/Quit,
+-- The main logic script of Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, AFK logic and round endings
 
 local afkCVAR = CV_FindVar("mmafk")
@@ -212,9 +212,12 @@ end, MT_SHREML)
 --
 addHook("PlayerThink", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
-	if (p.role == ROLE_MURDERER) p.ringweapons = 0 end --remove weapons from Murderer
-	p.weapondelay = 1 --vanilla weapons don't shoot anymore :)
-	
+
+	--remove weapons from Murderer in case it is not Duel or Murderers are not allowed to have other weapons during Duels
+	if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or (not CV_FindVar("mmduelmode").value))) p.ringweapons = 0 end
+
+	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
+
 	if (not p.spectator)
 		--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
 		p.mo.flags = $ & ~MF_NOGRAVITY
@@ -256,9 +259,7 @@ addHook("PlayerThink", function(p)
 		p.afk = $ + 1
 	else p.afk = 0 end
 	if (p.afk > afkCVAR.value*2100)
-		if (p == server)
-			print("\x82HOST PLAYER IS AFK, CLOSING THE SERVER...") --I believe this line is never printed, gonna remove it next time
-			COM_BufInsertText(server, "QUIT")
+		if (p == server) COM_BufInsertText(server, "QUIT")
 		else COM_BufInsertText(server, "KICK "..#p.." AFK") end
 	end
 	p.oldangleturn = p.cmd.angleturn

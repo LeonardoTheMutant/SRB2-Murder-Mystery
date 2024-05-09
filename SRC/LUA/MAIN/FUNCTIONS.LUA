@@ -138,7 +138,8 @@ rawset(_G, "MM_EndRound", function(w, endtext, reason)
 end)
 
 rawset(_G, "MM_CheckShowdown", function()
-	if (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
+	--if (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
+	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
 		MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
 		S_ChangeMusic(MM.shwdwn, true)
 	end

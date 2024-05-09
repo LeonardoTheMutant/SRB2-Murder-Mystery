@@ -25,7 +25,7 @@ Digital music     | No
 MIDI music        | Yes
                   |
 Includes          |
-translations for  | English, Spanish, Turkish, Russian, Polish, Ukrainian
+translations for  | English, Polish, Russian, Turkish, Ukrainian
 ------------------+-------------------------------------------------------------
 * please read READ_BEFORE_HOSTING.txt for details
 

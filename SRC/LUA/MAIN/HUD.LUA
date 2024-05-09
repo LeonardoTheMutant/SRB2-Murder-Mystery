@@ -38,6 +38,7 @@ local coords={ --HUD screen coordinates
 
 local expectedHudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
+local duelmodeCVAR = CV_FindVar("mmduelmode")
 
 -- Hook Functions
 
@@ -397,14 +398,14 @@ local function mainHUD(v, p) --main game HUD
 		end
 
 		--Ring weapons
-		if (p.role == ROLE_MURDERER)
+		if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT)) or (not duelmodeCVAR.value))
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
 				v.draw(coords.firstRingWepMurd.x, (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM) --Infinite Ring icon
 				v.drawString(160, (coords.firstRingWep.y+8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM, "thin-center") --Infinite Ring ammo counter
 			else v.draw(coords.firstRingWepMurd.x, (coords.firstRingWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM) end --Red Ring icon
 			v.draw((coords.firstRingWepMurd.x - 2), (coords.firstRingWep.y - (p.mmweapondelay >> 1) - 2), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM) --selector
-		elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
+		elseif ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO) or ((p.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and duelmodeCVAR.value))
 			if (p.powers[pw_infinityring])
 				v.draw((coords.firstRingWep.x), (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM) --Infinite Ring icon
 				v.drawString((coords.firstRingWep.x + 1), (coords.firstRingWep.y + 8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM, "thin") --Infinite Ring ammo counter

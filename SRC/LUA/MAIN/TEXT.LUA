@@ -5,8 +5,8 @@
 
 MM.text={
     ["EN"]={ -- English
-		["VERSION"]="10.1-BETA", --to check if lang content is not OUTDATED
-		["AUTHOR"]="MM_DEV community",
+		["VERSION"]="1.0-ALPHA", --to check if lang content is not OUTDATED
+		["AUTHOR"]="SRB2 MM_DEV community",
 		["MM"]="Murder Mystery",
 
 		--The following sections contain strings that allow your language's native letters to display.
@@ -82,7 +82,7 @@ MM.text={
 
 		--MMLANG command
 		["MMLANG"]={
-			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]",
+			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language] command",
 			"Personal language for Murder Mystery is set to\x82 English"
 		},
 		--GAME.LUA
@@ -288,7 +288,7 @@ MM.text={
 			"\3CIVILIANS" --must contain MM escape color code
 		}
 	},["PL"]={ -- Polish by sopix
-		["VERSION"]="10.1-BETA",
+		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="sopix & LeonardoTheMutant",
 		["CHARSET"]="1250C",
 		["MM"]="Tajemnica Morderstw",
@@ -502,7 +502,7 @@ MM.text={
 			"\3CYWILE"
 		}
 	},["RU"]={
-		["VERSION"]="10.1-BETA",
+		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 		["NONASCII"]=true,
 		["MM"]="\xD2\xE0\xE9\xED\xE0 \xD3\xE1\xE8\xE9\xF1\xF2\xE2\xE0",
@@ -712,7 +712,7 @@ MM.text={
 			"\3\xD6\xDB\xC2\xC8\xCB\xDC\xCD\xDB\xC5"
 		}
 	},["TR"]={ --Turkish by Mobillia
-		["VERSION"]="10.1-BETA",
+		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Mobillia",
 		["MM"]="Murder Mystery",
 		["CHARSET"]="1254C",
@@ -936,7 +936,7 @@ MM.text={
 		}
 	},["UA"]={ -- Ukrainian by LeonardoTheMutant
 		--text made entirely from HEX characters is harder to maintain than you think, especially when you come back to edit it
-		["VERSION"]="10.1-BETA",
+		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="LeonardoTheMutant",
 		["CHARSET"]="1251C",
 		["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones

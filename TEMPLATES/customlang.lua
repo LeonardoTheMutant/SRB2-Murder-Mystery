@@ -42,8 +42,8 @@
 --     Remember! A, B, C, D, E, F letters and 0-9 digits can be interpreted as a color code - be careful with them!
 
 local language={ --Language must be a table variable, you can name the variable as you like.
-	["VERSION"]="10.1-BETA", --to check if lang content is not OUTDATED
-	["AUTHOR"]="MM_DEV community", --who wrote this localization file
+	["VERSION"]="1.0-ALPHA", --to check if lang content is not OUTDATED
+	["AUTHOR"]="SRB2 MM_DEV community", --who wrote this localization file
 	["MM"]="Murder Mystery", --name of the gametype, this string supports MM format
 
 	--This one is really important if you want to make your 
@@ -137,7 +137,7 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	--MMLANG command
 	["MMLANG"]={
-		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]", --when typed MMHELP with no argument
+		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language] command", --when typed MMHELP with no argument
 		"Personal language for Murder Mystery is set to\x82 English" --when typed MMHELP with language argument (it sets the new language)
 	}
 	-- "You got the role" personal messages

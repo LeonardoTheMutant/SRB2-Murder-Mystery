@@ -40,18 +40,7 @@ local tech_info = {
 	"Version\1 "..MM.version.."\0 ("..MM.releasedate..")",
 	"by \2\"SRB2 MM_DEV team\"\0",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\1 10.0-BETA\0:",
-	"\n - \7MMHELP\0 command is now completely UI based and supports non-English letters;",
-	"\n - HUD is able to translate and display more labels in other languages;",
-	"\n - Murderers and Dead players see \2VICTIMS\0 instead of \2SUSPECTS\0 on HUD;",
-	"\n - Spectators are able to control the ball's direction in \7PONG\0 minigame;",
-	"\n - Added a new singleplay minigame - \7Sonic Run\0 (a Google Dino ripoff), spectators are also able to play this while they are \15Dead\0;",
-	"\n - More Showdown Duel themes;",
-	"\n - Intermission Screen is redesigned to fit more players on one screen;",
-	"\n - You can see your teamates (and what weapons they have) in SCORES TAB now;",
-	"\n - Weapon Rings' size and speed are tweaked again;",
-	"\n - Reworked the \7SAYDEAD\0 command for Dedicated Server hosts;",
-	"\n - Languages in the \7MMLANG\0 command are sorted alphabetically;",
+	"\nChanges from\1 10.1-BETA\0:",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
 	"\4Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\0\n",
 	"\6GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\0\n",
@@ -70,7 +59,9 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMSPRINT\x80   - Turn sprinting ON/OFF (Sneaking with SPIN is Enabled when sprinting is OFF).")
 		CONS_Printf(p, "\x87MMSPAM\x80     - Set the sending delay time in ticks to prevent chat spamming.")
 		CONS_Printf(p, "\x87MMSEMJ\x80     - Enable/Disable Sound Emojis for everyone.")
-		CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked")
+		CONS_Printf(p, "\x87MMAFK\x80      - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked.")
+		CONS_Printf(p, "\x87MMDUELMODE\x80 - Enable/Disable access to all weapons for \x85Murderers\x80 during the \x88Showduwn Duel\x80.")
+		CONS_Printf(p, "\x87MMAUTOFIRE\x80 - Turn weapon autofire ON/OFF.")
 	end
 	if (MM.devbuild)
 		CONS_Printf(p, "\n\x82".."DEVELOPER DEBUG COMMANDS")
@@ -138,21 +129,23 @@ local function MMlang(p, l) --player, lang
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
 		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
+		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2 MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
 		if (MM.text[l])
 			p.mmlang = l
 			if (not p.mmhelp) p.mmhelp = {page = 1} end
 			p.mmhelp.pos = 1
+			CONS_Printf(p, "\x82"..p.mmlang.."\x80 translation made by \x88"..MM.text[p.mmlang]["AUTHOR"])
 			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
-			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask \x83"..tostring(MM.text[l]["AUTHOR"]).."\x80 to update it for \x87Murder Mystery "..MM.version) end
+			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
 				f:close()
 				--CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
 			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
-		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present\nIf you have the MM language file for that language add it to the game with\x87 ADDFILE [lang_file.lua]\x80 in the console or contact our MM_DEV Team and help us add it to MM:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery") end
+		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present/loaded into the game\nPlease ask your game Administrator to add the required MM language file or contact our SRB2 MM_DEV Team for help.") end
 	end
 end
 
