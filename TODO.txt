@@ -5,3 +5,4 @@
 - Create at least 5 more maps (to make 15 in total)
 - Update translations
 - Try to not let multiple players spawn in one spot
+- Change the titlecard and intermission backgrounds (to contain the name of the gametype)

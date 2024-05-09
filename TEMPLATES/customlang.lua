@@ -178,12 +178,12 @@ local language={ --Language must be a table variable, you can name the variable 
 	-- Innocent hurt by Sheriff/Hero personal messages
 	["INNO_HURT_PM"]={
 		"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)", --Sheriff
-		"\x82Heroes\x87 aren't meant to kill \x83Innocents\x87. You got the death penalty for that." --Hero
+		"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that." --Hero
 	},
 	-- Innocent hurt by Sheriff/Hero personal messages
 	["INNO_HURT"]={
 		"The \x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!", --Sheriff
-		"The \x82Hero\x80 is a dumbass, they killed an \x83Innocent\x80. Now both are lying dead. Shame on that \x82 Dumbass\x80" --Hero
+		"The \x82Hero\x80 decided to become a villian by killing the \x83Innocent\x80. Now both are lying dead. Shame on such\x82 Hero\x80" --Hero
 	},
 	-- "One of the [role]s left!"
 	["ONE_LEFT"]={

@@ -239,8 +239,8 @@ hud.add(function(v, p)
 		--init everything
 		local cx = 0
 		local cy = 0
-		scrnColumns = ((v.width()/v.dupx())>>3)-- - 2
-		scrnRows = ((v.height()/v.dupy())>>3) - 2
+		scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
+		scrnRows = ((v.height()/v.dupy()) >> 3) - 2
 		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 		local color = v.getStringColormap(0) --default to white color
 		local chr, strchar, stringToRender, wordWrapTemp
@@ -260,14 +260,14 @@ hud.add(function(v, p)
 			for charID = 1, stringToRender:len() do
 				chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-				if (chr<100) strchar="0"..chr --make the number to be 3 digit
-				else strchar=chr end
+				if (chr<100) strchar = "0"..chr --make the number to be 3 digit
+				else strchar = chr end
 
 				--characters from 0x00 to 0x0f set the color
-				if (chr<16) color=v.getStringColormap(chr*4096) end
+				if (chr<16) color = v.getStringColormap(chr*4096) end
 
 				--print the character
-				if (((chr >= 16) and (chr < 32)) or (chr>=128)) --Extended ASCII
+				if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --Extended ASCII
 					if (v.patchExists(charset..strchar))
 						v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 					else --unknown symbol, print "?"

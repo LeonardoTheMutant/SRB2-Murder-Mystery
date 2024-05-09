@@ -16,7 +16,6 @@ addHook("MapLoad", function(map)
 		p.kills = 0
 		p.killedby = nil
 		p.flashscrn = 0
-		p.powers[0] = 245 -- invulnerability for 7 sec
 		p.minigame = false
 		p.mmweapondelay = 0
 	end
@@ -64,6 +63,8 @@ addHook("PlayerSpawn", function(p)
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
 	p.sneak = false
+
+	p.powers[2] = 104 -- flashing invulnerability for 3 sec
 
 	--Check player num and state on join
 	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
@@ -181,7 +182,6 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	MM_CheckShowdown()
 	return true
 end, MT_PLAYER)
-
 
 --
 -- Sheriff's Emerald pickup logic
