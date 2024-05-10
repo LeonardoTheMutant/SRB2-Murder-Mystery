@@ -389,14 +389,6 @@ rawset(_G, "MM_ChatPlaySFX", function(sfx)
 end)
 
 --
---CCMD.LUA
---
-rawset(_G, "MM_PrintContents", function(p,l)
-	CONS_Printf(p, "")
-	for i, str in pairs(MM.text[l]["MMHELP_CMD"]["CONTENTS"]) CONS_Printf(p, str) end
-end)
-
---
 --WEAPONS.LUA
 --
 -- A port of P_DrainWeaponAmmo() from C source code with MM modifications

@@ -1,6 +1,9 @@
 ## Murder Mystery string format
+
 ### For Murder Mystery `10.0-BETA+`
+
 ---
+
 Murder Mystery has its own custom string rendering library for HUD. It allows for strings with extended ASCII characters (0x80-0xFF) to be drawn on HUD. In vanilla SRB2 this range of characters is used by text coloring and transparency symbols.
 <br><br>
 Murder Mystery string uses this range of characters like symbols that can be printed on the screen (SRB2 executable has to be modified to use these in console/chat). Different character encodings are defining each of these characters differently. Murder Mystery (as for version `10.0-BETA`) supports languages like Russian and Ukrainian which are not Latin-based and their native letters are not supported by vanilla SRB2. To fix this problem MM uses ***Windows1251*** codepage as a base for these two languages.
@@ -40,10 +43,14 @@ Let's say you want to use this cool string format with colors but you don't want
 <br><br>
 
 ## Extended ASCII Character Sets
+
 List of Extended ASCII tables and the available characters which are included in MM. You can also see the characters directly in the game by using the `MMCHARSET [charset_prefix]` console command (available only in developer builds)
+
 ### Windows1250 (1250C)
+
 Based on [Windows1250](https://wikipedia.org/wiki/Windows-1250) codepage.
 Central and Eastern European Latin-based languages such as Polish, Czech, Slovak, Hungarian, German
+
 <table>
     <tr>
         <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
@@ -77,8 +84,10 @@ Central and Eastern European Latin-based languages such as Polish, Czech, Slovak
 <hr>
 
 ### Windows1251 (1251C)
+
 Based on [Windows1251](https://wikipedia.org/wiki/Windows-1251) codepage.
 Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonian
+
 <table>
     <tr>
         <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
@@ -112,8 +121,10 @@ Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonia
 <hr>
 
 ### Windows1253 (1253C)
+
 Based on [Windows1253](https://wikipedia.org/wiki/Windows-1253) codepage.
 Greek alphabet
+
 <table>
     <tr>
         <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
@@ -147,8 +158,10 @@ Greek alphabet
 <hr>
 
 ### Windows1254 (1254C)
+
 Based on [Windows1254](https://wikipedia.org/wiki/Windows-1254) codepage.
 Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also supports Turkish letters
+
 <table>
     <tr>
         <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
@@ -182,6 +195,7 @@ Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also suppo
 <hr>
 
 ## Guess that's it
+
 I hope that you have an understanding of the MM string format now. If you still don't understand it... well, it may be a problem with me trying to explain things like this... You can dig into the code anytime to understand things better or find something that is not documented here. This library will most likely be posted on the Message Board as an Open Asset in the future so everyone can have a look at it.
 
 Happy coding!
