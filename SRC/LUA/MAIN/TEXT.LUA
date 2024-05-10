@@ -900,8 +900,8 @@ MM.text={
 			"\xDE".."erifler",
 			"Masumlar"
 		},["HUD_DEAD"]={
-			"\xD6ld\xFCn\15",
-			"Yeninden do\xFE".."amaz veya konu\xFE".."amazs\xFD".."n",
+			"\15\xD6ld\xFCn",
+			"Yeninden do\xF0".."amaz veya konu\xFE".."amazs\xFD".."n",
 			"\xF6lmemi\xFE insanlar ile"
 		},["HUD_MIDJOIN"]={
 			"\4tur ortas\xFDnda\0 kat\xFDld\xFDn\xFDz, l\xFCtfen bu turun bitmesini bekleyin."
