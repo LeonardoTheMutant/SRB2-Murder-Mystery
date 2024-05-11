@@ -21,7 +21,7 @@ New textures      | Yes
 New objects       | Yes (Non map-placable objects)
 HUD modification  | Yes
 New music         | Yes (9 map + 6 intermission + 4 additional tracks)
-Digital music     | No
+Digital music     | Partially
 MIDI music        | Yes
                   |
 Includes          |
@@ -60,6 +60,7 @@ Special Thanks:
  - tedvin11 for the idea, base code, and leadership during the very early development
  - Musicians from FREEDOOM community for the wonderful map MIDIs
  - King Meteor for his high-quality MIDI arragements of songs from Sonic games
+ - Collision Chaos Radio for Sonic CD Music restoration
  - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
  - Every player who played the BETA versions on our servers hosted by Ambassadors
  - Sonic Team Junior for the best Sonic fan game ever
