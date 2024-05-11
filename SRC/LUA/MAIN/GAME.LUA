@@ -324,67 +324,52 @@ end)
 -- end the game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
 --
 addHook("PlayerQuit", function(p)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if ((gametype != GT_MURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
 
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_INNOCENT)) or (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF))) and (not PlayerCount(ROLE_MURDERER)))
+		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER)))
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
-		elseif (not PlayerCount(ROLE_MURDERER))
-			if (gamestate == GS_LEVEL)
-				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
-				MM_SetRandomInnoAs(ROLE_MURDERER)
-				if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
-			else
-				MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
-				if (isdedicatedserver) CONS_Printf(server,"- Murderer left") end
-			end
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
+			MM_SetRandomInnoAs(ROLE_MURDERER)
+			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 		end
 	elseif (p.role == ROLE_SHERIFF)
 		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF)==0)
-			if (not PlayerCount(ROLE_HERO)) MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF)
-			else MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF) end
-		elseif (not PlayerCount(ROLE_SHERIFF))
-			if gamestate==GS_LEVEL
-				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
-				MM_SetRandomInnoAs(ROLE_SHERIFF)
-				if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
-			else
-				MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
-				if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
-			end
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
+			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF)
+			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
+			MM_SetRandomInnoAs(ROLE_SHERIFF)
+			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
 	elseif (p.role == ROLE_INNOCENT)
 		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_LEFT", ROLE_INNOCENT)
-		else
-			MM_CheckShowdown()
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
 		end
 	elseif (p.role == ROLE_HERO)
 		p.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
-			if (not PlayerCount(ROLE_SHERIFF)) MM_EndRound(0, "LAST_LEFT", ROLE_HERO)
-			else MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO) end
-		elseif (not PlayerCount(ROLE_HERO)) and (PlayerCount(ROLE_SHERIFF)==0)
-			if (gamestate == GS_LEVEL)
-				MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
-				MM_SetRandomInnoAs(ROLE_HERO)
-				if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
-			else
-				MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
-				if (isdedicatedserver) CONS_Printf(server, "-Hero left") end
-			end
+			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO)
+			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
+			MM_SetRandomInnoAs(ROLE_HERO)
+			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
 	end
+
+	MM_CheckShowdown()
 end)
