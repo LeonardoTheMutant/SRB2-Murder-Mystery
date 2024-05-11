@@ -398,7 +398,7 @@ local function mainHUD(v, p) --main game HUD
 		end
 
 		--Ring weapons
-		if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT)) or (not duelmodeCVAR.value))
+		if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or ((not PlayerCount(ROLE_INNOCENT)) and (not duelmodeCVAR.value)))
 			--draw the only icon for Murderer
 			if (p.powers[pw_infinityring])
 				v.draw(coords.firstRingWepMurd.x, (coords.firstRingWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM) --Infinite Ring icon

@@ -96,7 +96,7 @@ local function VarChange(v) --callback function called by CV_CALL flag
 		if (v.value) print("\x87Murder Mystery:\x80 Everyone now can use sprinting by holding CUSTOM1 button!")
 		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
 	elseif (v.name == "mmduelmode")
-		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x87 now have access to all weapons during the Showdown Duel")
+		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x80 now have access to all weapons during the Showdown Duel")
 		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
 	end
 end
