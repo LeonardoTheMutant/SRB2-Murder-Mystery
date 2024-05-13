@@ -69,7 +69,7 @@ Lua.Author = LeoTM
 Lua.DisableFootsteps = True
 
 Level K7
-LevelName = Space Base
+LevelName = Sky Mesa
 SelectHeading = Murder Mystery
 NoZone = True
 Act = 0
