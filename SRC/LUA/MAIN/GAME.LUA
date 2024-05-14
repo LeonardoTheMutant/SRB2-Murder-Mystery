@@ -217,6 +217,7 @@ addHook("PlayerThink", function(p)
 	if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or (not CV_FindVar("mmduelmode").value))) p.ringweapons = 0 end
 
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
+	p.powers[3] = 0 --disable shields completely
 
 	if (not p.spectator)
 		--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
