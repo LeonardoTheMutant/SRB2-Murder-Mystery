@@ -12,7 +12,7 @@ REUSABLE          | Yes
 Modifies vanilla  |
 experience        | Should not
                   |
-New maps          | Yes (MAPK0-MAPK9)
+New maps          | Yes (MAPK0-MAPKE)
 LUA included      | Yes
 Custom characters | Vanilla modified*
 New sounds        | Yes
@@ -21,13 +21,14 @@ New textures      | Yes
 New objects       | Yes (Non map-placable objects)
 HUD modification  | Yes
 New music         | Yes (9 map + 6 intermission + 4 additional tracks)
-Digital music     | Partially
+Digital music     | No**
 MIDI music        | Yes
                   |
 Includes          |
 translations for  | English, Polish, Russian, Turkish, Ukrainian
 ------------------+-------------------------------------------------------------
-* please read READ_BEFORE_HOSTING.txt for details
+*  please read READ_BEFORE_HOSTING.txt for details
+** Digital Music pack can be downloaded from the SRB2 MM's GitHub repository
 
 
 
