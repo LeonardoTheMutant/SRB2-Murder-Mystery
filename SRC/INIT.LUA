@@ -120,7 +120,8 @@ freeslot('TOL_MM', 'MT_SHREML', 'MT_MMKNIFE')
 freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_DAMFLL', 'SFX_ALDI')
 --Emoji sounds
 freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19', 'sfx_emj1a', 'sfx_emj1b')
+freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19', 'sfx_emj1a', 'sfx_emj1b', 'sfx_emj1c', 'sfx_emj1d', 'sfx_emj1e', 'sfx_emj1f')
+freeslot('sfx_emj20')
 
 
 G_AddGametype({
@@ -173,7 +174,7 @@ sfxinfo[sfx_aldi].caption="\x19 I AM AT ALDI"
 sfxinfo[sfx_emj00].caption=":skull:"
 sfxinfo[sfx_emj01].caption="hehe"
 sfxinfo[sfx_emj02].caption=":fart:"
-sfxinfo[sfx_emj03].caption="OOOOOhhhh myy gooodddd...."
+sfxinfo[sfx_emj03].caption="OOOhhh my gooodd..."
 sfxinfo[sfx_emj04].caption="bruh"
 sfxinfo[sfx_emj05].caption="Vine boom"
 sfxinfo[sfx_emj06].caption="WOW"
@@ -198,6 +199,12 @@ sfxinfo[sfx_emj18].caption="SIREN"
 sfxinfo[sfx_emj19].caption="Hello there"
 sfxinfo[sfx_emj1a].caption="Good"
 sfxinfo[sfx_emj1b].caption="WHAT THE HELL"
+sfxinfo[sfx_emj1c].caption="Another one."
+sfxinfo[sfx_emj1d].caption="HOLD UP"
+sfxinfo[sfx_emj1e].caption="YOU MUST DIE!"
+sfxinfo[sfx_emj1f].caption="I need more bullets!"
+sfxinfo[sfx_emj20].caption="NOW!"
+
 
 --Script files init
 dofile("MAIN/TEXT.LUA")
@@ -214,6 +221,7 @@ dofile("MAIN/MINIGAMES.LUA")
 dofile("LEVELS/MAPK0.LUA")
 dofile("LEVELS/MAPK7.LUA")
 dofile("LEVELS/MAPK8.LUA")
+dofile("LEVELS/MAPKD.LUA")
 
 dofile("MISC/FOOTSTEPS.LUA")
 

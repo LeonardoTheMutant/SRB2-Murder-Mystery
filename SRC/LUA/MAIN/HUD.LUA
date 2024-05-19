@@ -328,6 +328,15 @@ local function mainHUD(v, p) --main game HUD
 		else V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, MM.text[consoleplayer.mmlang]["BMP_RINGS"], hudinfo[HUD_RINGS].f) end
 		v.drawNum(((hudinfo[HUD_RINGS].x + maxHudIfnfoSize) - 16), hudinfo[HUD_RINGS].y, p.rings, hudinfo[HUD_RINGS].f)
 	end
+	
+	--Time Warp Sign ("Warp ticket")
+	if (p.timetravel and (not p.spectator) and not (p.timetravel.warping & 1))
+		if (p.timetravel.timesign and (p.timetravel.timesign == 1)) --Past
+			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), v.cachePatch("TWS_PAST"), hudinfo[HUD_LIVES].f)
+		elseif (p.timetravel.timesign and (p.timetravel.timesign == 2)) --Future
+			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), v.cachePatch("TWS_FUTR"), hudinfo[HUD_LIVES].f)
+		end
+	end
 
 	--Life icon, player name and role
 	v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
@@ -336,6 +345,15 @@ local function mainHUD(v, p) --main game HUD
 	--Show your role
 	if ((p.role) and  (p.role > ROLE_NONE) and (not (p.roleflicker % 4)))
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
+	end
+	
+	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
+	if (p.timetravel and p.timetravel.timezone)
+		if (p.timetravel.timezone == 1) --Past
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), consoleplayer.mmlang, "\6"..MM.text[consoleplayer.mmlang]["HUD_PAST"], hudinfo[HUD_LIVES].f)
+		elseif (p.timetravel.timezone > 2) --One of the Futures
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), consoleplayer.mmlang, "\6"..MM.text[consoleplayer.mmlang]["HUD_FUTURE"], hudinfo[HUD_LIVES].f)
+		end
 	end
 
 	if (p.spectator)
@@ -444,10 +462,14 @@ local function mainHUD(v, p) --main game HUD
 	--ABILITIES.LUA part
 	if (CV_FindVar("mmsprint").value) v.drawString(hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 32), "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
 	elseif (p.sneak) V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT, 32768) end --FU/2
-
+	
 	--red Flash effect when you die
 	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_5"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end
+	
+	--white time warp spark effect
+	if (p.timetravel and p.timetravel.spark) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_0"), ((p.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end
 
+	
 	--Debug
 	if MM.devbuild
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87".."SRB2 MM "..MM.version.." DEBUG",0,"thin")
@@ -460,6 +482,7 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame),0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82".."ROLEFLICKER: \x80"..p.roleflicker,0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist),0,"thin")
+		v.drawString(coords.debugHUD.x, coords.debugHUD.y+80, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")",0,"thin")
 	end
 end
 

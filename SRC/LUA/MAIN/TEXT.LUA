@@ -286,7 +286,9 @@ MM.text={
 			"TIE!",
 			"\5MURDERERS", --must contain MM escape color code
 			"\3CIVILIANS" --must contain MM escape color code
-		}
+		},
+		["HUD_PAST"]="PAST",
+		["HUD_FUTURE"]="FUTURE"
 	},["PL"]={ -- Polish by sopix
 		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="sopix & LeonardoTheMutant",
@@ -500,7 +502,9 @@ MM.text={
 			"REMIS!",
 			"\5M\xD3RDERCY",
 			"\3CYWILE"
-		}
+		},
+		["HUD_PAST"]="PRZESZLO\x9C\xE6",
+		["HUD_FUTURE"]="PRZYSZLO\x9C\xE6"
 	},["RU"]={
 		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",

@@ -4,7 +4,7 @@
 -- Manage PlayerMsgs and redirect them to the right persons
 
 --SAYDEAD command - Say to the Dead Chat as Dedicated server
-COM_AddCommand("SAYDEAD", function(s, ...) --sender, message
+COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	--get the message string
 	local arg = {...}
 	local m = ""
@@ -14,8 +14,8 @@ COM_AddCommand("SAYDEAD", function(s, ...) --sender, message
 	end
 	
 	local sender
-	if (s == server) sender = "~SERVER"
-	else sender = s.name end
+	if (p == server) sender = "\x80~SERVER\x86"
+	else sender = p.name end
 	
 	if (#m)
 		--send the message
@@ -68,34 +68,68 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				elseif (mu:find("BOI")) MM_ChatPlaySFX(sfx_emj12)
 				else MM_ChatPlaySFX(sfx_emj01) end
 			end
-			if (mu:find(":SKULL:")) MM_ChatPlaySFX(sfx_emj00)
-			elseif (mu:find(":FART:")) MM_ChatPlaySFX(sfx_emj02)
-			elseif (mu:find("OMG")) MM_ChatPlaySFX(sfx_emj03)
-			elseif (mu == "BRUH") MM_ChatPlaySFX(sfx_emj04)
-			elseif (m:find(":|")) MM_ChatPlaySFX(sfx_emj05)
-			elseif (mu:find("WOW")) MM_ChatPlaySFX(sfx_emj06)
-			elseif (mu:find("AMONG US") or m:upper():find("AMONGUS")) MM_ChatPlaySFX(sfx_emj07)
-			elseif (mu == "OH NO") MM_ChatPlaySFX(sfx_emj08)
-			elseif (mu:find("SUS") and not mu:find("JESUS")) MM_ChatPlaySFX(sfx_emj09)
-			elseif (mu:find("AGHH") or m:upper():find("AHH")) MM_ChatPlaySFX(sfx_emj0a)
-			elseif (mu == "AHA") MM_ChatPlaySFX(sfx_emj0b)
-			elseif (mu:find("NO WAY")) MM_ChatPlaySFX(sfx_emj0c)
-			elseif (mu == "NOPE") MM_ChatPlaySFX(sfx_emj0d)
-			elseif (mu:find("GET OVER HERE")) MM_ChatPlaySFX(sfx_emj0e)
+			if (mu:find(":SKULL:"))
+				MM_ChatPlaySFX(sfx_emj00)
+			elseif (mu:find(":FART:"))
+				MM_ChatPlaySFX(sfx_emj02)
+			elseif (mu:find("OMG"))
+				MM_ChatPlaySFX(sfx_emj03)
+			elseif (mu == "BRUH")
+				MM_ChatPlaySFX(sfx_emj04)
+			elseif (m:find(":|"))
+				MM_ChatPlaySFX(sfx_emj05)
+			elseif (mu:find("WOW"))
+				MM_ChatPlaySFX(sfx_emj06)
+			elseif (mu:find("AMONG US") or m:upper():find("AMONGUS"))
+				MM_ChatPlaySFX(sfx_emj07)
+			elseif (mu == "OH NO")
+				MM_ChatPlaySFX(sfx_emj08)
+			elseif (mu:find("SUS") and not mu:find("JESUS"))
+				MM_ChatPlaySFX(sfx_emj09)
+			elseif (mu:find("AGHH") or m:upper():find("AHH"))
+				MM_ChatPlaySFX(sfx_emj0a)
+			elseif (mu == "AHA")
+				MM_ChatPlaySFX(sfx_emj0b)
+			elseif (mu:find("NO WAY"))
+				MM_ChatPlaySFX(sfx_emj0c)
+			elseif (mu == "NOPE")
+				MM_ChatPlaySFX(sfx_emj0d)
+			elseif (mu:find("GET OVER HERE"))
+				MM_ChatPlaySFX(sfx_emj0e)
 			elseif (mu:find("NO"))
-				if (mu == "NO!" or m == "NO") MM_ChatPlaySFX(sfx_emj16)
-				elseif (m:upper():find("NOOO")) MM_ChatPlaySFX(sfx_emj0f) end
-			elseif (m == "HELP" or mu == "HELP!") MM_ChatPlaySFX(sfx_emj10)
-			elseif (mu:find("PINGAS")) MM_ChatPlaySFX(sfx_emj13)
-			elseif (mu:find(":PAIN:")) MM_ChatPlaySFX(sfx_emj14)
-			elseif (mu:find("BOUT") and mu:find("BLOW")) MM_ChatPlaySFX(sfx_emj15)
-			elseif (mu == "HAH" or m:upper() == "HAH!") MM_ChatPlaySFX(sfx_emj17)
-			elseif (mu:find("HELLO THERE")) MM_ChatPlaySFX(sfx_emj19)
-			elseif (mu == "GOOD" or mu == "GUD") MM_ChatPlaySFX(sfx_emj1a)
-			elseif (mu:find("WHAT") and (mu:find("THE") or mu:find("DA")) and mu:find("HELL")) MM_ChatPlaySFX(sfx_emj1b)
+				if (mu == "NO!" or m == "NO")
+					MM_ChatPlaySFX(sfx_emj16)
+				elseif (m:upper():find("NOOO"))
+					MM_ChatPlaySFX(sfx_emj0f)
+				end
+			elseif (m == "HELP" or mu == "HELP!")
+				MM_ChatPlaySFX(sfx_emj10)
+			elseif (mu:find("PINGAS"))
+				MM_ChatPlaySFX(sfx_emj13)
+			elseif (mu:find(":PAIN:"))
+				MM_ChatPlaySFX(sfx_emj14)
+			elseif (mu:find("BOUT") and mu:find("BLOW"))
+				MM_ChatPlaySFX(sfx_emj15)
+			elseif (mu == "HAH" or mu == "HAH!")
+				MM_ChatPlaySFX(sfx_emj17)
+			elseif (mu:find("HELLO THERE"))
+				MM_ChatPlaySFX(sfx_emj19)
+			elseif (mu == "GOOD" or mu == "GUD")
+				MM_ChatPlaySFX(sfx_emj1a)
+			elseif (mu:find("WHAT") and (mu:find("THE") or mu:find("DA")) and mu:find("HELL"))
+				MM_ChatPlaySFX(sfx_emj1b)
+			elseif (mu:find("ANOTHER") and mu:find("ONE"))
+				MM_ChatPlaySFX(sfx_emj1c)
+			elseif (mu:find("HOLD") and mu:find("UP"))
+				MM_ChatPlaySFX(sfx_emj1d)
+			elseif (m == "YOU MUST DIE" or mu == "YOU MUST DIE!")
+				MM_ChatPlaySFX(sfx_emj1e)
+			elseif (mu:find("NEED") and mu:find("BULLETS"))
+				MM_ChatPlaySFX(sfx_emj1f)
+			elseif (m == "NOW" or mu == "NOW!")
+				MM_ChatPlaySFX(sfx_emj20)
 
 			--First, this is a bad word to use, Second, it's fun to look at the execution of this code
-			--I believe this should be in NOCHEAT.LUA instead
 			elseif (mu:match("NIGGA") or mu:match("NIGGER"))
 				MM_ChatPlaySFX(sfx_emj18)
 				chatprint("\x85\27\27\27 \x81RACIST PLAYER DETECTED\x85 \27\27\27")

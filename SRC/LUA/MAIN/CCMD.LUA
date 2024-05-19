@@ -32,6 +32,10 @@ local SEMJ_info = { --for the 4th page in HELP
 	"  \8Hello there\0",
 	"* \8Good\0",
 	"* \8WHAT THE HELL\0",
+	" \8 Another one\0",
+	"  \8HOLD UP\0",
+	"* \8YOU MUST DIE\0",
+	"* \8NOW\0",
 	"\n* This keyword has to be present in the message alone to work"
 }
 
