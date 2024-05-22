@@ -67,39 +67,33 @@ end
 
 -- PONG input handler
 local function PONG_ThinkCmd(p)
-    if (p.cmd.forwardmove > 0) --up
-        if (MM.duelplrs[1] == p) MM.pong.pads[1] = $ - 2
-        elseif (MM.duelplrs[2] == p) MM.pong.pads[2] = $ - 2 end
-    end
-
-    if (p.cmd.forwardmove < 0) --down
-        if (MM.duelplrs[1] == p) MM.pong.pads[1] = $ + 2
-        elseif (MM.duelplrs[2] == p) MM.pong.pads[2] = $ + 2 end
-    end
-
-    if ((MM.duelplrs[1] != p) and (MM.duelplrs[2] != p) and (p.spectator)) --you are spectator
-        --spectators are allowed to manipulate the ball ;P
-        if (not p.mmweapondelay)
-            if (p.cmd.forwardmove > 0) --up
-                MM.pong.velocity.y = -1
-                p.mmweapondelay = TICRATE
-            elseif (p.cmd.forwardmove < 0) --down
-                MM.pong.velocity.y = 1
-                p.mmweapondelay = TICRATE
-            elseif (p.cmd.sidemove > 0) --right
-                MM.pong.velocity.x = 1
-                p.mmweapondelay = TICRATE
-            elseif (p.cmd.sidemove < 0) --left
-                MM.pong.velocity.x = -1
-                p.mmweapondelay = TICRATE
-            end
-        end
-    end
+    --Paddle controls, supports analog controls from joypads
+    if (MM.duelplrs[1] == p) then MM.pong.pads[1] = $ - (p.cmd.forwardmove / 24) --Duel player 1
+    elseif (MM.duelplrs[2] == p) then MM.pong.pads[2] = $ - (p.cmd.forwardmove / 24) end --Duel player 2
 
     --check if pads are out of bounds
     for pad = 1, 2 do
         if (MM.pong.pads[pad] < 0) MM.pong.pads[pad] = 0
         elseif (MM.pong.pads[pad] > 64) MM.pong.pads[pad] = 64 end
+    end
+
+    if ((MM.duelplrs[1] != p) and (MM.duelplrs[2] != p) and (p.spectator)) --you are spectator
+        --spectators are allowed to manipulate the ball ;P
+        if (not p.mmweapondelay)
+            if (p.cmd.forwardmove > 10) --up
+                MM.pong.velocity.y = -1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.forwardmove < 10) --down
+                MM.pong.velocity.y = 1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.sidemove > 10) --right
+                MM.pong.velocity.x = 1
+                p.mmweapondelay = TICRATE
+            elseif (p.cmd.sidemove < 10) --left
+                MM.pong.velocity.x = -1
+                p.mmweapondelay = TICRATE
+            end
+        end
     end
 end
 
@@ -157,7 +151,7 @@ local function SONIC_Thinker(p)
 
     --hazard spawning
     if (p.SonicRun.hazardsTimeout <= 0)
-        local hazardType = P_RandomKey(6)
+        local hazardType = P_RandomKey(7)
         if (hazardType == 0)
             table.insert(p.SonicRun.hazards, {x = 192, y = 0})
         elseif (hazardType == 1)
@@ -166,15 +160,19 @@ local function SONIC_Thinker(p)
             table.insert(p.SonicRun.hazards, {x = 192, y = 32})
         elseif (hazardType == 3)
             table.insert(p.SonicRun.hazards, {x = 192, y = 0})
-            table.insert(p.SonicRun.hazards, {x = 200, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 16})
         elseif (hazardType == 4)
             table.insert(p.SonicRun.hazards, {x = 192, y = 16})
             table.insert(p.SonicRun.hazards, {x = 192, y = 32})
         elseif (hazardType == 5)
             table.insert(p.SonicRun.hazards, {x = 192, y = 32})
             table.insert(p.SonicRun.hazards, {x = 192, y = 48})
+        elseif (hazardType == 6)
+            table.insert(p.SonicRun.hazards, {x = 192, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 48})
         end
-        p.SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 16
+        p.SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 18
     end
 
     --hazards thinker and collision

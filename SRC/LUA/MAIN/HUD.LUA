@@ -7,7 +7,14 @@
 
 -- Constants
 local coords={ --HUD screen coordinates
-	first = {y=32}, --this and everything below for custom intermission
+	teammateInfo = {x=20, y=120},
+	teammateInfoOffset1 = {x=18},
+	teammateInfoOffset2 = {x=36},
+	firstRingWepMurd = {x = 152},
+	firstRingWep = {x=92, y=156}, --for weapon icons
+	debugHUD = {x=8, y=48},
+	--this and everything below is for custom intermission screen
+	first = {y=32},
 	num = {x=16},
 	name = {x=48},
 	kills = {x=264},
@@ -16,33 +23,17 @@ local coords={ --HUD screen coordinates
 	name2 = {x=40},
 	kills2 = {x=132},
 	num3 = {x=4},
-	name3 = {x=24},
-	teammateInfo = {
-		x=20, y=120
-	},
-	teammateInfoOffset1 = {x=18},
-	teammateInfoOffset2 = {x=36},
-	firstRingWepMurd = {x = 152},
-	firstRingWep = { --for weapon icons
-		x=92, y=156
-	},debugHUD = {
-		x=8, y=48
-	},pong = { --offset coordinates from screen's (0,0)
-		x=80, y=60
-	},sonicRun = { --offset coordinates from screen's (0,0)
-		x=60, y=60
-	},minigameTime = {
-		x=124, y=24
-	}
+	name3 = {x=24}
 }
 
 local expectedHudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mmduelmode")
 
--- Hook Functions
-
-local function mainHUD(v, p) --main game HUD
+--
+-- Main game HUD
+--
+hud.add(function(v, p)
 	if (gametype != GT_MURDERMYSTERY) --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
@@ -59,203 +50,12 @@ local function mainHUD(v, p) --main game HUD
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	if (((consoleplayer.mmhelp) and (consoleplayer.mmhelp.active)) or (consoleplayer.debugdrawer)) return end
-
-	--timer calculation
-	local timeleft = (MM.timelimit * 2100) - leveltime
-
-	--
-	-- SONIC RUN minigame renderer
-	--
-	if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
-		--CUSTOM3 related text
-		if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
-
-		--TIME
-		--"TIME" text
-		local timePatchWidth = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"])
-		if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25))
-		else V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, MM.text[consoleplayer.mmlang]["BMP_TIME"]) end
-		--minutes
-		if (G_TicsToMinutes(timeleft) > 9)
-			v.draw((coords.minigameTime.x + timePatchWidth + 6), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10))) --first digit
-			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10))) --second digit
-		else
-			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)))
-		end
-		--colon
-		v.draw((coords.minigameTime.x + timePatchWidth + 22), coords.minigameTime.y, v.cachePatch("STTCOLON"))
-		--seconds
-		if (G_TicsToSeconds(timeleft) > 9)
-			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10))) --first digit
-			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10))) --second digit
-		else
-			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM0")) --first digit is always 0
-			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft))) --second digit
-		end
-
-		--white screen background
-		v.drawFill(coords.sonicRun.x, coords.sonicRun.y, 200, 80, 0)
-
-		--Sonic
-		local sonicSprite
-		if (p.SonicRun.state == 0)
-			sonicSprite = "SNC_STND"
-		elseif (p.SonicRun.state == 1)
-			if (leveltime & 1) sonicSprite = "SNC_RUN1"
-			else sonicSprite = "SNC_RUN2" end
-		elseif (p.SonicRun.state == 2)
-			if (leveltime % 4 == 0) sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 1) sonicSprite = "SNC_SPN2"
-			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 3) sonicSprite = "SNC_SPN3" end
-		end
-		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), v.cachePatch(sonicSprite))
-
-		--hazards
-		local hazardSprite = "SPIK"..string.char(65 + ((leveltime % 16) >> 1)).."0"
-		for id, hazard in pairs(p.SonicRun.hazards)
-			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
-		end
-
-		--black screen outline
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31) --left side
-		v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y), 16, 80, 31) --right
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31) --top
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31) --bottom
-
-		--Startup timer
-		if (p.SonicRun.timeout)
-			local secondsLeft = p.SonicRun.timeout / TICRATE
-			if (secondsLeft)
-				local countdownPatch = "RACE3"
-				if (secondsLeft <= 2) countdownPatch = "RACE"..secondsLeft end
-				v.draw(152, 100, v.cachePatch(countdownPatch))
-			elseif v.draw(142, 100, v.cachePatch("RACEGO")) end
-		end
-
-		--score
-		local scoreWidth = v.stringWidth(p.SonicRun.score)
-		v.drawString((coords.sonicRun.x + 200 - scoreWidth), (coords.sonicRun.y - 12), p.SonicRun.score, V_SNAPTORIGHT|V_BLUEMAP)
-
-		if (not p.SonicRun.active)
-			v.drawString(160, (coords.sonicRun.y + 84), "GAME OVER", 0, "center")
-		end
-
-		v.drawString(160, (coords.sonicRun.y + 100), "Controls: \x87JUMP\x80 & \x87SPIN\x80", 0, "center")
-
-		--player side information
-		--character icon
-		v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f, v.getColormap(p.skin, p.skincolor)) --FU/2
-		--name
-		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
-		--role
-		if (p.role) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
-		elseif (p.spectator) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f) end
-
-		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87SONIC RUN",0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Height:\x80 "..p.SonicRun.Height,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
-		end
+	--Do not render the main HUD if MMHELP command, Debug Drawer, "Sonic Run" or "PONG" minigames are active
+	if (((consoleplayer.mmhelp) and (consoleplayer.mmhelp.active)) --MMHELP
+		or (consoleplayer.debugdrawer)) --debug drawer
+		or ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame))) --Sonic Run
+		or ((MM.minigame) and (p.minigame)) --PONG
 		return
-	end
-
-	--
-	-- PONG minigame renderer
-	--
-	if (MM.minigame) and (p.minigame)
-		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
-		--CUSTOM3 related text and show yourself
-		if (p == MM.duelplrs[1]) or (p == MM.duelplrs[2])
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
-			if (p == MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, consoleplayer.mmlang, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
-			elseif (p == MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, consoleplayer.mmlang, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT) end
-		else
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], 0, 32768)), 0, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 4, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
-			V_DrawStrASCIIcentered(v, 160, 152, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PONGBALL"]) --spectator ball text
-		end
-
-		--TIME
-		--"TIME" text
-		local timePatchWidth = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"])
-		if (not G_TicsToMinutes(timeleft)) and (leveltime & 4) V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25))
-		else V_DrawTextPatch(v, coords.minigameTime.x, coords.minigameTime.y, MM.text[consoleplayer.mmlang]["BMP_TIME"]) end
-		--minutes
-		if (G_TicsToMinutes(timeleft) > 9)
-			v.draw((coords.minigameTime.x + timePatchWidth + 6), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10))) --first digit
-			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10))) --second digit
-		else
-			v.draw((coords.minigameTime.x + timePatchWidth + 14), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)))
-		end
-		--colon
-		v.draw((coords.minigameTime.x + timePatchWidth + 22), coords.minigameTime.y, v.cachePatch("STTCOLON"))
-		--seconds
-		if (G_TicsToSeconds(timeleft) > 9)
-			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10))) --first digit
-			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10))) --second digit
-		else
-			v.draw((coords.minigameTime.x + timePatchWidth + 30), coords.minigameTime.y, v.cachePatch("STTNUM0")) --first digit is always 0
-			v.draw((coords.minigameTime.x + timePatchWidth + 38), coords.minigameTime.y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft))) --second digit
-		end
-
-		--draw board
-		v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, 0) --white outline
-		v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31) --black background
-		--draw player paddles
-		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].role])
-		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].role])
-		--draw ball
-		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72) end
-		--winner text
-		if (MM.pong.winner != nil)
-			if (not MM.pong.winner) V_DrawStrASCIIcentered(v, 160, 160, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
-			else V_DrawStrASCIIcentered(v, 160, 160, consoleplayer.mmlang, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[MM.pong.winner].role].."\0 "..MM.text[consoleplayer.mmlang]["HUD_WON"]) end
-		end
-		--player 1 side information
-		if (MM.duelplrs[1].valid)
-			--player name
-			v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT)
-			--role
-			V_DrawStrASCII(v, 16, 184, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[1].role]), V_SNAPTOLEFT)
-			--character picture
-			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
-			--win count
-			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills))
-		end
-		--player 2 side information
-		if (MM.duelplrs[2].valid)
-			--name
-			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT)
-			--role
-			V_DrawStrASCII(v, (304 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role])), 184, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role]), V_SNAPTORIGHT)
-			--charpic
-			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
-			--win
-			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills))
-		end
-
-		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87PONG",0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
-		end
-		return
-	elseif (MM.minigame) and (not p.minigame)
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], 0, 32768)), 4, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 
 	--
@@ -280,47 +80,33 @@ local function mainHUD(v, p) --main game HUD
 	--now we can draw
 
 	--SUSPECTS/VICTIMS
+	--Draw the Text Label
 	V_DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, MM.text[consoleplayer.mmlang][scorePatchName], hudinfo[HUD_SCORE].f)
+	--Calculate the number of suspects/victims
 	local plrsAlive
 	if (p.spectator) plrsAlive = PlayersAlive()
 	else
 		plrsAlive = PlayersAlive() - 1
 		if (plrsAlive < 0) plrsAlive = 0 end
 	end
-
+	--Draw the number
 	v.drawNum(((hudinfo[HUD_SCORE].x + maxHudIfnfoSize) - 16), hudinfo[HUD_SCORE].y, plrsAlive, hudinfo[HUD_SCORE].f)
-	--if (plrsAlive < 10) v.draw((hudinfo[HUD_SCORE].x + scorePatchWidth), hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM"..plrsAlive), hudinfo[HUD_SCORE].f)
-	--else
-	--	v.draw((hudinfo[HUD_SCORE].x + scorePatchWidth), hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM"..(plrsAlive/10)), hudinfo[HUD_SCORE].f)
-	--	v.draw((hudinfo[HUD_SCORE].x + scorePatchWidth + 8), hudinfo[HUD_SCORE].y, v.cachePatch("STTNUM"..(plrsAlive%10)), hudinfo[HUD_SCORE].f)
-	--end
 
 	--TIME
+	--timer calculation
+	local timeleft = (MM.timelimit * 2100) - leveltime
+	--Draw the Text Label
 	if ((not G_TicsToMinutes(timeleft)) and (leveltime & 4))
+		--Swap the colors in the label for flashing effect
+		--0x49 in SRB2's palette is Yellow, 0x25 is Red
 		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f)
-	else V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f) end
+	else
+		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f)
+	end
+	--Draw the time
 	v.drawPaddedNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timeleft), 2, hudinfo[HUD_TIME].f) --seconds
 	v.draw(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIME].f) --colon
 	v.drawNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timeleft), hudinfo[HUD_TIME].f) --minutes
-	/*
-	--minutes
-	if (G_TicsToMinutes(timeleft) > 9)
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 6), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft/10)), hudinfo[HUD_TIME].f) --first digit
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 14), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft%10)), hudinfo[HUD_TIME].f) --second digit
-	else
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 14), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..G_TicsToMinutes(timeleft)), hudinfo[HUD_TIME].f)
-	end
-	--colon
-	v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 22), hudinfo[HUD_TIME].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIME].f)
-	--seconds
-	if (G_TicsToSeconds(timeleft) > 9)
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 30), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)/10)), hudinfo[HUD_TIME].f) --first digit
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 38), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..(G_TicsToSeconds(timeleft)%10)), hudinfo[HUD_TIME].f) --second digit
-	else
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 30), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM0"), hudinfo[HUD_TIME].f) --first digit is always 0
-		v.draw((hudinfo[HUD_TIME].x + timePatchWidth + 38), hudinfo[HUD_TIME].y, v.cachePatch("STTNUM"..G_TicsToSeconds(timeleft)), hudinfo[HUD_TIME].f) --second digit
-	end
-	*/
 
 	--RINGS
 	if (not p.spectator)
@@ -484,14 +270,18 @@ local function mainHUD(v, p) --main game HUD
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+72, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist),0,"thin")
 		v.drawString(coords.debugHUD.x, coords.debugHUD.y+80, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")",0,"thin")
 	end
-end
+end, "game")
 
-local function scoresHUD(v) --SCORES TAB
+--
+-- SCORES TAB
+--
+hud.add(function(v)
 	if (gametype != GT_MURDERMYSTERY)
 		hud.enable("rankings")
 		return
 	end
 	hud.disable("rankings")
+	-- Prerelease/Debug
 	v.drawString(160, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP, "center")
 
 	--Text
@@ -546,10 +336,14 @@ local function scoresHUD(v) --SCORES TAB
 	--"Sheriff's Emerald is available!"
 	if ((#MM.shremls) and (leveltime & 1)) v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3")) end --8*FU, 184*FU, FU/2
 
+	-- Prerelease/Debug
 	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
-end
+end, "scores")
 
-local function interHUD(v) --Custom intermission HUD
+--
+-- Custom intermission HUD
+--
+hud.add(function(v)
 	if (gametype!=GT_MURDERMYSTERY)
 		hud.enable("intermissiontally")
 		return
@@ -653,17 +447,11 @@ local function interHUD(v) --Custom intermission HUD
 	end
 
 	-- Winner text
-
 	if (MM.winner == 0) V_DrawStrASCIIcentered(v, 160, 176, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_WIN"][1]) --tie
 	else V_DrawStrASCIIcentered(v, 160, 176, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_WINNERS"].." "..MM.text[consoleplayer.mmlang]["HUD_WIN"][MM.winner + 1]) end
 
 	-- Prerelease/Debug
-
 	v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
-end
-
-hud.add(mainHUD, "game")
-hud.add(scoresHUD, "scores")
-hud.add(interHUD, "intermission")
+end, "intermission")

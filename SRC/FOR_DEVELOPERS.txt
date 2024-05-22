@@ -16,14 +16,17 @@ MM_MurderMystery_[x.x-ALPHA].pk3
 |     +--MAIN--\
 |     |        +-ABILITIES.LUA - Responsible for character abilities
 |     |        +-CCMD.LUA - MMHELP and MMLANG commands
-|     |        +-CHAT.LUA - Chat management
+|     |        +-CHAT.LUA - Chat management & Chat sound effects
 |     |        +-DEBUG.LUA - This script is used only in Debug Builds of MM
 |     |        +-FUNCTIONS.LUA - Function definitions for the rest of the source code
 |     |        +-GAME.LUA - The main core of the game logic, everything usually happens here
 |     |        +-HUD.LUA - HUD renderer
-|     |        +-MINIGAME.LUA - Code for "PONG" and "SONIC RUN" minigames
 |     |        +-TEXT.LUA - All text and its translations used in MM
 |     |        \-WEAPONS.LUA - Recreation of the Vanilla Weapon Rings
+|     |
+|     +--MINIGAMES--\
+|     |             +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
+|     |             +-MINIGAME.LUA - Main logic code for "PONG" and "SONIC RUN" minigames
 |     |
 |     +--MISC--\
 |     |        \-FOOTSTEPS.LUA - Modified ModernSonic's footsteps engine
@@ -32,7 +35,7 @@ MM_MurderMystery_[x.x-ALPHA].pk3
 |
 \-SOC-\
       +-MAINCFG.TXT - SOC for maps
-      \-OBJCTCFG.TXT - SOC for custom objects such as dead bodies
+      \-OBJCTCFG.TXT - SOC for some custom objects such as dead bodies
 
 Other files are either textures or music and do not need to be introduced here (I hope)
 
