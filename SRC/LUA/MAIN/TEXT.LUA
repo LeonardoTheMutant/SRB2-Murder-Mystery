@@ -932,7 +932,7 @@ MM.text={
 		},
 		["HUD_YOU"]="SEN",
 		["HUD_WINNERS"]="Kazananlar:",
-		["HUD_WINS"]="Kazand\xFDlar",
+		["HUD_WON"]="Kazand\xFD!",
 		["HUD_WIN"]={
 			"BERABERE!",
 			"\5KAT\xDDLLER",
