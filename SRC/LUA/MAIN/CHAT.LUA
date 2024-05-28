@@ -29,7 +29,7 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 end, COM_ADMIN)
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	local delaytimer = CV_FindVar("mmspam").value*TICRATE
+	local delaytimer = CV_FindVar("mm_spam").value*TICRATE
 	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
 		CONS_Printf(s, "You are sending too many messages, please wait")
@@ -60,7 +60,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				end
 			end
 			return true
-		elseif (type == 0) and (CV_FindVar("MMSEMJ").value) --find and play sound emojis
+		elseif (type == 0) and (CV_FindVar("mm_semj").value) --find and play sound emojis
 			local mu = m:upper()
 
 			if (mu:find("HEHE"))

@@ -1,9 +1,9 @@
 Thanks for opening this file, it contains really important information
-for those who are going to host this addon pack on their own server (including you)
+for those who are going to host this addon pack on their server (including you)
 
 ---=== HOW TO LAUNCH THE MURDER MYSTERY GAME ===---
 A. From the command line:
-	1) Add the gametype addon file with "-FILE [path_to_the_addon]" parameter;
+	1) Add the game-type addon file with "-FILE [path_to_the_addon]" parameter;
 	2) Write the name of the gametype to launch like:
 	   -gametype "Murder Mystery"
 	3) You probably don't want to start from Greenflower1 so you need to use "-WARP MAPK0"
@@ -20,26 +20,17 @@ B. From the in-game console:
 There are a couple of Commands and Console Variables available for admins to use. Here are all of them:
 
 VARIABLES
-	MMSPRINT - Turn sprinting on/off. When it's on you can use sprinting by holding CUSTOM1
-	    button. If both MMSPRINT and MMCHARMODE are disabled Sneaking will be enabled instead.
-	    Your character will sneak when you hold the SPIN button and you're on the ground
-	    (a message on HUD appears when you're sneaking);
-	MMCHARMODE - Switch between three Character Ability modes. Possible values for this
-		variable is:
-		0 - "Everyone is the same (regular persons)". This is very similar to Sonic 1
-			abilities - all characters have only jump (Amy and Fang are using rolling jump state)
-			that can be used to break monitors and get through some obstacles. The speed of the
-			characters are also lowered;
-		1 - "Vanilla Abilities in the limited form". As the name applies all vanilla characters
-			receive their abilities back but they are limited or cut versions of the original
-			abilities they have;
-		2 - "Original Vanilla Abilities". In this mode, all skin limits are removed. Same as if
-			playing in vanilla SRB2 gametypes;
+	MMABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
+		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
+		Enable this Variable to remove the ability limit. The default value is OFF;
+	MMCUSTOMSKINS - Enable/Disable custom skins/characters in a Murder Mystery game.
+		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
+		The default value is OFF.
 	MMAFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
 	    set to 0 AFK timeout is disabled;
 	MMSPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
-	MMSEMJ - Enable/Disable sound from Chat Sound Emojis (default value is "On")
+	MMSEMJ - Enable/Disable the Chat Sound Effects (default value is "On")
 	MMDUELMODE - Enable/Disable access to all weapons for Murderers during the Showtime Duel. The default value is OFF.
 	MMAUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
 
@@ -54,30 +45,20 @@ Here is the list of Add-On types that can break Murder Mystery and the reasons w
 | Add-On type                    | What does it break              |
 +--------------------------------+---------------------------------+
 +--------------------------------+---------------------------------+
-| Custom characters (with LUA)   | Can be too OP or custom MM      |
-|                                | abilities won't work at all.    |
-+--------------------------------+---------------------------------+
-| Custom character (vanilla      | MM maps can be unplayable,      |
-| chars SOC patch)               | depending on patch type.        |
+| Custom characters/abilities    | Can be too OP and ruin the way  |
+|                                | MM was meant to be played       |
 +--------------------------------+---------------------------------+
 | Custom HUD                     | Can create a mess on the screen.|
 |                                | Not much critical for gameplay. |
-+--------------------------------+---------------------------------+
-| LUA (Custom abilities)         | Can break the way MM was        |
-|                                | intended to play. Also can      |
-|                                | break internal MM ability       |
-|                                | system.                         |
 +--------------------------------+--------------------------------=+
 | Murder Mystery Custom Language | LUA Errors might occur about    |
 | File (not matching version)    | missing string/block of text.   |
 |                                | Additionally, text may disappear|
 |                                | on the screen entirely          |
 +--------------------------------+---------------------------------+
-Basically, watch what you're adding, AND TRY TO NOT ADD CUSTOM CHARACTERS (they'll be useless anyway)!
+Watch what you're adding, AND TRY TO NOT ADD CUSTOM CHARACTERS (they are disabled in MM anyway)!
 
 We will add more information here if something else important will be noticed,
 please inform us as well if you will notice ANY KIND of bug/issue first.
 Our contacts are listed in README.TXT
 Thank you for reading and hosting this
-
-LeonardoTheMutant

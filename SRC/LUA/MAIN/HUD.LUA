@@ -28,7 +28,7 @@ local coords={ --HUD screen coordinates
 
 local expectedHudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
-local duelmodeCVAR = CV_FindVar("mmduelmode")
+local duelmodeCVAR = CV_FindVar("mm_duelmode")
 
 --
 -- Main game HUD
@@ -246,8 +246,7 @@ hud.add(function(v, p)
 	end
 
 	--ABILITIES.LUA part
-	if (CV_FindVar("mmsprint").value) v.drawString(hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 32), "\x82Sprint (hold):\x80 CUSTOM1", V_SNAPTOTOP|V_SNAPTOLEFT, "thin")
-	elseif (p.sneak) V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT, 32768) end --FU/2
+	if (p.sneak) V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT, 32768) end --FU/2
 	
 	--red Flash effect when you die
 	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_5"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT) end

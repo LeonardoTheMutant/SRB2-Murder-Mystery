@@ -6,16 +6,6 @@ rawset(_G, "MM", {
 	version = "1.0-ALPHA", --string, VERSION NUMBER
 	devbuild = true, --boolean, if set to true it enables debug functionality in MM
 	releasedate = "not released yet", --string, meant to contain the day of release
-	CharStats = {
-		default = {
-			ability = CA_NONE,
-			ability2 = CA_NONE,
-			actionspd = 2621440, --40*FU
-			charflags = 0,
-			mindash = 196608, --3*FU
-			maxdash = 1966080 --30*FU
-		}
-	},
 	RoleColor = {
 		"\x85", --Murderer
 		"\x84", --Sheriff
@@ -62,14 +52,6 @@ rawset(_G, "WIN_HEROKILLINNO", 4)
 rawset(_G, "WIN_NODEFENDERS", 5)
 
 --Customization API
-MM.AddSkinConf = function(skin, tb)
-	if (not skin) error("Invalid skin.") end
-	if (not tb) error("Invalid table.") end
-	if (type(skin) ~= "string") error("Skin must be string.") end
-	if (type(tb) ~= "table") error("tb must phrase as a table.") end
-	MM.CharStats[skin] = tb;
-	print("\x83Succesfuly patched \x82\""..skin.."\"\x83 skin for \"MMCHARMODE 1\"")
-end
 MM.AddLang = function(langID,langTbl)
 	if (not langID) error("Invalid Language Index") end
 	if (not langTbl) error("Invalid Language Table.") end
@@ -88,25 +70,21 @@ end
 
 --CVARs
 local function VarChange(v) --callback function called by CV_CALL flag
-	if (v.name == "mmcharmode")
-		if (v.value == 2) print("\x87Murder Mystery:\x80 Every character have their abilities back")
-		elseif (v.value == 1) print("\x87Murder Mystery:\x80 Vanilla character abbilities turned ON, but in limited form")
-		else print("\x87Murder Mystery:\x80 \"Regular person\" character mode enabled (abbilities off)") end
-	elseif (v.name == "mmsprint")
-		if (v.value) print("\x87Murder Mystery:\x80 Everyone now can use sprinting by holding CUSTOM1 button!")
-		else print("\x87Murder Mystery:\x80 Sprinting is now disabled") end
-	elseif (v.name == "mmduelmode")
+	if (v.name == "mm_abilities")
+		if (v.value) print("\x87Murder Mystery:\x80 Skin abilities are Enabled (no limits)")
+		else print("\x87Murder Mystery:\x80 Skin abilities are Disabled (\"Regular person\" mode)") end
+	elseif (v.name == "mm_duelmode")
 		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x80 now have access to all weapons during the Showdown Duel")
 		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
 	end
 end
-CV_RegisterVar{name = "mmcharmode", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mmsprint", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mmspam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
-CV_RegisterVar{name = "mmafk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
-CV_RegisterVar{name = "mmsemj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
-CV_RegisterVar{name = "mmduelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mmautofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
+CV_RegisterVar{name = "mm_abilities", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 6, func = VarChange}
+CV_RegisterVar{name = "mm_customskins", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 4}
+CV_RegisterVar{name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
+CV_RegisterVar{name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
+CV_RegisterVar{name = "mm_semj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
+CV_RegisterVar{name = "mm_duelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
+CV_RegisterVar{name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 
 --
 --MM startup init

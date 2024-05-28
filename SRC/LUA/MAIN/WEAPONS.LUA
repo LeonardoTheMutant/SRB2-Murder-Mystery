@@ -69,7 +69,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		or (p.playerstate == PST_DEAD) or (p.spectator))
 	then return end
 
-    if (not CV_FindVar("mmautofire").value) p.pflags = $|PF_ATTACKDOWN end
+    if (not CV_FindVar("mm_autofire").value) p.pflags = $|PF_ATTACKDOWN end
     local mo
 
     if (p.cmd.buttons & BT_FIRENORMAL)

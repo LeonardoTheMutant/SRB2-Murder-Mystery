@@ -3,14 +3,14 @@
   I hope you enjoyed the mod!"
 
 ADD-ON TECHNICAL INFORMATION
-------------------+------------------------------------------------------------
+------------------+----------------------------------------------------------------------------
 Add-On name       | Murder Mystery for SRB2
 Add-On version    | 1.0-ALPHA
-Add-On type       | New gametype
+Add-On type       | New game type
 REUSABLE          | Yes
                   |
 Modifies vanilla  |
-experience        | Should not
+experience        | Should not (Known bug: Metal Sonic can't get into his Hyper Dash mode)
                   |
 New maps          | Yes (MAPK0-MAPKE)
 LUA included      | Yes
@@ -18,7 +18,7 @@ Custom characters | Vanilla modified*
 New sounds        | Yes
 New graphics      | Yes
 New textures      | Yes
-New objects       | Yes (Non map-placable objects)
+New objects       | Yes (Non-map-placable objects)
 HUD modification  | Yes
 New music         | Yes (9 map + 6 intermission + 4 additional tracks)
 Digital music     | No**
@@ -26,8 +26,8 @@ MIDI music        | Yes
                   |
 Includes          |
 translations for  | English, Polish, Russian, Turkish, Ukrainian
-------------------+-------------------------------------------------------------
-*  please read READ_BEFORE_HOSTING.txt for details
+------------------+----------------------------------------------------------------------------
+*  Please read READ_BEFORE_HOSTING.txt for details
 ** Digital Music pack can be downloaded from the SRB2 MM's GitHub repository
 
 
@@ -60,21 +60,21 @@ Former members:
 Special Thanks:
  - tedvin11 for the idea, base code, and leadership during the very early development
  - Musicians from FREEDOOM community for the wonderful map MIDIs
- - King Meteor for his high-quality MIDI arragements of songs from Sonic games
+ - King Meteor for his high-quality MIDI arrangements of songs from Sonic games
  - Collision Chaos Radio for Sonic CD Music restoration
  - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
  - Every player who played the BETA versions on our servers hosted by Ambassadors
  - Sonic Team Junior for the best Sonic fan game ever
 
-and thank YOU for playing this add-on!
+and Thank YOU for playing this add-on!
 
 
 
 
-If you are going to host this gametype yourself please read the READ_BEFORE_HOSTING.TXT file for
+If you are going to host this game type yourself please read the READ_BEFORE_HOSTING.TXT file for
 the correct server setup and important notes.
 
-If you're interested in modding this gametype please take a look at our GitHub repository and/or
+If you're interested in modding this game type please take a look at our GitHub repository and/or
 read the developer documentation prepared for you in /DEV_DOCS folder
 
 You can contact us in our "SRB2MM_DEV" Discord where you can describe issues and suggest 

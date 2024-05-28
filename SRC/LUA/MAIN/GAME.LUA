@@ -6,7 +6,7 @@
 -- The main logic script of Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, AFK logic and round endings
 
-local afkCVAR = CV_FindVar("mmafk")
+local afkCVAR = CV_FindVar("mm_afk")
 
 addHook("MapLoad", function(map)
 	if (gametype != GT_MURDERMYSTERY) return end
@@ -62,7 +62,6 @@ addHook("PlayerSpawn", function(p)
 	if (not p.mmhelp) p.mmhelp = {page = 1, pos = 1, active = false} end --MMHELP UI init
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
-	p.sneak = false
 
 	p.powers[2] = 104 -- flashing invulnerability for 3 sec
 
@@ -214,7 +213,7 @@ addHook("PlayerThink", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
 
 	--remove weapons from Murderer in case it is not Duel or Murderers are not allowed to have other weapons during Duels
-	if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or (not CV_FindVar("mmduelmode").value))) p.ringweapons = 0 end
+	if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or (not CV_FindVar("mm_duelmode").value))) p.ringweapons = 0 end
 
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 	p.powers[3] = 0 --disable shields completely
