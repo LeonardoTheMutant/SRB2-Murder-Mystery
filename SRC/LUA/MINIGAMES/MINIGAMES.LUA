@@ -238,6 +238,7 @@ addHook("PlayerThink", function(p)
     --Player is in minigame state
     if (p.minigame)
         if ((MM.minigame) and (MM.twopgame)) --PONG
+            MM.hud.game.enabled = false
             if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
             --Disable player movement (kinda)
             if ((p.realmo) and (p.realmo.valid))
@@ -246,6 +247,7 @@ addHook("PlayerThink", function(p)
                 p.realmo.state = S_PLAY_STND
             end
         elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
+            MM.hud.game.enabled = false
             if (p.SonicRun.timeout)
                 p.SonicRun.timeout = $ - 1
                 if (p.SonicRun.timeout > TICRATE)
@@ -256,5 +258,7 @@ addHook("PlayerThink", function(p)
             if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end
 			p.powers[pw_nocontrol] = 1
         end
+    else
+        MM.hud.game.enabled = true
     end
 end)

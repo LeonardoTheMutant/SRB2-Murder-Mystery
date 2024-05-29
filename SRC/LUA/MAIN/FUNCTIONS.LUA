@@ -170,7 +170,7 @@ end)
 --
 --HUD.LUA
 --
-rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
+rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, fontsize)
 	--Draw strings in Murder Mystery format with swapable ASCII table
 
 	assert(v, "V_DrawStrASCII() argument #1: drawer variable expected")
@@ -189,8 +189,8 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, lang, str, flags, fontsize)
 	end
 
 
-	--set the characer encoding for the given language
-	local charset = MM.text[lang]["CHARSET"] or "STCFN"
+	--set the characer encoding
+	local charset = chrset or "STCFN"
 
 	--set the width of symbols
 	local width = fontsize >> 13 --fontsize/8192
@@ -301,11 +301,11 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, fontsize)
 	return pixelLen
 end)
 
-rawset(_G, "V_DrawStrASCIIcentered", function(v, x, y, lang, str, flags, fontsize)
-	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str,flags,fontsize) >> 1)), y, lang, str, flags, fontsize)
+rawset(_G, "V_DrawStrASCIIcentered", function(v, x, y, chrset, str, flags, fontsize)
+	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str,flags,fontsize) >> 1)), y, chrset, str, flags, fontsize)
 end)
 
-rawset(_G, "V_DrawTextPatch", function(v, x, y, patch, flags)
+rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	--draw an image from the text data, similar to v.draw()
 	--the text data itself is a table of strings containing the
 	--SRB2 palette's color values
@@ -313,6 +313,8 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch, flags)
 	assert(v, "V_DrawTextPatch() argument #1: drawer variable expected")
 	local x = x or 0
 	local y = y or 0
+	local xoff = xoff or 0 --X offset
+	local yoff = yoff or 0 --Y offset
 	assert(patch, "V_DrawTextPatch() argument #4: patch text data expected")
 	local flg = flags or 0
 
@@ -322,7 +324,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.drawFill((x + column), (y + row), 1, 1, pixelColor|flg) --draw it
+				v.drawFill((x - xoff + column), (y - yoff + row), 1, 1, pixelColor|flg) --draw it
 			end
 		end
 	end

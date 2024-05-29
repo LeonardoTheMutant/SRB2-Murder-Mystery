@@ -122,17 +122,17 @@ local function MMlang(p, l) --player, lang
 			local arg1 = ""
 			local arg2 = ""
 			local arg3 = "  "
-			if (MM.text[lang]["VERSION"]!=MM.version) langIncomp = $ + 1 end
-			if (MM.text[lang]["NONASCII"]) nonascii = true end
+			if (MM.text[lang]["VERSION"]!=MM.version) then langIncomp = $ + 1 end
+			if (MM.text[lang]["NONASCII"]) then nonascii = true end
 
-			if (p.mmlang == lang) arg1 = "\x82 (current lang)" end
-			if (MM.text[lang]["VERSION"] != MM.version) arg2 = "\x85 (INCOMPATIBLE)" end
-			if (MM.text[lang]["NONASCII"]) arg3 = "* " end
+			if (p.mmlang == lang) then arg1 = "\x82 (current lang)" end
+			if (MM.text[lang]["VERSION"] != MM.version) then arg2 = "\x85 (INCOMPATIBLE)" end
+			if (MM.text[lang]["NONASCII"]) then arg3 = "* " end
 			CONS_Printf(p, arg3..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if (langIncomp) CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
-		if (nonascii) CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
+		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
+		if (nonascii) then CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
 		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2 MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()

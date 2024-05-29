@@ -20,6 +20,39 @@ rawset(_G, "MM", {
 		"\2", --Hero
 		"\15" --Dead
 	},
+	hud = { --variables that control the HUD renderer
+		game = { --Main Game HUD
+			enabled = true,
+			pos = {
+				ringWepMurd = {x = 152}, --Murderer's weapon icon
+				ringWep = {x=92, y=156}, --Location of the first weapon icon
+				debug = {x=8, y=48}, --Debug info
+			}
+		},
+		scores = { --HUD for Scores Tab
+			enabled = true,
+			pos = {
+				teammateInfo = {x=20, y=120}, --Teammates tracklist
+				teammateInfoOffset1 = {x=18}, --Offset for current weapon icon
+				teammateInfoOffset2 = {x=36}, --Offset for Rings counter
+			}
+		},
+		intermission = { --Intermisson HUD
+			enabled = true,
+			pos = {
+				players = {y=32},
+				num = {x=16},
+				name = {x=48},
+				kills = {x=264},
+				players2 = {y=40},
+				num2 = {x=4},
+				name2 = {x=40},
+				kills2 = {x=132},
+				num3 = {x=4},
+				name3 = {x=24}
+			}
+		}
+	},
 	shwdwn = false, --is it Showdown Duel right now?
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
@@ -34,8 +67,6 @@ rawset(_G, "MM", {
 		padcolor = {36, 152} --player role colors
 	}
 })
-
-rawset(_G, "MurderMystery", MM) --for backwards compatibility
 
 --Role constants
 rawset(_G, "ROLE_NONE", 0)
@@ -108,8 +139,8 @@ G_AddGametype({
 	typeoflevel = TOL_MM,
 	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN,
 	intermissiontype = int_match,
-	headerleftcolor = 38,
-	headerrightcolor = 150,
+	headerleftcolor = 36,
+	headerrightcolor = 152,
 	description = "Kill everyone as Murderer or eliminate them as Sheriff! ...or be none of them and be Innocent"
 })
 

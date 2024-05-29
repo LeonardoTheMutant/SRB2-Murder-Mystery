@@ -4,7 +4,6 @@
 -- Dedicated HUD renderer for Minigames
 
 local coords = {
-    debugHUD = {x=8, y=48},
     pong = {x=80, y=60}, --offset coordinates from screen's (0,0)
     sonicRun = {x=60, y=60} --offset coordinates from screen's (0,0)
 }
@@ -18,12 +17,14 @@ local function V_DrawMinigameTime(v)
     local timeleft = (MM.timelimit * 2100) - leveltime
 
 	--"TIME" text
+	local xoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].xoff or 0
+	local yoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].yoff or 0
 	if ((not G_TicsToMinutes(timeleft)) and (leveltime & 4))
         --Swap the colors in the label for flashing effect
 		--0x49 in SRB2's palette is Yellow, 0x25 is Red
-		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP)
+		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP)
 	else
-		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[consoleplayer.mmlang]["BMP_TIME"], V_SNAPTOTOP)
+		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], V_SNAPTOTOP)
 	end
 
 	--Numbers
@@ -33,6 +34,23 @@ local function V_DrawMinigameTime(v)
 end
 
 hud.add(function(v, p)
+	if (gametype != GT_MURDERMYSTERY) --in case if switched from MM to another gametype
+		hud.enable("lives")
+		hud.enable("textspectator")
+		hud.enable("score")
+		hud.enable("time")
+		hud.enable("rings")
+		hud.enable("weaponrings")
+		return
+	end
+
+	hud.disable("lives")
+	hud.disable("textspectator")
+	hud.disable("score")
+	hud.disable("time")
+	hud.disable("rings")
+	hud.disable("weaponrings")
+
     --
 	-- SONIC RUN minigame renderer
 	--
@@ -103,15 +121,15 @@ hud.add(function(v, p)
 		elseif (p.spectator) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f) end
 
 		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87SONIC RUN",0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Height:\x80 "..p.SonicRun.Height,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Height:\x80 "..p.SonicRun.Height,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
 		end
 
     --
@@ -170,14 +188,14 @@ hud.add(function(v, p)
 		end
 
 		if (MM.devbuild)
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y, "\x87PONG",0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
-			v.drawString(coords.debugHUD.x, coords.debugHUD.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y, "\x87PONG",0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
+			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
 		end
     elseif (MM.minigame) and (not p.minigame)
         --Draw the invitation/suggestion text
