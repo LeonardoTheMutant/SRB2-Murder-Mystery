@@ -51,12 +51,14 @@ hud.add(function(v, p)
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
+	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
+
     --
 	-- SONIC RUN minigame renderer
 	--
     if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--CUSTOM3 related text
-		if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
+		if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
 
 		--TIME
 		V_DrawMinigameTime(v)
@@ -117,8 +119,8 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 		--role
-		if (p.role) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
-		elseif (p.spectator) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), consoleplayer.mmlang, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f) end
+		if (p.role) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
+		elseif (p.spectator) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f) end
 
 		if (MM.devbuild)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
@@ -139,13 +141,13 @@ hud.add(function(v, p)
 		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
 		--CUSTOM3 related text and show yourself
 		if (p == MM.duelplrs[1]) or (p == MM.duelplrs[2])
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
-			if (p == MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, consoleplayer.mmlang, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
-			elseif (p == MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, consoleplayer.mmlang, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT) end
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
+			if (p == MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
+			elseif (p == MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT) end
 		else
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], 0, 32768)), 0, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 4, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
-			V_DrawStrASCIIcentered(v, 160, 152, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PONGBALL"]) --spectator ball text
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], 0, 32768)), 0, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
+			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 4, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
+			V_DrawStrASCIIcentered(v, 160, 152, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PONGBALL"]) --spectator ball text
 		end
 
 		--TIME
@@ -161,30 +163,30 @@ hud.add(function(v, p)
 		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72) end
 		--winner text
 		if (MM.pong.winner != nil)
-			if (not MM.pong.winner) V_DrawStrASCIIcentered(v, 160, 160, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
-			else V_DrawStrASCIIcentered(v, 160, 160, consoleplayer.mmlang, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[MM.pong.winner].role].."\0 "..MM.text[consoleplayer.mmlang]["HUD_WON"]) end
+			if (not MM.pong.winner) V_DrawStrASCIIcentered(v, 160, 160, charset, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
+			else V_DrawStrASCIIcentered(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[MM.pong.winner].role].."\0 "..MM.text[consoleplayer.mmlang]["HUD_WON"]) end
 		end
 		--player 1 side information
 		if (MM.duelplrs[1].valid)
 			--player name
 			v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT)
 			--role
-			V_DrawStrASCII(v, 16, 184, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[1].role]), V_SNAPTOLEFT)
+			V_DrawStrASCII(v, 16, 184, charset, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[1].role]), V_SNAPTOLEFT)
 			--character picture
 			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT, v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			--win count
-			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills))
+			V_DrawStrASCIIcentered(v, (coords.pong.x + 10), 44, charset, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills))
 		end
 		--player 2 side information
 		if (MM.duelplrs[2].valid)
 			--name
 			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT)
 			--role
-			V_DrawStrASCII(v, (304 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role])), 184, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role]), V_SNAPTORIGHT)
+			V_DrawStrASCII(v, (304 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role])), 184, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[2].role]), V_SNAPTORIGHT)
 			--charpic
 			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT, v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 			--win
-			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, consoleplayer.mmlang, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills))
+			V_DrawStrASCIIcentered(v, (310 - coords.pong.x), 44, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills))
 		end
 
 		if (MM.devbuild)
@@ -199,7 +201,7 @@ hud.add(function(v, p)
 		end
     elseif (MM.minigame) and (not p.minigame)
         --Draw the invitation/suggestion text
-        V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), 0, 32768)), 0, consoleplayer.mmlang, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
-        V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], 0, 32768)), 4, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+        V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+        V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], 0, 32768)), 4, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["DUEL"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 	end
 end, "game")

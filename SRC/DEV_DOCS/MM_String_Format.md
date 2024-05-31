@@ -179,7 +179,7 @@ Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also suppo
         <th>B</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
-        <th>C</th><td></td><td></th><td></th><td></th><td>Ä</th><td></th><td></td><td>Ç</td><td></td><td>É</td><td></td><td>Ë</td><td></td><td>Í</td><td>Î</td><td>Ï</td>
+        <th>C</th><td></td><td></th><td></th><td></th><td>Ä</th><td></th><td></td><td>Ç</td><td>È</td><td>É</td><td></td><td>Ë</td><td>Ì</td><td>Í</td><td>Î</td><td>Ï</td>
     </tr>
     <tr>
         <th>D</th><td>Ğ</td><td>Ń</td><td>Ň</td><td>Ó</td><td>Ô</td><td>Ő</td><td>Ö</td><td></td><td></td><td>Ù</td><td>Ú</td><td></td><td>Ü</td><td>İ</td><td>Ş</td><td>ß</td>

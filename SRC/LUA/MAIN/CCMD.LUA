@@ -45,6 +45,7 @@ local tech_info = {
 	"by \2\"SRB2 MM_DEV team\"\0",
 	"(Full credits are in README.TXT inside this .PK3)",
 	"\nChanges from\1 10.1-BETA\0:",
+	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
 	"\4Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\0\n",
 	"\6GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\0\n",
@@ -161,8 +162,9 @@ COM_AddCommand("mmlang", MMlang, COM_LOCAL)
 --
 local scrnRows = 0
 local scrnColumns = 0
---local realPagelen
---local pagestep
+--local scrollBarHeight
+local realPagelen
+--local scrollstep
 
 --insert an array of data to the screen buffer
 local function V_InsertToBuffer(player, array)
@@ -286,17 +288,23 @@ hud.add(function(v, p)
 
 		--scroll bar
 		--quite unfinished
+		
+		--scrollBarHeight = v.height()/v.dupy() - 16
+		--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
 
-		--v.drawFill(312, 0, 8, 200, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
-		--if ((#p.buffer - scrnColumns) <= 0) realPagelen = scrnColumns
-		--else realPagelen = #p.buffer - scrnColumns end
+		if ((#p.buffer + 1 - scrnRows) <= 0) realPagelen = 1
+		else realPagelen = #p.buffer + 1 - scrnRows end
 
-		--pagestep = #p.buffer/scrnColumns
-		--v.drawFill(312, ((p.mmhelp.pos - 1)*pagestep), 8, realPagelen, V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
+		--scrollstep = #p.buffer/scrnRows * scrollBarHeight
+		--v.drawFill(312, ((p.mmhelp.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
 
-		v.drawFill(0, 188, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+		v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
-		V_DrawStrASCII(v, 0, 192, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][1], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-		V_DrawStrASCII(v, 0, 196, consoleplayer.mmlang, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][2], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		--bottom text
+		v.drawString(0, 186, ("\x89Scroll: "..p.mmhelp.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
+		v.drawString(80, 186, ("\x88Page: "..p.mmhelp.page.."/"..(#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
+
+		V_DrawStrASCII(v, 0, 192, charset, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][1], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		V_DrawStrASCII(v, 0, 196, charset, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][2], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
 	end
 end, "game")

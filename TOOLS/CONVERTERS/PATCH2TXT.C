@@ -10,8 +10,9 @@ typedef unsigned int uint32_t;
 
 FILE *patchfile;
 FILE *outputfile;
-uint32_t columnPointer;
-uint8_t currPixel;
+uint32_t columnPointer; //adress of the POST in a patch file
+uint8_t currPixel;      //value of the current pixel
+uint8_t hexWritten;     //Number of Hexadecimal numbers written to the output file in a row
 
 //header data
 uint16_t patchWidth;
@@ -34,6 +35,10 @@ int main(int argc, char *argv[])
         printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
         return 0;
     }
+
+	//
+	// READ AND CONVERSION
+	//
 
     patchfile = fopen(argv[1], "rb"); //Open file in read-only binary mode
 	
@@ -107,6 +112,20 @@ int main(int argc, char *argv[])
 
 	fclose(patchfile); //patch file close
 
+	//debug
+	/*
+	printf("Pixel data:\n");
+	for (uint32_t row = 0; row < patchHeight; row++)
+	{
+		for (uint32_t column = 0; column < patchWidth; column++) printf("%X ", currPixel);
+		printf("\n"); //debug
+	}
+	*/
+
+	//
+	// OUTPUT
+	//
+
 	//generate the LUA-compatible table
 	outputfile = fopen("OUTPUT.LUA", "w"); //create (or open existing) an output file
 	if (outputfile == NULL) //failed to create/open?
@@ -115,29 +134,48 @@ int main(int argc, char *argv[])
         return 1;
 	}
 
-	printf("Pixel data:\n"); //debug
-	fprintf(outputfile, "local OUTPUT_BITMAP = {\n"); //table declaration
+	//Bitmap info table
+	fprintf(outputfile, "local OUTPUT_BITMAP_INFO = {\n"); //Table declaration
+	fprintf(outputfile, "\txoff = %hu,\n", patchOffsetX);  //X offset
+	fprintf(outputfile, "\tyoff = %hu\n", patchOffsetY);   //Y offset
+	fprintf(outputfile, "}\n");                            //end of the table
+
+	//Bitmap table
+	fprintf(outputfile, "local OUTPUT_BITMAP = {\n"); //Table declaration
 	for (uint32_t row = 0; row < patchHeight; row++)
 	{
 		fprintf(outputfile, "\t\""); //start of the row line
+		hexWritten = 0;
 		for (uint32_t column = 0; column < patchWidth; column++)
 		{
 			currPixel = pixels[row][column];
-			printf("%X ", currPixel); //debug
 			if ((((currPixel >= 0x20) && (currPixel <= 0x2F)) || ((currPixel >= 0x47) && (currPixel <= 0x5A)) || ((currPixel >= 0x67) && (currPixel <= 0x7A))) && ((argc > 2) && (argv[2][0] == '-'))) //check if the compressiion option enabled (dash would be enough)
 			{
 				//compression enabled, type the printable character
+				if (hexWritten && (((currPixel >= 0x41) && (currPixel <= 0x46)) || ((currPixel >= 0x61) && (currPixel <= 0x66))))
+				{ //Previos pixel value was written in Hex format, we don't want A-F and a-f symbols to create troubles after that
+					fprintf(outputfile, "\"..\"");
+				}
 				fprintf(outputfile, "%c", currPixel);
+				hexWritten = 0;
 			} else {
 				//compression disabled or non-convertable symbol, write in HEX format
-				if (currPixel < 0x10) fprintf(outputfile, "\\x0%X", currPixel); //add missing zero for numbers 0-15
-				else fprintf(outputfile, "\\x%X", currPixel);
+				if (!(hexWritten % 2)) //Writing an 8-bit Escape Code
+				{
+					if (currPixel < 0x10) fprintf(outputfile, "\\x0%X", currPixel); //add missing zero for numbers 0-15
+					else fprintf(outputfile, "\\x%X", currPixel);
+				} else { //We are allowed to write another value to make a 16-bit code
+					if (currPixel < 0x10) fprintf(outputfile, "0%X", currPixel); //add missing zero for numbers 0-15
+					else fprintf(outputfile, "%X", currPixel);
+				}
+				hexWritten++;
 			}
 		}
-		printf("\n"); //debug
 		fprintf(outputfile, "\",\n"); //end of the row line
 	}
 	fprintf(outputfile, "}\n"); //end of the table
+
+	fclose(outputfile); //output file close
 
 	printf("\nOutput written to ./OUTPUT.LUA\n");
 

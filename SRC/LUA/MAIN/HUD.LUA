@@ -40,7 +40,7 @@ hud.add(function(v, p)
 	end
 
 	--Do not render the main HUD if it was disabled by another script
-	if (not MM.hud.game.enabled) or (p.mmhelp.active) return end
+	if (not MM.hud.game.enabled) or (p.mmhelp.active) or (p.debugdrawer) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
