@@ -6,7 +6,7 @@
 --
 --CONSTANTS
 --
-local dthsfx = {sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_emj08, sfx_emj14} --SFXs that are used as Death Sounds
+local dthsfx = {sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_mmdth5, sfx_mmdth6} --SFXs that are used as Death Sounds
 local shwdwn_music = { --Tracks used as Showdown Duel themes
 	"S2MSBS", --Sonic 2 Master System Boss
 	"S2GGBS", --Sonic 2 Game Gear Boss
@@ -365,13 +365,7 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 end)
 
 rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
-	if (wep==1) return 1
-	elseif (wep==2) return 2
-	elseif (wep==3) return 4
-	elseif (wep==4) return 8
-	elseif (wep==5) return 16
-	elseif (wep==6) return 32
-	end
+	return 2^(wep - 1)
 end)
 
 rawset(_G, "V_GetSHREMLiconID", function(dist)
@@ -381,13 +375,6 @@ rawset(_G, "V_GetSHREMLiconID", function(dist)
 	elseif (dist < 2048) return 3
 	elseif (dist < 3072) return 2
 	else return 1 end
-end)
-
---
---CHAT.LUA
---
-rawset(_G, "MM_ChatPlaySFX", function(sfx)
-	for p in players.iterate S_StartSound(nil, sfx, p) end
 end)
 
 --

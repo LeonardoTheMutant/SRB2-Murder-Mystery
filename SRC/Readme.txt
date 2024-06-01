@@ -37,17 +37,18 @@ translations for  | English, Polish, Russian, Turkish, Ukrainian
 =================================================
 
 SRB2MM_DEV team is:
-  LeonardoTheMutant - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian & Polish translator
-  tedbasher3000     - Coder, support
-  Jesus.B           - Coder, Spanish translator
-  sopix             - Polish translator
-  Arnie37           - Russian translator
-  SlainLBS          - Spanish translator
-  Mobillia          - Turkish translator
-  asdhio            - Ukrainian translator
-  Mr. Quack         - Musician
-  LexTheGamer95     - Ambassador of North America
-  lamon             - Ambassador of the United Kingdom
+  LeonardoTheMutant  - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian & Polish translator
+  tedbasher3000      - Coder, support
+  Jesus.B            - Coder, Spanish translator
+  sopix              - Polish translator
+  Arnie37, Sonic1983 - Russian translator(s)
+  SlainLBS           - Spanish translator
+  Mobillia           - Turkish translator
+  asdhio (aheiiv)    - Ukrainian translator
+  Mr. Quack          - Musician
+  futuresmiles       - Ambassador of North America
+  LexTheGamer95      - Ambassador of North America
+  lamon              - Ambassador of the United Kingdom
 
 Former members:
   SuperOfSRB2       - Ambassador of North America

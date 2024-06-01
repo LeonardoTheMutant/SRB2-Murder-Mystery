@@ -113,7 +113,6 @@ CV_RegisterVar{name = "mm_abilities", defaultvalue = 0, PossibleValue = CV_OnOff
 CV_RegisterVar{name = "mm_customskins", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 4}
 CV_RegisterVar{name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
 CV_RegisterVar{name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
-CV_RegisterVar{name = "mm_semj", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 CV_RegisterVar{name = "mm_duelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
 CV_RegisterVar{name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 
@@ -126,12 +125,7 @@ print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 --Freeslot Gametype, Sheriff's Emerald & Knife object
 freeslot('TOL_MM', 'MT_SHREML', 'MT_MMKNIFE')
 --Various SFX
-freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_DAMFLL', 'SFX_ALDI')
---Emoji sounds
-freeslot('sfx_emj00', 'sfx_emj01', 'sfx_emj02', 'sfx_emj03', 'sfx_emj04', 'sfx_emj05', 'sfx_emj06', 'sfx_emj07', 'sfx_emj08', 'sfx_emj09', 'sfx_emj0a', 'sfx_emj0b', 'sfx_emj0c', 'sfx_emj0d', 'sfx_emj0e', 'sfx_emj0f')
-freeslot('sfx_emj10', 'sfx_emj11', 'sfx_emj12', 'sfx_emj13', 'sfx_emj14', 'sfx_emj15', 'sfx_emj16', 'sfx_emj17', 'sfx_emj18', 'sfx_emj19', 'sfx_emj1a', 'sfx_emj1b', 'sfx_emj1c', 'sfx_emj1d', 'sfx_emj1e', 'sfx_emj1f')
-freeslot('sfx_emj20')
-
+freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_DAMFLL', 'SFX_ALDI')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -171,48 +165,16 @@ mobjinfo[MT_MMKNIFE] = {
 --
 
 --Death sounds
-sfxinfo[sfx_mmdth1].caption="\x19 Good Night \x19"
+sfxinfo[sfx_mmdth1].caption="\x19 Good Night"
 sfxinfo[sfx_mmdth2].caption="Killed"
 sfxinfo[sfx_mmdth3].caption="Killed"
 sfxinfo[sfx_mmdth4].caption="Killed"
+sfxinfo[sfx_mmdth5].caption="OH NO!"
+sfxinfo[sfx_mmdth6].caption="Pain"
 --for MAPK5 (Dam Zone)
 sfxinfo[sfx_damfll].caption="Falling from the Dam..."
 --for MAPKD (East City)
 sfxinfo[sfx_aldi].caption="\x19 I AM AT ALDI"
---Chat sound emojis
-sfxinfo[sfx_emj00].caption=":skull:"
-sfxinfo[sfx_emj01].caption="hehe"
-sfxinfo[sfx_emj02].caption=":fart:"
-sfxinfo[sfx_emj03].caption="OOOhhh my gooodd..."
-sfxinfo[sfx_emj04].caption="bruh"
-sfxinfo[sfx_emj05].caption="Vine boom"
-sfxinfo[sfx_emj06].caption="WOW"
-sfxinfo[sfx_emj07].caption="AMONGUS"
-sfxinfo[sfx_emj08].caption="OH NO"
-sfxinfo[sfx_emj09].caption="SUS"
-sfxinfo[sfx_emj0a].caption="AGGHHHHH"
-sfxinfo[sfx_emj0b].caption="AHA!"
-sfxinfo[sfx_emj0c].caption="NO WAY!"
-sfxinfo[sfx_emj0d].caption="nope."
-sfxinfo[sfx_emj0e].caption="GET OVER HERE!"
-sfxinfo[sfx_emj0f].caption="NOOOOoooo..."
-sfxinfo[sfx_emj10].caption="HELP!"
-sfxinfo[sfx_emj11].caption="HEHEHE HA"
-sfxinfo[sfx_emj12].caption="hehe boiii..."
-sfxinfo[sfx_emj13].caption="PINGAS"
-sfxinfo[sfx_emj14].caption="PAIN"
-sfxinfo[sfx_emj15].caption="imbouttoblow"
-sfxinfo[sfx_emj16].caption="NO!"
-sfxinfo[sfx_emj17].caption="HAH!"
-sfxinfo[sfx_emj18].caption="SIREN"
-sfxinfo[sfx_emj19].caption="Hello there"
-sfxinfo[sfx_emj1a].caption="Good"
-sfxinfo[sfx_emj1b].caption="WHAT THE HELL"
-sfxinfo[sfx_emj1c].caption="Another one."
-sfxinfo[sfx_emj1d].caption="HOLD UP"
-sfxinfo[sfx_emj1e].caption="YOU MUST DIE!"
-sfxinfo[sfx_emj1f].caption="I need more bullets!"
-sfxinfo[sfx_emj20].caption="NOW!"
 
 
 --Script files init

@@ -4,41 +4,6 @@
 --
 -- Code for MMHELP and MMLANG console comands
 
-local SEMJ_info = { --for the 4th page in HELP
-	"\n  \8:skull:\0",
-	"  \8:fart:\0",
-	"  \8:pain:\0",
-	"  \8:|\0",
-	"  \8OMG\0",
-	"  \8bruh\0",
-	"  \8sus\0",
-	"  \8AMONGUS\0",
-	"* \8OH NO\0",
-	"  \8AGHH\0 / \8AHH\0",
-	"* \8AHA\0",
-	"  \8NO WAY\0",
-	"* \8NOPE\0",
-	"  \8WOW\0",
-	"  \8GET OVER HERE\0",
-	"  \8NOOO\0",
-	"* \8NO!\0",
-	"* \8HELP\0",
-	"  \8hehe\0",
-	"  \8HEHEHE HA\0",
-	"  \8hehe boi\0",
-	"  \8PINGAS\0",
-	"  \8imbouttoblow\0",
-	"  \8HAH\0",
-	"  \8Hello there\0",
-	"* \8Good\0",
-	"* \8WHAT THE HELL\0",
-	" \8 Another one\0",
-	"  \8HOLD UP\0",
-	"* \8YOU MUST DIE\0",
-	"* \8NOW\0",
-	"\n* This keyword has to be present in the message alone to work"
-}
-
 local tech_info = {
 	"\7SRB2 Murder Mystery\0",
 	"Version\1 "..MM.version.."\0 ("..MM.releasedate..")",
@@ -60,12 +25,11 @@ local function helpCMD(p, page)
 
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
-		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \"Mystery\" and \"Vanilla\" skin abilities mode.")
+		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \"Mystery\" and \"Vanilla\" skin abilities mode. Default is \"Mystery\" (OFF)")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80 - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_SPAM\x80        - Set the sending delay time in ticks to prevent chat spamming.")
-		CONS_Printf(p, "\x87MM_SEMJ\x80        - Enable/Disable Sound Emojis for everyone.")
 		CONS_Printf(p, "\x87MM_AFK\x80         - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked.")
-		CONS_Printf(p, "\x87MM_DUELMODE\x80    - Enable/Disable access to all weapons for \x85Murderers\x80 during the \x88Showduwn Duel\x80.")
+		CONS_Printf(p, "\x87MM_DUELMODE\x80    - Enable/Disable access to all weapons for \x85Murderers\x80 during the \x88Showdown Duel\x80.")
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
 	end
 	if (MM.devbuild)
@@ -187,8 +151,6 @@ addHook("PlayerThink", function(p)
 	if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
 		V_InsertToBuffer(p, MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page])
 	end
-
-	if (p.mmhelp.page == 4) then V_InsertToBuffer(p, SEMJ_info) end --Sound Emojis info for Chat page
 
 	if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
 		V_InsertToBuffer(p, tech_info)

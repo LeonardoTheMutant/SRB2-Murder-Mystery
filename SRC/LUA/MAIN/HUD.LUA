@@ -221,7 +221,7 @@ hud.add(function(v, p)
 				v.drawString((MM.hud.game.pos.ringWep.x + 1), (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM, "thin") --Infinite Ring ammo counter
 			else v.draw((MM.hud.game.pos.ringWep.x), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM) end --Red Ring icon
 			for weapon = 1,6
-				if (p.ringweapons&wep2rw(weapon)) or (p.powers[weapon+14])
+				if (p.ringweapons & wep2rw(weapon)) or (p.powers[weapon+14])
 					v.draw((MM.hud.game.pos.ringWep.x + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]|V_SNAPTOBOTTOM) --Ring weapon icon
 					if (p.powers[weapon + 14]) v.drawString((MM.hud.game.pos.ringWep.x + 1 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], ringTrans[weapon]|V_SNAPTOBOTTOM, "thin") end --Ammo counter
 				end
