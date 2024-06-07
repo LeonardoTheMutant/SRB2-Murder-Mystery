@@ -347,6 +347,8 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	["HUD_SNEAKING"]="Sneaking...", --Sneaking
 	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
+	["HUD_DEADLY"]="DEADLY", --for "Deadly mode"
+	["HUD_MODE"]="MODE",
 
 	--minigame stuff
 	["HUD_MINIGAME"]={

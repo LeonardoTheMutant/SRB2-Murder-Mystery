@@ -279,6 +279,8 @@ MM.text={
 		},
 		["HUD_SNEAKING"]="Sneaking...", --Sneaking
 		["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
+		["HUD_DEADLY"]="DEADLY", --for "Deadly mode"
+		["HUD_MODE"]="MODE",
 		--minigame stuff
 		["HUD_MINIGAME"]={
 			["PRESS"] = "Press\2 CUSTOM3\0 to", --must contain MM escape color codes
@@ -519,8 +521,8 @@ MM.text={
 			"\5M\xD3RDERCY",
 			"\3CYWILE"
 		},
-		["HUD_PAST"]="PRZESZLO\x9CE6",
-		["HUD_FUTURE"]="PRZYSZLO\x9CE6"
+		["HUD_PAST"]="PRZESZLO\x8CC6",
+		["HUD_FUTURE"]="PRZYSZLO\x8CC6"
 	},["RU"]={
 		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
@@ -730,7 +732,9 @@ MM.text={
 			"\xCD\xC8\xD7\xDC\xDF!",
 			"\5\xEC\xE8\xF0\xED\xFB\xE5",
 			"\3\xD6\xDB\xC2\xC8\xCB\xDC\xCD\xDB\xC5"
-		}
+		},
+		["HUD_PAST"]="\xCFD0\xCED8\xCBCE\xC5",
+		["HUD_FUTURE"]="\xC1D3\xC4D3\xD9C5\xC5"
 	},["TR"]={ --Turkish by Mobillia
 		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Mobillia",
@@ -1165,6 +1169,8 @@ MM.text={
 			"\xCD\xB2\xD7\xC8\xDF!", --NICHYJA!
 			"\5\xC2\xC1\xC8\xC2\xD6\xB2", --WBYWCI
 			"\3\xD6\xC8\xC2\xB2\xCB\xDC\xCD\xB2" --CYWIL'NI
-		}
+		},
+		["HUD_PAST"]="\xCCC8\xCDD3\xCBC5",
+		["HUD_FUTURE"]="\xCCC0\xC9C1\xD3D2\xCDAA"
 	},
 }

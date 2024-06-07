@@ -112,6 +112,28 @@ rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
 end)
 
+rawset(_G, "MM_KillPlayer2", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
+	if ((not p) or (not p.player)) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
+	local plr = p.player
+	plr.spectator = true
+	plr.role = ROLE_NONE
+	plr.flashscrn = 1
+	plr.killedby = "your stupidity"
+
+	if (spawnbody)
+		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
+		if (p.skin == "tails") body.state = S_TMMDEAD
+		elseif (p.skin == "knuckles") body.state = S_KMMDEAD
+		elseif (p.skin == "amy") body.state = S_AMMDEAD
+		elseif (p.skin == "fang") body.state = S_FMMDEAD
+		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
+		else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
+		body.color = p.color
+	end
+
+	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
+end)
+
 rawset(_G, "MM_HitTeammate", function(v, a)
 	chatprintf(a, MM.RoleColor[v.role]..MM.text[a.mmlang]["TEAMMATE_HIT"][1])
 	chatprintf(v, MM.RoleColor[a.role]..MM.text[v.mmlang]["TEAMMATE_HIT"][2])

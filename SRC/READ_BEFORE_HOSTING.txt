@@ -20,18 +20,19 @@ B. From the in-game console:
 There are a couple of Commands and Console Variables available for admins to use. Here are all of them:
 
 VARIABLES
-	MMABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
+	MM_ABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
 		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
 		Enable this Variable to remove the ability limit. The default value is OFF;
-	MMCUSTOMSKINS - Enable/Disable custom skins/characters in a Murder Mystery game.
+	MM_CUSTOMSKINS - Enable/Disable custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
 		The default value is OFF.
-	MMAFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
+	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
 	    set to 0 AFK timeout is disabled;
-	MMSPAM - Used for chat spam protection. How much time player have to wait before sending
+	MM_SPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
-	MMDUELMODE - Enable/Disable access to all weapons for Murderers during the Showtime Duel. The default value is OFF.
-	MMAUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
+	MM_DEADLYMODE - Enable/Disable the mode where death by hazards (crush, spikes, drown) makes players DEAD
+	MM_DUELMODE - Enable/Disable access to all weapons for Murderers during the Showtime Duel. The default value is OFF.
+	MM_AUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
 
 COMMANDS
 	SAYDEAD - This command is available only for the host player and can be used to send a message to the

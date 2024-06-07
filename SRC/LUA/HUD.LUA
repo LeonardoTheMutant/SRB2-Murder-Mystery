@@ -9,6 +9,7 @@
 local expectedHudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
+local deadlymodeCVAR = CV_FindVar("mm_deadlymode")
 
 local function V_GetTextPatchOffsetX(lang, patchname)
 	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
@@ -249,6 +250,11 @@ hud.add(function(v, p)
 	--"Showdown duel!"
 	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)))
 		V_DrawStrASCIIcentered(v, 160, 192, charset, "\8"..MM.text[consoleplayer.mmlang]["HUD_SHOWDOWN"])
+	end
+
+	--"* DEADLY MODE *"
+	if (deadlymodeCVAR.value)
+		V_DrawStrASCII(v, (320 - V_StrWidthASCII("* "..MM.text[consoleplayer.mmlang]["HUD_DEADLY"].." "..MM.text[consoleplayer.mmlang]["HUD_MODE"].." *")), 192, charset, ("\5* "..MM.text[consoleplayer.mmlang]["HUD_DEADLY"].." "..MM.text[consoleplayer.mmlang]["HUD_MODE"].." *"), V_SNAPTOBOTTOM|V_SNAPTORIGHT)
 	end
 
 	--ABILITIES.LUA part
