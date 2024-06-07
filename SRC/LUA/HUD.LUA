@@ -420,7 +420,7 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name.x - 20)*FU, (((MM.hud.intermission.pos.players.y - 4) + i*16)*FU), 32768, v.getSprite2Patch(plrs[i].skin,SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].role) and (plrs[i].role >= 1) and (not plrs[i].spectator))
+			if ((plrs[i].role) and (plrs[i].role >= 1))
 				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + i*16), MM.RoleColor[plrs[i].role]..plrs[i].name, V_ALLOWLOWERCASE)
 			else
 				--DEAD
@@ -438,7 +438,7 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name2.x + multiply.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + i*16 + multiply.y)*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].role) and (plrs[i].role >= 1) and (not plrs[i].spectator))
+			if ((plrs[i].role) and (plrs[i].role >= 1))
 				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players.y + i*16 + multiply.y), MM.RoleColor[plrs[i].role]..string.sub(plrs[i].name, 1, 11), V_ALLOWLOWERCASE)
 			else
 				--DEAD
@@ -457,7 +457,7 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name3.x + multiply.x - 10)*FU, ((MM.hud.intermission.pos.first2.y - 1) + i*8 + multiply.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
-			if ((plrs[i].role) and (plrs[i].role >= 1) and (not plrs[i].spectator))
+			if ((plrs[i].role) and (plrs[i].role >= 1))
 				v.drawString((MM.hud.intermission.pos.name3.x + multiply.x), (MM.hud.intermission.pos.first2.y + i*8 + multiply.y), MM.RoleColor[plrs[i].role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD

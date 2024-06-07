@@ -102,11 +102,11 @@ addHook("MobjDamage", function(victim, inf, attacker)
 	if (gametype != GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
 	local vp = victim.player
 	local ap = attacker.player
-	--if (ap.role == ROLE_INNOCENT)
-	--	CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who have bypassed the limits?")
+	if (ap.role == ROLE_INNOCENT) --Innocents can not hurt others
+	--	CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who has bypassed the limits?")
 	--	print("\x87"..ap.name.."\x85 hit \x87"..vp.name.."\x85 while being an \x83Innocent")
-	--	return true
-	--end
+		return true
+	end
 	if (vp.role == ROLE_MURDERER)
 		if (ap.role == ROLE_MURDERER)
 			MM_HitTeammate(vp, ap)
@@ -265,8 +265,11 @@ addHook("PlayerThink", function(p)
 	p.oldangleturn = p.cmd.angleturn
 	p.oldaiming = p.cmd.aiming
 
-	--kick forcer (when rejointimeout is not 0)
-	if (p.quittime) COM_BufInsertText(server, "KICK "..#p.." Player leave") end
+	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is not disabled)
+	if (p.quittime)
+		MM_PlayerQuit(p)
+		CONS_Printf(server, "KICK "..#p.." Player leave")
+	end
 
 	--Anti-RenameCheat
 	if ((p.name != p.oldname) and (p.spectator))
@@ -291,7 +294,10 @@ addHook("IntermissionThinker", do
 		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[2].role end
 	end
 	-- Kick forcer (for Intermission)
-	for p in players.iterate do if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end end
+	for p in players.iterate do
+		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end
+		if (p.spectator) p.spectator = false end
+	end
 	
 	MM.shwdwn = false
 end)
@@ -325,51 +331,5 @@ end)
 --
 addHook("PlayerQuit", function(p)
 	if ((gametype != GT_MURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
-
-	if (p.role == ROLE_MURDERER)
-		p.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER)))
-			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
-			MM_SetRandomInnoAs(ROLE_MURDERER)
-			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
-		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
-			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
-		end
-	elseif (p.role == ROLE_SHERIFF)
-		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
-			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF)
-			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
-			MM_SetRandomInnoAs(ROLE_SHERIFF)
-			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
-		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
-			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
-		end
-	elseif (p.role == ROLE_INNOCENT)
-		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
-		end
-	elseif (p.role == ROLE_HERO)
-		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
-			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO)
-			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
-			MM_SetRandomInnoAs(ROLE_HERO)
-			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
-		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
-			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
-		end
-	end
-
-	MM_CheckShowdown()
+	if (p.role) MM_PlayerQuit(p) end
 end)

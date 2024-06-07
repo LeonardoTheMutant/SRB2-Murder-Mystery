@@ -20,7 +20,7 @@ New graphics      | Yes
 New textures      | Yes
 New objects       | Yes (Non-map-placable objects)
 HUD modification  | Yes
-New music         | Yes (9 map + 6 intermission + 4 additional tracks)
+New music         | Yes
 Digital music     | No**
 MIDI music        | Yes
                   |

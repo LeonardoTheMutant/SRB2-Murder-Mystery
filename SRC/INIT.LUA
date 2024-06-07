@@ -1,5 +1,5 @@
-if MM or MurderMystery
-	error("Murder Mystery v"..MM.version or MurderMystery.version.." is already loaded, only one version of MM can be present")
+if (MM)
+	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded into the game")
 	return
 end
 rawset(_G, "MM", {

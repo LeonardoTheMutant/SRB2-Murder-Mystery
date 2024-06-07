@@ -120,6 +120,55 @@ rawset(_G, "MM_HitTeammate", function(v, a)
 	v.powers[pw_flashing] = 105
 end)
 
+rawset(_G, "MM_PlayerQuit", function(p)
+	if (p.role == ROLE_MURDERER)
+		p.role = ROLE_NONE
+		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER)))
+			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
+			MM_SetRandomInnoAs(ROLE_MURDERER)
+			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
+		else
+			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
+			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
+		end
+	elseif (p.role == ROLE_SHERIFF)
+		p.role = ROLE_NONE
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
+			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF)
+			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
+			MM_SetRandomInnoAs(ROLE_SHERIFF)
+			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
+		else
+			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
+			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
+		end
+	elseif (p.role == ROLE_INNOCENT)
+		p.role = ROLE_NONE
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
+		end
+	elseif (p.role == ROLE_HERO)
+		p.role = ROLE_NONE
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
+			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO)
+			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
+		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
+			MM_SetRandomInnoAs(ROLE_HERO)
+			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
+		else
+			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
+			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
+		end
+	end
+
+	MM_CheckShowdown()
+end)
+
 --Function to end the round, arguments here:
 --w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat
@@ -130,7 +179,6 @@ rawset(_G, "MM_EndRound", function(w, endtext, reason)
 	MM.shwdwn = false
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
-	for p in players.iterate p.spectator = false end
 	if isdedicatedserver --console log for dedicated host
 		if (endtext=="WIN") CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
 		else CONS_Printf(server, "- "..MM.text["EN"][endtext][reason]) end
