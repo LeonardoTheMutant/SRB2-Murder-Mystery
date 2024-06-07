@@ -3,9 +3,12 @@ Still, I am glad that someone is interested in our work.
 
 If you're reading this file from GitHub this is great - you have more content to work with 
 
-Now, if you want to modify this Add-On let me introduce you to our file structure:
+But for now let me introduce you to our file structure first:
 
-MM_MurderMystery_[x.x-ALPHA].pk3
+
+MM_MurderMystery_v1.0-ALPHA.pk3
+|
++-INIT.LUA - Init, freeslot, add-on PK3 properties (such as devbuild or not), and some objects
 |
 +-DEV_DOCS-\
 |          +-List_of_Func_and_Const.md - Documentation of functions and constants
@@ -13,42 +16,43 @@ MM_MurderMystery_[x.x-ALPHA].pk3
 |
 +-LUA-\
 |     |
-|     +--MAIN--\
-|     |        +-ABILITIES.LUA - Responsible for character abilities
-|     |        +-CCMD.LUA - MMHELP and MMLANG commands
-|     |        +-CHAT.LUA - Chat management & Chat sound effects
-|     |        +-DEBUG.LUA - This script is used only in Debug Builds of MM
-|     |        +-FUNCTIONS.LUA - Function definitions for the rest of the source code
-|     |        +-GAME.LUA - The main core of the game logic, everything usually happens here
-|     |        +-HUD.LUA - HUD renderer
-|     |        +-TEXT.LUA - All text and its translations used in MM
-|     |        \-WEAPONS.LUA - Recreation of the Vanilla Weapon Rings
+|     +-LEVELS-\
+|     |        +-MAPK0.LUA - Code for Eggman's Bedroom door (Abandoned Shelter)
+|     |        +-MAPK7.LUA - "The truth ray" and lab doors (Sky Mesa)
+|     |        \-MAPK8.LUA - Definition of the MT_8BALL object (8-Ball Hotel)
 |     |
-|     +--MINIGAMES--\
-|     |             +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
-|     |             +-MINIGAME.LUA - Main logic code for "PONG" and "SONIC RUN" minigames
+|     +-MINIGAMES-\
+|     |           +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
+|     |           +-MINIGAME.LUA      - Main logic code for "PONG" and "SONIC RUN" minigames
 |     |
-|     +--MISC--\
-|     |        \-FOOTSTEPS.LUA - Modified ModernSonic's footsteps engine
-|     |
-|     \--INIT.LUA-- Init, freeslot, add-on PK3 properties (such as devbuild or not), and some objects
+|     +-ABILITIES.LUA  - Character abilities & sneak
+|     +-CCMD.LUA       - MMHELP and MMLANG commands
+|     +-CHAT.LUA       - Chat management
+|     +-DEBUG.LUA      - Debug functionality (used only in debug builds of add-on)
+|     +-FOOTSTEPS.LUA  - Footsteps and step sounds (Modified ModernSonic's footsteps engine)
+|     +-FUNCTIONS.LUA  - Function library
+|     +-GAME.LUA       - The main core of the game logic
+|     +-HUD.LUA        - HUD renderer
+|     +-TEXT.LUA       - Entirety of the add-on text (with translations)
+|     +-TIMETRAVEL.LUA - Time travel module for maps (primarily for "East City" (MAPKD))
+|     \-WEAPONS.LUA    - Weapon management (recreation of the Vanilla Weapon Rings)
 |
 \-SOC-\
-      +-MAINCFG.TXT - SOC for maps
+      +-MAINCFG.TXT  - SOC for maps
       \-OBJCTCFG.TXT - SOC for some custom objects such as dead bodies
 
-Other files are either textures or music and do not need to be introduced here (I hope)
+Other files are either textures or music and do not require an introduction
 
-As I've said earlier you have more content if you're watching this from the GitHub repository.
-There is an additional LUA file in the repository called "customlang.lua" in the TEMPLATE/ folder.
-This is a template file for custom translations. Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. I tried my best
-to make the tutorial about languages in that template understandable but if you have questions you can
-always send a PM to me or ask us in our MM_DEV Discord (or even on GitHub). Guess I noted everything important...
 
-If you're new to the LUA you can freely use our code to study
+As I've said earlier, the GitHub repository has more content to work with such as an additional LUA file
+in the repository called "customlang.lua" in the TEMPLATES/ folder. This is a template file for custom translations.
+Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. I tried my best to make the tutorial about languages in that template
+understandable but if you have questions you can always ask us in our MM_DEV Discord (or even on GitHub).
+
+If you're new to the LUA you can freely use our code for educational purposes
 
 Have a nice modding!
 LeonardoTheMutant
 
 
-...oh you need the GitHub link? It's listed in Readme.txt, just look there as well :]
+...oh you need the GitHub link? It's listed in Readme.txt, just look here as well :]

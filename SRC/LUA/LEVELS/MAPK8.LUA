@@ -1,10 +1,8 @@
 -- MAPK8 8-Ball Hotel by SuperOfSrb2 & LeonardoTheMutant
 
---Item Socs 
 freeslot("MT_8BALL", "S_8BALL", "SPR_8BAL")
 
---The 8-Ball in question
---had to learn how to freeslot in lua just now because game loads lua before soc so there might be errors
+--The 8-Ball
 mobjinfo[MT_8BALL] = {
     doomednum = 468,
     spawnstate = S_8BALL,

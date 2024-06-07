@@ -178,15 +178,17 @@ sfxinfo[sfx_aldi].caption="\x19 I AM AT ALDI"
 
 
 --Script files init
-dofile("MAIN/TEXT.LUA")
-dofile("MAIN/FUNCTIONS.LUA")
-if (MM.devbuild) dofile("MAIN/DEBUG.LUA") end
-dofile("MAIN/GAME.LUA")
-dofile("MAIN/WEAPONS.LUA")
-dofile("MAIN/HUD.LUA")
-dofile("MAIN/CHAT.LUA")
-dofile("MAIN/CCMD.LUA")
-dofile("MAIN/ABILITIES.LUA")
+dofile("TEXT.LUA")
+dofile("FUNCTIONS.LUA")
+if (MM.devbuild) dofile("DEBUG.LUA") end
+dofile("GAME.LUA")
+dofile("WEAPONS.LUA")
+dofile("HUD.LUA")
+dofile("CHAT.LUA")
+dofile("CCMD.LUA")
+dofile("FOOTSTEPS.LUA")
+dofile("ABILITIES.LUA")
+dofile("TIMETRAVEL.LUA")
 
 dofile("MINIGAMES/HUD_MINIGAMES.LUA")
 dofile("MINIGAMES/MINIGAMES.LUA")
@@ -194,9 +196,6 @@ dofile("MINIGAMES/MINIGAMES.LUA")
 dofile("LEVELS/MAPK0.LUA")
 dofile("LEVELS/MAPK7.LUA")
 dofile("LEVELS/MAPK8.LUA")
-dofile("LEVELS/MAPKD.LUA")
-
-dofile("MISC/FOOTSTEPS.LUA")
 
 print("\x83Murder Mystery loaded succesfuly\nNote that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
 --
