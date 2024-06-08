@@ -97,11 +97,15 @@ hud.add(function(v, p)
 
 	--TIME
 	--timer calculation
-	local timeleft = (MM.timelimit * 2100) - leveltime
+	local timertime
+	if (timelimit) timertime = (MM.timelimit * 2100) - leveltime
+	else timertime = leveltime end
+
+	if (timertime < 0) timertime = 0 end
 	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_TIME")
 	yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_TIME")
 	--Draw the Text Label
-	if ((not G_TicsToMinutes(timeleft)) and (leveltime & 4))
+	if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
 		--Swap the colors in the label for flashing effect
 		--0x49 in SRB2's palette is Yellow, 0x25 is Red
 		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f)
@@ -109,9 +113,9 @@ hud.add(function(v, p)
 		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f)
 	end
 	--Draw the time
-	v.drawPaddedNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timeleft), 2, hudinfo[HUD_TIME].f) --seconds
+	v.drawPaddedNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, hudinfo[HUD_TIME].f) --seconds
 	v.draw(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIME].f) --colon
-	v.drawNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timeleft), hudinfo[HUD_TIME].f) --minutes
+	v.drawNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), hudinfo[HUD_TIME].f) --minutes
 
 	--RINGS
 	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_RINGS")

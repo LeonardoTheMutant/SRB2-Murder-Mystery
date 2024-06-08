@@ -64,7 +64,7 @@ rawset(_G, "MM", {
 		speed = 1,
 		pads = {32, 32},
 		hits = 0,
-		padcolor = {36, 152} --player role colors
+		padcolor = {37, 153} --player role colors
 	}
 })
 
@@ -135,10 +135,11 @@ G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
 	typeoflevel = TOL_MM,
-	rules = GTR_SPECTATORS|GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_NOSPECTATORSPAWN,
+	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
+	DefaultTimeLimit = 5,
 	intermissiontype = int_match,
-	headerleftcolor = 36,
-	headerrightcolor = 152,
+	headerleftcolor = 37,
+	headerrightcolor = 153,
 	description = "Kill everyone as Murderer or eliminate them as Sheriff! ...or be none of them and be Innocent"
 })
 

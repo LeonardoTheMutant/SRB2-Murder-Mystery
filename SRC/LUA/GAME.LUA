@@ -4,7 +4,7 @@
 -- With the additional help of Jesus.B
 --
 -- The main logic script of Murder Mystery, takes control of each player Join/Quit,
--- hit detection, player parameters, AFK logic and round endings
+-- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
 local deadlymodeCVAR = CV_FindVar("mm_deadlymode")
@@ -24,8 +24,18 @@ addHook("MapLoad", function(map)
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremls = {}
-	MM.timelimit = (tonumber(mapheaderinfo[map].mm_timelimit) or 4) + MM_GetRoleMultiplier()
-    print("Time limit for this round is "..MM.timelimit.." minutes")
+
+	MM.timelimit = 0
+	if (mapheaderinfo[map].mm_timelimit and tonumber(mapheaderinfo[map].mm_timelimit))
+		MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit)
+	elseif (timelimit) --Swapping timelimit value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
+		MM.timelimit = timelimit
+	end
+	if (MM.timelimit)
+		MM.timelimit = $ + MM_GetRoleMultiplier() - 1
+    	print("Time limit for this round is "..MM.timelimit.." minutes")
+	end
+
 	MM.shwdwn = false
 
 	MM.twopgame = (PlayerCount() == 2)
@@ -79,20 +89,6 @@ end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
 	if (gametype == GT_MURDERMYSTERY) return true end
-end)
-addHook("TeamSwitch", function(p) --prevent swtiching alive/dead states manually
-	if (gametype == GT_MURDERMYSTERY)
-		if (not p.spectator) --Alive -> Spectator
-			CONS_Printf(p, "You cannot just\x8F die\x80 to spectate!")
-		end
-		return false
-	else return true end
-end)
-
--- Custom TIMELIMIT code
--- A replacement of SRB2's built-in TIMELIMIT (original sucks)
-addHook("ThinkFrame", function()
-    if ((gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1)) G_ExitLevel() end
 end)
 
 --
@@ -177,7 +173,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			return true
 		end
 		MM_KillPlayer(victim, attacker)
-		-- Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
+		--Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
 		if (PlayerCount(ROLE_INNOCENT))
 			MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
@@ -194,8 +190,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
 		if (ap.role == ROLE_SHERIFF)
-			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
-			-- otherwise Murderers win
+			--Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
+			--otherwise, Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
 				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
 				MM_ChatprintGlobal("INNO_HURT", 1)

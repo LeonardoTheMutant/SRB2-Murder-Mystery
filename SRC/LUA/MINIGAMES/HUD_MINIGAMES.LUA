@@ -14,12 +14,14 @@ local function V_DrawMinigameTime(v)
 	local timeLabelX = (169 - (timeLabelWidth >> 1)) --[value]/2
 
     --timer calculation
-    local timeleft = (MM.timelimit * 2100) - leveltime
+	local timertime
+	if (timelimit) timertime = (MM.timelimit * 2100) - leveltime
+	else timertime = leveltime end
 
 	--"TIME" text
 	local xoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].xoff or 0
 	local yoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].yoff or 0
-	if ((not G_TicsToMinutes(timeleft)) and (leveltime & 4))
+	if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
         --Swap the colors in the label for flashing effect
 		--0x49 in SRB2's palette is Yellow, 0x25 is Red
 		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP)
@@ -28,9 +30,9 @@ local function V_DrawMinigameTime(v)
 	end
 
 	--Numbers
-	v.drawPaddedNum((timeLabelX + timeLabelWidth - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timeleft), 2, V_SNAPTOTOP) --seconds
+	v.drawPaddedNum((timeLabelX + timeLabelWidth - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, V_SNAPTOTOP) --seconds
 	v.draw((timeLabelX + timeLabelWidth - 40), hudinfo[HUD_TIME].y, v.cachePatch("STTCOLON"), V_SNAPTOTOP) --colon
-	v.drawNum((timeLabelX + timeLabelWidth - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timeleft), V_SNAPTOTOP) --minutess
+	v.drawNum((timeLabelX + timeLabelWidth - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), V_SNAPTOTOP) --minutess
 end
 
 hud.add(function(v, p)
