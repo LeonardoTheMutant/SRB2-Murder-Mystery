@@ -6,3 +6,12 @@
 - Update translations
 - Try to not let multiple players spawn in one spot
 - Change the titlecard and intermission backgrounds (to contain the name of the gametype)
+- Enable the "Deadly Mode" by default (and change the name)
+- Drowning does not fully kill players in the "Deadly mode" (they are able to respawn)
+- Fix the desync caused by the time warp in "East City" (MAPKD)
+- Remove the landing sound when landing with the sneak
+- Fix texture rendering and collision issues in "Sky Mesa" (MAPK7), "East City" (MAPKD)
+- Add stuff to "8-Ball Hotel's" (MAPK8) Casino area to make it feel less empty
+- Remove the "pushable" flag from objects in "West City" (MAPK4)
+- Fix the error caused by line 2394 in /SRC/LUA/FOOTSTEPS.LUA (for the 3rd time)
+- Deep test the add-on for SIGSEVG appearance
