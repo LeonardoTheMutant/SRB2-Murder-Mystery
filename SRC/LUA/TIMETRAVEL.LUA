@@ -55,11 +55,6 @@ local TimeTravel_ShiftY
 local TimeTravel_ShiftX2
 local TimeTravel_ShiftY2
 
-local TimeTravel_Mus_P  --Music for PAST
-local TimeTravel_Mus_PR --PRESENT
-local TimeTravel_Mus_BF --BAD FUTURE
-local TimeTravel_Mus_GF --GOOD FUTURE
-
 addHook("MapLoad", function(map)
 	--Get the lengths between different Time Zones (if map has Time Travel)
 	if (mapheaderinfo[map].timetravel_shiftx) and (tonumber(mapheaderinfo[map].timetravel_shiftx))
@@ -81,28 +76,6 @@ addHook("MapLoad", function(map)
 		TimeTravel_ShiftY2 = tonumber(mapheaderinfo[map].timetravel_shifty2)
 	else
 		TimeTravel_ShiftY2 = 0
-	end
-	
-	--Get the name of the music lumps for each Time Zone
-	if (mapheaderinfo[map].TimeTravel_Mus_P)
-		TimeTravel_Mus_P = mapheaderinfo[map].TimeTravel_Mus_P
-	else
-		TimeTravel_Mus_P = G_BuildMapName(map).."P"
-	end
-	if (mapheaderinfo[map].TimeTravel_Mus_PR)
-		TimeTravel_Mus_PR = mapheaderinfo[map].TimeTravel_Mus_PR
-	else
-		TimeTravel_Mus_PR = G_BuildMapName(map).."M"
-	end
-	if (mapheaderinfo[map].TimeTravel_Mus_BF)
-		TimeTravel_Mus_BF = mapheaderinfo[map].TimeTravel_Mus_BF
-	else
-		TimeTravel_Mus_BF = G_BuildMapName(map).."B"
-	end
-	if (mapheaderinfo[map].TimeTravel_Mus_GF)
-		TimeTravel_Mus_GF = mapheaderinfo[map].TimeTravel_Mus_GF
-	else
-		TimeTravel_Mus_GF = G_BuildMapName(map).."G"
 	end
 end)
 
@@ -132,30 +105,24 @@ addHook("PlayerThink", function(p)
 					if (p.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
 						p.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z) --5120*FU
-						S_ChangeMusic(TimeTravel_Mus_PR, true)
 					elseif (p.timetravel.timezone == TIMEZONE_FUTURE_GOOD) --warp from Good Future
 						p.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z) --10240*FU
-						S_ChangeMusic(TimeTravel_Mus_PR, true)
 					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from present
 						p.timetravel.timezone = TIMEZONE_PAST
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z) --5120*FU
-						S_ChangeMusic(TimeTravel_Mus_P, true)
 					end
 				else --warping to the more Future stage
 					if (p.timetravel.timezone == TIMEZONE_PAST) --warp from Past
 						p.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z) --5120*FU
-						S_ChangeMusic(TimeTravel_Mus_PR, true)
 					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
 						if (PlayerCount(ROLE_MURDERER))
 							p.timetravel.timezone = TIMEZONE_FUTURE_BAD
 							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z) --5120*FU
-							S_ChangeMusic(TimeTravel_Mus_BF, true)
 						else --You will never see the Good Future version of this level in a regular playthrough :)
 							p.timetravel.timezone = TIMEZONE_FUTURE_GOOD
 							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z) --10240*FU
-							S_ChangeMusic(TimeTravel_Mus_GF, true)
 						end
 					end
 				end

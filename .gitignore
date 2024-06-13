@@ -44,3 +44,4 @@ luac.out
 .DS_store
 *.dbs
 *.WAD.backup?
+*.autosave?
