@@ -30,12 +30,7 @@ end)
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
 rawset(_G, "MM_AssignRoles", function()
-	if (gametype != GT_MURDERMYSTERY) return
-	elseif (gametype == GT_MURDERMYSTERY) and (splitscreen)
-		COM_BufInsertText(server, "MAP JADE VALLEY -GAMETYPE MATCH")
-		print("\x85Hold on!\x80\nMurder Mystery is not designed for splitscreen mode! Your game switched to MATCH becase it's as same as playing 1v1 in MM.\nSo don't try to load Murder Mystery in splitscreen again. It will have no sense.")
-		return
-	end
+	if (gametype != GT_MURDERMYSTERY) return end
 
 	-- Take care of the lonely player
 	if (PlayerCount() < 2)
