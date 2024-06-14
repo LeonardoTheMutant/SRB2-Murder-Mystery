@@ -9,15 +9,15 @@ rawset(_G, "MM", {
 	RoleColor = {
 		"\x85", --Murderer
 		"\x84", --Sheriff
-		"\x83", --Innocent
 		"\x82", --Hero
+		"\x83", --Innocent
 		"\x8F" --Dead
 	},
 	RoleColorHUD = {
 		"\5", --Murderer
 		"\4", --Sheriff
-		"\3", --Innocent
 		"\2", --Hero
+		"\3", --Innocent
 		"\15" --Dead
 	},
 	hud = { --variables that control the HUD renderer
@@ -72,8 +72,8 @@ rawset(_G, "MM", {
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
 rawset(_G, "ROLE_SHERIFF", 2)
-rawset(_G, "ROLE_INNOCENT", 3)
-rawset(_G, "ROLE_HERO", 4)
+rawset(_G, "ROLE_HERO", 3)
+rawset(_G, "ROLE_INNOCENT", 4)
 
 --Win reason constants
 rawset(_G, "WIN_MURD", 1)
@@ -104,9 +104,6 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mm_abilities")
 		if (v.value) print("\x87Murder Mystery:\x80 Skin abilities are Enabled (no limits)")
 		else print("\x87Murder Mystery:\x80 Skin abilities are Disabled (\"Regular person\" mode)") end
-	elseif (v.name == "mm_deadlymode")
-		if (v.value) print("\x87Murder Mystery:\x80 Enabled the\x85 Deadly Mode\x80 (death by Map hazards is\x8F deadly\x80)")
-		else print("\x87Murder Mystery:\x80 Hard mode Disabled") end
 	elseif (v.name == "mm_duelmode")
 		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x80 now have access to all weapons during the Showdown Duel")
 		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
@@ -116,7 +113,6 @@ CV_RegisterVar{name = "mm_abilities", defaultvalue = 0, PossibleValue = CV_OnOff
 CV_RegisterVar{name = "mm_customskins", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 4}
 CV_RegisterVar{name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
 CV_RegisterVar{name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
-CV_RegisterVar{name = "mm_deadlymode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
 CV_RegisterVar{name = "mm_duelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
 CV_RegisterVar{name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
 

@@ -7,13 +7,13 @@
 if (MM.devbuild)
 	--change player's role (and state to alive/dead)
     COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
-		if (not pnum) or (not prole) or (not pdead)
-			CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role] [dead (0/1)] [killedby (optional)]")
+		if (not pnum) or (not prole)
+			CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [dead (0/1)] [killedby (optional)]")
 			return
 		end
 		if (prole=="nil") players[tonumber(pnum)].role=nil
 		else players[tonumber(pnum)].role=tonumber(prole) end
-		if (pdead=="1") MM_KillPlayer(players[tonumber(pnum)].realmo, players[tonumber(pnum)].realmo)
+		if (pdead=="1") MM_KillPlayerByPlayer(players[tonumber(pnum)].realmo, players[tonumber(pnum)].realmo)
 		else players[tonumber(pnum)].spectator=false end
 		if (killby) players[tonumber(pnum)].killedby=killby end
     end)

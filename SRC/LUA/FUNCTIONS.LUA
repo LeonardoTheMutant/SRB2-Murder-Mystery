@@ -15,6 +15,24 @@ local shwdwn_music = { --Tracks used as Showdown Duel themes
 }
 
 --
+-- GLOBAL PLAYER COUNTING FUNCTIONS
+--
+rawset(_G, "PlayerCount", function(role)
+	local plrc = 0
+	if (role)
+		for p in players.iterate do if (p.role == role) plrc = $ + 1 end end
+	else
+		for p in players.iterate do plrc = $ + 1 end
+	end
+	return plrc
+end)
+rawset(_G, "PlayersAlive", function()
+	local plrs = 0
+	for p in players.iterate do if (not p.spectator) plrs = $ + 1 end end
+	return plrs
+end)
+
+--
 --GAME.LUA
 --
 
@@ -53,7 +71,10 @@ rawset(_G, "MM_AssignRoles", function()
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
-		chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
+
+		if (p.role < 3) then chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
+		else chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][3]) end
+
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
 	if (MM.devbuild)
@@ -67,13 +88,16 @@ end)
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
 rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
-		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED")) chatprintf(p, MM.text[p.mmlang][msg][1].." "..var.." "..MM.text[p.mmlang][msg][2])
-		elseif (msg == "SHERI_KILLED_NODROP") chatprintf(p, MM.text[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..MM.text[p.mmlang]["SHERI_KILLED"][3])
-		elseif ((msg == "LAST_LEFT") or (msg=="ONE_LEFT") or (msg=="REPLACE_LEFT"))
-			if (var != ROLE_HERO) chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
-			else chatprintf(p, MM.text[p.mmlang][msg][3]) end --for Hero
-		elseif (msg == "WIN") chatprintf(p, MM.text[p.mmlang]["ENDROUND"][var])
-		elseif (msg == "INNO_HURT") chatprintf(p, MM.text[p.mmlang]["INNO_HURT"][var])
+		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED"))
+			chatprintf(p, MM.text[p.mmlang][msg][1].." "..var.." "..MM.text[p.mmlang][msg][2])
+		elseif (msg == "SHERI_KILLED_NODROP")
+			chatprintf(p, MM.text[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..MM.text[p.mmlang]["SHERI_KILLED"][3])
+		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
+			chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
+		elseif (msg == "WIN")
+			chatprintf(p, MM.text[p.mmlang]["ENDROUND"][var])
+		elseif (msg == "INNO_HURT")
+			chatprintf(p, MM.text[p.mmlang]["INNO_HURT"][var])
 		elseif msg
 			if (MM.text[p.mmlang][msg]) chatprintf(p, MM.text[p.mmlang][msg])
 			else chatprintf(p, msg.."; "..var) end --no text exists in the database
@@ -81,19 +105,18 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	end
 end)
 
-rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if ((not p) or (not p.player)) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
+rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T)
+	if ((not p) or (not p.player)) error("MM_KillPlayerByPlayer() argument #1: player's mobj_t expected") end
+	if ((not k) or (not k.player)) error("MM_KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
 	plr.role = ROLE_NONE
 	plr.flashscrn = 1
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
-	if ((k) and (k.player))
-		plr.killedby = k.player.name
-		k.player.kills = $ + 1
-		if (not k.player.sneak) P_PlayDeathSound(p) end
-	else plr.killedby = "your stupidity" end
+	plr.killedby = k.player.name
+	k.player.kills = $ + 1
+	if (not k.player.sneak) P_PlayDeathSound(p) end
 
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
 	if (p.skin == "tails") body.state = S_TMMDEAD
@@ -107,8 +130,8 @@ rawset(_G, "MM_KillPlayer", function(p, k) --player, killer (both MOBJ_T)
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
 end)
 
-rawset(_G, "MM_KillPlayer2", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
-	if ((not p) or (not p.player)) error("MM_KillPlayer() argument #1: player's mobj_t expected") end
+rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
+	if ((not p) or (not p.player)) error("MM_KillPlayerByHazard() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
 	plr.role = ROLE_NONE
@@ -127,6 +150,28 @@ rawset(_G, "MM_KillPlayer2", function(p, spawnbody) --player (mobt_t), "Spawn de
 	end
 
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
+end)
+
+rawset(_G, "MM_TeammatesCount", function(p)
+	local teammates = false
+
+	if (p.role == ROLE_MURDERER)
+		teammates = PlayerCount(ROLE_MURDERER) - 1 
+	elseif (p.role == ROLE_SHERIFF)
+		teammates = (PlayerCount(ROLE_SHERIFF) - 1) + PlayerCount(ROLE_HERO)
+	elseif (p.role == ROLE_HERO)
+		teammates = PlayerCount(ROLE_SHERIFF) + (PlayerCount(ROLE_HERO) - 1)
+	end
+
+	return teammates
+end)
+
+rawset(_G, "MM_AreTeammates", function(p1, p2)
+	if ((not p1.role) or (not p2.role)) then return false end
+
+	return ((p1.role == ROLE_MURDERER) and (p2.role == ROLE_MURDERER))
+		or (((p1.role == ROLE_SHERIFF) or (p1.role == ROLE_HERO)) and ((p2.role == ROLE_SHERIFF) or (p2.role == ROLE_HERO)))
+		or ((p1.role == ROLE_INNOCENT) and (p2.role == ROLE_INNOCENT))
 end)
 
 rawset(_G, "MM_HitTeammate", function(v, a)
@@ -163,11 +208,6 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
-	elseif (p.role == ROLE_INNOCENT)
-		p.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
-		end
 	elseif (p.role == ROLE_HERO)
 		p.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
@@ -181,23 +221,28 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
+	elseif (p.role == ROLE_INNOCENT)
+		p.role = ROLE_NONE
+		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
+		end
 	end
 
 	MM_CheckShowdown()
 end)
 
 --Function to end the round, arguments here:
---w is the role that won the game, the possible values are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
---endtext is the text to display in the chat
---reason is used differently for each message but usualy it is a win reason
-rawset(_G, "MM_EndRound", function(w, endtext, reason)
-	MM.winner = w
-	if (endtext=="WIN") MM.winreason = reason end
+--possible values for the winner of the game are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
+--endtext is the text to display in the chat (taken from the MM.text)
+--reason is used differently for each endtext message but usualy it is a win reason (WIN_* constant)
+rawset(_G, "MM_EndRound", function(winner, endtext, reason)
+	MM.winner = winner
+	if (endtext == "WIN") then MM.winreason = reason end
 	MM.shwdwn = false
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
-	if isdedicatedserver --console log for dedicated host
-		if (endtext=="WIN") CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
+	if (isdedicatedserver) --console log for dedicated host
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
 		else CONS_Printf(server, "- "..MM.text["EN"][endtext][reason]) end
 	end
 end)
@@ -213,13 +258,12 @@ end)
 rawset(_G, "MM_SetRandomInnoAs", function(role)
 	local plrs={}
 	for plr in players.iterate
-		if (not plr.spectator) and (plr.role==ROLE_INNOCENT) table.insert(plrs, #plr) end
+		if (not plr.spectator) and (plr.role == ROLE_INNOCENT) table.insert(plrs, #plr) end
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
-	p.role=role
-	p.roleflicker=70
-	if (role!=ROLE_HERO) chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role]) --for Murd/Sheriff
-	else chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][3]) end --for Hero
+	p.role = role
+	p.roleflicker = 70
+	chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role])
 	return
 end)
 
@@ -506,20 +550,6 @@ end)
 --
 --GLOBAL
 --
-rawset(_G, "PlayerCount", function(role)
-	local plrc = 0
-	if (role)
-		for p in players.iterate do if (p.role == role) plrc = $ + 1 end end
-	else
-		for p in players.iterate do plrc = $ + 1 end
-	end
-	return plrc
-end)
-rawset(_G, "PlayersAlive", function()
-	local plrs = 0
-	for p in players.iterate do if (not p.spectator) plrs = $ + 1 end end
-	return plrs
-end)
 rawset(_G, "MM_Get2Players", function()
 	if (PlayerCount() != 2) return false end
 	local plrs = {}

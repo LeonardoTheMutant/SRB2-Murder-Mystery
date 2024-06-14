@@ -61,8 +61,11 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 					chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
 					S_StartSound(nil, sfx_radio, p)
 				elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
-					if(s.role == ROLE_SHERIFF) chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
-					elseif (s.role == ROLE_HERO) chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m) end
+					if (s.role == ROLE_SHERIFF)
+						chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
+					elseif (s.role == ROLE_HERO)
+						chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m)
+					end
 					S_StartSound(nil, sfx_radio, p)
 				end
 			end

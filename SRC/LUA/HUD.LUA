@@ -9,7 +9,6 @@
 local expectedHudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
-local deadlymodeCVAR = CV_FindVar("mm_deadlymode")
 
 local function V_GetTextPatchOffsetX(lang, patchname)
 	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
@@ -256,11 +255,6 @@ hud.add(function(v, p)
 		V_DrawStrASCIIcentered(v, 160, 192, charset, "\8"..MM.text[consoleplayer.mmlang]["HUD_SHOWDOWN"])
 	end
 
-	--"* DEADLY MODE *"
-	if (deadlymodeCVAR.value)
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII("* "..MM.text[consoleplayer.mmlang]["HUD_DEADLY"].." "..MM.text[consoleplayer.mmlang]["HUD_MODE"].." *")), 192, charset, ("\5* "..MM.text[consoleplayer.mmlang]["HUD_DEADLY"].." "..MM.text[consoleplayer.mmlang]["HUD_MODE"].." *"), V_SNAPTOBOTTOM|V_SNAPTORIGHT|V_PERPLAYER)
-	end
-
 	--ABILITIES.LUA part
 	if (p.sneak) V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER, 32768) end --FU/2
 	
@@ -284,6 +278,7 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."ROLEFLICKER: \x80"..p.roleflicker, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist), V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."PLAYERSTATE: \x80"..p.playerstate, V_PERPLAYER, "thin")
 	end
 end, "game")
 
@@ -312,19 +307,12 @@ hud.add(function(v)
 	end
 
 	--Teammates tracker
-	--let's first understand do we have teammates at all
-	local doIhaveTeam = 0
-	if (consoleplayer.role == ROLE_MURDERER) doIhaveTeam = PlayerCount(ROLE_MURDERER) - 1 
-	elseif (consoleplayer.role == ROLE_SHERIFF) doIhaveTeam = (PlayerCount(ROLE_SHERIFF) - 1) + PlayerCount(ROLE_HERO)
-	elseif (consoleplayer.role == ROLE_HERO) doIhaveTeam = PlayerCount(ROLE_SHERIFF) + (PlayerCount(ROLE_HERO) - 1) end
-
-	--now we can finally show the team list
-	if (doIhaveTeam)
+	if (MM_TeammatesCount(consoleplayer))
 		local teammateNo = 0
 		V_DrawStrASCII(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), charset, MM.RoleColorHUD[consoleplayer.role]..MM.text[consoleplayer.mmlang]["HUD_TEAMMATES"]..":")
 		for p in players.iterate
 			if (consoleplayer == p) continue end
-			if (((consoleplayer.role == ROLE_MURDERER) and (p.role == ROLE_MURDERER)) or (((consoleplayer.role == ROLE_SHERIFF) or (consoleplayer.role == ROLE_HERO)) and ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO))))
+			if (MM_AreTeammates(consoleplayer, p))
 				--character icon
 				v.drawScaled(MM.hud.scores.pos.teammateInfo.x*FU, (MM.hud.scores.pos.teammateInfo.y + (16*teammateNo))*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
 				--player name (colored as role)
@@ -346,12 +334,16 @@ hud.add(function(v)
 
 	--Roles counter
 	--Murderer
-	V_DrawStrASCII(v, 20, 176, charset, MM.RoleColorHUD[1]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][1]..": "..PlayerCount(ROLE_MURDERER))
+	V_DrawStrASCII(v, 20, 176, charset, MM.RoleColorHUD[ROLE_MURDERER]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][ROLE_MURDERER]..": "..PlayerCount(ROLE_MURDERER))
 	--Sheriff (and Hero)
-	if (PlayerCount(ROLE_HERO)) V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[2]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][2]..": "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[4].." + "..PlayerCount(ROLE_HERO)))
-	else V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[2]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][2]..": "..PlayerCount(ROLE_SHERIFF))) end
+	if (PlayerCount(ROLE_HERO))
+		V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][ROLE_SHERIFF]..": "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..PlayerCount(ROLE_HERO)))
+	else
+		V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][ROLE_SHERIFF]..": "..PlayerCount(ROLE_SHERIFF)))
+	end
+
 	--Innocent
-	if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[3]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][3]..": "..PlayerCount(ROLE_INNOCENT))) end
+	if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[ROLE_INNOCENT]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][3]..": "..PlayerCount(ROLE_INNOCENT))) end
 	--Online
 	v.drawString(160, 176, "ONLINE: "..PlayerCount())
 	--"Sheriff's Emerald is available!"
@@ -365,7 +357,7 @@ end, "scores")
 -- Custom intermission HUD
 --
 hud.add(function(v)
-	if (gametype!=GT_MURDERMYSTERY)
+	if (gametype != GT_MURDERMYSTERY)
 		hud.enable("intermissiontally")
 		return
 	end

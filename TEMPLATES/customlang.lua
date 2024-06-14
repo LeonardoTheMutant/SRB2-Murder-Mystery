@@ -295,15 +295,8 @@ local language={ --Language must be a table variable, you can name the variable 
 	["HUD_ROLES"]={
 		"MURDERER", --Murderer
 		"SHERIFF", --Sheriff
+		"HERO", --Hero
 		"INNOCENT", --Innocent
-		"HERO", --Hero
-		"DEAD" --Dead
-	},
-	["HUD_ROLES_SHORT"]={ --used for intermission screen (unused in 10.1-BETA)
-		"MURD", --Murderer
-		"SHERI", --Sheriff
-		"INNO", --Innocent
-		"HERO", --Hero
 		"DEAD" --Dead
 	},
 	["HUD_TEAMMATES"]="Teammates"
@@ -347,8 +340,6 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	["HUD_SNEAKING"]="Sneaking...", --Sneaking
 	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
-	["HUD_DEADLY"]="DEADLY", --for "Deadly mode"
-	["HUD_MODE"]="MODE",
 
 	--minigame stuff
 	["HUD_MINIGAME"]={

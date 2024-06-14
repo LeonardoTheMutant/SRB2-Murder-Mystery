@@ -7,7 +7,6 @@
 -- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
-local deadlymodeCVAR = CV_FindVar("mm_deadlymode")
 
 addHook("MapLoad", function(map)
 	if (gametype != GT_MURDERMYSTERY) return end
@@ -92,106 +91,186 @@ addHook("HurtMsg", do --disable Ringslier hurt messages
 end)
 
 --
--- Hit/Kill detector
+-- Death/Kill detector
 --
 
---Map hazard deaths for the "Deadly mode"
-addHook("MobjDeath", function(victim, inf, attacker, dmgtype)
-	if (gametype != GT_MURDERMYSTERY) or (not deadlymodeCVAR.value) return end
-	local vp = victim.player
-	local spawnbody = ((dmgtype <= DMG_NUKE) or (dmgtype == DMG_DROWNED) or (dmgtype == DMG_SPACEDROWN) or ((dmgtype == DMG_CRUSHED) and (attacker)))
-	
+addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
+	if (gametype != GT_MURDERMYSTERY) return end
+	if (MM.devbuild) print("\x82Triggered MobjDeath") end
+	local vp = v.player --Victim player
+
+	local ap --Attacker player
+	if (a) and (a.player)
+		ap = a.player
+		if (MM.devbuild) print("\x82MobjDeath attacker is player") end
+	end
+
+	--If the death is caused by the death pit or crusher we do not need to spawn the Dead Body or the Sheriff's Emerald
+	local spawnBodyOrEmerald = not ((d == DMG_DEATHPIT) or (d == DMG_CRUSHED))
+
 	if (vp.role == ROLE_MURDERER)
-		MM_KillPlayer2(victim, spawnbody)
+		if (ap)
+			if (MM_AreTeammates(vp, ap))
+				MM_HitTeammate(vp, ap)
+				return false
+			else
+				MM_KillPlayerByPlayer(v, a)
+			end
+		else
+			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
+		end
+
 		if (not PlayerCount(ROLE_MURDERER))
-			MM_EndRound(ROLE_SHERIFF, "WIN", WIN_CIVILS)
+			MM_EndRound(WIN_CIVILS, "WIN", WIN_CIVILS)
 		else
 			MM_ChatprintGlobal("MURD_KILLED", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Murd) died") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) died") end
 		end
 	elseif (vp.role == ROLE_SHERIFF)
-		MM_KillPlayer2(victim, spawnbody)
+		if (ap)
+			if (MM_AreTeammates(vp, ap))
+				MM_HitTeammate(vp, ap)
+				return false
+			else
+				MM_KillPlayerByPlayer(v, a)
+			end
+		else
+			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
+		end
+
 		if (PlayerCount(ROLE_INNOCENT))
-			if (spawnbody)
-				MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
+			if (spawnBodyOrEmerald)
+				MM_SpawnSHREML(v.x, v.y, v.z)
 				MM_ChatprintGlobal("SHERI_KILLED", vp.name)
-				if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
+				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 			else
 				if (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 					MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
-					if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 				else
-					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
+					MM_EndRound(1, "WIN", WIN_NODEFENDERS)
 				end
 			end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
-			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
+			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
-	elseif (vp.role == ROLE_INNOCENT)
-		MM_KillPlayer2(victim, spawnbody)
 	elseif (vp.role == ROLE_HERO)
-		MM_KillPlayer2(victim, spawnbody)
+		if (ap)
+			if (MM_AreTeammates(vp, ap))
+				MM_HitTeammate(vp, ap)
+				return false
+			else
+				MM_KillPlayerByPlayer(v, a)
+			end
+		else
+			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
+		end
+
 		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
 			MM_ChatprintGlobal("HERO_KILLED", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+		end
+	elseif (vp.role == ROLE_INNOCENT)
+		if (ap)
+			MM_KillPlayerByPlayer(v, a)
+			if (ap.role == ROLE_SHERIFF)
+				-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
+				-- otherwise Murderers win
+				if (PlayerCount(ROLE_INNOCENT))
+					chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
+					MM_ChatprintGlobal("INNO_HURT", 1)
+					MM_SetRandomInnoAs(ROLE_SHERIFF)
+					ap.role = ROLE_INNOCENT
+				else
+					MM_EndRound(ROLE_MURDERER, "WIN", WIN_SHERIKILLINNO)
+				end
+			elseif (ap.role == ROLE_HERO)
+				MM_KillPlayerByHazard(a, true)
+				if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+					MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
+				elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
+					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
+				else
+					chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][2])
+					MM_ChatprintGlobal("INNO_HURT", 2)
+				end
+			end
+		else
+			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
+			if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (not PlayerCount(ROLE_INNOCENT)))
+				MM_EndRound(1, "WIN", WIN_MURD)
+			end
 		end
 	end
+
 	MM_CheckShowdown()
+	return true
 end, MT_PLAYER)
 
---Regular Player->Player kills
-addHook("MobjDamage", function(victim, inf, attacker)
-	if (gametype != GT_MURDERMYSTERY) or (not attacker) or (not attacker.player) return end
-	local vp = victim.player
-	local ap = attacker.player
-	if (ap.role == ROLE_INNOCENT) --Innocents can not hurt others
-	--	CONS_Printf(p, "\x87THE ULTIMATE LIFE FORM?!?!? \x85...or a fricking cheater who has bypassed the limits?")
-	--	print("\x87"..ap.name.."\x85 hit \x87"..vp.name.."\x85 while being an \x83Innocent")
-		return true
-	end
+addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
+	if (gametype != GT_MURDERMYSTERY) or (not a) or (not a.player) return end
+	if (MM.devbuild) print("\x82Player->Player damage (MobjDamage)") end
+	local vp = v.player --Victim player
+	local ap = a.player --Attacker player
+
+	if (ap.role == ROLE_INNOCENT) return end
+
 	if (vp.role == ROLE_MURDERER)
-		if (ap.role == ROLE_MURDERER)
+		if (MM_AreTeammates(vp, ap))
 			MM_HitTeammate(vp, ap)
-			return true
+			return false
+		else
+			MM_KillPlayerByPlayer(v, a)
 		end
-		MM_KillPlayer(victim, attacker)
-		-- Murderer died, end the game if every Murd is dead
+
 		if (not PlayerCount(ROLE_MURDERER))
-			MM_EndRound(ROLE_SHERIFF, "WIN", WIN_CIVILS)
+			MM_EndRound(WIN_CIVILS, "WIN", WIN_CIVILS)
 		else
 			MM_ChatprintGlobal("MURD_KILLED", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Murd) died") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) died") end
 		end
 	elseif (vp.role == ROLE_SHERIFF)
-		if ((ap.role == ROLE_SHERIFF) or (ap.role == ROLE_HERO))
+		if (MM_AreTeammates(vp, ap))
 			MM_HitTeammate(vp, ap)
-			return true
+			return false
+		else
+			MM_KillPlayerByPlayer(v, a)
 		end
-		MM_KillPlayer(victim, attacker)
-		--Sheriff died, drop their emerald (weapon in original MM) if there are still Innos around
+
 		if (PlayerCount(ROLE_INNOCENT))
-			MM_SpawnSHREML(victim.x, victim.y, victim.z, MT_SHREML)
+			MM_SpawnSHREML(v.x, v.y, v.z)
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
-	elseif (vp.role == ROLE_INNOCENT)
-		MM_KillPlayer(victim, attacker)
-		if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
-			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
+	elseif (vp.role == ROLE_HERO)
+		if (MM_AreTeammates(vp, ap))
+			MM_HitTeammate(vp, ap)
+			return false
+		else
+			MM_KillPlayerByPlayer(v, a)
 		end
+
+		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
+		else
+			MM_ChatprintGlobal("HERO_KILLED", vp.name)
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+		end
+	elseif (vp.role == ROLE_INNOCENT)
+		MM_KillPlayerByPlayer(v, a)
 		if (ap.role == ROLE_SHERIFF)
-			--Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
-			--otherwise, Murderers win
+			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
+			-- otherwise Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
 				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
 				MM_ChatprintGlobal("INNO_HURT", 1)
@@ -201,7 +280,7 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_SHERIKILLINNO)
 			end
 		elseif (ap.role == ROLE_HERO)
-			MM_KillPlayer(attacker)
+			MM_KillPlayerByHazard(a, true)
 			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
@@ -211,20 +290,8 @@ addHook("MobjDamage", function(victim, inf, attacker)
 				MM_ChatprintGlobal("INNO_HURT", 2)
 			end
 		end
-	elseif (vp.role == ROLE_HERO)
-		if (ap.role == ROLE_HERO) or (ap.role == ROLE_SHERIFF)
-			MM_HitTeammate(vp, ap)
-			return true
-		end
-		MM_KillPlayer(victim, attacker)
-		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
-		else
-			MM_ChatprintGlobal("HERO_KILLED", vp.name)
-			if (isdedicatedserver) CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
-		end
 	end
-	
+
 	MM_CheckShowdown()
 	return true
 end, MT_PLAYER)
@@ -269,6 +336,9 @@ addHook("PlayerThink", function(p)
 		--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
 		p.mo.flags = $ & ~MF_NOGRAVITY
 	end
+
+	--the game automatically removes the spectator flag if the player dies by map hazard (which lets him respawn)
+	if (p.killedby == "your stupidity") p.spectator = true end
 
 	--role flickering timer
 	if (p.roleflicker) p.roleflicker = $ - 1 end

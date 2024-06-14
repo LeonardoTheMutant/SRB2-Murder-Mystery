@@ -233,15 +233,8 @@ MM.text={
 		["HUD_ROLES"]={
 			"MURDERER",
 			"SHERIFF",
+			"HERO",
 			"INNOCENT",
-			"HERO",
-			"DEAD"
-		},
-		["HUD_ROLES_SHORT"]={ --used for intermission screen (unused in 10.1-BETA)
-			"MURD",
-			"SHERI",
-			"INNO",
-			"HERO",
 			"DEAD"
 		},
 		["HUD_TEAMMATES"]="Teammates",
@@ -279,8 +272,6 @@ MM.text={
 		},
 		["HUD_SNEAKING"]="Sneaking...", --Sneaking
 		["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
-		["HUD_DEADLY"]="DEADLY", --for "Deadly mode"
-		["HUD_MODE"]="MODE",
 		--minigame stuff
 		["HUD_MINIGAME"]={
 			["PRESS"] = "Press\2 CUSTOM3\0 to", --must contain MM escape color codes
@@ -465,15 +456,9 @@ MM.text={
 		},["HUD_ROLES"]={
 			"MORDERCA",
 			"SZERYF",
-			"NIEWINNY",
 			"BOHATER",
+			"NIEWINNY",
 			"MARTWY"
-		},["HUD_ROLES_SHORT"]={
-			"MORD.",
-			"SZER.",
-			"NIEW.",
-			"BOH.",
-			"MARTW."
 		},
 		["HUD_TEAMMATES"]="Cz\xB3onkowie dru\xBFyny",
 		["HUD_KILLBY"]="Zabity przez",
@@ -680,8 +665,8 @@ MM.text={
 		},["HUD_ROLES"]={
 			"\xD3\xC1\xC8\xC9\xD6\xC0", --UBIJCA
 			"\xD8\xC5\xD0\xC8\xD4", --SHERIF
-			"\xCD\xC5\xC2\xC8\xCD\xCD\xDB\xC9", --NIEWINNYJ
 			"\xC3\xC5\xD0\xCE\xC9", --GEROJ
+			"\xCD\xC5\xC2\xC8\xCD\xCD\xDB\xC9", --NIEWINNYJ
 			"\xCC\xC5\xD0\xD2\xC2\xC5\xD6" --MERTWEC
 		},
 		["HUD_TEAMMATES"]="\xCD\xE0\xEF\xE0\xF0\xED\xE8\xEA\xE8", --Naparniki
@@ -909,8 +894,8 @@ MM.text={
 		["HUD_ROLES"]={
 			"KAT\xDDL",
 			"\xDE".."ER\xDD".."F",
-			"MASUM",
 			"KAHRAMAN",
+			"MASUM",
 			"\xD6L\xDC"
 		},
 		["HUD_TEAMMATES"]="Tak\xFDm arkada\xFElar\xFD",
@@ -1110,8 +1095,8 @@ MM.text={
 		},["HUD_ROLES"]={
 			"\xC2\xC1\xC8\xC2\xD6\xDF", --WBYWCIA
 			"\xD8\xC5\xD0\xC8\xD4", --SHERYF
-			"\xCD\xC5\xC2\xC8\xCD\xCD\xC0 \xCE\xD1\xCE\xC1\xC0", --NEWYNNA OSOBA
 			"\xC3\xC5\xD0\xCE\xC9", --HEROJ
+			"\xCD\xC5\xC2\xC8\xCD\xCD\xC0 \xCE\xD1\xCE\xC1\xC0", --NEWYNNA OSOBA
 			"\xCC\xC5\xD0\xD2\xC2\xC8\xC9" --MERTWYJ
 		},["HUD_ROLES_SHORT"]={
 			"\xC2\xC1\xC8\xC2.", --WBYW.
