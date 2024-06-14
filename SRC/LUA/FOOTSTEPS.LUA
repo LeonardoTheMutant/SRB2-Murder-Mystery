@@ -2391,11 +2391,11 @@ addHook("PlayerThink", function(player)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end
 					player.lastgroundtexture = player.groundtexture
-					if (material) and (soundType) and (player.soundList[material][soundType])
+					if (material) and (soundType) and (player.soundlist[material]) and (player.soundList[material][soundType])
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							if (mapheaderinfo[gamemap].disablefootsteps!="True") P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP) end
+							if (mapheaderinfo[gamemap].disablefootsteps != "True") P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP) end
 						end
 					end
 				end
