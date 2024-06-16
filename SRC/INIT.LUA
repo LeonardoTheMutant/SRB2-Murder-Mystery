@@ -125,7 +125,7 @@ print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 --Freeslot Gametype, Sheriff's Emerald & Knife object
 freeslot('TOL_MM', 'MT_SHREML', 'MT_MMKNIFE')
 --Various SFX
-freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_DAMFLL', 'SFX_ALDI')
+freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_MMDTH7', 'SFX_DAMFLL', 'SFX_ALDI')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -172,6 +172,7 @@ sfxinfo[sfx_mmdth3].caption="Killed"
 sfxinfo[sfx_mmdth4].caption="Killed"
 sfxinfo[sfx_mmdth5].caption="OH NO!"
 sfxinfo[sfx_mmdth6].caption="Pain"
+sfxinfo[sfx_mmdth7].caption="Moonwalker"
 --for MAPK5 (Dam Zone)
 sfxinfo[sfx_damfll].caption="Falling from the Dam..."
 --for MAPKD (East City)
