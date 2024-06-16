@@ -15,15 +15,17 @@ This document contains the description of some important functions and constants
     - Customisation API
   - FUNCTIONS.LUA`
     - `GAME.LUA`
-    - `HUD.LUA
-    - `CHAT.LUA
+    - `HUD.LUA`
+    - `CHAT.LUA`
     - `WEAPONS.LUA`
     - `MINIGAME.LUA`
     - Globaly used functions
 - [Constants](#constants)
-  - Roles (`ROLE_*`*)
+  - Roles (`ROLE_*`)
   - Game messages
-  - Win reasons (`WIN_*`*)
+  - Win reasons (`WIN_*`)
+  - Time Zones (`TIMEZONE_*`)
+  - Time Warp (`TWS_*`)
   - The core `MM` table
 
 # Functions
@@ -55,12 +57,13 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA):
 | <code>**MM_TeammatesCount**(*player_t* player)</code> | *int* | Returns the number of teammates the player has.<br>*Note:* Do not use this function for Innocents as they are technically not in a team |
 | <code>**MM_AreTeammates**(*player_t* player1, *player_t* player2)</code> | *boolean* | Compares if `player1` and `player2` are in the same team (Murderer team, Sheriff/Hero team, Innocent team). |
 | <code>**MM_KillPlayerByPlayer**(*mobj_t* player, [*mobj_t* attacker])</code> | nil | Make <code>player</code> *DEAD*. <code>attacker</code> is a player who killed the <code>player</code>, it is used to print the killer's name for the <code>player</code>. If the <code>attacker</code> is not specified the killer's name is `"your stupidity"` instead.<br>*Note:* Both <code>player</code> and <code>attacker</code> arguments have to be `mobj_t`! |
-| <code>**MM_KillPlayerByHazard**(*mobj_t* player, [*bool* spawnBody])</code>    | nil          | Similar to <code>MM_KillPlayer()</code> but used to kill by a hazard. Set <code>spawnBody</code> to `true` to also spawn the dead body (does not spawn one by default).<br>*Note:* <code>player</code> argument has to be `mobj_t`! |
-| <code>**MM_HitTeammate**(*player_t* victim, *player_t* attacker)</code> | nil          | Make <code>victim</code> being hit by a teammate <code>attacker</code>. This function prints personal messages to both <code>victim</code> and <code>attacker</code> to let them know that they are in one team and they should not hit each other next time.                                                                                                                                                                                                                               |
-| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code>       | nil          | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the `WIN_*` constants.                                                                                                                                                                                                                                                                                      |
-| <code>**MM_CheckShowdown**()</code>                                     | nil          | A function to check if the Showdown Duel music can be started or not.                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| <code>**MM_SetRandomInnoAs**(*int* role)</code>                         | nil          | Similar to `MM_AssignRoles()` but works for only for Innocents. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.                                                                                                        |
-| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code>                 | *int*        | Get the interval time in tics between each radar beep depending on the `dist` distance. Used for Innocents' Sheriff Emerald radar.                                                                                                                                                                                                                                                                                                                                                          |
+| <code>**MM_KillPlayerByHazard**(*mobj_t* player, [*bool* spawnBody])</code> | nil | Similar to <code>MM_KillPlayer()</code> but used to kill by a hazard. Set <code>spawnBody</code> to `true` to also spawn the dead body (does not spawn one by default).<br>*Note:* <code>player</code> argument has to be `mobj_t`! |
+| <code>**MM_HitTeammate**(*player_t* victim, *player_t* attacker)</code> | nil | Make <code>victim</code> being hit by a teammate <code>attacker</code>. This function prints personal messages to both <code>victim</code> and <code>attacker</code> to let them know that they are in one team and they should not hit each other next time. |
+| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. `w` specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). `winreason` is optional but can be one of the `WIN_*` constants. |
+| <code>**MM_CheckShowdown**()</code> | nil | A function to check if the Showdown Duel music can be started or not. |
+| <code>**MM_SetRandomInnoAs**(*int* role)</code> | nil | Similar to `MM_AssignRoles()` but works for only for Innocents. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument. |
+| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the `dist` distance. Used for Innocents' Sheriff Emerald radar. |
+| <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from `timezone1` can happen in `timezone2`. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are **TIMEZONE_*** constants.
 
 ### `HUD.LUA`
 
@@ -150,6 +153,28 @@ Win reasons for `MM_EndRound("WIN")` and `MM_ChatprintGlobal("WIN")` functions
 | `WIN_SHERIKILLINNO` | 3     | Sheriff killed the last Innocent            |
 | `WIN_HEROKILLINNO`  | 4     | Hero killed the last Innocent               |
 | `WIN_NODEFENDERS`   | 5     | All Sheriffs and Heros are dead             |
+
+### Time Zones
+
+Time Zone constants tell in what timezone the player (or an object) is existing right now
+
+| Constant               | Value | Description      |
+| ---------------------- | ----- | ---------------- |
+| `TIMEZONE_NONE`        | 0     | Timezone not set |
+| `TIMEZONE_PAST`        | 1     | Past             |
+| `TIMEZONE_PRESENT`     | 2     | Present          |
+| `TIMEZONE_FUTURE_BAD`  | 3     | Bad Future       |
+| `TIMEZONE_FUTURE_GOOD` | 4     | Good Future      |
+
+### Time Warp Sign
+
+These contants describe in which direction in the timeline player will warp
+
+| Constant      | Value | Description       |
+| ------------- | ----- | ----------------- |
+| `TWS_NONE`    | 0     | Warp is not set   |
+| `TWS_PAST`    | 1     | Warping to Past   |
+| `TWS_FUTURE`  | 2     | warping to Future |
 
 ### The core table
 

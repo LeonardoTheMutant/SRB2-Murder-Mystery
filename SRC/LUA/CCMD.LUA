@@ -38,6 +38,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMNODES\x80     - Display everyone's player state and role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
+		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
 	end
 

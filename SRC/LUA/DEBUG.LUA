@@ -8,7 +8,7 @@ if (MM.devbuild)
 	--change player's role (and state to alive/dead)
     COM_AddCommand("mmplayer", function(p, pnum, prole, pdead, killby)
 		if (not pnum) or (not prole)
-			CONS_Printf(p, "\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [dead (0/1)] [killedby (optional)]")
+			CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [dead (0/1)] [killedby (optional)]")
 			return
 		end
 		if (prole=="nil") players[tonumber(pnum)].role=nil
@@ -26,9 +26,9 @@ if (MM.devbuild)
 		winner = tonumber($)
 		reason = tonumber($)
 		if (winner==nil)
-			CONS_Printf(p, "\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]")
-			CONS_Printf(p, "Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians")
-			CONS_Printf(p, "Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"")
+			CONS_Printf(p,"\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]")
+			CONS_Printf(p,"Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians")
+			CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"")
 			return
 		end
 		if (not reason) MM_EndRound(winner, "WIN", winner)
@@ -38,6 +38,30 @@ if (MM.devbuild)
     COM_AddCommand("mmshreml", function(p)
 		MM_SpawnSHREML(p.realmo.x, p.realmo.y, p.realmo.z)
     end)
+	--Warp between different time zones manually
+	COM_AddCommand("mmtimewarp", function(p, direction, shift)
+		if (gamestate!=GS_LEVEL) or (not p.mo) or (not p.mo.valid) return end
+		if (not direction)
+			CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [1/2 (optinal)]")
+			return
+		end
+		local ShiftX
+		local ShiftY
+		local ShiftX2
+		local ShiftY2
+		if (mapheaderinfo[gamemap].timetravel_shiftx) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX = tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
+		else ShiftX = 0 end
+		if (mapheaderinfo[gamemap].timetravel_shifty) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY = tonumber(mapheaderinfo[gamemap].timetravel_shifty)
+		else ShiftY = 0 end
+		if (mapheaderinfo[gamemap].timetravel_shiftx2) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)) ShiftX2 = tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)
+		else ShiftX2 = 0 end
+		if (mapheaderinfo[gamemap].timetravel_shifty2) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty2)) ShiftY2 = tonumber(mapheaderinfo[gamemap].timetravel_shifty2)
+		else ShiftY2 = 0 end
+		local sign
+		if (direction=="-") sign=-1 else sign=1 end
+		if (shift) P_MoveOrigin(p.mo, p.mo.x + ShiftX2*sign, p.mo.y + ShiftY2*sign, p.mo.z)
+		else P_MoveOrigin(p.mo, p.mo.x + ShiftX*sign, p.mo.y + ShiftY*sign, p.mo.z) end
+	end)
 
 	--Draw all characters from the Extended ASCII character set
     COM_AddCommand("mmcharset", function(p, set)
@@ -60,8 +84,8 @@ if (MM.devbuild)
 	addHook("PlayerThink", function(p)
 		if (not p.debugdrawer) return end
 		if (p.cmd.buttons&BT_SPIN)
-			p.debugdrawer = nil
-			p.debugcolor = nil
+			p.debugdrawer=nil
+			p.debugcolor=nil
 		end
 		if (p.cmd.buttons&BT_JUMP)
 			if (not p.debugjumped)
@@ -91,5 +115,5 @@ if (MM.devbuild)
 		end
 		v.drawString(0,184,"Color: "..p.debugcolor)
 		v.drawString(0,192,"JUMP to change color, SPIN to exit")
-	end, "game")
+	end,"game")
 end

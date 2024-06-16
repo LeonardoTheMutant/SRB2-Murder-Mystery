@@ -77,6 +77,13 @@ addHook("MapLoad", function(map)
 	else
 		TimeTravel_ShiftY2 = 0
 	end
+	if (MM.devbuild) and ((TimeTravel_ShiftX) or (TimeTravel_ShiftY) or (TimeTravel_ShiftX2) or (TimeTravel_ShiftY2))
+		print("\x82Map's Time Travel shift values")
+		print("X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
+		print("Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")
+		print("X2: \x81"..TimeTravel_ShiftX2.."\x80 ("..fixint(TimeTravel_ShiftX2)..")")
+		print("Y2: \x81"..TimeTravel_ShiftY2.."\x80 ("..fixint(TimeTravel_ShiftY2)..")")
+	end
 end)
 
 addHook("PlayerSpawn", function(p)
@@ -104,25 +111,25 @@ addHook("PlayerThink", function(p)
 				if (p.timetravel.timesign == TWS_PAST) --warping to the more Past stage
 					if (p.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
 						p.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z) --5120*FU
+						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
 					elseif (p.timetravel.timezone == TIMEZONE_FUTURE_GOOD) --warp from Good Future
 						p.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z) --10240*FU
+						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z)
 					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from present
 						p.timetravel.timezone = TIMEZONE_PAST
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z) --5120*FU
+						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
 					end
 				else --warping to the more Future stage
 					if (p.timetravel.timezone == TIMEZONE_PAST) --warp from Past
 						p.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z) --5120*FU
+						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
 					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
 						if (PlayerCount(ROLE_MURDERER))
 							p.timetravel.timezone = TIMEZONE_FUTURE_BAD
-							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z) --5120*FU
+							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
 						else --You will never see the Good Future version of this level in a regular playthrough :)
 							p.timetravel.timezone = TIMEZONE_FUTURE_GOOD
-							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z) --10240*FU
+							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z)
 						end
 					end
 				end

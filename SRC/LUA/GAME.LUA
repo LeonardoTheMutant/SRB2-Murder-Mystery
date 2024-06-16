@@ -25,8 +25,8 @@ addHook("MapLoad", function(map)
 	MM.shremls = {}
 
 	MM.timelimit = 0
-	if (mapheaderinfo[map].mm_timelimit and tonumber(mapheaderinfo[map].mm_timelimit))
-		MM.timelimit = tonumber(mapheaderinfo[map].mm_timelimit)
+	if (mapheaderinfo[map].timelimit and tonumber(mapheaderinfo[map].timelimit))
+		MM.timelimit = tonumber(mapheaderinfo[map].timelimit)
 	elseif (timelimit) --Swapping timelimit value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
 		MM.timelimit = timelimit
 	end
@@ -208,7 +208,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		end
 	end
 
-	MM_CheckShowdown()
+	if (PlayersAlive() > 1) MM_CheckShowdown() end
 	return true
 end, MT_PLAYER)
 

@@ -95,7 +95,7 @@ SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = mm
-NextLevel = K0
+NextLevel = KD
 
 Level KA
 LevelName = Mirage Express
@@ -135,7 +135,8 @@ Lua.TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
 Lua.TimeTravel_ShiftY = 0
 Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
 Lua.TimeTravel_ShiftY2 = 0
-NextLevel = KE
+Lua.Timelimit = 7
+NextLevel = K0
 
 Level KE
 LevelName = Dubious Depths?

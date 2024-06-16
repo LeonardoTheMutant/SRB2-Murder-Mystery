@@ -276,6 +276,13 @@ rawset(_G, "MM_GetSHREMLinterval", function(dist)
 	else return 0 end
 end)
 
+rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
+	if ((timezone1 == TIMEZONE_PAST) and (timezone2 >= TIMEZONE_PAST)) or ((timezone1 == TIMEZONE_PRESENT) and (timezone2 >= TIMEZONE_PRESENT)) return true
+	elseif (timezone1 == TIMEZONE_FUTURE_BAD) and (timezone2 == TIMEZONE_FUTURE_BAD) return true
+	elseif (timezone1 == TIMEZONE_FUTURE_GOOD) and (timezone2 == TIMEZONE_FUTURE_GOOD) return true
+	end
+end)
+
 --
 --HUD.LUA
 --
