@@ -120,8 +120,11 @@ hud.add(function(v, p)
 	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_RINGS")
 	yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_RINGS")
 	if (not p.spectator)
-		if (not p.rings) and (leveltime & 4) V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f|V_PERPLAYER)
-		else V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_RINGS"], hudinfo[HUD_RINGS].f|V_PERPLAYER) end
+		if (not p.rings) and (leveltime & 4)
+			V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f|V_PERPLAYER)
+		else
+			V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_RINGS"], hudinfo[HUD_RINGS].f|V_PERPLAYER)
+		end
 		v.drawNum(((hudinfo[HUD_RINGS].x + maxHudIfnfoSize) - 16), hudinfo[HUD_RINGS].y, p.rings, hudinfo[HUD_RINGS].f|V_PERPLAYER)
 	end
 	
@@ -154,13 +157,18 @@ hud.add(function(v, p)
 
 	if (p.spectator)
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f|V_PERPLAYER)
-		for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_DEAD"]) do V_DrawStrASCIIcentered(v, 160, (112 + y*8), charset, i, V_PERPLAYER) end
+		for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_DEAD"])
+			V_DrawStrASCIIcentered(v, 160, (112 + y*8), charset, i, V_PERPLAYER)
+		end
 		if (p.role == nil)
 			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_MIDJOIN"]) V_DrawStrASCIIcentered(v, 160, (152 + y*4), charset, i, V_PERPLAYER, 32768) end --FU/2
 		end
 		if (p.killedby)
-			if (p.killedby == "your stupidity") V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\5"..MM.text[consoleplayer.mmlang]["HUD_KILLBY"].."\0 "..MM.text[consoleplayer.mmlang]["HUD_STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
-			else V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\5"..MM.text[consoleplayer.mmlang]["HUD_KILLBY"].."\0 "..p.killedby, hudinfo[HUD_RINGS].f|V_PERPLAYER) end
+			if (p.killedby == "your stupidity")
+				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\5"..MM.text[consoleplayer.mmlang]["HUD_KILLBY"].."\0 "..MM.text[consoleplayer.mmlang]["HUD_STUPID"], V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+			else
+				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\5"..MM.text[consoleplayer.mmlang]["HUD_KILLBY"].."\0 "..p.killedby, hudinfo[HUD_RINGS].f|V_PERPLAYER)
+			end
 		end
 		if ((not p.minigame) and (not MM.twopgame) and (not MM.minigame))
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["BORED"], 0, 32768)), 0, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["BORED"], V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER, 32768) --FU/2
@@ -172,8 +180,11 @@ hud.add(function(v, p)
 	if (not p.spectator) and (MM.twopgame)
 		local rival
 		if (MM.duelplrs and MM.duelplrs[1] and MM.duelplrs[2])
-			if ((MM.duelplrs[1].valid) and (MM.duelplrs[1] == p)) rival = MM.duelplrs[2]
-			elseif (MM.duelplrs[2] == p) rival = MM.duelplrs[1] end
+			if ((MM.duelplrs[1].valid) and (MM.duelplrs[1] == p))
+				rival = MM.duelplrs[2]
+			elseif (MM.duelplrs[2] == p)
+				rival = MM.duelplrs[1]
+			end
 		end
 		if ((rival) and (rival.valid))
 			if ((not p.minigame) and (not rival.minigame))
@@ -217,20 +228,28 @@ hud.add(function(v, p)
 			if (p.powers[pw_infinityring])
 				v.draw(MM.hud.game.pos.ringWepMurd.x, (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER) --Infinite Ring icon
 				v.drawString(160, (MM.hud.game.pos.ringWep.y+8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin-center") --Infinite Ring ammo counter
-			else v.draw(MM.hud.game.pos.ringWepMurd.x, (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER) end --Red Ring icon
+			else
+				v.draw(MM.hud.game.pos.ringWepMurd.x, (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
+			end
 			v.draw((MM.hud.game.pos.ringWepMurd.x - 2), (MM.hud.game.pos.ringWep.y - (p.mmweapondelay >> 1) - 2), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER) --selector
 		elseif ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO) or ((p.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and duelmodeCVAR.value))
 			if (p.powers[pw_infinityring])
 				v.draw((MM.hud.game.pos.ringWep.x), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER) --Infinite Ring icon
 				v.drawString((MM.hud.game.pos.ringWep.x + 1), (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin") --Infinite Ring ammo counter
-			else v.draw((MM.hud.game.pos.ringWep.x), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER) end --Red Ring icon
+			else 
+				v.draw((MM.hud.game.pos.ringWep.x), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), ringTrans[7]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
+			end
 			for weapon = 1,6
 				if (p.ringweapons & wep2rw(weapon)) or (p.powers[weapon+14])
 					v.draw((MM.hud.game.pos.ringWep.x + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), ringTrans[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER) --Ring weapon icon
-					if (p.powers[weapon + 14]) v.drawString((MM.hud.game.pos.ringWep.x + 1 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], ringTrans[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin") end --Ammo counter
+					if (p.powers[weapon + 14])
+						v.drawString((MM.hud.game.pos.ringWep.x + 1 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], ringTrans[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin") --Ammo counter
+					end
 				end
 			end
-			if ((p.ammoremovaltimer) and (leveltime & 1)) v.drawString((MM.hud.game.pos.ringWep.x + 1 + p.ammoremovalweapon*20), (MM.hud.game.pos.ringWep.y + 2), "\x85-"..p.ammoremoval, V_SNAPTOBOTTOM|V_PERPLAYER, "thin") end --Ammo removal penalty
+			if ((p.ammoremovaltimer) and (leveltime & 1))
+				v.drawString((MM.hud.game.pos.ringWep.x + 1 + p.ammoremovalweapon*20), (MM.hud.game.pos.ringWep.y + 2), "\x85-"..p.ammoremoval, V_SNAPTOBOTTOM|V_PERPLAYER, "thin") --Ammo removal penalty
+			end
 			v.draw((MM.hud.game.pos.ringWep.x - 2 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - (p.mmweapondelay>>2) - 2), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER) --selector
 		end
 	elseif ((p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)) --innocents have Sheriff Emerald radar instead of weapon dock
@@ -255,14 +274,20 @@ hud.add(function(v, p)
 		V_DrawStrASCIIcentered(v, 160, 192, charset, "\8"..MM.text[consoleplayer.mmlang]["HUD_SHOWDOWN"])
 	end
 
-	--ABILITIES.LUA part
-	if (p.sneak) V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER, 32768) end --FU/2
+	--Sneaking
+	if ((p.sneak) and (p.mo and p.mo.valid) and P_IsObjectOnGround(p.mo))
+		V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM.text[consoleplayer.mmlang]["HUD_SNEAKING"], V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER, 32768) --FU/2
+	end
 	
 	--red Flash effect when you die
-	if (p.flashscrn) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_5"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER) end
+	if (p.flashscrn)
+		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_5"), ((p.flashscrn - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	end
 	
 	--white time warp spark effect
-	if (p.timetravel and p.timetravel.spark) v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_0"), ((p.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER) end
+	if (p.timetravel and p.timetravel.spark)
+		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_0"), ((p.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	end
 
 	
 	--Debug
@@ -346,8 +371,11 @@ hud.add(function(v)
 	if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[ROLE_INNOCENT]..MM.text[consoleplayer.mmlang]["HUD_ROLESALIVE"][3]..": "..PlayerCount(ROLE_INNOCENT))) end
 	--Online
 	v.drawString(160, 176, "ONLINE: "..PlayerCount())
+
 	--"Sheriff's Emerald is available!"
-	if ((#MM.shremls) and (leveltime & 1)) v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3")) end --8*FU, 184*FU, FU/2
+	if ((#MM.shremls) and (leveltime & 1))
+		v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3")) --8*FU, 184*FU, FU/2
+	end
 
 	-- Prerelease/Debug
 	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
@@ -373,8 +401,14 @@ hud.add(function(v)
 	local multiply = {x=0, y=0}
 	
 	V_DrawStrASCIIcentered(v,160, 4, charset, "\7"..MM.text[consoleplayer.mmlang]["MM"])
-	if (mapheaderinfo[gamemap].actnum == 0) v.drawString(160, 16, "* "..mapheaderinfo[gamemap].lvlttl.." *", 0, "center")
-	else v.drawString(160, 16, "* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *", 0, "center") end
+
+	--Map name drawer
+	if (mapheaderinfo[gamemap].actnum == 0)
+		v.drawString(160, 16, "* "..mapheaderinfo[gamemap].lvlttl.." *", 0, "center")
+	else
+		v.drawString(160, 16, "* "..mapheaderinfo[gamemap].lvlttl.." "..mapheaderinfo[gamemap].actnum.." *", 0, "center")
+	end
+
 	v.drawFill(0, 40, 320, 2, 0) --horizontal line
 
 	--player list
@@ -471,8 +505,11 @@ hud.add(function(v)
 	end
 
 	-- Winner text
-	if (MM.winner == 0) V_DrawStrASCIIcentered(v, 160, 176, charset, MM.text[consoleplayer.mmlang]["HUD_WIN"][1]) --tie
-	else V_DrawStrASCIIcentered(v, 160, 176, charset, MM.text[consoleplayer.mmlang]["HUD_WINNERS"].." "..MM.text[consoleplayer.mmlang]["HUD_WIN"][MM.winner + 1]) end
+	if (MM.winner == 0) --tie
+		V_DrawStrASCIIcentered(v, 160, 176, charset, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
+	else
+		V_DrawStrASCIIcentered(v, 160, 176, charset, MM.text[consoleplayer.mmlang]["HUD_WINNERS"].." "..MM.text[consoleplayer.mmlang]["HUD_WIN"][MM.winner + 1])
+	end
 
 	-- Prerelease/Debug
 	v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
