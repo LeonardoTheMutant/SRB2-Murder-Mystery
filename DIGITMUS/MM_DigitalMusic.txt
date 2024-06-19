@@ -1,0 +1,58 @@
+DIGITAL SOUNDTRACK
+for SRB2 Murder Mystery add-on
+
+This PK3 file adds digital music tracks for the SRB2 Murder Mystery add-on.
+Adding this file to the game will not trigger the "Game Modified" state in SRB2 making
+this add-on fully client-side (players are not required to have this file to join netgames)
+
+NOTE: Posting music-only add-ons on the SRB2 Message Board (mb.srb2.org) is PROHIBITED!
+
+===============================================
+ HOW TO MAKE THE MUSIC ADD-ON FROM THIS SOURCE
+===============================================
+1. Create a new .ZIP archive
+2. Add the contents of this folder to the archive WITHOUT THIS .TXT
+3. Change the extension of the .ZIP file to .PK3
+4. You have crafted the music add-on!
+
+As long as the archive has ONLY MUSIC LUMPS (O_* and D_* prefixed lumps) the add-on will
+not trigger "Game Modified" state in SRB2
+
+===========
+  CREDITS
+===========
+
+ MAPS
+------
+MAPK0 - "Balancing Act" by Andrew Bassett (Freedoom: Phase 2 (v0.12.1))
+MAPK1 - "Fear" by Discoholic (Freedoom: Phase 2 (v0.13.0))
+MAPK2 - "Syntax Error" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
+MAPK3 - "Inside the Ruins" by Korp (Freedoom: Phase 2 (MAP11's track in October 15 2022 build))
+MAPK4 - "Under Maintenance" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
+MAPK5 - "Dam" by Grant Kirkhope (Goldeneye 007)
+MAPK7 - "Rough Landing" by Korp, remix of dave3d08.mid by jute (Freedoom: Phase 2 (v0.13.0))
+MAPK8 - *unknown*
+MAPK9 - "Reflection" by Scragadelic (Freedoom: Phase 2 (v0.13.0))
+MAPKD Present - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
+MAPKD Past - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD JP)
+MAPKD Bad Future - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
+MAPKD Good Future - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
+
+ SHOWDOWN
+----------
+DRMBM2 - "2 player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine)
+DRMBMF - "Fight against Robotnik" (Dr. Robotnik's Mean Bean Machine)
+S2GGBS - "Boss theme" (Sonic 2 Game Gear)
+S2MSBS - "Boss theme" (Sonic 2 Master System)
+STORMR - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
+UNDYNE - "Battle Against a True Hero" by Toby Fox (Undertale)
+
+ INTERMISSION
+--------------
+Tie - "No way!" (Sonic the Hedgehog 3 & Knuckles)
+Murderer ending - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007)
+Civilian ending - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
+No deffenders ending - "Vanilla Dome" by Koji Kondo (Super Mario World)
+Bad Sheriff ending - "Gaster's theme" by Toby Fox (Undertale)
+Bad Hero ending - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
+2 player duel - "Driftevil City" (Pokemon Black & White)

@@ -432,8 +432,8 @@ addHook("MusicChange", function(old, new)
 	if (new == "_inter")
 		if (not MM.winner) return "NOWAY" --Sonic 3 & Knuckles "No way!"
 		else
-			if (MM.winreason == 1) return "INTER" --DOOM I "Intermission" / "Episode 2 Map 3"
-			elseif (MM.winreason == 2) return "UN39" --"Unused DOOM track 39"
+			if (MM.winreason == 1) return "007WTC" --Goldeneye 007 "Watch theme"
+			elseif (MM.winreason == 2) return "FD2INT" --Freedoom: Phase 2 "Intermission"
 			elseif (MM.winreason == 3) return "GASTER" --Undertale "Gaster's theme"
 			elseif (MM.winreason == 4) return "11H_IN" --Main theme of "The 11th Hour: The sequel to The 7th Guest"
 			elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
