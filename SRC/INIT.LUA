@@ -195,9 +195,10 @@ dofile("TIMETRAVEL.LUA")
 dofile("MINIGAMES/HUD_MINIGAMES.LUA")
 dofile("MINIGAMES/MINIGAMES.LUA")
 
-dofile("LEVELS/MAPK0.LUA")
-dofile("LEVELS/MAPK7.LUA")
-dofile("LEVELS/MAPK8.LUA")
+dofile("MAPS/MAPK0.LUA")
+dofile("MAPS/MAPK6.LUA")
+dofile("MAPS/MAPK7.LUA")
+dofile("MAPS/MAPK8.LUA")
 
 print("\x83Murder Mystery loaded succesfuly\nNote that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
 --
