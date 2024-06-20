@@ -15,8 +15,11 @@ local function V_DrawMinigameTime(v)
 
     --timer calculation
 	local timertime
-	if (timelimit) timertime = (MM.timelimit * 2100) - leveltime
-	else timertime = leveltime end
+	if (timelimit)
+		timertime = (MM.timelimit * 2100) - leveltime
+	else
+		timertime = leveltime
+	end
 
 	--"TIME" text
 	local xoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].xoff or 0
@@ -60,7 +63,9 @@ hud.add(function(v, p)
 	--
     if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--CUSTOM3 related text
-		if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
+		if (not p.minigametimeout)
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+		end
 
 		--TIME
 		V_DrawMinigameTime(v)
@@ -73,13 +78,12 @@ hud.add(function(v, p)
 		if (p.SonicRun.state == 0)
 			sonicSprite = "SNC_STND"
 		elseif (p.SonicRun.state == 1)
-			if (leveltime & 1) sonicSprite = "SNC_RUN1"
+			if (leveltime & 1) then sonicSprite = "SNC_RUN1"
 			else sonicSprite = "SNC_RUN2" end
 		elseif (p.SonicRun.state == 2)
-			if (leveltime % 4 == 0) sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 1) sonicSprite = "SNC_SPN2"
-			elseif (leveltime % 4 == 2) sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 3) sonicSprite = "SNC_SPN3" end
+			if (leveltime % 4 == 0) or (leveltime % 4 == 2) then sonicSprite = "SNC_SPN1"
+			elseif (leveltime % 4 == 1) then sonicSprite = "SNC_SPN2"
+			elseif (leveltime % 4 == 3) then sonicSprite = "SNC_SPN3" end
 		end
 		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), v.cachePatch(sonicSprite))
 
@@ -100,9 +104,13 @@ hud.add(function(v, p)
 			local secondsLeft = p.SonicRun.timeout / TICRATE
 			if (secondsLeft)
 				local countdownPatch = "RACE3"
-				if (secondsLeft <= 2) countdownPatch = "RACE"..secondsLeft end
+				if (secondsLeft <= 2)
+					countdownPatch = "RACE"..secondsLeft
+				end
 				v.draw(152, 100, v.cachePatch(countdownPatch))
-			elseif v.draw(142, 100, v.cachePatch("RACEGO")) end
+			elseif
+				v.draw(142, 100, v.cachePatch("RACEGO"))
+			end
 		end
 
 		--score
@@ -121,8 +129,20 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE)
 		--role
-		if (p.role) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
-		elseif (p.spectator) V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f) end
+		if (p.role)
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][p.role], hudinfo[HUD_LIVES].f)
+		elseif (p.spectator)
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][5], hudinfo[HUD_LIVES].f)
+		end
+
+		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
+		if (p.timetravel and p.timetravel.timezone)
+			if (p.timetravel.timezone == 1) --Past
+				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\6"..MM.text[consoleplayer.mmlang]["HUD_PAST"], hudinfo[HUD_LIVES].f|V_PERPLAYER)
+			elseif (p.timetravel.timezone > 2) --One of the Futures
+				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\6"..MM.text[consoleplayer.mmlang]["HUD_FUTURE"], hudinfo[HUD_LIVES].f|V_PERPLAYER)
+			end
+		end
 
 		if (MM.devbuild)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
@@ -143,12 +163,19 @@ hud.add(function(v, p)
 		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
 		--CUSTOM3 related text and show yourself
 		if (p == MM.duelplrs[1]) or (p == MM.duelplrs[2])
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end --FU/2
-			if (p == MM.duelplrs[1]) V_DrawStrASCIIcentered(v, 32, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
-			elseif (p == MM.duelplrs[2]) V_DrawStrASCIIcentered(v, 288, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT) end
+			if (not p.minigametimeout) then
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
+			end
+			if (p == MM.duelplrs[1])
+				V_DrawStrASCIIcentered(v, 32, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
+			elseif (p == MM.duelplrs[2])
+				V_DrawStrASCIIcentered(v, 288, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT)
+			end
 		else
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], 0, 32768)), 0, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
-			if (not p.minigametimeout) V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 4, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) end
+			if (not p.minigametimeout) then
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 4, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
+			end
 			V_DrawStrASCIIcentered(v, 160, 152, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PONGBALL"]) --spectator ball text
 		end
 
@@ -162,11 +189,16 @@ hud.add(function(v, p)
 		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].role])
 		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].role])
 		--draw ball
-		if (MM.pong.wintimeout & 1) v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72) end
+		if (MM.pong.wintimeout & 1)
+			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72)
+		end
 		--winner text
 		if (MM.pong.winner != nil)
-			if (not MM.pong.winner) V_DrawStrASCIIcentered(v, 160, 160, charset, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
-			else V_DrawStrASCIIcentered(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[MM.pong.winner].role].."\0 "..MM.text[consoleplayer.mmlang]["HUD_WON"]) end
+			if (not MM.pong.winner)
+				V_DrawStrASCIIcentered(v, 160, 160, charset, MM.text[consoleplayer.mmlang]["HUD_WIN"][1])
+			else
+				V_DrawStrASCIIcentered(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM.text[consoleplayer.mmlang]["HUD_ROLES"][MM.duelplrs[MM.pong.winner].role].."\0 "..MM.text[consoleplayer.mmlang]["HUD_WON"])
+			end
 		end
 		--player 1 side information
 		if (MM.duelplrs[1].valid)
