@@ -6,7 +6,7 @@
 -- Good luck reading all of this
 
 --Constants
-local expectedHudInfoSize = {0,0,0}
+local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
 
@@ -60,15 +60,28 @@ hud.add(function(v, p)
 	local scorePatchName
 	if ((p.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS"
 	else scorePatchName = "BMP_SUSPECTS" end
-	expectedHudInfoSize[1] = V_TextPatchWidth(MM.text[consoleplayer.mmlang][scorePatchName]) + 40
+
+	if (MM.text[consoleplayer.mmlang][scorePatchName])
+		HudInfoSize[1] = V_TextPatchWidth(MM.text[consoleplayer.mmlang][scorePatchName]) + 40
+	else
+		HudInfoSize[1] = 96
+	end
 	--TIME
-	expectedHudInfoSize[2] = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"]) + 64
+	if (MM.text[consoleplayer.mmlang]["BMP_TIME"])
+		HudInfoSize[2] = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"]) + 64
+	else
+		HudInfoSize[2] = 96
+	end
 	--RINGS
-	expectedHudInfoSize[3] = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_RINGS"]) + 52
+	if (MM.text[consoleplayer.mmlang]["BMP_RINGS"])
+		HudInfoSize[3] = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_RINGS"]) + 52
+	else
+		HudInfoSize[3] = 92
+	end
 
 	--find the longest element
-	maxHudIfnfoSize = expectedHudInfoSize[1]
-	for element = 2, 3 do if (expectedHudInfoSize[element] > maxHudIfnfoSize) then maxHudIfnfoSize = expectedHudInfoSize[element] end end
+	maxHudIfnfoSize = HudInfoSize[1]
+	for element = 2, 3 do if (HudInfoSize[element] > maxHudIfnfoSize) then maxHudIfnfoSize = HudInfoSize[element] end end
 
 	local xoff --X offset for Text Patches
 	local yoff --Y offset for Text Patches
@@ -77,9 +90,17 @@ hud.add(function(v, p)
 
 	--SUSPECTS/VICTIMS
 	--Draw the Text Label
-	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, scorePatchName)
-	yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, scorePatchName)
-	V_DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, xoff, yoff, MM.text[consoleplayer.mmlang][scorePatchName], hudinfo[HUD_SCORE].f|V_PERPLAYER)
+	if (MM.text[consoleplayer.mmlang][scorePatchName]) and (not splitscreen)
+		xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, scorePatchName)
+		yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, scorePatchName)
+		V_DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, xoff, yoff, MM.text[consoleplayer.mmlang][scorePatchName], hudinfo[HUD_SCORE].f)
+	else --in case Text Patch was not found or the game is splitscreen (V_DrawTextPatch() does not support per-player rendering)
+		if (scorePatchName == "BMP_VICTIMS")
+			v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "VICTIMS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP)
+		else
+			v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "SUSPECTS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP)
+		end
+	end
 	--Calculate the number of suspects/victims
 	local plrsAlive
 	if (p.role == ROLE_MURDERER)
@@ -101,15 +122,23 @@ hud.add(function(v, p)
 	else timertime = leveltime end
 
 	if (timertime < 0) timertime = 0 end
-	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_TIME")
-	yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_TIME")
-	--Draw the Text Label
-	if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
-		--Swap the colors in the label for flashing effect
-		--0x49 in SRB2's palette is Yellow, 0x25 is Red
-		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|V_PERPLAYER)
-	else
-		V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f|V_PERPLAYER)
+	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)
+		xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_TIME")
+		yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_TIME")
+		--Draw the Text Label
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+			--Swap the colors in the label for flashing effect
+			--0x49 in SRB2's palette is Yellow, 0x25 is Red
+			V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f)
+		else
+			V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f)
+		end
+	else --in case Text Patch was not found or the game is splitscreen
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+			v.drawString(hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, "TIME", hudinfo[HUD_TIME].f|V_PERPLAYER|V_REDMAP)
+		else
+			v.drawString(hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, "TIME", hudinfo[HUD_TIME].f|V_PERPLAYER|V_YELLOWMAP)
+		end
 	end
 	--Draw the time
 	v.drawPaddedNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, hudinfo[HUD_TIME].f|V_PERPLAYER) --seconds
@@ -117,13 +146,21 @@ hud.add(function(v, p)
 	v.drawNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), hudinfo[HUD_TIME].f|V_PERPLAYER) --minutes
 
 	--RINGS
-	xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_RINGS")
-	yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_RINGS")
 	if (not p.spectator)
-		if (not p.rings) and (leveltime & 4)
-			V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f|V_PERPLAYER)
-		else
-			V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_RINGS"], hudinfo[HUD_RINGS].f|V_PERPLAYER)
+		if (MM.text[consoleplayer.mmlang]["BMP_RINGS"]) and (not splitscreen)
+			xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_RINGS")
+			yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_RINGS")
+			if (not p.rings) and (leveltime & 4)
+				V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f)
+			else
+				V_DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_RINGS"], hudinfo[HUD_RINGS].f)
+			end
+		else --in case Text Patch was not found or the game is splitscreen
+			if (not p.rings) and (leveltime & 4)
+				v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, "RINGS", hudinfo[HUD_RINGS].f|V_PERPLAYER|V_REDMAP)
+			else
+				v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, "RINGS", hudinfo[HUD_RINGS].f|V_PERPLAYER|V_YELLOWMAP)
+			end
 		end
 		v.drawNum(((hudinfo[HUD_RINGS].x + maxHudIfnfoSize) - 16), hudinfo[HUD_RINGS].y, p.rings, hudinfo[HUD_RINGS].f|V_PERPLAYER)
 	end

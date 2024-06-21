@@ -10,7 +10,12 @@ local coords = {
 
 local function V_DrawMinigameTime(v)
     --label size and X position
-	local timeLabelWidth = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"]) + 64
+	local timeLabelWidth
+	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)
+		timeLabelWidth = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"]) + 64
+	else
+		timeLabelWidth = 96
+	end
 	local timeLabelX = (169 - (timeLabelWidth >> 1)) --[value]/2
 
     --timer calculation
@@ -22,14 +27,23 @@ local function V_DrawMinigameTime(v)
 	end
 
 	--"TIME" text
-	local xoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].xoff or 0
-	local yoff = MM.text[consoleplayer.mmlang]["BMP_TIME"].yoff or 0
-	if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
-        --Swap the colors in the label for flashing effect
-		--0x49 in SRB2's palette is Yellow, 0x25 is Red
-		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP)
-	else
-		V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], V_SNAPTOTOP)
+	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)
+		local xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_TIME")
+		local yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_TIME")
+		--Draw the Text Label
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+			--Swap the colors in the label for flashing effect
+			--0x49 in SRB2's palette is Yellow, 0x25 is Red
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f)
+		else
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f)
+		end
+	else --in case Text Patch was not found or the game is splitscreen (V_DrawTextPatch() does not support per-player rendering)
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+			v.draw(timeLabelX, hudinfo[HUD_TIME].y, v.cachePatch("STTRTIME"), hudinfo[HUD_TIME].f)
+		else
+			v.draw(timeLabelX, hudinfo[HUD_TIME].y, v.cachePatch("STTTIME"), hudinfo[HUD_TIME].f)
+		end
 	end
 
 	--Numbers
@@ -166,10 +180,12 @@ hud.add(function(v, p)
 			if (not p.minigametimeout) then
 				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), 0, 32768)), 0, charset, (MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["PRESS"].." "..MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["LEAVE"]), V_SNAPTOTOP|V_SNAPTORIGHT, 32768) --FU/2
 			end
-			if (p == MM.duelplrs[1])
-				V_DrawStrASCIIcentered(v, 32, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
-			elseif (p == MM.duelplrs[2])
-				V_DrawStrASCIIcentered(v, 288, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT)
+			if (not splitscreen)
+				if (p == MM.duelplrs[1])
+					V_DrawStrASCIIcentered(v, 32, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTOLEFT)
+				elseif (p == MM.duelplrs[2])
+					V_DrawStrASCIIcentered(v, 288, 48, charset, "\2"..MM.text[consoleplayer.mmlang]["HUD_YOU"], V_SNAPTORIGHT)
+				end
 			end
 		else
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], 0, 32768)), 0, charset, MM.text[consoleplayer.mmlang]["HUD_MINIGAME"]["SPECTATING"], V_SNAPTOTOP|V_SNAPTORIGHT, 32768)
@@ -224,14 +240,14 @@ hud.add(function(v, p)
 		end
 
 		if (MM.devbuild)
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y, "\x87PONG",0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
-			v.drawString(MM.hud.game.coords.debug.x, MM.hud.game.coords.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
 		end
     elseif (MM.minigame) and (not p.minigame)
         --Draw the invitation/suggestion text
