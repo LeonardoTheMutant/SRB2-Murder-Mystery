@@ -79,6 +79,8 @@ Functions for HUD rendering code
 | <code>**V_DrawTextPatch**(*drawer* v, *int* x, *int* y, *int* xoff, *int* yoff, string[]* data, *int* flags)</code> | nil | Draws a patch using the `data` in a text form at (x, y) coordinates (with the offset set by `xoff` and `yoff`). `data` is a table of strings, each table element represents a row and each symbol in `data[row]` corresponds to the color value from the SRB2's palette. |
 | <code>**V_TextPatchWidth**(*string[]* data)</code> | *int* | Returns the width of the Text Patch in pixels |
 | <code>**V_TextPatch_SwapColor**(*string[]* data, *int* sourceColor, *int* targetColor)</code> | *string[]* | Swaps each `sourceColor` pixel to `targetColor` in a Patch. This function returns the Patch with the swapped colors |
+| <code>**V_GetTextPatchOffsetX**(*string* language, *string* patchname)</code> | *int* | Get the Patch's `x` offset coordinate from `MM.text[language][patchname.."_INFO"]` field (if exists) |
+| <code>**V_GetTextPatchOffsetY**(*string* language, *string* patchname)</code> | *int* | Get the Patch's `y` offset coordinate from `MM.text[language][patchname.."_INFO"]` field (if exists) |
 | <code>**wep2rw**(*int* wep)</code> | *`RW_*` constant* | Converts `WEP_*` to `RW_*` constant |
 | <code>**V_GetSHREMLiconID**(*int* dist)</code> | *int* | Get the Emerald Radar icon ID based on the `dist` distance. Used for Innocets' Sheriff Emerald radar. |
 

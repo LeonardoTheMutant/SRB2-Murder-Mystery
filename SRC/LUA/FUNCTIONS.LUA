@@ -471,6 +471,21 @@ rawset(_G, "V_TextPatch_SwapColor", function(patch, color1, color2)
 	return ptch
 end)
 
+rawset(_G, "V_GetTextPatchOffsetX", function(lang, patchname)
+	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
+		return MM.text[lang][patchname.."_INFO"].xoff
+	else
+		return 0
+	end
+end)
+rawset(_G, "V_GetTextPatchOffsetY", function(lang, patchname)
+	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].yoff)
+		return MM.text[lang][patchname.."_INFO"].yoff
+	else
+		return 0
+	end
+end)
+
 rawset(_G, "V_TextPatchWidth", function(patch)
 	assert(patch, "V_TextPatchWidth() argument #1: patch text data expected")
 	local width = 0

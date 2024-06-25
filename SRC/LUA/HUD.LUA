@@ -10,21 +10,6 @@ local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
 
-local function V_GetTextPatchOffsetX(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
-		return MM.text[lang][patchname.."_INFO"].xoff
-	else
-		return 0
-	end
-end
-local function V_GetTextPatchOffsetY(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].yoff)
-		return MM.text[lang][patchname.."_INFO"].yoff
-	else
-		return 0
-	end
-end
-
 --
 -- Main game HUD
 --

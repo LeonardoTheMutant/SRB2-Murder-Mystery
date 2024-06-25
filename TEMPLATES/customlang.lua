@@ -110,13 +110,6 @@ local language={ --Language must be a table variable, you can name the variable 
 			"\n* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
 			"\nBreaking one of these rules may result in a kick or sometimes, a ban from the Admin! Please do not break them and play fairly."
 		},
-		--CHAT
-		{
-			"\7How to use Sound Emojis\0\n",
-			"When a player sends a message that contains specific words/phrases, a sound will be played.",
-			"For example, when you send a message containing \"bruh\", everyone will hear the \"BRUH\" sound.",
-			"Here is the full list of the Sound Emoji keyphrases:"
-		},
 		--TIPS
 		{
 			"\7Useful tips\0\n",
