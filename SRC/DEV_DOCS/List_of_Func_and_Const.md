@@ -129,8 +129,8 @@ Here is the full list of MM constants:
 | `ROLE_NONE`     | 0     | No role  |
 | `ROLE_MURDERER` | 1     | Murderer |
 | `ROLE_SHERIFF`  | 2     | Sheriff  |
-| `ROLE_HERO`     | 3     | Hero     |
-| `ROLE_INNOCENT` | 4     | Innocent |
+| `ROLE_INNOCENT` | 3     | Innocent |
+| `ROLE_HERO`     | 4     | Hero     |
 
 ### Game messages
 

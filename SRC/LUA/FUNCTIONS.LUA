@@ -74,8 +74,7 @@ rawset(_G, "MM_AssignRoles", function()
 	for p in players.iterate
 		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
 
-		if (p.role < 3) then chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
-		else chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][3]) end
+		chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
 
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
@@ -95,11 +94,10 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 		elseif (msg == "SHERI_KILLED_NODROP")
 			chatprintf(p, MM.text[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..MM.text[p.mmlang]["SHERI_KILLED"][3])
 		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
-			chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
+			if (var != ROLE_HERO) then chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
+			else chatprintf(p, MM.text[p.mmlang][msg][3]) end --for Hero
 		elseif (msg == "WIN")
 			chatprintf(p, MM.text[p.mmlang]["ENDROUND"][var])
-		elseif (msg == "INNO_HURT")
-			chatprintf(p, MM.text[p.mmlang]["INNO_HURT"][var])
 		elseif msg
 			if (MM.text[p.mmlang][msg]) chatprintf(p, MM.text[p.mmlang][msg])
 			else chatprintf(p, msg.."; "..var) end --no text exists in the database

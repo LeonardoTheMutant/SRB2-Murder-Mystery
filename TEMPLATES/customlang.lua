@@ -288,8 +288,8 @@ local language={ --Language must be a table variable, you can name the variable 
 	["HUD_ROLES"]={
 		"MURDERER", --Murderer
 		"SHERIFF", --Sheriff
-		"HERO", --Hero
 		"INNOCENT", --Innocent
+		"HERO", --Hero
 		"DEAD" --Dead
 	},
 	["HUD_TEAMMATES"]="Teammates"

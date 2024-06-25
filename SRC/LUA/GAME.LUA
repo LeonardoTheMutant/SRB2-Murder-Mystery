@@ -208,8 +208,10 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		end
 	end
 
-	if (PlayersAlive() > 1) MM_CheckShowdown() end
-	return true
+	if (PlayersAlive() > 1)
+		MM_CheckShowdown()
+		return true
+	end
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type

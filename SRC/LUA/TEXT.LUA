@@ -226,8 +226,8 @@ MM.text={
 		["HUD_ROLES"]={
 			"MURDERER",
 			"SHERIFF",
-			"HERO",
 			"INNOCENT",
+			"HERO",
 			"DEAD"
 		},
 		["HUD_TEAMMATES"]="Teammates",
@@ -849,8 +849,8 @@ MM.text={
 		},["HUD_ROLES"]={
 			"\xD3C1\xC8C9\xD6C0", --UBIJCA
 			"\xD8C5\xD0C8\xD4", --SHERIF
-			"\xC3C5\xD0CE\xC9", --GEROJ
 			"\xCDC5\xC2C8\xCDCD\xDBC9", --NIEWINNYJ
+			"\xC3C5\xD0CE\xC9", --GEROJ
 			"\xCCC5\xD0D2\xC2C5\xD6" --MERTWEC
 		},["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --Naparniki
 		["HUD_KILLBY"]="\xD3E1\xE8F2\xFB", --Ubity
@@ -1060,8 +1060,8 @@ MM.text={
 		},["HUD_ROLES"]={
 			"KAT\xDDL",
 			"\xDE".."ER\xDD".."F",
-			"KAHRAMAN",
 			"MASUM",
+			"KAHRAMAN",
 			"\xD6L\xDC"
 		},["HUD_TEAMMATES"]="Tak\xFDm arkada\xFElar\xFD",
 		["HUD_KILLBY"]="Taraf\xFDndan \xF6ld\xFCr\xFCld\xFC",
@@ -1258,8 +1258,8 @@ MM.text={
 		},["HUD_ROLES"]={
 			"\xC2C1\xC8C2\xD6DF", --WBYWCIA
 			"\xD8C5\xD0C8\xD4", --SHERYF
-			"\xC3C5\xD0CE\xC9", --HEROJ
 			"\xCDC5\xC2C8\xCDCD\xC0 \xCED1\xCEC1\xC0", --NEWYNNA OSOBA
+			"\xC3C5\xD0CE\xC9", --HEROJ
 			"\xCCC5\xD0D2\xC2C8\xC9" --MERTWYJ
 		},["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --naparnyky
 		["HUD_KILLBY"]="\xC2E8 \xE2E1\xE8F2\xB3", --wy wbyti

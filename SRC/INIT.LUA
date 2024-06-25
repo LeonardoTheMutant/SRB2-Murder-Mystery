@@ -9,15 +9,15 @@ rawset(_G, "MM", {
 	RoleColor = {
 		"\x85", --Murderer
 		"\x84", --Sheriff
-		"\x82", --Hero
 		"\x83", --Innocent
+		"\x82", --Hero
 		"\x8F" --Dead
 	},
 	RoleColorHUD = {
 		"\5", --Murderer
 		"\4", --Sheriff
-		"\2", --Hero
 		"\3", --Innocent
+		"\2", --Hero
 		"\15" --Dead
 	},
 	hud = { --variables that control the HUD renderer
@@ -72,8 +72,8 @@ rawset(_G, "MM", {
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
 rawset(_G, "ROLE_SHERIFF", 2)
-rawset(_G, "ROLE_HERO", 3)
-rawset(_G, "ROLE_INNOCENT", 4)
+rawset(_G, "ROLE_INNOCENT", 3)
+rawset(_G, "ROLE_HERO", 4)
 
 --Win reason constants
 rawset(_G, "WIN_MURD", 1)
