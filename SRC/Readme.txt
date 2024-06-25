@@ -40,6 +40,7 @@ SRB2MM_DEV team is:
   LeonardoTheMutant  - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian & Polish translator
   tedbasher3000      - Coder, support
   Jesus.B            - Coder, Spanish translator
+  Troplucky          - Music management, French translator
   sopix              - Polish translator
   Arnie37, Sonic1983 - Russian translator(s)
   SlainLBS           - Spanish translator

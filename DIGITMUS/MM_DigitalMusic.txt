@@ -22,6 +22,8 @@ not trigger "Game Modified" state in SRB2
   CREDITS
 ===========
 
+Digitalization of the original MIDI Soundtrack - LeonardoTheMutant & Troplucky
+
  MAPS
 ------
 MAPK0 - "Balancing Act" by Andrew Bassett (Freedoom: Phase 2 (v0.12.1))
