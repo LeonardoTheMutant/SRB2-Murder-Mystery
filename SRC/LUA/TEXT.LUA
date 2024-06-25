@@ -33,7 +33,7 @@ MM.text={
 			{
 				"\7".."About the gameplay situations\0\n",
 				"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \5Murderer(s)\0, but different gameplay situations may occur:",
-				"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
+				"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\15 Dead\0 players.",
 				"You can't talk to/PM players who are still alive while you are\15 Dead\0.",
 				"Also\2 DO \2NOT \2TRY \2TO \2RENAME \2YOURSELF\0, more details on this are on the next page.",
 				"\n* The \4Sheriff's\0 task is to eliminate all the \5Murderers\0 around, but they can accidentally shoot an \3Innocent\0.",
@@ -313,7 +313,7 @@ MM.text={
 			},{
 				"\7Par-apport  aux gameplay\0\n",
 				"Expliquer plus-t\xF4t dans les bases, le but des Sheriffs est d'\xE9liminer tout les \5Meurtriers\0, mais des situations de gameplay differentes peuvent arriv\xE9:",
-				"\n* Si vous mourez, vous entrerez l'\xE9tat\15 Mort\0 , Les joueurs dans cet \xE9tat ne peuvent pas r\xE9".."apparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs\x8F Mort\x80",
+				"\n* Si vous mourez, vous entrerez l'\xE9tat\15 Mort\0 , Les joueurs dans cet \xE9tat ne peuvent pas r\xE9".."appara\xEEtre ni parler aux joueurs en vie, uniquement pas les autres joueurs\x15 Mort\0",
 				"Vous pouvez pas parler via /PM avec les \15 Mort\0.",
 				"AUSSI\2 N'ESSAYER \2PAS \2DE \2CHANGER \2DE \2NOM\0, plus de d\xE9tails sur la prochaine page.",
 				"\n* la t\xE2".."che du \4Sheriff\0 est d'\xE9liminer tout les \5Meurtriers \0 alentours, mais ils peuvent accidentellement tirer sur un \3Innocent\0.",
@@ -328,9 +328,9 @@ MM.text={
 				"\7Choses \xE0 pas faire dans Murder \7Mystery\0\n",
 				"R\xE8gle No.1 pour tout les jeux: \1Soyer gentil et \1amusez-vous!\0 A-part \xE7".."a...",
 				"\n* R\xE9v\xE9ler son \11Role\0 ruine le \'Myst\xE8re\' (m\xEAme en blague), Vous pouvez r\xE9v\xE9ler le role d'une personne mais pas le votre.",
-				"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous croîre si vous accuser a tord constamment.",
+				"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous cro\xEEre si vous accuser a tord constamment.",
 				"\n* Rester \"AFK\" pendant trop de temps est un crime de guerre. Des bombes vont vous prendre par surprise si vous rester sans bouger trop longtemps.",
-				"\n* Ne changer pas de nom quand vous \xEAtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous \xEAtes en vie. Attender juste que la partie se finisse pour \xEAtre sûr.",
+				"\n* Ne changer pas de nom quand vous \xEAtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous \xEAtes en vie. Attender juste que la partie se finisse pour \xEAtre s\xFBr.",
 				"\nNe pas respecter ces r\xE8gle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
 			},{
 				"\7Conseils\0\n",

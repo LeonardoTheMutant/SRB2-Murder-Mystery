@@ -88,7 +88,7 @@ local language={ --Language must be a table variable, you can name the variable 
 		{
 			"\7".."About the gameplay situations\0\n",
 			"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \5Murderer(s)\0, but different gameplay situations may occur:",
-			"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\x8F Dead\x80 players.",
+			"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\15 Dead\0 players.",
 			"You can't talk to/PM players who are still alive while you are\15 Dead\0.",
 			"Also\2 DO \2NOT \2TRY \2TO \2RENAME \2YOURSELF\0, more details on this are on the next page.",
 			"\n* The \4Sheriff's\0 task is to eliminate all the \5Murderers\0 around, but they can accidentally shoot an \3Innocent\0.",

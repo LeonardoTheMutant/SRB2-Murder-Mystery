@@ -179,16 +179,16 @@ Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also suppo
         <th>B</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
-        <th>C</th><td></td><td></th><td></th><td></th><td>Ä</th><td></th><td></td><td>Ç</td><td>È</td><td>É</td><td></td><td>Ë</td><td>Ì</td><td>Í</td><td>Î</td><td>Ï</td>
+        <th>C</th><td>À</td><td>Á</th><td>Â</th><td>Ã</th><td>Ä</th><td></th><td></td><td>Ç</td><td>È</td><td>É</td><td>Ê</td><td>Ë</td><td>Ì</td><td>Í</td><td>Î</td><td>Ï</td>
     </tr>
     <tr>
-        <th>D</th><td>Ğ</td><td>Ń</td><td>Ň</td><td>Ó</td><td>Ô</td><td>Ő</td><td>Ö</td><td></td><td></td><td>Ù</td><td>Ú</td><td></td><td>Ü</td><td>İ</td><td>Ş</td><td>ß</td>
+        <th>D</th><td>Ğ</td><td>Ń</td><td>Ň</td><td>Ó</td><td>Ô</td><td>Ő</td><td>Ö</td><td></td><td></td><td>Ù</td><td>Ú</td><td>Û</td><td>Ü</td><td>İ</td><td>Ş</td><td>ß</td>
     </tr>
     <tr>
-        <th>E</th><td></td><td>á</td><td>â</td><td></td><td>ä</td><td></td><td></td><td>ç</td><td></td><td>é</td><td></td><td>ë</td><td></td><td>í</td><td>î</td><td>ï</td>
+        <th>E</th><td>à</td><td>á</td><td>â</td><td>ã</td><td>ä</td><td></td><td></td><td>ç</td><td>è</td><td>é</td><td>ê</td><td>ë</td><td>ì</td><td>í</td><td>î</td><td>ï</td>
     </tr>
     <tr>
-        <th>F</th><td>ğ</td><td>ñ</td><td>ò</td><td>ó</td><td>ô</td><td>ő</td><td>ö</td><td></td><td></td><td>ù</td><td>ú</td><td></td><td>ü</td><td>ı</td><td>ş</td><td>ÿ</td>
+        <th>F</th><td>ğ</td><td>ñ</td><td>ò</td><td>ó</td><td>ô</td><td>ő</td><td>ö</td><td></td><td></td><td>ù</td><td>ú</td><td>û</td><td>ü</td><td>ı</td><td>ş</td><td>ÿ</td>
     </tr>
 </table>
 
