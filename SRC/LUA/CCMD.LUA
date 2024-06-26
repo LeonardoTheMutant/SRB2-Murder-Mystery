@@ -51,9 +51,9 @@ local function helpCMD(p, page)
 
 	--MMHELP GUI
 	--load HELP page
-	if (page)
-		if (MM.text[p.mmlang]["MMHELP"][page])
-			p.mmhelp.page = page
+	if (tonumber(page))
+		if (MM.text[p.mmlang]["MMHELP"][tonumber(page)])
+			p.mmhelp.page = tonumber(page)
 			p.mmhelp.pos = 1
 		else p.mmhelp.page = 1 end
 	end
@@ -72,7 +72,7 @@ local function MMlang(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][1])
+		CONS_Printf(p, MM_GetText(p.mmlang, "MMLANG", 1))
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -88,11 +88,13 @@ local function MMlang(p, l) --player, lang
 			local arg1 = ""
 			local arg2 = ""
 			local arg3 = "  "
-			if (MM.text[lang]["VERSION"]!=MM.version) then langIncomp = $ + 1 end
 			if (MM.text[lang]["NONASCII"]) then nonascii = true end
 
 			if (p.mmlang == lang) then arg1 = "\x82 (current lang)" end
-			if (MM.text[lang]["VERSION"] != MM.version) then arg2 = "\x85 (INCOMPATIBLE)" end
+			if (MM_GetText(lang, "VERSION") != MM.version) then 
+				langIncomp = $ + 1
+				arg2 = "\x85 (INCOMPATIBLE)"
+			end
 			if (MM.text[lang]["NONASCII"]) then arg3 = "* " end
 			CONS_Printf(p, arg3..lang..arg1..arg2)
 		end
@@ -106,9 +108,9 @@ local function MMlang(p, l) --player, lang
 			p.mmlang = l
 			if (not p.mmhelp) p.mmhelp = {page = 1} end
 			p.mmhelp.pos = 1
-			CONS_Printf(p, "\x82"..p.mmlang.."\x80 translation made by \x88"..MM.text[p.mmlang]["AUTHOR"])
-			CONS_Printf(p, MM.text[p.mmlang]["MMLANG"][2])
-			if (MM.text[l]["VERSION"] != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery "..MM.version) end
+			CONS_Printf(p, "\x82"..p.mmlang.."\x80 translation made by \x88"..MM_GetText(p.mmlang, "AUTHOR"))
+			CONS_Printf(p, MM_GetText(p.mmlang, "MMLANG", 2))
+			if (MM_GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery "..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
@@ -143,14 +145,14 @@ end
 --I was unable to lock player controls here because clients would desynchronise each time they press something
 --Enjoy what you already have
 addHook("PlayerThink", function(p)
-	if ((not p.mmhelp) or (not p.mmhelp.active) or (gametype != GT_MURDERMYSTERY)) return end
+	if not (p.mmhelp and p.mmhelp.active) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (gametype != GT_MURDERMYSTERY) return end
 
 	--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
 
 	p.buffer = {}
 
 	if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
-		V_InsertToBuffer(p, MM.text[consoleplayer.mmlang]["MMHELP"][p.mmhelp.page])
+		V_InsertToBuffer(p, MM_GetText(consoleplayer.mmlang, "MMHELP", p.mmhelp.page))
 	end
 
 	if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
@@ -197,77 +199,77 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if (p.mmhelp) and (p.mmhelp.active) and (gametype == GT_MURDERMYSTERY)
-		--init everything
-		local cx = 0
-		local cy = 0
-		scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
-		scrnRows = ((v.height()/v.dupy()) >> 3) - 2
-		local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
-		local color = v.getStringColormap(0) --default to white color
-		local chr, strchar, stringToRender, wordWrapTemp
+	if not ((p.mmhelp) and (p.mmhelp.active)) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (gametype != GT_MURDERMYSTERY) return end
 		
-		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_F"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	--init everything
+	local cx = 0
+	local cy = 0
+	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
+	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
+	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
+	local color = v.getStringColormap(0) --default to white color
+	local chr, strchar, stringToRender, wordWrapTemp
 		
-		for i=-3,3
-			v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
-			v.draw(((i*320) + (leveltime%320)), 180, v.cachePatch("NTSATKB1"), V_SNAPTOBOTTOM)
-		end
+	v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_F"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+		
+	for i=-3,3
+		v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
+		v.draw(((i*320) + (leveltime%320)), 180, v.cachePatch("NTSATKB1"), V_SNAPTOBOTTOM)
+	end
 
-		--draw the data from the screen buffer
-		for lineID = p.mmhelp.pos, #p.buffer do
-			stringToRender = p.buffer[lineID]
+	--draw the data from the screen buffer
+	for lineID = p.mmhelp.pos, #p.buffer do
+		stringToRender = p.buffer[lineID]
 
-			--draw the line character-by-character
-			for charID = 1, stringToRender:len() do
-				chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
+		--draw the line character-by-character
+		for charID = 1, stringToRender:len() do
+			chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-				if (chr<100) strchar = "0"..chr --make the number to be 3 digit
-				else strchar = chr end
+			if (chr<100) strchar = "0"..chr --make the number to be 3 digit
+			else strchar = chr end
 
-				--characters from 0x00 to 0x0f set the color
-				if (chr<16) color = v.getStringColormap(chr*4096) end
+			--characters from 0x00 to 0x0f set the color
+			if (chr<16) color = v.getStringColormap(chr*4096) end
 
-				--print the character
-				if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --Extended ASCII
-					if (v.patchExists(charset..strchar))
-						v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
-					else --unknown symbol, print "?"
-						v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT)
-					end
-				elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
-					v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+			--print the character
+			if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --Extended ASCII
+				if (v.patchExists(charset..strchar))
+					v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				else --unknown symbol, print "?"
+					v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
-
-				--position shifting for the next character
-				if (chr>=16) cx = $ + 1 end --make place for the next non-color character
+			elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
+				v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
-			--line is drawn, prepare everything for the next one
-			cx = 0
-			cy = $ + 1
-			if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
+			--position shifting for the next character
+			if (chr>=16) cx = $ + 1 end --make place for the next non-color character
 		end
 
-		--scroll bar
-		--quite unfinished
-		
-		--scrollBarHeight = v.height()/v.dupy() - 16
-		--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
-
-		if ((#p.buffer + 1 - scrnRows) <= 0) realPagelen = 1
-		else realPagelen = #p.buffer + 1 - scrnRows end
-
-		--scrollstep = #p.buffer/scrnRows * scrollBarHeight
-		--v.drawFill(312, ((p.mmhelp.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
-
-		v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
-
-		--bottom text
-		v.drawString(0, 186, ("\x89Scroll: "..p.mmhelp.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
-		v.drawString(80, 186, ("\x88Page: "..p.mmhelp.page.."/"..(#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
-
-		V_DrawStrASCII(v, 0, 192, charset, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][1], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-		V_DrawStrASCII(v, 0, 196, charset, MM.text[consoleplayer.mmlang]["MMHELP_CMD"][2], V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+		--line is drawn, prepare everything for the next one
+		cx = 0
+		cy = $ + 1
+		if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
 	end
+
+	--scroll bar
+	--quite unfinished
+		
+	--scrollBarHeight = v.height()/v.dupy() - 16
+	--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
+
+	if ((#p.buffer + 1 - scrnRows) <= 0) realPagelen = 1
+	else realPagelen = #p.buffer + 1 - scrnRows end
+
+	--scrollstep = #p.buffer/scrnRows * scrollBarHeight
+	--v.drawFill(312, ((p.mmhelp.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
+
+	v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+
+	--bottom text
+	v.drawString(0, 186, ("\x89Scroll: "..p.mmhelp.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
+	v.drawString(80, 186, ("\x88Page: "..p.mmhelp.page.."/"..(#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
+
+	V_DrawStrASCII(v, 0, 192, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+	V_DrawStrASCII(v, 0, 196, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
 end, "game")

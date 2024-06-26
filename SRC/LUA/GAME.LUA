@@ -182,7 +182,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 				-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 				-- otherwise Murderers win
 				if (PlayerCount(ROLE_INNOCENT))
-					chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
+					chatprintf(ap, MM_GetText(ap.mmlang, "INNO_HURT_PM", 1))
 					MM_ChatprintGlobal("INNO_HURT", 1)
 					MM_SetRandomInnoAs(ROLE_SHERIFF)
 					ap.role = ROLE_INNOCENT
@@ -196,7 +196,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 				elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				else
-					chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][2])
+					chatprintf(ap, MM_GetText(ap.mmlang, "INNO_HURT_PM", 2))
 					MM_ChatprintGlobal("INNO_HURT", 2)
 				end
 			end
@@ -274,7 +274,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 			-- otherwise Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
-				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][1])
+				chatprintf(ap, MM_GetText(ap.mmlang, "INNO_HURT_PM", 1))
 				MM_ChatprintGlobal("INNO_HURT", 1)
 				MM_SetRandomInnoAs(ROLE_SHERIFF)
 				ap.role = ROLE_INNOCENT
@@ -288,7 +288,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			else
-				chatprintf(ap, MM.text[ap.mmlang]["INNO_HURT_PM"][2])
+				chatprintf(ap, MM_GetText(ap.mmlang, "INNO_HURT_PM", 2))
 				MM_ChatprintGlobal("INNO_HURT", 2)
 			end
 		end

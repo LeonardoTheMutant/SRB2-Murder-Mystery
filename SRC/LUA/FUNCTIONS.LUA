@@ -47,6 +47,39 @@ rawset(_G, "MM_GetRoleMultiplier", function()
 	elseif (PlayerCount()>=29) return 5 end
 end)
 
+--get the text line from the TEXT.LUA, if exists
+rawset(_G, "MM_GetText", function(lang, line, param)
+	if (lang)
+		if (MM.text[lang])
+			if (line)
+				if (MM.text[lang][line])
+					if (param)
+						if (MM.text[lang][line][param])
+							return MM.text[lang][line][param]
+						else
+							if (MM.devbuild) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87][\x80\""..param.."\"\x87]\x82 that does not exist!\x80") end
+							return ""
+						end
+					end
+					if (type(MM.text[lang][line]) == "string")
+						return MM.text[lang][line]
+					else
+						if (MM.devbuild) error("\x82Tried to access the table at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 without parameter!\x80") end
+						return ""
+					end
+				else
+					if (MM.devbuild) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 that does not exist!\x80") end
+					return ""
+				end
+			end
+		else
+			if (MM.devbuild) error("\x82Tried to access the \x87MM.text\x82 table with \x80"..lang.."\x82 language that does not exist!\x80") end
+			return ""
+		end
+	end
+	return ""
+end)
+
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
@@ -75,7 +108,7 @@ rawset(_G, "MM_AssignRoles", function()
 	for p in players.iterate
 		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
 
-		chatprintf(p, MM.text[p.mmlang]["ROLE_GET"][p.role])
+		chatprintf(p, MM_GetText(p.mmlang, "ROLE_GET", p.role))
 
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
@@ -91,17 +124,16 @@ end)
 rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
 		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED"))
-			chatprintf(p, MM.text[p.mmlang][msg][1].." "..var.." "..MM.text[p.mmlang][msg][2])
+			chatprintf(p, MM_GetText(p.mmlang, msg, 1).." "..var.." "..MM_GetText(p.mmlang, msg, 2))
 		elseif (msg == "SHERI_KILLED_NODROP")
-			chatprintf(p, MM.text[p.mmlang]["SHERI_KILLED"][1].." "..var.." "..MM.text[p.mmlang]["SHERI_KILLED"][3])
+			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
 		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
-			if (var != ROLE_HERO) then chatprintf(p, MM.text[p.mmlang][msg][var]) --for Murd and Sheri
-			else chatprintf(p, MM.text[p.mmlang][msg][3]) end --for Hero
+			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mmlang, msg, var)) --for Murd and Sheri
+			else chatprintf(p, MM_GetText(p.mmlang, msg, 3)) end --for Hero
 		elseif (msg == "WIN")
-			chatprintf(p, MM.text[p.mmlang]["ENDROUND"][var])
+			chatprintf(p, MM_GetText(p.mmlang, "ENDROUND", var))
 		elseif msg
-			if (MM.text[p.mmlang][msg]) chatprintf(p, MM.text[p.mmlang][msg])
-			else chatprintf(p, msg.."; "..var) end --no text exists in the database
+			chatprintf(p, MM_GetText(p.mmlang, msg))
 		end
 	end
 end)
@@ -176,8 +208,8 @@ rawset(_G, "MM_AreTeammates", function(p1, p2)
 end)
 
 rawset(_G, "MM_HitTeammate", function(v, a)
-	chatprintf(a, MM.RoleColor[v.role]..MM.text[a.mmlang]["TEAMMATE_HIT"][1])
-	chatprintf(v, MM.RoleColor[a.role]..MM.text[v.mmlang]["TEAMMATE_HIT"][2])
+	chatprintf(a, MM.RoleColor[v.role]..MM_GetText(a.mmlang, "TEAMMATE_HIT", 1))
+	chatprintf(v, MM.RoleColor[a.role]..MM_GetText(v.mmlang, "TEAMMATE_HIT", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105
@@ -243,8 +275,8 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.text["EN"]["ENDROUND"][reason])
-		else CONS_Printf(server, "- "..MM.text["EN"][endtext][reason]) end
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM_GetText(p.mmlang, "ENDROUND", reason))
+		else CONS_Printf(server, "- "..MM_GetText("EN", endtext, reason)) end
 	end
 end)
 
@@ -264,7 +296,7 @@ rawset(_G, "MM_SetRandomInnoAs", function(role)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.role = role
 	p.roleflicker = 70
-	chatprintf(p, MM.text[p.mmlang]["NEWROLE_GET"][p.role])
+	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", p.role))
 	return
 end)
 
@@ -441,7 +473,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.drawFill((x - xoff + column), (y - yoff + row), 1, 1, pixelColor|flg) --draw it
+				v.drawFill((x - xoff + (column - 1)), (y - yoff + (row - 1)), 1, 1, pixelColor|flg) --draw it
 			end
 		end
 	end
