@@ -40,10 +40,11 @@ end)
 
 -- how many players with same role should exist?
 rawset(_G, "MM_GetRoleMultiplier", function()
-	if (PlayerCount()<7) return 1
-	elseif (PlayerCount()>=7) and (PlayerCount()<=10) return 2
-	elseif (PlayerCount()>=11) and (PlayerCount()<=14) return 3
-	elseif (PlayerCount()>14) return 4 end --EVEN THIS NUMBER WAS REACHED!!!
+	if (PlayerCount()<8) return 1
+	elseif (PlayerCount()>=8) and (PlayerCount()<=14) return 2
+	elseif (PlayerCount()>=15) and (PlayerCount()<=21) return 3
+	elseif (PlayerCount()>=22) and (PlayerCount()<=28) return 4
+	elseif (PlayerCount()>=29) return 5 end
 end)
 
 -- RoleAssigner v5
