@@ -24,8 +24,8 @@ rawset(_G, "MM", {
 		game = { --Main Game HUD
 			enabled = true,
 			pos = {
-				ringWepMurd = {x = 152}, --Murderer's weapon icon
-				ringWep = {x=92, y=156}, --Location of the first weapon icon
+				ringWepMurd = {x = 144}, --Murderer's weapon icon
+				ringWep = {x=84, y=156}, --Location of the first weapon icon
 				debug = {x=8, y=48}, --Debug info
 			}
 		},

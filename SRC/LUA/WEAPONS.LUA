@@ -10,49 +10,56 @@ MM.weapons[-1]={ --Red Ring
     "RINGIND", --HUD icon
     MT_REDRING, --MOBJ_T that represents this weapon
     0, --MF2_* flag
-    16 --weapondelay
+    16, --weapondelay
 }
 MM.weapons[0]={ --Infinity Ring
-    "INFNIND",
-    MT_THROWNINFINITY,
-    0,
-    16
+    "INFNIND", --HUD icon
+    MT_THROWNINFINITY, --MOBJ_T that represents this weapon
+    0, --MF2_* flag
+    16, --weapondelay
+    800 --max amonut
 }
 MM.weapons[1]={ --Automatic Ring
     "AUTOIND",
     MT_THROWNAUTOMATIC,
     MF2_AUTOMATIC,
-    2
+    2,
+    400
 }
 MM.weapons[2]={ --Bounce Ring
     "BNCEIND",
     MT_THROWNBOUNCE,
     MF2_BOUNCERING,
-    8
+    8,
+    100
 }
 MM.weapons[3]={ --Scatter Ring
     "SCATIND",
     MT_THROWNSCATTER,
     MF2_SCATTER,
-    23
+    23,
+    50
 }
 MM.weapons[4]={ --Granade Ring
     "GRENIND",
     MT_THROWNGRENADE,
     MF2_EXPLOSION,
-    11
+    11,
+    100
 }
 MM.weapons[5]={ --Explosion Ring
     "BOMBIND",
     MT_THROWNEXPLOSION,
     MF2_EXPLOSION,
-    52
+    52,
+    50
 }
 MM.weapons[6]={ --Rail Ring
     "RAILIND",
     MT_REDRING,
     MF2_RAILRING|MF2_DONTDRAW,
-    52
+    52,
+    50
 }
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
