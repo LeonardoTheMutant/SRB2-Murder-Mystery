@@ -377,29 +377,16 @@ addHook("PlayerThink", function(p)
 	if ((not p.cmd.forwardmove) and (not p.cmd.sidemove) and (not p.cmd.buttons) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value))
 		p.afk = $ + 1
 	else p.afk = 0 end
-	if (p.afk > afkCVAR.value*2100)
-		if (p == server) COM_BufInsertText(server, "QUIT")
-		else COM_BufInsertText(server, "KICK "..#p.." AFK") end
-	end
-	p.oldangleturn = p.cmd.angleturn
-	p.oldaiming = p.cmd.aiming
+	if (p.afk > afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 
 	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is not disabled)
-	if (p.quittime)
+	if (p.quittime) and (not CV_FindVar("rejointimeout").value)
 		MM_PlayerQuit(p)
 		CONS_Printf(server, "KICK "..#p.." Player leave")
 	end
 
 	--Anti-RenameCheat
-	if ((p.name != p.oldname) and (p.spectator))
-		if (p == server)
-			print("\x85HOST PLAYER TRIED TO CHEAT WITH RENAMING!!!") --I believe this line is never printed too
-			COM_BufInsertText(server, "QUIT")
-		end
-		COM_BufInsertText(server, "KICK "..#p.." Do not rename when dead!")
-		return
-	end
-
+	if ((p.name != p.oldname) and (p.spectator)) then MM_PunishPlayer(p, "Do not rename when dead!") end
 	p.oldname = p.name
 end)
 

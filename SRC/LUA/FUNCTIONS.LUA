@@ -316,6 +316,14 @@ rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
 	end
 end)
 
+rawset(_G, "MM_PunishPlayer", function(p, msg, ban) --player (player_t), punishment message (string), ban instead of kick? (boolean)
+	if (p == server) then COM_BufInsertText(server, "QUIT")
+	else
+		if (ban) then COM_BufInsertText(server, "BAN "..#p.." "..msg)
+		else COM_BufInsertText(server, "KICK "..#p.." "..msg) end
+	end
+end)
+
 --
 --HUD.LUA
 --

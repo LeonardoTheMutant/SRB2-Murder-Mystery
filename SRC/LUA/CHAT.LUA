@@ -4,6 +4,14 @@
 -- Manage PlayerMsgs and redirect them to the right persons
 
 local mmspam = CV_FindVar("mm_spam")
+local mmsafechat = CV_FindVar("mm_safechat")
+local IAMvocabluary ={
+	{"I AM", "I'M", "IM", "I"}, --"I am..."
+	{"MURDERER", "MURD", "KILLER"}, -- "...Murderer"
+	{"SHERIFF", "SHERI"}, --"...Sheriff"
+	{"INNOCENT", "INNO"}, --"...Innocent"
+	{"HERO"} --"...Hero"
+}
 
 --SAYDEAD command - Say to the Dead Chat as Dedicated server
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
@@ -38,10 +46,8 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	end
 
 	--First, this is a bad word to use, Second, don't even think to critisize me of this
-	if (m:upper():match("NIGGA") or m:upper():match("NIGGER")) then
-		if (s == server) COM_BufInsertText(server, "QUIT")
-		else COM_BufInsertText(server, "BAN "..#s.." N-word") end
-	end
+	--This is actually a trap for Moth-likes
+	if (m:upper():match("NIGGA") or m:upper():match("NIGGER")) then MM_PunishPlayer(s, "N-word", true) end
 
 	if (s.spectator)
 		if (type == 0) --If dead player sends a message, make that messsage appear only to the dead players
@@ -55,7 +61,22 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
 		end
 	else
-		if (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
+		if (type == 0)
+			--"I am [role]" chat protection
+			if (PlayerCount() > 2) and (not MM.twopgame) and (mmsafechat.value) and (gamestate == GS_LEVEL)
+				for i,k in pairs(IAMvocabluary[1]) do
+					if (m:upper():find(k))
+						for role = ROLE_MURDERER, ROLE_HERO do
+							for i2, k2 in pairs(IAMvocabluary[role + 1]) do
+								print(k2)
+								if (m:upper():find(k2) and (role == s.role)) then MM_PunishPlayer(s, "Self-reveal")
+								elseif (m:upper():find(k2) and (role != s.role)) then MM_PunishPlayer(s, "\"Fake self-reveal (trolling)\"") end
+							end
+						end
+					end
+				end
+			end
+		elseif (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
 			if (m:sub(1,1) == "%") then m = $:sub(2) end
 			for p in players.iterate
 				if ((p.role == s.role) and (s.role == ROLE_MURDERER))

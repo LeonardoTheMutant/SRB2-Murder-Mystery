@@ -109,12 +109,14 @@ local function VarChange(v) --callback function called by CV_CALL flag
 		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
 	end
 end
-CV_RegisterVar{name = "mm_abilities", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mm_customskins", defaultvalue = 0, PossibleValue = CV_OnOff, flags = 4}
-CV_RegisterVar{name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4}
-CV_RegisterVar{name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4}
-CV_RegisterVar{name = "mm_duelmode", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange}
-CV_RegisterVar{name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4}
+--Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
+CV_RegisterVar({name = "mm_abilities", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
+CV_RegisterVar({name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
+CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
+CV_RegisterVar({name = "mm_duelmode", defaultvalue = "False", PossibleValue = CV_TrueFalse, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --
 --MM startup init
