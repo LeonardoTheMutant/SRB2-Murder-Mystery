@@ -49,13 +49,14 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			if (isdedicatedserver) CONS_Printf(server, "{"..s.name.."} "..m) end
 		elseif (type == 2) --PM messages in different design for DEAD
 			if (t.spectator)
-				chatprintf(t, "\x86[PM]{"..s.name.."} "..m)
-				chatprintf(s, "\x86[TO]{"..t.name.."} "..m)
+				chatprintf(s, "\x82[TO]\x86{"..t.name.."} "..m)
+				chatprintf(t, "\x82[PM]\x86{"..s.name.."} "..m)
+				return true
 			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
 		end
-		return true
 	else
-		if (type == 1) --SAYTEAM
+		if (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
+			if (m:sub(1,1) == "%") then m = $:sub(2) end
 			for p in players.iterate
 				if ((p.role == s.role) and (s.role == ROLE_MURDERER))
 					chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
