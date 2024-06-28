@@ -275,7 +275,7 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM_GetText(p.mmlang, "ENDROUND", reason))
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM_GetText("EN", "ENDROUND", reason))
 		else CONS_Printf(server, "- "..MM_GetText("EN", endtext, reason)) end
 	end
 end)

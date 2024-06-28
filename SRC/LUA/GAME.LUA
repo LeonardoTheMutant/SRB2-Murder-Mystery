@@ -7,6 +7,7 @@
 -- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
+local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 
 addHook("MapLoad", function(map)
 	if (gametype != GT_MURDERMYSTERY) return end
@@ -272,7 +273,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		MM_KillPlayerByPlayer(v, a)
 		if (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
-			-- otherwise Murderers win
+			-- otherwise, Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
 				chatprintf(ap, MM_GetText(ap.mmlang, "INNO_HURT_PM", 1))
 				MM_ChatprintGlobal("INNO_HURT", 1)
@@ -380,10 +381,7 @@ addHook("PlayerThink", function(p)
 	if (p.afk > afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 
 	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is not disabled)
-	if (p.quittime) and (not CV_FindVar("rejointimeout").value)
-		MM_PlayerQuit(p)
-		CONS_Printf(server, "KICK "..#p.." Player leave")
-	end
+	if (rejointimeoutCVAR.value) and (p.quittime) then MM_PlayerQuit(p) end
 
 	--Anti-RenameCheat
 	if ((p.name != p.oldname) and (p.spectator)) then MM_PunishPlayer(p, "Do not rename when dead!") end
