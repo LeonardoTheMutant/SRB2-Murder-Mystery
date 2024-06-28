@@ -26,10 +26,12 @@ VARIABLES
 	MM_CUSTOMSKINS - Enable/Disable custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
 		The default value is OFF.
-	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
-	    set to 0 AFK timeout is disabled;
 	MM_SPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
+	MM_SAFECHAT - Enable/Disable the Chat Automoderation system. To be more specific, when enabled, kicks players
+		who reveal/fake their roles to the global chat in the game.
+	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
+	    set to 0 AFK timeout is disabled;
 	MM_DUELMODE - Enable/Disable access to all weapons for Murderers during the Showtime Duel. The default value is OFF.
 	MM_AUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
 
