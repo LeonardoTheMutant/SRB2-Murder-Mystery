@@ -5,7 +5,7 @@ LevelName = Abandoned Shelter
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K1
 Lua.Author = LeoTM
 
@@ -13,7 +13,7 @@ Level K1
 Levelname = Vineyard Castle
 SelectHeading = Murder Mystery
 Act = 0
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K2
 SkyNum = 10
 Lua.Author = Piksqu, LeoTM
@@ -25,7 +25,7 @@ SkyNum = 99
 SkyboxScale = 32
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K3
 Lua.Author = LeoTM
 
@@ -34,7 +34,7 @@ Levelname = Mountain Fort
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 SkyNum = 17
 weather = 2
 NextLevel = K4
@@ -44,7 +44,7 @@ LevelName = West City
 SelectHeading = Murder Mystery
 SkyNum = 13
 Act = 0
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K5
 Lua.Author = LeoTM
 
@@ -53,7 +53,7 @@ LevelName = Dam
 SelectHeading = Murder Mystery
 Act = 0
 SkyNum = 30
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K6
 Lua.Author = LeoTM, Rare
 
@@ -63,7 +63,7 @@ SelectHeading = Murder Mystery
 Music = None
 NoZone = True
 Act = 0
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K7
 Lua.Author = LeoTM
 Lua.DisableFootsteps = True
@@ -74,7 +74,7 @@ SelectHeading = Murder Mystery
 NoZone = True
 Act = 0
 SkyNum = 21
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K8
 Lua.Author = LeoTM
 
@@ -85,7 +85,7 @@ SkyNum = 6
 Act = 0
 NoZone = True
 Weather = 3
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K9
 Lua.Author = SuperOfSrb2, LeoTM
 
@@ -94,8 +94,8 @@ LevelName = Greenflower Mystery
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
-TypeOfLevel = mm
-NextLevel = KD
+TypeOfLevel = MurderMystery
+NextLevel = KA
 
 Level KA
 LevelName = Mirage Express
@@ -103,7 +103,7 @@ SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = KB
 
 Level KB
@@ -112,7 +112,7 @@ SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = KC
 
 Level KC
@@ -122,7 +122,7 @@ SelectHeading = Murder Mystery
 Music = 11H_00
 Act = 0
 NoZone = True
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = KD
 
 Level KD
@@ -130,18 +130,18 @@ LevelName = East City
 SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 Lua.TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
 Lua.TimeTravel_ShiftY = 0
 Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
 Lua.TimeTravel_ShiftY2 = 0
 Lua.Timelimit = 7
-NextLevel = K0
+NextLevel = KE
 
 Level KE
-LevelName = Dubious Depths?
+LevelName = Dust
 SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
-TypeOfLevel = mm
+TypeOfLevel = MurderMystery
 NextLevel = K0

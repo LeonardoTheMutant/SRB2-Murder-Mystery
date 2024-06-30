@@ -125,14 +125,14 @@ print("\x87MURDER MYSTERY v"..MM.version)
 print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_MM', 'MT_SHREML', 'MT_MMKNIFE')
+freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE')
 --Various SFX
 freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_MMDTH7', 'SFX_DAMFLL', 'SFX_ALDI')
 
 G_AddGametype({
 	name = "Murder Mystery",
 	identifier = "murdermystery",
-	typeoflevel = TOL_MM,
+	typeoflevel = TOL_MURDERMYSTERY,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
 	headerleftcolor = 37,
