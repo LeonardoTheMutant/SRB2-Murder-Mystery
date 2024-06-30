@@ -134,7 +134,6 @@ G_AddGametype({
 	identifier = "murdermystery",
 	typeoflevel = TOL_MM,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
-	DefaultTimeLimit = 5,
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,

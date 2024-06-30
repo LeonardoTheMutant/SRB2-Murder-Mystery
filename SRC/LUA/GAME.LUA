@@ -7,11 +7,12 @@
 -- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
+local mmtimelimitCVAR = CV_FindVar("mm_timelimit")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 
 addHook("MapLoad", function(map)
 	if (gametype != GT_MURDERMYSTERY) return end
-	--prepare players & server for the new round
+	--Prepare players & server for the new round
 	for p in players.iterate
 		p.spectator = false
 		p.kills = 0
@@ -21,32 +22,39 @@ addHook("MapLoad", function(map)
 		p.mmweapondelay = 0
 	end
 
+	--Prepare the game
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremls = {}
-
-	MM.timelimit = 0
-	if (mapheaderinfo[map].timelimit and tonumber(mapheaderinfo[map].timelimit))
-		MM.timelimit = tonumber(mapheaderinfo[map].timelimit)
-	elseif (timelimit) --Swapping timelimit value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
-		MM.timelimit = timelimit
-	end
-	if (MM.timelimit)
-		MM.timelimit = $ + MM_GetRoleMultiplier() - 1
-    	print("Time limit for this round is "..MM.timelimit.." minutes")
-	end
-
 	MM.shwdwn = false
 
+	--Time limit
+	if (timelimit) --Swapping the vanilla TIMELIMIT CVAR value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
+		MM.timelimit = timelimit
+	elseif (mapheaderinfo[map].timelimit) and (tonumber(mapheaderinfo[map].timelimit))
+		MM.timelimit = tonumber(mapheaderinfo[map].timelimit)
+	else
+		MM.timelimit = 5
+	end
+	MM.timelimit = $ + MM_GetRoleMultiplier() - 1
+    print("Time limit for this round is "..MM.timelimit.." minutes")
+
+	--Prepare the minigames
 	MM.twopgame = (PlayerCount() == 2)
 	MM.minigame = false
-
 	PONG_Reset()
 	MM.pong.pads[1] = 32
 	MM.pong.pads[2] = 32
 	MM.pong.wintimeout = -1
 
+	--Assign roles to the players
 	MM_AssignRoles()
+end)
+
+-- Custom TIMELIMIT code
+-- An alternative to SRB2's built-in TIMELIMIT
+addHook("ThinkFrame", function()
+    if ((gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1) and (not timelimit)) G_ExitLevel() end
 end)
 
 --

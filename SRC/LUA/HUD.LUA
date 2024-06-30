@@ -102,9 +102,7 @@ hud.add(function(v, p)
 
 	--TIME
 	--timer calculation
-	local timertime
-	if (timelimit) timertime = (MM.timelimit * 2100) - leveltime
-	else timertime = leveltime end
+	local timertime = (MM.timelimit * 2100) - leveltime
 
 	if (timertime < 0) timertime = 0 end
 	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)

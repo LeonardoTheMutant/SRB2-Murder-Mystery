@@ -22,10 +22,10 @@ There are a couple of Commands and Console Variables available for admins to use
 VARIABLES
 	MM_ABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
 		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
-		Enable this Variable to remove the ability limit. The default value is OFF;
-	MM_CUSTOMSKINS - Enable/Disable custom skins/characters in a Murder Mystery game.
+		Enable this Variable to remove the ability limit. The default value is NO;
+	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
-		The default value is OFF.
+		The default value is NO.
 	MM_SPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
 	MM_SAFECHAT - Enable/Disable the Chat Automoderation system. To be more specific, when enabled, kicks players
