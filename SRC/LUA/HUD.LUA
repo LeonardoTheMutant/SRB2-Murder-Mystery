@@ -404,17 +404,17 @@ hud.add(function(v)
 			if (consoleplayer == p) continue end
 			if (MM_AreTeammates(consoleplayer, p))
 				--character icon
-				v.drawScaled(MM.hud.scores.pos.teammateInfo.x*FU, (MM.hud.scores.pos.teammateInfo.y + (16*teammateNo))*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136*(teammateNo >> 1)))*FU, (MM.hud.scores.pos.teammateInfo.y + (16*(teammateNo % 2)))*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
 				--player name (colored as role)
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18), (MM.hud.scores.pos.teammateInfo.y + (16*teammateNo)), MM.RoleColor[p.role]..p.name, V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + (16*(teammateNo % 2))), MM.RoleColor[p.role]..p.name, V_ALLOWLOWERCASE)
 				--icon of the currently held weapon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x)*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[p.currentweapon][1])) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136*(teammateNo >> 1)))*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + (16*(teammateNo % 2)))*FU, 32768, v.cachePatch(MM.weapons[p.currentweapon][1])) --FU/2
 				--amount of currently held weapon ammo
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18), (MM.hud.scores.pos.teammateInfo.y + 8 + (16*teammateNo)), p.powers[pw_infinityring + p.currentweapon], 0, "thin")
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + (16*(teammateNo % 2))), p.powers[pw_infinityring + p.currentweapon], 0, "thin")
 				--red ring icon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x)*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + (16*teammateNo))*FU, 32768, v.cachePatch(MM.weapons[-1][1])) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136*(teammateNo >> 1)))*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + (16*(teammateNo % 2)))*FU, 32768, v.cachePatch(MM.weapons[-1][1])) --FU/2
 				--amount of [red] rings
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18), (MM.hud.scores.pos.teammateInfo.y + 8 + (16*teammateNo)), p.rings, 0, "thin")
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + (16*(teammateNo % 2))), p.rings, 0, "thin")
 				teammateNo = $ + 1
 			end
 		end

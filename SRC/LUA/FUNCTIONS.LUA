@@ -22,15 +22,15 @@ local shwdwn_music = { --Tracks used as Showdown Duel themes
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
 	if (role)
-		for p in players.iterate do if (p.role == role) plrc = $ + 1 end end
+		for p in players.iterate do if ((p.role == role) and (not p.quittime)) then plrc = $ + 1 end end
 	else
-		for p in players.iterate do plrc = $ + 1 end
+		for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
 	end
 	return plrc
 end)
 rawset(_G, "PlayersAlive", function()
 	local plrs = 0
-	for p in players.iterate do if (not p.spectator) plrs = $ + 1 end end
+	for p in players.iterate do if ((not p.spectator) and (not p.quittime)) then plrs = $ + 1 end end
 	return plrs
 end)
 

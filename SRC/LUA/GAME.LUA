@@ -119,12 +119,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 
 	if (vp.role == ROLE_MURDERER)
 		if (ap)
-			if (MM_AreTeammates(vp, ap))
-				MM_HitTeammate(vp, ap)
-				return false
-			else
-				MM_KillPlayerByPlayer(v, a)
-			end
+			if (MM_AreTeammates(vp, ap)) then return false
+			else MM_KillPlayerByPlayer(v, a) end
 		else
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
@@ -137,12 +133,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		end
 	elseif (vp.role == ROLE_SHERIFF)
 		if (ap)
-			if (MM_AreTeammates(vp, ap))
-				MM_HitTeammate(vp, ap)
-				return false
-			else
-				MM_KillPlayerByPlayer(v, a)
-			end
+			if (MM_AreTeammates(vp, ap)) then return false
+			else MM_KillPlayerByPlayer(v, a) end
 		else
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
@@ -168,12 +160,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		end
 	elseif (vp.role == ROLE_HERO)
 		if (ap)
-			if (MM_AreTeammates(vp, ap))
-				MM_HitTeammate(vp, ap)
-				return false
-			else
-				MM_KillPlayerByPlayer(v, a)
-			end
+			if (MM_AreTeammates(vp, ap)) then return false
+			else MM_KillPlayerByPlayer(v, a) end
 		else
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
