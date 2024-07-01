@@ -112,10 +112,6 @@ rawset(_G, "MM_AssignRoles", function()
 
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
-	if (MM.devbuild)
-		print("\x82".."MM_AssignRoles() results:")
-		for p in players.iterate print(p.name..": "..p.role) end
-	end
 end)
 
 --Function to display global messages in chat

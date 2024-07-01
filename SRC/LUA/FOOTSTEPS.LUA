@@ -1,4 +1,8 @@
---FOOTSTEPS.LUA (fork from Modern Sonic)
+--FOOTSTEPS.LUA
+--
+--Original fork of the Modern Sonic's footstep engine available at:
+--https://mb.srb2.org/addons/footsteps.1378/
+
 freeslot(
 "sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln",
 "sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
@@ -2181,8 +2185,6 @@ local flatsounds={
 	["8BWALL4"]="stone",
 	["8BWALL5"]="stone",
 	["8BWALL7"]="stone",
-	
-
 }
 
 local playeraniminfo={ --only Vanilla characters are left
@@ -2191,103 +2193,61 @@ local playeraniminfo={ --only Vanilla characters are left
 		["dashFrames"]={-1},
 		["walkFrames"]={3, 7},
 		["waitFrames"]={0},
-		["milnekickFrames"]={0, 4},
 		["run"]=true,
 		["dash"]=false,
 		["walk"]=true,
 		["idle"]=true,
 		["wait"]=true,
-		["milnekick"]=true,
-		["superRun"]=false,
-		["superDash"]=false,
-		["superWalk"]=true,
-		["superIdle"]=true,
-		["superWait"]=false
 	},["tails"]={
 		["runFrames"]={-1},
 		["dashFrames"]={-1},
 		["walkFrames"]={3, 7},
 		["waitFrames"]={-1},
-		["milnekickFrames"]={0, 4},
 		["run"]=false,
 		["dash"]=false,
 		["walk"]=true,
 		["idle"]=true,
 		["wait"]=false,
-		["milnekick"]=true,
-		["superRun"]=false,
-		["superDash"]=false,
-		["superWalk"]=true,
-		["superIdle"]=true,
-		["superWait"]=false
 	},["knuckles"]={
 		["runFrames"]={0, 2},
 		["dashFrames"]={-1},
 		["walkFrames"]={3, 7},
 		["waitFrames"]={-1},
-		["milnekickFrames"]={0, 4},
 		["run"]=true,
 		["dash"]=false,
 		["walk"]=true,
 		["idle"]=true,
 		["wait"]=false,
-		["milnekick"]=true,
-		["superRun"]=true,
-		["superDash"]=false,
-		["superWalk"]=true,
-		["superIdle"]=true,
-		["superWait"]=false
 	},["amy"]={
 		["runFrames"]={2, 7},
 		["dashFrames"]={-1},
 		["walkFrames"]={3, 7},
 		["waitFrames"]={1, 3},
-		["milnekickFrames"]={0, 4},
 		["run"]=true,
 		["dash"]=false,
 		["walk"]=true,
 		["idle"]=true,
 		["wait"]=true,
-		["milnekick"]=true,
-		["superRun"]=true,
-		["superDash"]=false,
-		["superWalk"]=true,
-		["superIdle"]=true,
-		["superWait"]=true
 	},["fang"]={
 		["runFrames"]={1, 4},
 		["dashFrames"]={-1},
 		["walkFrames"]={3, 7},
 		["waitFrames"]={-1},
-		["milnekickFrames"]={0, 4},
 		["run"]=true,
 		["dash"]=false,
 		["walk"]=true,
 		["idle"]=true,
 		["wait"]=false,
-		["milnekick"]=true,
-		["superRun"]=true,
-		["superDash"]=false,
-		["superWalk"]=true,
-		["superIdle"]=true,
-		["superWait"]=false
 	},["metal_sonic"]={
 		["runFrames"]={-1},
 		["dashFrames"]={-1},
 		["walkFrames"]={-1},
 		["waitFrames"]={-1},
-		["milnekickFrames"]={0, 4},
 		["run"]=false,
 		["dash"]=false,
 		["walk"]=false,
 		["idle"]=true,
 		["wait"]=false,
-		["milnekick"]=true,
-		["superRun"]=false,
-		["superDash"]=false,
-		["superWalk"]=false,
-		["superIdle"]=true,
-		["superWait"]=false
 	}
 }
 
@@ -2364,15 +2324,15 @@ addHook("PlayerThink", function(player)
 						soundType="skid"
 					elseif not (player.powers[pw_carry])
 						if pmo.state == S_PLAY_RUN
-							player.playsound=panimInfo["run"] and (player.powers[pw_super] == 0 or panimInfo["superRun"]) and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
+							player.playsound=panimInfo["run"] and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
 						elseif pmo.state == S_PLAY_DASH
-							player.playsound=panimInfo["dash"] and (player.powers[pw_super] == 0 or panimInfo["superDash"]) and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
+							player.playsound=panimInfo["dash"] and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
 						elseif pmo.state == S_PLAY_WALK
-							player.playsound=panimInfo["walk"] and (player.powers[pw_super] == 0 or panimInfo["superWalk"]) and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
+							player.playsound=panimInfo["walk"] and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
 						elseif pmo.state == S_PLAY_STND or pmo.state == S_PLAY_EDGE
-							player.playsound=panimInfo["idle"] and (player.powers[pw_super] == 0 or panimInfo["superIdle"]) and player.lastanim ~= player.panim
+							player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
 						elseif pmo.state == S_PLAY_WAIT 
-							player.playsound=panimInfo["wait"] and (player.powers[pw_super] == 0 or panimInfo["superWait"])  and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
+							player.playsound=panimInfo["wait"] and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
 						end
 
 						soundType="steps"
