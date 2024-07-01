@@ -6,7 +6,7 @@
 local mmspam = CV_FindVar("mm_spam")
 local mmsafechat = CV_FindVar("mm_safechat")
 local IAMvocabluary ={
-	{"I AM", "I'M", "IM", "I"}, --"I am..."
+	{"I AM", "I'M", "IM"}, --"I am..."
 	{"MURDERER", "MURD", "KILLER"}, -- "...Murderer"
 	{"SHERIFF", "SHERI"}, --"...Sheriff"
 	{"INNOCENT", "INNO"}, --"...Innocent"
@@ -57,18 +57,18 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			if (t.spectator)
 				chatprintf(s, "\x82[TO]\x86{"..t.name.."} "..m)
 				chatprintf(t, "\x82[PM]\x86{"..s.name.."} "..m)
-				return true
 			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
 		end
+		return true
 	else
 		if (type == 0)
 			--"I am [role]" chat protection
+			--string.find() works horribly here
 			if (PlayerCount() > 2) and (not MM.twopgame) and (mmsafechat.value) and (gamestate == GS_LEVEL)
 				for i,k in pairs(IAMvocabluary[1]) do
 					if (m:upper():find(k))
 						for role = ROLE_MURDERER, ROLE_HERO do
 							for i2, k2 in pairs(IAMvocabluary[role + 1]) do
-								print(k2)
 								if (m:upper():find(k2) and (role == s.role)) then MM_PunishPlayer(s, "Self-reveal")
 								elseif (m:upper():find(k2) and (role != s.role)) then MM_PunishPlayer(s, "\"Fake self-reveal (trolling)\"") end
 							end

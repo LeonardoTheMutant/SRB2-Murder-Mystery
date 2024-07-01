@@ -8,3 +8,5 @@
 - Fix texture rendering and collision issues in "Sky Mesa" (MAPK7), "East City" (MAPKD)
 - Add stuff to "8-Ball Hotel's" (MAPK8) Casino area to make it feel less empty
 - Deep test the add-on for SIGSEVG appearance
+- Remove the rock ledge from the Dam (MAPK5)
+- Fill the Mountain Fort with paintings/banners inside (MAPK3)

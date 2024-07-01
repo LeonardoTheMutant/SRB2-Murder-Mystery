@@ -38,6 +38,7 @@ TypeOfLevel = MurderMystery
 SkyNum = 17
 weather = 2
 NextLevel = K4
+Lua.Autor = Jisk, LeoTM
 
 Level K4
 LevelName = West City
@@ -66,7 +67,6 @@ Act = 0
 TypeOfLevel = MurderMystery
 NextLevel = K7
 Lua.Author = LeoTM
-Lua.DisableFootsteps = True
 
 Level K7
 LevelName = Sky Mesa

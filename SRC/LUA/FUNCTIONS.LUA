@@ -129,7 +129,7 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 		elseif (msg == "WIN")
 			chatprintf(p, MM_GetText(p.mmlang, "ENDROUND", var))
 		elseif msg
-			chatprintf(p, MM_GetText(p.mmlang, msg))
+			chatprintf(p, MM_GetText(p.mmlang, msg, var))
 		end
 	end
 end)
