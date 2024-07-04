@@ -133,69 +133,85 @@ local language={ --Language must be a table variable, you can name the variable 
 		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language] command", --when typed MMHELP with no argument
 		"Personal language for Murder Mystery is set to\x82 English" --when typed MMHELP with language argument (it sets the new language)
 	}
+	
 	-- "You got the role" personal messages
 	["ROLE_GET"]={
 		"You're the \x85Murderer\x80! \x85Murder everyone!", --Murderer
 		"You're the \x84Sheriff\x80!\x84 Eliminate all the Murderers\x80. If you kill an innocent, you'll be stripped of your role.", --Sheriff
 		"You're an \x83Innocent\x80! Hide and help with the investigation." --Innocent
 	},
+
 	-- Randomly selected innocent has a new role
 	["NEWROLE_GET"]={
 		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!", --Murderer
 		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!", --Sheriff
 		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!" --Hero
 	},
+
 	-- Teammate hit
 	["TEAMMATE_HIT"]={
 		"This player is your teammate. Please do not hit your teammates next time.",
 		"A teammate hit you. Please don't take your revenge on them."
 	},
+
 	-- Murderer killed
 	["MURD_KILLED"]={
 		"\x85Murderer\x87", --beginning of the string
-		"\x80got eliminated" --ending
+		"\x80got eliminated", --ending
 	},
+
 	-- Sheriff killed
 	["SHERI_KILLED"]={
-		"\x84Sheriff\x87",
-		"\x80got murdered! Find their\x84 Emerald\x80!", --ending 1
-		"\x80got murdered!" --ending 2 (no drop)
+		"\x84Sheriff\x87", --beginning
+		"\x80got murdered!", --ending
+		"Find their\x84 Emerald\x80!" --additional ending if Sheriff's Emerald is dropped
 	},
+
 	--Hero killed
 	["HERO_KILLED"]={
-		"\x82Hero\x87", --beginning
-		"\x80got murdered!" --ending
+		"\x82Hero\x87",
+		"\x80got murdered!",
 	},
+
+	--player was crushed, has drown or fell into a pit
+	["DIED_HAZARD"]="has died in an accident",
+
 	--Sheriff's Emerald pickup global notification
 	["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
+
 	-- Innocent hurt by Sheriff/Hero personal messages
 	["INNO_HURT_PM"]={
 		"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)", --Sheriff
 		"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that." --Hero
 	},
+
 	-- Innocent hurt by Sheriff/Hero personal messages
 	["INNO_HURT"]={
 		"The \x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!", --Sheriff
 		"The \x82Hero\x80 decided to become a villian by killing the \x83Innocent\x80. Now both are lying dead. Shame on such\x82 Hero\x80" --Hero
 	},
+
 	-- "One of the [role]s left!"
 	["ONE_LEFT"]={
 		"One of the \x85Murderers\x80 left!", --Murderer
 		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
 		"One of the \x82Heroes\x80 has abandoned us!" --Hero
 	},
+
 	-- "Last [role] left!"
 	["LAST_LEFT"]={
 		"The last \x85Murderer\x80 has left!", --Murderer
 		"The last \x84Sheriff\x80 has left!", --Sheriff
 		"The last \x82Hero\x80 has left!" --Hero
 	},
+
 	-- "[role] left, replaced him"
 	["REPLACE_LEFT"]={
 		"The \x85Murderer\x80 left! Some random \x83Innocent\x80 will take their role!", --Murderer
 		"The \x84Sheriff\x80 left! Some random \x83Innocent\x80 will take their role!", --Sheriff
 		"A \x82Hero\x80 left! Some random \x83Innocent\x80 will take their role!" --Hero
 	},
+
 	-- Win texts
 	["ENDROUND"]={
 		"Everyone is dead. The \x85Murderers\x80 win!", --Murderers win
@@ -331,8 +347,11 @@ local language={ --Language must be a table variable, you can name the variable 
 		"Please wait for \4one more\0 player to start"
 	},
 
-	["HUD_SNEAKING"]="Sneaking...", --Sneaking
-	["HUD_SHOWDOWN"]="Showdown duel!", -- "Showdown duel!"
+	--Sneaking
+	["HUD_SNEAKING"]="Sneaking...",
+
+	-- "Showdown duel!"
+	["HUD_SHOWDOWN"]="Showdown duel!",
 
 	--minigame stuff
 	["HUD_MINIGAME"]={
@@ -358,6 +377,10 @@ local language={ --Language must be a table variable, you can name the variable 
 		"\5MURDERERS", --must contain MM escape color code
 		"\3CIVILIANS" --must contain MM escape color code
 	},
+	
+	-- Time Travel stuff
+	["HUD_PAST"]="PAST",
+	["HUD_FUTURE"]="FUTURE"
 }
 --finally import your language to the MM
 -- There is already a function to add the language in the game

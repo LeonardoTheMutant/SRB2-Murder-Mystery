@@ -107,9 +107,7 @@ rawset(_G, "MM_AssignRoles", function()
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
-
 		chatprintf(p, MM_GetText(p.mmlang, "ROLE_GET", p.role))
-
 		p.roleflicker = 105 --timer for role name flickering on HUD
 	end
 end)
@@ -121,8 +119,16 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
 		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED"))
 			chatprintf(p, MM_GetText(p.mmlang, msg, 1).." "..var.." "..MM_GetText(p.mmlang, msg, 2))
-		elseif (msg == "SHERI_KILLED_NODROP")
-			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
+		elseif (msg == "SHERI_KILLED_DROP")
+			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mmlang, "SHERI_KILLED", 2).." "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
+		elseif (msg == "MURD_DIED")
+			chatprintf(p, MM_GetText(p.mmlang, "MURD_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+		elseif (msg == "SHERI_DIED")
+			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+		elseif (msg == "HERO_DIED")
+			chatprintf(p, MM_GetText(p.mmlang, "HERO_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+		elseif (msg == "SHERI_DIED_DROP")
+			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD")..". "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
 		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
 			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mmlang, msg, var)) --for Murd and Sheri
 			else chatprintf(p, MM_GetText(p.mmlang, msg, 3)) end --for Hero

@@ -135,15 +135,17 @@ Here is the full list of MM constants:
 
 ### Game messages
 
-| `message_id`                                       | possible value(s) for `var`                                                    | Description                                                                                                                         |
-| -------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `"MURD_KILLED"`, `"SHERI_KILLED"`, `"HERO_KILLED"` | *string*                                                                       | "Murderer/Sheriff/Hero by the name of `var` is killed!". For `"SHERI_KILLED"` it also says that *Sheriff's Emerald* is dropped      |
-| `"SHERI_KILLED_NODROP"`                            | *string*                                                                       | Same as `"SHERI_KILLED"` but without a drop info                                                                                   |
-| `"LAST_LEFT"`                                      | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "The last player with `var` role has left the game!"                                                                                |
-| `"ONE_LEFT"`                                       | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "One of the players with `var` role has left the game!"                                                                             |
-| `"REPLACE_LEFT"`                                   | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "Player with the `var` role left the game! Some random Innocent will take his role!"                                                |
-| `"INNO_HURT"`                                      | *1* or *2*                                                                     | "Innocent is hurt" global notice. The context of the message is different depending on who hit the Civilian: 1 - Sheriff, 2 - Hero. |
-| `"WIN"`                                            | One of the [`WIN_*`](#win-reasons-win) constants                               | The end round message. `var` is the reason of the round end.                                                                        |
+| `message_id` | Possible value(s) for `var` | Description |
+| --- | --- | --- |
+| `"MURD_KILLED"`, `"SHERI_KILLED"`, `"HERO_KILLED"` | *string* | "Murderer/Sheriff/Hero by the name of `var` is killed!". For `"SHERI_KILLED"` it just says that the Sheriff is killed |
+| `"SHERI_KILLED_DROP"` | *string* | Same as `"SHERI_KILLED"` but also tells that the *Sheriff's Emerald* is dropped |
+| `"MURD_DIED"`, `"SHERI_DIED"`, `"HERO_DIED"` | *string* | "Murderer/Sheriff/Hero by the name of `var` has died in an accident (drown, crushed, fell into the pit)!". For `"SHERI_KILLED"` it just says that the Sheriff has died |
+| `"SHERI_DIED_DROP"` | *string* | Same as `"SHERI_DIED"` but also tells that the *Sheriff's Emerald* is dropped |
+| `"LAST_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "The last player with `var` role has left the game!" |
+| `"ONE_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "One of the players with `var` role has left the game!" |
+| `"REPLACE_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "Player with the `var` role left the game! Some random Innocent will take his role!" |
+| `"INNO_HURT"` | *1* or *2* | "Innocent is hurt" global notice. The context of the message is different depending on who hit the Civilian: 1 - Sheriff, 2 - Hero. |
+| `"WIN"` | One of the [`WIN_*`](#win-reasons-win) constants | The end round message. `var` is the reason of the round end. |
 
 ### Win reasons
 

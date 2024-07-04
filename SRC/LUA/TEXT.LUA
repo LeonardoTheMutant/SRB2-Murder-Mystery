@@ -99,18 +99,20 @@ MM.text={
 		-- Murderer killed
 		["MURD_KILLED"]={
 			"\x85Murderer\x87", --beginning of the string
-			"\x80got eliminated" --ending
+			"\x80got eliminated", --ending
 		},
 		-- Sheriff killed
 		["SHERI_KILLED"]={
-			"\x84Sheriff\x87",
-			"\x80got murdered! Find their\x84 Emerald\x80!", --ending 1
-			"\x80got murdered!" --ending 2 (no drop)
+			"\x84Sheriff\x87", --beginning
+			"\x80got murdered!", --ending
+			"Find their\x84 Emerald\x80!" --additional ending if Sheriff's Emerald is dropped
 		},
+		--Hero killed
 		["HERO_KILLED"]={
 			"\x82Hero\x87",
-			"\x80got murdered!"
+			"\x80got murdered!",
 		},
+		["DIED_HAZARD"]="has died in an accident", --player was crushed, has drown or fell into a pit
 		["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
 		-- Innocent hurt by Sheriff
 		["INNO_HURT_PM"]={
@@ -289,8 +291,213 @@ MM.text={
 			"\5MURDERERS", --must contain MM escape color code
 			"\3CIVILIANS" --must contain MM escape color code
 		},
+		--Time Travel stuff
 		["HUD_PAST"]="PAST",
 		["HUD_FUTURE"]="FUTURE"
+	},["ES"]={ --Spanish by Jesus.B
+		["VERSION"]="1.0-ALPHA",
+		["AUTHOR"]="Jesus.B",
+		["MM"]="Murder Mystery",
+		["CHARSET"]="1250C",
+		["MMHELP_CMD"]={
+			"Usa \7JUMP\0/\7SPIN\0 para desplazarte, \7Next\0/\7Prev Weapon\0 para cambiar de pagina",
+			"Presiona \7FIRE\0 para abandonar AYUDA"
+		},["MMHELP"]={
+			{
+				"\7Bienvenido a Murder Mystery!",
+				"\7La interpretacion en SRB2 del \7juego \7multijugador \7popular!\0\n",
+				"El objetivo del juego es encontrar y eliminar a todos los \5Asesinos\0 antes de que maten a\3 todos los demas\0. Este modo de juego es mas como MATCH asi que nesecitaras tus habilidades de apuntar y disparar para este modo de juego.",
+				"Nesecitaras aprender unas cosas basicas primero antes de empezar a jugar...",
+				"\nAl inicio de cada ronda, conseguiras un \11Rol\0 que define cual sera tu tarea en la partida. Aqui estan los 3 posibles \11Roles\0 que puedes conseguir:",
+				" * \5Asesino\0 - Un verdadero criminal. Tiene que matar a todos, pero solo esta equipado con cuchillos y anillos rojos;",
+				" * \4Comisario\0  - Su tarea es encontrar y eliminar a el/los \5Asesinos(s)\0. Los Comisarios pueden usar cualquier Anillo Arma que se encuentre en el mapa;",
+				" * \3Inocente\0 - Un civil completamente desarmado, deben evitar ser asesinados pero tambien deben ayudar a encontrar al \5Asesino\0.",
+				"\nEsa es toda la informacion basica requerida para empezar a jugar, para mas informacion, lee este manual hasta el final."
+			},{
+				"\7Sobre situaciones de gameplay\0\n",
+				"Como se explico anteriormente en lo basico, el objetivo de los Comisarios es eliminar a todos los \5Asesinos\0, pero situaciones diferentes en el gameplay pueden ocurrir:",
+				"\n* Si te matan, entraras en el estado de\15 Muerto\0 los Jugadores en este estado no pueden reaparecer o hablarles globalmente a los jugadores que esten vivos, sus mensajes solo seran visibles para otros jugadores\x8F Muertos\x80",
+				"No puedes enviar mensajes/PM players a jugadores vivos mientras estas\15 Muerto\0.",
+				"Por cierto,\2 NO \2INTENTES \2CAMBIAR \2TU \2NOMBRE\0, mas detalles sobre esto en la siguiente pagina.",
+				"\n* La tarea del \4Comisario\0 es eliminar a todos los \5Asesinos\0 alrededor, pero puede disparar un \3Inocente\0 por accidente.",
+				"Si esto ocurre, el \4Comisario\0 se convertira en un \3Inocente\0 y un \3Inocente\0 aleatorio va a tomar su rol silenciosamente. La proxima vez que quieras disparar a alguien como \4Comisario\0 , ¡piensa 2 veces antes de jalar el gatillo!",
+				"\n* Cuando un \5Asesino\0 mata a un \4Comisario\0 y todavia hay \3Inocentes\0 vivos, el Comisario dejara caer la \4Esmeralda del Comisario\0 cerca de su cadaver.",
+				"A diferencia de las 7 Esmeraldas del Caos, esta esmeralda asignara el rol de \2Heroe\0 a cualquier \3Inocente\0 que la recoja. Si eres uno de los \3Inocentes\0, es tu oportunidad de ser un Heroe y salvar a todos de el (o los) \5Asesino(s)\0!",
+				"El rol de \2Heroe\0 no se diferencia de el de \4Comisario\0 excepto por algunos detalles, si el \2Heroe\0 mata a un \3Inocente\0 su rol no se comparte y ambos mueren. Un Heroe no dejara caer una \4Esmeralda del \4Comisario\0 al morir.",
+				"\n* Dependiendo de la cantidad de jugadores, puede haber mas de un \5Asesino\0 y \4Comisario\0 entre los jugadores en la ronda. Por ejemplo, empezado a partir de 7 jugadores o mas, \11Equipos\0 de \5Asesinos\0 y \4Comisarios\0 se formaran.",
+				"Los \11Aliados\0 pueden chatear entre si en su chat de equipo con el comando de consola \7SAYTEAM\0 (nota que el boton de chat SAYTEAM funcionara como el chat normal).",
+				"Si un \11aliado\0 golpea a otro, ambos tendran una alerta personalizada que hara que se reconozcan. ¡Recuerda que otros pueden ver su interaccion 'amistosas' y ver quien eres!"
+			},{
+				"\7Cosas malas para \7hacer \7en \7Murder \7Mystery\0\n",
+				"La regla No.1 de cada juego: \1Se \1amable \1y \1diviertete!\0 Ademas de eso...\n",
+				"* Filtrar tu \11Rol\0 no hara el juego un \'Misterio\' (incluso si bromeas), puedes decir el rol de alguien mas si estas seguro, pero no digas el tuyo.\n",
+				"* No insultes otros jugadores, las bromas estan permitidas, pero solo en un modo amigable. Nadie confiara en ti si acusas a cualquier jugador sin razon.\n",
+				"* Estar AFK es un crimen de guerra. Te tiraran bombas y tu existencia cesara si te quedas quieto por mucho tiempo.\n",
+				"* No te renombres durante una partida si estas muerto, hacer esto te expulsara del servidor. Puedes renombrarte si estas vivo. Solo espera la intermision para renombrarte de manera segura.\n",
+				"Romper una de estas reglas resulta en una expulsion o algunas veces, un ban por el Admin! Porfavor no las rompas y juega limpiamente."
+			},{
+				"\7Consejos utiles\0\n",
+				"Hemos collecionado algunos consejos que te pueden ayudar en tus partidas de MM:",
+				"\n* Si las habilidades de los personajes estan deshabilitadas por el admin, presiona \2SPIN\0 para escabullirte silenciosamente sin dejar rastro o hacer ruido;",
+				"\n* Cuando agarras la \4Esmeralda del \4Comisario\0, tendras acceso a todas las armas que recolectaste de antemano;",
+				"\n* Averiguar quien es tu \11aliado\0 usando el comando \7SAYTEAM\0 te ayudaria a evitar que les dispares por accidente y que no se revele tu rol;",
+				"\n* Puedes lastimarte con obstaculos como lava, pinchos, fuego para tener invencibilidad por 3 segundos;",
+				"\n* Intenta encontrar un escondite en el mapa. Aveces te ayuda a deshacerte de la publicidad no deseada;",
+				"\n* Si se filtra tu rol, puedes renombrarte y/o cambiar tu skincolor. \1Ten \1en \1cuenta \1que \1tu \1renombre \1se \1mostrara \1en \1el \1chat\0;",
+				"\n* El boton\2 FIRENORMAL\0 te permite usar el Cuchillo donde sea siempre que tengas anillos (Los inocentes no tienen un Cuchillo). Y tambien, un Cuchillo no produce un sonido de ataque si estas escabullendote."
+			}
+		},["MMLANG"]={
+			"El idioma que actualmente estas usando es\x82 Espanol\x80\nPuedes cambiarlo con \x87MMLANG [idioma]",
+			"El idioma personal para Murder Mystery ha sido cambiado a\x82 Espanol"
+		},["ROLE_GET"]={
+			"Eres el\x85 Asesino\x80! \x85Mata a todos!",
+			"Eres el\x84 Comisario\x80!\x84 Elimina a todos los Asesinos\x80. If you kill an innocent, you'll be stripped of your role.",
+			"Eres un \x83Inocente\x80! Escondete y ayuda con la investigacion."
+		},["NEWROLE_GET"]={
+			"\x87La vida decidio al azar que seras un\x85 Asesino\x87.\x85 Ahora ve y matalos a todos!",
+			"\x87".."El universo te hizo un\x84 Comisario\x87! Ve y\x84 elimina a todos los Asesinos\x87!",
+			"\x87Se ha decidido que seras un \x82Heroe\x87. Salva a todos de los Asesinos!"
+		},["TEAMMATE_HIT"]={
+			"Este jugador es uno de tus aliados. Porfavor no golpees a tus aliados la proxima.",
+			"Te golpeo uno de tus aliados. No te vengues de el."
+		},["MURD_KILLED"]={
+			"El\x85 Asesino\x87",
+			"\x80".."fue eliminado!"
+		},["SHERI_KILLED"]={
+			"El\x84 Comisario\x87",
+			"\x80".."fue asesinado!",
+			"Encuentra su\x84 Esmeralda\x80!"
+		},["HERO_KILLED"]={
+			"El \x82Heroe\x87",
+			"\x80".."fue asesinado!"
+		},["DIED_HAZARD"]="ha muerto en un accidente",
+		["SHREML_PICK"]="Alguien ha tomado la\x84 Esmeralda del Comisario\x80...",
+		["INNO_HURT_PM"]={
+			"\x87Has matado a un \x83Inocente\x87! Has sido despedido!. (Ya no eres un Comisario)",
+			"Los \x82Heroes\x87 no estan hechos para matar \x83Inocentes\x87. Conseguiste la penalizacion de muerte por eso."
+		},["INNO_HURT"]={
+			"The \x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!",
+			"El \x82Heroe\x80 es un pendejo, ha matado a un \x83Inocente\x80. Ahora ambos estan muertos en el suelo. Que verguenza \x82Pendejo\x80"
+		},["ONE_LEFT"]={
+			"Uno de los\x85 Asesinos\x80 se fue!",
+			"Uno de los\x84 Comisarios\x80 se fue!!!",
+			"Uno de los \x82Heroes\x80 nos ha abandonado!"
+		},["LAST_LEFT"]={
+			"El ultimo\x85 Asesino\x80 se fue!",
+			"El ultimo\x84 Comisario\x80 se fue!",
+			"El ultimo \x82Heroe\x80 se fue!"
+		},["REPLACE_LEFT"]={
+			"El\x85 Asesino\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!",
+			"El\x84 Comisario\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!",
+			"Un \x82Heroe\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!"
+		},["ENDROUND"]={
+			"Todos estan muertos. Los\x85 Asesinos\x80 ganan!",
+			"Todos los\x85 Asesinos\x80 fueron asesinados! Los\x83 Civiles\x80 ganan!",
+			"Los\x85 Asesinos\x80 ganan porque el\x84 Comisario\x80 asesino al ultimo Inocente! Que verguenza,\x84 Comisario\x80",
+			"El \x82Heroe\x80 eligio matar al ultimo Inocente. Los\x85 Asesinos\x80 ganan!",
+			"Los defensores de los\x83 Inocentes\x80 estan muertos. Los\x85 Asesinos\x80 ganan!"
+		},["BMP_VICTIMS"]={
+			"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\xFFIII\x1FFF\xFFFFIIII\x1F",
+			"\xFFII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1F",
+			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFF\xFFFFII\x1F1F\x1FFFII\x1FFFIII\xFFFF\xFFIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1F1FII\x1F",
+			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFIIII\xFFIIII\x1FFF\xFFII\x1FII\x1FFF\xFFIII\x1F1F\x1F",
+			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFIIIIIIIII\x1FFF\xFFII\x1FII\x1FFF\xFFFFIII\x1F",
+			"II\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\x1FIII\x1FII\x1FFF\xFFII\x1F1FII\x1FFF\xFFFFIII\x1F",
+			"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\x1F1FI\x1FFFII\x1FFF\xFFIIIIII\x1FFF\xFFFF\xFFIII\x1F",
+			"IIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\x1FFF\xFFII\x1FFFIIIIIII\x1FFFII\x1FFFII\x1F",
+			"\xFFIIII\x1FFF\xFFII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIII\x1FFFII\x1FFFIIIIII\x1F",
+			"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIII\x1F",
+			"\xFFFF\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F"
+		},["BMP_SUSPECTS"]={
+			"\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1F",
+			"\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1F",
+			"\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
+			"\xFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1F",
+			"\xFFFFIII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFIII\x1FFF\xFFFFIIIIII\x1FFFIIIII\x1FFF\xFFII\x1FFF\x1F1F\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFIII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFIII\x1F",
+			"\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1FFF\xFFIIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1F",
+			"\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1F\x1F1F\xFFFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1F",
+			"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1F",
+			"IIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1F",
+			"\xFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1F",
+			"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
+		},["BMP_TIME"]={
+			"IIIIII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIII\x1FFF\xFFFFIIII\x1F",
+			"IIIIII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1FFFIIIIII\x1F",
+			"\xFFFFII\x1F1F\x1FFFII\x1FFFII\x1F1F\x1F1F\x1FFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
+			"\xFFFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIII\xFFIIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1F",
+			"\xFFFFII\x1FFF\xFFFFII\x1FFFIIIII\x1FFF\xFFIIIIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFFIIIII\x1FFF\xFFII\x1FIII\x1FII\x1FFFIIIII\x1FFF\xFFII\x1FFFII\x1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFFII\x1F1F\x1F1F\xFFFFII\x1F1FI\x1FFFII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1FFFII\x1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFIIII\x1F",
+			"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F\xFF1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFF1F\x1F1F\x1F"
+		},["BMP_RINGS"]={
+			"\xFFFF\xFFFFIII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFIIII\x1FFF\xFFFFIIII\x1F",
+			"\xFFFF\xFFIIII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1F",
+			"\xFFFF\xFFIIII\x1FFF\xFFIII\xFFFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
+			"\xFFFFII\x1FII\x1FFF\xFFIIII\xFFFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFIII\x1F1F\x1F",
+			"\xFFFFII\x1FII\x1FFF\xFFIIIII\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFIII\x1F",
+			"\xFFII\x1F1FII\x1FFFII\x1FIIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFIII\x1F",
+			"\xFFIIIIII\x1FFFII\x1F1FIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1F",
+			"IIIIIII\x1FFFII\x1FFF\x1FIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1F",
+			"III\x1FFFII\x1FFFII\x1FFF\xFF1FII\x1FFF\xFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1F",
+			"II\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F",
+			"\x1F1F\x1FFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
+		},["HUD_ROLES"]={
+			"ASESINO",
+			"COMISARIO",
+			"INOCENTE",
+			"HEROE",
+			"MUERTO"
+		},["HUD_TEAMMATES"]="Aliados",
+		["HUD_KILLBY"]="Asesinado por",
+		["HUD_STUPID"]="tu estupidez",
+		["HUD_SCORESTAB"]={
+			"Si eres nuevo al modo de juego, usa el",
+			"comando \7MMHELP\0 en la Consola para ayuda y",
+			"\7MMLANG\0 para cambiar tu idioma aqui",
+			"",
+			"",
+			"\2Diviertete!"
+		},["HUD_ROLESALIVE"]={
+			"Asesinos",
+			"Comisarios",
+			"Inocentes"
+		},["HUD_DEAD"]={
+			"Estas\15 muerto",
+			"No puedes reaparecer o hablarle a",
+			"gente que no esta muerta."
+		},["HUD_MIDJOIN"]={
+			"Te uniste en \4plena partida\0, porfavor espera a que esta ronda termine."
+		},["HUD_ALONE"]={
+			"\4".."2 jugadores\0 son requeridos para la partida,",
+			"Porfavor espera \4un jugador mas\0 para empezar"
+		},["HUD_SNEAKING"]="Escabullendote...",
+		["HUD_SHOWDOWN"]="Duelo de enfrentamiento!",
+		["HUD_MINIGAME"]={
+			["PRESS"]="Presiona\2 CUSTOM3\0 para",
+			["LEAVE"]="abandonar",
+			["CANCEL"]="cancelar",
+			["SPECTATE"]="espectar",
+			["DUEL"]="un minijuego de duelo",
+			["REQUEST"]="pide una partida de \7PONG",
+			["START"]="empieza una partida de \7\"SONIC RUN\"",
+			["ACCEPT"]="acepta el reto de \7PONG\0!",
+			["WAIT"]="Esperando a que el rival acepte...",
+			["SPECTATING"]="Espectando un duelo...",
+			["BORED"]="Aburrido?",
+			["PONGBALL"]="Los espectadores pueden cambiar la direccion de la pelota"
+		},["HUD_YOU"]="TU",
+		["HUD_WINNERS"]="Ganadores:",
+		["HUD_WON"]="ganaron!",
+		["HUD_WINS"]="Ganan",
+		["HUD_WIN"]={
+			"EMPATE!",
+			"\5ASESINOS",
+			"\3CIVILES"
+		},["HUD_PAST"]="PASADO",
+		["HUD_FUTURE"]="FUTURO"
 	},["FR"]={ --French by Troplucky
 		["VERSION"]="1.0-ALPHA",
 		["AUTHOR"]="Troplucky",
@@ -362,12 +569,13 @@ MM.text={
 			"\x80".."est eliminer"
 		},["SHERI_KILLED"]={
 			"\x84Sheriff\x87",
-			"\x80".."a ete assassiner! Trouver leur\x84 Emeraulde\x80!",
-			"\x80".."a ete assassiner!"
+			"\x80".."a ete assassiner!",
+			"Trouver leur\x84 Emeraulde\x80!"
 		},["HERO_KILLED"]={
 			"\x82Hero\x87",
 			"\x80".."a ete assassiner!"
-		},["SHREML_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
+		},["DIED_HAZARD"]="est mort dans un accident",
+		["SHREML_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
 		["INNO_HURT_PM"]={
 			"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (You're no longer a Sheriff)",
 			"Les \x82Heros\x87 ne doivent pas tuer les \x83Innocents\x87. Vous avez la penaliter de morts pour ca."
@@ -473,7 +681,7 @@ MM.text={
 		},["HUD_SNEAKING"]="En Discret...",
 		["HUD_SHOWDOWN"]="Duel Final!",
 		["HUD_MINIGAME"]={
-			["PRESS"]="Appuyear sur\2 CUSTOM3\0 pour",
+			["PRESS"]="Appuyer sur\2 CUSTOM3\0 pour",
 			["LEAVE"]="quitter",
 			["CANCEL"]="annulez",
 			["SPECTATE"]="Regarder",
@@ -500,8 +708,7 @@ MM.text={
 		["MMHELP_CMD"]={
 			"Dla scrollingu wci\x9Cnij klawisz\xEA \7JUMP\0/\7SPIN\0, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \7Nast.\0/\7Poprz. bro\xF1\0",
 			"\7ESC\0 - wyj\x9C\xE6 z menu pomocy"
-		},
-		["MMHELP"]={
+		},["MMHELP"]={
 			{
 				"\7Witaj w Tajemnicy Morderstw!\n\7Interpretacji popularnej gry multiplayer w SRB2!\0\n",
 				"Celem gry jest znalezienie i wyeliminowanie wszystkich \5Morderc\xF3w\0 zanim zabij\xB9\3 wszystkich\0. Ten typ gry jest jak MATCH wi\xEA".."c musisz potrafi\xE6 strzela\xE6.",
@@ -563,12 +770,13 @@ MM.text={
 			"\x80zostal wyeliminowany!"
 		},["SHERI_KILLED"]={
 			"\x84Szeryf\x87",
-			"\x80zostal zamordowany! Znajdz zgubiony \x84Szmaragd Szeryfa\x80!",
-			"\x80zostal zamordowany!"
+			"\x80zostal zamordowany!",
+			"Znajdz zgubiony \x84Szmaragd Szeryfa\x80!"
 		},["HERO_KILLED"]={
 			"\x82".."Bohater\x87",
 			"\x80zostal zamordowany!"
 		},
+		["DIED_HAZARD"]="zginal(ela) w nieszczesnym wypadku",
 		["SHREML_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
 		["INNO_HURT_PM"]={
 			"\x87Zamordowales \x83Niewinnego\x87! Nie jestes juz \x84Szeryfem\x87!",
@@ -694,8 +902,7 @@ MM.text={
 			"REMIS!",
 			"\5M\xD3RDERCY",
 			"\3CYWILE"
-		},
-		["HUD_PAST"]="PRZESZLO\x8CC6",
+		},["HUD_PAST"]="PRZESZLO\x8CC6",
 		["HUD_FUTURE"]="PRZYSZLO\x8CC6"
 	},["RU"]={
 		["VERSION"]="1.0-ALPHA",
@@ -767,15 +974,15 @@ MM.text={
 			"\x80ustranyon"
 		},["SHERI_KILLED"]={
 			"\x84Sherif\x87",
-			"\x80".."byl ubit! Naydite yego(yo)\x84 Izumrud\x80!",
-			"\x80".."byl ubit!"
+			"\x80".."byl ubit!",
+			"Naydite yego(yo)\x84 Izumrud\x80!"
 		},["HERO_KILLED"]={
 			"\x82Geroy\x87",
 			"\x80".."byl ubit!"
-		},
+		},["DIED_HAZARD"]="popal(a), kuda ne sledovalo",
 		["SHREML_PICK"]="Kto-to podobral \x84Izumrud Sherifa\x80...",
 		["INNO_HURT_PM"]={
-			"\x87Ty ubil(-a) \x83Nevinnogo\x87! Uvolen(-a)! (Ty bolshe ne Sherif)",
+			"\x87Ty ubil(a) \x83Nevinnogo\x87! Ty bolshe ne Sherif!",
 			"\x82Geroi\x87 ne sozdany, chtob ubivat' \x83Nevinnyh\x87. Za eto budet otvetnaya smert'."
 		},["INNO_HURT"]={
 			"\x84Sherif\x80 ubil \x83Nevinnogo\x80! Nado poruchit' delo komu-to drugomu!",
@@ -855,7 +1062,7 @@ MM.text={
 			"\xCCC5\xD0D2\xC2C5\xD6" --MERTWEC
 		},["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --Naparniki
 		["HUD_KILLBY"]="\xD3E1\xE8F2\xFB", --Ubity
-		["HUD_STUPID"]="\xD3E1\xE8F2\xFB \xF2F3\xEFEE\xF1F2\xFCFE", --Washej tupostiu
+		["HUD_STUPID"]="\xE2E0\xF8E5\xE9 \xF2F3\xEFEE\xF1F2\xFCFE", --washej tupostiu
 		["HUD_SCORESTAB"]={
 			"\xC5F1\xEBE8 \xC2FB \xEDEE\xE2E8\xF7B8\xEA \xE2 \xFDF2\xEEEC \xF0E5\xE6E8\xECE5, \xEFF0\xEEEF\xE8F8\xE8F2\xE5",
 			"\xE2 \xEAEE\xEDF1\xEEEB\xE8 \xEAEE\xECE0\xEDE4\xF3 \7MMHELP\0 \xE4EB\xFF",
@@ -877,8 +1084,7 @@ MM.text={
 		},["HUD_ALONE"]={
 			"\xC4EB\xFF \xEDE0\xF7E0\xEBE0 \xE8E3\xF0FB \xF2F0\xE5E1\xF3E5\xF2F1\xFF \xECE8\xEDE8\xECF3\xEC\4 2 \xE8E3\xF0EE\xEAE0\0.",
 			"\xCFEE\xE6E0\xEBF3\xE9F1\xF2E0, \xEFEE\xE4EE\xE6E4\xE8F2\xE5 \4\xE5F9\xB8 \xEEE4\xEDEE\xE3EE \xE8E3\xF0EE\xEAE0\0."
-		},
-		["HUD_SNEAKING"]="\xCFEE\xE4EA\xF0E0\xE4FB\xE2E0\xEDE8\xE5...",
+		},["HUD_SNEAKING"]="\xCFEE\xE4EA\xF0E0\xE4FB\xE2E0\xEDE8\xE5...",
 		["HUD_SHOWDOWN"]="\xCFEE\xE5E4\xE8ED\xEEEA \xF1F3\xE4FC\xE1FB!",
 		["HUD_MINIGAME"]={
 			["PRESS"]="\xCDE0\xE6EC\xE8F2\xE5 \2CUSTOM3\0, \xF7F2\xEEE1\xFB",
@@ -973,12 +1179,13 @@ MM.text={
 			"\x80olduruldu"
 		},["SHERI_KILLED"]={
 			"\x84Serif\x87",
-			"\x80olduruldu! Onun\x84 Zumrut\x80'unu bulun!",
-			"\x80olduruldu!"
+			"\x80olduruldu!",
+			"Onun\x84 Zumrut\x80'unu bulun!"
 		},["HERO_KILLED"]={
 			"\x82Kahraman\x87",
 			"\x80olduruldu!"
-		},["SHREML_PICK"]="Birisi \x84Serif'in Zumrut\x80'unu aldi...",
+		},["DIED_HAZARD"]="kazada oldu",
+		["SHREML_PICK"]="Birisi \x84Serif'in Zumrut\x80'unu aldi...",
 		["INNO_HURT_PM"]={
 			"\x87Sen oldurdun bir \x83Masum\x87! Kovuldun. (Artik bir serif degilsin)",
 			"\x82Kahramanlar\x87, \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin olum cezasi aldiniz."
@@ -1017,8 +1224,8 @@ MM.text={
 			"\x1F1F\x1FFF\xFFFF\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\x1F\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F"
 		},["BMP_SUSPECTS_INFO"]={yoff=2},
 		["BMP_SUSPECTS"]={
-			"\xFFFF\xFFFF\xFFFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1F",
-			"\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F",
+			"\xFFFF\xFFFF\xFFFF\xFFFF\xFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1F",
+			"\xFFFF\xFFFF\xFFFF\xFFFF\xFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F",
 			"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFFIIIII\x1FFF\xFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIII\x1F",
 			"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1F",
 			"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1F",
@@ -1045,8 +1252,8 @@ MM.text={
 			"\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F"
 		},["BMP_RINGS_INFO"]={yoff=2},
 		["BMP_RINGS"]={
-			"\xFFFF\xFFFF\xFFFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1FFFII\x1F",
-			"\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F",
+			"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1FFFII\x1F",
+			"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1F",
 			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIII\x1F",
 			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1F",
 			"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\x1F1F\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1F",
@@ -1112,7 +1319,8 @@ MM.text={
 			"BERABERE!",
 			"\5KAT\xDDLLER",
 			"\3MASUMLAR"
-		}
+		},["HUD_PAST"]="Ge\xE7mi\xFE",
+		["HUD_FUTURE"]="Gelecek"
 	},["UA"]={ -- Ukrainian by LeonardoTheMutant
 		--text made entirely from HEX characters is harder to maintain than you think, especially when you come back to edit it
 		["VERSION"]="1.0-ALPHA",
@@ -1178,12 +1386,13 @@ MM.text={
 			"\x80".."eliminowanyj!"
 		},["SHERI_KILLED"]={
 			"\x84Sheryf\x87",
-			"\x80wbytyj! Znajdit' zagublenyj \x84Smaragd Sheryfa\x80!",
-			"\x80wbytyj!"
+			"\x80wbytyj!",
+			"Znajdit' zagublenyj \x84Smaragd Sheryfa\x80!"
 		},["HERO_KILLED"]={
 			"\x82Geroj\x87",
 			"\x80wbytyj!"
-		},["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
+		},["DIED_HAZARD"]="zagynuw(la) u neschasnomu wypadku",
+		["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
 		["INNO_HURT_PM"]={
 			"\x87Wy wbyly \x83Newynnogo\x87! Was zwil'neno! (Ty bil'she ne Sheryf)",
 			"\x82Geroji\x87 ne majut' prawa wbywaty \x83Newynnych\x87! Was zasudzheno na \x8Fsmert'\x80 za wash zlochyn!"

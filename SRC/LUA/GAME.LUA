@@ -128,8 +128,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		if (not PlayerCount(ROLE_MURDERER))
 			MM_EndRound(WIN_CIVILS, "WIN", WIN_CIVILS)
 		else
-			MM_ChatprintGlobal("MURD_KILLED", vp.name)
-			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) died") end
+			MM_ChatprintGlobal("MURD_DIED", vp.name)
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) has died in an accident") end
 		end
 	elseif (vp.role == ROLE_SHERIFF)
 		if (ap)
@@ -142,19 +142,19 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		if (PlayerCount(ROLE_INNOCENT))
 			if (spawnBodyOrEmerald)
 				MM_SpawnSHREML(v.x, v.y, v.z)
-				MM_ChatprintGlobal("SHERI_KILLED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
+				MM_ChatprintGlobal("SHERI_DIED_DROP", vp.name)
+				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
 			else
 				if (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
-					MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
-					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+					MM_ChatprintGlobal("SHERI_DIED", vp.name)
+					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accicent") end
 				else
 					MM_EndRound(1, "WIN", WIN_NODEFENDERS)
 				end
 			end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
-			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
-			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+			MM_ChatprintGlobal("SHERI_DIED", vp.name)
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident") end
 		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
@@ -169,8 +169,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
-			MM_ChatprintGlobal("HERO_KILLED", vp.name)
-			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+			MM_ChatprintGlobal("HERO_DIED", vp.name)
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) has died in an accident") end
 		end
 	elseif (vp.role == ROLE_INNOCENT)
 		if (ap)
@@ -231,7 +231,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_EndRound(WIN_CIVILS, "WIN", WIN_CIVILS)
 		else
 			MM_ChatprintGlobal("MURD_KILLED", vp.name)
-			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) died") end
+			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 		end
 	elseif (vp.role == ROLE_SHERIFF)
 		if (MM_AreTeammates(vp, ap))
@@ -243,10 +243,10 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 
 		if (PlayerCount(ROLE_INNOCENT))
 			MM_SpawnSHREML(v.x, v.y, v.z)
-			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
+			MM_ChatprintGlobal("SHERI_KILLED_DROP", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
-			MM_ChatprintGlobal("SHERI_KILLED_NODROP", vp.name)
+			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)

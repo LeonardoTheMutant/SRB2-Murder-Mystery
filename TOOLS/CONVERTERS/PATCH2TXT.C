@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 	for (uint32_t row = 0; row < patchHeight; row++)
 	{
 		for (uint32_t column = 0; column < patchWidth; column++) printf("%X ", currPixel);
-		printf("\n"); //debug
+		printf("\n");
 	}
 	*/
 
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 
 	fclose(outputfile); //output file close
 
-	printf("\nOutput written to ./OUTPUT.LUA\n");
+	printf("Output written to ./OUTPUT.LUA\n");
 
     return 0;
 }
