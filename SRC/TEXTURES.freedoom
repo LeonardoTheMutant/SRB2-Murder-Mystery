@@ -725,6 +725,11 @@ WallTexture "LITEBLU4", 16, 128
 	Patch "BLITC0", 8, 0
 }
 
+WallTexture "MARBLE1", 128, 128
+{
+	Patch "MWALL1_1", 0, 0
+}
+
 WallTexture "METAL", 64, 128
 {
 	Patch "WALL47_1", 0, 0
