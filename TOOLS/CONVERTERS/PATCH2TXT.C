@@ -160,14 +160,8 @@ int main(int argc, char *argv[])
 				hexWritten = 0;
 			} else {
 				//compression disabled or non-convertable symbol, write in HEX format
-				if (!(hexWritten % 2)) //Writing an 8-bit Escape Code
-				{
-					if (currPixel < 0x10) fprintf(outputfile, "\\x0%X", currPixel); //add missing zero for numbers 0-15
-					else fprintf(outputfile, "\\x%X", currPixel);
-				} else { //We are allowed to write another value to make a 16-bit code
-					if (currPixel < 0x10) fprintf(outputfile, "0%X", currPixel); //add missing zero for numbers 0-15
-					else fprintf(outputfile, "%X", currPixel);
-				}
+				if (!(hexWritten % 2)) fprintf(outputfile, "\\x%02X", currPixel); //Writing an 8-bit Escape Code
+				else fprintf(outputfile, "%02X", currPixel); //We are allowed to write another value to make a 16-bit code
 				hexWritten++;
 			}
 		}

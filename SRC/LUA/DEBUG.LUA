@@ -70,17 +70,6 @@ if (MM.devbuild)
 		p.debugcolor=0
 	end)
 
-	local function num2hex(int)
-		if (int<10) return int
-		elseif (int==10) return "A"
-		elseif (int==11) return "B"
-		elseif (int==12) return "C"
-		elseif (int==13) return "D"
-		elseif (int==14) return "E"
-		elseif (int==15) return "F"
-		end
-	end
-
 	addHook("PlayerThink", function(p)
 		if (not p.debugdrawer) return end
 		if (p.cmd.buttons&BT_SPIN)
@@ -102,8 +91,8 @@ if (MM.devbuild)
 		local patchName
 		for row=-1, 7 do
 			for column=-1,15  do
-				if (row==-1) and (column>-1) v.drawString(16+(column*16),0,num2hex(column))
-				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*16),num2hex(row+8))
+				if (row==-1) and (column>-1) v.drawString(16+(column*16),0,string.format("%X",column))
+				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*16),string.format("%X",row+8))
 				elseif ((column>-1) and (row>-1))
 					patchNum=((row+8)*16)+column
 					if (patchNum<10) patchName="00"..patchNum

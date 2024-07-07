@@ -67,44 +67,44 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	--Color codes in "MM string format" are ranged from 0 to 15 (ASCII) and do not support translucency
 
-	--For more details read /SRC/DOCS/MM_String_Format.md
+	--For more details read /SRC/DOCS/MM_HUD_Library.md
 	["MMHELP_CMD"]={
-		"Use \7JUMP\0/\7SPIN\0 to scroll, \7Next\0/\7Prev Weapon\0 to switch pages",
-		"Press \7FIRE\0 to leave HELP"
+		"Use \23JUMP\16/\23SPIN\16 to scroll, \23Next\16/\23Prev Weapon\16 to switch pages",
+		"Press \23FIRE\16 to leave HELP"
 	},
 	["MMHELP"]={ --MMHELP command
 		{ --MAIN
-			"\7Welcome to Murder Mystery!",
-			"\7The SRB2 interpretation of the \7popular \7multiplayer \7game!\0\n",
-			"The game's goal is to find and eliminate all the \5Murderers\0 before they kill\3 everyone else\0. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
+			"\23Welcome to Murder Mystery!",
+			"\23The SRB2 interpretation of the \23popular \23multiplayer \23game!\16\n",
+			"The game's goal is to find and eliminate all the \21Murderers\16 before they kill\19 everyone else\16. This gametype is more like MATCH so you will need your aiming and shooting skills for this gametype.",
 			"You need to learn some basics first before you can start playing...",
-			"\nAt the beginning of each round you will get a \11Role\0 which defines what your task is during the game. Here are all 3 possible \11Roles\0 you might get:",
-			" * \5Murderer\0 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings;",
-			" * \4Sheriff\0  - Their task is to find and eliminate the \5Murderer(s)\0. Sheriffs may use every Weapon Ring available on the map;",
-			" * \3Innocent\0 - Completely armless civilian, they must avoid being killed but also can help to find the \5Murderer\0.",
+			"\nAt the beginning of each round you will get a \27Role\16 which defines what your task is during the game. Here are all 3 possible \27Roles\16 you might get:",
+			" * \21Murderer\16 - A true criminal. They have to kill everyone, but they are equipped only with Knives and Red Rings;",
+			" * \20Sheriff\16  - Their task is to find and eliminate the \21Murderer(s)\16. Sheriffs may use every Weapon Ring available on the map;",
+			" * \19Innocent\16 - Completely armless civilian, they must avoid being killed but also can help to find the \21Murderer\16.",
 			"\nThat is all basic information required to start playing, for more information, read this manual to the end."
 		},
 		--GAME
 		{
-			"\7".."About the gameplay situations\0\n",
-			"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \5Murderer(s)\0, but different gameplay situations may occur:",
-			"\n* If you get killed, you'll enter the\15 Dead\0 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\15 Dead\0 players.",
-			"You can't talk to/PM players who are still alive while you are\15 Dead\0.",
-			"Also\2 DO \2NOT \2TRY \2TO \2RENAME \2YOURSELF\0, more details on this are on the next page.",
-			"\n* The \4Sheriff's\0 task is to eliminate all the \5Murderers\0 around, but they can accidentally shoot an \3Innocent\0.",
-			"If this occurs, the \4Sheriff\0 will turn into an \3Innocent\0 and a random \3Innocent\0 will silently take his role. Next time you want to shoot somebody as a \4Sheriff\0 think twice before pulling that trigger!",
-			"\n* When a \5Murderer\0 kills a \4Sheriff\0 and there are still \3Innocents\0 alive, the Sheriff will drop the \4Sheriff's Emerald\0 near their corpse.",
-			"Unlike the 7 Chaos Emeralds, this emerald will assign the \2Hero\0 role to any \3Innocent\0 that picks it up. If you're one of the \3Innocents\0, it's your chance to be a Hero and save everyone from the \5Murderer(s)\0!",
-			"The \2Hero\0 role does not differ from the \4Sheriff\0 except for some details such as when the \2Hero\0 kills an \3Innocent\0 their role isn't shared and both just die. A Hero will not drop a \4Sheriff's \4Emerald\0 on their death.",
-			"\n* Depending on the player count, there can be more than one \5Murderer\0 and \4Sheriff\0 amongst the players in the round. For example, starting from 7 players and more, \11Teams\0 of \5Murderers\0 and \4Sheriffs\0 will be formed.",
-			"\11Teammates\0 can chat with each other in their team chat with the \7SAYTEAM\0 console command (note that SAYTEAM chat button will work as same as regular chat).",
-			"If one \11teammate\0 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
+			"\23".."About the gameplay situations\16\n",
+			"As explained earlier in the basics, the goal for the Sheriffs is to eliminate all the \21Murderer(s)\16, but different gameplay situations may occur:",
+			"\n* If you get killed, you'll enter the\31 Dead\16 stat Players with this state cannot respawn or talk globally to players that are still alive, their messages are visible only to other\31 Dead\16 players.",
+			"You can't talk to/PM players who are still alive while you are\31 Dead\16.",
+			"Also\18 DO \18NOT \18TRY \18TO \18RENAME \18YOURSELF\16, more details on this are on the next page.",
+			"\n* The \20Sheriff's\16 task is to eliminate all the \21Murderers\16 around, but they can accidentally shoot an \19Innocent\16.",
+			"If this occurs, the \20Sheriff\16 will turn into an \19Innocent\16 and a random \19Innocent\16 will silently take his role. Next time you want to shoot somebody as a \20Sheriff\16 think twice before pulling that trigger!",
+			"\n* When a \21Murderer\16 kills a \20Sheriff\16 and there are still \19Innocents\16 alive, the Sheriff will drop the \20Sheriff's Emerald\16 near their corpse.",
+			"Unlike the 7 Chaos Emeralds, this emerald will assign the \18Hero\16 role to any \19Innocent\16 that picks it up. If you're one of the \19Innocents\16, it's your chance to be a Hero and save everyone from the \21Murderer(s)\16!",
+			"The \18Hero\16 role does not differ from the \20Sheriff\16 except for some details such as when the \18Hero\16 kills an \19Innocent\16 their role isn't shared and both just die. A Hero will not drop a \20Sheriff's \20Emerald\16 on their death.",
+			"\n* Depending on the player count, there can be more than one \21Murderer\16 and \20Sheriff\16 amongst the players in the round. For example, starting from 7 players and more, \27Teams\16 of \21Murderers\16 and \20Sheriffs\16 will be formed.",
+			"\27Teammates\16 can chat with each other in their team chat with the \23SAYTEAM\16 console command (note that SAYTEAM chat button will work as same as regular chat).",
+			"If one \27teammate\16 hits another teammate, both will get a personalized warning that will make them know each other. Remember that others can see your 'friendly' interaction and realize who you are!"
 		},
 		--BAD
 		{
-			"\7Things that are bad to do in Murder \7Mystery\0\n",
-			"Rule No.1 of any game: \1Be kind and \1have \1fun!\0 Other than this...",
-			"\n* Self-spoiling of the \11Role\0 will not make the game a \'Mystery\' (even if you are joking), you can tell someone else's role if you are sure of it, but never tell your own.",
+			"\23Things that are bad to do in Murder \23Mystery\16\n",
+			"Rule No.1 of any game: \18Be kind and \18have \18fun!\16 Other than this...",
+			"\n* Self-spoiling of the \27Role\16 will not make the game a \'Mystery\' (even if you are joking), you can tell someone else's role if you are sure of it, but never tell your own.",
 			"\n* Do not insult other players, jokes are allowed but only in a friendly mood. No one will trust you if you accuse every player for no reason.",
 			"\n* Being AFK is a war crime. Bombs will be dropped and you will cease to exist if you stand still for too long.",
 			"\n* Do not rename yourself during a round while you are dead, doing this will kick you from the server. You can rename yourself if you are alive. Just wait for the intermission to rename safely.",
@@ -112,15 +112,15 @@ local language={ --Language must be a table variable, you can name the variable 
 		},
 		--TIPS
 		{
-			"\7Useful tips\0\n",
+			"\23Useful tips\16\n",
 			"We've collected some tips that can help you during your game in MM:",
-			"\n* If character abilities are disabled by admin, press \2SPIN\0 to sneak around quietly without leaving traces or making noise;",
-			"\n* When you pick up the \4Sherrif's \4Emerald\0, you will have access to all the weapons and rings you collected beforehand;",
-			"\n* Finding out who your \11teammate\0 is by using the \7SAYTEAM\0 command would help as it would make you avoid shooting them and accidentally making you reveal your role;",
+			"\n* If character abilities are disabled by admin, press \18SPIN\16 to sneak around quietly without leaving traces or making noise;",
+			"\n* When you pick up the \20Sherrif's \20Emerald\16, you will have access to all the weapons and rings you collected beforehand;",
+			"\n* Finding out who your \27teammate\16 is by using the \23SAYTEAM\16 command would help as it would make you avoid shooting them and accidentally making you reveal your role;",
 			"\n* You can get hurt by obstacles like lava, spikes, fire to gain invincibility for 3 seconds;",
 			"\n* Try to look for a hiding spot in a map. Sometimes it helps to get rid of unwanted publicity;",
-			"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \1Keep \1in \1mind \1that \1your \1rename \1will \1be \1shown \1in \1chat\0;",
-			"\n*\2 FIRENORMAL\0 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
+			"\n* If your role gets leaked, you can rename yourself and/or change the skin color. \18Keep \18in \18mind \18that \18your \18rename \18will \18be \18shown \18in \18chat\16;",
+			"\n*\18FIRENORMAL\16 button allows you to use the Knife anywhere as long as you have rings (Innocents do not have a knife). Also, a Knife does not produce an attack sound if you sneak."
 		}
 	},
 
@@ -314,12 +314,12 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Scores TAB screen
 	["HUD_SCORESTAB"]={
-		"If you're new to the gametype use \7MMHELP\0 ",
+		"If you're new to the gametype use \23MMHELP\16 ",
 		"command in the Console for help and",
-		"\7MMLANG\0 to change the language here",
+		"\23MMLANG\16 to change the language here",
 		"",
 		"",
-		"\2Have Fun!"
+		"\18Have Fun!"
 	},
 
 	-- Scores TAB screen role counters
@@ -331,20 +331,20 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Centered text when you're dead
 	["HUD_DEAD"]={
-		"You are\15 dead",
+		"You are\31 dead",
 		"You can't respawn or talk to",
 		"people who aren't dead."
 	},
 
 	-- Centered text when you joined
 	["HUD_MIDJOIN"]={
-		"You joined \4mid-game\0, please wait for this round to finish."
+		"You joined \20mid-game\16, please wait for this round to finish."
 	},
 
 	-- Centered text when you are alone
 	["HUD_ALONE"]={
-		"\4".."2 players\0 are required for the game,",
-		"Please wait for \4one more\0 player to start"
+		"\20".."2 players\16 are required for the game,",
+		"Please wait for \20one more\16 player to start"
 	},
 
 	--Sneaking
@@ -355,14 +355,14 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	--minigame stuff
 	["HUD_MINIGAME"]={
-		["PRESS"]="Press\2 CUSTOM3\0 to", --must contain MM escape color codes
+		["PRESS"]="Press\18 CUSTOM3\16 to", --must contain MM escape color codes
 		["LEAVE"]="leave",
 		["CANCEL"]="cancel",
 		["SPECTATE"]="spectate",
 		["DUEL"]="a minigame duel",
-		["REQUEST"]="request a \7PONG\0 minigame", --must contain MM escape color codes
-		["START"]="start a \7\"SONIC RUN\"\0 minigame", --must contain MM escape color codes
-		["ACCEPT"]="accept the \7PONG\0 challenge!", --must contain MM escape color codes
+		["REQUEST"]="request a \23PONG\16 minigame", --must contain MM escape color codes
+		["START"]="start a \23\"SONIC RUN\"\16 minigame", --must contain MM escape color codes
+		["ACCEPT"]="accept the \23PONG\16 challenge!", --must contain MM escape color codes
 		["WAIT"]="Waiting for the rival to accept...",
 		["SPECTATING"]="Spectating a duel...",
 		["BORED"]="Bored?",
@@ -374,8 +374,8 @@ local language={ --Language must be a table variable, you can name the variable 
 	["HUD_WINNERS"]="Winners:",
 	["HUD_WIN"]={
 		"TIE!",
-		"\5MURDERERS", --must contain MM escape color code
-		"\3CIVILIANS" --must contain MM escape color code
+		"\21MURDERERS", --must contain MM escape color code
+		"\19CIVILIANS" --must contain MM escape color code
 	},
 	
 	-- Time Travel stuff

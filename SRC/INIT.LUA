@@ -14,11 +14,11 @@ rawset(_G, "MM", {
 		"\x8F" --Dead
 	},
 	RoleColorHUD = {
-		"\5", --Murderer
-		"\4", --Sheriff
-		"\3", --Innocent
-		"\2", --Hero
-		"\15" --Dead
+		"\21", --Murderer
+		"\20", --Sheriff
+		"\19", --Innocent
+		"\18", --Hero
+		"\31" --Dead
 	},
 	hud = { --variables that control the HUD renderer
 		game = { --Main Game HUD

@@ -12,7 +12,7 @@ MM_MurderMystery_v1.0-ALPHA.pk3
 |
 +-DEV_DOCS-\
 |          +-List_of_Func_and_Const.md - Documentation of functions and constants
-|          \-MM_String_Format.md - Documentation of "Murder Mystery string format"
+|          \-MM_HUD_Library.md - Documentation of the "Murder Mystery HUD library"
 |
 +-LUA-\
 |     |

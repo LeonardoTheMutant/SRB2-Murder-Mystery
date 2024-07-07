@@ -5,16 +5,16 @@
 -- Code for MMHELP and MMLANG console comands
 
 local tech_info = {
-	"\7SRB2 Murder Mystery\0",
-	"Version\1 "..MM.version.."\0 ("..MM.releasedate..")",
-	"by \2\"SRB2 MM_DEV team\"\0",
+	"\7SRB2 Murder Mystery\16",
+	"Version\17 "..MM.version.."\16 ("..MM.releasedate..")",
+	"by \18\"SRB2 MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\1 10.1-BETA\0:",
+	"\nChanges from\17 10.1-BETA\16:",
 	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
-	"\4Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\0\n",
-	"\6GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\0\n",
-	"\11Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\0\n"
+	"\20Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\16\n",
+	"\22GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\16\n",
+	"\27Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\16\n"
 }
 
 local function helpCMD(p, page)
@@ -211,7 +211,7 @@ hud.add(function(v, p)
 	local color = v.getStringColormap(0) --default to white color
 	local chr, strchar, stringToRender, wordWrapTemp
 		
-	v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_F"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_10"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
 		
 	for i=-3,3
 		v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
@@ -226,31 +226,31 @@ hud.add(function(v, p)
 		for charID = 1, stringToRender:len() do
 			chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-			if (chr<100) strchar = "0"..chr --make the number to be 3 digit
+			if (chr < 100) then strchar = "0"..chr --make the number to be 3 digit
 			else strchar = chr end
 
-			--characters from 0x00 to 0x0f set the color
-			if (chr<16) color = v.getStringColormap(chr*4096) end
+			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
+			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr*4096) end
 
 			--print the character
-			if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --Extended ASCII
+			if (chr > 0x7F) --Extended ASCII
 				if (v.patchExists(charset..strchar))
 					v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				else --unknown symbol, print "?"
 					v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
-			elseif ((chr > 32) and (chr < 127)) --Standart ASCII (printable symbols)
+			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
 				v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
 			--position shifting for the next character
-			if (chr>=16) cx = $ + 1 end --make place for the next non-color character
+			if (chr > 0x1F) then cx = $ + 1 end --make place for the next non-color character
 		end
 
 		--line is drawn, prepare everything for the next one
 		cx = 0
 		cy = $ + 1
-		if (cy >= scrnRows) break end --Trying to draw out of screen bounds, stop rendering here
+		if (cy >= scrnRows) then break end --Trying to draw out of screen bounds, stop rendering here
 	end
 
 	--scroll bar

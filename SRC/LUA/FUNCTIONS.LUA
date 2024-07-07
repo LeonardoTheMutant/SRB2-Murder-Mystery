@@ -347,7 +347,6 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, fontsize)
 		return
 	end
 
-
 	--set the characer encoding
 	local charset = chrset or "STCFN"
 
@@ -365,37 +364,42 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, fontsize)
 	--text
 	local color = v.getStringColormap(0) --default to white color
 
-	--character X position
+	--character position
 	local cx = x
+	local cy = y
 
 	--init variables
 	local chr
 	local strchar --the string version of the char number
 	
 	--draw the string
-	for i = 1,#str
+	for i = 1,#str do
 		chr = string.byte(str:sub(i,i)) --numeric value of the single character
 		
-		if (chr < 100) strchar = "0"..chr --make the number to be 3 digit
+		if (chr < 100) then strchar = "0"..chr --make the number to be 3 digit
 		else strchar = chr end
 
-		--characters from 0x00 to 0x0f set the color
-		if (chr < 16) color = v.getStringColormap(chr*4096) end
+		--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
+		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16)*4096) end
 
 		--print the character
-		if (((chr >= 16) and (chr < 32)) or (chr >= 128)) --is symbol from Extended ASCII range?
+		if (chr > 0x7F) --symbol is from the Extended ASCII range
 			if (v.patchExists(charset..strchar)) --Extended ASCII
-				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch(charset..strchar), flg, color)
-			else --unknown symbol, print "?"
-				v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN063"), flg, color)
+				v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch(charset..strchar), flg, color)
+			else --unknown symbol/patch not found, print "?"
+				v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch("STCFN063"), flg, color)
 			end
-		elseif (chr > 32) and (chr < 128) --Standart ASCII (printable symbols)
-			v.drawScaled(FU*cx, FU*y, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
+		elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
+			v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
 		end
 
-		--shift X position for the next character
-		if (chr == 32) cx = $ + spaceSize --space has a different character width
-		elseif (chr >= 16) and (chr != 32) cx = $ + width end --it's a regular character
+		--shift position for the next character
+		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
+		elseif (chr > 0x20) then cx = $ + width --it's a regular character
+		elseif (chr == 0x0A) --newline
+			cx = x
+			cy = $ + 8
+		end
 	end
 end)
 
@@ -406,7 +410,7 @@ rawset(_G, "V_ConvertStringColor", function(str)
 	local chr
 	for i = 1, #str
 		chr = string.byte(str:sub(i,i))
-		if (chr >= 128) strng[i] = string.char((chr%0x80)%0x10)
+		if (chr >= 128) then strng[i] = string.char(((chr % 0x80) % 0x10) + 0x0F)
 		else strng[i] = str:sub(i,i) end
 	end
 	return table.concat(strng)
@@ -419,7 +423,7 @@ rawset(_G, "V_ConvertStringColor2", function(str)
 	local chr
 	for i = 1, #str
 		chr = string.byte(str:sub(i,i))
-		if (chr < 16) strng[i] = string.char(chr + 0x80)
+		if ((chr >= 16) and (chr < 32)) then strng[i] = string.char((chr - 0x0F) + 0x80)
 		else strng[i] = str:sub(i,i) end
 	end
 	return table.concat(strng)
@@ -442,18 +446,18 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, fontsize)
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg & 3072) spaceSize = 8 --V_MONOSPACE
-	elseif (flg & 1024) spaceSize = 6 end --V_6WIDTHSPACE
+	if (flg & 3072) then spaceSize = 8 --V_MONOSPACE
+	elseif (flg & 1024) then spaceSize = 6 end --V_6WIDTHSPACE
 	--scale for different font sizes
-	if (fontsize < FU) spaceSize = $/(FU/fontsize)
-	elseif (fontsize > FU) spaceSize = $*(fontsize/FU) end
+	if (fontsize < FU) then spaceSize = $/(FU/fontsize)
+	elseif (fontsize > FU) then spaceSize = $*(fontsize/FU) end
 
 	local char
 
-	for i = 1,#str
-		char=string.byte(str:sub(i, i)) --character number
-		if (char > 16) --character should be not a MM color code
-			if (char == 32) pixelLen = $ + spaceSize --space
+	for i = 1,#str do
+		char = string.byte(str:sub(i, i)) --character number
+		if (char < 0x10) or (char > 0x1F) --character should be not a MM color code
+			if (char == 32) then pixelLen = $ + spaceSize --space
 			else pixelLen = $ + width end --regular character
 		end
 	end
@@ -483,7 +487,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.drawFill((x - xoff + (column - 1)), (y - yoff + (row - 1)), 1, 1, pixelColor|flg) --draw it
+				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), v.cachePatch("PIXEL_"..string.format("%02X", pixelColor)), flg) --draw it
 			end
 		end
 	end
@@ -532,7 +536,7 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 	local width = 0
 
 	for row = 1, #patch do
-		if (#patch[row] > width) width = #patch[row] end
+		if (#patch[row] > width) then width = #patch[row] end
 	end
 
 	return width
