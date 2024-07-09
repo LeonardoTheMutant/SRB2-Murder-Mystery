@@ -4,8 +4,11 @@
 -- Script responcible for time traveling in MM maps
 
 --freeslots
-freeslot("MT_TIMESIGN_P", "MT_TIMESIGN_F", "SPR_TMSN", "S_TIMESIGN_P", "S_TIMESIGN_F", "S_TIMESIGN_SPIN")
+freeslot("MT_TIMESIGN_P", "MT_TIMESIGN_F", "SPR_TMSN", "S_TIMESIGN_P", "S_TIMESIGN_F")
+freeslot("S_TIMESIGN_P_SPIN1", "S_TIMESIGN_P_SPIN2", "S_TIMESIGN_P_SPIN3", "S_TIMESIGN_P_SPIN4", "S_TIMESIGN_P_SPIN5", "S_TIMESIGN_P_SPIN6", "S_TIMESIGN_P_SPIN7")
+freeslot("S_TIMESIGN_F_SPIN1", "S_TIMESIGN_F_SPIN2", "S_TIMESIGN_F_SPIN3", "S_TIMESIGN_F_SPIN4", "S_TIMESIGN_F_SPIN5", "S_TIMESIGN_F_SPIN6", "S_TIMESIGN_F_SPIN7")
 
+--Sign declarations
 mobjinfo[MT_TIMESIGN_P]={
 	doomednum = 36,
 	spawnstate = S_TIMESIGN_P,
@@ -31,11 +34,93 @@ states[S_TIMESIGN_F] = {
 	nextstate = S_TIMESIGN_F
 	
 }
-states[S_TIMESIGN_SPIN] = {
+
+--Past Sign Spin
+states[S_TIMESIGN_P_SPIN1] = {
 	sprite = SPR_TMSN,
 	frame = C,
-	tics = -1,
-	nextstate = S_TIMESIGN_SPIN
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN2
+}
+states[S_TIMESIGN_P_SPIN2] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN3
+}
+states[S_TIMESIGN_P_SPIN3] = {
+	sprite = SPR_TMSN,
+	frame = E,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN4
+}
+states[S_TIMESIGN_P_SPIN4] = {
+	sprite = SPR_TMSN,
+	frame = F,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN5
+}
+states[S_TIMESIGN_P_SPIN5] = {
+	sprite = SPR_TMSN,
+	frame = C,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN6
+}
+states[S_TIMESIGN_P_SPIN6] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN7
+}
+states[S_TIMESIGN_P_SPIN7] = {
+	sprite = SPR_TMSN,
+	frame = A,
+	tics = 1,
+	nextstate = S_TIMESIGN_P
+}
+
+--Future Sign Spin
+states[S_TIMESIGN_F_SPIN1] = {
+	sprite = SPR_TMSN,
+	frame = C,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN2
+}
+states[S_TIMESIGN_F_SPIN2] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN3
+}
+states[S_TIMESIGN_F_SPIN3] = {
+	sprite = SPR_TMSN,
+	frame = E,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN4
+}
+states[S_TIMESIGN_F_SPIN4] = {
+	sprite = SPR_TMSN,
+	frame = G,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN5
+}
+states[S_TIMESIGN_F_SPIN5] = {
+	sprite = SPR_TMSN,
+	frame = C,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN6
+}
+states[S_TIMESIGN_F_SPIN6] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_F_SPIN7
+}
+states[S_TIMESIGN_F_SPIN7] = {
+	sprite = SPR_TMSN,
+	frame = E,
+	tics = 1,
+	nextstate = S_TIMESIGN_F
 }
 
 --Time Zone constants
@@ -164,14 +249,16 @@ end)
 addHook("MobjThinker", function(mo)
 	if (gametype != GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_PAST) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
+		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_PAST) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
 			found.player.timetravel.timesign = TWS_PAST
 			S_StartSound(found.player.mo, sfx_cdpcm1, found.player)
-			ref.spinning = 1
+			ref.spinning = 8
 		end
 	end, mo)
-	
-	if (mo.spinning)
+
+	if (mo.spinning) and (mo.state == S_TIMESIGN_P)
+		mo.state = S_TIMESIGN_P_SPIN1
+		mo.spinning = $ - 1
 	end
 end, MT_TIMESIGN_P)
 
@@ -179,13 +266,15 @@ end, MT_TIMESIGN_P)
 addHook("MobjThinker", function(mo)
 	if (gametype != GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_FUTURE) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
+		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_FUTURE) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
 			found.player.timetravel.timesign = TWS_FUTURE
 			S_StartSound(found.player.mo, sfx_cdpcm0, found.player)
-			ref.spinning = 1
+			ref.spinning = 8
 		end
 	end, mo)
-	
-	if (mo.spinning)
+
+	if (mo.spinning) and (mo.state == S_TIMESIGN_F)
+		mo.state = S_TIMESIGN_F_SPIN1
+		mo.spinning = $ - 1
 	end
 end, MT_TIMESIGN_F)
