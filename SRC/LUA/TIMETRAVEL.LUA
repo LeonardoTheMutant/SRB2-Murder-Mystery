@@ -32,7 +32,6 @@ states[S_TIMESIGN_F] = {
 	frame = B,
 	tics = -1,
 	nextstate = S_TIMESIGN_F
-	
 }
 
 --Past Sign Spin
@@ -176,7 +175,7 @@ addHook("PlayerSpawn", function(p)
 		p.timetravel = nil
 		return
 	end
-	p.timetravel = {timezone = TIMEZONE_PRESENT, timesign = TWS_NONE, warptimer = 0, warping = 0, spark = 0}
+	p.timetravel = {timezone = TIMEZONE_PRESENT, timesign = TWS_NONE, warptimer = 0, spark = 0}
 end)
 
 addHook("PlayerThink", function(p)
@@ -186,13 +185,9 @@ addHook("PlayerThink", function(p)
 		if (p.speed >= 2949120) --45*FU
 			p.timetravel.warptimer = $ + 1
 			P_SpawnMobjFromMobj(p.mo,0,0,0,MT_SUPERSPARK) --Time Warp trail
-			--if you move fast for 2 seconds and more you enter the warping substate
-			if (p.timetravel.warptimer >= 70)
-				p.timetravel.warping = $ + 1
-			end
 			
 			--Time Warp itself
-			if ((p.timetravel.warping >= 70))
+			if ((p.timetravel.warptimer >= 140))
 				if (p.timetravel.timesign == TWS_PAST) --warping to the more Past stage
 					if (p.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
 						p.timetravel.timezone = TIMEZONE_PRESENT
@@ -223,21 +218,17 @@ addHook("PlayerThink", function(p)
 				S_StartSound(p.mo, sfx_mixup, p)
 				p.timetravel.timesign = TWS_NONE
 				p.timetravel.warptimer = 0
-				p.timetravel.warping = 0
 			end
 		else
-			p.timetravel.warptimer = 0
 			--if you lost speed while being in warping substate you lose your "Warp Ticket"
-			if (p.timetravel.warping)
-				p.timetravel.timesign = TWS_NONE
-				p.timetravel.warping = 0
-			end
+			if (p.timetravel.warptimer >= 70) then p.timetravel.timesign = TWS_NONE end
+			p.timetravel.warptimer = 0
 		end
 	end
 	
-	--reduce spark level after time warp
+	--reduce spark opacity after time warp
 	if (p.timetravel.spark and (leveltime % 8 == 0))
-		p.timetravel.spark = $ + 1
+		p.timetravel.spark = $ + 1 --increasing the translucenty level
 		if (p.timetravel.spark >= 10) p.timetravel.spark = 0 end
 	end
 end)

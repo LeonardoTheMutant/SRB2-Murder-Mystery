@@ -149,7 +149,7 @@ hud.add(function(v, p)
 	end
 	
 	--Time Warp Sign ("Warp ticket")
-	if (p.timetravel and (not p.spectator) and not (p.timetravel.warping & 1))
+	if (p.timetravel) and (not p.spectator) and ((p.timetravel.warptimer < 70) or ((p.timetravel.warptimer >= 70) and (not (p.timetravel.warptimer & 1))))
 		if (p.timetravel.timesign and (p.timetravel.timesign == 1)) --Past
 			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), v.cachePatch("TWS_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		elseif (p.timetravel.timesign and (p.timetravel.timesign == 2)) --Future

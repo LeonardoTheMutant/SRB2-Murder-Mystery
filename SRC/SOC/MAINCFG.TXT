@@ -130,6 +130,7 @@ LevelName = East City
 SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
+SkyNum = 300
 TypeOfLevel = MurderMystery
 Lua.TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
 Lua.TimeTravel_ShiftY = 0

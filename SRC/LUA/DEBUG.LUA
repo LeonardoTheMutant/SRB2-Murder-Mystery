@@ -42,7 +42,7 @@ if (MM.devbuild)
 	COM_AddCommand("mmtimewarp", function(p, direction, shift)
 		if (gamestate!=GS_LEVEL) or (not p.mo) or (not p.mo.valid) return end
 		if (not direction)
-			CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [1/2 (optinal)]")
+			CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [true/false (optinal)]")
 			return
 		end
 		local ShiftX
@@ -59,7 +59,7 @@ if (MM.devbuild)
 		else ShiftY2 = 0 end
 		local sign
 		if (direction=="-") sign=-1 else sign=1 end
-		if (shift) P_MoveOrigin(p.mo, p.mo.x + ShiftX2*sign, p.mo.y + ShiftY2*sign, p.mo.z)
+		if ((shift) and (shift!="false")) P_MoveOrigin(p.mo, p.mo.x + ShiftX2*sign, p.mo.y + ShiftY2*sign, p.mo.z)
 		else P_MoveOrigin(p.mo, p.mo.x + ShiftX*sign, p.mo.y + ShiftY*sign, p.mo.z) end
 	end)
 
