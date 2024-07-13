@@ -152,7 +152,6 @@ Time Zone constants tell in what timezone the player (or an object) is existing 
 
 | Constant               | Value | Description      |
 | ---------------------- | ----- | ---------------- |
-| `TIMEZONE_NONE`        | 0     | Timezone not set |
 | `TIMEZONE_PAST`        | 1     | Past             |
 | `TIMEZONE_PRESENT`     | 2     | Present          |
 | `TIMEZONE_FUTURE_BAD`  | 3     | Bad Future       |

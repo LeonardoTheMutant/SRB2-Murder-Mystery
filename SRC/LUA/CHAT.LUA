@@ -106,7 +106,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
 
 			for p in players.iterate do
-				if (gamestate != GS_GAME) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
+				if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
 					chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m)
 					S_StartSound(nil, sfx_radio, p)
 				end

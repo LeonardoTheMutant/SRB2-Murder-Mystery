@@ -181,9 +181,9 @@ hud.add(function(v, p)
 	
 	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 	if (p.timetravel and p.timetravel.timezone) and (not p.spectator)
-		if (p.timetravel.timezone == 1) --Past
+		if (p.timetravel.timezone == TIMEZONE_PAST) --Past
 			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
-		elseif (p.timetravel.timezone > 2) --One of the Futures
+		elseif (p.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
 			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		end
 	end
@@ -458,8 +458,8 @@ hud.add(function(v)
 	end
 
 	--white time warp spark effect
-	if (p.timetravel and p.timetravel.spark)
-		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_00"), ((p.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	if (consoleplayer.timetravel and consoleplayer.timetravel.spark)
+		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_00"), ((consoleplayer.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug

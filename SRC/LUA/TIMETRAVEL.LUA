@@ -122,18 +122,6 @@ states[S_TIMESIGN_F_SPIN7] = {
 	nextstate = S_TIMESIGN_F
 }
 
---Time Zone constants
-rawset(_G, "TIMEZONE_NONE", 0)
-rawset(_G, "TIMEZONE_PAST", 1)
-rawset(_G, "TIMEZONE_PRESENT", 2)
-rawset(_G, "TIMEZONE_FUTURE_BAD", 3)
-rawset(_G, "TIMEZONE_FUTURE_GOOD", 4)
-
---Time Warp Sign values
-rawset(_G, "TWS_NONE", 0)
-rawset(_G, "TWS_PAST", 1)
-rawset(_G, "TWS_FUTURE", 2)
-
 local TimeTravel_ShiftX
 local TimeTravel_ShiftY
 local TimeTravel_ShiftX2

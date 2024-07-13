@@ -146,9 +146,9 @@ hud.add(function(v, p)
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 		if (p.timetravel and p.timetravel.timezone)
-			if (p.timetravel.timezone == 1) --Past
+			if (p.timetravel.timezone == TIMEZONE_PAST) --Past
 				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
-			elseif (p.timetravel.timezone > 2) --One of the Futures
+			elseif (p.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
 				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 			end
 		end

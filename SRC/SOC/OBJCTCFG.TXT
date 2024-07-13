@@ -5,6 +5,7 @@ S_KMMDEAD
 S_AMMDEAD
 S_FMMDEAD
 S_MMMDEAD
+S_MMSKELT
 S_MMSTEP
 SPR_SDED
 SPR_TDED
@@ -12,8 +13,9 @@ SPR_KDED
 SPR_ADED
 SPR_FDED
 SPR_MDED
+SPR_SKEL
 SPR_STEPA0
-MT_SHREML
+MT_MMKNIFE
 MT_MMSTEP
 MT_DEADPLR
 
@@ -63,6 +65,13 @@ spriteframe = A
 DURATION = -1
 next = S_MMMDEAD
 
+#Laying skeleton
+state S_MMSKELT
+spritename = SPR_SKEL
+spriteframe = A
+DURATION = -1
+next = S_MMSKELT
+
 #State for footstep mark
 State S_MMSTEP
 SpriteName = SPR_STEPA0
@@ -74,6 +83,21 @@ Next = S_NULL
 # OBJECTS
 #
 
+#Knife weapon
+Object MT_MMKNIFE
+spawnhealth = 1000
+spawnstate = S_SPRK1
+radius = FU
+height = FU
+flags = 528 #MF_NOGRAVITY|MF_NOBLOCKMAP
+
+#Footstep mark
+Object MT_MMSTEP
+SpawnState = S_MMSTEP
+SpawnHealth = 1
+Height = 1
+Flags = 512 #MF_NOGRAVITY
+
 #Dead player body
 Object MT_DEADPLR
 spawnstate = S_MMMDEAD
@@ -81,10 +105,3 @@ reactiontime = 8
 radius = 2097152 #32*FU
 height = 1
 mass = 16
-
-#Footstep mark
-Object MT_MMSTEP
-SpawnState = S_MMSTEP
-SpawnHealth = 1
-Height = 1
-Flags = 512 #nogravity

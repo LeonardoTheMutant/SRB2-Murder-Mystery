@@ -68,6 +68,10 @@ rawset(_G, "MM", {
 	}
 })
 
+--
+-- CONSTANTS
+--
+
 --Role constants
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
@@ -81,6 +85,17 @@ rawset(_G, "WIN_CIVILS", 2)
 rawset(_G, "WIN_SHERIKILLINNO", 3)
 rawset(_G, "WIN_HEROKILLINNO", 4)
 rawset(_G, "WIN_NODEFENDERS", 5)
+
+--Time Zone constants
+rawset(_G, "TIMEZONE_PAST", 1)
+rawset(_G, "TIMEZONE_PRESENT", 2)
+rawset(_G, "TIMEZONE_FUTURE_BAD", 3)
+rawset(_G, "TIMEZONE_FUTURE_GOOD", 4)
+
+--Time Warp Sign values
+rawset(_G, "TWS_NONE", 0)
+rawset(_G, "TWS_PAST", 1)
+rawset(_G, "TWS_FUTURE", 2)
 
 --Customization API
 MM.AddLang = function(langID,langTbl)
@@ -121,11 +136,10 @@ CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_On
 --
 --MM startup init
 --
-print("\x87MURDER MYSTERY v"..MM.version)
-print("\x83".."Beginning of the \x87Murder Mystery\x83 loading...")
+print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE')
+freeslot('TOL_MURDERMYSTERY', 'MT_SHREML')
 --Various SFX
 freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_MMDTH7', 'SFX_DAMFLL', 'SFX_ALDI')
 
@@ -151,15 +165,6 @@ mobjinfo[MT_SHREML]={
 	reactiontime = 8,
 	mass = 16,
 	speed = EMERALD3
-}
-
---Knife weapon
-mobjinfo[MT_MMKNIFE] = {
-	spawnhealth = 1000,
-	spawnstate = S_SPRK1,
-	radius = FU,
-	height = FU,
-	flags = MF_NOGRAVITY|MF_NOBLOCKMAP
 }
 
 --
@@ -201,7 +206,7 @@ dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
 
-print("\x83Murder Mystery loaded succesfuly\nNote that this is WORK IN PROGRESS GAMETYPE and everything you see in this version can be completely changed in the future!\n\x85Please DO NOT TALK or POST ABOUT this gametype on any Message Board or forum, we would like to keep this in Mystery until release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThank you")
+print("\x83Murder Mystery add-on loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)")
 --
 --end of startup init
 --

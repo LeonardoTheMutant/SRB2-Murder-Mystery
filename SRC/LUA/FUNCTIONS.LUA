@@ -140,6 +140,42 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	end
 end)
 
+rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
+	if ((timezone1 == TIMEZONE_PAST) and (timezone2 >= TIMEZONE_PAST)) or ((timezone1 == TIMEZONE_PRESENT) and (timezone2 >= TIMEZONE_PRESENT)) return true
+	elseif (timezone1 == TIMEZONE_FUTURE_BAD) and (timezone2 == TIMEZONE_FUTURE_BAD) return true
+	elseif (timezone1 == TIMEZONE_FUTURE_GOOD) and (timezone2 == TIMEZONE_FUTURE_GOOD) return true
+	end
+end)
+
+--Skeleton Body spawn (exclusive for MAPKD ("East City"))
+rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
+	local ShiftX
+	local ShiftY
+	local ShiftX2
+	local ShiftY2
+	if (mapheaderinfo[gamemap].timetravel_shiftx) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX = tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
+	else ShiftX = 0 end
+	if (mapheaderinfo[gamemap].timetravel_shifty) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY = tonumber(mapheaderinfo[gamemap].timetravel_shifty)
+	else ShiftY = 0 end
+	if (mapheaderinfo[gamemap].timetravel_shiftx2) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)) ShiftX2 = tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)
+	else ShiftX2 = 0 end
+	if (mapheaderinfo[gamemap].timetravel_shifty2) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty2)) ShiftY2 = tonumber(mapheaderinfo[gamemap].timetravel_shifty2)
+	else ShiftY2 = 0 end
+
+	if (ShiftX) or (ShiftY)
+		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
+			if MM_IsTimelineCorrect(t, timezone)
+				local body = P_SpawnMobjFromMobj(p, ShiftX, ShiftY, 0, MT_DEADPLR)
+				body.state = S_MMSKELT
+			end
+		end
+	end
+	if ((ShiftX2) or (ShiftY2)) and (MM_IsTimelineCorrect(t, TIMEZONE_FUTURE_GOOD))
+		local body = P_SpawnMobjFromMobj(p, ShiftX2, ShiftY2, 0, MT_DEADPLR)
+		body.state = S_MMSKELT
+	end
+end)
+
 rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T)
 	if ((not p) or (not p.player)) error("MM_KillPlayerByPlayer() argument #1: player's mobj_t expected") end
 	if ((not k) or (not k.player)) error("MM_KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
@@ -153,6 +189,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	k.player.kills = $ + 1
 	if (not k.player.sneak) P_PlayDeathSound(p) end
 
+	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
 	if (p.skin == "tails") body.state = S_TMMDEAD
 	elseif (p.skin == "knuckles") body.state = S_KMMDEAD
@@ -161,6 +198,8 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
 	else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
 	body.color = p.color
+
+	if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
 
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
 end)
@@ -182,6 +221,8 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
 		else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
 		body.color = p.color
+
+		if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
 	end
 
 	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
@@ -300,13 +341,6 @@ rawset(_G, "MM_SetRandomInnoAs", function(role)
 	p.roleflicker = 70
 	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", p.role))
 	return
-end)
-
-rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
-	if ((timezone1 == TIMEZONE_PAST) and (timezone2 >= TIMEZONE_PAST)) or ((timezone1 == TIMEZONE_PRESENT) and (timezone2 >= TIMEZONE_PRESENT)) return true
-	elseif (timezone1 == TIMEZONE_FUTURE_BAD) and (timezone2 == TIMEZONE_FUTURE_BAD) return true
-	elseif (timezone1 == TIMEZONE_FUTURE_GOOD) and (timezone2 == TIMEZONE_FUTURE_GOOD) return true
-	end
 end)
 
 rawset(_G, "MM_PunishPlayer", function(p, msg, ban) --player (player_t), punishment message (string), ban instead of kick? (boolean)
