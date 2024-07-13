@@ -36,7 +36,7 @@ if (MM.devbuild)
     end)
     --Spawn Sheriff's Emerald at player's position
     COM_AddCommand("mmshreml", function(p)
-		MM_SpawnSHREML(p.realmo.x, p.realmo.y, p.realmo.z)
+		MM_SpawnSHREML(p.realmo.x, p.realmo.y, p.realmo.z, p)
     end)
 	--Warp between different time zones manually
 	COM_AddCommand("mmtimewarp", function(p, direction, shift)

@@ -10,6 +10,15 @@ local afkCVAR = CV_FindVar("mm_afk")
 local mmtimelimitCVAR = CV_FindVar("mm_timelimit")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 
+local function MM_GetSHREMLinterval(dist)
+	if (dist < 256) return 5
+	elseif (dist < 512) return 10
+	elseif (dist < 1024) return 20
+	elseif (dist < 2048) return 30
+	elseif (dist < 4096) return 35
+	else return 0 end
+end
+
 addHook("MapLoad", function(map)
 	if (gametype != GT_MURDERMYSTERY) return end
 	--Prepare players & server for the new round
@@ -141,7 +150,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 
 		if (PlayerCount(ROLE_INNOCENT))
 			if (spawnBodyOrEmerald)
-				MM_SpawnSHREML(v.x, v.y, v.z)
+				MM_SpawnSHREML(v.x, v.y, v.z, vp)
 				MM_ChatprintGlobal("SHERI_DIED_DROP", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
 			else
@@ -200,7 +209,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		else
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 			if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (not PlayerCount(ROLE_INNOCENT)))
-				MM_EndRound(1, "WIN", WIN_MURD)
+				MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 			end
 		end
 	end
@@ -242,7 +251,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 
 		if (PlayerCount(ROLE_INNOCENT))
-			MM_SpawnSHREML(v.x, v.y, v.z)
+			MM_SpawnSHREML(v.x, v.y, v.z, vp)
 			MM_ChatprintGlobal("SHERI_KILLED_DROP", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
@@ -267,7 +276,9 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 	elseif (vp.role == ROLE_INNOCENT)
 		MM_KillPlayerByPlayer(v, a)
-		if (ap.role == ROLE_SHERIFF)
+		if ((ap.role == ROLE_MURDERER) and not PlayerCount(ROLE_INNOCENT))
+			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
+		elseif (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 			-- otherwise, Murderers win
 			if (PlayerCount(ROLE_INNOCENT))
@@ -336,7 +347,7 @@ addHook("PlayerThink", function(p)
 		p.mo.flags = $ & ~MF_NOGRAVITY
 	end
 
-	--the game automatically removes the spectator flag if the player dies by map hazard (which lets him respawn)
+	--the game automatically removes the spectator flag if the player dies by map hazard (which lets him respawn), we don't want that to happen
 	if (p.killedby == "your stupidity") p.spectator = true end
 
 	--role flickering timer
@@ -353,7 +364,7 @@ addHook("PlayerThink", function(p)
 		--find the distance to the closest emerald
 		local shreml_dist = {}
 		for emeraldID = 1, #MM.shremls do
-			if (MM.shremls[emeraldID].valid)
+			if (MM.shremls[emeraldID].valid) and (MM.shremls[emeraldID].timezone and (MM.shremls[emeraldID].timezone == p.timetravel.timezone))
 				table.insert(shreml_dist, #shreml_dist, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremls[emeraldID].x, p.mo.y - MM.shremls[emeraldID].y), p.mo.z - MM.shremls[emeraldID].z))
 			end
 		end
@@ -409,7 +420,7 @@ addHook("MusicChange", function(old, new)
     if (gametype != GT_MURDERMYSTERY) return end
 
 	--Showdown Duel music
-	if ((gamestate == GS_LEVEL) and (MM.shwdwn)) return MM.shwdwn end
+	if ((gamestate == GS_LEVEL) and (MM.shwdwn) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime])) return MM.shwdwn end
 
 	--Intermission theme
 	if (new == "_inter")

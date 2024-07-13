@@ -13,6 +13,26 @@ local IAMvocabluary ={
 	{"HERO"} --"...Hero"
 }
 
+local function chatcolor2textcolor(c)
+	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) return "\x80"
+	elseif (c == V_MAGENTAMAP) return "\x81"
+	elseif (c == V_YELLOWMAP) return "\x82"
+	elseif (c == V_GREENMAP) return "\x83"
+	elseif (c == V_BLUEMAP) return "\x84"
+	elseif (c == V_REDMAP) return "\x85"
+	elseif (c == V_GRAYMAP) return "\x86"
+	elseif (c == V_ORANGEMAP) return "\x87"
+	elseif (c == V_SKYMAP) return "\x88"
+	elseif (c == V_PURPLEMAP) return "\x89"
+	elseif (c == V_AQUAMAP) return "\x8a"
+	elseif (c == V_PERIDOTMAP) return "\x8b"
+	elseif (c == V_AZUREMAP) return "\x8c"
+	elseif (c == V_BROWNMAP) return "\x8d"
+	elseif (c == V_ROSYMAP) return "\x8e"
+	elseif (c == V_INVERTMAP) return "\x8f"
+	end
+end
+
 --SAYDEAD command - Say to the Dead Chat as Dedicated server
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	--get the message string
@@ -64,6 +84,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 		if (type == 0)
 			--"I am [role]" chat protection
 			--string.find() works horribly here
+			/*
 			if (PlayerCount() > 2) and (not MM.twopgame) and (mmsafechat.value) and (gamestate == GS_LEVEL)
 				for i,k in pairs(IAMvocabluary[1]) do
 					if (m:upper():find(k))
@@ -76,6 +97,21 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 					end
 				end
 			end
+			*/
+			local chatcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
+
+			--Admin/Verified badges
+			local badge = ""
+			if (s == server) badge = "\x82~"..chatcolor
+			elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
+
+			for p in players.iterate do
+				if (gamestate != GS_GAME) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
+					chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m)
+					S_StartSound(nil, sfx_radio, p)
+				end
+			end
+			return true
 		elseif (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
 			if (m:sub(1,1) == "%") then m = $:sub(2) end
 			for p in players.iterate

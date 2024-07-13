@@ -10,6 +10,19 @@ local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
 
+local function wep2rw(wep) --convert WEP_* constant to RW_* constant
+	return 2^(wep - 1)
+end
+
+local function V_GetSHREMLiconID(dist)
+	if (dist < 256) return 6
+	elseif (dist < 512) return 5
+	elseif (dist < 1024) return 4
+	elseif (dist < 2048) return 3
+	elseif (dist < 4096) return 2
+	else return 1 end
+end
+
 --
 -- Main game HUD
 --
@@ -158,7 +171,7 @@ hud.add(function(v, p)
 	end
 
 	--Life icon, player name and role
-	v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+	v.drawScaled((hudinfo[HUD_LIVES].x*FU), (hudinfo[HUD_LIVES].y*FU), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|V_PERPLAYER|v.localTransFlag())
 
 	--Show your role
@@ -362,8 +375,9 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82".."KILLS: \x80"..p.kills, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82".."CHATDELAY: \x80"..p.chatdelay, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."ROLEFLICKER: \x80"..p.roleflicker, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREML_DIST: \x81"..tostring(p.shreml_dist), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."MMWEAPONDELAY: \x80"..p.mmweapondelay, V_PERPLAYER, "thin")
+		if (p.shreml_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREML_DIST: \x81"..p.shreml_dist.." "..fixint(p.shreml_dist), V_PERPLAYER, "thin")
+		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREML_DIST: \x81nil", V_PERPLAYER, "thin") end
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."PLAYERSTATE: \x80"..p.playerstate, V_PERPLAYER, "thin")
 	end
@@ -405,7 +419,7 @@ hud.add(function(v)
 			if (consoleplayer == p) continue end
 			if (MM_AreTeammates(consoleplayer, p))
 				--character icon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136*(teammateNo >> 1)))*FU, (MM.hud.scores.pos.teammateInfo.y + (16*(teammateNo % 2)))*FU, 32768, v.getSprite2Patch(p.realmo.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136*(teammateNo >> 1)))*FU, (MM.hud.scores.pos.teammateInfo.y + (16*(teammateNo % 2)))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 				--player name (colored as role)
 				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + (16*(teammateNo % 2))), MM.RoleColor[p.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
 				--icon of the currently held weapon
@@ -441,6 +455,11 @@ hud.add(function(v)
 	--"Sheriff's Emerald is available!"
 	if ((#MM.shremls) and (leveltime & 1))
 		v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3"), v.localTransFlag()) --8*FU, 184*FU, FU/2
+	end
+
+	--white time warp spark effect
+	if (p.timetravel and p.timetravel.spark)
+		v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_00"), ((p.timetravel.spark - 1)*FU)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug

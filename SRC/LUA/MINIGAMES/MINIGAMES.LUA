@@ -6,6 +6,16 @@
 --
 -- PONG MINIGAME
 --
+local function MM_Get2Players()
+	if (PlayerCount() != 2) return false end
+	local plrs = {}
+	for p in players.iterate
+		plrs[#plrs + 1] = p
+		if (#plrs == 2) break end
+	end
+	return plrs
+end
+
 local function PONG_PlaySFX(sfx)
     for p in players.iterate do if (p.minigame) then S_StartSound(nil, sfx, p) end end
 end

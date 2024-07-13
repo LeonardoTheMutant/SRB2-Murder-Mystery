@@ -291,7 +291,7 @@ rawset(_G, "MM_CheckShowdown", function()
 end)
 
 rawset(_G, "MM_SetRandomInnoAs", function(role)
-	local plrs={}
+	local plrs = {}
 	for plr in players.iterate
 		if (not plr.spectator) and (plr.role == ROLE_INNOCENT) table.insert(plrs, #plr) end
 	end
@@ -300,15 +300,6 @@ rawset(_G, "MM_SetRandomInnoAs", function(role)
 	p.roleflicker = 70
 	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", p.role))
 	return
-end)
-
-rawset(_G, "MM_GetSHREMLinterval", function(dist)
-	if (dist < 256) return 5
-	elseif (dist < 512) return 10
-	elseif (dist < 1024) return 20
-	elseif (dist < 2048) return 30
-	elseif (dist < 3072) return 35
-	else return 0 end
 end)
 
 rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
@@ -542,52 +533,6 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 	return width
 end)
 
-rawset(_G, "wep2rw", function(wep) --convert WEP_* constant to RW_* constant
-	return 2^(wep - 1)
-end)
-
-rawset(_G, "V_GetSHREMLiconID", function(dist)
-	if (dist < 256) return 6
-	elseif (dist < 512) return 5
-	elseif (dist < 1024) return 4
-	elseif (dist < 2048) return 3
-	elseif (dist < 3072) return 2
-	else return 1 end
-end)
-
---
---WEAPONS.LUA
---
--- A port of P_DrainWeaponAmmo() from C source code with MM modifications
-rawset(_G, "P_DrainWeaponAmmo", function(p, weapon)
-	p.powers[weapon] = $ - 1
-
-	if (p.rings < 1)
-		p.ammoremovalweapon = p.currentweapon;
-		p.ammoremovaltimer  = ammoremovaltics;
-
-		if (p.powers[weapon] > 0) -- can't take a ring that doesn't exist
-			p.powers[weapon] = $ - 1
-			p.ammoremoval = 2
-		else
-			p.ammoremoval = 1
-		end
-	else
-		P_GivePlayerRings(p, -1)
-	end
-end)
-
--- A port of P_SetWeaponDelay() from C source code
-rawset(_G, "P_SetWeaponDelay", function(p, delay)
-	p.mmweapondelay = delay;
-
-	if (p.skin == 2) -- Knuckles
-		-- Multiply before dividing.
-		-- Loss of precision can make a surprisingly large difference.
-		p.mmweapondelay = ($*2)/3
-	end
-end)
-
 --
 --MINIGAME.LUA
 --
@@ -619,20 +564,13 @@ end)
 --
 --GLOBAL
 --
-rawset(_G, "MM_Get2Players", function()
-	if (PlayerCount() != 2) return false end
-	local plrs = {}
-	for p in players.iterate
-		plrs[#plrs + 1] = p
-		if (#plrs == 2) break end
-	end
-	return plrs
-end)
 
 --spawn Sheriff Emerald
-rawset(_G, "MM_SpawnSHREML", function(x, y, z)
-	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREML(int x, int y, int z)") end
-	table.insert(MM.shremls, (#MM.shremls + 1), P_SpawnMobj(x ,y, z, MT_SHREML))
+rawset(_G, "MM_SpawnSHREML", function(x, y, z, p)
+	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREML(int x, int y, int z, [player_t player])") end
+	local mo = P_SpawnMobj(x ,y, z, MT_SHREML)
+	if (p and p.timetravel and p.timetravel.timezone) mo.timezone = p.timetravel.timezone end
+	table.insert(MM.shremls, (#MM.shremls + 1), mo)
 end)
 
 -- Returns the height of the sector floor at (x, y)

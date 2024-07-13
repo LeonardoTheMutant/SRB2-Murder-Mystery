@@ -167,17 +167,17 @@ mobjinfo[MT_MMKNIFE] = {
 --
 
 --Death sounds
-sfxinfo[sfx_mmdth1].caption="\x19 Good Night"
-sfxinfo[sfx_mmdth2].caption="Killed"
-sfxinfo[sfx_mmdth3].caption="Killed"
-sfxinfo[sfx_mmdth4].caption="Killed"
-sfxinfo[sfx_mmdth5].caption="OH NO!"
-sfxinfo[sfx_mmdth6].caption="Pain"
-sfxinfo[sfx_mmdth7].caption="Moonwalker"
+sfxinfo[sfx_mmdth1].caption = "\x19 Good Night"
+sfxinfo[sfx_mmdth2].caption = "Killed"
+sfxinfo[sfx_mmdth3].caption = "Killed"
+sfxinfo[sfx_mmdth4].caption = "Killed"
+sfxinfo[sfx_mmdth5].caption = "OH NO!"
+sfxinfo[sfx_mmdth6].caption = "Pain"
+sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 --for MAPK5 (Dam Zone)
-sfxinfo[sfx_damfll].caption="Falling from the Dam..."
+sfxinfo[sfx_damfll].caption = "Falling from the Dam..."
 --for MAPKD (East City)
-sfxinfo[sfx_aldi].caption="\x19 I AM AT ALDI"
+sfxinfo[sfx_aldi].caption = "\x19 I AM AT ALDI"
 
 
 --Script files init

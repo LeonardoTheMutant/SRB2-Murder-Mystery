@@ -240,7 +240,7 @@ end)
 addHook("MobjThinker", function(mo)
 	if (gametype != GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_PAST) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
+		if (found) and (found.player) and (not found.player.spectator) and (found.player.timetravel.timesign != TWS_PAST) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
 			found.player.timetravel.timesign = TWS_PAST
 			S_StartSound(found.player.mo, sfx_cdpcm1, found.player)
 			ref.spinning = 8
@@ -257,7 +257,7 @@ end, MT_TIMESIGN_P)
 addHook("MobjThinker", function(mo)
 	if (gametype != GT_MURDERMYSTERY) return end
 	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.timetravel.timesign != TWS_FUTURE) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
+		if (found) and (found.player) and (not found.player.spectator) and (found.player.timetravel.timesign != TWS_FUTURE) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
 			found.player.timetravel.timesign = TWS_FUTURE
 			S_StartSound(found.player.mo, sfx_cdpcm0, found.player)
 			ref.spinning = 8
