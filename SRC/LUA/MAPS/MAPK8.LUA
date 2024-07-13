@@ -19,7 +19,7 @@ mobjinfo[MT_8BALL] = {
 states[S_8BALL] = {SPR_8BAL, 0, -1, nil, 0, 0, S_8BALL} -- S_RJETGLOOK1
 
 addHook("MobjThinker", function(ball)
-    if (ball) and (ball.valid)
+    if valid(ball)
 	    if (ball.eflags & MFE_UNDERWATER) A_ZThrust(ball, 1001, 0) end
 	end
 end, MT_8BALL)

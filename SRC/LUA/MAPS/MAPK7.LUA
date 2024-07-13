@@ -50,7 +50,7 @@ addHook("LinedefExecute", function(l,mo,s)
             end
         end
         --now edit the texture of the ray to represent the kill count
-        if (rayControlLine and rayControlLine.valid) rayControlLine.frontside.midtexture = truthTextures[(mo.player.kills % 4) + 1] end
+        if valid(rayControlLine) rayControlLine.frontside.midtexture = truthTextures[(mo.player.kills % 4) + 1] end
         rayTimer = 35
     end
 end,"K7_TRUTH")
@@ -62,7 +62,7 @@ addHook("ThinkFrame", do
         else doortimers[doornum] = $ - 1 end
     end
 	--The Truth Ray reset
-    if (rayControlLine and rayControlLine.valid)
+    if valid(rayControlLine)
         if (not rayTimer) rayControlLine.frontside.midtexture = 4029 --"~015", gray
         else rayTimer = $ - 1 end
     end

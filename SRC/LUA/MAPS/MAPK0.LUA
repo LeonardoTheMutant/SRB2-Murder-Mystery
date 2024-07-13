@@ -2,10 +2,6 @@
 --Level script
 --Map & code by LeonardoTheMutant
 
-freeslot("sfx_doropn", "sfx_dorcls")
-sfxinfo[sfx_doropn].caption="Door open"
-sfxinfo[sfx_dorcls].caption="Door close"
-
 local doorheight
 
 addHook("ThinkFrame", function(m) --finding the Eggman's Room door

@@ -6,7 +6,7 @@
 local MM_ABILITIES = CV_FindVar("mm_abilities")
 
 addHook("PlayerThink", function(p)
-	if (not p.mo) or (not p.mo.valid) return end
+	if (not valid(p.mo)) return end
 	local s = (p.mo.skin or "sonic") -- added an or just incase the game slips
 
 	--Enable skin abilities if the MM_ABILITIES CVAR is enabled OR the gametype is not Murder Mystery
@@ -36,7 +36,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--disable custom skins if the admin did not allow their usage
-	if (gametype == GT_MURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and (p.mo and p.mo.valid) and (#skins[p.mo.skin] > 5)
+	if (gametype == GT_MURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5)
 		CONS_Printf(p, "The Administrator has disabled the use of Custom Skins in the current MM game")
 		R_SetPlayerSkin(p, "sonic")
 	end

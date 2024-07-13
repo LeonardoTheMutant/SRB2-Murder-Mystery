@@ -105,6 +105,7 @@ Functions that are used in more than one script
 | <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code |
 | <code>**isExtendedASCII**(*string* str)</code> | *boolean* | Returns `true` if the <code>str</code> contains a symbol from Extended ASCII Range (`0x80` - `0xFF`) |
 | <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in `str` are from Standart (Printable) ASCII range (`0x20` - `0x7F`) |
+| <code>**valid**(* arg)</code> | *boolean* | Simply checks if both `arg` and `arg.valid` are true |
 
 # Constants
 

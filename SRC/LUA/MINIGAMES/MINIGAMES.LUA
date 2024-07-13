@@ -206,7 +206,7 @@ addHook("ThinkFrame", do
     if (MM.twopgame)
         if (PlayerCount() == 2) MM.duelplrs = MM_Get2Players() end
         if (not MM.duelplrs) return end
-        if ((MM.duelplrs[1]) and (MM.duelplrs[2]) and (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame)) MM.minigame = true
+        if valid((MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame)) MM.minigame = true
         else MM.minigame = 0 end
     end
     if (MM.minigame)
@@ -251,7 +251,7 @@ addHook("PlayerThink", function(p)
             MM.hud.game.enabled = false
             if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
             --Disable player movement (kinda)
-            if ((p.realmo) and (p.realmo.valid))
+            if (valid(p.realmo))
                 p.realmo.momx = 0
                 p.realmo.momy = 0
                 p.realmo.state = S_PLAY_STND

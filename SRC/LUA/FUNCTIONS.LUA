@@ -647,6 +647,10 @@ rawset(_G, "isStandartASCII", function(str)
 	return true
 end)
 
+rawset(_G, "valid", function(arg)
+	return arg and arg.valid
+end)
+
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
 	if (not s) return {} end
 	x = x or 38

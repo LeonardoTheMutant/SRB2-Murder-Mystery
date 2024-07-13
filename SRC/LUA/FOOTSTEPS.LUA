@@ -21,6 +21,7 @@ end
 if not PlayerAnimInfo
 	rawset(_G, "PlayerAnimInfo", {})
 end
+
 sfxinfo[sfx_sowoln].caption="Wood landing"
 sfxinfo[sfx_socoln].caption="Stone landing"
 sfxinfo[sfx_sodiln].caption="Ground landing"
@@ -2273,11 +2274,8 @@ local playeraniminfo={ --only Vanilla characters are left
 for skin, animinfo in pairs(playeraniminfo)
 	PlayerAnimInfo[skin]=animinfo
 end
-local function valid(mo)
-	return mo and mo.valid
-end
 local function reset(player)
-	if player.mo and player.mo.valid
+	if valid(player.mo)
 		player.lastframe=0
 		player.lastanim=nil
 		player.playsound=false

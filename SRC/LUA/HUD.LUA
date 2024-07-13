@@ -229,7 +229,7 @@ hud.add(function(v, p)
 				rival = MM.duelplrs[1]
 			end
 		end
-		if ((rival) and (rival.valid))
+		if valid(rival)
 			if ((not p.minigame) and (not rival.minigame))
 				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
 				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
@@ -351,7 +351,7 @@ hud.add(function(v, p)
 	end
 
 	--Sneaking
-	if ((p.sneak) and (p.mo and p.mo.valid) and P_IsObjectOnGround(p.mo))
+	if ((p.sneak) and valid(p.mo) and P_IsObjectOnGround(p.mo))
 		V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM_GetText(consoleplayer.mmlang, "HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
 	end
 	

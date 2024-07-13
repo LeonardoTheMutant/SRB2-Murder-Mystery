@@ -40,7 +40,7 @@ if (MM.devbuild)
     end)
 	--Warp between different time zones manually
 	COM_AddCommand("mmtimewarp", function(p, direction, shift)
-		if (gamestate!=GS_LEVEL) or (not p.mo) or (not p.mo.valid) return end
+		if (gamestate!=GS_LEVEL) or (not valid(p.mo)) return end
 		if (not direction)
 			CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [true/false (optinal)]")
 			return

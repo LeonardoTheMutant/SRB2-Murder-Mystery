@@ -116,7 +116,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
             P_GivePlayerRings(p, -1)
 
             searchBlockmap("objects", function(ref, fmo)
-                if ((fmo.valid) and (fmo.player) and (fmo.player.valid) and (fmo != ref.target) and (P_AproxDistance(P_AproxDistance(fmo.x - ref.x, fmo.y - ref.y), fmo.z - ref.z) < USERANGE))
+                if ((fmo.valid) and valid(fmo.player) and (fmo != ref.target) and (P_AproxDistance(P_AproxDistance(fmo.x - ref.x, fmo.y - ref.y), fmo.z - ref.z) < USERANGE))
                     P_DamageMobj(fmo, ref, ref.target)
                 end
             end, mo)
@@ -206,7 +206,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 	        if (P_RailThinker(mo)) break end -- mobj was removed (missile hit a wall) or couldn't move
 	    end
 	    -- Other rail sound plays at contact point.
-	    if (mo) and (mo.valid) S_StartSound(mo, sfx_rail2) end
+	    if valid(mo) then S_StartSound(mo, sfx_rail2) end
     end
 end)
 

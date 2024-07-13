@@ -39,7 +39,9 @@ MM_MurderMystery_v1.0-ALPHA.pk3
 |
 \-SOC-\
       +-MAINCFG.TXT  - SOC for maps
-      \-OBJCTCFG.TXT - SOC for some custom objects such as dead bodies
+      +-OBJCTCFG.TXT - SOC for custom objects such as Dead Bodies, Footmark and Knife weapon
+      \-SOUNDCFG.TXT - SOC for sounds (without Footsteps)
+
 
 Other files are either textures or music and do not require an introduction
 

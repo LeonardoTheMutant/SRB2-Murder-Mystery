@@ -140,8 +140,6 @@ print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
 freeslot('TOL_MURDERMYSTERY', 'MT_SHREML')
---Various SFX
-freeslot('SFX_MMDTH1', 'SFX_MMDTH2', 'SFX_MMDTH3', 'SFX_MMDTH4', 'SFX_MMDTH5', 'SFX_MMDTH6', 'SFX_MMDTH7', 'SFX_DAMFLL', 'SFX_ALDI')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -167,23 +165,6 @@ mobjinfo[MT_SHREML]={
 	speed = EMERALD3
 }
 
---
---SFX closed captions
---
-
---Death sounds
-sfxinfo[sfx_mmdth1].caption = "\x19 Good Night"
-sfxinfo[sfx_mmdth2].caption = "Killed"
-sfxinfo[sfx_mmdth3].caption = "Killed"
-sfxinfo[sfx_mmdth4].caption = "Killed"
-sfxinfo[sfx_mmdth5].caption = "OH NO!"
-sfxinfo[sfx_mmdth6].caption = "Pain"
-sfxinfo[sfx_mmdth7].caption = "Moonwalker"
---for MAPK5 (Dam Zone)
-sfxinfo[sfx_damfll].caption = "Falling from the Dam..."
---for MAPKD (East City)
-sfxinfo[sfx_aldi].caption = "\x19 I AM AT ALDI"
-
 
 --Script files init
 dofile("TEXT.LUA")
@@ -206,7 +187,7 @@ dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
 
-print("\x83Murder Mystery add-on loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)")
+print("\n\x83Murder Mystery add-on loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)\n")
 --
 --end of startup init
 --

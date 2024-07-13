@@ -167,7 +167,7 @@ addHook("PlayerSpawn", function(p)
 end)
 
 addHook("PlayerThink", function(p)
-	if ((gametype != GT_MURDERMYSTERY) or (not p.timetravel) or not (p.mo and p.mo.valid)) return end
+	if ((gametype != GT_MURDERMYSTERY) or (not p.timetravel) or (not valid(p.mo))) return end
 	
 	if (p.timetravel.timesign)
 		if (p.speed >= 2949120) --45*FU
