@@ -8,77 +8,24 @@ freeslot("MT_TIMESIGN_P", "MT_TIMESIGN_F", "SPR_TMSN", "S_TIMESIGN_P", "S_TIMESI
 freeslot("S_TIMESIGN_P_SPIN1", "S_TIMESIGN_P_SPIN2", "S_TIMESIGN_P_SPIN3", "S_TIMESIGN_P_SPIN4", "S_TIMESIGN_P_SPIN5", "S_TIMESIGN_P_SPIN6", "S_TIMESIGN_P_SPIN7")
 freeslot("S_TIMESIGN_F_SPIN1", "S_TIMESIGN_F_SPIN2", "S_TIMESIGN_F_SPIN3", "S_TIMESIGN_F_SPIN4", "S_TIMESIGN_F_SPIN5", "S_TIMESIGN_F_SPIN6", "S_TIMESIGN_F_SPIN7")
 
---Sign declarations
-mobjinfo[MT_TIMESIGN_P]={
-	doomednum = 36,
-	spawnstate = S_TIMESIGN_P,
-	radius = 2097152, --32*FU
-	height = 4194304, --64*FU
-}
+--
+-- FUTURE SIGN
+--
 mobjinfo[MT_TIMESIGN_F]={
 	doomednum = 37,
 	spawnstate = S_TIMESIGN_F,
 	radius = 2097152, --32*FU
 	height = 4194304, --64*FU
+	flags = MF_SPECIAL
 }
-states[S_TIMESIGN_P] = {
-	sprite = SPR_TMSN,
-	frame = A,
-	tics = -1,
-	nextstate = S_TIMESIGN_P
-}
+--Idle state
 states[S_TIMESIGN_F] = {
 	sprite = SPR_TMSN,
 	frame = B,
 	tics = -1,
 	nextstate = S_TIMESIGN_F
 }
-
---Past Sign Spin
-states[S_TIMESIGN_P_SPIN1] = {
-	sprite = SPR_TMSN,
-	frame = C,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN2
-}
-states[S_TIMESIGN_P_SPIN2] = {
-	sprite = SPR_TMSN,
-	frame = D,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN3
-}
-states[S_TIMESIGN_P_SPIN3] = {
-	sprite = SPR_TMSN,
-	frame = E,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN4
-}
-states[S_TIMESIGN_P_SPIN4] = {
-	sprite = SPR_TMSN,
-	frame = F,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN5
-}
-states[S_TIMESIGN_P_SPIN5] = {
-	sprite = SPR_TMSN,
-	frame = C,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN6
-}
-states[S_TIMESIGN_P_SPIN6] = {
-	sprite = SPR_TMSN,
-	frame = D,
-	tics = 1,
-	nextstate = S_TIMESIGN_P_SPIN7
-}
-states[S_TIMESIGN_P_SPIN7] = {
-	sprite = SPR_TMSN,
-	frame = A,
-	tics = 1,
-	nextstate = S_TIMESIGN_P
-}
-
---Future Sign Spin
+--Spinning states
 states[S_TIMESIGN_F_SPIN1] = {
 	sprite = SPR_TMSN,
 	frame = C,
@@ -122,12 +69,75 @@ states[S_TIMESIGN_F_SPIN7] = {
 	nextstate = S_TIMESIGN_F
 }
 
+--
+-- PAST SIGN
+--
+mobjinfo[MT_TIMESIGN_P]={
+	doomednum = 36,
+	spawnstate = S_TIMESIGN_P,
+	radius = 2097152, --32*FU
+	height = 4194304, --64*FU
+	flags = MF_SPECIAL
+}
+--Idle state
+states[S_TIMESIGN_P] = {
+	sprite = SPR_TMSN,
+	frame = A,
+	tics = -1,
+	nextstate = S_TIMESIGN_P
+}
+--Spinning states
+states[S_TIMESIGN_P_SPIN1] = {
+	sprite = SPR_TMSN,
+	frame = C,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN2
+}
+states[S_TIMESIGN_P_SPIN2] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN3
+}
+states[S_TIMESIGN_P_SPIN3] = {
+	sprite = SPR_TMSN,
+	frame = E,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN4
+}
+states[S_TIMESIGN_P_SPIN4] = {
+	sprite = SPR_TMSN,
+	frame = F,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN5
+}
+states[S_TIMESIGN_P_SPIN5] = {
+	sprite = SPR_TMSN,
+	frame = C,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN6
+}
+states[S_TIMESIGN_P_SPIN6] = {
+	sprite = SPR_TMSN,
+	frame = D,
+	tics = 1,
+	nextstate = S_TIMESIGN_P_SPIN7
+}
+states[S_TIMESIGN_P_SPIN7] = {
+	sprite = SPR_TMSN,
+	frame = A,
+	tics = 1,
+	nextstate = S_TIMESIGN_P
+}
+
 local TimeTravel_ShiftX
 local TimeTravel_ShiftY
 local TimeTravel_ShiftX2
 local TimeTravel_ShiftY2
 
 addHook("MapLoad", function(map)
+	if (gametype != GT_MURDERMYSTERY) return end
+
 	--Get the lengths between different Time Zones (if map has Time Travel)
 	if (mapheaderinfo[map].timetravel_shiftx) and (tonumber(mapheaderinfo[map].timetravel_shiftx))
 		TimeTravel_ShiftX = tonumber(mapheaderinfo[map].timetravel_shiftx)
@@ -222,38 +232,43 @@ addHook("PlayerThink", function(p)
 end)
 
 --
--- TIME WARP SIGN OBJECTS
+-- SIGN OBJECT LOGIC
 --
---Past
-addHook("MobjThinker", function(mo)
-	if (gametype != GT_MURDERMYSTERY) return end
-	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (not found.player.spectator) and (found.player.timetravel.timesign != TWS_PAST) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
-			found.player.timetravel.timesign = TWS_PAST
-			S_StartSound(found.player.mo, sfx_cdpcm1, found.player)
-			ref.spinning = 8
-		end
-	end, mo)
-
-	if (mo.spinning) and (mo.state == S_TIMESIGN_P)
-		mo.state = S_TIMESIGN_P_SPIN1
-		mo.spinning = $ - 1
-	end
-end, MT_TIMESIGN_P)
 
 --Future
-addHook("MobjThinker", function(mo)
+addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_MURDERMYSTERY) return end
-	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (not found.player.spectator) and (found.player.timetravel.timesign != TWS_FUTURE) and (not ref.spinning) and (P_AproxDistance(found.x - ref.x, found.y - ref.y) < 4194304) and (P_AproxDistance(found.z - ref.z, 0) < 4194304) --64*FU, 64*FU
-			found.player.timetravel.timesign = TWS_FUTURE
-			S_StartSound(found.player.mo, sfx_cdpcm0, found.player)
-			ref.spinning = 8
-		end
-	end, mo)
 
+	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_FUTURE)) and (not special.spinning)
+		toucher.player.timetravel.timesign = TWS_FUTURE
+		S_StartSound(toucher.player.mo, sfx_cdpcm0, toucher.player)
+		special.spinning = 8
+	end
+
+	return true
+end, MT_TIMESIGN_F)
+addHook("MobjThinker", function(mo)
 	if (mo.spinning) and (mo.state == S_TIMESIGN_F)
 		mo.state = S_TIMESIGN_F_SPIN1
 		mo.spinning = $ - 1
 	end
 end, MT_TIMESIGN_F)
+
+--Past
+addHook("TouchSpecial", function(special, toucher)
+	if (gametype != GT_MURDERMYSTERY) return end
+
+	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_PAST)) and (not special.spinning)
+		toucher.player.timetravel.timesign = TWS_PAST
+		S_StartSound(toucher.player.mo, sfx_cdpcm1, toucher.player)
+		special.spinning = 8
+	end
+
+	return true
+end, MT_TIMESIGN_P)
+addHook("MobjThinker", function(mo)
+	if (mo.spinning) and (mo.state == S_TIMESIGN_P)
+		mo.state = S_TIMESIGN_P_SPIN1
+		mo.spinning = $ - 1
+	end
+end, MT_TIMESIGN_P)

@@ -157,12 +157,9 @@ mobjinfo[MT_SHREML]={
 	spawnstate = S_CEMG3,
 	deathstate = S_SPRK1,
 	deathsound = sfx_cgot,
-	spawnhealth = 1000,
 	radius = 1048576, --16*FU
 	height = 1048576, --16*FU
-	reactiontime = 8,
-	mass = 16,
-	speed = EMERALD3
+	flags = MF_SPECIAL
 }
 
 

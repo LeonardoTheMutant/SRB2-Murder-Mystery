@@ -309,25 +309,25 @@ end, MT_PLAYER)
 --
 -- Sheriff's Emerald pickup logic
 --
-addHook("MobjThinker", function(mo)
+addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_MURDERMYSTERY) return end
-	searchBlockmap("objects", function(ref, found)
-		if (found) and (found.player) and (found.player.role==ROLE_INNOCENT) and (P_AproxDistance(P_AproxDistance(found.x - ref.x, found.y - ref.y), found.z - ref.z) < 2097152) --32*FU
-			for emeraldID = 1, #MM.shremls do
-				if ((MM.shremls[emeraldID].x == ref.x) and (MM.shremls[emeraldID].y == ref.y) and (MM.shremls[emeraldID].z == ref.z))
-					table.remove(MM.shremls, emeraldID)
-					P_RemoveMobj(ref)
-					break
-				end
+
+	if (toucher) and valid(toucher.player) and (toucher.player.role == ROLE_INNOCENT)
+		for emeraldID = 1, #MM.shremls do
+			if ((MM.shremls[emeraldID].x == special.x) and (MM.shremls[emeraldID].y == special.y) and (MM.shremls[emeraldID].z == special.z))
+				table.remove(MM.shremls, emeraldID)
+				P_RemoveMobj(special)
+				break
 			end
-			S_StartSound(found.player.mo, sfx_cgot, found.player)
-			found.player.role = ROLE_HERO
-			found.player.roleflicker = 70 --2 secs
-			MM_ChatprintGlobal("SHREML_PICK")
-			MM_CheckShowdown()
-			return true
 		end
-	end, mo)
+		S_StartSound(toucher.player.mo, sfx_cgot, toucher.player)
+		toucher.player.role = ROLE_HERO
+		toucher.player.roleflicker = 70 --2 secs
+		MM_ChatprintGlobal("SHREML_PICK")
+		MM_CheckShowdown()
+	end
+
+	return true
 end, MT_SHREML)
 
 --
