@@ -504,7 +504,6 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	local xoff = xoff or 0 --X offset
 	local yoff = yoff or 0 --Y offset
 	assert(patch, "V_DrawTextPatch() argument #4: patch text data expected")
-	local flg = flags or 0
 
 	local pixelColor
 
@@ -512,7 +511,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), v.cachePatch("PIXEL_"..string.format("%02X", pixelColor)), flg) --draw it
+				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), v.cachePatch("PIXEL_"..string.format("%02X", pixelColor)), flags) --draw it
 			end
 		end
 	end
@@ -566,6 +565,95 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 
 	return width
 end)
+
+rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
+	assert(patch, "V_ShiftTextPatch() argument #1: patch text data expected")
+	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
+
+	local buffer = {}
+
+	for line = 1, #patch do
+		buffer[line] = ""
+		if (side)
+			for i = offset, 1, -1 do
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+			for i = #patch[line], (offset + 1), -1 do
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+		else
+			for i = offset, #patch[line] do
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+			for i = 1, (offset - 1) do
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+		end
+	end
+
+	return buffer
+end)
+
+/*
+rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine, endLine)
+	assert(patch, "V_CropTextPatch() argument #1: patch text data expected")
+	if (startColumn < 0) then error("V_CropTextPatch() argument #2: positive starting column position value expected") end
+	if (endColumn < 0) then error("V_CropTextPatch() argument #3: positive ending column position value expected") end
+	if (startLine < 0) then error("V_CropTextPatch() argument #4: positive starting line position value expected") end
+	if (endLine < 0) then error("V_CropTextPatch() argument #5: positive ending line position value expected") end
+
+	if (not startColumn) then startColumn = 1 end
+	if (not endColumn) then endColumn = 1 end
+	if (not startLine) then startLine = 1 end
+	if (not endLine) then endLine = 1 end
+
+	local buffer = {}
+
+	for line = startLine, #patch do
+		if (line == endLine) then break end
+		buffer[line] = ""
+		for i = startColumn, #patch[line] do
+			if (i <= width) then
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+		end
+	end
+
+	return buffer
+end)
+
+rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, startLine, height)
+	assert(patch, "V_CropTextPatch_Relative() argument #1: patch text data expected")
+	if (not startColumn) then startColumn = 1 end
+	if (not width) then width = V_TextPatchWidth(patch) end
+	if (not startLine) then startLine = 1 end
+	if (not height) then height = #patch end
+
+	if (startColumn < 0) then error("V_CropTextPatch_Relative() argument #2: positive starting column position value expected") end
+	if (width < 0) then error("V_CropTextPatch_Relative() argument #3: positive width value expected") end
+	if (startLine < 0) then error("V_CropTextPatch_Relative() argument #4: positive starting line position value expected") end
+	if (height < 0) then error("V_CropTextPatch_Relative() argument #5: positive height value expected") end
+
+	local buffer = {}
+	local x = 0
+	local y = 0
+
+	for line = startLine, #patch do
+		y = $ + 1
+		if (y > height) then break end
+		buffer[line] = ""
+		x = 0
+		for i = startColumn, #patch[line] do
+			x = $ + 1
+			if (x <= width) then
+				buffer[line] = $..patch[line]:sub(i, i)
+			end
+		end
+	end
+
+	return buffer
+end)
+*/
 
 --
 --MINIGAME.LUA

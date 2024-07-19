@@ -81,6 +81,7 @@ Functions for HUD rendering code
 | <code>**V_TextPatch_SwapColor**(*string[]* data, *int* sourceColor, *int* targetColor)</code> | *string[]* | Swaps each `sourceColor` pixel to `targetColor` in a Patch. This function returns the Patch with the swapped colors |
 | <code>**V_GetTextPatchOffsetX**(*string* language, *string* patchname)</code> | *int* | Get the Patch's `x` offset coordinate from `MM.text[language][patchname.."_INFO"]` field (if exists) |
 | <code>**V_GetTextPatchOffsetY**(*string* language, *string* patchname)</code> | *int* | Get the Patch's `y` offset coordinate from `MM.text[language][patchname.."_INFO"]` field (if exists) |
+| <code>**V_ScrollTextPatch_Vertical**(*string[]* patch, *int* offset, *boolean* side)</code> | *string[]* | Scroll the Text Patch vertically by `offset` pixels. By default, the patch is scrolled from right to left but if `side` is set to `true` the scroll happends from left to right istead. |
 
 ### `MINIGAME.LUA`
 

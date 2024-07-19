@@ -224,7 +224,7 @@ Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also suppo
 
 ## Text Patches
 
-As an alternative to the regular Patch files, MM HUD Library provides a way to draw graphics provided by **Text**. This is developed primarily for the **Custom Language Files** as these will most likely not be packed in a `.pk3` archive (to additionally include all required graphics).
+As an alternative to the regular Patch files, MM HUD Library provides a way to draw bitmap graphics provided by the **Text**. This is developed primarily for the **Custom Language Files** as these will most likely not be packed in a `.pk3` archive (to additionally include all required graphics).
 <br><br>
 You must be very familliar how the `TIME` HUD label in vanilla SRB2 looks (if not you can open the game right now and see it)(this label can also be found in `srb2.pk3` as `STTTIME` lump). All you need to know about the Text Patch is that it is a bitmap representation of an image where every charater is a pointer to SRB2 palette's color. This is what `STTTIME` patch looks like as Text Patch:
 
