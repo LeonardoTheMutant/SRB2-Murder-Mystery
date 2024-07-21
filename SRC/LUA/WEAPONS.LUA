@@ -3,6 +3,7 @@
 --
 -- Vanilla weaponry recreation for modding it
 
+local autofireCVAR = CV_FindVar("mm_autofire")
 MM.weapons={}
 
 -- VANILLA WEAPONS
@@ -87,7 +88,7 @@ local function P_SetWeaponDelay(p, delay)
 	if (p.skin == 2) -- Knuckles
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
-		p.mmweapondelay = ($*2)/3
+		p.mmweapondelay = ($ << 1)/3
 	end
 end
 
@@ -105,7 +106,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		or (p.playerstate == PST_DEAD) or (p.spectator))
 	then return end
 
-    if (not CV_FindVar("mm_autofire").value) p.pflags = $|PF_ATTACKDOWN end
+    if (not autofireCVAR.value) p.pflags = $|PF_ATTACKDOWN end
     local mo
 
     if (p.cmd.buttons & BT_FIRENORMAL)
@@ -219,15 +220,15 @@ end)
 -- You can watch Decino's much more detailed explanation here:
 -- https://www.youtube.com/watch?v=kRC7hGDrNsM
 
-addHook("ThinkFrame", do
+addHook("MapLoad", do
     for weapon = 0, #MM.weapons do
         if (gametype == GT_MURDERMYSTERY)
 			--weapons are still broken but at least there are less chances of wallclip
-            mobjinfo[MM.weapons[weapon][2]].radius = 16*FU
-            mobjinfo[MM.weapons[weapon][2]].speed = 32*FU
+            mobjinfo[MM.weapons[weapon][2]].radius = 16 << FRACBITS
+            mobjinfo[MM.weapons[weapon][2]].speed = 32 << FRACBITS
         else --return everything to default if gametype is not MM
-            mobjinfo[MM.weapons[weapon][2]].radius = 16*FU
-            mobjinfo[MM.weapons[weapon][2]].speed = 60*FU
+            mobjinfo[MM.weapons[weapon][2]].radius = 16 << FRACBITS
+            mobjinfo[MM.weapons[weapon][2]].speed = 60 <<FRACBITS
         end
     end
 end)

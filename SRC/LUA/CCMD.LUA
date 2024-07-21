@@ -211,9 +211,9 @@ hud.add(function(v, p)
 	local color = v.getStringColormap(0) --default to white color
 	local chr, strchar, stringToRender, wordWrapTemp
 		
-	v.drawStretched(0,0, (v.width()*FU), (v.height()*FU), v.cachePatch("PIXEL_10"), V_50TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	v.drawStretched(0,0, (v.width() << 16), (v.height() << 16), v.cachePatch("PIXEL_10"), V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
 		
-	for i=-3,3
+	for i = -3, 3
 		v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
 		v.draw(((i*320) + (leveltime%320)), 180, v.cachePatch("NTSATKB1"), V_SNAPTOBOTTOM)
 	end
@@ -230,17 +230,17 @@ hud.add(function(v, p)
 			else strchar = chr end
 
 			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
-			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr*4096) end
+			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096
 
 			--print the character
 			if (chr > 0x7F) --Extended ASCII
 				if (v.patchExists(charset..strchar))
-					v.draw(cx*8, cy*8, v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					v.draw((cx << 3), (cy << 3), v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				else --unknown symbol, print "?"
-					v.drawString(cx*8, cy*8, "?", V_SNAPTOTOP|V_SNAPTOLEFT)
+					v.drawString((cx << 3), (cy << 3), "?", V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
 			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-				v.draw(cx*8, cy*8, v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				v.draw((cx << 3), (cy << 3), v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
 			--position shifting for the next character

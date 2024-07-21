@@ -91,14 +91,14 @@ if (MM.devbuild)
 		local patchName
 		for row=-1, 7 do
 			for column=-1,15  do
-				if (row==-1) and (column>-1) v.drawString(16+(column*16),0,string.format("%X",column))
-				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*16),string.format("%X",row+8))
+				if (row==-1) and (column>-1) v.drawString(16+(column<<4),0,string.format("%X",column))
+				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<4),string.format("%X",row+8))
 				elseif ((column>-1) and (row>-1))
-					patchNum=((row+8)*16)+column
+					patchNum=((row+8)<<4)+column
 					if (patchNum<10) patchName="00"..patchNum
 					elseif (patchNum<100) patchName="0"..patchNum
 					else patchName=patchNum end
-					if (v.patchExists(p.debugdrawer..patchName)) v.draw((16 + column*16),(16 + row*16),v.cachePatch(p.debugdrawer..patchName),0,v.getStringColormap(p.debugcolor*4096)) end
+					if (v.patchExists(p.debugdrawer..patchName)) v.draw((16 + column<<4),(16 + row<<4),v.cachePatch(p.debugdrawer..patchName),0,v.getStringColormap(p.debugcolor<<12)) end
 				end
 			end
 		end

@@ -92,7 +92,7 @@ rawset(_G, "MM_AssignRoles", function()
 		return
 	end
 
-	local plrs = {}
+	local plrs = {} --table of player nodes that exist and are valid
 	for p in players.iterate --prepare players and get their player nodes
 		p.role = ROLE_NONE
 		table.insert(plrs, #p)
@@ -405,17 +405,17 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, fontsize)
 		else strchar = chr end
 
 		--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
-		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16)*4096) end
+		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16) << 12) end --(chr - 16) * 4096
 
 		--print the character
 		if (chr > 0x7F) --symbol is from the Extended ASCII range
 			if (v.patchExists(charset..strchar)) --Extended ASCII
-				v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch(charset..strchar), flg, color)
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch(charset..strchar), flg, color)
 			else --unknown symbol/patch not found, print "?"
-				v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch("STCFN063"), flg, color)
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch("STCFN063"), flg, color)
 			end
 		elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-			v.drawScaled(FU*cx, FU*cy, fontsize, v.cachePatch("STCFN"..strchar), flg, color)
+			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch("STCFN"..strchar), flg, color)
 		end
 
 		--shift position for the next character

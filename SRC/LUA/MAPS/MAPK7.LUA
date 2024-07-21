@@ -58,7 +58,7 @@ addHook("ThinkFrame", do
     if (gametype!=GT_MURDERMYSTERY) or (gamemap!=467) return end
 	--doors close timer
     for doornum,doortimer in pairs(doortimers)
-        if (not doortimer) P_LinedefExecute(22 + doornum*2) --close one of the doors
+        if (not doortimer) P_LinedefExecute(22 + (doornum << 1)) --close one of the doors
         else doortimers[doornum] = $ - 1 end
     end
 	--The Truth Ray reset
