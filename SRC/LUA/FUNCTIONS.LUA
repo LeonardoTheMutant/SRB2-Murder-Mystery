@@ -6,7 +6,7 @@
 --
 --CONSTANTS
 --
-local dthsfx = { --SFXs that are used as Death Sounds
+local death_sfx = { --SFXs that are used as Death Sounds
 	sfx_mmdth1, --Super Mario World: Game Over theme
 	sfx_mmdth2, --Among Us: Death theme
 	sfx_mmdth3, --DOOM: Doomguy death 1
@@ -212,7 +212,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 
 	if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
 
-	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
 end)
 
 rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
@@ -236,7 +236,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
 	end
 
-	S_StartSound(p, dthsfx[P_RandomKey(#dthsfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
 end)
 
 rawset(_G, "MM_TeammatesCount", function(p)

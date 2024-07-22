@@ -140,6 +140,7 @@ print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
 freeslot('TOL_MURDERMYSTERY', 'MT_SHREML')
+freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 G_AddGametype({
 	name = "Murder Mystery",
@@ -162,6 +163,14 @@ mobjinfo[MT_SHREML]={
 	flags = MF_SPECIAL
 }
 
+--Death SFX captions
+sfxinfo[sfx_mmdth1].caption = "\19 Good Night"
+sfxinfo[sfx_mmdth2].caption = "Killed"
+sfxinfo[sfx_mmdth3].caption = "Killed"
+sfxinfo[sfx_mmdth4].caption = "Killed"
+sfxinfo[sfx_mmdth5].caption = "OH NO!"
+sfxinfo[sfx_mmdth6].caption = "Pain"
+sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 
 --Script files init
 dofile("TEXT.LUA")

@@ -1,37 +1,8 @@
 freeslot
-SFX_MMDTH1
-SFX_MMDTH2
-SFX_MMDTH3
-SFX_MMDTH4
-SFX_MMDTH5
-SFX_MMDTH6
-SFX_MMDTH7
 SFX_DOROPN
 SFX_DORCLS
 SFX_DAMFLL
 SFX_ALDI
-
-# Death sounds
-Sound sfx_mmdth1
-Caption = \19 Good Night
-
-Sound sfx_mmdth2
-Caption = Killed
-
-Sound sfx_mmdth3
-Caption = Killed
-
-Sound sfx_mmdth4
-Caption = Killed
-
-Sound sfx_mmdth5
-Caption = OH NO!
-
-Sound sfx_mmdth6
-Caption = Pain
-
-Sound sfx_mmdth7
-Caption = Moonwalker
 
 # for MAPK0 (Abandoned Shelter)
 Sound sfx_doropn
