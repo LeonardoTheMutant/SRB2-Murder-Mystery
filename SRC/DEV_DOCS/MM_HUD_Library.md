@@ -26,7 +26,7 @@ Let's imagine that we are making a Greek translation of Murder Mystery. We use *
 
 ```lua
     local greekText={
-        ["VERSION"]="10.0-BETA", --don't forget about the compatibility!
+        ["VERSION"]="1.0", --don't forget about the compatibility!
         ["AUTHOR"]="Sonic",
         ["NONASCII"]=true, --little outdated name but we set this to show that this language is not Latin-based
         ["CHARSET"]="1253C", --this is the font graphic file prefix that we needed!

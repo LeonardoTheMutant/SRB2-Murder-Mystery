@@ -1,10 +1,10 @@
 if (MM)
-	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded into the game")
+	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time")
 	return
 end
 rawset(_G, "MM", {
 	version = "1.0-ALPHA", --string, VERSION NUMBER
-	devbuild = true, --boolean, if set to true it enables debug functionality in MM
+	devbuild = true, --boolean, if set to true, enable the debug functionality in MM
 	releasedate = "not released yet", --string, meant to contain the day of release
 	RoleColor = {
 		"\x85", --Murderer
@@ -53,7 +53,7 @@ rawset(_G, "MM", {
 			}
 		}
 	},
-	shwdwn = false, --is it Showdown Duel right now?
+	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced

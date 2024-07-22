@@ -397,7 +397,7 @@ hud.add(function(v)
 
 	hud.disable("rankings")
 	-- Prerelease/Debug
-	v.drawString(160, 0, "WORK IN PROGRESS GAMETYPE, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center")
+	v.drawString(160, 0, "GAMETYPE IN PRERELEASE STATE, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center")
 
 	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 
@@ -597,7 +597,7 @@ hud.add(function(v)
 	end
 
 	-- Prerelease/Debug
-	v.drawString(0, 184, "WIP GAMETYPE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	v.drawString(0, 184, "MM PRERELEASE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
 end, "intermission")

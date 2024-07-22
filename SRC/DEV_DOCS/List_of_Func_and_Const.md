@@ -6,8 +6,6 @@
 
 This document contains the description of some important functions and constants which are used in Murder Mystery's LUA source code.
 
-<font color="red">Please note that this project is in the ***BETA*** state and everything you see here can be completely changed in the next release</font>
-
 ## Table of Contents
 
 - [Functions](#functions)
@@ -177,7 +175,7 @@ The description of each value in the `MM` table. The `MM` constant itself is def
 | --- | --- | --- | --- |
 | `version` | *string* | Version number of the add-on | `"1.0-ALPHA"` |
 | `devbuild` | *boolean* | Mark add-on build as a *Developer Build*, when set to `true` it enables the *Debug Mode* in the add-on | `true` |
-| `releasedate` | *string* | The release date of the version. If the version is not released it can be `"Not released yet"` | `"May 10th 2024"` |
+| `releasedate` | *string* | The release date of the add-on version. If the version is not released it can be `"Not released yet"` | `"May 10th 2024"` |
 | `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/TEMPLATES/customlang.lua) |
 | `SEMJ_info` | *string[]* | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
 | `RoleColor` | *string[]* | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
