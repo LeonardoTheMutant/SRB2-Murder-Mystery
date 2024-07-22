@@ -6,14 +6,25 @@
 --
 --CONSTANTS
 --
-local dthsfx = {sfx_mmdth1, sfx_mmdth2, sfx_mmdth3, sfx_mmdth4, sfx_mmdth5, sfx_mmdth6, sfx_mmdth7} --SFXs that are used as Death Sounds
+local dthsfx = { --SFXs that are used as Death Sounds
+	sfx_mmdth1, --Super Mario World: Game Over theme
+	sfx_mmdth2, --Among Us: Death theme
+	sfx_mmdth3, --DOOM: Doomguy death 1
+	sfx_mmdth4, --DOOM: Doomguy death 2
+	sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
+	sfx_mmdth6, --Pain meme sfx
+	sfx_mmdth7  --Michael Jackson's Moonwalker (Mega Drive): Intro theme
+}
+
 local shwdwn_music = { --Tracks used as Showdown Duel themes
-	"S2MSBS", --Sonic 2 Master System Boss
-	"S2GGBS", --Sonic 2 Game Gear Boss
-	"DRMBMF", --Dr. Robotnik's Mean Bean Machine "Final battle with Robotnik"
-	"DRMBM2", --Dr. Robotnik's Mean Bean Machine "2 Player Vs."
-	"STORMR", --Freedoom: Phase 2 "Stormer" (by Blastfrog & Korp)
-	"UNDYNE"  --Undertale: "Battle Against A True Hero" (by Toby Fox)
+	"S2MSBS", --Sonic 2 (Master System): Boss
+	"S2GGBS", --Sonic 2 (Game Gear): Boss
+	"DRMBMF", --Dr. Robotnik's Mean Bean Machine: Final battle with Robotnik
+	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
+	"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
+	"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
+	--"SSBLBS", --Sonic Spinball: Boss
+	"SSBLSD"  --Sonic Spinball: "Showdown"
 }
 
 --
