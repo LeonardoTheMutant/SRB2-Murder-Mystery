@@ -119,6 +119,10 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mm_abilities")
 		if (v.value) print("\x87Murder Mystery:\x80 Skin abilities are Enabled (no limits)")
 		else print("\x87Murder Mystery:\x80 Skin abilities are Disabled (\"Regular person\" mode)") end
+	elseif (v.name == "mm_noguns")
+		if (v.value == 1) print("\x87Murder Mystery:\x80 Knife-only mode activated")
+		elseif (v.value == 2) print("\x87Murder Mystery:\x80 Strict knife-only mode activated \x81(Good Luck soldier)\x80")
+		else print("\x87Murder Mystery:\x80 Knife-only mode deactivated") end
 	elseif (v.name == "mm_duelmode")
 		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x80 now have access to all weapons during the Showdown Duel")
 		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
@@ -128,9 +132,10 @@ end
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
-CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+--CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
-CV_RegisterVar({name = "mm_duelmode", defaultvalue = "False", PossibleValue = CV_TrueFalse, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_noguns", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_duelmode", defaultvalue = "True", PossibleValue = CV_TrueFalse, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --
@@ -139,7 +144,7 @@ CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_On
 print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_MURDERMYSTERY', 'MT_SHREML')
+freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE')
 freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 G_AddGametype({
@@ -161,6 +166,14 @@ mobjinfo[MT_SHREML]={
 	radius = 1048576, --16*FU
 	height = 1048576, --16*FU
 	flags = MF_SPECIAL
+}
+
+--Knife weapon
+mobjinfo[MT_MMKNIFE]={
+	spawnstate = S_SPRK1,
+	radius = 4194304, --64*FU
+	height = 3145728, --48*FU
+	flags = 513 --MF_NOGRAVITY|MF_SPECIAL
 }
 
 --Death SFX captions

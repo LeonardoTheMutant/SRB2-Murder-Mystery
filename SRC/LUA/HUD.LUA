@@ -9,6 +9,7 @@
 local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
+local nogunsCVAR = CV_FindVar("mm_noguns")
 
 local function wep2rw(wep) --convert WEP_* constant to RW_* constant
 	return 2^(wep - 1)
@@ -283,48 +284,57 @@ hud.add(function(v, p)
 			end
 		end
 
-		--Ring weapons
-		if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or ((not PlayerCount(ROLE_INNOCENT)) and (not duelmodeCVAR.value)))
-			--draw the only icon for Murderer
-			if (p.powers[pw_infinityring])
-				if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-				v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
-				v.drawString(MM.hud.game.pos.ringWepMurd.x + 24, (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin-right") --Infinite Ring ammo counter
-			else
-				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
-			end
+		if ((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2)
+			if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
+			v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-2][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
 			v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
-		elseif ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO) or ((p.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and duelmodeCVAR.value))
-			if (p.powers[pw_infinityring])
-				if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-				v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
-				v.drawString((MM.hud.game.pos.ringWep.x + 24), (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Infinite Ring ammo counter
-			else
-				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Red Ring icon
-			end
-			for weapon = 1, 6 do
-				if (p.powers[weapon + 14])
-					if (p.powers[weapon + 14] >= MM.weapons[weapon][5]) then wepTextFlags[weapon] = wepTextFlags[weapon] | V_YELLOWMAP end
-
-					if (p.ringweapons & wep2rw(weapon))
-					else
-						wepPatchFlags[weapon] = V_80TRANS
-						wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
-					end
-					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ring weapon icon
-					v.drawString((MM.hud.game.pos.ringWep.x + 24 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Ammo counter
-				elseif (p.ringweapons & wep2rw(weapon))
-					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
+		else
+			--Ring weapons
+			if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or ((not PlayerCount(ROLE_INNOCENT)) and (not duelmodeCVAR.value)))
+				--draw the only icon for Murderer
+				if (p.powers[pw_infinityring])
+					if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
+					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
+					v.drawString(MM.hud.game.pos.ringWepMurd.x + 24, (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin-right") --Infinite Ring ammo counter
+				else
+					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
+					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
 				end
+				v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
+			elseif ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO) or ((p.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and duelmodeCVAR.value))
+				if (p.powers[pw_infinityring])
+					if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
+					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
+					v.drawString((MM.hud.game.pos.ringWep.x + 24), (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Infinite Ring ammo counter
+				else
+					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
+					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Red Ring icon
+				end
+				for weapon = 1, 6 do
+					if (p.powers[weapon + 14])
+						if (p.powers[weapon + 14] >= MM.weapons[weapon][5]) then wepTextFlags[weapon] = wepTextFlags[weapon] | V_YELLOWMAP end
+
+						if (p.ringweapons & wep2rw(weapon))
+						else
+							wepPatchFlags[weapon] = V_80TRANS
+							wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
+						end
+						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ring weapon icon
+						v.drawString((MM.hud.game.pos.ringWep.x + 24 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Ammo counter
+					elseif (p.ringweapons & wep2rw(weapon))
+						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
+					end
+				end
+				if ((p.ammoremovaltimer) and ((leveltime % 8) < 4))
+					v.drawString((MM.hud.game.pos.ringWep.x + 8 + (p.ammoremovalweapon*20)), (MM.hud.game.pos.ringWep.y), "-"..p.ammoremoval, V_REDMAP|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ammo removal penalty
+				end
+				v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
 			end
-			if ((p.ammoremovaltimer) and ((leveltime % 8) < 4))
-				v.drawString((MM.hud.game.pos.ringWep.x + 8 + (p.ammoremovalweapon*20)), (MM.hud.game.pos.ringWep.y), "-"..p.ammoremoval, V_REDMAP|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ammo removal penalty
-			end
-			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
 		end
-	elseif ((p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)) --innocents have Sheriff Emerald radar instead of weapon dock
+	end
+
+	--Sheriff Emerald Radar for Innocents
+	if (p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)
 		v.drawScaled(10027008, 10223616, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --153*FU, 156*FU, FU/2
 	end
 

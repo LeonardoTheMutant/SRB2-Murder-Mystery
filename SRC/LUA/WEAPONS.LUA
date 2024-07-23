@@ -4,20 +4,27 @@
 -- Vanilla weaponry recreation for modding it
 
 local autofireCVAR = CV_FindVar("mm_autofire")
-MM.weapons={}
+local nogunsCVAR = CV_FindVar("mm_noguns")
+MM.weapons = {}
 
 -- VANILLA WEAPONS
+MM.weapons[-2]={ --Knife
+    "KNIFEIND", --HUD icon
+    MT_MMKNIFE, --MOBJ_T of this weapon
+    0, --MF2_* flag
+    35, --Weapon delay
+}
 MM.weapons[-1]={ --Red Ring
     "RINGIND", --HUD icon
-    MT_REDRING, --MOBJ_T that represents this weapon
+    MT_REDRING, --MOBJ_T of this weapon
     0, --MF2_* flag
-    16, --weapondelay
+    16, --Weapon delay
 }
 MM.weapons[0]={ --Infinity Ring
     "INFNIND", --HUD icon
-    MT_THROWNINFINITY, --MOBJ_T that represents this weapon
+    MT_THROWNINFINITY, --MOBJ_T of this weapon
     0, --MF2_* flag
-    16, --weapondelay
+    16, --Weapon delay
     800 --max amonut
 }
 MM.weapons[1]={ --Automatic Ring
@@ -85,7 +92,9 @@ end
 local function P_SetWeaponDelay(p, delay)
 	p.mmweapondelay = delay;
 
-	if (p.skin == 2) -- Knuckles
+    --Decrease the delay for Knuckles
+    --Note that Knuckles has this feature in the vanilla game too, I just copied this feature into MM
+	if (p.skin == 2)
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
 		p.mmweapondelay = ($ << 1)/3
@@ -101,26 +110,22 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         return
     end
 
-    if ((p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
+    if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
 		or (not p.role) or (p.role == ROLE_INNOCENT) or ((MM.minigame) and (p.minigame))
-		or (p.playerstate == PST_DEAD) or (p.spectator))
+		or (p.playerstate == PST_DEAD) or (p.spectator)
 	then return end
+
+    local noguns = ((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2)
 
     if (not autofireCVAR.value) p.pflags = $|PF_ATTACKDOWN end
     local mo
 
-    if (p.cmd.buttons & BT_FIRENORMAL)
+    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.cmd.buttons & BT_ATTACK) and noguns)
         -- KNIFE --
         if (p.rings > 0)
-            P_SetWeaponDelay(p, 35)
-            mo = P_SpawnPlayerMissile(p.mo, MT_MMKNIFE, 0)
+            P_SetWeaponDelay(p, MM.weapons[-2][4])
+            mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
             P_GivePlayerRings(p, -1)
-
-            searchBlockmap("objects", function(ref, fmo)
-                if ((fmo.valid) and valid(fmo.player) and (fmo != ref.target) and (P_AproxDistance(P_AproxDistance(fmo.x - ref.x, fmo.y - ref.y), fmo.z - ref.z) < USERANGE))
-                    P_DamageMobj(fmo, ref, ref.target)
-                end
-            end, mo)
 
             if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
         end
@@ -180,7 +185,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_RAIL][2], MM.weapons[WEP_RAIL][3])
         -- Rail has no unique thrown object, therefore its sound plays here.
         S_StartSound(p.mo, sfx_rail1)
-    else
+    elseif (not noguns)
         if (p.currentweapon == 0) and (p.powers[pw_infinityring])
             -- INFINITY --
             P_SetWeaponDelay(p, MM.weapons[0][4])
@@ -211,6 +216,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     end
 end)
 
+--Knife collision and attack
+addHook("TouchSpecial", function(special, toucher)
+    P_DamageMobj(toucher, special, special.target)
+    return true
+end, MT_MMKNIFE)
+
 -- "Wall hug" bug fix for all weapons
 --
 -- Bug explanation:
@@ -220,15 +231,15 @@ end)
 -- You can watch Decino's much more detailed explanation here:
 -- https://www.youtube.com/watch?v=kRC7hGDrNsM
 
-addHook("MapLoad", do
+addHook("ThinkFrame", do
     for weapon = 0, #MM.weapons do
         if (gametype == GT_MURDERMYSTERY)
 			--weapons are still broken but at least there are less chances of wallclip
-            mobjinfo[MM.weapons[weapon][2]].radius = 16 << FRACBITS
-            mobjinfo[MM.weapons[weapon][2]].speed = 32 << FRACBITS
+            mobjinfo[MM.weapons[weapon][2]].radius = 1048576 --16*FU
+            mobjinfo[MM.weapons[weapon][2]].speed = 2097152 --32*FU
         else --return everything to default if gametype is not MM
-            mobjinfo[MM.weapons[weapon][2]].radius = 16 << FRACBITS
-            mobjinfo[MM.weapons[weapon][2]].speed = 60 <<FRACBITS
+            mobjinfo[MM.weapons[weapon][2]].radius = 1048576 --16*FU
+            mobjinfo[MM.weapons[weapon][2]].speed = 3932160 --60*FU
         end
     end
 end)

@@ -7,8 +7,9 @@
 -- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
-local mmtimelimitCVAR = CV_FindVar("mm_timelimit")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
+local duelmodeCVAR = CV_FindVar("mm_duelmode")
+local nogunsCVAR = CV_FindVar("mm_noguns")
 
 local function MM_GetSHREMLinterval(dist)
 	if (dist < 256) return 5
@@ -276,7 +277,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 	elseif (vp.role == ROLE_INNOCENT)
 		MM_KillPlayerByPlayer(v, a)
-		if ((ap.role == ROLE_MURDERER) and not PlayerCount(ROLE_INNOCENT))
+		if (ap.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		elseif (ap.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
@@ -336,8 +337,11 @@ end, MT_SHREML)
 addHook("PlayerThink", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
 
-	--remove weapons from Murderer in case it is not Duel or Murderers are not allowed to have other weapons during Duels
-	if ((p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or (not CV_FindVar("mm_duelmode").value))) p.ringweapons = 0 end
+	--lock weapons from Murderer in case it is not Duel or Murderers are not allowed to have other weapons during Duels
+	--OR lock weapons from everyone if the Knife-only mode is activated
+	if ((p.role == ROLE_MURDERER) and PlayerCount(ROLE_INNOCENT) or (not duelmodeCVAR.value)) or (((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2))
+		p.currentweapon = 0
+	end
 
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 	p.powers[3] = 0 --disable shields completely

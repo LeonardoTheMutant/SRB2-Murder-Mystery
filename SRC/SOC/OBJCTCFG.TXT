@@ -15,7 +15,6 @@ SPR_FDED
 SPR_MDED
 SPR_SKEL
 SPR_STEPA0
-MT_MMKNIFE
 MT_MMSTEP
 MT_DEADPLR
 
@@ -83,18 +82,9 @@ Next = S_NULL
 # OBJECTS
 #
 
-#Knife weapon
-Object MT_MMKNIFE
-spawnhealth = 1000
-spawnstate = S_SPRK1
-radius = FU
-height = FU
-flags = 528 #MF_NOGRAVITY|MF_NOBLOCKMAP
-
 #Footstep mark
 Object MT_MMSTEP
 SpawnState = S_MMSTEP
-SpawnHealth = 1
 Height = 1
 Flags = 512 #MF_NOGRAVITY
 

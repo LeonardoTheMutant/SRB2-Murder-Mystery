@@ -311,7 +311,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 	elseif (p.role == ROLE_INNOCENT)
 		p.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_LEFT", ROLE_HERO) --Innocent left the game where he was the last hope, we will still count him as Hero
+			MM_EndRound(0, "LAST_LEFT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
 		end
 	end
 

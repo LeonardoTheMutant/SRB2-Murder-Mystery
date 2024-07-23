@@ -25,11 +25,12 @@ local function helpCMD(p, page)
 
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
-		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \"Mystery\" and \"Vanilla\" skin abilities mode. Default is \"Mystery\" (OFF)")
+		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \x81\"Mystery\"\x80 and \x81\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80 - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_SPAM\x80        - Set the sending delay time in ticks to prevent chat spamming.")
 		CONS_Printf(p, "\x87MM_SAFECHAT\x80    - Enable/Disable the chat automoderation system for cases like \"I am [role]\" reveals.")
 		CONS_Printf(p, "\x87MM_AFK\x80         - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked.")
+		CONS_Printf(p, "\x87MM_NOGUNS\x80      - Take all weapons from everyone except the knife. Possible values:\x89 0 - Unlock all weapons\x80;\x8A 1 - Limit to Knife when not Duel\x80;\x8B 2 - Limit to Knife all the time\x80.")
 		CONS_Printf(p, "\x87MM_DUELMODE\x80    - Enable/Disable access to all weapons for \x85Murderers\x80 during the \x88Showdown Duel\x80.")
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
 	end
