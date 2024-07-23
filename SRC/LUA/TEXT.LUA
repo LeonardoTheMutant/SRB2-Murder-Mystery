@@ -259,7 +259,8 @@ MM.text={
 		},
 		-- Centered text when you joined
 		["HUD_MIDJOIN"]={
-			"You joined \20mid-game\16, please wait for this round to finish."
+			"You joined \20mid-game\16, please wait for this round to finish.",
+			"While you are waiting, please read the game rules in the \23MMHELP\16 console command"
 		},
 		-- Centered text when you are alone
 		["HUD_ALONE"]={
@@ -470,7 +471,8 @@ MM.text={
 			"No puedes reaparecer o hablarle a",
 			"gente que no esta muerta."
 		},["HUD_MIDJOIN"]={
-			"Te uniste en \20plena partida\16, porfavor espera a que esta ronda termine."
+			"Te has unido \20en medio de una partida\16, porfavor espera que se acabe esta ronda",
+			"Mientras esperas, porfavor lee las reglas del juego en el comando de la consola \23MMHELP\16"
 		},["HUD_ALONE"]={
 			"\20".."2 jugadores\16 son requeridos para la partida,",
 			"Porfavor espera \20un jugador mas\16 para empezar"
@@ -876,7 +878,8 @@ MM.text={
 			"Jeste\x9C\31 martwy(a)",
 			"Nie mozesz si\xEA odnawia\xE6 lub gada\xE6 do \xBFywych"
 		},["HUD_MIDJOIN"]={
-			"Pan(i) dolaczy\xB3(a) si\xEA \20w \x9Crodku rundy\16, prosze poczeka\xE6 na now\xB9 rund\xEA \xBF".."eby zagra\xE6"
+			"Pan(i) dolaczy\xB3(a) si\xEA \20w \x9Crodku rundy\16, prosze poczeka\xE6 na now\xB9 rund\xEA \xBF".."eby zagra\xE6.",
+			"Podczas oczekiwania prosimy o zapoznanie si\xEA z regulami gry w poleceniu konsoli \23MMHELP\16"
 		},["HUD_ALONE"]={
 			"\20".."2 graczy\16 jest wymaganych do gry,",
 			"prosz\xEA poczeka\xE6 na \20jeszcze jednego\16 gracza",
@@ -1081,7 +1084,8 @@ MM.text={
 			"\xC2FB \xEDE5 \xECEE\xE6E5\xF2E5 \xE2EE\xE7F0\xEEE6\xE4E0\xF2F1\xFF \xE8 \xEFE8\xF1E0\xF2FC \xF2E5\xEC,",
 			"\xEAF2\xEE \xE5F9\xE5 \xE6E8\xE2"
 		},["HUD_MIDJOIN"]={
-			"\xC2FB \xEFF0\xE8F1\xEEE5\xE4E8\xEDE8\xEBE8\xF1FC \xEDE0 \xF1E5\xF0E5\xE4E8\xEDE5 \xF0E0\xF3ED\xE4E0. \xCFEE\xE6E0\xEBF3\xE9F1\xF2E0, \20\xEFEE\xE4EE\xE6E4\xE8F2\xE5 \xE4EE \xE5E3\xEE \xEEEA\xEEED\xF7E0\xEDE8\xFF\16",
+			"\xC2FB \xEFF0\xE8F1\xEEE5\xE4E8\xEDE8\xEBE8\xF1FC \xEDE0 \xF1E5\xF0E5\xE4E8\xEDE5 \xF0E0\xF3ED\xE4E0. \xCFEE\xE6E0\xEBF3\xE9F1\xF2E0, \20\xEFEE\xE4EE\xE6E4\xE8F2\xE5 \xE4EE \xE5E3\xEE \xEEEA\xEEED\xF7E0\xEDE8\xFF\16.",
+			"\xCFEE\xEAE0 \xC2FB \xE6E4\xE5F2\xE5, \xEFEE\xE6E0\xEBF3\xE9F1\xF2E0, \xEFF0\xEEF7\xF2E8\xF2E5 \xEFF0\xE0E2\xE8EB\xE0 \xE8E3\xF0FB \xE2 \xEAEE\xEDF1\xEEEB\xFCED\xEEE9 \xEAEE\xECE0\xEDE4\xE5 \23MMHELP\16"
 		},["HUD_ALONE"]={
 			"\xC4EB\xFF \xEDE0\xF7E0\xEBE0 \xE8E3\xF0FB \xF2F0\xE5E1\xF3E5\xF2F1\xFF \xECE8\xEDE8\xECF3\xEC\20 2 \xE8E3\xF0EE\xEAE0\16.",
 			"\xCFEE\xE6E0\xEBF3\xE9F1\xF2E0, \xEFEE\xE4EE\xE6E4\xE8F2\xE5 \20\xE5F9\xB8 \xEEE4\xEDEE\xE3EE \xE8E3\xF0EE\xEAE0\16."
@@ -1494,8 +1498,8 @@ MM.text={
 			"\xC2E8 \xEDE5 \xECEE\xE6E5\xF2E5 \xE2B3\xE4F0\xEEE4\xE6F3\xE2E0\xF2E8\xF1FF \xF2E0 \xE3EE\xE2EE\xF0E8\xF2E8", --Ne mozhete widrodzhuwatysia ta goworyty
 			"\xE4EE \xE6E8\xE2E8\xF5 \xE3F0\xE0E2\xF6B3\xE2" --do zhywych grawciw
 		},["HUD_MIDJOIN"]={
-			"\xC2E8 \xEFF0\xE8BA\xE4ED\xE0EB\xE8F1\xFF \20\xEFEE\xF1E5\xF0E5\xE4 \xF0E0\xF3ED\xE4F3\16, \xE1F3\xE4FC \xEBE0\xF1EA\xE0, \xE7E0\xF7E5\xEAE0\xE9F2\xE5 \xEDE0\xF1F2\xF3EF\xEDEE\xE3EE", --wy pryjednalysia posered raundu, bud' laska, zachekajte nastupnogo
-			"\xE0E1\xE8 \xE7E0\xE3F0\xE0F2\xE8" --aby zagraty
+			"\xC2E8 \xEFF0\xE8BA\xE4ED\xE0EB\xE8F1\xFF \20\xEFEE\xF1E5\xF0E5\xE4 \xF0E0\xF3ED\xE4F3\16, \xE1F3\xE4FC \xEBE0\xF1EA\xE0, \xE7E0\xF7E5\xEAE0\xE9F2\xE5 \xEDE0\xF1F2\xF3EF\xEDEE\xE3EE \xE0E1\xE8 \xE7E0\xE3F0\xE0F2\xE8.", --wy pryjednalysia posered raundu, bud' laska, zachekajte nastupnogo aby zagraty
+			"\xCFEE\xEAE8 \xC2E8 \xF7E5\xEAE0\xBAF2\xE5, \xE1F3\xE4FC \xEBE0\xF1EA\xE0, \xEFF0\xEEF7\xE8F2\xE0E9\xF2E5 \xEFF0\xE0E2\xE8EB\xE0 \xE3F0\xE8 \xE2 \xEAEE\xEDF1\xEEEB\xFCED\xB3E9 \xEAEE\xECE0\xEDE4\xB3 \23MMHELP\16"
 		},["HUD_ALONE"]={
             "\xC4EB\xFF \xF1F2\xE0F0\xF2F3 \xE3F0\xE8 \xEFEE\xF2F0\xB3E1\xEDEE\20 2-\xBA \xE3F0\xE0E2\xF6B3\xE2\16,", --Dl'a startu gry potrebujetsia 2-je grawciw,
             "\xE1F3\xE4FC \xEBE0\xF1EA\xE02C \xE7E0\xF7E5\xEAE0\xE9F2\xE5 \xEDE0\20 \xF9E5 \xEEE4\xEDEE\xE3EE", --bud' laska zachekajte na she odnogo,

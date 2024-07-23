@@ -338,7 +338,8 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Centered text when you joined
 	["HUD_MIDJOIN"]={
-		"You joined \20mid-game\16, please wait for this round to finish."
+		"You joined \20mid-game\16, please wait for this round to finish.",
+		"While you are waiting, please read the game rules in the \23MMHELP\16 console command"
 	},
 
 	-- Centered text when you are alone
