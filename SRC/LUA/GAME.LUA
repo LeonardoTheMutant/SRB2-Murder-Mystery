@@ -88,6 +88,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.chatdelay) p.chatdelay = 0 end --Chat spam protection
 	if (not p.kills) p.kills = 0 end --Kill counter
 	if (not p.afk) p.afk = 0 end --Anti-AFK
+	if (not p.camping) p.camping = 0 end --Murderer anti-camp
 	if (not p.mmhelp) p.mmhelp = {page = 1, pos = 1, active = false} end --MMHELP UI init
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
@@ -364,7 +365,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--Sheriff Emerald Radar distance logic
-	if ((#MM.shremls) and (p.role == ROLE_INNOCENT) and (not p.spectator))
+	if ((#MM.shremls) and ((p.role == ROLE_INNOCENT) or (p.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
 		--find the distance to the closest emerald
 		local shreml_dist = {}
 		for emeraldID = 1, #MM.shremls do
@@ -380,16 +381,23 @@ addHook("PlayerThink", function(p)
 
 		--play sound
 		if (p.shreml_dist)
-			local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
-			if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
+			if (p.role == ROLE_INNOCENT)
+				local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
+				if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
+			elseif (p.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)
+				if (p.shreml_dist < 25165824) --384*FU)
+					p.camping = $ + 1
+					if (p.camping == 1050) then MM_PunishPlayer(p, "Emerald camping") end --kick player after 30 seconds of camping
+				else p.camping = 0 end
+			end
 		end
 	end
 
 	--AFK logic
 	if ((not p.cmd.forwardmove) and (not p.cmd.sidemove) and (not p.cmd.buttons) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value))
 		p.afk = $ + 1
+		if (p.afk == afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 	else p.afk = 0 end
-	if (p.afk > afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 
 	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is not disabled)
 	if (rejointimeoutCVAR.value) and (p.quittime) then MM_PlayerQuit(p) end

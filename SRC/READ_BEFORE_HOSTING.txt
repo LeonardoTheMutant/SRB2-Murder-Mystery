@@ -28,6 +28,8 @@ VARIABLES
 		The default value is NO.
 	MM_SPAM - Used for chat spam protection. How much time player have to wait before sending
 	    the next message - measured in seconds (default value is 1);
+	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
+		for longer than 30 seconds will be kicked. The default value is ON.
 	MM_SAFECHAT - Enable/Disable the Chat Automoderation system. To be more specific, when enabled, kicks players
 		who reveal/fake their roles to the global chat in the game.
 	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
