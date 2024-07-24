@@ -9,9 +9,6 @@
 - Remove the rock ledge from the Dam (MAPK5)
 - Fill the Mountain Fort with paintings/banners inside (MAPK3)
 - Add cars to the outside area of the 8-Ball Hotel (MAPK8)
-- Make a kick system for the emerald camping
-- Make a toggle option for the "Knife-only ("Hard") mode
-- Increase the knife hitbox a little
 - Rebuild MAPK1 ("Vineyard Castle") from scratch for the 3rd time to make it even smaller OR replace it with another map (also find a possible replacement)
 - Include the "Minimal System Requirements" with the add-on
 - Replace the vanilla F1 menu graphics with the MM manual

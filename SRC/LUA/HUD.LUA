@@ -486,8 +486,8 @@ hud.add(function(v)
 		return
 	end
 
-	--Do not render the Intermission if it was disabled by another script
-	if (not MM.hud.intermission.enabled) return end
+	--Do not render the Intermission if it was disabled by another script or when MapVote is working
+	if (not MM.hud.intermission.enabled) or ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0))) return end
 
 	hud.disable("intermissiontally")
 	
