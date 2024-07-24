@@ -93,7 +93,7 @@ addHook("PlayerSpawn", function(p)
 	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
 
-	p.powers[2] = 104 -- flashing invulnerability for 3 sec
+	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
 	--Check player num and state on join
 	if ((PlayerCount() == 2) and (p.role == nil)) --Player2 joined a 'singleplayer' round
@@ -399,8 +399,11 @@ addHook("PlayerThink", function(p)
 		if (p.afk == afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 	else p.afk = 0 end
 
-	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is not disabled)
-	if (rejointimeoutCVAR.value) and (p.quittime) then MM_PlayerQuit(p) end
+	--Make players who left the game shootable (in case REJOINTIMEOUT cvar is enabled)
+	if (rejointimeoutCVAR.value) and (p.quittime)
+		p.powers[pw_flashing] = 0
+		p.mo.flags2 = $ & ~MF2_DONTDRAW
+	end
 
 	--Anti-RenameCheat
 	if ((p.name != p.oldname) and (p.spectator)) then MM_PunishPlayer(p, "Do not rename when dead!") end
@@ -450,7 +453,6 @@ end)
 
 --
 -- Quit Handler
--- end the game when Murd or Sheriff left and no Innocents are alive to reassign that role to them
 --
 addHook("PlayerQuit", function(p)
 	if ((gametype != GT_MURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
