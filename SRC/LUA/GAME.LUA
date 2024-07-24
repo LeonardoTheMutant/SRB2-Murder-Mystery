@@ -402,7 +402,7 @@ addHook("PlayerThink", function(p)
 	--Make players who left the game shootable (in case REJOINTIMEOUT cvar is enabled)
 	if (rejointimeoutCVAR.value) and (p.quittime)
 		p.powers[pw_flashing] = 0
-		p.mo.flags2 = $ & ~MF2_DONTDRAW
+		if (valid(p.mo)) then p.mo.flags2 = $ & ~MF2_DONTDRAW end
 	end
 
 	--Anti-RenameCheat
