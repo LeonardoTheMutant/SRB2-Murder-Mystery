@@ -218,6 +218,7 @@ end)
 
 --Knife collision and attack
 addHook("TouchSpecial", function(special, toucher)
+    if (special.state != S_SPRK1) then return true end
     P_DamageMobj(toucher, special, special.target)
     return true
 end, MT_MMKNIFE)
