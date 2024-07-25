@@ -6,13 +6,10 @@
 - Try to not let multiple players spawn in one spot (longer map load speeds?)
 - Change the titlecard and intermission backgrounds to contain the name of the gametype
 - Deep test the add-on for SIGSEVG appearance
-- Remove the rock ledge from the Dam (MAPK5)
-- Fill the Mountain Fort with paintings/banners inside (MAPK3)
-- Add cars to the outside area of the 8-Ball Hotel (MAPK8)
+- Update the old level select icons and make new for the new maps
 - Rebuild MAPK1 ("Vineyard Castle") from scratch for the 3rd time to make it even smaller OR replace it with another map (also find a possible replacement)
 - Include the "Minimal System Requirements" with the add-on
 - Replace the vanilla F1 menu graphics with the MM manual
-- Add support for an external MapVote add-on
 - Make (several) release trailer(s)
 - Make the Innocent role gameplay more interesting (or add a goal just for them)
 - Make Sonic & Tails as well as Fang & Amy skins differ from each other (not complicated differences to implement)
