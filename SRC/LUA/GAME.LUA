@@ -410,6 +410,14 @@ addHook("PlayerThink", function(p)
 	p.oldname = p.name
 end)
 
+addHook("ViewpointSwitch", function(p, np) --player, nextplayer
+	if (p.spectator)
+		return
+	else
+		if (not MM_AreTeammates(p, np)) then return false end
+	end
+end)
+
 --
 -- Intermission Thinker
 --
