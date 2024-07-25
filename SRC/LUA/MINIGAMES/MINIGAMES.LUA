@@ -7,13 +7,12 @@
 -- PONG MINIGAME
 --
 local function MM_Get2Players()
-	if (PlayerCount() != 2) return false end
-	local plrs = {}
+	if (PlayerCount() != 2) return end
+    MM.duelplrs = {}
 	for p in players.iterate
-		plrs[#plrs + 1] = p
-		if (#plrs == 2) break end
+		MM.duelplrs[#MM.duelplrs + 1] = p
+		if (#MM.duelplrs == 2) return end
 	end
-	return plrs
 end
 
 local function PONG_PlaySFX(sfx)
@@ -205,9 +204,9 @@ end
 addHook("ThinkFrame", do
     if (gametype != GT_MURDERMYSTERY) return end
     if (MM.twopgame)
-        if (PlayerCount() == 2) MM.duelplrs = MM_Get2Players() end
-        if (not MM.duelplrs) return end
-        if valid((MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame)) MM.minigame = true
+        if (PlayerCount() == 2) then MM_Get2Players() end
+        if ((not MM.duelplrs[1]) or (not MM.duelplrs[2])) return end
+        if valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame = true
         else MM.minigame = 0 end
     end
     if (MM.minigame)
