@@ -13,10 +13,21 @@ Level K1
 Levelname = Vineyard Castle
 SelectHeading = Murder Mystery
 Act = 0
+SkyNum = 10
 TypeOfLevel = MurderMystery
 NextLevel = K2
-SkyNum = 10
 Lua.Author = Piksqu, LeoTM
+
+#Level K1
+#Levelname = Merry Peak
+#SelectHeading = Murder Mystery
+#Act = 0
+#Nozone = true
+#TypeOfLevel = MurderMystery
+#SkyNum = 17
+#Weather = 2
+#NextLevel = K3
+#Lua.Author = Troplucky, LeoTM
 
 Level K2
 LevelName = Peridot Park
@@ -36,7 +47,7 @@ Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
 SkyNum = 17
-weather = 2
+Weather = 2
 NextLevel = K4
 Lua.Autor = Jisk, LeoTM
 
@@ -96,6 +107,7 @@ Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KA
+Lua.Author = Sonic Team Jr.
 
 Level KA
 LevelName = Mirage Express
@@ -105,6 +117,7 @@ Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KB
+Lua.Author = SEGA, SandwichCinema, LeoTM
 
 Level KB
 LevelName = Myst Island
@@ -114,6 +127,7 @@ Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KC
+Lua.Author = Cyan, LeoTM
 
 Level KC
 LevelName = Stauf's Mansion
@@ -124,6 +138,7 @@ Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KD
+Lua.Author = Trillobyte, LeoTM
 
 Level KD
 LevelName = East City
@@ -138,6 +153,7 @@ Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
 Lua.TimeTravel_ShiftY2 = 0
 Lua.Timelimit = 7
 NextLevel = KE
+Lua.Author = LeoTM
 
 Level KE
 LevelName = Dust
@@ -146,3 +162,4 @@ SelectHeading = Murder Mystery
 Act = 0
 TypeOfLevel = MurderMystery
 NextLevel = K0
+Lua.Author = Valve, LeoTM
