@@ -18,17 +18,6 @@ TypeOfLevel = MurderMystery
 NextLevel = K2
 Lua.Author = Piksqu, LeoTM
 
-#Level K1
-#Levelname = Merry Peak
-#SelectHeading = Murder Mystery
-#Act = 0
-#Nozone = true
-#TypeOfLevel = MurderMystery
-#SkyNum = 17
-#Weather = 2
-#NextLevel = K3
-#Lua.Author = Troplucky, LeoTM
-
 Level K2
 LevelName = Peridot Park
 SelectHeading = Murder Mystery
@@ -161,5 +150,16 @@ SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
 TypeOfLevel = MurderMystery
-NextLevel = K0
+NextLevel = KF
 Lua.Author = Valve, LeoTM
+
+Level KF
+Levelname = Merry Peak
+SelectHeading = Murder Mystery
+Act = 0
+Nozone = true
+TypeOfLevel = MurderMystery
+SkyNum = 17
+Weather = 2
+NextLevel = K0
+Lua.Author = Troplucky, LeoTM

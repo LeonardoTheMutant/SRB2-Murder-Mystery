@@ -1786,7 +1786,6 @@ local flatsounds={
 	["FOSSIL"]="stone",
 	["FROST01"]="stone",
 	["FROST02"]="stone",
-	["F_SKY1"]="stone",
 	["GEOBMP1"]="stone",
 	["GEOBMP1S"]="stone",
 	["GLASS3"]="glass",

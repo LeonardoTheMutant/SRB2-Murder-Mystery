@@ -1,13 +1,13 @@
 - Spectator's bobbing (and momentum sometimes) doesn't disappear (unable to fix?)
 - Make a logo
-- Create at least 5 more maps (to make 15 in total)
+- Create at least 7 more maps (to make 18 in total)
 - Update translations
 - Rewrite the English Help manual from scratch
 - Try to not let multiple players spawn in one spot (longer map load speeds?)
 - Change the titlecard and intermission backgrounds to contain the name of the gametype
 - Deep test the add-on for SIGSEVG appearance
 - Update the old level select icons and make new for the new maps
-- Rebuild MAPK1 ("Vineyard Castle") from scratch for the 3rd time to make it even smaller OR replace it with another map (also find a possible replacement)
+- Rebuild/resize MAPK1 ("Vineyard Castle") to make it smaller
 - Include the "Minimal System Requirements" with the add-on
 - Replace the vanilla F1 menu graphics with the MM manual
 - Make (several) release trailer(s)
