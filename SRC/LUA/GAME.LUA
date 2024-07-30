@@ -399,11 +399,8 @@ addHook("PlayerThink", function(p)
 		if (p.afk == afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
 	else p.afk = 0 end
 
-	--Make players who left the game shootable (in case REJOINTIMEOUT cvar is enabled)
-	if (rejointimeoutCVAR.value) and (p.quittime)
-		p.powers[pw_flashing] = 0
-		if (valid(p.mo)) then p.mo.flags2 = $ & ~MF2_DONTDRAW end
-	end
+	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is enabled)
+	if (rejointimeoutCVAR.value) and (p.quittime) then MM_PlayerQuit(p) end
 
 	--Anti-RenameCheat
 	if ((p.name != p.oldname) and (p.spectator)) then MM_PunishPlayer(p, "Do not rename when dead!") end
