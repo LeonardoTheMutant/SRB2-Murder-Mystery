@@ -50,8 +50,9 @@ hud.add(function(v, p)
 
 	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 
-	if (p != consoleplayer) then
-		v.drawString(160, 100, MM.RoleColor[p.role].."* VIEWPOINT *", 0, "center")
+	if (p != consoleplayer)
+		if (p.role) then v.drawString(160, 100, MM.RoleColor[p.role].."* VIEWPOINT *", 0, "center")
+		else v.drawString(160, 100, "* Left the game *", 0, "center") end
 	end
 
 	--

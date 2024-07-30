@@ -3,8 +3,9 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
-local mmspam = CV_FindVar("mm_spam")
+local chatdelayCVAR = CV_FindVar("mm_chatdelay")
 local mmsafechat = CV_FindVar("mm_safechat")
+/*
 local IAMvocabluary ={
 	{"I AM", "I'M", "IM"}, --"I am..."
 	{"MURDERER", "MURD", "KILLER"}, -- "...Murderer"
@@ -12,6 +13,7 @@ local IAMvocabluary ={
 	{"INNOCENT", "INNO"}, --"...Innocent"
 	{"HERO"} --"...Hero"
 }
+*/
 
 local function chatcolor2textcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) return "\x80"
@@ -130,7 +132,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			return true
 		end
 	end
-	s.chatdelay = (mmspam.value*TICRATE)
+	s.chatdelay = (chatdelayCVAR.value*TICRATE)
 end)
 
 --chat delay timers

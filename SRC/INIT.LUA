@@ -129,12 +129,13 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	end
 end
 --Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
-CV_RegisterVar({name = "mm_abilities", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
-CV_RegisterVar({name = "mm_spam", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
+CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
 --CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
+CV_RegisterVar({name = "mm_teamview", defaultvalue = "Yes", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_noguns", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_duelmode", defaultvalue = "True", PossibleValue = CV_TrueFalse, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})

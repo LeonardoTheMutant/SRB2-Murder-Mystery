@@ -258,7 +258,6 @@ rawset(_G, "MM_AreTeammates", function(p1, p2)
 
 	return ((p1.role == ROLE_MURDERER) and (p2.role == ROLE_MURDERER))
 		or (((p1.role == ROLE_SHERIFF) or (p1.role == ROLE_HERO)) and ((p2.role == ROLE_SHERIFF) or (p2.role == ROLE_HERO)))
-		or ((p1.role == ROLE_INNOCENT) and (p2.role == ROLE_INNOCENT))
 end)
 
 rawset(_G, "MM_HitTeammate", function(v, a)

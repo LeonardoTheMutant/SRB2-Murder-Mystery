@@ -26,7 +26,7 @@ VARIABLES
 	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
 		The default value is NO.
-	MM_SPAM - Used for chat spam protection. How much time player have to wait before sending
+	MM_CHATDELAY - Used for chat spam protection. Sets how much time player has to wait before sending
 	    the next message - measured in seconds (default value is 1);
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
@@ -34,6 +34,7 @@ VARIABLES
 		who reveal/fake their roles to the global chat in the game.
 	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
 	    set to 0 AFK timeout is disabled;
+	MM_TEAMVIEW - Allow/Disallow teammate players to see each other's viewpoint (with F12). The default value is YES (Allow).
 	MM_NOGUNS - Select one of the Knife-only modes. When set to 1, Murderers, Sheriffs and Heroes are limited only to Knife,
 		but get access to all of the weapons when the Showdown Duel statrs. When set to 2, Only the knife is present throughout the whole game.
 		Set to 0 to make the weapons act like normal. The default value is 0.
