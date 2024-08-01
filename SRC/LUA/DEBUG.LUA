@@ -95,10 +95,7 @@ if (MM.devbuild)
 				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<4),string.format("%X",row+8))
 				elseif ((column>-1) and (row>-1))
 					patchNum=((row+8)<<4)+column
-					if (patchNum<10) patchName="00"..patchNum
-					elseif (patchNum<100) patchName="0"..patchNum
-					else patchName=patchNum end
-					if (v.patchExists(p.debugdrawer..patchName)) v.draw((16 + column<<4),(16 + row<<4),v.cachePatch(p.debugdrawer..patchName),0,v.getStringColormap(p.debugcolor<<12)) end
+					if (MM.graphics.charset[p.debugdrawer][patchNum]) v.draw((16 + column<<4),(16 + row<<4),MM.graphics.charset[p.debugdrawer][patchNum],0,v.getStringColormap(p.debugcolor<<12)) end
 				end
 			end
 		end

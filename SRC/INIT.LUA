@@ -193,14 +193,14 @@ dofile("FUNCTIONS.LUA")
 if (MM.devbuild) dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
 dofile("WEAPONS.LUA")
-dofile("HUD.LUA")
+if (not isdedicatedserver) dofile("HUD.LUA") end
 dofile("CHAT.LUA")
 dofile("CCMD.LUA")
 dofile("FOOTSTEPS.LUA")
 dofile("ABILITIES.LUA")
 dofile("TIMETRAVEL.LUA")
 
-dofile("MINIGAMES/HUD_MINIGAMES.LUA")
+if (not isdedicatedserver) dofile("MINIGAMES/HUD_MINIGAMES.LUA") end
 dofile("MINIGAMES/MINIGAMES.LUA")
 
 dofile("MAPS/MAPK0.LUA")
@@ -215,7 +215,6 @@ print("\n\x83Murder Mystery add-on loaded succesfuly\n\x82Thank you for playtest
 
 addHook("NetVars", function(net)
 	MM.text = net($)
-	MM.CharStats = net($)
 	MM.shremls = net($)
 	MM.winner = net($)
 	MM.winreason = net($)
@@ -224,5 +223,4 @@ addHook("NetVars", function(net)
 	MM.minigame = net($)
 	MM.pong = net($)
 	MM.duelplrs = net($)
-	MM.singleplr = net($)
 end)

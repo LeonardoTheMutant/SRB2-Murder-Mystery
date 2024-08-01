@@ -20,9 +20,9 @@ which looks readable now.
 <br><br>
 Now lets get into the "under the hood" details and how you can print such strings in SRB2 yourself with this library
 <br><br>
-Functions like <code>V_DrawStrASCII()</code> and <code>V_DrawStrASCIIcentered()</code> are designed to print strings with Extended ASCII symbols. Still, this is not enough to actually print strings like these because you're missing the font for the characters (more specifically, font graphics/patches). `SRB2.pk3` contains graphics for the printable Standard ASCII characters only (0x19-0x7E range, 25-126 in decimal). You need the graphics for **every single extended character** you are going to use.
+Functions like <code>**V_DrawStrASCII()**</code>, <code>**V_DrawStrASCII_Center()**</code> and <code>**V_DrawStrASCII_Right()**</code> are designed to print strings with Extended ASCII symbols. Still, this is not enough to actually print strings like these because you're missing the font for the characters (more specifically, font graphics/patches). `SRB2.pk3` contains graphics for the printable Standard ASCII characters only (0x19-0x7E range, 25-126 in decimal). You need the graphics for **every single extended character** you are going to use.
 <br><br>
-Let's imagine that we are making a Greek translation of Murder Mystery. We use ***Windows1253*** as our base. We make the font graphics and name them like `"1253C###"` (`###` is a decimal number that corresponds to a character in that codepage). Our prefix for Greek codepage is `"1253C"` because we named files like that. Now we need to tell our Rendering Functions to use these files as graphics for Greek letters. The 4th argument in the <code>V_DrawStrASCII</code> function specifies the character set prefix to use. In case of the **Custom Language File** for Murder Mystery gametype we simply need to include the `"CHARSET"` key to the LUA table and set its value to the Character Set prefix we got. The final result should look something like this:
+Let's imagine that we are making a Greek translation of Murder Mystery. We use ***Windows1253*** as our base. We make the font graphics and name them like `"1253C###"` (`###` is a decimal number that corresponds to a character in that codepage). Our prefix for Greek codepage is `"1253C"` because we named files like that. Now we need to tell our Rendering Functions to use these files as graphics for Greek letters. The 4th argument in the <code>**V_DrawStrASCII()**</code> function specifies the character set prefix to use. In case of the **Custom Language File** for Murder Mystery gametype we simply need to include the `"CHARSET"` key to the LUA table and set its value to the Character Set prefix we got. The final result should look something like this:
 
 ```lua
     local greekText={
@@ -37,17 +37,17 @@ Let's imagine that we are making a Greek translation of Murder Mystery. We use *
     MM.AddLang("GR", greekText)
 ```
 
-And now when we kindly ask the <code>V_DrawStrASCII()</code> function (or the gametype) to print the Delta character (Δ, `0xC4` in hex, 192 in decimal) the function will try to load the file by the name of `"1253C192"` and draw this graphic on the screen. Wow, it works now! Amazing isn't it?
+And now when we kindly ask the <code>**V_DrawStrASCII()**</code> function (or the gametype) to print the Delta character (Δ, `0xC4` in hex, 192 in decimal) the function will try to load the file by the name of `"1253C192"` and draw this graphic on the screen. Wow, it works now! Amazing isn't it?
 <br><br>
 In theory, you can create your character encoding standard that no one will understand. The possibilities are endless.
 <br><br>
-Things get a little bit comlicated when it comes to the text coloring since characters like `0x80` or `0x85` are now reserved for your character encoding. <code>V_DrawStrASCII()</code>, like <code>v.draw()</code>, supports 16 text colors, but as color codes it uses characters ranged from `0x10` to `0x1F`. Note that **translucency is not supported in MM Strings** (there are no free character ranges left to implement this). This is one of the cons of the MM String Renderers.
+Things get a little bit comlicated when it comes to the text coloring since characters like `0x80` or `0x85` are now reserved for your character encoding. <code>**V_DrawStrASCII()**</code>, like <code>**v.draw()**</code>, supports up to 16 text colors, but as color codes it uses characters ranged from `0x10` to `0x1F`. Note that **translucency is not supported in MM Strings** (there are no free character ranges left to implement this). This is one of the cons of the MM String Renderers.
 <br><br>
-Let's say you want to use this cool string format with colors but you don't want to rewrite your 50+ Kilobytes of text to convert every color code manually. <code>V_ConvertStringColor()</code> exists just for this purpose - it converts SRB2 color codes in your string to MM format and as a return value it returns your modified string. You can do vise-versa with the <code>V_ConvertStringColor2()</code> function which converts MM color codes to vanilla SRB2 ones. Just remember to use MM strings with <code>V_DrawStrASCII()</code> and regular SRB2 strings with <code>v.drawString()</code> because they're not compatible with each other.
+Let's say you want to use this cool string format with colors but you don't want to rewrite your 50+ Kilobytes of text to convert every color code manually. <code>**V_ConvertStringColor()**</code> exists just for this purpose - it converts SRB2 color codes in your string to MM format and as a return value it returns your modified string. You can do vise-versa with the <code>**V_ConvertStringColor2()**</code> function which converts MM color codes to vanilla SRB2 ones. Just remember to use MM strings with <code>**V_DrawStrASCII()**</code> and regular SRB2 strings with <code>**v.drawString()**</code> because they're not compatible with each other.
 <br><br>
 
 ## Text Color codes
-List of Text Color codes for <code>V_DrawStrASCII()</code> function. Very similar to the [vanilla SRB2 color codes](http://wiki.srb2.org/wiki/Lua#Special_characters)
+List of Text Color codes for <code>**V_DrawStrASCII()**</code> function. Very similar to the [vanilla SRB2 color codes](http://wiki.srb2.org/wiki/Lua#Special_characters)
 
 | Decimal |  Hexadecimal | Color | Example |
 | --- | --- | --- | --- | 
@@ -250,13 +250,13 @@ local BMP_TIME = { --actuall Patch data
 
 *If you have eyes like Neo from the Matrix you can already see the image.* But don't worry if you don't because this is actually a simplified/optimized version of the Text Patch where some of the Hexadecimal values are converted into ASCII Characters (the `\x49` value here got converted into `I`) and Hexadecimal values are 16-bit (`\x1F` is 8-bit value, `\x1F1F` is 16-bit but is read as two characters). `\xFF` is a translucent pixel, `\x49` (or `I`) points to color Yellow in SRB2's palette, `\x1F` is color black.
 <br><br>
-Getting the height of such Patch is as simple as getting the length of the table where it is stored. To get the width you can use <code>V_TextPatchWidth(*string[]* textpatch)</code> function
+Getting the height of such Patch is as simple as getting the length of the table where it is stored. To get the width you can use <code>**V_TextPatchWidth(*string[]* textpatch)**</code> function
 ```lua
 print(#BMP_TIME) --height, prints 11
 print(V_TextPatchWidth(BMP_TIME)) --width, prints 31
 ```
 <br><br>
-To make a color swap you will need to use the <code>V_TextPatch_SwapColor(*string[]* textpatch, *int* color1, *int* color2)</code> function. Last two arguments are specifying the source and the target colors (`color1` will be swapped with `color2`). The function returns a Text Patch with swapped color.
+To make a color swap you will need to use the <code>**V_TextPatch_SwapColor(*string[]* textpatch, *int* color1, *int* color2)**</code> function. Last two arguments are specifying the source and the target colors (`color1` will be swapped with `color2`). The function returns a Text Patch with swapped color.
 
 ## Guess that's it
 

@@ -24,6 +24,11 @@ local function V_GetSHREMLiconID(dist)
 	else return 1 end
 end
 
+local function V_LoadPatch(v, p)
+	MM.graphics[p] = v.cachePatch(p)
+	if (MM.devbuild) print("Loaded patch \x81"..p) end
+end
+
 --
 -- Main game HUD
 --
@@ -36,6 +41,64 @@ hud.add(function(v, p)
 		hud.enable("rings")
 		hud.enable("weaponrings")
 		return
+	end
+
+	--Patch Graphics loading
+	if (not MM.graphics)
+		if (MM.devbuild) print("\x82Loading MM graphics") end
+
+		MM.graphics={}
+
+		--Palette pixels
+		MM.graphics.pixel={}
+		for i = 0, 255 do
+			if (v.patchExists("PIXEL_"..string.format("%02X", i))) then MM.graphics.pixel[i] = v.cachePatch("PIXEL_"..string.format("%02X", i)) end
+		end
+
+		--Colon for time counter
+		V_LoadPatch(v, "STTCOLON")
+
+		--Emerald icon
+		V_LoadPatch(v, "CHAOS3")
+
+		--Radar icons
+		for i = 1, 6 do
+			if v.patchExists("IDEYAR"..i) then V_LoadPatch(v, "IDEYAR"..i) end
+		end
+
+		--Weapon icons
+		for i = -2, 6 do V_LoadPatch(v, MM.weapons[i][1]) end
+		V_LoadPatch(v, "CURWEAP") --weapon selector
+
+		--Past/Future Warp Signs
+		V_LoadPatch(v, "TWS_FUTR")
+		V_LoadPatch(v, "TWS_PAST")
+
+		--MMHELP scrolling background
+		V_LoadPatch(v, "NTSATKT2")
+		V_LoadPatch(v, "NTSATKB1")
+
+		--Sonic Run
+		--Running frames
+		for i = 1, 2 do
+			if v.patchExists("SNC_RUN"..i) then V_LoadPatch(v, "SNC_RUN"..i) end
+		end
+		--Spinning frames
+		for i = 1, 3 do
+			if v.patchExists("SNC_SPN"..i) then V_LoadPatch(v, "SNC_SPN"..i) end
+		end
+		--Idle/standing frame
+		if v.patchExists("SNC_STND") then V_LoadPatch(v, "SNC_STND") end
+		--Countdown numbers
+		for i = 1, 3 do V_LoadPatch(v, "RACE"..i) end
+		V_LoadPatch(v, "RACEGO")
+		
+		--Character sets
+		V_LoadCharset(v, "STCFN") --"Standart Console Font", built-in SRB2 set
+		V_LoadCharset(v, "1250C") --Windows1250
+		V_LoadCharset(v, "1251C") --Windows1251
+		--V_LoadCharset(v, "1253C") --Windows1253
+		V_LoadCharset(v, "1254C") --Windows1254
 	end
 
 	--Do not render the main HUD if it was disabled by another script
@@ -144,7 +207,7 @@ hud.add(function(v, p)
 	end
 	--Draw the time
 	v.drawPaddedNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --seconds
-	v.draw(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, v.cachePatch("STTCOLON"), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --colon
+	v.draw(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, MM.graphics["STTCOLON"], hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --colon
 	v.drawNum(((hudinfo[HUD_TIME].x + maxHudIfnfoSize) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --minutes
 
 	--RINGS
@@ -170,9 +233,9 @@ hud.add(function(v, p)
 	--Time Warp Sign ("Warp ticket")
 	if (p.timetravel) and (not p.spectator) and ((p.timetravel.warptimer < 70) or ((p.timetravel.warptimer >= 70) and (not (p.timetravel.warptimer & 1))))
 		if (p.timetravel.timesign and (p.timetravel.timesign == 1)) --Past
-			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), v.cachePatch("TWS_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_PAST"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		elseif (p.timetravel.timesign and (p.timetravel.timesign == 2)) --Future
-			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), v.cachePatch("TWS_FUTR"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_FUTR"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		end
 	end
 
@@ -198,7 +261,7 @@ hud.add(function(v, p)
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		if (MM.text[consoleplayer.mmlang]["HUD_DEAD"])
 			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_DEAD"])
-				V_DrawStrASCIIcentered(v, 160, (112 + (y << 3)), charset, i, v.localTransFlag())
+				V_DrawStrASCII_Center(v, 160, (112 + (y << 3)), charset, i, v.localTransFlag())
 			end
 		else
 			if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
@@ -206,7 +269,7 @@ hud.add(function(v, p)
 		if (p.role == nil)
 			if (MM.text[consoleplayer.mmlang]["HUD_MIDJOIN"])
 				for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_MIDJOIN"])
-					V_DrawStrASCIIcentered(v, 160, (152 + (y << 2)), charset, i, v.localTransFlag(), 32768) --FU/2
+					V_DrawStrASCII_Center(v, 160, (152 + (y << 2)), charset, i, v.localTransFlag(), true)
 				end
 			else
 				if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
@@ -220,9 +283,9 @@ hud.add(function(v, p)
 			end
 		end
 		if ((not p.minigame) and (not MM.twopgame) and (not MM.minigame))
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), 0, 32768)), 8, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2			
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			V_DrawStrASCII_Right(v, 320, 8, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 		end
 	end
 
@@ -237,16 +300,16 @@ hud.add(function(v, p)
 		end
 		if valid(rival)
 			if ((not p.minigame) and (not rival.minigame))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			elseif ((p.minigame) and (not rival.minigame))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 				if (not p.minigametimeout)
-					V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), 0, 32768)), 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+					V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 				end
 			elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			end
 		end
 	end
@@ -291,29 +354,29 @@ hud.add(function(v, p)
 
 		if ((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2)
 			if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-			v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-2][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
-			v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
+			v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
+			v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
 		else
 			--Ring weapons
 			if (p.role == ROLE_MURDERER) and (PlayerCount(ROLE_INNOCENT) or ((not PlayerCount(ROLE_INNOCENT)) and (not duelmodeCVAR.value)))
 				--draw the only icon for Murderer
 				if (p.powers[pw_infinityring])
 					if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
+					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[0][1]], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
 					v.drawString(MM.hud.game.pos.ringWepMurd.x + 24, (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin-right") --Infinite Ring ammo counter
 				else
 					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
+					v.draw((MM.hud.game.pos.ringWepMurd.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
 				end
-				v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
+				v.draw((MM.hud.game.pos.ringWepMurd.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
 			elseif ((p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO) or ((p.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and duelmodeCVAR.value))
 				if (p.powers[pw_infinityring])
 					if (p.powers[pw_infinityring] >= MM.weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
+					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[0][1]], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Infinite Ring icon
 					v.drawString((MM.hud.game.pos.ringWep.x + 24), (MM.hud.game.pos.ringWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Infinite Ring ammo counter
 				else
 					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Red Ring icon
+					v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Red Ring icon
 				end
 				for weapon = 1, 6 do
 					if (p.powers[weapon + 14])
@@ -324,30 +387,30 @@ hud.add(function(v, p)
 							wepPatchFlags[weapon] = V_80TRANS
 							wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
 						end
-						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ring weapon icon
+						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ring weapon icon
 						v.drawString((MM.hud.game.pos.ringWep.x + 24 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Ammo counter
 					elseif (p.ringweapons & wep2rw(weapon))
-						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), v.cachePatch(MM.weapons[weapon][1]), V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
+						v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
 					end
 				end
 				if ((p.ammoremovaltimer) and ((leveltime % 8) < 4))
 					v.drawString((MM.hud.game.pos.ringWep.x + 8 + (p.ammoremovalweapon*20)), (MM.hud.game.pos.ringWep.y), "-"..p.ammoremoval, V_REDMAP|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ammo removal penalty
 				end
-				v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), v.cachePatch("CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
+				v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --selector
 			end
 		end
 	end
 
 	--Sheriff Emerald Radar for Innocents
 	if (p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist)
-		v.drawScaled(10027008, 10223616, 32768, v.cachePatch("IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))), V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --153*FU, 156*FU, FU/2
+		v.drawScaled(10027008, 10223616, 32768, MM.graphics["IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --153*FU, 156*FU, FU/2
 	end
 
 	--Are you alone?
 	if (PlayerCount() == 1)
 		if (MM.text[consoleplayer.mmlang]["HUD_ALONE"])
 			--Draw the text
-			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_ALONE"]) do V_DrawStrASCIIcentered(v, 160, (128 + (y << 3)), charset, i, V_PERPLAYER|v.localTransFlag()) end
+			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_ALONE"]) do V_DrawStrASCII_Center(v, 160, (128 + (y << 3)), charset, i, V_PERPLAYER|v.localTransFlag()) end
 		else
 			if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
 		end
@@ -355,29 +418,29 @@ hud.add(function(v, p)
 
 	--suggest a minigame
 	if (PlayerCount() == 1) or ((p.spectator) and (not MM.minigame) and (not p.minigame) and (not MM.twopgame))
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
-		V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), 0, 32768)), 8, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+		V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+		V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+		V_DrawStrASCII_Right(v, 320, 8, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 	end
 
 	--"Showdown duel!"
 	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)))
-		V_DrawStrASCIIcentered(v, 160, 192, charset, "\24"..MM_GetText(consoleplayer.mmlang, "HUD_SHOWDOWN"))
+		V_DrawStrASCII_Center(v, 160, 192, charset, "\24"..MM_GetText(consoleplayer.mmlang, "HUD_SHOWDOWN"))
 	end
 
 	--Sneaking
 	if ((p.sneak) and valid(p.mo) and P_IsObjectOnGround(p.mo))
-		V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM_GetText(consoleplayer.mmlang, "HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), 32768) --FU/2
+		V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM_GetText(consoleplayer.mmlang, "HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), true)
 	end
 	
 	--red Flash effect when you die
 	if (p.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), v.cachePatch("PIXEL_23"), ((p.flashscrn - 1) <<FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixels[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 	
 	--white time warp spark effect
 	if (p.timetravel and p.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), v.cachePatch("PIXEL_00"), ((p.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixels[0], ((p.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 	
 	--Debug
@@ -418,7 +481,7 @@ hud.add(function(v)
 	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 
 	--Text
-	V_DrawStrASCIIcentered(v, 160, 12, charset, "\17"..MM_GetText(consoleplayer.mmlang, "MM"), v.localTransFlag())
+	V_DrawStrASCII_Center(v, 160, 12, charset, "\17"..MM_GetText(consoleplayer.mmlang, "MM"), v.localTransFlag())
 	if (MM.text[consoleplayer.mmlang]["HUD_SCORESTAB"])
 		for y,i in ipairs(MM.text[consoleplayer.mmlang]["HUD_SCORESTAB"])
 			V_DrawStrASCII(v, 16, (16 + (y << 3)), charset, i, v.localTransFlag())
@@ -439,11 +502,11 @@ hud.add(function(v)
 				--player name (colored as role)
 				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) << 4)), MM.RoleColor[p.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
 				--icon of the currently held weapon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, v.cachePatch(MM.weapons[p.currentweapon][1]), v.localTransFlag()) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
 				--amount of currently held weapon ammo
 				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)), p.powers[pw_infinityring + p.currentweapon], v.localTransFlag(), "thin")
 				--red ring icon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, v.cachePatch(MM.weapons[-1][1]), v.localTransFlag()) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[-1][1]], v.localTransFlag()) --FU/2
 				--amount of [red] rings
 				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)), p.rings, v.localTransFlag(), "thin")
 				teammateNo = $ + 1
@@ -470,12 +533,17 @@ hud.add(function(v)
 
 	--"Sheriff's Emerald is available!"
 	if ((#MM.shremls) and (leveltime & 1))
-		v.drawScaled(524280, 12058440, 32768, v.cachePatch("CHAOS3"), v.localTransFlag()) --8*FU, 184*FU, FU/2
+		v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
+	end
+
+	--red Flash effect when you die
+	if (consoleplayer.flashscrn)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixels[0x23], ((consoleplayer.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	--white time warp spark effect
 	if (consoleplayer.timetravel and consoleplayer.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), v.cachePatch("PIXEL_00"), ((consoleplayer.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixels[0], ((consoleplayer.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug
@@ -501,7 +569,7 @@ hud.add(function(v)
 	local plrs = {}
 	local multiply = {x=0, y=0}
 	
-	V_DrawStrASCIIcentered(v, 160, 4, charset, "\23"..MM_GetText(consoleplayer.mmlang, "MM"))
+	V_DrawStrASCII_Center(v, 160, 4, charset, "\23"..MM_GetText(consoleplayer.mmlang, "MM"))
 
 	--Map name drawer
 	if (mapheaderinfo[gamemap].actnum == 0)
@@ -607,9 +675,9 @@ hud.add(function(v)
 
 	-- Winner text
 	if (MM.winner == 0) --tie
-		V_DrawStrASCIIcentered(v, 160, 176, charset, MM_GetText(consoleplayer.mmlang, "HUD_WIN", 1))
+		V_DrawStrASCII_Center(v, 160, 176, charset, MM_GetText(consoleplayer.mmlang, "HUD_WIN", 1))
 	else
-		V_DrawStrASCIIcentered(v, 160, 176, charset, MM_GetText(consoleplayer.mmlang, "HUD_WINNERS").." "..MM_GetText(consoleplayer.mmlang, "HUD_WIN", (MM.winner + 1)))
+		V_DrawStrASCII_Center(v, 160, 176, charset, MM_GetText(consoleplayer.mmlang, "HUD_WINNERS").." "..MM_GetText(consoleplayer.mmlang, "HUD_WIN", (MM.winner + 1)))
 	end
 
 	-- Prerelease/Debug

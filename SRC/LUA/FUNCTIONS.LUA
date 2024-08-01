@@ -364,77 +364,91 @@ end)
 --
 --HUD.LUA
 --
-rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, fontsize)
+rawset(_G, "V_LoadCharset", function(v, name)
+	assert(v, "V_LoadCharset() argument #1: drawer variable expected")
+	assert(name, "V_LoadCharset() argument #2: Character Set prefix name expected")
+	if (type(name) != "string") then error("V_LoadCharset() argument #2: Character Set prefix name expected in string type") end
+
+	assert(MM.graphics, "MM.graphics table is not initialized!")
+	if (not MM.graphics.charset) then MM.graphics.charset = {} end
+
+	MM.graphics.charset[name] = {}
+	for i = 33, 255 do
+		if (v.patchExists(name..string.format("%03d", i))) then MM.graphics.charset[name][i] = v.cachePatch(name..string.format("%03d", i)) end
+	end
+
+	if (MM.devbuild) print("Loaded \x81\""..name.."\"\x80 charset") end
+end)
+
+rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)
 	--Draw strings in Murder Mystery format with swapable ASCII table
 
 	assert(v, "V_DrawStrASCII() argument #1: drawer variable expected")
-	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected")
-	elseif (not fontsize) fontsize = FU end
+	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected") end
+
+	if (small) small = 1
+	else small = 0 end
 
 	local x = x or 0
 	local y = y or 0
 	local flg = flags or 0
 
 	--if the string has no Extended ASCII symbols and is meant to be printed in normal size
-	--use SRB2 built-in function instead (it's faster)
-	if (isStandartASCII(str) and (fontsize == FU))
-		v.drawString(x, y, str, flg|V_ALLOWLOWERCASE)
+	--use SRB2 built-in function instead (it should be faster)
+	if (isStandartASCII(str))
+		if (small) v.drawString(x, y, str, flg|V_ALLOWLOWERCASE, "small")
+		else v.drawString(x, y, str, flg|V_ALLOWLOWERCASE) end
 		return
 	end
 
 	--set the characer encoding
 	local charset = chrset or "STCFN"
-
-	--set the width of symbols
-	local width = fontsize >> 13 --fontsize/8192
+	assert(MM.graphics, "MM.graphics table is not initialized!")
+	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
+	assert(MM.graphics.charset[charset], "\x81\""..charset.."\"\x80 Character Set is not initialized!")
+	assert(MM.graphics.charset["STCFN"], "\x81\"STCFN\"\x80 Character Set is not initialized!")
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg & 3072) spaceSize = 8 --V_MONOSPACE
-	elseif (flg & 1024) spaceSize = 6 end --V_6WIDTHSPACE
-	--scale for different font sizes
-	if (fontsize < FU) spaceSize = $/(FU/fontsize)
-	elseif (fontsize > FU) spaceSize = $*fontsize/FU end
+	if (flg & V_MONOSPACE) spaceSize = 8
+	elseif (flg & V_6WIDTHSPACE) spaceSize = 6 end
 
-	--text
-	local color = v.getStringColormap(0) --default to white color
+	--scale down if we want x0.5 font
+	spaceSize = $ >> small
 
 	--character position
 	local cx = x
-	local cy = y
+	local cy = y --leftover from the older code, used as an alias
 
 	--init variables
 	local chr
-	local strchar --the string version of the char number
+	local width
+	local color = v.getStringColormap(0) --default to white color
 	
 	--draw the string
-	for i = 1,#str do
+	for i = 1, #str do
 		chr = string.byte(str:sub(i,i)) --numeric value of the single character
-		
-		if (chr < 100) then strchar = "0"..chr --make the number to be 3 digit
-		else strchar = chr end
 
 		--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
 		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16) << 12) end --(chr - 16) * 4096
 
 		--print the character
 		if (chr > 0x7F) --symbol is from the Extended ASCII range
-			if (v.patchExists(charset..strchar)) --Extended ASCII
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch(charset..strchar), flg, color)
+			if (MM.graphics.charset[charset][chr]) --Extended ASCII
+				width = MM.graphics.charset[charset][chr].width
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[charset][chr], flg, color)
 			else --unknown symbol/patch not found, print "?"
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch("STCFN063"), flg, color)
+				width = MM.graphics.charset[charset][chr].width
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset["STCFN"][63], flg, color)
 			end
 		elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), fontsize, v.cachePatch("STCFN"..strchar), flg, color)
+			width = MM.graphics.charset["STCFN"][chr].width
+			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset["STCFN"][chr], flg, color)
 		end
 
 		--shift position for the next character
 		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
-		elseif (chr > 0x20) then cx = $ + width --it's a regular character
-		elseif (chr == 0x0A) --newline
-			cx = x
-			cy = $ + 8
-		end
+		elseif (chr > 0x20) then cx = $ + (width >> small) end --it's a regular character
 	end
 end)
 
@@ -464,49 +478,57 @@ rawset(_G, "V_ConvertStringColor2", function(str)
 	return table.concat(strng)
 end)
 
-rawset(_G, "V_StrWidthASCII", function(str, flags, fontsize)
+rawset(_G, "V_StrWidthASCII", function(chrset, str, flags, small)
 	--Get string width for the V_DrawStrASCII() function
 
 	if (not str) or (str == "") return 0 end
 
+	if (small) small = 1
+	else small = 0 end
+
+	assert(MM.graphics, "MM.graphics table is not initialized!")
+	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
+	if (chrset) assert(MM.graphics.charset[chrset], "\x81\""..chrset.."\"\x80 Character Set is not initialized!") end
+	assert(MM.graphics.charset["STCFN"], "\x81\"STCFN\"\x80 Character Set is not initialized!")
+
 	--symbol width
-	local width
-	if (fontsize) width = fontsize >> 13 --fontsize/8192
-	else
-		width = 8
-		fontsize = FU
-	end
 	local flg = flags or 0
 	local pixelLen = 0
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg & 3072) then spaceSize = 8 --V_MONOSPACE
-	elseif (flg & 1024) then spaceSize = 6 end --V_6WIDTHSPACE
-	--scale for different font sizes
-	if (fontsize < FU) then spaceSize = $/(FU/fontsize)
-	elseif (fontsize > FU) then spaceSize = $*(fontsize/FU) end
+	if (flg & V_MONOSPACE) then spaceSize = 8
+	elseif (flg & V_6WIDTHSPACE) then spaceSize = 6 end
+
+	--scale down for x0.5 (if needed)
+	spaceSize = $ >> small
 
 	local char
 
-	for i = 1,#str do
+	for i = 1, #str do
 		char = string.byte(str:sub(i, i)) --character number
-		if (char < 0x10) or (char > 0x1F) --character should be not a MM color code
-			if (char == 32) then pixelLen = $ + spaceSize --space
-			else pixelLen = $ + width end --regular character
+		if (char == 0x20) then pixelLen = $ + spaceSize --space
+		elseif ((char < 0x10) or (char > 0x20)) then --regular character should be not a MM color code
+			if (char > 0x7F) then pixelLen = $ + (MM.graphics.charset[chrset][char].width >> small) --Extended ASCII
+			else pixelLen = $ + (MM.graphics.charset["STCFN"][char].width >> small) end --Standart ASCII
 		end
 	end
 	return pixelLen
 end)
 
-rawset(_G, "V_DrawStrASCIIcentered", function(v, x, y, chrset, str, flags, fontsize)
-	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str,flags,fontsize) >> 1)), y, chrset, str, flags, fontsize)
+rawset(_G, "V_DrawStrASCII_Center", function(v, x, y, chrset, str, flags, small)
+	V_DrawStrASCII(v, (x - (V_StrWidthASCII(chrset, str, flags, small) >> 1)), y, chrset, str, flags, small)
+end)
+rawset(_G, "V_DrawStrASCII_Right", function(v, x, y, chrset, str, flags, small)
+	V_DrawStrASCII(v, (x - V_StrWidthASCII(chrset, str, flags, small)), y, chrset, str, flags, small)
 end)
 
 rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	--draw an image from the text data, similar to v.draw()
 	--the text data itself is a table of strings containing the
 	--SRB2 palette's color values
+	assert(MM.graphics, "MM.graphics table is not initialized!")
+	assert(MM.graphics.pixel, "Palette pixels are not initialized!")
 
 	assert(v, "V_DrawTextPatch() argument #1: drawer variable expected")
 	local x = x or 0
@@ -521,7 +543,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), v.cachePatch("PIXEL_"..string.format("%02X", pixelColor)), flags) --draw it
+				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), MM.graphics.pixel[pixelColor], flags) --draw it
 			end
 		end
 	end

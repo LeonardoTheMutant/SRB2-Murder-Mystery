@@ -203,7 +203,7 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if not ((p.mmhelp) and (p.mmhelp.active)) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (gametype != GT_MURDERMYSTERY) return end
+	if not ((p.mmhelp) and (p.mmhelp.active)) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (not ((MM.graphics) and (MM.graphics.pixel))) or (gametype != GT_MURDERMYSTERY) return end
 		
 	--init everything
 	local cx = 0
@@ -212,13 +212,13 @@ hud.add(function(v, p)
 	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
 	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 	local color = v.getStringColormap(0) --default to white color
-	local chr, strchar, stringToRender, wordWrapTemp
+	local chr, stringToRender, wordWrapTemp
 		
-	v.drawStretched(0,0, (v.width() << 16), (v.height() << 16), v.cachePatch("PIXEL_10"), V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0x10], V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
 		
 	for i = -3, 3
-		v.draw(((i*320) - (leveltime%320)), -102, v.cachePatch("NTSATKT2"), V_SNAPTOTOP)
-		v.draw(((i*320) + (leveltime%320)), 180, v.cachePatch("NTSATKB1"), V_SNAPTOBOTTOM)
+		v.draw(((i*320) - (leveltime%320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
+		v.draw(((i*320) + (leveltime%320)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
 	end
 
 	--draw the data from the screen buffer
@@ -229,21 +229,18 @@ hud.add(function(v, p)
 		for charID = 1, stringToRender:len() do
 			chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
-			if (chr < 100) then strchar = "0"..chr --make the number to be 3 digit
-			else strchar = chr end
-
 			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
 			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096
 
 			--print the character
 			if (chr > 0x7F) --Extended ASCII
-				if (v.patchExists(charset..strchar))
-					v.draw((cx << 3), (cy << 3), v.cachePatch(charset..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				if (MM.graphics.charset[charset][chr])
+					v.draw((cx << 3), (cy << 3), MM.graphics.charset[charset][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				else --unknown symbol, print "?"
 					v.drawString((cx << 3), (cy << 3), "?", V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
 			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-				v.draw((cx << 3), (cy << 3), v.cachePatch("STCFN"..strchar), V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				v.draw((cx << 3), (cy << 3), MM.graphics.charset["STCFN"][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
 			--position shifting for the next character
@@ -274,6 +271,6 @@ hud.add(function(v, p)
 	v.drawString(0, 186, ("\x89Scroll: "..p.mmhelp.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
 	v.drawString(80, 186, ("\x88Page: "..p.mmhelp.page.."/"..(#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
 
-	V_DrawStrASCII(v, 0, 192, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
-	V_DrawStrASCII(v, 0, 196, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, 32768) --FU/2
+	V_DrawStrASCII(v, 0, 192, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrASCII(v, 0, 196, charset, MM_GetText(consoleplayer.mmlang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
 end, "game")
