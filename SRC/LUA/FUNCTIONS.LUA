@@ -513,7 +513,7 @@ rawset(_G, "V_StrWidthASCII", function(chrset, str, flags, small)
 	for i = 1, #str do
 		char = string.byte(str:sub(i, i)) --character number
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
-		elseif ((char < 0x10) or (char > 0x20)) then --regular character should be not a MM color code
+		elseif (char > 0x20) then --regular character should be a printable charactrer
 			if (char > 0x7F) then pixelLen = $ + (MM.graphics.charset[chrset][char].width >> small) --Extended ASCII
 			else pixelLen = $ + (MM.graphics.charset["STCFN"][char].width >> small) end --Standart ASCII
 		end

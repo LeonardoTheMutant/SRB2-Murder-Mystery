@@ -174,6 +174,7 @@ hud.add(function(v, p)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."Background:\x80 "..p.SonicRun.background,0,"thin")
 		end
 
     --
@@ -190,7 +191,7 @@ hud.add(function(v, p)
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				V_DrawStrASCII_Center(v, youX, 48, charset, "\2"..MM_GetText(consoleplayer.mmlang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
+				V_DrawStrASCII_Center(v, youX, 48, charset, "\18"..MM_GetText(consoleplayer.mmlang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
 			end
 		else
 			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
@@ -218,11 +219,11 @@ hud.add(function(v, p)
 			if (not MM.pong.winner)
 				V_DrawStrASCII_Center(v, 160, 160, charset, MM_GetText(consoleplayer.mmlang, "HUD_WIN", 1), v.localTransFlag())
 			else
-				V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].role).."\0 "..MM_GetText(consoleplayer.mmlang, "HUD_WON"), v.localTransFlag())
+				V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].role).."\16 "..MM_GetText(consoleplayer.mmlang, "HUD_WON"), v.localTransFlag())
 			end
 		end
 		--player 1 side information
-		if (MM.duelplrs[1].valid)
+		if (valid(MM.duelplrs[1]) and MM.duelplrs[1].role)
 			--player name
 			v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
 			--role
@@ -233,11 +234,11 @@ hud.add(function(v, p)
 			V_DrawStrASCII_Center(v, (coords.pong.x + 10), 44, charset, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills), v.localTransFlag())
 		end
 		--player 2 side information
-		if (MM.duelplrs[2].valid)
+		if (valid(MM.duelplrs[2]) and MM.duelplrs[2].role)
 			--name
 			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
 			--role
-			V_DrawStrASCII(v, (304 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[2].role))), 184, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[2].role)), V_SNAPTORIGHT|v.localTransFlag())
+			V_DrawStrASCII_Right(v, 304, 184, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[2].role)), V_SNAPTORIGHT|v.localTransFlag())
 			--charpic
 			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 			--win
