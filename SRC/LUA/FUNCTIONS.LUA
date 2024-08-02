@@ -364,6 +364,11 @@ end)
 --
 --HUD.LUA
 --
+rawset(_G, "V_LoadPatch", function(v, patch)
+	MM.graphics[patch] = v.cachePatch(patch)
+	if (MM.devbuild) print("Loaded patch \x81"..p) end
+end)
+
 rawset(_G, "V_LoadCharset", function(v, name)
 	assert(v, "V_LoadCharset() argument #1: drawer variable expected")
 	assert(name, "V_LoadCharset() argument #2: Character Set prefix name expected")
@@ -598,6 +603,9 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 	return width
 end)
 
+--Perfomance heavy Text Patch manipulation functions
+--Useful only for the static images
+/*
 rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
 	assert(patch, "V_ShiftTextPatch() argument #1: patch text data expected")
 	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
@@ -626,7 +634,6 @@ rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
 	return buffer
 end)
 
-/*
 rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine, endLine)
 	assert(patch, "V_CropTextPatch() argument #1: patch text data expected")
 	if (startColumn < 0) then error("V_CropTextPatch() argument #2: positive starting column position value expected") end

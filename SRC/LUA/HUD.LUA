@@ -24,11 +24,6 @@ local function V_GetSHREMLiconID(dist)
 	else return 1 end
 end
 
-local function V_LoadPatch(v, p)
-	MM.graphics[p] = v.cachePatch(p)
-	if (MM.devbuild) print("Loaded patch \x81"..p) end
-end
-
 --
 -- Main game HUD
 --
@@ -174,10 +169,8 @@ hud.add(function(v, p)
 		plrsAlive = PlayersAlive() - PlayerCount(ROLE_MURDERER)
 	elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
 		plrsAlive = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO)
-	elseif (p.role == ROLE_INNOCENT)
+	elseif (p.role == ROLE_INNOCENT) or (not p.role)
 		plrsAlive = PlayersAlive() - 1
-	else
-		plrsAlive = PlayersAlive()
 	end
 	--Draw the number
 	v.drawNum(((hudinfo[HUD_SCORE].x + maxHudIfnfoSize) - 16), hudinfo[HUD_SCORE].y, plrsAlive, hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
@@ -435,12 +428,12 @@ hud.add(function(v, p)
 	
 	--red Flash effect when you die
 	if (p.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixels[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 	
 	--white time warp spark effect
 	if (p.timetravel and p.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixels[0], ((p.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0], ((p.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 	
 	--Debug
@@ -538,12 +531,12 @@ hud.add(function(v)
 
 	--red Flash effect when you die
 	if (consoleplayer.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixels[0x23], ((consoleplayer.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((consoleplayer.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	--white time warp spark effect
 	if (consoleplayer.timetravel and consoleplayer.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixels[0], ((consoleplayer.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0], ((consoleplayer.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug

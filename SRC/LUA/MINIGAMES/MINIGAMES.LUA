@@ -120,7 +120,7 @@ local function SONIC_Reset(p)
         timeout = 141,
         hazards = {},
         hazardsTimeout = 0,
-        background = P_RandomKey(4) + 1
+        background = P_RandomKey(3)
     }
 end
 
