@@ -8,11 +8,12 @@
 --
 local function MM_Get2Players()
 	if (PlayerCount() != 2) return end
-    MM.duelplrs = {}
+    local plrs = {}
 	for p in players.iterate
-		MM.duelplrs[#MM.duelplrs + 1] = p
-		if (#MM.duelplrs == 2) return end
+		plrs[#plrs + 1] = p
+		if (#plrs == 2) break end
 	end
+    return plrs
 end
 
 local function PONG_PlaySFX(sfx)
@@ -57,7 +58,13 @@ local function PONG_Thinker()
         PONG_Win(1)
     end
 
-    --paddles
+    --check if paddles are out of bounds
+    for pad = 1, 2 do
+        if (MM.pong.pads[pad] < 0) MM.pong.pads[pad] = 0
+        elseif (MM.pong.pads[pad] > 64) MM.pong.pads[pad] = 64 end
+    end
+
+    --ball & paddles collision
     if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1] - 1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(1)
@@ -77,17 +84,10 @@ end
 -- PONG input handler
 local function PONG_ThinkCmd(p)
     --Paddle controls, supports analog controls from joypads
-    if (MM.duelplrs[1] == p) then MM.pong.pads[1] = $ - (p.cmd.forwardmove / 24) --Duel player 1
-    elseif (MM.duelplrs[2] == p) then MM.pong.pads[2] = $ - (p.cmd.forwardmove / 24) end --Duel player 2
-
-    --check if pads are out of bounds
-    for pad = 1, 2 do
-        if (MM.pong.pads[pad] < 0) MM.pong.pads[pad] = 0
-        elseif (MM.pong.pads[pad] > 64) MM.pong.pads[pad] = 64 end
-    end
-
-    if ((MM.duelplrs[1] != p) and (MM.duelplrs[2] != p) and (p.spectator)) --you are spectator
-        --spectators are allowed to manipulate the ball ;P
+    if (PONG_GetMySlot(p)) --You are one of the duel players
+        MM.pong.pads[PONG_GetMySlot(p)] = $ - (p.cmd.forwardmove / 24)
+    else --you must be a spectator
+        --spectators are allowed to manipulate the ball :P
         if (not p.mmweapondelay)
             if (p.cmd.forwardmove > 10) --up
                 MM.pong.velocity.y = -1
@@ -204,10 +204,12 @@ end
 addHook("ThinkFrame", do
     if (gametype != GT_MURDERMYSTERY) return end
     if (MM.twopgame)
-        if (PlayerCount() == 2) then MM_Get2Players() end
+        if (PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = MM_Get2Players() end
+
         if ((not MM.duelplrs[1]) or (not MM.duelplrs[2])) return end
+
         if valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame = true
-        else MM.minigame = 0 end
+        else MM.minigame = false end
     end
     if (MM.minigame)
         if (MM.pong.wintimeout > -1) MM.pong.wintimeout = $ - 1
@@ -248,7 +250,6 @@ addHook("PlayerThink", function(p)
     --Player is in minigame state
     if (p.minigame)
         if ((MM.minigame) and (MM.twopgame)) --PONG
-            MM.hud.game.enabled = false
             if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
             --Disable player movement (kinda)
             if (valid(p.realmo))
@@ -257,7 +258,6 @@ addHook("PlayerThink", function(p)
                 p.realmo.state = S_PLAY_STND
             end
         elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
-            MM.hud.game.enabled = false
             if (p.SonicRun.timeout)
                 p.SonicRun.timeout = $ - 1
                 if (p.SonicRun.timeout > TICRATE)
@@ -268,7 +268,5 @@ addHook("PlayerThink", function(p)
             if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) SONIC_Thinker(p) end
 			p.powers[pw_nocontrol] = 1
         end
-    else
-        MM.hud.game.enabled = true
     end
 end)

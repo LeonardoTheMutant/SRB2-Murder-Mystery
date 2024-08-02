@@ -97,7 +97,7 @@ hud.add(function(v, p)
 	end
 
 	--Do not render the main HUD if it was disabled by another script
-	if (not MM.hud.game.enabled) or (p.mmhelp.active) or (p.debugdrawer) return end
+	if (p.mmhelp.active) or (p.debugdrawer) or (MM.minigame and p.minigame) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -282,28 +282,25 @@ hud.add(function(v, p)
 		end
 	end
 
-	if (not p.spectator) and (MM.twopgame)
+	if (not p.spectator) and (MM.twopgame) and (MM.duelplrs)
 		local rival
-		if (MM.duelplrs and MM.duelplrs[1] and MM.duelplrs[2])
-			if ((MM.duelplrs[1].valid) and (MM.duelplrs[1] == p))
-				rival = MM.duelplrs[2]
-			elseif (MM.duelplrs[2] == p)
-				rival = MM.duelplrs[1]
-			end
+		if (valid(MM.duelplrs[1]) and (MM.duelplrs[1] == p))
+			rival = MM.duelplrs[2]
+		elseif (valid(MM.duelplrs[2]) and (MM.duelplrs[2] == p))
+			rival = MM.duelplrs[1]
 		end
-		if valid(rival)
-			if ((not p.minigame) and (not rival.minigame))
-				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-			elseif ((p.minigame) and (not rival.minigame))
-				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				if (not p.minigametimeout)
-					V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				end
-			elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
-				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+
+		if ((not p.minigame) and (not rival.minigame))
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+		elseif ((p.minigame) and (not rival.minigame))
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+			if (not p.minigametimeout)
+				V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			end
+		elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 		end
 	end
 
@@ -464,9 +461,6 @@ hud.add(function(v)
 		return
 	end
 
-	--Do not render the Scores Tab if it was disabled by another script
-	if (not MM.hud.scores.enabled) return end
-
 	hud.disable("rankings")
 	-- Prerelease/Debug
 	v.drawString(160, 0, "GAMETYPE IN PRERELEASE STATE, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center")
@@ -552,8 +546,8 @@ hud.add(function(v)
 		return
 	end
 
-	--Do not render the Intermission if it was disabled by another script or when MapVote is working
-	if (not MM.hud.intermission.enabled) or ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0))) return end
+	--Do not render the Intermission when MapVote is working
+	if ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0))) return end
 
 	hud.disable("intermissiontally")
 	

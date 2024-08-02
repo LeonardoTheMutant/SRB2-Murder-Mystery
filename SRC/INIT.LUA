@@ -22,7 +22,6 @@ rawset(_G, "MM", {
 	},
 	hud = { --variables that control the HUD renderer
 		game = { --Main Game HUD
-			enabled = true,
 			pos = {
 				ringWepMurd = {x = 144}, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
@@ -30,7 +29,6 @@ rawset(_G, "MM", {
 			}
 		},
 		scores = { --HUD for Scores Tab
-			enabled = true,
 			pos = {
 				teammateInfo = {x=20, y=136}, --Teammates tracklist
 				teammateInfoOffset1 = {x=18}, --Offset for current weapon icon
@@ -38,7 +36,6 @@ rawset(_G, "MM", {
 			}
 		},
 		intermission = { --Intermisson HUD
-			enabled = true,
 			pos = {
 				players = {y=32},
 				num = {x=16},

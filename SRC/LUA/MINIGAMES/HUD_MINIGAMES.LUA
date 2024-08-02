@@ -183,9 +183,9 @@ hud.add(function(v, p)
     elseif (MM.minigame) and (p.minigame)
 		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
 		--CUSTOM3 related text and show yourself
-		if (p == MM.duelplrs[1]) or (p == MM.duelplrs[2])
+		if (PONG_GetMySlot(p))
 			if (not p.minigametimeout) then
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
+				V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			end
 			if (not splitscreen)
 				local youX
@@ -194,7 +194,7 @@ hud.add(function(v, p)
 				V_DrawStrASCII_Center(v, youX, 48, charset, "\18"..MM_GetText(consoleplayer.mmlang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
 			end
 		else
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), 0, 32768)), 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			if (not p.minigametimeout) then
 				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
 			end
@@ -219,7 +219,9 @@ hud.add(function(v, p)
 			if (not MM.pong.winner)
 				V_DrawStrASCII_Center(v, 160, 160, charset, MM_GetText(consoleplayer.mmlang, "HUD_WIN", 1), v.localTransFlag())
 			else
-				V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].role).."\16 "..MM_GetText(consoleplayer.mmlang, "HUD_WON"), v.localTransFlag())
+				if (MM.duelplrs[MM.pong.winner].role)
+					V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].role).."\16 "..MM_GetText(consoleplayer.mmlang, "HUD_WON"), v.localTransFlag())
+				end
 			end
 		end
 		--player 1 side information
@@ -257,7 +259,7 @@ hud.add(function(v, p)
 		end
     elseif (MM.minigame) and (not p.minigame)
         --Draw the invitation/suggestion text
-        V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATE")), 0, 32768)), 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
-        V_DrawStrASCII(v, (320 - V_StrWidthASCII(MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "DUEL"), 0, 32768)), 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
+        V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+        V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 	end
 end, "game")

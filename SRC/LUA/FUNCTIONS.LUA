@@ -334,8 +334,7 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 end)
 
 rawset(_G, "MM_CheckShowdown", function()
-	--if (PlayerCount(ROLE_MURDERER)) and ((PlayerCount(ROLE_SHERIFF)) or (PlayerCount(ROLE_HERO))) and (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
-	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn)
+	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
 		MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
 		S_ChangeMusic(MM.shwdwn, true)
 	end
@@ -697,6 +696,11 @@ end)
 --
 --MINIGAME.LUA
 --
+rawset(_G, "PONG_GetMySlot", function(p)
+	if (not MM.duelplrs) return end
+	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
+end)
+
 rawset(_G, "PONG_SetVelocity", function(side)
 	side = $ or 0
 
