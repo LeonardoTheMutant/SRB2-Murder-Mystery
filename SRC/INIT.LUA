@@ -154,7 +154,7 @@ G_AddGametype({
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,
-	description = "Kill everyone as Murderer or eliminate them as Sheriff! ...or be none of them and be Innocent"
+	description = "Kill everyone as Murderer, prevent the murders as Sheriff and survive as Innocent!"
 })
 
 --Sheriff Drop Emerald
@@ -172,7 +172,7 @@ mobjinfo[MT_MMKNIFE]={
 	spawnstate = S_SPRK1,
 	radius = 4194304, --64*FU
 	height = 3145728, --48*FU
-	flags = 513 --MF_NOGRAVITY|MF_SPECIAL
+	flags = MF_NOGRAVITY|MF_SPECIAL
 }
 
 --Death SFX captions

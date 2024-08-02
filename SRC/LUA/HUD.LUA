@@ -290,17 +290,19 @@ hud.add(function(v, p)
 			rival = MM.duelplrs[1]
 		end
 
-		if ((not p.minigame) and (not rival.minigame))
-			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-		elseif ((p.minigame) and (not rival.minigame))
-			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-			if (not p.minigametimeout)
-				V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+		if (valid(rival))
+			if ((not p.minigame) and (not rival.minigame))
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+			elseif ((p.minigame) and (not rival.minigame))
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				if (not p.minigametimeout)
+					V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				end
+			elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
+				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			end
-		elseif ((not p.minigame) and (rival.minigame) and (leveltime & 1))
-			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 		end
 	end
 

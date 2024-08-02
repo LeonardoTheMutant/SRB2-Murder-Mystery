@@ -69,7 +69,10 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 
 	--First, this is a bad word to use, Second, don't even think to critisize me of this
 	--This is actually a trap for Moth-likes
-	if (m:upper():match("NIGGA") or m:upper():match("NIGGER")) then MM_PunishPlayer(s, "N-word", true) end
+	if (m:upper():match("NIGGA") or m:upper():match("NIGGER")) then
+		MM_PunishPlayer(s, "N-word", 1)
+		return true
+	end
 
 	if (s.spectator)
 		if (type == 0) --If dead player sends a message, make that messsage appear only to the dead players
@@ -113,6 +116,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 					S_StartSound(nil, sfx_radio, p)
 				end
 			end
+			if (isdedicatedserver) then chatprintf(server, "<"..badge..s.name.."> "..m) end
 			return true
 		elseif (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
 			if (m:sub(1,1) == "%") then m = $:sub(2) end

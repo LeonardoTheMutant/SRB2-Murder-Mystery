@@ -365,7 +365,7 @@ end)
 --
 rawset(_G, "V_LoadPatch", function(v, patch)
 	MM.graphics[patch] = v.cachePatch(patch)
-	if (MM.devbuild) print("Loaded patch \x81"..p) end
+	if (MM.devbuild) print("Loaded patch \x81"..patch) end
 end)
 
 rawset(_G, "V_LoadCharset", function(v, name)
