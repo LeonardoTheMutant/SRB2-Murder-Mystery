@@ -8,7 +8,7 @@
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
 	if (not pnum) or (not prole)
-		CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [dead (0/1)]")
+		CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [kill?]")
 		return
 	end
 	if (prole=="nil") players[tonumber(pnum)].role=nil
@@ -50,7 +50,7 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
 end)
 COM_AddCommand("mmcharset",function(p, set) --Draw all characters from the Extended ASCII character set
-	if (not set) CONS_Printf(p, "\x87MMCHARSET\x80 [characterset_prefix]") end
+	if (not set) CONS_Printf(p,"\x87MMCHARSET\x80 [characterset_prefix]") end
 	p.debugdrawer=set
 	p.debugcolor=0
 end)

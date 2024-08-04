@@ -13,7 +13,7 @@ local death_sfx = { --SFXs that are used as Death Sounds
 	sfx_mmdth4, --DOOM: Doomguy death 2
 	sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
 	sfx_mmdth6, --Pain meme sfx
-	sfx_mmdth7  --Michael Jackson's Moonwalker (Mega Drive): Intro theme
+	sfx_mmdth7  --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
 }
 
 local shwdwn_music = { --Tracks used as Showdown Duel themes
@@ -234,8 +234,10 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		body.color = p.color
 
 		if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
+	else
+		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
-
+	
 	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
 end)
 

@@ -5,15 +5,6 @@
 
 local chatdelayCVAR = CV_FindVar("mm_chatdelay")
 local mmsafechat = CV_FindVar("mm_safechat")
-/*
-local IAMvocabluary ={
-	{"I AM", "I'M", "IM"}, --"I am..."
-	{"MURDERER", "MURD", "KILLER"}, -- "...Murderer"
-	{"SHERIFF", "SHERI"}, --"...Sheriff"
-	{"INNOCENT", "INNO"}, --"...Innocent"
-	{"HERO"} --"...Hero"
-}
-*/
 
 local function chatcolor2textcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) return "\x80"
@@ -35,6 +26,42 @@ local function chatcolor2textcolor(c)
 	end
 end
 
+local function CHAT_Say(s, m)
+	local chatcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
+
+	--Admin/Verified badges
+	local badge = ""
+	if (s == server) badge = "\x82~"..chatcolor
+	elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
+
+	for p in players.iterate do
+		if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
+			chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m)
+			S_StartSound(nil, sfx_radio, p)
+		end
+	end
+
+	if (isdedicatedserver) then chatprintf(server, "<"..badge..s.name.."> "..m) end
+end
+
+local function CHAT_TeamSay(s, m) --sender, message
+	for p in players.iterate do
+		if (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
+			if ((p.role == s.role) and (s.role == ROLE_MURDERER))
+				chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
+				S_StartSound(nil, sfx_radio, p)
+			elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
+				if (s.role == ROLE_SHERIFF)
+					chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
+				elseif (s.role == ROLE_HERO)
+					chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m)
+				end
+				S_StartSound(nil, sfx_radio, p)
+			end
+		end
+	end
+end
+
 --SAYDEAD command - Say to the Dead Chat as Dedicated server
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	--get the message string
@@ -42,11 +69,11 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	local m = ""
 	for i = 1, #arg do
 		m = $ + arg[i]
-		if (i < #arg) m = $ + " " end --add space between words (arguments)
+		if (i < #arg) then m = $ + " " end --add space between words (arguments)
 	end
 	
 	local sender
-	if (p == server) sender = "\x80~SERVER\x86"
+	if (p == server) then sender = "\x80~SERVER\x86"
 	else sender = p.name end
 	
 	if (#m)
@@ -61,7 +88,7 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 end, COM_ADMIN)
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) return end
+	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) then return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
 		CONS_Printf(s, "You are sending too many messages, please wait "..(G_TicsToSeconds(s.chatdelay) + 1).." second(s)")
 		return true
@@ -84,59 +111,17 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				chatprintf(t, "\x82[PM]\x86{"..s.name.."} "..m)
 			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
 		end
-		return true
 	else
 		if (type == 0)
-			--"I am [role]" chat protection
-			--string.find() works horribly here
-			/*
-			if (PlayerCount() > 2) and (not MM.twopgame) and (mmsafechat.value) and (gamestate == GS_LEVEL)
-				for i,k in pairs(IAMvocabluary[1]) do
-					if (m:upper():find(k))
-						for role = ROLE_MURDERER, ROLE_HERO do
-							for i2, k2 in pairs(IAMvocabluary[role + 1]) do
-								if (m:upper():find(k2) and (role == s.role)) then MM_PunishPlayer(s, "Self-reveal")
-								elseif (m:upper():find(k2) and (role != s.role)) then MM_PunishPlayer(s, "\"Fake self-reveal (trolling)\"") end
-							end
-						end
-					end
-				end
-			end
-			*/
-			local chatcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
-
-			--Admin/Verified badges
-			local badge = ""
-			if (s == server) badge = "\x82~"..chatcolor
-			elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
-
-			for p in players.iterate do
-				if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
-					chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m)
-					S_StartSound(nil, sfx_radio, p)
-				end
-			end
-			if (isdedicatedserver) then chatprintf(server, "<"..badge..s.name.."> "..m) end
-			return true
-		elseif (type == 1) or (m:sub(1,1) == "%") --SAYTEAM
-			if (m:sub(1,1) == "%") then m = $:sub(2) end
-			for p in players.iterate
-				if ((p.role == s.role) and (s.role == ROLE_MURDERER))
-					chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
-					S_StartSound(nil, sfx_radio, p)
-				elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
-					if (s.role == ROLE_SHERIFF)
-						chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
-					elseif (s.role == ROLE_HERO)
-						chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m)
-					end
-					S_StartSound(nil, sfx_radio, p)
-				end
-			end
-			return true
+			if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m:sub(2))  --SAYTEAM shortcut
+			else CHAT_Say(s, m) end
+		elseif (type == 1)  --SAYTEAM
+			if (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m)
+			else CHAT_Say(s, m) end
 		end
 	end
 	s.chatdelay = (chatdelayCVAR.value*TICRATE)
+	return true
 end)
 
 --chat delay timers
