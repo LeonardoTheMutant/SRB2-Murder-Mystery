@@ -3,6 +3,7 @@
 --Map & code by LeonardoTheMutant
 
 local doorheight
+sfxinfo[sfx_doora1].caption = "Sliding close" --too add more sense
 
 addHook("ThinkFrame", function(m) --finding the Eggman's Room door
     if (gametype != GT_MURDERMYSTERY) or (gamemap != 460) or (doorsector) return end

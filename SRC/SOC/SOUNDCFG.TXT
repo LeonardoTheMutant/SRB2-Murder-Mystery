@@ -1,15 +1,6 @@
 freeslot
-SFX_DOROPN
-SFX_DORCLS
 SFX_DAMFLL
 SFX_ALDI
-
-# for MAPK0 (Abandoned Shelter)
-Sound sfx_doropn
-Caption = Door open
-
-Sound sfx_dorcls
-Caption = Door close
 
 # for MAPK5 (Dam Zone)
 Sound sfx_damfll
