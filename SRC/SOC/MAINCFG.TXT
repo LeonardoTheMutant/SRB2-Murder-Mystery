@@ -124,6 +124,7 @@ SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Music = 11H_00
 Act = 0
+SkyNum = 6
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KD
