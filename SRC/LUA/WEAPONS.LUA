@@ -222,25 +222,3 @@ addHook("TouchSpecial", function(special, toucher)
     P_DamageMobj(toucher, special, special.target)
     return true
 end, MT_MMKNIFE)
-
--- "Wall hug" bug fix for all weapons
---
--- Bug explanation:
--- Some projectiles can go through walls if they have travel speed higher than radius.
--- In SRB2 all weapons are like this and if the players "hugs" the wall there is a chance
--- that your weapon projectile will clip through wall and be at the other side of it.
--- You can watch Decino's much more detailed explanation here:
--- https://www.youtube.com/watch?v=kRC7hGDrNsM
-
-addHook("ThinkFrame", do
-    for weapon = 0, #MM.weapons do
-        if (gametype == GT_MURDERMYSTERY)
-			--weapons are still broken but at least there are less chances of wallclip
-            mobjinfo[MM.weapons[weapon][2]].radius = 1048576 --16*FU
-            mobjinfo[MM.weapons[weapon][2]].speed = 2097152 --32*FU
-        else --return everything to default if gametype is not MM
-            mobjinfo[MM.weapons[weapon][2]].radius = 1048576 --16*FU
-            mobjinfo[MM.weapons[weapon][2]].speed = 3932160 --60*FU
-        end
-    end
-end)
