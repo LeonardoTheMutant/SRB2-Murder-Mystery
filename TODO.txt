@@ -7,7 +7,6 @@
 - Change the titlecard and intermission backgrounds to contain the name of the gametype
 - Deep test the add-on for SIGSEVG appearance
 - Update the old level select icons and make new for the new maps
-- Rebuild/resize MAPK1 ("Vineyard Castle") to make it smaller
 - Include the "Minimal System Requirements" with the add-on
 - Replace the vanilla F1 menu graphics with the MM manual
 - Make (several) release trailer(s)
