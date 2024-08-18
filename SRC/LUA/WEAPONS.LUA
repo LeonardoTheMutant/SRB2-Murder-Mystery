@@ -4,7 +4,6 @@
 -- Vanilla weaponry recreation for modding it
 
 local autofireCVAR = CV_FindVar("mm_autofire")
-local nogunsCVAR = CV_FindVar("mm_noguns")
 MM.weapons = {}
 
 -- VANILLA WEAPONS
@@ -104,23 +103,25 @@ end
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_MURDERMYSTERY) return end
 
+    if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY)) then p.currentweapon = 0 end --Force to weapon Slot 1
+
+    p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
+
     if (p.mmweapondelay) p.mmweapondelay = $ - 1 end
     if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL))
         p.pflags = $ & ~PF_ATTACKDOWN
         return
     end
-
     if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
 		or (not p.role) or (p.role == ROLE_INNOCENT) or ((MM.minigame) and (p.minigame))
 		or (p.playerstate == PST_DEAD) or (p.spectator)
 	then return end
 
-    local noguns = ((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2)
+    if (not autofireCVAR.value) then p.pflags = $|PF_ATTACKDOWN end
 
-    if (not autofireCVAR.value) p.pflags = $|PF_ATTACKDOWN end
     local mo
 
-    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.cmd.buttons & BT_ATTACK) and noguns)
+    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
         -- KNIFE --
         if (p.rings > 0)
             P_SetWeaponDelay(p, MM.weapons[-2][4])
@@ -185,7 +186,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_RAIL][2], MM.weapons[WEP_RAIL][3])
         -- Rail has no unique thrown object, therefore its sound plays here.
         S_StartSound(p.mo, sfx_rail1)
-    elseif (not noguns)
+    elseif not (MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
         if (p.currentweapon == 0) and (p.powers[pw_infinityring])
             -- INFINITY --
             P_SetWeaponDelay(p, MM.weapons[0][4])

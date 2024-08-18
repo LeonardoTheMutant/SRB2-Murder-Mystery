@@ -362,6 +362,17 @@ rawset(_G, "MM_PunishPlayer", function(p, msg, ban) --player (player_t), punishm
 	end
 end)
 
+rawset(_G, "MM_WeaponConfigFlags", function(role, flags)
+	if (role == ROLE_MURDERER)
+		if (PlayerCount(ROLE_INNOCENT)) then return MM.weaponconfig[1] & flags
+		else return MM.weaponconfig[3] & flags end
+	elseif (role == ROLE_SHERIFF) or (role == ROLE_HERO)
+		if (PlayerCount(ROLE_INNOCENT)) then return MM.weaponconfig[2] & flags
+		else return MM.weaponconfig[4] & flags end
+	end
+	return 0
+end)
+
 --
 --HUD.LUA
 --

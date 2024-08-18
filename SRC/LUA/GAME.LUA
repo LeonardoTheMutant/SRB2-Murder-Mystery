@@ -8,8 +8,6 @@
 
 local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
-local duelmodeCVAR = CV_FindVar("mm_duelmode")
-local nogunsCVAR = CV_FindVar("mm_noguns")
 
 local function MM_GetSHREMLinterval(dist)
 	if (dist < 256) return 5
@@ -337,14 +335,7 @@ end, MT_SHREML)
 --
 addHook("PlayerThink", function(p)
 	if (gametype != GT_MURDERMYSTERY) return end
-
-	--lock weapons from Murderer in case it is not Duel or Murderers are not allowed to have other weapons during Duels
-	--OR lock weapons from everyone if the Knife-only mode is activated
-	if ((p.role == ROLE_MURDERER) and PlayerCount(ROLE_INNOCENT) or (not duelmodeCVAR.value)) or (((nogunsCVAR.value == 1) and (not MM.shwdwn) and PlayerCount(ROLE_INNOCENT)) or (nogunsCVAR.value == 2))
-		p.currentweapon = 0
-	end
-
-	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
+	
 	p.powers[3] = 0 --disable shields completely
 
 	if (not p.spectator)

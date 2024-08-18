@@ -23,7 +23,7 @@ rawset(_G, "MM", {
 	hud = { --variables that control the HUD renderer
 		game = { --Main Game HUD
 			pos = {
-				ringWepMurd = {x = 144}, --Murderer's weapon icon
+				ringWepOnly = {x = 144}, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
 				debug = {x=8, y=48}, --Debug info
 			}
@@ -49,6 +49,12 @@ rawset(_G, "MM", {
 				name3 = {x=24}
 			}
 		}
+	},
+	weaponconfig = { --4 groups of 2-bit weapon configurations
+		0, --Murderer (Normal)
+		0, --Sheriff (Normal)
+		0, --Murderer (Duel)
+		0  --Sheriff (Duel)
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
 	winner = 0, --for intermission, netsynced
@@ -94,6 +100,10 @@ rawset(_G, "TWS_NONE", 0)
 rawset(_G, "TWS_PAST", 1)
 rawset(_G, "TWS_FUTURE", 2)
 
+--Weapon Configuration subgroup flags
+rawset(_G, "WEPCFG_REDONLY", 1)
+rawset(_G, "WEPCFG_DISABLERED", 2)
+
 --Customization API
 MM.AddLang = function(langID,langTbl)
 	if (not langID) error("Invalid Language Index") end
@@ -116,24 +126,28 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mm_abilities")
 		if (v.value) print("\x87Murder Mystery:\x80 Skin abilities are Enabled (no limits)")
 		else print("\x87Murder Mystery:\x80 Skin abilities are Disabled (\"Regular person\" mode)") end
-	elseif (v.name == "mm_noguns")
-		if (v.value == 1) print("\x87Murder Mystery:\x80 Knife-only mode activated")
-		elseif (v.value == 2) print("\x87Murder Mystery:\x80 Strict knife-only mode activated \x81(Good Luck soldier)\x80")
-		else print("\x87Murder Mystery:\x80 Knife-only mode deactivated") end
-	elseif (v.name == "mm_duelmode")
-		if (v.value) print("\x87Murder Mystery:\x85 Murderers\x80 now have access to all weapons during the Showdown Duel")
-		else print("\x87Murder Mystery:\x85 Murderers\x80 can only use Red and Infinite Rings during duels") end
+	elseif (v.name == "mm_wepconfig")
+		local sentences = {
+			[0] = "All weapons enabled",
+			[1] = "Only Red/Infinite rings + Knife",
+			[2] = "All weapons with Red/Infinite rings replaced by knife",
+			[3] = "Knife only"
+		}
+		MM.weaponconfig[1] = v.value & 3
+		MM.weaponconfig[2] = (v.value >> 2) & 3
+		MM.weaponconfig[3] = (v.value >> 4) & 3
+		MM.weaponconfig[4] = (v.value >> 6) & 3
+		print("\x87Murder Mystery:\x80 Weapon Configuration was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[1]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[2]].."\n\t\x88Showdown Duel\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[3]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[4]])
 	end
 end
---Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
+-- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
 --CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
-CV_RegisterVar({name = "mm_noguns", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_duelmode", defaultvalue = "True", PossibleValue = CV_TrueFalse, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --

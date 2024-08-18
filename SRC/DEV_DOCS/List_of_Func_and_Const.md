@@ -62,6 +62,7 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA):
 | <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from <code>timezone1</code> can happen in <code>timezone2</code>. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are **TIMEZONE_*** constants. |
 | <code>**MM_GetText**(*string* language, *string* line, [*string*/*int* parameter])</code> | *string* | A safe way to extract the strings from the global MM Text Table (<code>MM.text</code>) without crashing/erroring LUA. When all 3 arguments are given this function returns the value at <code>MM.text[language][line][parameter]</code>. If only <code>language</code> and <code>line</code> arguments are given the function returns the value from <code>MM.text[language][line]</code>. If the text is not found or the arguments are invalid a blank string is returned instead.<br>*Note:* Even if the expected return value is table, this function will return an empty string!<br>*In Debug Builds:* If the text can not be reached or invalid arguments are given an error is triggered with the details. |
 | <code>**MM_PunishPlayer**(*player_t* player, *string* message, [*boolean* ban?])</code> | *nil* | Kick player from the game or ban if <code>ban?</code> is set. <code>message</code> is the kick/ban message.<br>*Note:* If the player who is going to be punished is the host, SRB2 automatically closes for this player, causing the server to shut down. |
+| <code>**MM_WeaponConfigFlags**(*int* role, *int* flags)</code> | *int* | Returns the result of the Logical AND operation between Weapon Configuration CVAR (`mm_wepconfig`) and <code>flags</code> argument for the given <code>role</code>. |
 
 ### `HUD.LUA`
 
@@ -106,7 +107,7 @@ Functions that are used in more than one script
 | <code>**P_GetFOFTopZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the top height of the FOF at (x, y). Ported from SRB2 source code |
 | <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code |
 | <code>**isExtendedASCII**(*string* str)</code> | *boolean* | Returns `true` if the <code>str</code> contains a symbol from Extended ASCII Range (`0x80` - `0xFF`) |
-| <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in `str` are from Standart (Printable) ASCII range (`0x20` - `0x7F`) |
+| <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in <code>str</code> are from Standart (Printable) ASCII range (`0x20` - `0x7F`) |
 | <code>**valid**(* arg)</code> | *boolean* | Simply checks if both <code>arg</code> and <code>arg.valid</code> are true |
 
 # Constants
@@ -153,12 +154,12 @@ Win reasons for `MM_EndRound("WIN")` and `MM_ChatprintGlobal("WIN")` functions
 
 Time Zone constants tell in what timezone the player (or an object) is existing right now
 
-| Constant               | Value | Description      |
-| ---------------------- | ----- | ---------------- |
-| `TIMEZONE_PAST`        | 1     | Past             |
-| `TIMEZONE_PRESENT`     | 2     | Present          |
-| `TIMEZONE_FUTURE_BAD`  | 3     | Bad Future       |
-| `TIMEZONE_FUTURE_GOOD` | 4     | Good Future      |
+| Constant               | Value | Description |
+| ---------------------- | ----- | ----------- |
+| `TIMEZONE_PAST`        | 1     | Past        |
+| `TIMEZONE_PRESENT`     | 2     | Present     |
+| `TIMEZONE_FUTURE_BAD`  | 3     | Bad Future  |
+| `TIMEZONE_FUTURE_GOOD` | 4     | Good Future |
 
 ### Time Warp Sign
 
@@ -170,25 +171,34 @@ These contants describe in which direction in the timeline player will warp
 | `TWS_PAST`    | 1     | Warping to Past   |
 | `TWS_FUTURE`  | 2     | warping to Future |
 
+### Weapon configurations
+
+The constants for the configurations flag checks. Useful only with the `mm_wepconfig`'s CVAR value (Bitshift it to the right 2, 4 and 6 times)
+
+| Constant | Value | Description |
+| --- | --- | --- |
+| `WEPCFG_REDONLY` | 1 | Only the Weapon Slot 1 is usable (Red/Infinite rings. Knife)
+| `WEPCFG_DISABLERED` | 2 | Weapon Slot 1 is occupied by the Knife only |
+
 ### The core table
 
 The description of each value in the `MM` table. The `MM` constant itself is defined in [INIT.LUA](../INIT.LUA)
 
 | Name | Type | Description | Example value |
 | --- | --- | --- | --- |
-| `version` | *string* | Version number of the add-on | `"1.0-ALPHA"` |
-| `devbuild` | *boolean* | Mark add-on build as a *Developer Build*, when set to `true` it enables the *Debug Mode* in the add-on | `true` |
-| `releasedate` | *string* | The release date of the add-on version. If the version is not released it can be `"Not released yet"` | `"May 10th 2024"` |
-| `text` | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | [*See the template file*](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/TEMPLATES/customlang.lua) |
-| `SEMJ_info` | *string[]* | The Sound Emoji description table for ***MMHELP CHAT*** console command | [*See `INIT.LUA`*](../INIT.LUA) |
-| `RoleColor` | *string[]* | The text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
-| `RoleColorHUD` | *string[]* | The HUD text colors for roles | [*See `INIT.LUA`*](../INIT.LUA) |
-| `hud`          | *table* | HUD control variables for each sub-renderer (<code>MM.hud.game</code>, <code>MM.hud.scores</code>, <code>MM.hud.intermission</code>). Each sub-renderer has two attributes: `enabled` (custom scripts can disable MM's HUD renderers by setting this to `false`) and `pos` (coordinates of the different HUD elements) | *See [`INIT.LUA`](../INIT.LUA)* |
-| `shwdwn`       | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not | "S2MSBS" |
-| `winner`       | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros and Innocents). This variable is **netsynced** | 0 |
-| `winreason` | *int* | The win reason, can be one of the `WIN_*` constants. This variable is **netsynced** | 1 |
-| `timelimit` | *int* | Works just like SRB2's vanilla ***timelimit*** but MM uses its own. The value is measured in Minutes. This variable is **netsynced**                                     | 5                                                                                                                      |
-| `shremls` | *mobj_t[]* | The table containing all dropped *Sheriff Emerald* objects | none |
-| `pong` | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [`INIT.LUA`](../INIT.LUA) and [`LUA/MAIN/MINIGAME.LUA`](../LUA/MAIN/MINIGAME.LUA)* |
+| <code>version</code> | *string* | Version number of the add-on | <code>"1.0-ALPHA"</code> |
+| <code>devbuild</code> | *boolean* | Mark add-on build as a *Developer Build*, when set to <code>true</code> it enables the *Debug Mode* in the add-on | <code>true</code> |
+| <code>releasedate</code> | *string* | The release date of the add-on version. | <code>"August 19th 2024"</code> |
+| <code>text</code> | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | *See [the template file](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/TEMPLATES/customlang.lua)* |
+| <code>RoleColor</code> | *string[5]* | The text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
+| <code>RoleColorHUD</code> | *string[5]* | The HUD text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
+| <code>hud</code>          | *table* | HUD control variables for each sub-renderer (<code>MM.hud.game</code>, <code>MM.hud.scores</code>, <code>MM.hud.intermission</code>). Each sub-renderer has two attributes: <code>enabled</code> (custom scripts can disable MM's HUD renderers by setting this to <code>false</code>) and <code>pos</code> (coordinates of the different HUD elements) | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
+| <code>weaponconfig</code> | *int[4]* | Table to contain the Weapon Configurations. Updated by the `mm_wepconfig` CVAR. | *See [MM_WEPCONFIG.PNG](MM_WEPCONFIG.PNG) and [<code>INIT.LUA</code>](../INIT.LUA)* |
+| <code>shwdwn</code>       | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not | "S2MSBS" |
+| <code>winner</code>       | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros and Innocents). This variable is **netsynced** | 0 |
+| <code>winreason</code> | *int* | The win reason, can be one of the <code>WIN_*</code> constants. This variable is **netsynced** | 1 |
+| <code>timelimit</code> | *int* | Works just like SRB2's vanilla `timelimit` but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
+| <code>shremls</code> | *mobj_t[]* | The table containing all dropped *Sheriff Emerald* objects | *See [<code>LUA/GAME.LUA</code>](../LUA/GAME.LUA)* |
+| <code>pong</code> | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [<code>INIT.LUA</code>](../INIT.LUA) and [<code>LUA/MINIGAMES/MINIGAMES.LUA</code>](../LUA/MINIGAMES/MINIGAMES.LUA)* |
 
 # That's all folks!
