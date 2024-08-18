@@ -10,7 +10,6 @@ local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 local duelmodeCVAR = CV_FindVar("mm_duelmode")
 local nogunsCVAR = CV_FindVar("mm_noguns")
-local teamviewCVAR = CV_FindVar("mm_teamview")
 
 local function MM_GetSHREMLinterval(dist)
 	if (dist < 256) return 5
@@ -409,16 +408,8 @@ addHook("PlayerThink", function(p)
 end)
 
 addHook("ViewpointSwitch", function(p, np) --player, nextplayer
-	if (p.spectator)
-		return --use game's default behaviour
-	else
-		if (teamviewCVAR.value) --Can teammates see each other's viewpoint?
-			if (MM_AreTeammates(p, np)) then return --switch to the np, if teammate (using game's default behaviour)
-			else return false end --do not switch
-		else
-			return false --do not switch
-		end
-	end
+	if (p.spectator) return --use game's default behaviour
+	else return false end --do not switch
 end)
 
 --

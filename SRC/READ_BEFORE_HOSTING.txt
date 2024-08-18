@@ -31,8 +31,7 @@ VARIABLES
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
 	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
-	    set to 0 AFK timeout is disabled;
-	MM_TEAMVIEW - Allow/Disallow teammate players to see each other's viewpoint (with F12). The default value is YES (Allow).
+	    set to 0 AFK timeout is disabled.
 	MM_NOGUNS - Select one of the Knife-only modes. When set to 1, Murderers, Sheriffs and Heroes are limited only to Knife,
 		but get access to all of the weapons when the Showdown Duel statrs. When set to 2, Only the knife is present throughout the whole game.
 		Set to 0 to make the weapons act like normal. The default value is 0.
