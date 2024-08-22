@@ -2153,6 +2153,9 @@ local flatsounds={
 	["ERZRED1"]="metal",
 	["ERZWAL17"]="metal",
 	["ERZ_D0W0"]="metal",
+	["CETILB4"]="stone",
+	["CETILD4"]="stone",
+	["CETILE4"]="stone",
 
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",

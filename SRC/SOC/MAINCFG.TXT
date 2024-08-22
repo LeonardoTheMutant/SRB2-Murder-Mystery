@@ -69,7 +69,7 @@ NextLevel = K7
 Lua.Author = LeoTM
 
 Level K7
-LevelName = Sky Mesa
+LevelName = Space Mesa
 SelectHeading = Murder Mystery
 NoZone = True
 Act = 0
@@ -163,5 +163,22 @@ Nozone = true
 TypeOfLevel = MurderMystery
 SkyNum = 17
 Weather = 2
-NextLevel = K0
+NextLevel = KG
 Lua.Author = Troplucky, LeoTM
+
+Level KG
+Levelname = Atzec
+SelectHeading = Murder Mystery
+Act = 0
+TypeOfLevel = MurderMystery
+SkyNum = 40
+NextLevel = K0
+Lua.Author = LeoTM
+
+Level KH
+Levelname = * Empty *
+SelectHeading = Murder Mystery
+Act = 0
+TypeOfLevel = MurderMystery
+NextLevel = K0
+Lua.Author = None
