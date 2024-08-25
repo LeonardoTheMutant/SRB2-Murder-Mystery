@@ -43,7 +43,7 @@ MAPKD Good Future - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
  SHOWDOWN
 ----------
 DRMBM2 - "2 player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine)
-DRMBMF - "Fight against Robotnik" (Dr. Robotnik's Mean Bean Machine)
+EWJ2TN - "Anything but tangerines" by Tommy Tallarico (Earthworm Jim 2)
 S2GGBS - "Boss theme" (Sonic 2 Game Gear)
 S2MSBS - "Boss theme" (Sonic 2 Master System)
 STORMR - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))

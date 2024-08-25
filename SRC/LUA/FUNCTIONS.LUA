@@ -19,7 +19,7 @@ local death_sfx = { --SFXs that are used as Death Sounds
 local shwdwn_music = { --Tracks used as Showdown Duel themes
 	"S2MSBS", --Sonic 2 (Master System): Boss
 	"S2GGBS", --Sonic 2 (Game Gear): Boss
-	"DRMBMF", --Dr. Robotnik's Mean Bean Machine: Final battle with Robotnik
+	"EWJ2TN", --Earthworm Jim 2: Anything but tangerines
 	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
 	"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
 	"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
