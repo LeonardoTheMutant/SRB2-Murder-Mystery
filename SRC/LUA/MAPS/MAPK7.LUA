@@ -1,11 +1,20 @@
--- (MAPK7)
+--Space Mesa (MAPK7)
 --Level script
 --Map & code by LeonardoTheMutant
 
-local doortimers={
-    0, --1st door
-    0, --2nd
-    0  --3rd
+local doors={
+    { --1st door
+        0, --timer
+        24 --close tag
+    },
+    { --2nd door
+        0,
+        26
+    },
+    { --3rd door
+        0,
+        28
+    }
 }
 local doordelay=35
 
@@ -18,24 +27,26 @@ local truthTextures = {
 local rayTimer
 local rayControlLine
 
-addHook("LinedefExecute", function(l,mo) --open door 1 trigger
+addHook("LinedefExecute", do --open door 1 trigger
     if (gametype==GT_MURDERMYSTERY)
         P_LinedefExecute(23)
-        doortimers[1] = doordelay
+        doors[1][1] = doordelay
     end
-end,"K7DR1OPN")
-addHook("LinedefExecute", function(l,mo) --open door 2 trigger
+end,"K7D1OPN")
+
+addHook("LinedefExecute", do --open door 2 trigger
     if (gametype==GT_MURDERMYSTERY)
         P_LinedefExecute(25)
-        doortimers[2] = doordelay
+        doors[2][1] = doordelay
     end
-end,"K7DR2OPN")
-addHook("LinedefExecute", function(l,mo) --open door 3 trigger
+end,"K7D2OPN")
+
+addHook("LinedefExecute", do --open door 3 trigger
     if (gametype==GT_MURDERMYSTERY)
         P_LinedefExecute(27)
-        doortimers[3] = doordelay
+        doors[3][1] = doordelay
     end
-end,"K7DR3OPN")
+end,"K7D3OPN")
 
 --the Truth Ray
 addHook("LinedefExecute", function(l,mo,s)
@@ -55,12 +66,14 @@ addHook("LinedefExecute", function(l,mo,s)
     end
 end,"K7_TRUTH")
 addHook("ThinkFrame", do
-    if (gametype!=GT_MURDERMYSTERY) or (gamemap!=467) return end
+    if (gametype!=GT_MURDERMYSTERY) or (gamemap != 467) return end
+
 	--doors close timer
-    for doornum,doortimer in pairs(doortimers)
-        if (not doortimer) P_LinedefExecute(22 + (doornum << 1)) --close one of the doors
-        else doortimers[doornum] = $ - 1 end
+    for doornum, _ in pairs(doors)
+        if (not doors[doornum][1]) then P_LinedefExecute(doors[doornum][2]) --close one of the doors, if the timer ran out AND it is 100% open (not in open/close animation)
+        else doors[doornum][1] = $ - 1 end
     end
+
 	--The Truth Ray reset
     if valid(rayControlLine)
         if (not rayTimer) rayControlLine.frontside.midtexture = 4029 --"~015", gray
