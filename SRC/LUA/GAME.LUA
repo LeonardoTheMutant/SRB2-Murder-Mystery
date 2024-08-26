@@ -451,3 +451,11 @@ addHook("PlayerQuit", function(p)
 	if ((gametype != GT_MURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
 	if (p.role) MM_PlayerQuit(p) end
 end)
+
+if tsourdt3rd
+	addHook("KeyDown", function(keyevent)
+		if (keyevent.num == 9) and (CV_FindVar("automapoutsidedevmode").value) and (gametype == GT_MURDERMYSTERY)
+			COM_BufInsertText(consoleplayer, "QUIT")
+		end
+	end)
+end
