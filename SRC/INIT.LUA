@@ -1,5 +1,5 @@
 if (MM)
-	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time")
+	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 rawset(_G, "MM", {
@@ -235,3 +235,5 @@ addHook("NetVars", function(net)
 	MM.pong = net($)
 	MM.duelplrs = net($)
 end)
+
+if (MODVERSION != 54) error("Murder Mystery was designed for SRB2 v2.2.13 only. Incompatibilities may occur", 0) end
