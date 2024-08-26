@@ -199,6 +199,8 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	plr.killedby = k.player.name
 	k.player.kills = $ + 1
 	if (not k.player.sneak) P_PlayDeathSound(p) end
+	plr.rmomx = 0
+	plr.rmomy = 0
 
 	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
