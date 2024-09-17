@@ -15,7 +15,7 @@ local towerlift={
 
 addHook("LinedefExecute", function(l,mo) --Generator room trigger
     P_LinedefExecute(26)
-    doors[1] = doordelay
+    door[1] = doordelay
 end,"KBGENOPN")
 
 addHook("LinedefExecute", function(l,mo) --Tower lift trigger

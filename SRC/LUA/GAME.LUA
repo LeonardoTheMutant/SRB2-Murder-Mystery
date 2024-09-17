@@ -372,7 +372,7 @@ addHook("PlayerThink", function(p)
 
 		--play sound
 		if (p.shreml_dist)
-			if (p.role == ROLE_INNOCENT)
+			if (p.role == ROLE_INNOCENT) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableradar))
 				local interval = MM_GetSHREMLinterval(fixint(p.shreml_dist))
 				if (interval and (leveltime % interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 			elseif (p.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)

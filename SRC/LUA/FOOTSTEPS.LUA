@@ -2171,6 +2171,7 @@ local flatsounds={
 	["AQF057"]="stone",
 	["AQF074"]="metal",
 	["AQRUST01"]="metal",
+	["BRICK"]="stone",
 	["CEIL4_1"]="cloth",
 	["CEIL5_1"]="stone",
 	["CONS1_1"]="metal",
@@ -2318,7 +2319,7 @@ end
 
 addHook("PlayerThink", function(player)
 	if (gametype!=GT_MURDERMYSTERY) return end
-	if (player.mo) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
+	if (valid(player.mo)) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
 		local pmo = player.mo
 		local panimInfo=PlayerAnimInfo[pmo.skin]
 		if (panimInfo)
@@ -2367,7 +2368,9 @@ addHook("PlayerThink", function(player)
 					player.playsound=true
 					soundType="land"
 				end
-			elseif (not P_IsObjectOnGround(pmo)) player.wasfalling=true end
+			elseif (not P_IsObjectOnGround(pmo))
+				player.wasfalling=true
+			end
 			if (player.playsound) and (not player.sneak)
 				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
@@ -2377,7 +2380,10 @@ addHook("PlayerThink", function(player)
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							if (mapheaderinfo[gamemap].disablefootsteps != "True") P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP) end
+							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks))
+								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
+								mobjstep.eflags = pmo.eflags
+							end
 						end
 					end
 				end

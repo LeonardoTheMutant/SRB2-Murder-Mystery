@@ -39,6 +39,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
+		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
 	end
 

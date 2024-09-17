@@ -204,12 +204,13 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 
 	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (p.skin == "tails") body.state = S_TMMDEAD
+	if (p.skin == "sonic") body.state = S_SMMDEAD
+	elseif (p.skin == "tails") body.state = S_TMMDEAD
 	elseif (p.skin == "knuckles") body.state = S_KMMDEAD
 	elseif (p.skin == "amy") body.state = S_AMMDEAD
 	elseif (p.skin == "fang") body.state = S_FMMDEAD
 	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-	else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
+	else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
 	body.color = p.color
 
 	if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
@@ -227,12 +228,13 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-		if (p.skin == "tails") body.state = S_TMMDEAD
+		if (p.skin == "sonic") body.state = S_SMMDEAD
+		elseif (p.skin == "tails") body.state = S_TMMDEAD
 		elseif (p.skin == "knuckles") body.state = S_KMMDEAD
 		elseif (p.skin == "amy") body.state = S_AMMDEAD
 		elseif (p.skin == "fang") body.state = S_FMMDEAD
 		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-		else body.state = S_SMMDEAD end --Sonic, also fallback for custom chars (I really should ban them)
+		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
 		body.color = p.color
 
 		if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
@@ -339,7 +341,11 @@ end)
 
 rawset(_G, "MM_CheckShowdown", function()
 	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
-		MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
+		if (mapheaderinfo[gamemap].showdowntrack)
+			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
+		else
+			MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
+		end
 		S_ChangeMusic(MM.shwdwn, true)
 	end
 end)
@@ -795,6 +801,11 @@ end)
 
 rawset(_G, "valid", function(arg)
 	return (arg and arg.valid)
+end)
+
+rawset(_G, "SOC_IsTrue", function(arg)
+	if (not arg) return false end
+	if (arg == "True") or (arg == "true") or (arg == "1") return true end
 end)
 
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings

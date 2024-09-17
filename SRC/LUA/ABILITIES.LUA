@@ -29,8 +29,10 @@ addHook("PlayerThink", function(p)
 		if ((p.cmd.buttons & BT_SPIN)) --sneaking
 			p.normalspeed = 196608 --3*FU
 			p.sneak = true
+			--if (not p.speed) then p.state = S_PLAY_STND end
 		else
-			p.normalspeed = 1638400 --25*FU
+			if (SOC_IsTrue(mapheaderinfo[gamemap].slowwalkspeed)) then p.normalspeed = 917504 --14*FU
+			else p.normalspeed = 1572864 end --24*FU
 			p.sneak = false
 		end
 	end

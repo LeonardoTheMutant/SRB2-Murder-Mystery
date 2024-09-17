@@ -5,6 +5,8 @@
 --This script is executes on startup if MM.devbuild is set to true
 --I keep this minimalistic so don't wonder why code is unreadable there
 
+local shwdwn_music={"S2MSBS","S2GGBS","EWJ2TN","DRMBM2","STORMR","UNDYNE","SSBLSD"}
+
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
 	if (not pnum) or (not prole)
@@ -48,6 +50,13 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	if (direction=="-") sign=-1 else sign=1 end
 	if (shift and shift!="false") P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
+end)
+COM_AddCommand("mmduel",function()
+	if (not MM.shwdwn) and (not MM.twopgame)
+		if (mapheaderinfo[gamemap].showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].showdowntrack
+		else MM.shwdwn=shwdwn_music[P_RandomKey(#shwdwn_music)+1] end
+		S_ChangeMusic(MM.shwdwn,true)
+	end
 end)
 COM_AddCommand("mmcharset",function(p, set) --Draw all characters from the Extended ASCII character set
 	if (not set) CONS_Printf(p,"\x87MMCHARSET\x80 [characterset_prefix]") end

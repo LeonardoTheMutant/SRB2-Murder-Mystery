@@ -6,7 +6,6 @@ S_AMMDEAD
 S_FMMDEAD
 S_MMMDEAD
 S_MMSKELT
-S_MMSTEP
 SPR_SDED
 SPR_TDED
 SPR_KDED
@@ -14,8 +13,6 @@ SPR_ADED
 SPR_FDED
 SPR_MDED
 SPR_SKEL
-SPR_STEPA0
-MT_MMSTEP
 MT_DEADPLR
 
 #
@@ -71,27 +68,15 @@ spriteframe = A
 DURATION = -1
 next = S_MMSKELT
 
-#State for footstep mark
-State S_MMSTEP
-SpriteName = SPR_STEPA0
-SpriteFrame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A 
-Duration = 700
-Next = S_NULL
-
 #
 # OBJECTS
 #
 
-#Footstep mark
-Object MT_MMSTEP
-SpawnState = S_MMSTEP
-Height = 1
-Flags = 512 #MF_NOGRAVITY
-
 #Dead player body
 Object MT_DEADPLR
-spawnstate = S_MMMDEAD
+spawnstate = S_MMSKELT
+MapThingNum = 666
 reactiontime = 8
-radius = 2097152 #32*FU
+radius = 1048576 #16*FU
 height = 1
 mass = 16

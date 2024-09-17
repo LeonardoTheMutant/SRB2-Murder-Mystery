@@ -156,7 +156,7 @@ CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_On
 print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE')
+freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
 freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 G_AddGametype({
@@ -186,6 +186,21 @@ mobjinfo[MT_MMKNIFE]={
 	radius = 4194304, --64*FU
 	height = 3145728, --48*FU
 	flags = MF_NOGRAVITY|MF_SPECIAL
+}
+
+--State for footstep mark
+states[S_MMSTEP]={
+	sprite = SPR_STEPA0,
+	frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A,
+	tics = 700,
+	nextstate = S_NULL
+}
+
+--Footstep mark
+mobjinfo[MT_MMSTEP] = {
+	spawnstate = S_MMSTEP,
+	height = 1,
+	flags = MF_NOGRAVITY
 }
 
 --Death SFX captions

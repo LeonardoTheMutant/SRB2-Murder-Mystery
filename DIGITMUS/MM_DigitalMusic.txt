@@ -35,10 +35,39 @@ MAPK5 - "Dam" by Grant Kirkhope (Goldeneye 007)
 MAPK7 - "Rough Landing" by Korp, remix of dave3d08.mid by jute (Freedoom: Phase 2 (v0.13.0))
 MAPK8 - *unknown*
 MAPK9 - "Reflection" by Scragadelic (Freedoom: Phase 2 (v0.13.0))
-MAPKD Present - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
-MAPKD Past - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD JP)
-MAPKD Bad Future - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
-MAPKD Good Future - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
+
+MAPKC: "Stauf's Mansion":
+Original game soundtrack composed by the Fat Man and Team Fat
+11H_00 - "Hey conductor" (Foyer)
+11H_01 - "Pool Balls" (Library)
+11H_02 - "Sadness" (Music room)
+11H_03 - Kitchen
+11H_04 - "Pool Balls (alt)" (Dinning room)
+11H_05 - "Creep" (Upstairs hallway)
+11H_06 - "In the walls II" (Foyer-Gallery passage)
+11H_07 - Gallery
+11H_08 - "Ghost of Bo" (Hamilton Temple's bedroom)
+11H_09 - "Long jazzy end of XMusic Box" (Game room)
+11H_0A - "XMusic Box" (Julia Heine's bedroom)
+11H_0B - "All the guests" (Edward Knox's bedroom)
+11H_0C - Bathroom
+11H_0D - Doll room
+11H_0E - "Dool of Doom" (Nursery)
+11H_0F - Brian Dutton's bedroom
+11H_10 - "Bedspread" (Martin Burden's bedroom)
+11H_11 - "Mirror puzzle" (Attic staircase)
+11H_12 - "Doorbell (short)" (Attic)
+11H_13 - "Rain" (Room at the top)
+11H_14 - "Funky tubes" (Chapel)
+11H_15 - Laboratory
+11H_16 - "In the walls I" (Dutton's-Chapel passage)
+11H_17 - "Bathroom (alt)" (Laboratory-Library passage)
+
+MAPKD: "East City":
+Present - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
+Past - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD JP)
+Bad Future - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
+Good Future - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 
  SHOWDOWN
 ----------

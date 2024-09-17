@@ -1,10 +1,9 @@
 freeslot
-SFX_DAMFLL
+SFX_FALLIN
 SFX_ALDI
 
-# for MAPK5 (Dam Zone)
-Sound sfx_damfll
-Caption = Falling from the Dam...
+Sound sfx_fallin
+Caption = Falling...
 
 # for MAPKD (East City)
 Sound sfx_aldi

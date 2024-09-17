@@ -120,14 +120,19 @@ Lua.Author = Cyan, LeoTM
 
 Level KC
 LevelName = Stauf's Mansion
-SubTitle = Under Construction
+SubTitle = The^5 11^0th hour
 SelectHeading = Murder Mystery
 Music = 11H_00
 Act = 0
 SkyNum = 6
 NoZone = True
 TypeOfLevel = MurderMystery
+Lua.Timelimit = 11
 NextLevel = KD
+Lua.ShowdownTrack = 11H_TR
+Lua.SlowWalkSpeed = True
+Lua.DisableRadar = True
+Lua.DisableFootmarks = True
 Lua.Author = Trillobyte, LeoTM
 
 Level KD
