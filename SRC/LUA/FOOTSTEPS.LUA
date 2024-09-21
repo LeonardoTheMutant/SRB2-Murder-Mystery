@@ -2126,6 +2126,7 @@ local flatsounds={
 	["DCASPHW"]="stone",
 	["THZWALLF"]="metal",
 	["THZWALLA"]="stone",
+	["THZWAL07"]="metal",
 	["THZ2N3H"]="metal",
 	["THZ2FN6B"]="metal",
 	["ROCKY3"]="stone",
@@ -2133,6 +2134,7 @@ local flatsounds={
 	["SFLR27"]="ground",
 	["GLASSTEX"]="glass",
 	["DCWAL22"]="stone",
+	["DCWAL25"]="stone",
 	["THDOOR2B"]="stone",
 	["CEZRCK0"]="stone",
 	["OLDROCKW"]="stone",
@@ -2156,6 +2158,18 @@ local flatsounds={
 	["CETILB4"]="stone",
 	["CETILD4"]="stone",
 	["CETILE4"]="stone",
+	["THPIPE1"]="metal",
+	["THPIPE2"]="metal",
+	["THZMETL2"]="stone",
+	["CESTONB1"]="stone",
+	["CESTONB2"]="stone",
+	["CESTONB3"]="stone",
+	["CESTONB4"]="stone",
+	["CESTONB5"]="stone",
+	["CESTONB6"]="stone",
+	["CESTONB7"]="stone",
+	["CESTONB8"]="stone",
+	["CESTONB9"]="stone",
 
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
@@ -2380,10 +2394,12 @@ addHook("PlayerThink", function(player)
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
+							/*
 							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks))
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
 							end
+							*/
 						end
 					end
 				end
@@ -2398,3 +2414,11 @@ addHook("PlayerThink", function(player)
 		end
 	end
 end)
+
+
+--Somewhat effective function to remove the "flying footmarks"
+--The problem is, this function does not allow for footmarks to spawn on FOF surfaces and slopes
+
+--addHook("MobjThinker", function(mo)
+--	if (not P_IsObjectOnGround(mo)) then P_KillMobj(mo) end
+--end, MT_MMSTEP)

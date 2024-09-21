@@ -65,13 +65,14 @@ addHook("LinedefExecute", function(l,mo,s)
         rayTimer = 35
     end
 end,"K7_TRUTH")
+
 addHook("ThinkFrame", do
-    if (gametype!=GT_MURDERMYSTERY) or (gamemap != 467) return end
+    if (gamemap != 467) return end
 
 	--doors close timer
     for doornum, _ in pairs(doors)
-        if (not doors[doornum][1]) then P_LinedefExecute(doors[doornum][2]) --close one of the doors, if the timer ran out AND it is 100% open (not in open/close animation)
-        else doors[doornum][1] = $ - 1 end
+        if (not doors[doornum][1]) then P_LinedefExecute(doors[doornum][2]) --close one of the doors
+        else doors[doornum][1] = $ - 1 end --decrement the timer
     end
 
 	--The Truth Ray reset

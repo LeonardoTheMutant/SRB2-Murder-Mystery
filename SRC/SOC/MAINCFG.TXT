@@ -51,6 +51,7 @@ Lua.Author = LeoTM
 
 Level K5
 LevelName = Dam
+SubTitle = ^2Goldeneye^5 007
 SelectHeading = Murder Mystery
 Act = 0
 SkyNum = 30
@@ -110,9 +111,11 @@ Lua.Author = SEGA, SandwichCinema, LeoTM
 
 Level KB
 LevelName = Myst Island
-SubTitle = Under Construction
+SubTitle = ^7Myst
 SelectHeading = Murder Mystery
+Music = None
 Act = 0
+SkyNum = 16
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KC
