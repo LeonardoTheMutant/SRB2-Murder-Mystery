@@ -769,7 +769,7 @@ MM.text={
 			"\x87Zycie zrobilo z ciebie \x85Morderce\x87, \x85teraz idz wszystkich zabic.",
 			"\x87Swiat sprawil cie nowym \x84Szeryfem\x87! To teraz twoja robota\x84 wyeliminowac wszystkich Mordercow\x87!",
 			"\x87Wszyscy obroncy odeszli ale swiat sprawil cie nowym\x82 Bohaterem\x87! To twoja szansa uratowac dzien!",
-			"\x87Wyeliminowales jednego z \x85Morderc\x87! Zostales awansowany na \x82Bohatera\x87!"
+			"\x87Wyeliminowales jednego z \x85Morderc\x87! Zostales awansowany na\x82 Bohatera\x87!"
 		},["TEAMMATE_HIT"]={
 			"Ten gracz jest twoim wspolnikiem, natepnym razem nie probuj zabiac ich ponownie",
 			"Twoj wspolnik cie zaatakowal, nie probuj sie mscic"
