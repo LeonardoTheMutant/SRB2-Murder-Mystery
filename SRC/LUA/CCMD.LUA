@@ -32,6 +32,7 @@ local function helpCMD(p, page)
 		CONS_Printf(p, "\x87MM_AFK\x80         - AFK timeout in minutes. If player is AFK for [MMAFK] minutes straight he is going to be kicked.")
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
 		CONS_Printf(p, "\x87MM_WEPCONFIG\x80   - Set how weapons work for each role (except "..MM.RoleColor[ROLE_INNOCENT].."Innocent\x80) during the normal gameplay and the Showdown Duel")
+		CONS_Printf(p, "\x87MM_WEPINNO\x80     - Enable/Disable weapons for "..MM.RoleColor[ROLE_INNOCENT].."Innocent\x80. Setting this CVAR to\x81 1\x80 will let them use Red Ring + Knife,\x82 2\x80 forces to Knife-only. In both situations "..MM.RoleColor[ROLE_INNOCENT].."Innocents\x80 need to have 100 rings to make one shot")
 	end
 	if (MM.devbuild)
 		CONS_Printf(p, "\n\x82".."DEVELOPER DEBUG COMMANDS")

@@ -138,6 +138,10 @@ local function VarChange(v) --callback function called by CV_CALL flag
 		MM.weaponconfig[3] = (v.value >> 4) & 3
 		MM.weaponconfig[4] = (v.value >> 6) & 3
 		print("\x87Murder Mystery:\x80 Weapon Configuration was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[1]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[2]].."\n\t\x88Showdown Duel\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[3]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[4]])
+	elseif (v.name == "mm_wepinno")
+		if (v.value == 0) print("\x87Murder Mystery:\x80 Weapons are disabled for "..MM.RoleColor[ROLE_INNOCENT].."Innoncents")
+		elseif (v.value == 1) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife and Red Ring weapons")
+		elseif (v.value == 2) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife") end
 	end
 end
 -- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
@@ -148,6 +152,7 @@ CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
 CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --

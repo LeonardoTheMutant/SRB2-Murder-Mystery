@@ -103,7 +103,7 @@ end
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_MURDERMYSTERY) return end
 
-    if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY)) then p.currentweapon = 0 end --Force to weapon Slot 1
+    if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY) or (p.role == ROLE_INNOCENT)) then p.currentweapon = 0 end --Force to weapon Slot 1
 
     p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 
@@ -113,7 +113,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         return
     end
     if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
-		or (not p.role) or (p.role == ROLE_INNOCENT) or ((MM.minigame) and (p.minigame))
+		or (not p.role) or ((MM.minigame) and (p.minigame))
 		or (p.playerstate == PST_DEAD) or (p.spectator)
 	then return end
 
@@ -123,10 +123,11 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
         -- KNIFE --
-        if (p.rings > 0)
+        if (((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (p.rings > 99)))
             P_SetWeaponDelay(p, MM.weapons[-2][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
-            P_GivePlayerRings(p, -1)
+            if (p.role == ROLE_INNOCENT) then P_GivePlayerRings(p, -100) --Weapon shot/use costs 100 rings for Innocents
+            else P_GivePlayerRings(p, -1) end
 
             if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
         end
@@ -187,20 +188,22 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         -- Rail has no unique thrown object, therefore its sound plays here.
         S_StartSound(p.mo, sfx_rail1)
     elseif not (MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
-        if (p.currentweapon == 0) and (p.powers[pw_infinityring])
+        if (p.currentweapon == 0) and (p.powers[pw_infinityring]) and (p.role != ROLE_INNOCENT)
             -- INFINITY --
             P_SetWeaponDelay(p, MM.weapons[0][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
             p.powers[pw_infinityring] = $ - 1
         else
             -- RED RING --
-            if (p.rings > 0)
+            if (((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (p.rings > 99)))
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
-                P_GivePlayerRings(p, -1)
+                if (p.role == ROLE_INNOCENT) then P_GivePlayerRings(p, -100) --Weapon shot/use costs 100 rings for Innocents
+                else P_GivePlayerRings(p, -1) end
             end
         end
     end
+
     --Rail ring main logic (sparkles, hit detection)
     if ((mo) and (mo.flags & MF_MISSILE) and (mo.flags2 & MF2_RAILRING))
 	    for i = 0, 255

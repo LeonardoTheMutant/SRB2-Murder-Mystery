@@ -143,9 +143,10 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	-- Randomly selected innocent has a new role
 	["NEWROLE_GET"]={
-		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!", --Murderer
-		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!", --Sheriff
-		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!" --Hero
+		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!",
+		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
+		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!",
+		"\x87You have eliminated one of the \x85Murderers\x87! You were promoted to \x82Hero\x87!"
 	},
 
 	-- Teammate hit
@@ -179,10 +180,13 @@ local language={ --Language must be a table variable, you can name the variable 
 	--Sheriff's Emerald pickup global notification
 	["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
 
-	-- Innocent hurt by Sheriff/Hero personal messages
-	["INNO_HURT_PM"]={
-		"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)", --Sheriff
-		"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that." --Hero
+	--Player has killed someone it did not have to
+	["KILL_PUNISHMENT_PM"]={
+		"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)", --Sheriff killed Innocent
+		"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that.", --Hero killed Innocent
+		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You got the death penalty for that", --Innocent killed Sheriff
+		"\x87You murdered an \x83Innocent\x87 player just like you! You got the death penalty for that", --Innocent killed Innocent
+		"\x87Oh no! You murdered a \x82Hero\x87! You got the death penalty for that" --Innocent killed Hero
 	},
 
 	-- Innocent hurt by Sheriff/Hero personal messages

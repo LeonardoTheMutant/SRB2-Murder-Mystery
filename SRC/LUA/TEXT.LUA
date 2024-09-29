@@ -90,7 +90,8 @@ MM.text={
 		["NEWROLE_GET"]={
 			"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!",
 			"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
-			"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!"
+			"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!",
+			"\x87You have eliminated one of the \x85Murderers\x87! You were promoted to \x82Hero\x87!"
 		},
 		-- Teammate hit
 		["TEAMMATE_HIT"]={
@@ -115,10 +116,13 @@ MM.text={
 		},
 		["DIED_HAZARD"]="has died in an accident", --player was crushed, has drown or fell into a pit
 		["SHREML_PICK"]="Someone picked up the \x84Sheriff's Emerald\x80...",
-		-- Innocent hurt by Sheriff
-		["INNO_HURT_PM"]={
-			"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)",
-			"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that."
+		--Player killed someone it did not have to
+		["KILL_PUNISHMENT_PM"]={
+			"\x87You murdered an \x83Innocent\x87! You got fired. (You're no longer a Sheriff)", --Sheriff killed Innocent
+			"\x82Heroes\x87 are not meant to kill \x83Innocents\x87. You got the death penalty for that.", --Hero killed Innocent
+			"\x87Oh no! You murdered a \x84Sheriff\x87!!! You got the death penalty for that", --Innocent killed Sheriff
+			"\x87You murdered an \x83Innocent\x87 player just like you! You got the death penalty for that", --Innocent killed Innocent
+			"\x87Oh no! You murdered a \x82Hero\x87! You got the death penalty for that" --Innocent killed Hero
 		},
 		["INNO_HURT"]={
 			"The \x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!",
@@ -374,7 +378,7 @@ MM.text={
 			"\x80".."fue asesinado!"
 		},["DIED_HAZARD"]="ha muerto en un accidente",
 		["SHREML_PICK"]="Alguien ha tomado la\x84 Esmeralda del Comisario\x80...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Has matado a un \x83Inocente\x87! Has sido despedido!. (Ya no eres un Comisario)",
 			"Los \x82Heroes\x87 no estan hechos para matar \x83Inocentes\x87. Conseguiste la penalizacion de muerte por eso."
 		},["INNO_HURT"]={
@@ -579,7 +583,7 @@ MM.text={
 			"\x80".."a ete assassiner!"
 		},["DIED_HAZARD"]="est mort dans un accident",
 		["SHREML_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (You're no longer a Sheriff)",
 			"Les \x82Heros\x87 ne doivent pas tuer les \x83Innocents\x87. Vous avez la penaliter de morts pour ca."
 		},["INNO_HURT"]={
@@ -764,7 +768,8 @@ MM.text={
 		},["NEWROLE_GET"]={
 			"\x87Zycie zrobilo z ciebie \x85Morderce\x87, \x85teraz idz wszystkich zabic.",
 			"\x87Swiat sprawil cie nowym \x84Szeryfem\x87! To teraz twoja robota\x84 wyeliminowac wszystkich Mordercow\x87!",
-			"\x87Wszyscy obroncy odeszli ale swiat sprawil cie nowym\x82 Bohaterem\x87! To twoja szansa uratowac dzien!"
+			"\x87Wszyscy obroncy odeszli ale swiat sprawil cie nowym\x82 Bohaterem\x87! To twoja szansa uratowac dzien!",
+			"\x87Wyeliminowales jednego z \x85Morderc\x87! Zostales awansowany na \x82Bohatera\x87!"
 		},["TEAMMATE_HIT"]={
 			"Ten gracz jest twoim wspolnikiem, natepnym razem nie probuj zabiac ich ponownie",
 			"Twoj wspolnik cie zaatakowal, nie probuj sie mscic"
@@ -781,9 +786,12 @@ MM.text={
 		},
 		["DIED_HAZARD"]="zginal(ela) w nieszczesnym wypadku",
 		["SHREML_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Zamordowales \x83Niewinnego\x87! Nie jestes juz \x84Szeryfem\x87!",
-			"\x82".."Bohaterowie nie sa po to, zeby zabijac \x83Niewinnych\x87. Masz za to kare smierci."
+			"\x82".."Bohaterowie nie sa po to, zeby zabijac \x83Niewinnych\x87. Masz za to kare smierci.",
+			"\x87O nie! Zamordowales \x84Szeryfa\x87! Masz za to kare smierci!",
+			"\x87Zabiles takiego samego \x83Niewinnego\x87 gracza jak i ty! Masz za to kare smierci!",
+			"\x87O nie! Zamordowales\x82 Bohatera\x87! Masz za to kare smierci!"
 		},["INNO_HURT"]={
 			"\x84Szeryfie\x80 zamordowales niewinnego! Ktos z \x83Niewinnych\x80 musi dokonczyc robote!",
 			"\x82".."Bohater\x80 jest skurwielem, zabil spokojnego \x83Niewinnego\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
@@ -969,7 +977,8 @@ MM.text={
 		},["NEWROLE_GET"]={
 			"\x87Sud'ba darovala tebe rol' \x85Ubiytsy\x87.\x85 Teper' idi, ubivay!",
 			"\x87Tebe dana rol' \x84Sherifa\x87! Vperyod, \x84 ustrani ubiyts\x87, poka ne pozdno!",
-			"\x87Ty byl(-a) izbran(-a) \x82Geroem\x87. Spasi zhe Nevinnyh ot Ubiyts!"
+			"\x87Ty byl(-a) izbran(-a) \x82Geroem\x87. Spasi zhe Nevinnyh ot Ubiyts!",
+			"\x87Ty ustranil(-a) odnogo iz \x85Ubiyts\x87! Tebia povysili do \x82Geroya\x87!"
 		},["TEAMMATE_HIT"]={
 			"Eto Vash naparnik. Bolshe ne streliayte po svoim.",
 			"Vas udaril Vash naparnik. Dazhe ne dumayte emu mstit'."
@@ -985,9 +994,12 @@ MM.text={
 			"\x80".."byl ubit!"
 		},["DIED_HAZARD"]="popal(a), kuda ne sledovalo",
 		["SHREML_PICK"]="Kto-to podobral \x84Izumrud Sherifa\x80...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Ty ubil(a) \x83Nevinnogo\x87! Ty bolshe ne Sherif!",
-			"\x82Geroi\x87 ne sozdany, chtob ubivat' \x83Nevinnyh\x87. Za eto budet otvetnaya smert'."
+			"\x82Geroi\x87 ne sozdany, chtob ubivat' \x83Nevinnyh\x87. Za eto budet otvetnaya smert'.",
+			"\x87O net! Ty ubil(-a) \x84Sherifa\x87! Za eto budet otvetnaya smert'.",
+			"\x87Ty ubil(-a) takogo zhe \x83Nevinnogo\x87 cheloveka kak i ty! Za eto budet otvetnaya smert'.",
+			"\x87O net! Ty ubil(-a) \x82Geroya\x87! Za eto budet otvetnaya smert'."
 		},["INNO_HURT"]={
 			"\x84Sherif\x80 ubil \x83Nevinnogo\x80! Nado poruchit' delo komu-to drugomu!",
 			"\x82Geroy\x80 zhostko tupanul i ubil \x83Nevinnogo\x80. I shas oni oba lezhat dohlye. Vot zhe\x82 Debil\x80"
@@ -1191,7 +1203,7 @@ MM.text={
 			"\x80olduruldu!"
 		},["DIED_HAZARD"]="kazada oldu",
 		["SHREML_PICK"]="Birisi \x84Serif'in Zumrut\x80'unu aldi...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Sen oldurdun bir \x83Masum\x87! Kovuldun. (Artik bir serif degilsin)",
 			"\x82Kahramanlar\x87, \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin olum cezasi aldiniz."
 		},["INNO_HURT"]={
@@ -1382,7 +1394,8 @@ MM.text={
 		},["NEWROLE_GET"]={
 			"\x87Zhytia zrobylo was \x85Wbywceju\x87, \x85teper idit' i wbyjte usih.",
 			"\x87Wseswit zrobyw was nowym \x84Sheryfem\x87! Wam potribno \x84 eliminuwaty wsih Wbywc'\x87!",
-			"\x87Usi zahystnyky pokynuly nas, ale Wseswit wybraw was nowym \x82Gerojem\x87! Ce wash shans wriatuwaty den'!"
+			"\x87Usi zahystnyky pokynuly nas, ale Wseswit wybraw was nowym \x82Gerojem\x87! Ce wash shans wriatuwaty den'!",
+			"\x87Wy wbyly odnogo z \x85Wbywc'\x87! Was pidwyshyly do \x82Geroja\x87!"
 		},["TEAMMATE_HIT"]={
 			"Wy zachepyly osobu z washoji komandy, ne namagajtesia wbyty jiji znow.",
 			"Was zachepyla osoba z washoji komandy. Ne robit' pomsty dla neji."
@@ -1398,9 +1411,12 @@ MM.text={
 			"\x80wbytyj!"
 		},["DIED_HAZARD"]="zagynuw(la) u neschasnomu wypadku",
 		["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
-		["INNO_HURT_PM"]={
+		["KILL_PUNISHMENT_PM"]={
 			"\x87Wy wbyly \x83Newynnogo\x87! Was zwil'neno! (Ty bil'she ne Sheryf)",
-			"\x82Geroji\x87 ne majut' prawa wbywaty \x83Newynnych\x87! Was zasudzheno na \x8Fsmert'\x80 za wash zlochyn!"
+			"\x82Geroji\x87 ne majut' prawa wbywaty \x83Newynnych\x87! Was zasudzheno na smert' za wash zlochyn!",
+			"\x87O ni! Wy wbyly \x84Sheryfa\x87! Was zasudzheno na smert' za wash zlochyn!",
+			"\x87Wy wbyly takuzh \x83Newynnu\x87 osobu jak i Wy sami! Was zasudzheno na smert' za wash zlochyn!",
+			"\x87O ni! Wy wbyly \82Geroja\x87! Was zasudzheno na smert' za wash zlochyn!"
 		},["INNO_HURT"]={
 			"\x84Sheryf\x80 wbyw Newynnu osobu! Komus' z\x83 Cywil'nych\x80 dowedet'sia zakinchyty jogo robotu!",
 			"\x82Geroj\x80 wbyw myrnu \x83newynnu osobu\x80. Teper dwoje lezhat' mertwi. Sorom geroju"

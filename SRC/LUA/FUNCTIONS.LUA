@@ -281,7 +281,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
 			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
-			MM_SetRandomInnoAs(ROLE_MURDERER)
+			MM_SetRandomInnoAs(ROLE_MURDERER, 1)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
@@ -294,7 +294,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
-			MM_SetRandomInnoAs(ROLE_SHERIFF)
+			MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
@@ -307,7 +307,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
-			MM_SetRandomInnoAs(ROLE_HERO)
+			MM_SetRandomInnoAs(ROLE_HERO, 3)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 		else
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
@@ -350,7 +350,7 @@ rawset(_G, "MM_CheckShowdown", function()
 	end
 end)
 
-rawset(_G, "MM_SetRandomInnoAs", function(role)
+rawset(_G, "MM_SetRandomInnoAs", function(role, message)
 	local plrs = {}
 	for plr in players.iterate
 		if (not plr.spectator) and (plr.role == ROLE_INNOCENT) table.insert(plrs, #plr) end
@@ -358,7 +358,7 @@ rawset(_G, "MM_SetRandomInnoAs", function(role)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.role = role
 	p.roleflicker = 70
-	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", p.role))
+	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", message))
 	return
 end)
 
@@ -377,6 +377,8 @@ rawset(_G, "MM_WeaponConfigFlags", function(role, flags)
 	elseif (role == ROLE_SHERIFF) or (role == ROLE_HERO)
 		if (PlayerCount(ROLE_INNOCENT)) then return MM.weaponconfig[2] & flags
 		else return MM.weaponconfig[4] & flags end
+	elseif (role == ROLE_INNOCENT)
+		return CV_FindVar("mm_wepinno").value & flags
 	end
 	return 0
 end)

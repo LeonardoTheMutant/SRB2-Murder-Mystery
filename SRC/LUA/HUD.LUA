@@ -305,6 +305,25 @@ hud.add(function(v, p)
 	end
 
 	--WEAPON RINGS
+
+	--Weapon selector frame Y position calculation
+	--ported from the C Source Code
+	local q = p.mmweapondelay
+	local del = 0
+	local pv = 16
+	while (q)
+		if (q > pv)
+			del = $ + pv
+			q = $ - pv
+			q = $ >> 1
+			if (pv > 1) pv = $ >> 1 end
+		else
+			del = $ + q
+			break
+		end
+	end
+
+	--Weapon logic
 	if ((p.role == ROLE_MURDERER) or (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO))
 		local wepPatchFlags={
 			0, --automatic
@@ -324,23 +343,6 @@ hud.add(function(v, p)
 			0, --rail
 		}
 		wepTextFlags[0] = 0 --infinity
-
-		--weapon selector Y position calculation
-		--ported from the C Source Code
-		local q = p.mmweapondelay
-		local del = 0
-		local pv = 16
-		while (q)
-			if (q > pv)
-				del = $ + pv
-				q = $ - pv
-				q = $ >> 1
-				if (pv > 1) pv = $ >> 1 end
-			else
-				del = $ + q
-				break
-			end
-		end
 
 		if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY))
 
@@ -408,18 +410,31 @@ hud.add(function(v, p)
 			--Selector
 			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 		end
+	elseif (p.role == ROLE_INNOCENT) and (p.rings > 99) and (CV_FindVar("mm_wepinno").value)
+		--Knife-only
+		if (MM_WeaponConfigFlags(ROLE_INNOCENT, WEPCFG_DISABLERED))
+			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
+		else
+			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
+		end
+
+		--Ammo counter
+		v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
+
+		--Selector
+		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end
 
 	--Sheriff Emerald Radar for Innocents
 	if (p.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableradar))
-		v.drawScaled(10027008, 10223616, 32768, MM.graphics["IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --153*FU, 156*FU, FU/2
+		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
 
 	--Are you alone?
 	if (PlayerCount() == 1)
 		if (MM.text[consoleplayer.mmlang]["HUD_ALONE"])
 			--Draw the text
-			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_ALONE"]) do V_DrawStrASCII_Center(v, 160, (128 + (y << 3)), charset, i, V_PERPLAYER|v.localTransFlag()) end
+			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_ALONE"]) do V_DrawStrASCII_Center(v, 160, (128 + (y << 3)), charset, i, v.localTransFlag()) end
 		else
 			if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
 		end
@@ -444,7 +459,7 @@ hud.add(function(v, p)
 	
 	--red Flash effect when you die
 	if (p.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT)
 	end
 	
 	--white time warp spark effect
