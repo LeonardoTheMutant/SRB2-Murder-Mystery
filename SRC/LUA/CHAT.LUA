@@ -26,7 +26,7 @@ local function chatcolor2textcolor(c)
 	end
 end
 
-local function CHAT_Say(s, m)
+local function CHAT_Say(s, m, me)
 	local chatcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
 
 	--Admin/Verified badges
@@ -36,7 +36,11 @@ local function CHAT_Say(s, m)
 
 	for p in players.iterate do
 		if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
-			chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m)
+			if (me)
+				chatprintf(p, "* "..badge..s.name.."\x80 "..m:sub(5)) --"/me" message
+			else
+				chatprintf(p, chatcolor.."<"..badge..s.name..">\x80 "..m) --Normal message
+			end
 			S_StartSound(nil, sfx_radio, p)
 		end
 	end
@@ -113,11 +117,16 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 		end
 	else
 		if (type == 0)
-			if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m:sub(2))  --SAYTEAM shortcut
-			else CHAT_Say(s, m) end
+			if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL)
+				CHAT_TeamSay(s, m:sub(2))  --SAYTEAM shortcut
+			else
+				CHAT_Say(s, m, m:find("/me ", 1,4, true)) --send message normally (handle "/me" messages too)
+			end
 		elseif (type == 1)  --SAYTEAM
 			if (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m)
 			else CHAT_Say(s, m) end
+		elseif (type == 2) --SAYTO or "/pm"
+			return false
 		end
 	end
 	s.chatdelay = (chatdelayCVAR.value*TICRATE)

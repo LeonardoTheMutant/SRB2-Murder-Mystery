@@ -147,7 +147,7 @@ CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 
 --CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
-CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 9, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --

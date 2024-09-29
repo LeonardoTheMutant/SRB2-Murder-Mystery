@@ -123,7 +123,7 @@ Lua.Author = Cyan, LeoTM
 
 Level KC
 LevelName = Stauf's Mansion
-SubTitle = The^5 11^0th hour
+SubTitle = The^5 11th^0 hour
 SelectHeading = Murder Mystery
 Music = 11H_00
 Act = 0
