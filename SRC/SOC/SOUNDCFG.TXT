@@ -1,9 +1,14 @@
 freeslot
 SFX_FALLIN
+SFX_CLKTIC
 SFX_ALDI
 
 Sound sfx_fallin
 Caption = Falling...
+
+# for MAPKC (Stauf's Mansion)
+Sound sfx_clktic
+Caption = Clock tick
 
 # for MAPKD (East City)
 Sound sfx_aldi
