@@ -68,23 +68,23 @@ rawset(_G, "MM_GetText", function(lang, line, param)
 						if (MM.text[lang][line][param])
 							return MM.text[lang][line][param]
 						else
-							if (MM.devbuild) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87][\x80\""..param.."\"\x87]\x82 that does not exist!\x80") end
+							if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87][\x80\""..param.."\"\x87]\x82 that does not exist!\x80") end
 							return ""
 						end
 					end
 					if (type(MM.text[lang][line]) == "string")
 						return MM.text[lang][line]
 					else
-						if (MM.devbuild) error("\x82Tried to access the table at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 without parameter!\x80") end
+						if (MM.debug) error("\x82Tried to access the table at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 without parameter!\x80") end
 						return ""
 					end
 				else
-					if (MM.devbuild) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 that does not exist!\x80") end
+					if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 that does not exist!\x80") end
 					return ""
 				end
 			end
 		else
-			if (MM.devbuild) error("\x82Tried to access the \x87MM.text\x82 table with \x80"..lang.."\x82 language that does not exist!\x80") end
+			if (MM.debug) error("\x82Tried to access the \x87MM.text\x82 table with \x80"..lang.."\x82 language that does not exist!\x80") end
 			return ""
 		end
 	end
@@ -320,7 +320,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	end
 
-	MM_CheckShowdown()
+	MM_StartShowdownMusic()
 end)
 
 --Function to end the round, arguments here:
@@ -339,7 +339,7 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	end
 end)
 
-rawset(_G, "MM_CheckShowdown", function()
+rawset(_G, "MM_StartShowdownMusic", function()
 	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
 		if (mapheaderinfo[gamemap].showdowntrack)
 			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
@@ -347,7 +347,9 @@ rawset(_G, "MM_CheckShowdown", function()
 			MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
 		end
 		S_ChangeMusic(MM.shwdwn, true)
+		return true
 	end
+	return false
 end)
 
 rawset(_G, "MM_SetRandomInnoAs", function(role, message)
@@ -388,7 +390,7 @@ end)
 --
 rawset(_G, "V_LoadPatch", function(v, patch)
 	MM.graphics[patch] = v.cachePatch(patch)
-	if (MM.devbuild) print("Loaded patch \x81"..patch) end
+	if (MM.debug) print("Loaded patch \x81"..patch) end
 end)
 
 rawset(_G, "V_LoadCharset", function(v, name)
@@ -404,7 +406,7 @@ rawset(_G, "V_LoadCharset", function(v, name)
 		if (v.patchExists(name..string.format("%03d", i))) then MM.graphics.charset[name][i] = v.cachePatch(name..string.format("%03d", i)) end
 	end
 
-	if (MM.devbuild) print("Loaded \x81\""..name.."\"\x80 charset") end
+	if (MM.debug) print("Loaded \x81\""..name.."\"\x80 charset") end
 end)
 
 rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)

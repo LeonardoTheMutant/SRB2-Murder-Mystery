@@ -4,7 +4,7 @@ if (MM)
 end
 rawset(_G, "MM", {
 	version = "1.0-ALPHA", --string, VERSION NUMBER
-	devbuild = true, --boolean, if set to true, enable the debug functionality in MM
+	debug = true, --boolean, if set to true, enable the debug functionality in MM
 	releasedate = "not released yet", --string, meant to contain the day of release
 	RoleColor = {
 		"\x85", --Murderer
@@ -197,7 +197,7 @@ mobjinfo[MT_MMKNIFE]={
 states[S_MMSTEP]={
 	sprite = SPR_STEPA0,
 	frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A,
-	tics = 700,
+	tics = 700, --20 seconds
 	nextstate = S_NULL
 }
 
@@ -220,7 +220,7 @@ sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 --Script files init
 dofile("TEXT.LUA")
 dofile("FUNCTIONS.LUA")
-if (MM.devbuild) dofile("DEBUG.LUA") end
+if (MM.debug) dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
 dofile("WEAPONS.LUA")
 if (not isdedicatedserver) dofile("HUD.LUA") end

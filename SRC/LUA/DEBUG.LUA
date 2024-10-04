@@ -2,7 +2,7 @@
 --Code by LeonardoTheMutant
 --
 --Murder Mystery Debug commands
---This script is executes on startup if MM.devbuild is set to true
+--This script is executes on startup if MM.debug is set to true
 --I keep this minimalistic so don't wonder why code is unreadable there
 
 local shwdwn_music={"S2MSBS","S2GGBS","EWJ2TN","DRMBM2","STORMR","UNDYNE","SSBLSD"}
@@ -63,7 +63,8 @@ COM_AddCommand("mmcharset",function(p, set) --Draw all characters from the Exten
 	p.debugdrawer=set
 	p.debugcolor=0
 end)
-addHook("PlayerThink",function(p) --MMCHARSET logic
+addHook("PlayerThink",function(p) --MMCHARSET and DebugToggle logic
+	if (p.cmd.buttons & BT_CUSTOM1) MM.debug = not $ end
 	if not p.debugdrawer return end
 	if (p.cmd.buttons&BT_SPIN)
 		p.debugdrawer=nil

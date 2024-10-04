@@ -82,13 +82,13 @@ addHook("PlayerSpawn", function(p)
 		else p.mmlang = 'EN' end --failed to open the file
 	end
 
-	if (not p.roleflicker) p.roleflicker = 0 end --Role flickering on HUD
-	if (not p.chatdelay) p.chatdelay = 0 end --Chat spam protection
-	if (not p.kills) p.kills = 0 end --Kill counter
-	if (not p.afk) p.afk = 0 end --Anti-AFK
-	if (not p.camping) p.camping = 0 end --Murderer anti-camp
-	if (not p.mmhelp) p.mmhelp = {page = 1, pos = 1, active = false} end --MMHELP UI init
-	if (p.mmweapondelay == nil) p.mmweapondelay = TICRATE end --Weapon reload
+	if (not p.roleflicker) then p.roleflicker = 0 end --Role flickering on HUD
+	if (not p.chatdelay) then p.chatdelay = 0 end --Chat spam protection
+	if (not p.kills) then p.kills = 0 end --Kill counter
+	if (not p.afk) then p.afk = 0 end --Anti-AFK
+	if (not p.camping) then p.camping = 0 end --Murderer anti-camp
+	if (not p.mmhelp) then p.mmhelp = {page = 1, pos = 1, active = false} end --MMHELP UI init
+	if (p.mmweapondelay == nil) then p.mmweapondelay = TICRATE end --Weapon reload
 	p.oldname = p.name --Anti-RenameCheat init
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
@@ -114,13 +114,13 @@ end)
 
 addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
 	if (gametype != GT_MURDERMYSTERY) return end
-	if (MM.devbuild) print("\x82Triggered MobjDeath") end
+	if (MM.debug) print("\x82Triggered MobjDeath") end
 	local vp = v.player --Victim player
 
 	local ap --Attacker player
 	if (a) and (a.player)
 		ap = a.player
-		if (MM.devbuild) print("\x82MobjDeath attacker is player") end
+		if (MM.debug) print("\x82MobjDeath attacker is player") end
 	end
 
 	--If the death is caused by the death pit or crusher we do not need to spawn the Dead Body or the Sheriff's Emerald
@@ -215,14 +215,14 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 	end
 
 	if (PlayersAlive() > 1)
-		MM_CheckShowdown()
+		MM_StartShowdownMusic()
 		return true
 	end
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
 	if (gametype != GT_MURDERMYSTERY) or (not a) or (not a.player) return end
-	if (MM.devbuild) print("\x82Player->Player damage (MobjDamage)") end
+	if (MM.debug) print("\x82Player->Player damage (MobjDamage)") end
 	local vp = v.player --Victim player
 	local ap = a.player --Attacker player
 
@@ -327,7 +327,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 	end
 
-	MM_CheckShowdown()
+	MM_StartShowdownMusic()
 	return true
 end, MT_PLAYER)
 
@@ -349,7 +349,7 @@ addHook("TouchSpecial", function(special, toucher)
 		toucher.player.role = ROLE_HERO
 		toucher.player.roleflicker = 70 --2 secs
 		MM_ChatprintGlobal("SHREML_PICK")
-		MM_CheckShowdown()
+		MM_StartShowdownMusic()
 	end
 
 	return true

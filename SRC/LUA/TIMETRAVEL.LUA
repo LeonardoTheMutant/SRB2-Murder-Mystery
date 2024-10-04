@@ -159,7 +159,7 @@ addHook("MapLoad", function(map)
 	else
 		TimeTravel_ShiftY2 = 0
 	end
-	if (MM.devbuild) and ((TimeTravel_ShiftX) or (TimeTravel_ShiftY) or (TimeTravel_ShiftX2) or (TimeTravel_ShiftY2))
+	if (MM.debug) and ((TimeTravel_ShiftX) or (TimeTravel_ShiftY) or (TimeTravel_ShiftX2) or (TimeTravel_ShiftY2))
 		print("\x82Map's Time Travel shift values")
 		print("X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
 		print("Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")

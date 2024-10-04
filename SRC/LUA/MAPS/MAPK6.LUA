@@ -7,7 +7,7 @@ addHook("MapLoad", function(map)
 
     local random = P_RandomByte()
 
-    if (MM.devbuild)
+    if (MM.debug)
         print("\x82Seed: "..random)
         for i=0,7 do
             if (random & (2^i))

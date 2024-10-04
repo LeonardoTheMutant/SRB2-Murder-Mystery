@@ -38,7 +38,7 @@ hud.add(function(v, p)
 
 	--Patch Graphics loading
 	if (not MM.graphics)
-		if (MM.devbuild) print("\x82Loading MM graphics") end
+		if (MM.debug) print("\x82Loading MM graphics") end
 
 		MM.graphics={}
 
@@ -250,7 +250,7 @@ hud.add(function(v, p)
 				V_DrawStrASCII_Center(v, 160, (112 + (y << 3)), charset, i, v.localTransFlag())
 			end
 		else
-			if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
+			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
 		end
 		if (p.role == nil)
 			if (MM.text[consoleplayer.mmlang]["HUD_MIDJOIN"])
@@ -258,7 +258,7 @@ hud.add(function(v, p)
 					V_DrawStrASCII_Center(v, 160, (152 + (y << 2)), charset, i, v.localTransFlag(), true)
 				end
 			else
-				if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
+				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
 			end
 		end
 		if (p.killedby)
@@ -431,7 +431,7 @@ hud.add(function(v, p)
 			--Draw the text
 			for y,i in pairs(MM.text[consoleplayer.mmlang]["HUD_ALONE"]) do V_DrawStrASCII_Center(v, 160, (128 + (y << 3)), charset, i, v.localTransFlag()) end
 		else
-			if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
+			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
 		end
 	end
 
@@ -463,7 +463,7 @@ hud.add(function(v, p)
 	end
 	
 	--Debug
-	if MM.devbuild
+	if MM.debug
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87".."SRB2 MM "..MM.version.." DEBUG", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82".."LEVELTIME: \x80"..leveltime, V_PERPLAYER, "thin")
@@ -478,6 +478,7 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.camping, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."C1\x80 -  toggle Debug", V_PERPLAYER, "thin")
 	end
 end, "game")
 
@@ -503,7 +504,7 @@ hud.add(function(v)
 			V_DrawStrASCII(v, 16, (16 + (y << 3)), charset, i, v.localTransFlag())
 		end
 	else
-		if (MM.devbuild) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_SCORESTAB\"\x87]\x82 that does not exist!\x80") end
+		if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mmlang.."\"\x87][\x80\"HUD_SCORESTAB\"\x87]\x82 that does not exist!\x80") end
 	end
 
 	--Teammates tracker
@@ -563,7 +564,7 @@ hud.add(function(v)
 	end
 
 	-- Prerelease/Debug
-	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|v.localTransFlag(), "center") end
+	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|v.localTransFlag(), "center") end
 end, "scores")
 
 --
@@ -698,6 +699,6 @@ hud.add(function(v)
 
 	-- Prerelease/Debug
 	v.drawString(0, 184, "MM PRERELEASE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-	if (MM.devbuild) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
+	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
 end, "intermission")

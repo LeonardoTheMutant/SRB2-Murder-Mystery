@@ -4,6 +4,8 @@ Murder Mystery gametype add-on for [Sonic Robo Blast 2](https://www.srb2.org)
 
 A port of the popular multiplayer game in SRB2
 
+***Not to be confused with the [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery) add-on, which tries to acomplish the same goal but is an entirely different project***
+
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/graphs/contributors" alt="Contributors">
   <img src="https://img.shields.io/github/contributors/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulse" alt="Activity">
@@ -15,7 +17,7 @@ A port of the popular multiplayer game in SRB2
 
 ## How to build your **MurderMystery.PK3** from this repository
 
-***Please note that MAKE scripts generate the Debug (Test) versions of the Add-On and it is highly recomended to HOST THESE BUILDS ONLY ON PRIVATE SERVERS.***
+**Please note that MAKE scripts generate the Debug (Test) versions of the Add-On and it is highly recomended to HOST THESE BUILDS ONLY ON PRIVATE SERVERS.**
 Release versions of the Add-On, which are tested and approved to be showcased publicly, are available in **Releases**
 
 ### If you have `git` installed
@@ -61,4 +63,4 @@ All contributions would be greatly appreciated especially maps, music, graphics,
 1. Modifying the source code you are having right now
 2. Making a **Custom Language File** from the [template](TEMPLATES/customlang.lua) and then adding it as a regular ADD-ON together with MM (Main Add-On has to be loaded first)
 
-## Please read the [READ_BEFORE_HOSTING.TXT](SRC/READ_BEFORE_HOSTING.TXT) file before starting the server with Murder Mystery add-on for the correct host setup and details
+### Also check out the [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery) project
