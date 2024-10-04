@@ -17,7 +17,8 @@ local tech_info = {
 	"\27Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\16\n"
 }
 
-local function helpCMD(p, page)
+--MMHELP console command
+COM_AddCommand("mmhelp", function(p, page)
 	if (gametype != GT_MURDERMYSTERY)
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
@@ -62,9 +63,10 @@ local function helpCMD(p, page)
 
 	--enable the UI
 	p.mmhelp.active = true
-end
+end, COM_LOCAL)
 
-local function MMlang(p, l) --player, lang
+--MMLANG console command
+COM_AddCommand("mmlang", function(p, l) --player, lang
 	if (gametype != GT_MURDERMYSTERY)
 		CONS_Printf(p, "The game must be Murder Mystery to access this command")
 		return
@@ -121,10 +123,7 @@ local function MMlang(p, l) --player, lang
 			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
 		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present/loaded into the game\nPlease ask your game Administrator to add the required MM language file or contact our SRB2 MM_DEV Team for help.") end
 	end
-end
-
-COM_AddCommand("mmhelp", helpCMD, COM_LOCAL)
-COM_AddCommand("mmlang", MMlang, COM_LOCAL)
+end, COM_LOCAL)
 
 --
 -- MMHELP UI
@@ -147,56 +146,59 @@ end
 --I was unable to lock player controls here because clients would desynchronise each time they press something
 --Enjoy what you already have
 addHook("PlayerThink", function(p)
-	if not (p.mmhelp and p.mmhelp.active) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_MURDERMYSTERY) return end
+	--MMHELP UI controls
+	if (p.mmhelp and p.mmhelp.active) and (MM.text[consoleplayer.mmlang]["MMHELP"])
 
-	--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
+		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
 
-	p.buffer = {}
+		p.buffer = {}
 
-	if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
-		V_InsertToBuffer(p, MM_GetText(consoleplayer.mmlang, "MMHELP", p.mmhelp.page))
+		if (p.mmhelp.page <= #MM.text[consoleplayer.mmlang]["MMHELP"])
+			V_InsertToBuffer(p, MM_GetText(consoleplayer.mmlang, "MMHELP", p.mmhelp.page))
+		end
+
+		if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
+			V_InsertToBuffer(p, tech_info)
+		end
+
+		if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
+			p.pflags = $|PF_ATTACKDOWN --this does not help
+			p.mmhelp.active = false
+			return --this also doesn't
+		end
+
+		if (p.cmd.buttons & BT_JUMP) --JUMP, up
+			if (not (p.lastbuttons & BT_JUMP))
+				p.mmhelp.pos = $ - 1
+    	    	if (p.mmhelp.pos < 1) p.mmhelp.pos = 1 end
+			end
+    	end
+
+		if (p.cmd.buttons & BT_SPIN) --SPIN, down
+			if (not (p.lastbuttons & BT_SPIN))
+    	    	p.mmhelp.pos = $ + 1
+    	    	--hit the end of the page
+    	    	if (p.mmhelp.pos + scrnRows > (#p.buffer + 1)) then p.mmhelp.pos = $ - 1 end
+			end
+    	end
+
+    	if (p.cmd.buttons & BT_WEAPONNEXT) --Next weapon, right
+			if (not (p.lastbuttons & BT_WEAPONNEXT))
+    	    	p.mmhelp.page = $ + 1
+    	    	p.mmhelp.pos = 1
+    	    	if (p.mmhelp.page >= (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) p.mmhelp.page = (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1) end
+			end
+    	end
+
+    	if (p.cmd.buttons & BT_WEAPONPREV) --Prev weapon, left
+			if (not (p.lastbuttons & BT_WEAPONPREV))
+    	    	p.mmhelp.page = $ - 1
+    	    	p.mmhelp.pos = 1
+    	    	if (p.mmhelp.page <= 1) p.mmhelp.page = 1 end
+			end
+    	end
 	end
-
-	if (p.mmhelp.page == (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) --last page is always a technical info page
-		V_InsertToBuffer(p, tech_info)
-	end
-
-	if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
-		p.pflags = $|PF_ATTACKDOWN --this does not help
-		p.mmhelp.active = false
-		return --this also doesn't
-	end
-
-	if (p.cmd.buttons & BT_JUMP) --JUMP, up
-		if (not (p.lastbuttons & BT_JUMP))
-			p.mmhelp.pos = $ - 1
-        	if (p.mmhelp.pos < 1) p.mmhelp.pos = 1 end
-		end
-    end
-
-	if (p.cmd.buttons & BT_SPIN) --SPIN, down
-		if (not (p.lastbuttons & BT_SPIN))
-        	p.mmhelp.pos = $ + 1
-        	--hit the end of the page
-        	if (p.mmhelp.pos + scrnRows > (#p.buffer + 1)) then p.mmhelp.pos = $ - 1 end
-		end
-    end
-
-    if (p.cmd.buttons & BT_WEAPONNEXT) --Next weapon, right
-		if (not (p.lastbuttons & BT_WEAPONNEXT))
-        	p.mmhelp.page = $ + 1
-        	p.mmhelp.pos = 1
-        	if (p.mmhelp.page >= (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1)) p.mmhelp.page = (#MM.text[consoleplayer.mmlang]["MMHELP"] + 1) end
-		end
-    end
-
-    if (p.cmd.buttons & BT_WEAPONPREV) --Prev weapon, left
-		if (not (p.lastbuttons & BT_WEAPONPREV))
-        	p.mmhelp.page = $ - 1
-        	p.mmhelp.pos = 1
-        	if (p.mmhelp.page <= 1) p.mmhelp.page = 1 end
-		end
-    end
 end)
 
 --renderer, frontend

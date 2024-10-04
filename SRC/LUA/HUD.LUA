@@ -405,7 +405,9 @@ hud.add(function(v, p)
 			--Selector
 			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 		end
-	elseif (p.role == ROLE_INNOCENT) and (p.rings > 99) and (CV_FindVar("mm_wepinno").value)
+	
+	--Innocent weapon logic
+	elseif (p.role == ROLE_INNOCENT) and ((((consoleplayer.skin == 1) or (consoleplayer.skin == 5)) and (p.rings > 49)) or (((consoleplayer.skin != 1) and (consoleplayer.skin != 5)) and (p.rings > 99))) and (CV_FindVar("mm_wepinno").value)
 		--Knife-only
 		if (MM_WeaponConfigFlags(ROLE_INNOCENT, WEPCFG_DISABLERED))
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
@@ -414,8 +416,12 @@ hud.add(function(v, p)
 		end
 
 		--Ammo counter
-		v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
-
+		if (consoleplayer.skin == 1) or (consoleplayer.skin == 5) --Player is Tails or MetalSonic
+			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 50), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
+		else
+			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
+		end
+		
 		--Selector
 		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end

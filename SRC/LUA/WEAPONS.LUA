@@ -123,10 +123,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
         -- KNIFE --
-        if (((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (p.rings > 99)))
+        if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))))
             P_SetWeaponDelay(p, MM.weapons[-2][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
-            if (p.role == ROLE_INNOCENT) then P_GivePlayerRings(p, -100) --Weapon shot/use costs 100 rings for Innocents
+            if (p.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
+                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails, take 50 rings instead
+                else P_GivePlayerRings(p, -100) end
             else P_GivePlayerRings(p, -1) end
 
             if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
@@ -195,10 +197,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
             p.powers[pw_infinityring] = $ - 1
         else
             -- RED RING --
-            if (((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (p.rings > 99)))
+            if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (((p.skin == 1) or (p.skin == 5) and (p.rings > 49)) or ((consoleplayer.skin != 1) and (p.rings > 99))))
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
-                if (p.role == ROLE_INNOCENT) then P_GivePlayerRings(p, -100) --Weapon shot/use costs 100 rings for Innocents
+                if (p.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
+                    if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
+                    else P_GivePlayerRings(p, -100) end
                 else P_GivePlayerRings(p, -1) end
             end
         end

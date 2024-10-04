@@ -9,6 +9,5 @@
 - Include the "Minimal System Requirements" with the add-on
 - Replace the vanilla F1 menu graphics with the MM manual
 - Make (several) release trailer(s)
-- Make Sonic & Tails as well as Fang & Amy skins differ from each other (not complicated differences to implement)
 - Change the extended map names from MAPK# to MAPM# ("K" stands for Killer, "M" - Murder/Mystery)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
