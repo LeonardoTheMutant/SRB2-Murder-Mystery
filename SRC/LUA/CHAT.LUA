@@ -98,13 +98,6 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 		return true
 	end
 
-	--First, this is a bad word to use, Second, don't even think to critisize me of this
-	--This is actually a trap for Moth-likes
-	if (m:upper():match("NIGGA") or m:upper():match("NIGGER")) then
-		MM_PunishPlayer(s, "N-word", 1)
-		return true
-	end
-
 	if (s.spectator)
 		if (type == 0) --If dead player sends a message, make that messsage appear only to the dead players
 			for p in players.iterate do if (p.spectator) chatprintf(p, "\x86{"..s.name.."} "..m) end end
