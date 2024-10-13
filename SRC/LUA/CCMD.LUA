@@ -25,7 +25,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	end
 
 	if ((p == server) or (IsPlayerAdmin(p)))
-		CONS_Printf(p, "\n\x82".."ADMIN CONSOLE VARIABLES")
+		CONS_Printf(p, "\x82".."ADMIN CONSOLE VARIABLES")
 		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \x81\"Mystery\"\x80 and \x81\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80 - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_CHATDELAY\x80   - Set the sending delay time in ticks to prevent chat spamming.")
@@ -34,15 +34,17 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
 		CONS_Printf(p, "\x87MM_WEPCONFIG\x80   - Set how weapons work for each role (except "..MM.RoleColor[ROLE_INNOCENT].."Innocent\x80) during the normal gameplay and the Showdown Duel")
 		CONS_Printf(p, "\x87MM_WEPINNO\x80     - Enable/Disable weapons for "..MM.RoleColor[ROLE_INNOCENT].."Innocents\x80. Setting this CVAR to\x81 1\x80 will let them use Red Ring + Knife,\x82 2\x80 forces to Knife-only. In both situations "..MM.RoleColor[ROLE_INNOCENT].."Innocents\x80 need to have 100 rings to make one shot")
+		CONS_Printf(p, "") --newline
 	end
 	if (MM.debug)
-		CONS_Printf(p, "\n\x82".."DEVELOPER DEBUG COMMANDS")
+		CONS_Printf(p, "\x82".."DEVELOPER DEBUG COMMANDS")
 		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
 		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
+		CONS_Printf(p, "") --newline
 	end
 
 	if (isdedicatedserver) return end
@@ -52,8 +54,11 @@ COM_AddCommand("mmhelp", function(p, page)
 		return
 	end
 
+	CONS_Printf(p, "The text of the game manual is being rewritten and is currently unavaiable, sorry") --Prerelease/Debug
+
 	--MMHELP GUI
 	--load HELP page
+	/*
 	if (tonumber(page))
 		if (MM.text[p.mmlang]["MMHELP"][tonumber(page)])
 			p.mmhelp.page = tonumber(page)
@@ -63,6 +68,7 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	--enable the UI
 	p.mmhelp.active = true
+	*/
 end, COM_LOCAL)
 
 --MMLANG console command

@@ -497,8 +497,8 @@ hud.add(function(v)
 	end
 
 	hud.disable("rankings")
-	-- Prerelease/Debug
-	v.drawString(160, 0, "GAMETYPE IN PRERELEASE STATE, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center")
+	
+	v.drawString(160, 0, "GAMETYPE IN DEVELOPMENT, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center") --Prerelease/Debug
 
 	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
 
@@ -702,8 +702,7 @@ hud.add(function(v)
 		V_DrawStrASCII_Center(v, 160, 176, charset, MM_GetText(consoleplayer.mmlang, "HUD_WINNERS").." "..MM_GetText(consoleplayer.mmlang, "HUD_WIN", (MM.winner + 1)))
 	end
 
-	-- Prerelease/Debug
-	v.drawString(0, 184, "MM PRERELEASE\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	v.drawString(0, 184, "MM PREVIEW\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT) --Prerelease/Debug
 	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
 end, "intermission")
