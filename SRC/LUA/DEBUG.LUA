@@ -63,8 +63,7 @@ COM_AddCommand("mmcharset",function(p, set) --Draw all characters from the Exten
 	p.debugdrawer=set
 	p.debugcolor=0
 end)
-addHook("PlayerThink",function(p) --MMCHARSET and DebugToggle logic
-	if (p.cmd.buttons & BT_CUSTOM1) MM.debug = not $ end
+addHook("PlayerThink",function(p) --MMCHARSET logic
 	if not p.debugdrawer return end
 	if (p.cmd.buttons&BT_SPIN)
 		p.debugdrawer=nil

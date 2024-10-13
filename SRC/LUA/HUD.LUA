@@ -95,7 +95,7 @@ hud.add(function(v, p)
 	end
 
 	--Do not render the main HUD if it was disabled by another script
-	if (p.mmhelp.active) or (p.debugdrawer) or (MM.minigame and p.minigame) return end
+	if (p.mmhelp.active) or (p.debugdrawer) or ((MM.minigame and p.minigame) or (not MM.minigame and p.minigame)) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -484,7 +484,6 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.camping, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."C1\x80 -  toggle Debug", V_PERPLAYER, "thin")
 	end
 end, "game")
 
