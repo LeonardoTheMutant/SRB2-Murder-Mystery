@@ -109,7 +109,7 @@ Functions that are used in more than one script
 | <code>**isExtendedASCII**(*string* str)</code> | *boolean* | Returns `true` if the <code>str</code> contains a symbol from Extended ASCII Range (`0x80` - `0xFF`) |
 | <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in <code>str</code> are from Standart (Printable) ASCII range (`0x20` - `0x7F`) |
 | <code>**valid**(* arg)</code> | *boolean* | Simply checks if both <code>arg</code> and <code>arg.valid</code> are true |
-| <code>**SOC_IsTrue**(* arg)</code> | *boolean* | Returns `true` if the <code>arg</code> says so (<code>"True"</code> or <code>"true"</code> as string will return `true`). Useful only for boolean-based SOC arguments. |
+| <code>**SOC_IsTrue**(* arg)</code> | *boolean* | Returns `true` if the <code>arg</code> says so (<code>"true"</code> as string will return `true`). Useful only for boolean-based SOC arguments. |
 
 # Constants
 

@@ -119,6 +119,7 @@ SkyNum = 16
 NoZone = True
 TypeOfLevel = MurderMystery
 NextLevel = KC
+Lua.DisableFootmarks = True
 Lua.Author = Cyan, LeoTM
 
 Level KC
@@ -155,13 +156,17 @@ NextLevel = KE
 Lua.Author = LeoTM
 
 Level KE
-LevelName = Dust
+LevelName = Shadow Moses Island
 SubTitle = Under Construction
 SelectHeading = Murder Mystery
 Act = 0
+NoZone = true
+SkyNum = 6
+Weather = 2
 TypeOfLevel = MurderMystery
 NextLevel = KF
-Lua.Author = Valve, LeoTM
+Lua.ShowdownTrack = MGSENC
+Lua.Author = Konami, Hideo Kojima, LeoTM
 
 Level KF
 Levelname = Merry Peak

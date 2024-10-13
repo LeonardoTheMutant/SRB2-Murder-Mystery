@@ -2170,6 +2170,7 @@ local flatsounds={
 	["CESTONB7"]="stone",
 	["CESTONB8"]="stone",
 	["CESTONB9"]="stone",
+	["CHAINFEN"]="metal",
 
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
@@ -2179,12 +2180,17 @@ local flatsounds={
 	["AQF004"]="metal",
 	["AQF009"]="metal",
 	["AQF024"]="stone",
+	["AQF026"]="stone",
 	["AQF050"]="stone",
+	["AQF051"]="stone",
 	["AQF052"]="stone",
 	["AQF056"]="stone",
 	["AQF057"]="stone",
+	["AQF067"]="stone",
 	["AQF074"]="metal",
+	["AQCONC18"]="stone",
 	["AQRUST01"]="metal",
+	["BASE"]="stone",
 	["BRICK"]="stone",
 	["CEIL4_1"]="cloth",
 	["CEIL5_1"]="stone",
@@ -2214,6 +2220,14 @@ local flatsounds={
 	["FLOOR3_3"]="stone",
 	["FLOOR4_6"]="stone",
 	["FLOOR5_2"]="stone",
+	["GRAY1"]="stone",
+	["GRAY2"]="stone",
+	["GRAY3"]="stone",
+	["GRAY4"]="stone",
+	["GRAY5"]="stone",
+	["GRAY6"]="stone",
+	["GRAY7"]="stone",
+	["GRAYBIG"]="stone",
 	["MARBLE1"]="stone",
 	["RROCK19"]="grass",
 	["SLIME14"]="metal",
@@ -2394,12 +2408,10 @@ addHook("PlayerThink", function(player)
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							/*
 							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks))
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
 							end
-							*/
 						end
 					end
 				end

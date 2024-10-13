@@ -808,8 +808,9 @@ rawset(_G, "valid", function(arg)
 end)
 
 rawset(_G, "SOC_IsTrue", function(arg)
-	if (not arg) return false end
-	if (arg == "True") or (arg == "true") or (arg == "1") return true end
+	if (not arg) then return false end
+	if (arg:upper() == "TRUE") or (arg == "1") then return true
+	else return false end
 end)
 
 rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
