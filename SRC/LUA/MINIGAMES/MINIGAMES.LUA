@@ -234,7 +234,11 @@ addHook("PlayerThink", function(p)
 		if ((p.mmhelp) and (p.mmhelp.active)) return end
         if (not p.custom3pressed)
             if (p.minigame)
-                if (not p.minigametimeout) p.minigame = 0 end
+                if (not p.minigametimeout) then p.minigame = 0 end
+                if (MM.minigame)
+                    MM.duelplrs[1].minigame = 0
+                    MM.duelplrs[2].minigame = 0
+                end
             else
                 p.minigame = 1
                 p.minigametimeout = 105

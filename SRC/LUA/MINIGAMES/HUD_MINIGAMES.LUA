@@ -30,15 +30,15 @@ local function V_DrawMinigameTime(v)
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
 			--Swap the colors in the label for flashing effect
 			--0x49 in SRB2's palette is Yellow, 0x25 is Red
-			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|v.localTransFlag())
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP|v.localTransFlag())
 		else
-			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], hudinfo[HUD_TIME].f|v.localTransFlag())
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], V_SNAPTOTOP|v.localTransFlag())
 		end
 	else --in case Text Patch was not found or the game is splitscreen (V_DrawTextPatch() does not support per-player rendering)
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
-			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTRTIME"], hudinfo[HUD_TIME].f|v.localTransFlag())
+			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTRTIME"], V_SNAPTOTOP|v.localTransFlag())
 		else
-			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTTIME"], hudinfo[HUD_TIME].f|v.localTransFlag())
+			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTTIME"], V_SNAPTOTOP|v.localTransFlag())
 		end
 	end
 
@@ -81,7 +81,7 @@ hud.add(function(v, p)
     if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--CUSTOM3 related text
 		if (not p.minigametimeout)
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768) --FU/2
+			V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true) --FU/2
 		end
 
 		--TIME

@@ -197,7 +197,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
             p.powers[pw_infinityring] = $ - 1
         else
             -- RED RING --
-            if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (((p.skin == 1) or (p.skin == 5) and (p.rings > 49)) or ((consoleplayer.skin != 1) and (p.rings > 99))))
+            if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
                 if (p.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
