@@ -54,11 +54,13 @@ COM_AddCommand("mmhelp", function(p, page)
 		return
 	end
 
-	CONS_Printf(p, "The text of the game manual is being rewritten and is currently unavaiable, sorry") --Prerelease/Debug
+	if (not MM.debug)
+		CONS_Printf(p, "The text of the game manual is being rewritten and is currently unavaiable, sorry") --Prerelease/Debug
+		return
+	end
 
 	--MMHELP GUI
 	--load HELP page
-	/*
 	if (tonumber(page))
 		if (MM.text[p.mmlang]["MMHELP"][tonumber(page)])
 			p.mmhelp.page = tonumber(page)
@@ -68,7 +70,6 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	--enable the UI
 	p.mmhelp.active = true
-	*/
 end, COM_LOCAL)
 
 --MMLANG console command

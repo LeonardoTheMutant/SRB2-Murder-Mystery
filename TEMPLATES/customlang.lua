@@ -130,7 +130,7 @@ local language={ --Language must be a table variable, you can name the variable 
 
 	--MMLANG command
 	["MMLANG"]={
-		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language] command", --when typed MMHELP with no argument
+		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command", --when typed MMHELP with no argument
 		"Personal language for Murder Mystery is set to\x82 English" --when typed MMHELP with language argument (it sets the new language)
 	}
 	

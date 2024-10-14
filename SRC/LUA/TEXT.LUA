@@ -76,7 +76,7 @@ MM.text={
 
 		--MMLANG command
 		["MMLANG"]={
-			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language] command",
+			"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command",
 			"Personal language for Murder Mystery is set to\x82 English"
 		},
 		--GAME.LUA
