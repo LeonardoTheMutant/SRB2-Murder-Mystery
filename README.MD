@@ -5,7 +5,7 @@ Murder Mystery gametype add-on for [Sonic Robo Blast 2](https://www.srb2.org)
 
 A port of the popular multiplayer game in SRB2
 
-***Not to be confused with the [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery) add-on, which tries to acomplish the same goal but is an entirely different project***
+***Not to be confused with the [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery) project, which also tries to port MM to SRB2 but is an entirely different project***
 
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/graphs/contributors" alt="Contributors">
   <img src="https://img.shields.io/github/contributors/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
