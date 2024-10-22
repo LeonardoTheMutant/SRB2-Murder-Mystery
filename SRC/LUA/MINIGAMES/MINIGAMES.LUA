@@ -202,7 +202,7 @@ end
 
 --global Pong thinker
 addHook("ThinkFrame", do
-    if (gametype != GT_MURDERMYSTERY) return end
+    if (gametype != GT_LTMMURDERMYSTERY) return end
     if (MM.twopgame)
         if (PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = MM_Get2Players() end
 
@@ -227,7 +227,7 @@ end)
 
 --Player Thinker (Pong inputs, Sonic Run Thinker for each player)
 addHook("PlayerThink", function(p)
-    if (gametype != GT_MURDERMYSTERY) return end
+    if (gametype != GT_LTMMURDERMYSTERY) return end
 
     --Player's minigame toggle
     if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))

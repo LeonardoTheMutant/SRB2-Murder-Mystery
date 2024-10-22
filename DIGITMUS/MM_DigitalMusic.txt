@@ -1,7 +1,7 @@
 DIGITAL SOUNDTRACK
-for SRB2 Murder Mystery add-on
+for LTM's Murder Mystery add-on
 
-This PK3 file adds digital music tracks for the SRB2 Murder Mystery add-on.
+This PK3 file adds digital music tracks for the LTM's Murder Mystery add-on.
 Adding this file to the game will not trigger the "Game Modified" state in SRB2 making
 this add-on fully client-side (players are not required to have this file to join netgames)
 

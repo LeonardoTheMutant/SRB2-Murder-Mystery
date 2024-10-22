@@ -5,7 +5,7 @@
 -- Code for MMHELP and MMLANG console comands
 
 local tech_info = {
-	"\7SRB2 Murder Mystery\16",
+	"\4LTM's \7Murder Mystery\16",
 	"Version\17 "..MM.version.."\16 ("..MM.releasedate..")",
 	"by \18\"SRB2 MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
@@ -19,8 +19,8 @@ local tech_info = {
 
 --MMHELP console command
 COM_AddCommand("mmhelp", function(p, page)
-	if (gametype != GT_MURDERMYSTERY)
-		CONS_Printf(p, "The game must be Murder Mystery to access this command")
+	if (gametype != GT_LTMMURDERMYSTERY)
+		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
 		return
 	end
 
@@ -74,8 +74,8 @@ end, COM_LOCAL)
 
 --MMLANG console command
 COM_AddCommand("mmlang", function(p, l) --player, lang
-	if (gametype != GT_MURDERMYSTERY)
-		CONS_Printf(p, "The game must be Murder Mystery to access this command")
+	if (gametype != GT_LTMMURDERMYSTERY)
+		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
 		return
 	end
 	if (p == server) and (isdedicatedserver)
@@ -153,7 +153,7 @@ end
 --I was unable to lock player controls here because clients would desynchronise each time they press something
 --Enjoy what you already have
 addHook("PlayerThink", function(p)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	--MMHELP UI controls
 	if (p.mmhelp and p.mmhelp.active) and (MM.text[consoleplayer.mmlang]["MMHELP"])
 
@@ -178,9 +178,9 @@ addHook("PlayerThink", function(p)
 		if (p.cmd.buttons & BT_JUMP) --JUMP, up
 			if (not (p.lastbuttons & BT_JUMP))
 				p.mmhelp.pos = $ - 1
-    	    	if (p.mmhelp.pos < 1) p.mmhelp.pos = 1 end
+				if (p.mmhelp.pos < 1) p.mmhelp.pos = 1 end
 			end
-    	end
+		end
 
 		if (p.cmd.buttons & BT_SPIN) --SPIN, down
 			if (not (p.lastbuttons & BT_SPIN))
@@ -210,7 +210,7 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if not ((p.mmhelp) and (p.mmhelp.active)) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (not ((MM.graphics) and (MM.graphics.pixel))) or (gametype != GT_MURDERMYSTERY) return end
+	if not ((p.mmhelp) and (p.mmhelp.active)) or (not MM.text[consoleplayer.mmlang]["MMHELP"]) or (not ((MM.graphics) and (MM.graphics.pixel))) or (gametype != GT_LTMMURDERMYSTERY) return end
 		
 	--init everything
 	local cx = 0

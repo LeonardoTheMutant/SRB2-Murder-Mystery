@@ -3,7 +3,7 @@
 --Map & code by LeonardoTheMutant
 
 addHook("MapLoad", function(map)
-    if (gametype != GT_MURDERMYSTERY) or (map != 466) return end
+    if (gametype != GT_LTMMURDERMYSTERY) or (map != 466) return end
 
     local random = P_RandomByte()
 

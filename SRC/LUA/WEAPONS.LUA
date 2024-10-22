@@ -101,7 +101,7 @@ local function P_SetWeaponDelay(p, delay)
 end
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
-    if (gametype != GT_MURDERMYSTERY) return end
+    if (gametype != GT_LTMMURDERMYSTERY) return end
 
     if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY) or (p.role == ROLE_INNOCENT)) then p.currentweapon = 0 end --Force to weapon Slot 1
 

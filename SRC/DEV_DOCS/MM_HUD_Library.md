@@ -1,4 +1,4 @@
-# Murder Mystery HUD library (version `1.0-ALPHA`)
+# LeonardoTheMutant's Murder Mystery HUD library (version `1.0-ALPHA`)
 
 ## Extended ASCII string renderer
 

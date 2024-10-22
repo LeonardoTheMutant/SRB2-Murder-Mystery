@@ -2346,7 +2346,7 @@ local function getGroundTexture(mo)
 end
 
 addHook("PlayerThink", function(player)
-	if (gametype!=GT_MURDERMYSTERY) return end
+	if (gametype!=GT_LTMMURDERMYSTERY) return end
 	if (valid(player.mo)) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
 		local pmo = player.mo
 		local panimInfo=PlayerAnimInfo[pmo.skin]

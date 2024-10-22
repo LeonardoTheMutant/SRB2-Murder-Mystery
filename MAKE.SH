@@ -8,7 +8,7 @@ else
     BUILDDIR=".."
 fi
 
-FILENAME="MM_MurderMystery_v${VERSION}_dev${BUILDDATE}.pk3"
+FILENAME="MM_LTMs_MurderMystery_v${VERSION}_dev${BUILDDATE}.pk3"
 if [ -f ./MAKE.SH ] && [ -d ./SRC/ ]; then
     cd ./SRC
     echo "Making ${BUILDDIR}/${FILENAME}"

@@ -6,7 +6,7 @@ If you're reading this file from GitHub this is great - you have more content to
 But for now let me introduce you to our file structure first:
 
 
-MM_MurderMystery_v1.0-ALPHA.pk3
+MM_LTMs_MurderMystery_v1.0-ALPHA.pk3
 |
 +-INIT.LUA - Init, freeslot, add-on PK3 properties, and some objects
 |

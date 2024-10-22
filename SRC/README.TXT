@@ -4,7 +4,7 @@
 
 ADD-ON TECHNICAL INFORMATION
 ------------------+----------------------------------------------------------------------------
-Add-On name       | Murder Mystery for SRB2
+Add-On name       | LeonardoTheMutant's Murder Mystery (formely "SRB2 Murder Mystery")
 Add-On version    | 1.0-ALPHA
 Add-On type       | New game type
 REUSABLE          | Yes
@@ -34,7 +34,7 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 
 
 =================================================
- "Murder Mystery for SRB2" is made by SRB2MM_DEV
+ "LeonardoTheMutant's Murder Mystery" is made by SRB2MM_DEV
 =================================================
 
 SRB2MM_DEV team is:
@@ -65,7 +65,7 @@ Special Thanks to:
  - Collision Chaos Radio for Sonic CD Music restoration
  - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
  - Jisk for having an extremely negative opinion on us and our project
- - Saxashitter for trying to make his own SRB2 MM (https://github.com/Saxashitter/murder-mystery)
+ - Saxashitter for litteraly shitting on us and making his own MM (https://github.com/Saxashitter/murder-mystery)
  - Every player who played the BETA versions of the add-on
  - Ambassadors who hosted the servers with the BETA versions of the add-on
  - Sonic Team Junior for the best Sonic fan game ever

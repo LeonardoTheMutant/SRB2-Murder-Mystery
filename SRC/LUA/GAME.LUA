@@ -1,9 +1,8 @@
 -- GAME.LUA
 -- Original base code by Tedvin11
--- Improved and developed further by LeonardoTheMutant
--- With the additional help of Jesus.B
+-- Code modifications by LeonardoTheMutant with the additional help of Jesus.B
 --
--- The main logic script of Murder Mystery, takes control of each player Join/Quit,
+-- The main logic script of the LTM's Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, AFK logic, and round endings
 
 local afkCVAR = CV_FindVar("mm_afk")
@@ -19,7 +18,7 @@ local function MM_GetSHREMLinterval(dist)
 end
 
 addHook("MapLoad", function(map)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	--Prepare players & server for the new round
 	for p in players.iterate
 		p.spectator = false
@@ -62,14 +61,14 @@ end)
 -- Custom TIMELIMIT code
 -- An alternative to SRB2's built-in TIMELIMIT
 addHook("ThinkFrame", function()
-    if ((gametype == GT_MURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1) and (not timelimit)) G_ExitLevel() end
+    if ((gametype == GT_LTMMURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1) and (not timelimit)) G_ExitLevel() end
 end)
 
 --
 -- Player spawn
 --
 addHook("PlayerSpawn", function(p)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Apply language
 	if (not p.mmlang)
@@ -105,7 +104,7 @@ addHook("PlayerSpawn", function(p)
 end)
 
 addHook("HurtMsg", do --disable Ringslier hurt messages
-	if (gametype == GT_MURDERMYSTERY) return true end
+	if (gametype == GT_LTMMURDERMYSTERY) return true end
 end)
 
 --
@@ -113,7 +112,7 @@ end)
 --
 
 addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	if (MM.debug) print("\x82Triggered MobjDeath") end
 	local vp = v.player --Victim player
 
@@ -221,7 +220,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), attacker, damage type
-	if (gametype != GT_MURDERMYSTERY) or (not a) or (not a.player) return end
+	if (gametype != GT_LTMMURDERMYSTERY) or (not a) or (not a.player) return end
 	if (MM.debug) print("\x82Player->Player damage (MobjDamage)") end
 	local vp = v.player --Victim player
 	local ap = a.player --Attacker player
@@ -335,7 +334,7 @@ end, MT_PLAYER)
 -- Sheriff's Emerald pickup logic
 --
 addHook("TouchSpecial", function(special, toucher)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (toucher.player.role == ROLE_INNOCENT)
 		for emeraldID = 1, #MM.shremls do
@@ -359,7 +358,7 @@ end, MT_SHREML)
 -- Player Thinker
 --
 addHook("PlayerThink", function(p)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	
 	p.powers[3] = 0 --disable shields completely
 
@@ -424,7 +423,7 @@ addHook("PlayerThink", function(p)
 end)
 
 addHook("ViewpointSwitch", function(p, np) --player, nextplayer
-	if (p.spectator) return --use game's default behaviour
+	if (gametype != GT_LTMMURDERMYSTERY) or (p.spectator) return --use game's default behaviour
 	else return false end --do not switch
 end)
 
@@ -432,6 +431,7 @@ end)
 -- Intermission Thinker
 --
 addHook("IntermissionThinker", do
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	--special round win check for the minigame
 	if ((MM.minigame) and (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid))
 		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[1].role
@@ -450,7 +450,7 @@ end)
 -- Intermission ending theme switcher
 --
 addHook("MusicChange", function(old, new)
-    if (gametype != GT_MURDERMYSTERY) return end
+    if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Showdown Duel music
 	if ((gamestate == GS_LEVEL) and (MM.shwdwn) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime])) return MM.shwdwn end
@@ -473,13 +473,13 @@ end)
 -- Quit Handler
 --
 addHook("PlayerQuit", function(p)
-	if ((gametype != GT_MURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
+	if ((gametype != GT_LTMMURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
 	if (p.role) MM_PlayerQuit(p) end
 end)
 
 if tsourdt3rd
 	addHook("KeyDown", function(keyevent)
-		if (keyevent.num == 9) and (CV_FindVar("automapoutsidedevmode").value) and (gametype == GT_MURDERMYSTERY)
+		if (keyevent.num == 9) and (CV_FindVar("automapoutsidedevmode").value) and (gametype == GT_LTMMURDERMYSTERY)
 			COM_BufInsertText(consoleplayer, "QUIT")
 		end
 	end)

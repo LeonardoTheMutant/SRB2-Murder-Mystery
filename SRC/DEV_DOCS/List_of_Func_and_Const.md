@@ -1,6 +1,6 @@
-## List of Murder Mystery Functions and Constants
+## List of functions and constants
 
-### For Murder Mystery `1.0-ALPHA`
+### For LTM's Murder Mystery `1.0-ALPHA`
 
 ---
 

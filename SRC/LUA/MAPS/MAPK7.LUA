@@ -28,21 +28,21 @@ local rayTimer
 local rayControlLine
 
 addHook("LinedefExecute", do --open door 1 trigger
-    if (gametype==GT_MURDERMYSTERY)
+    if (gametype == GT_LTMMURDERMYSTERY)
         P_LinedefExecute(23)
         doors[1][1] = doordelay
     end
 end,"K7D1OPN")
 
 addHook("LinedefExecute", do --open door 2 trigger
-    if (gametype==GT_MURDERMYSTERY)
+    if (gametype == GT_LTMMURDERMYSTERY)
         P_LinedefExecute(25)
         doors[2][1] = doordelay
     end
 end,"K7D2OPN")
 
 addHook("LinedefExecute", do --open door 3 trigger
-    if (gametype==GT_MURDERMYSTERY)
+    if (gametype == GT_LTMMURDERMYSTERY)
         P_LinedefExecute(27)
         doors[3][1] = doordelay
     end
@@ -50,7 +50,7 @@ end,"K7D3OPN")
 
 --the Truth Ray
 addHook("LinedefExecute", function(l,mo,s)
-    if (gametype == GT_MURDERMYSTERY)
+    if (gametype == GT_LTMMURDERMYSTERY)
         --find the control linedef of the ray
         if (not rayControlLine)
             for line = 1, #s.lines

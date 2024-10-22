@@ -95,7 +95,7 @@ end)
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
 rawset(_G, "MM_AssignRoles", function()
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	-- Take care of the lonely player
 	if (PlayerCount() < 2)

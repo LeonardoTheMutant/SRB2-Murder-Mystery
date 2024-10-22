@@ -26,7 +26,7 @@ end
 -- Main game HUD
 --
 hud.add(function(v, p)
-	if (gametype != GT_MURDERMYSTERY) --in case if switched from MM to another gametype
+	if (gametype != GT_LTMMURDERMYSTERY) --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
 		hud.enable("score")
@@ -491,7 +491,7 @@ end, "game")
 -- SCORES TAB
 --
 hud.add(function(v)
-	if (gametype != GT_MURDERMYSTERY)
+	if (gametype != GT_LTMMURDERMYSTERY)
 		hud.enable("rankings")
 		return
 	end
@@ -576,7 +576,7 @@ end, "scores")
 -- Custom intermission HUD
 --
 hud.add(function(v)
-	if (gametype != GT_MURDERMYSTERY)
+	if (gametype != GT_LTMMURDERMYSTERY)
 		hud.enable("intermissiontally")
 		return
 	end

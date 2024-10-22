@@ -92,7 +92,7 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 end, COM_ADMIN)
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	if (gametype != GT_MURDERMYSTERY) or (not s.mmlang) then return end
+	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mmlang) then return end
 	if (s.chatdelay) and (not (isdedicatedserver and s == server))
 		CONS_Printf(s, "You are sending too many messages, please wait "..(G_TicsToSeconds(s.chatdelay) + 1).." second(s)")
 		return true

@@ -1,5 +1,5 @@
 if (MM)
-	error("Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("SRB2 (LTM's) Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 rawset(_G, "MM", {
@@ -158,15 +158,15 @@ CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_On
 --
 --MM startup init
 --
-print("\n\x87MURDER MYSTERY \x81v"..MM.version.."\n")
+print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
 freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
 freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 G_AddGametype({
-	name = "Murder Mystery",
-	identifier = "murdermystery",
+	name = "LTM_MurderMystery",
+	identifier = "ltmmurdermystery",
 	typeoflevel = TOL_MURDERMYSTERY,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
@@ -240,7 +240,7 @@ dofile("MAPS/MAPK8.LUA")
 dofile("MAPS/MAPKB.LUA")
 dofile("MAPS/MAPKC.LUA")
 
-print("\n\x83Murder Mystery add-on loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)\n")
+print("\n\x84LTM's Murder Mystery add-on was loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)\n")
 --
 --end of startup init
 --
@@ -257,4 +257,4 @@ addHook("NetVars", function(net)
 	MM.duelplrs = net($)
 end)
 
-if (MODVERSION != 54) error("Murder Mystery was designed for SRB2 v2.2.13 only. Incompatibilities may occur", 0) end
+if (MODVERSION != 54) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.13 only. Incompatibilities may occur", 0) end

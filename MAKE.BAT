@@ -9,7 +9,7 @@ IF EXIST R:\ (
 	SET BUILDDIR=.
 )
 
-SET FILENAME=MM_MurderMystery_v%VERSION%_dev%BUILDDATE%
+SET FILENAME=MM_LTMs_MurderMystery_v%VERSION%_dev%BUILDDATE%
 
 ECHO Making %FILENAME%.pk3
 ECHO Please wait...

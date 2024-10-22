@@ -136,7 +136,7 @@ local TimeTravel_ShiftX2
 local TimeTravel_ShiftY2
 
 addHook("MapLoad", function(map)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Get the lengths between different Time Zones (if map has Time Travel)
 	if (mapheaderinfo[map].timetravel_shiftx) and (tonumber(mapheaderinfo[map].timetravel_shiftx))
@@ -169,7 +169,7 @@ addHook("MapLoad", function(map)
 end)
 
 addHook("PlayerSpawn", function(p)
-	if (gametype != GT_MURDERMYSTERY) then 
+	if (gametype != GT_LTMMURDERMYSTERY) then 
 		p.timetravel = nil
 		return
 	end
@@ -177,7 +177,7 @@ addHook("PlayerSpawn", function(p)
 end)
 
 addHook("PlayerThink", function(p)
-	if ((gametype != GT_MURDERMYSTERY) or (not p.timetravel) or (not valid(p.mo))) return end
+	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.timetravel) or (not valid(p.mo))) return end
 	
 	if (p.timetravel.timesign)
 		if (p.speed >= 2949120) --45*FU
@@ -237,7 +237,7 @@ end)
 
 --Future
 addHook("TouchSpecial", function(special, toucher)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_FUTURE)) and (not special.spinning)
 		toucher.player.timetravel.timesign = TWS_FUTURE
@@ -256,7 +256,7 @@ end, MT_TIMESIGN_F)
 
 --Past
 addHook("TouchSpecial", function(special, toucher)
-	if (gametype != GT_MURDERMYSTERY) return end
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_PAST)) and (not special.spinning)
 		toucher.player.timetravel.timesign = TWS_PAST

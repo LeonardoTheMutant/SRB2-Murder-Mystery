@@ -10,7 +10,7 @@ addHook("PlayerThink", function(p)
 	local s = (p.mo.skin or "sonic") -- added an or just incase the game slips
 
 	--Enable skin abilities if the MM_ABILITIES CVAR is enabled OR the gametype is not Murder Mystery
-	if (gametype != GT_MURDERMYSTERY) or (MM_ABILITIES.value)
+	if (gametype != GT_LTMMURDERMYSTERY) or (MM_ABILITIES.value)
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
 		p.charflags = skins[s].flags
@@ -20,7 +20,7 @@ addHook("PlayerThink", function(p)
 		p.sneak = false
 
 	--"Everyone are regular persons" mode (MM_ABILITIES disabled)
-	elseif ((gametype == GT_MURDERMYSTERY) and (not MM_ABILITIES.value))
+	elseif ((gametype == GT_LTMMURDERMYSTERY) and (not MM_ABILITIES.value))
 		p.charability = 0
 		p.charability2 = 0
 		p.charflags = 0
@@ -38,8 +38,8 @@ addHook("PlayerThink", function(p)
 	end
 
 	--disable custom skins if the admin did not allow their usage
-	if (gametype == GT_MURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5)
-		CONS_Printf(p, "The Administrator has disabled the use of Custom Skins in the current MM game")
+	if (gametype == GT_LTMMURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5)
+		CONS_Printf(p, "The Game Administrator has disabled the usage of Custom Skins in the current MM game")
 		R_SetPlayerSkin(p, "sonic")
 	end
 end)

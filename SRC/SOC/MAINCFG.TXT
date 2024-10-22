@@ -2,7 +2,7 @@ MainCfg
 
 Level K0
 LevelName = Abandoned Shelter
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
@@ -11,7 +11,7 @@ Lua.Author = LeoTM
 
 Level K1
 Levelname = Vineyard Castle
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 SkyNum = 10
 TypeOfLevel = MurderMystery
@@ -20,7 +20,7 @@ Lua.Author = Piksqu, LeoTM
 
 Level K2
 LevelName = Peridot Park
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 SkyNum = 99
 SkyboxScale = 32
 Act = 0
@@ -31,7 +31,7 @@ Lua.Author = LeoTM
 
 Level K3
 Levelname = Mountain Fort
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
@@ -42,7 +42,7 @@ Lua.Autor = Jisk, LeoTM
 
 Level K4
 LevelName = West City
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 SkyNum = 13
 Act = 0
 TypeOfLevel = MurderMystery
@@ -52,7 +52,7 @@ Lua.Author = LeoTM
 Level K5
 LevelName = Dam
 SubTitle = ^2Goldeneye^5 007
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 SkyNum = 30
 TypeOfLevel = MurderMystery
@@ -61,7 +61,7 @@ Lua.Author = LeoTM, Rare
 
 Level K6
 LevelName = BACKROOMS
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Music = None
 NoZone = True
 Act = 0
@@ -71,7 +71,7 @@ Lua.Author = LeoTM
 
 Level K7
 LevelName = Space Mesa
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 NoZone = True
 Act = 0
 SkyNum = 21
@@ -81,7 +81,7 @@ Lua.Author = LeoTM
 
 Level K8
 LevelName = 8-Ball Hotel
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 SkyNum = 6
 Act = 0
 NoZone = True
@@ -92,7 +92,7 @@ Lua.Author = SuperOfSrb2, LeoTM
 
 Level K9
 LevelName = Greenflower Mystery
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
@@ -102,7 +102,7 @@ Lua.Author = Sonic Team Jr.
 Level KA
 LevelName = Mirage Express
 SubTitle = Under Construction
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = MurderMystery
@@ -112,7 +112,7 @@ Lua.Author = SEGA, SandwichCinema, LeoTM
 Level KB
 LevelName = Myst Island
 SubTitle = ^7Myst
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Music = None
 Act = 0
 SkyNum = 16
@@ -125,7 +125,7 @@ Lua.Author = Cyan, LeoTM
 Level KC
 LevelName = Stauf's Mansion
 SubTitle = The^5 11th^0 hour
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Music = 11H_00
 Act = 0
 SkyNum = 6
@@ -142,7 +142,7 @@ Lua.Author = Trillobyte, LeoTM
 Level KD
 LevelName = East City
 SubTitle = Under Construction
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 SkyNum = 300
 SkyboxScale = 8
@@ -158,7 +158,7 @@ Lua.Author = LeoTM
 Level KE
 LevelName = Shadow Moses Island
 SubTitle = Under Construction
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = true
 SkyNum = 6
@@ -170,7 +170,7 @@ Lua.Author = Konami, Hideo Kojima, LeoTM
 
 Level KF
 Levelname = Merry Peak
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 Nozone = true
 TypeOfLevel = MurderMystery
@@ -181,7 +181,7 @@ Lua.Author = Troplucky, LeoTM
 
 Level KG
 Levelname = Atzec
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 TypeOfLevel = MurderMystery
 SkyNum = 40
@@ -190,7 +190,7 @@ Lua.Author = LeoTM
 
 Level KH
 Levelname = * Empty *
-SelectHeading = Murder Mystery
+SelectHeading = LTM's Murder Mystery
 Act = 0
 TypeOfLevel = MurderMystery
 NextLevel = K0

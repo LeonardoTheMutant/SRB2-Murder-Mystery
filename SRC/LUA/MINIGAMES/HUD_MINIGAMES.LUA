@@ -49,7 +49,7 @@ local function V_DrawMinigameTime(v)
 end
 
 hud.add(function(v, p)
-	if (gametype != GT_MURDERMYSTERY) --in case if switched from MM to another gametype
+	if (gametype != GT_LTMMURDERMYSTERY) --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
 		hud.enable("score")
