@@ -161,18 +161,18 @@ CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_On
 print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_MURDERMYSTERY', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
+freeslot('TOL_LTM_MM', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
 freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 G_AddGametype({
-	name = "LTM_MurderMystery",
+	name = "LTM_MM",
 	identifier = "ltmmurdermystery",
-	typeoflevel = TOL_MURDERMYSTERY,
+	typeoflevel = TOL_LTM_MM,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,
-	description = "Kill everyone as Murderer, prevent the murders as Sheriff and survive as Innocent!"
+	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, prevent the murders as \x84Sheriff\x80 and survive as \x83Innocent\x80!"
 })
 
 --Sheriff Drop Emerald

@@ -3,10 +3,12 @@
   I hope you enjoyed the mod!"
 
 ADD-ON TECHNICAL INFORMATION
-------------------+----------------------------------------------------------------------------
-Add-On name       | LeonardoTheMutant's Murder Mystery (formely "SRB2 Murder Mystery")
+------------------+------------------------------------------------------
+Add-On name       | LeonardoTheMutant's Murder Mystery
+                  | (formely "SRB2 Murder Mystery")
+                  |
 Add-On version    | 1.0-ALPHA
-Add-On type       | New game type
+Add-On type       | New gametype
 REUSABLE          | Yes
                   |
 Modifies vanilla  |
@@ -24,7 +26,7 @@ New music         | Yes (MIDI only***)
                   |
 Included          |
 translations      | English, Polish, Russian, Turkish, Ukrainian
-------------------+----------------------------------------------------------------------------
+------------------+------------------------------------------------------
 *   The add-on was designed to not modify the vanilla aspects of the game.
     There is only one known bug where Metal Sonic can't get into his Hyper Dash
     mode when playing in vanilla game types with MM add-on present
@@ -33,9 +35,9 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 
 
 
-=================================================
+============================================================
  "LeonardoTheMutant's Murder Mystery" is made by SRB2MM_DEV
-=================================================
+============================================================
 
 SRB2MM_DEV team is:
   LeonardoTheMutant  - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian, Russian & Polish translator

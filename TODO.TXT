@@ -11,4 +11,4 @@
 - Make (several) release trailer(s)
 - Change the extended map names from MAPK# to MAPM# ("K" stands for Killer, "M" - Murder/Mystery)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
-- Make a complete rename of the project from "(SRB2) Murder Mystery" to "LeonardoTheMutant's Murder Mystery" because Saxashitter can't do the same
+- Make a complete rename of the project from "(SRB2) Murder Mystery" to "LeonardoTheMutant's Murder Mystery"

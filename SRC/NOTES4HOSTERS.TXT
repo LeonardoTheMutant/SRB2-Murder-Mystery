@@ -5,15 +5,15 @@ for those who are going to host this addon pack on their server (including you)
 A. From the command line:
 	1) Add the game-type addon file with "-FILE [path_to_the_addon]" parameter;
 	2) Write the name of the gametype to launch like:
-	   -gametype LTM_MurderMystery
+	   -gametype LTM_MM
 	3) You probably don't want to start from Greenflower1 so you need to use "-WARP MAPK0"
 	   to start from MM maps.
 
 	The final command line should be something like:
-	srb2win.exe -server (-dedicated) -file [place_where_addon_located]/MM_MurderMystery-v[ver].pk3 -gametype "Murder Mystery" -warp MAPK0
+	srb2win.exe -server (-dedicated) -file [place_where_addon_located]/MM_MurderMystery-v[ver].pk3 -gametype LTM_MM -warp MAPK0
 
 B. From the in-game console:
-	MAP [MMmapnum] -GAMETYPE LTM_MurderMystery
+	MAP [MMmapnum] -GAMETYPE LTM_MM
 
 ---=== Admin-only MM commands/variables ===---
 There are a couple of Commands and Console Variables available for admins to use. Here are all of them:

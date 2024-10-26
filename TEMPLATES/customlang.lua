@@ -1,5 +1,5 @@
--- SRB2 MURDER MYSTERY language file template
--- THIS FILE MUST BE LOADED AFTER THE MAIN MM .PK3
+-- Language file template for the LeonardoTheMutant's Murder Mystery gametype
+-- THIS FILE MUST BE LOADED AFTER THE LTM_MM.PK3
 --
 -- You can use this file as a template to add your own language to MM,
 -- Please read everything carefully and your custom language will work fine
@@ -397,7 +397,7 @@ MM.AddLang("MYLANG", language)
 --if everything is done correctly you will receive no errors when loading this file and in the gameplay process
 --
 --If this language is going to be posted on the SRB2 Message Board please rename this file to something like:
--- MML_[full_lang_name]_v[MM_version].lua
+-- MM_LANG_[full_lang_name]_v[MM_version].lua
 
 
 --Thank you for your efforts to make the game more accessible!
