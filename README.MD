@@ -31,7 +31,7 @@ Release versions of the Add-On, which are tested and approved to be showcased pu
     ```
 3. Go to the folder of the cloned repository
     ```sh
-    cd SRB2-MurderMystery
+    cd SRB2-Murder-Mystery
     ```
 4. Launch one of the `MAKE` scripts that will generate the `.pk3` file with the **Debug version** of the Add-On:
     - Windows:
@@ -86,7 +86,7 @@ As a `[mapnum]` you can use **MAPK0** or **K0** (*"Abandoned Shelter"*)
 - MIDI files for the music from [VGMusic](https://vgmusic.com)
 
 ## For people who want to contribute to the project
-The [Pull Requests](https:gtihub.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulls) are always open! All contributions would be greatly appreciated especially maps, music, graphics, ideas or bug fixes. If you want to make somrthing unique you can even make a translation. Yes you read it right, this gametype supports localisations on different languages. You can add your own language to the project by either
+The [Pull Requests](https:github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulls) are always open! All contributions would be greatly appreciated especially maps, music, graphics, ideas or bug fixes. If you want to make something unique you can even make a translation. Yes you read it right, this gametype supports localisations on different languages. You can add your own language to the project by either
 
 1. Modifying the source code you are having right now and creating a new Pull Request
-2. Making a **Custom Language File** from the [template](TEMPLATES/customlang.lua) and then adding it as a regular ADD-ON together with MM (main Add-On has to be loaded first)
+2. Making a **Custom Language File** from the [template](TEMPLATES/customlang.lua) and then in SRB2 add it as a regular Add-On together with MM (main MM Add-On has to be loaded first)
