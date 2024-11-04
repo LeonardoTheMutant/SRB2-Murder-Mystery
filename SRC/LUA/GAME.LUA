@@ -453,7 +453,7 @@ addHook("MusicChange", function(old, new)
     if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Showdown Duel music
-	if ((gamestate == GS_LEVEL) and (MM.shwdwn) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime])) return MM.shwdwn end
+	if ((gamestate == GS_LEVEL) and (MM.shwdwn) and (leveltime) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime])) return MM.shwdwn end
 
 	--Intermission theme
 	if (new == "_inter")

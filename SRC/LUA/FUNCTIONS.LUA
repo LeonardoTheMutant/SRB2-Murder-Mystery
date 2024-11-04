@@ -17,14 +17,16 @@ local death_sfx = { --SFXs that are used as Death Sounds
 }
 
 local shwdwn_music = { --Tracks used as Showdown Duel themes
+	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
+	"EWJ2TN", --Earthworm Jim 2: Anything but tangerines
+	"RBYILL", --Sonic Mania: "Ruby Illusions"
+	"RDBUST", --Deltarune: "Rude Buster" (by Toby Fox)
 	"S2MSBS", --Sonic 2 (Master System): Boss
 	"S2GGBS", --Sonic 2 (Game Gear): Boss
-	"EWJ2TN", --Earthworm Jim 2: Anything but tangerines
-	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
+	--"SSBLBS", --Sonic Spinball: Boss
+	"SSBLSD", --Sonic Spinball: "Showdown"
 	"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
 	"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
-	--"SSBLBS", --Sonic Spinball: Boss
-	"SSBLSD"  --Sonic Spinball: "Showdown"
 }
 
 --
