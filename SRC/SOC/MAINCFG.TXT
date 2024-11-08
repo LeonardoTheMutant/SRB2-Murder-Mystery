@@ -153,6 +153,7 @@ Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
 Lua.TimeTravel_ShiftY2 = 0
 Lua.Timelimit = 7
 NextLevel = KE
+Lua.ShowdownTrack = RBYILL
 Lua.Author = LeoTM
 
 Level KE
