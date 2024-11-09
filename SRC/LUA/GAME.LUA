@@ -326,6 +326,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 	end
 
+	MM_StartSuspenceMusic()
 	MM_StartShowdownMusic()
 	return true
 end, MT_PLAYER)

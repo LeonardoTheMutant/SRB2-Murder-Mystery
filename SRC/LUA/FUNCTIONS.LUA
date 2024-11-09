@@ -322,6 +322,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	end
 
+	MM_StartSuspenceMusic()
 	MM_StartShowdownMusic()
 end)
 
@@ -341,6 +342,16 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	end
 end)
 
+--Enable Suspence music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
+rawset(_G, "MM_StartSuspenceMusic", function()
+	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremls))
+		S_ChangeMusic("SUSNCE", true)
+		return true
+	end
+	return false
+end)
+
+--Enable Showdown music when there are no innocents left
 rawset(_G, "MM_StartShowdownMusic", function()
 	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
 		if (mapheaderinfo[gamemap].showdowntrack)
