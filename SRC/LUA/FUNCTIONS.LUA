@@ -278,7 +278,7 @@ end)
 rawset(_G, "MM_PlayerQuit", function(p)
 	if (p.role == ROLE_MURDERER)
 		p.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER)))
+		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_INNOCENT) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
 			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
