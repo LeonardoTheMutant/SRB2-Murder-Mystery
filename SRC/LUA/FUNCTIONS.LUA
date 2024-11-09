@@ -20,7 +20,7 @@ local shwdwn_music = { --Tracks used as Showdown Duel themes
 	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
 	"EWJ2TN", --Earthworm Jim 2: Anything but tangerines
 	--"RBYILL", --Sonic Mania: "Ruby Illusions"
-	"RDBUST", --Deltarune: "Rude Buster" (by Toby Fox)
+	"RDBSTR", --Deltarune: "Rude Buster" (by Toby Fox)
 	"S2MSBS", --Sonic 2 (Master System): Boss
 	"S2GGBS", --Sonic 2 (Game Gear): Boss
 	--"SSBLBS", --Sonic Spinball: Boss
