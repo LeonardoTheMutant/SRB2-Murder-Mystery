@@ -8,6 +8,7 @@
 --Constants
 local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
+local crypticCVAR = CV_FindVar("mm_cryptic")
 
 local function wep2rw(wep) --convert WEP_* constant to RW_* constant
 	return 2^(wep - 1)
@@ -459,15 +460,15 @@ hud.add(function(v, p)
 	end
 	
 	--red Flash effect when you die
-	if (p.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT)
+	if (p.mmflashscrn)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.mmflashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT)
 	end
 	
 	--white time warp spark effect
 	if (p.timetravel and p.timetravel.spark)
 		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0], ((p.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
-	
+
 	--Debug
 	if MM.debug
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87".."LTM_MM v"..MM.version.." DEBUG", V_PERPLAYER, "thin")
@@ -513,7 +514,7 @@ hud.add(function(v)
 	end
 
 	--Teammates tracker
-	if (MM_TeammatesCount(consoleplayer))
+	if (MM_TeammatesCount(consoleplayer) and not crypticCVAR.value)
 		local teammateNo = 0
 		V_DrawStrASCII(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), charset, MM.RoleColorHUD[consoleplayer.role]..MM_GetText(consoleplayer.mmlang, "HUD_TEAMMATES")..":", v.localTransFlag())
 		for p in players.iterate
@@ -539,28 +540,30 @@ hud.add(function(v)
 	v.drawFill(0, 172, 320, 2, 0) --horizontal line
 
 	--Roles counter
-	--Murderer
-	V_DrawStrASCII(v, 20, 176, charset, MM.RoleColorHUD[ROLE_MURDERER]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_MURDERER)..": "..PlayerCount(ROLE_MURDERER), v.localTransFlag())
-	--Sheriff (and Hero)
-	if (PlayerCount(ROLE_HERO))
-		V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..PlayerCount(ROLE_HERO)), v.localTransFlag())
-	else
-		V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
+	if (not crypticCVAR)
+		--Murderer
+		V_DrawStrASCII(v, 20, 176, charset, MM.RoleColorHUD[ROLE_MURDERER]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_MURDERER)..": "..PlayerCount(ROLE_MURDERER), v.localTransFlag())
+		--Sheriff (and Hero)
+		if (PlayerCount(ROLE_HERO))
+			V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..PlayerCount(ROLE_HERO)), v.localTransFlag())
+		else
+			V_DrawStrASCII(v, 20, 184, charset, (MM.RoleColorHUD[ROLE_SHERIFF]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
+		end
+		--Innocent
+		if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[ROLE_INNOCENT]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_INNOCENT)..": "..PlayerCount(ROLE_INNOCENT)), v.localTransFlag()) end
+
+		--"Sheriff's Emerald is available!"
+		if ((#MM.shremls) and (leveltime & 1))
+			v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
+		end
 	end
 
-	--Innocent
-	if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[ROLE_INNOCENT]..MM_GetText(consoleplayer.mmlang, "HUD_ROLESALIVE", ROLE_INNOCENT)..": "..PlayerCount(ROLE_INNOCENT)), v.localTransFlag()) end
 	--Online
 	v.drawString(160, 176, "ONLINE: "..PlayerCount(), v.localTransFlag())
 
-	--"Sheriff's Emerald is available!"
-	if ((#MM.shremls) and (leveltime & 1))
-		v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
-	end
-
 	--red Flash effect when you die
-	if (consoleplayer.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((consoleplayer.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	if (consoleplayer.mmflashscrn)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((consoleplayer.mmflashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	--white time warp spark effect

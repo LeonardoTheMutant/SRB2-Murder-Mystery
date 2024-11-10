@@ -22,16 +22,18 @@ VARIABLES
 	MM_ABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
 		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
 		Enable this Variable to remove the ability limit. The default value is NO;
-	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
-		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
-		The default value is NO.
-	MM_CHATDELAY - Used for chat spam protection. Sets how much time player has to wait before sending
-	    the next message - measured in seconds (default value is 1);
-	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
-		for longer than 30 seconds will be kicked. The default value is ON.
 	MM_AFK - used as an AFK timeout value. Measured in minutes. The default value is 2 minutes. If
 	    set to 0 AFK timeout is disabled.
 	MM_AUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
+	MM_CHATDELAY - Used for chat spam protection. Sets how much time player has to wait before sending
+	    the next message - measured in seconds (default value is 1);
+	MM_CRYPTIC - Enable/Disable the "Cryptic game" mode, where most of the player counters, teammates list and
+		player nametags are disabled to make the game more cryptic (and feel more like a true mystery)
+	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
+		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
+		The default value is NO.
+	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
+		for longer than 30 seconds will be kicked. The default value is ON.
 	MM_WEPCONFIG - Set how weapons work for each player role (except Innocents) during the normal gameplay or
 		showdown duel by setting the individual flags. The variable accepts the *interger* in 0-255 range.
 		For more details please see the DEV_DOCS/MM_WEPCONFIG.PNG

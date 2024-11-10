@@ -142,18 +142,21 @@ local function VarChange(v) --callback function called by CV_CALL flag
 		if (v.value == 0) print("\x87Murder Mystery:\x80 Weapons are disabled for "..MM.RoleColor[ROLE_INNOCENT].."Innoncents")
 		elseif (v.value == 1) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife and Red Ring weapons")
 		elseif (v.value == 2) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife") end
+	elseif (v.name == "mm_cryptic")
+		if (v.value) print("\x87Murder Mystery:\x80 Nametags and most of the player counters got disabled. \x81Good Luck finding out who others are.")
+		else print("\x87Murder Mystery:\x80 Nametags and player counters are now enabled") end
 	end
 end
 -- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
-CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
---CV_RegisterVar({name = "mm_safechat", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
-CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
+CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
+CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
+CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 
 --
 --MM startup init

@@ -7,6 +7,7 @@
 
 local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
+local crypticCVAR = CV_FindVar("mm_cryptic")
 
 local function MM_GetSHREMLinterval(dist)
 	if (dist < 256) return 5
@@ -24,7 +25,7 @@ addHook("MapLoad", function(map)
 		p.spectator = false
 		p.kills = 0
 		p.killedby = nil
-		p.flashscrn = 0
+		p.mmflashscrn = 0
 		p.minigame = false
 		p.mmweapondelay = 0
 	end
@@ -375,9 +376,9 @@ addHook("PlayerThink", function(p)
 	if (p.roleflicker) p.roleflicker = $ - 1 end
 
 	--HUD flash screen fadeout
-	if (p.flashscrn) and (not (leveltime % 4))
-		p.flashscrn = $ + 1
-		if (p.flashscrn >= 10) p.flashscrn = 0 end
+	if (p.mmflashscrn) and (not (leveltime % 4))
+		p.mmflashscrn = $ + 1
+		if (p.mmflashscrn >= 10) p.mmflashscrn = 0 end
 	end
 
 	--Sheriff Emerald Radar distance logic
@@ -423,9 +424,16 @@ addHook("PlayerThink", function(p)
 	p.oldname = p.name
 end)
 
-addHook("ViewpointSwitch", function(p, np) --player, nextplayer
+addHook("ViewpointSwitch", function(p) --player
 	if (gametype != GT_LTMMURDERMYSTERY) or (p.spectator) return --use game's default behaviour
 	else return false end --do not switch
+end)
+
+addHook("SeenPlayer", function(p, sp) --player, seenplayer
+	if (gametype != GT_LTMMURDERMYSTERY) then return --use game's default behavior
+	else
+		if (crypticCVAR.value) then return false end --do not show
+	end
 end)
 
 --
@@ -434,7 +442,7 @@ end)
 addHook("IntermissionThinker", do
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 	--special round win check for the minigame
-	if ((MM.minigame) and (MM.duelplrs[1].valid) and (MM.duelplrs[2].valid))
+	if ((MM.minigame) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]))
 		if (MM.duelplrs[1].kills > MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[1].role
 		elseif (MM.duelplrs[1].kills < MM.duelplrs[2].kills) then MM.winner = MM.duelplrs[2].role end
 	end

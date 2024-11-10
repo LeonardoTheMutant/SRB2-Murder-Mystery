@@ -194,7 +194,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	local plr = p.player
 	plr.spectator = true
 	plr.role = ROLE_NONE
-	plr.flashscrn = 1
+	plr.mmflashscrn = 1
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
 	plr.killedby = k.player.name
@@ -224,7 +224,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	local plr = p.player
 	plr.spectator = true
 	plr.role = ROLE_NONE
-	plr.flashscrn = 1
+	plr.mmflashscrn = 1
 	plr.killedby = "your stupidity"
 
 	if (spawnbody)
