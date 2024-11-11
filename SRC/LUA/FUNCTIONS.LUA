@@ -34,7 +34,7 @@ local shwdwn_music = { --Tracks used as Showdown Duel themes
 rawset(_G, "PlayerCount", function(role)
 	local plrc = 0
 	if (role)
-		for p in players.iterate do if ((p.role == role) and (not p.quittime)) then plrc = $ + 1 end end
+		for p in players.iterate do if ((p.mm.role == role) and (not p.quittime)) then plrc = $ + 1 end end
 	else
 		for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
 	end
@@ -49,6 +49,30 @@ end)
 --
 --GAME.LUA
 --
+
+--Player initializator
+rawset(_G, "MM_InitPlayer", function(p)
+	assert(p, "MM_InitPlayer(): player_t not given!")
+
+	if (not p.mm) then p.mm = {} end
+	p.mm.kills = 0
+	p.mm.killername = false
+	p.mm.weapondelay = 0
+	p.mm.camping = 0
+	p.mm.chatdelay = 0
+	p.mm.shreml_dist = 0
+	p.mm.sneak = false
+	p.mm.hud = {
+		flashscrn = 0,
+		roleflicker = 140,
+	}
+	p.mm.timetravel = {
+		timezone = TIMEZONE_PRESENT,
+		timesign = TWS_NONE,
+		warptimer = 0,
+		spark = 0
+	}
+end)
 
 -- how many players with same role should exist?
 rawset(_G, "MM_GetRoleMultiplier", function()
@@ -100,27 +124,27 @@ rawset(_G, "MM_AssignRoles", function()
 
 	-- Take care of the lonely player
 	if (PlayerCount() < 2)
-		for p in players.iterate do p.role = nil end
+		for p in players.iterate do p.mm.role = nil end
 		return
 	end
 
 	local plrs = {} --table of player nodes that exist and are valid
 	for p in players.iterate --prepare players and get their player nodes
-		p.role = ROLE_NONE
+		p.mm.role = ROLE_NONE
 		table.insert(plrs, #p)
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
         for i = 1, MM_GetRoleMultiplier()
             local randPlr = P_RandomKey(#plrs) + 1 --select random player
-            players[plrs[randPlr]].role = r --assign the role to that player
+            players[plrs[randPlr]].mm.role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
         end
     end
 	--tell each player its role personally
 	for p in players.iterate
-		if (p.role == ROLE_NONE) p.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
-		chatprintf(p, MM_GetText(p.mmlang, "ROLE_GET", p.role))
-		p.roleflicker = 105 --timer for role name flickering on HUD
+		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
+		chatprintf(p, MM_GetText(p.mm.lang, "ROLE_GET", p.mm.role))
+		p.mm.roleflicker = 105 --timer for role name flickering on HUD
 	end
 end)
 
@@ -130,24 +154,24 @@ end)
 rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 	for p in players.iterate
 		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED"))
-			chatprintf(p, MM_GetText(p.mmlang, msg, 1).." "..var.." "..MM_GetText(p.mmlang, msg, 2))
+			chatprintf(p, MM_GetText(p.mm.lang, msg, 1).." "..var.." "..MM_GetText(p.mm.lang, msg, 2))
 		elseif (msg == "SHERI_KILLED_DROP")
-			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mmlang, "SHERI_KILLED", 2).." "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
+			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mm.lang, "SHERI_KILLED", 2).." "..MM_GetText(p.mm.lang, "SHERI_KILLED", 3))
 		elseif (msg == "MURD_DIED")
-			chatprintf(p, MM_GetText(p.mmlang, "MURD_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+			chatprintf(p, MM_GetText(p.mm.lang, "MURD_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "SHERI_DIED")
-			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "HERO_DIED")
-			chatprintf(p, MM_GetText(p.mmlang, "HERO_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD"))
+			chatprintf(p, MM_GetText(p.mm.lang, "HERO_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "SHERI_DIED_DROP")
-			chatprintf(p, MM_GetText(p.mmlang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mmlang, "DIED_HAZARD")..". "..MM_GetText(p.mmlang, "SHERI_KILLED", 3))
+			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD")..". "..MM_GetText(p.mm.lang, "SHERI_KILLED", 3))
 		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
-			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mmlang, msg, var)) --for Murd and Sheri
-			else chatprintf(p, MM_GetText(p.mmlang, msg, 3)) end --for Hero
+			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mm.lang, msg, var)) --for Murd and Sheri
+			else chatprintf(p, MM_GetText(p.mm.lang, msg, 3)) end --for Hero
 		elseif (msg == "WIN")
-			chatprintf(p, MM_GetText(p.mmlang, "ENDROUND", var))
+			chatprintf(p, MM_GetText(p.mm.lang, "ENDROUND", var))
 		elseif msg
-			chatprintf(p, MM_GetText(p.mmlang, msg, var))
+			chatprintf(p, MM_GetText(p.mm.lang, msg, var))
 		end
 	end
 end)
@@ -193,13 +217,13 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	if ((not k) or (not k.player)) error("MM_KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
-	plr.role = ROLE_NONE
-	plr.mmflashscrn = 1
+	plr.mm.role = ROLE_NONE
+	plr.mm.hud.flashscrn = 1
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
-	plr.killedby = k.player.name
-	k.player.kills = $ + 1
-	if (not k.player.sneak) P_PlayDeathSound(p) end
+	plr.mm.killername = k.player.name
+	k.player.mm.kills = $ + 1
+	if (not k.player.mm.sneak) P_PlayDeathSound(p) end
 	plr.rmomx = 0
 	plr.rmomy = 0
 
@@ -214,7 +238,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
 	body.color = p.color
 
-	if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
+	if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
 	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
 end)
@@ -223,9 +247,9 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	if ((not p) or (not p.player)) error("MM_KillPlayerByHazard() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
-	plr.role = ROLE_NONE
-	plr.mmflashscrn = 1
-	plr.killedby = "your stupidity"
+	plr.mm.role = ROLE_NONE
+	plr.mm.hud.flashscrn = 1
+	plr.mm.killername = "your stupidity"
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
@@ -238,7 +262,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
 		body.color = p.color
 
-		if ((plr.timetravel) and (plr.timetravel.timezone)) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
+		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
 	else
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
@@ -249,11 +273,11 @@ end)
 rawset(_G, "MM_TeammatesCount", function(p)
 	local teammates = false
 
-	if (p.role == ROLE_MURDERER)
+	if (p.mm.role == ROLE_MURDERER)
 		teammates = PlayerCount(ROLE_MURDERER) - 1 
-	elseif (p.role == ROLE_SHERIFF)
+	elseif (p.mm.role == ROLE_SHERIFF)
 		teammates = (PlayerCount(ROLE_SHERIFF) - 1) + PlayerCount(ROLE_HERO)
-	elseif (p.role == ROLE_HERO)
+	elseif (p.mm.role == ROLE_HERO)
 		teammates = PlayerCount(ROLE_SHERIFF) + (PlayerCount(ROLE_HERO) - 1)
 	end
 
@@ -261,23 +285,23 @@ rawset(_G, "MM_TeammatesCount", function(p)
 end)
 
 rawset(_G, "MM_AreTeammates", function(p1, p2)
-	if ((not p1.role) or (not p2.role)) then return false end
+	if ((not p1.mm.role) or (not p2.mm.role)) then return false end
 
-	return ((p1.role == ROLE_MURDERER) and (p2.role == ROLE_MURDERER))
-		or (((p1.role == ROLE_SHERIFF) or (p1.role == ROLE_HERO)) and ((p2.role == ROLE_SHERIFF) or (p2.role == ROLE_HERO)))
+	return ((p1.mm.role == ROLE_MURDERER) and (p2.mm.role == ROLE_MURDERER))
+		or (((p1.mm.role == ROLE_SHERIFF) or (p1.mm.role == ROLE_HERO)) and ((p2.mm.role == ROLE_SHERIFF) or (p2.mm.role == ROLE_HERO)))
 end)
 
 rawset(_G, "MM_HitTeammate", function(v, a)
-	chatprintf(a, MM.RoleColor[v.role]..MM_GetText(a.mmlang, "TEAMMATE_HIT", 1))
-	chatprintf(v, MM.RoleColor[a.role]..MM_GetText(v.mmlang, "TEAMMATE_HIT", 2))
+	chatprintf(a, MM.RoleColor[v.mm.role]..MM_GetText(a.mm.lang, "TEAMMATE_HIT", 1))
+	chatprintf(v, MM.RoleColor[a.mm.role]..MM_GetText(v.mm.lang, "TEAMMATE_HIT", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105
 end)
 
 rawset(_G, "MM_PlayerQuit", function(p)
-	if (p.role == ROLE_MURDERER)
-		p.role = ROLE_NONE
+	if (p.mm.role == ROLE_MURDERER)
+		p.mm.role = ROLE_NONE
 		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_INNOCENT) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
 			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
@@ -288,8 +312,8 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 		end
-	elseif (p.role == ROLE_SHERIFF)
-		p.role = ROLE_NONE
+	elseif (p.mm.role == ROLE_SHERIFF)
+		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
 			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF)
 			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
@@ -301,8 +325,8 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
-	elseif (p.role == ROLE_HERO)
-		p.role = ROLE_NONE
+	elseif (p.mm.role == ROLE_HERO)
+		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
 			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO)
 			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
@@ -314,8 +338,8 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
-	elseif (p.role == ROLE_INNOCENT)
-		p.role = ROLE_NONE
+	elseif (p.mm.role == ROLE_INNOCENT)
+		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 			MM_EndRound(0, "LAST_LEFT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
 		end
@@ -367,12 +391,12 @@ end)
 rawset(_G, "MM_SetRandomInnoAs", function(role, message)
 	local plrs = {}
 	for plr in players.iterate
-		if (not plr.spectator) and (plr.role == ROLE_INNOCENT) table.insert(plrs, #plr) end
+		if ((not plr.spectator) and (plr.mm.role == ROLE_INNOCENT)) then table.insert(plrs, #plr) end
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
-	p.role = role
-	p.roleflicker = 70
-	chatprintf(p, MM_GetText(p.mmlang, "NEWROLE_GET", message))
+	p.mm.role = role
+	p.mm.roleflicker = 70
+	chatprintf(p, MM_GetText(p.mm.lang, "NEWROLE_GET", message))
 	return
 end)
 
@@ -604,8 +628,8 @@ rawset(_G, "V_TextPatch_SwapColor", function(patch, color1, color2)
 		ptch[row] = patch[row] --copy line from original to copy
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
-			if (pixelColor == color1) --swap the color
-				ptch[row] = $:sub(1, column - 1) .. string.char(color2) .. $:sub(column + 1)
+			if (pixelColor == color1) --is this the pixel we want to replace?
+				ptch[row] = $:sub(1, column - 1) .. string.char(color2) .. $:sub(column + 1) --swap the color
 			end
 		end
 	end
@@ -734,6 +758,7 @@ end)
 --MINIGAME.LUA
 --
 rawset(_G, "PONG_GetMySlot", function(p)
+	assert(p, "PONG_GetMysSlot(): player_t not given!")
 	if (not MM.duelplrs) return end
 	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
 end)
@@ -768,10 +793,10 @@ end)
 --
 
 --spawn Sheriff Emerald
-rawset(_G, "MM_SpawnSHREML", function(x, y, z, p)
+rawset(_G, "MM_SpawnSHREML", function(x, y, z, timezone)
 	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREML(int x, int y, int z, [player_t player])") end
 	local mo = P_SpawnMobj(x ,y, z, MT_SHREML)
-	if (p and p.timetravel and p.timetravel.timezone) mo.timezone = p.timetravel.timezone end
+	if (timezone) mo.timezone = timezone end
 	table.insert(MM.shremls, (#MM.shremls + 1), mo)
 end)
 

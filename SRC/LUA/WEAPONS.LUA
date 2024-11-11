@@ -89,31 +89,31 @@ local function P_DrainWeaponAmmo(p, weapon)
 end
 
 local function P_SetWeaponDelay(p, delay)
-	p.mmweapondelay = delay;
+	p.mm.weapondelay = delay;
 
     --Decrease the delay for Knuckles
     --Note that Knuckles has this feature in the vanilla game too, I just copied this feature into MM
 	if (p.skin == 2)
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
-		p.mmweapondelay = ($ << 1)/3
+		p.mm.weapondelay = ($ << 1)/3
 	end
 end
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_LTMMURDERMYSTERY) return end
 
-    if (MM_WeaponConfigFlags(p.role, WEPCFG_REDONLY) or (p.role == ROLE_INNOCENT)) then p.currentweapon = 0 end --Force to weapon Slot 1
+    if (MM_WeaponConfigFlags(p.mm.role, WEPCFG_REDONLY) or (p.mm.role == ROLE_INNOCENT)) then p.currentweapon = 0 end --Force to weapon Slot 1
 
     p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 
-    if (p.mmweapondelay) p.mmweapondelay = $ - 1 end
+    if (p.mm.weapondelay) p.mm.weapondelay = $ - 1 end
     if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL))
         p.pflags = $ & ~PF_ATTACKDOWN
         return
     end
-    if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mmweapondelay)
-		or (not p.role) or ((MM.minigame) and (p.minigame))
+    if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay)
+		or (not p.mm.role) or ((MM.minigame) and (p.mm.minigame))
 		or (p.playerstate == PST_DEAD) or (p.spectator)
 	then return end
 
@@ -121,17 +121,17 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     local mo
 
-    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
+    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
         -- KNIFE --
-        if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))))
+        if ((p.mm.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.mm.role == ROLE_INNOCENT) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))))
             P_SetWeaponDelay(p, MM.weapons[-2][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
-            if (p.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
+            if (p.mm.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
                 if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails, take 50 rings instead
                 else P_GivePlayerRings(p, -100) end
             else P_GivePlayerRings(p, -1) end
 
-            if (not p.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+            if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
         end
     elseif (p.currentweapon == WEP_AUTO) and (p.powers[pw_automaticring])
         -- AUTOMATIC --
@@ -189,18 +189,18 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_RAIL][2], MM.weapons[WEP_RAIL][3])
         -- Rail has no unique thrown object, therefore its sound plays here.
         S_StartSound(p.mo, sfx_rail1)
-    elseif not (MM_WeaponConfigFlags(p.role, WEPCFG_DISABLERED))
-        if (p.currentweapon == 0) and (p.powers[pw_infinityring]) and (p.role != ROLE_INNOCENT)
+    elseif not (MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
+        if (p.currentweapon == 0) and (p.powers[pw_infinityring]) and (p.mm.role != ROLE_INNOCENT)
             -- INFINITY --
             P_SetWeaponDelay(p, MM.weapons[0][4])
             mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
             p.powers[pw_infinityring] = $ - 1
         else
             -- RED RING --
-            if ((p.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.role == ROLE_INNOCENT) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
+            if ((p.mm.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.mm.role == ROLE_INNOCENT) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
-                if (p.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
+                if (p.mm.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
                     if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
                     else P_GivePlayerRings(p, -100) end
                 else P_GivePlayerRings(p, -1) end

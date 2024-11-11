@@ -2399,7 +2399,7 @@ addHook("PlayerThink", function(player)
 			elseif (not P_IsObjectOnGround(pmo))
 				player.wasfalling=true
 			end
-			if (player.playsound) and (not player.sneak)
+			if (player.playsound) and (not player.mm.sneak)
 				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=flatsounds[player.groundtexture]
 					else material="stone" end

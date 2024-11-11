@@ -1,5 +1,5 @@
 -- MINIGAMES.LUA
--- Code LeonardoTheMutant
+-- Code by LeonardoTheMutant
 --
 -- Murder Mystery minigames to not become bored
 
@@ -17,13 +17,13 @@ local function MM_Get2Players()
 end
 
 local function PONG_PlaySFX(sfx)
-    for p in players.iterate do if (p.minigame) then S_StartSound(nil, sfx, p) end end
+    for p in players.iterate do if (p.mm.minigame) then S_StartSound(nil, sfx, p) end end
 end
 
 local function PONG_Win(winner)
-    if (winner) MM.duelplrs[winner].kills = $ + 1 end
+    if (winner) MM.duelplrs[winner].mm.kills = $ + 1 end
     MM.pong.winner = winner
-    MM.pong.wintimeout = 70
+    MM.pong.timeout = 70
     PONG_PlaySFX(sfx_lvpass)
 end
 
@@ -68,39 +68,37 @@ local function PONG_Thinker()
     if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1] - 1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(1)
-		--increase ball speed each 10 hits
-        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end
+        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end --increase the ball's speed every 10 hits
         PONG_PlaySFX(sfx_mario2)
     end
     if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2] - 1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16)))
         MM.pong.hits = $ + 1
         PONG_SetVelocity(-1)
-		--increase ball speed each 10 hits
-        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end
+        if ((MM.pong.hits % 10) == 9) MM.pong.speed = $ + 1 end --increase the ball's speed every 10 hits
         PONG_PlaySFX(sfx_mario2)
     end
 end
 
 -- PONG input handler
 local function PONG_ThinkCmd(p)
-    --Paddle controls, supports analog controls from joypads
+    --Paddle controls, supports analog controls from joypads (kinda)
     if (PONG_GetMySlot(p)) --You are one of the duel players
         MM.pong.pads[PONG_GetMySlot(p)] = $ - (p.cmd.forwardmove / 24)
     else --you must be a spectator
         --spectators are allowed to manipulate the ball :P
-        if (not p.mmweapondelay)
+        if (not p.mm.weapondelay)
             if (p.cmd.forwardmove > 10) --up
                 MM.pong.velocity.y = -1
-                p.mmweapondelay = TICRATE
+                p.mm.weapondelay = TICRATE
             elseif (p.cmd.forwardmove < 10) --down
                 MM.pong.velocity.y = 1
-                p.mmweapondelay = TICRATE
+                p.mm.weapondelay = TICRATE
             elseif (p.cmd.sidemove > 10) --right
                 MM.pong.velocity.x = 1
-                p.mmweapondelay = TICRATE
+                p.mm.weapondelay = TICRATE
             elseif (p.cmd.sidemove < 10) --left
                 MM.pong.velocity.x = -1
-                p.mmweapondelay = TICRATE
+                p.mm.weapondelay = TICRATE
             end
         end
     end
@@ -134,11 +132,11 @@ local function SONIC_Thinker(p)
 
         --controls
         if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --FORWARD/JUMP (jump)
-            p.SonicRun.state = 2
+            p.SonicRun.state = 2 --spinning (jump/spin)
             p.SonicRun.velocity = 10
             S_StartSound(nil, sfx_cdfm02, p)
         elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --BACKWARD/SPIN (spin)
-            p.SonicRun.state = 2
+            p.SonicRun.state = 2 --spinning (jump/spin)
             if (not p.SonicRun.spinsound) S_StartSound(nil, sfx_spin, p) end
 			p.SonicRun.spinsound = 1
         else p.SonicRun.spinsound = 0 end
@@ -161,7 +159,7 @@ local function SONIC_Thinker(p)
 
     --hazard spawning
     if (p.SonicRun.hazardsTimeout <= 0)
-        local hazardType = P_RandomKey(7)
+        local hazardType = P_RandomKey(8)
         if (hazardType == 0)
             table.insert(p.SonicRun.hazards, {x = 192, y = 0})
         elseif (hazardType == 1)
@@ -181,21 +179,26 @@ local function SONIC_Thinker(p)
             table.insert(p.SonicRun.hazards, {x = 192, y = 16})
             table.insert(p.SonicRun.hazards, {x = 192, y = 32})
             table.insert(p.SonicRun.hazards, {x = 192, y = 48})
+        elseif (hazardType == 7)
+            table.insert(p.SonicRun.hazards, {x = 192, y = 0})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 16})
+            table.insert(p.SonicRun.hazards, {x = 192, y = 32})
         end
         p.SonicRun.hazardsTimeout = (P_RandomKey(2) << 4) + 18
     end
 
     --hazards thinker and collision
     for id = 1, #p.SonicRun.hazards do
-        if (not p.SonicRun.hazards[id]) break end
-        --I have no idea why hazards desync in their movement
-        p.SonicRun.hazards[id].x = $ - 5 --move
+        if (p.SonicRun.hazards[id])
+            --I have no idea why hazards desync in their movement
+            p.SonicRun.hazards[id].x = $ - 5 --move
 
-        if ((((p.SonicRun.hazards[id].x + 16) >= 16) and (p.SonicRun.hazards[id].x <= 20)) and (((p.SonicRun.hazards[id].y + 16) >= p.SonicRun.Y) and (p.SonicRun.hazards[id].y <= (p.SonicRun.Y + p.SonicRun.Height))))
-            --die
-            p.SonicRun.active = 0
-        elseif (p.SonicRun.hazards[id].x < -15) --out of bounds
-            table.remove(p.SonicRun.hazards, id)
+            if ((((p.SonicRun.hazards[id].x + 16) >= 16) and (p.SonicRun.hazards[id].x <= 20)) and (((p.SonicRun.hazards[id].y + 16) >= p.SonicRun.Y) and (p.SonicRun.hazards[id].y <= (p.SonicRun.Y + p.SonicRun.Height))))
+                --die
+                p.SonicRun.active = 0
+            elseif (p.SonicRun.hazards[id].x < -15) --out of bounds
+                table.remove(p.SonicRun.hazards, id)
+            end
         end
     end
 end
@@ -208,20 +211,20 @@ addHook("ThinkFrame", do
 
         if ((not MM.duelplrs[1]) or (not MM.duelplrs[2])) return end
 
-        if valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].minigame) and (MM.duelplrs[2].minigame) MM.minigame = true
+        if valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].mm.minigame) and (MM.duelplrs[2].mm.minigame) MM.minigame = true
         else MM.minigame = false end
     end
     if (MM.minigame)
-        if (MM.pong.wintimeout > -1) MM.pong.wintimeout = $ - 1
+        if (MM.pong.timeout > -1) MM.pong.timeout = $ - 1
         else PONG_Thinker() end
-        if (MM.pong.wintimeout == 0)
+        if (MM.pong.timeout == 0)
             MM.pong.winner = nil
             PONG_Reset()
             PONG_PlaySFX(sfx_gravch)
         end
     else
         MM.pong.winner = nil
-        MM.pong.wintimeout = 70
+        MM.pong.timeout = 70
     end
 end)
 
@@ -231,30 +234,30 @@ addHook("PlayerThink", function(p)
 
     --Player's minigame toggle
     if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
-		if ((p.mmhelp) and (p.mmhelp.active)) return end
-        if (not p.custom3pressed)
-            if (p.minigame)
-                if (not p.minigametimeout) then p.minigame = 0 end
+		if ((p.mm.help) and (p.mm.help.active)) return end
+        if (not (p.lastbuttons & BT_CUSTOM3))
+            if (p.mm.minigame)
+                if (not p.mm.minigame.timeout) then p.mm.minigame = nil end
                 if (MM.minigame)
-                    MM.duelplrs[1].minigame = 0
-                    MM.duelplrs[2].minigame = 0
+                    MM.duelplrs[1].mm.minigame = nil
+                    MM.duelplrs[2].mm.minigame = nil
+                    MM.pong.pads[1] = 32
+                    MM.pong.pads[2] = 32
                 end
             else
-                p.minigame = 1
-                p.minigametimeout = 105
+                p.mm.minigame = {timeout = 105}
                 SONIC_Reset(p)
             end
         end
-        p.custom3pressed = 1
-    else p.custom3pressed = 0 end
+    end
 
     --CUSTOM3 timeout logic
-    if ((p.minigametimeout) and (p.minigametimeout)) p.minigametimeout = $ - 1 end
+    if ((p.mm.minigame) and (p.mm.minigame.timeout)) p.mm.minigame.timeout = $ - 1 end
 
     --Player is in minigame state
-    if (p.minigame)
+    if (p.mm.minigame)
         if ((MM.minigame) and (MM.twopgame)) --PONG
-            if (MM.pong.winner == nil) PONG_ThinkCmd(p) end
+            if (MM.pong.timeout < 0) PONG_ThinkCmd(p) end
             --Disable player movement (kinda)
             if (valid(p.realmo))
                 p.realmo.momx = 0

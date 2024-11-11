@@ -8,12 +8,13 @@ local coords = {
     pong = {x=80, y=60}, --offset coordinates from (0,0)
     sonicRun = {x=60, y=60} --offset coordinates from (0,0)
 }
+local charset
 
 local function V_DrawMinigameTime(v)
     --label size and X position
 	local timeLabelWidth
-	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)
-		timeLabelWidth = V_TextPatchWidth(MM.text[consoleplayer.mmlang]["BMP_TIME"]) + 64
+	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"]) and (not splitscreen)
+		timeLabelWidth = V_TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_TIME"]) + 64
 	else
 		timeLabelWidth = 96
 	end
@@ -23,16 +24,16 @@ local function V_DrawMinigameTime(v)
 	local timertime = (MM.timelimit * 2100) - leveltime
 
 	--"TIME" text
-	if (MM.text[consoleplayer.mmlang]["BMP_TIME"]) and (not splitscreen)
-		local xoff = V_GetTextPatchOffsetX(consoleplayer.mmlang, "BMP_TIME")
-		local yoff = V_GetTextPatchOffsetY(consoleplayer.mmlang, "BMP_TIME")
+	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"]) and (not splitscreen)
+		local xoff = V_GetTextPatchOffsetX(consoleplayer.mm.lang, "BMP_TIME")
+		local yoff = V_GetTextPatchOffsetY(consoleplayer.mm.lang, "BMP_TIME")
 		--Draw the Text Label
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
 			--Swap the colors in the label for flashing effect
 			--0x49 in SRB2's palette is Yellow, 0x25 is Red
-			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mmlang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP|v.localTransFlag())
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP|v.localTransFlag())
 		else
-			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mmlang]["BMP_TIME"], V_SNAPTOTOP|v.localTransFlag())
+			V_DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mm.lang]["BMP_TIME"], V_SNAPTOTOP|v.localTransFlag())
 		end
 	else --in case Text Patch was not found or the game is splitscreen (V_DrawTextPatch() does not support per-player rendering)
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
@@ -66,7 +67,7 @@ hud.add(function(v, p)
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	local charset = MM.text[consoleplayer.mmlang]["CHARSET"] or "STCFN"
+	charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
 
 	--Load Sonic Run backgrounds into memory
 	if (not #SonicRunBG)
@@ -78,10 +79,10 @@ hud.add(function(v, p)
     --
 	-- SONIC RUN minigame renderer
 	--
-    if ((p.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
+    if ((p.mm.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--CUSTOM3 related text
-		if (not p.minigametimeout)
-			V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true) --FU/2
+		if (not p.mm.minigame.timeout)
+			V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 		end
 
 		--TIME
@@ -149,18 +150,18 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role
-		if (p.role)
-			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", p.role), hudinfo[HUD_LIVES].f|v.localTransFlag())
+		if (p.mm.role)
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		elseif (p.spectator)
-			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
+			V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[5]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
-		if (p.timetravel and p.timetravel.timezone)
-			if (p.timetravel.timezone == TIMEZONE_PAST) --Past
-				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
-			elseif (p.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mmlang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+		if (p.mm.timetravel and p.mm.timetravel.timezone)
+			if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
+				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mm.lang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
+				V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), charset, "\22"..MM_GetText(consoleplayer.mm.lang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 			end
 		end
 
@@ -180,25 +181,25 @@ hud.add(function(v, p)
     --
     -- PONG minigame
     --
-    elseif (MM.minigame) and (p.minigame)
-		if (not MM.duelplrs[1].valid) or (not MM.duelplrs[2].valid) return end
+    elseif (MM.minigame) and (p.mm.minigame)
+		if (not valid(MM.duelplrs[1])) or (not valid(MM.duelplrs[2])) return end
 		--CUSTOM3 related text and show yourself
 		if (PONG_GetMySlot(p))
-			if (not p.minigametimeout) then
-				V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			if (not p.mm.minigame.timeout) then
+				V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			end
 			if (not splitscreen)
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				V_DrawStrASCII_Center(v, youX, 48, charset, "\18"..MM_GetText(consoleplayer.mmlang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
+				V_DrawStrASCII_Center(v, youX, 48, charset, "\18"..MM_GetText(consoleplayer.mm.lang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
 			end
 		else
-			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
-			if (not p.minigametimeout) then
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 4, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
+			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			if (not p.mm.minigame.timeout) then
+				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 4, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
 			end
-			V_DrawStrASCII_Center(v, 160, 152, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PONGBALL"), v.localTransFlag()) --spectator ball text
+			V_DrawStrASCII_Center(v, 160, 152, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PONGBALL"), v.localTransFlag()) --spectator ball text
 		end
 
 		--TIME
@@ -208,43 +209,43 @@ hud.add(function(v, p)
 		v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, 0) --white outline
 		v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31) --black background
 		--draw player paddles
-		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].role])
-		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].role])
+		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role])
+		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role])
 		--draw ball
-		if (MM.pong.wintimeout & 1)
+		if (MM.pong.timeout & 1)
 			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72)
 		end
 		--winner text
 		if (MM.pong.winner != nil)
 			if (not MM.pong.winner)
-				V_DrawStrASCII_Center(v, 160, 160, charset, MM_GetText(consoleplayer.mmlang, "HUD_WIN", 1), v.localTransFlag())
+				V_DrawStrASCII_Center(v, 160, 160, charset, MM_GetText(consoleplayer.mm.lang, "HUD_WIN", 1), v.localTransFlag())
 			else
-				if (MM.duelplrs[MM.pong.winner].role)
-					V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].role).."\16 "..MM_GetText(consoleplayer.mmlang, "HUD_WON"), v.localTransFlag())
+				if (MM.duelplrs[MM.pong.winner].mm.role)
+					V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].mm.role).."\16 "..MM_GetText(consoleplayer.mm.lang, "HUD_WON"), v.localTransFlag())
 				end
 			end
 		end
 		--player 1 side information
-		if (valid(MM.duelplrs[1]) and MM.duelplrs[1].role)
+		if (valid(MM.duelplrs[1]) and MM.duelplrs[1].mm.role)
 			--player name
 			v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
 			--role
-			V_DrawStrASCII(v, 16, 184, charset, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[1].role)), V_SNAPTOLEFT|v.localTransFlag())
+			V_DrawStrASCII(v, 16, 184, charset, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag())
 			--character picture
 			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 			--win count
-			V_DrawStrASCII_Center(v, (coords.pong.x + 10), 44, charset, (MM.RoleColorHUD[MM.duelplrs[1].role]..MM.duelplrs[1].kills), v.localTransFlag())
+			V_DrawStrASCII_Center(v, (coords.pong.x + 10), 44, charset, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag())
 		end
 		--player 2 side information
-		if (valid(MM.duelplrs[2]) and MM.duelplrs[2].role)
+		if (valid(MM.duelplrs[2]) and MM.duelplrs[2].mm.role)
 			--name
 			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
 			--role
-			V_DrawStrASCII_Right(v, 304, 184, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM_GetText(consoleplayer.mmlang, "HUD_ROLES", MM.duelplrs[2].role)), V_SNAPTORIGHT|v.localTransFlag())
+			V_DrawStrASCII_Right(v, 304, 184, charset, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag())
 			--charpic
 			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 			--win
-			V_DrawStrASCII_Center(v, (310 - coords.pong.x), 44, charset, (MM.RoleColorHUD[MM.duelplrs[2].role]..MM.duelplrs[2].kills), v.localTransFlag())
+			V_DrawStrASCII_Center(v, (310 - coords.pong.x), 44, charset, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag())
 		end
 
 		if (MM.debug)
@@ -254,12 +255,12 @@ hud.add(function(v, p)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Wintimeout\x80 "..MM.pong.wintimeout,0,"thin")
+			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Timeout\x80 "..MM.pong.timeout,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
 		end
-    elseif (MM.minigame) and (not p.minigame)
+    elseif (MM.minigame) and (not p.mm.minigame)
         --Draw the invitation/suggestion text
-        V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
-        V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mmlang, "HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+        V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+        V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 	end
 end, "game")

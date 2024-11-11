@@ -17,7 +17,7 @@ addHook("PlayerThink", function(p)
 		p.mindash = skins[s].mindash
 		p.maxdash = skins[s].maxdash
 		p.normalspeed = skins[s].normalspeed
-		p.sneak = false
+		p.mm.sneak = false
 
 	--"Everyone are regular persons" mode (MM_ABILITIES disabled)
 	elseif ((gametype == GT_LTMMURDERMYSTERY) and (not MM_ABILITIES.value))
@@ -28,12 +28,12 @@ addHook("PlayerThink", function(p)
 		p.maxdash = 2621440 --40*FU
 		if ((p.cmd.buttons & BT_SPIN)) --sneaking
 			p.normalspeed = 196608 --3*FU
-			p.sneak = true
+			p.mm.sneak = true
 			--if (not p.speed) then p.state = S_PLAY_STND end
 		else
 			if (SOC_IsTrue(mapheaderinfo[gamemap].slowwalkspeed)) then p.normalspeed = 917504 --14*FU
 			else p.normalspeed = 1572864 end --24*FU
-			p.sneak = false
+			p.mm.sneak = false
 		end
 	end
 

@@ -168,66 +168,58 @@ addHook("MapLoad", function(map)
 	end
 end)
 
-addHook("PlayerSpawn", function(p)
-	if (gametype != GT_LTMMURDERMYSTERY) then 
-		p.timetravel = nil
-		return
-	end
-	p.timetravel = {timezone = TIMEZONE_PRESENT, timesign = TWS_NONE, warptimer = 0, spark = 0}
-end)
-
 addHook("PlayerThink", function(p)
-	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.timetravel) or (not valid(p.mo))) return end
+	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.mm.timetravel) or (not valid(p.mo))) return end
 	
-	if (p.timetravel.timesign)
+	if (p.mm.timetravel.timesign)
 		if (p.speed >= 2949120) --45*FU
-			p.timetravel.warptimer = $ + 1
+			p.mm.timetravel.warptimer = $ + 1
 			P_SpawnMobjFromMobj(p.mo,0,0,0,MT_SUPERSPARK) --Time Warp trail
 			
 			--Time Warp itself
-			if ((p.timetravel.warptimer >= 140))
-				if (p.timetravel.timesign == TWS_PAST) --warping to the more Past stage
-					if (p.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
-						p.timetravel.timezone = TIMEZONE_PRESENT
+			if ((p.mm.timetravel.warptimer >= 140))
+				if (p.mm.timetravel.timesign == TWS_PAST) --warping to the more Past stage
+					if (p.mm.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
+						p.mm.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
-					elseif (p.timetravel.timezone == TIMEZONE_FUTURE_GOOD) --warp from Good Future
-						p.timetravel.timezone = TIMEZONE_PRESENT
+					elseif (p.mm.timetravel.timezone == TIMEZONE_FUTURE_GOOD) --warp from Good Future
+						p.mm.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z)
-					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from present
-						p.timetravel.timezone = TIMEZONE_PAST
+					elseif (p.mm.timetravel.timezone == TIMEZONE_PRESENT) --warp from present
+						p.mm.timetravel.timezone = TIMEZONE_PAST
 						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
 					end
 				else --warping to the more Future stage
-					if (p.timetravel.timezone == TIMEZONE_PAST) --warp from Past
-						p.timetravel.timezone = TIMEZONE_PRESENT
+					if (p.mm.timetravel.timezone == TIMEZONE_PAST) --warp from Past
+						p.mm.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
-					elseif (p.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
+					elseif (p.mm.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
 						if (PlayerCount(ROLE_MURDERER))
-							p.timetravel.timezone = TIMEZONE_FUTURE_BAD
+							p.mm.timetravel.timezone = TIMEZONE_FUTURE_BAD
 							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
 						else --You will never see the Good Future version of this level in a regular playthrough :)
-							p.timetravel.timezone = TIMEZONE_FUTURE_GOOD
+							p.mm.timetravel.timezone = TIMEZONE_FUTURE_GOOD
 							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z)
 						end
 					end
 				end
-				p.timetravel.spark = 1
+				p.mm.timetravel.spark = 1
 				--P_SpawnMobjFromMobj(p.mo,0,0,0,MT_THROWNEXPLOSION) --blast after a time warp (visual effect)
 				S_StartSound(p.mo, sfx_mixup, p)
-				p.timetravel.timesign = TWS_NONE
-				p.timetravel.warptimer = 0
+				p.mm.timetravel.timesign = TWS_NONE
+				p.mm.timetravel.warptimer = 0
 			end
 		else
 			--if you lost speed while being in warping substate you lose your "Warp Ticket"
-			if (p.timetravel.warptimer >= 70) then p.timetravel.timesign = TWS_NONE end
-			p.timetravel.warptimer = 0
+			if (p.mm.timetravel.warptimer >= 70) then p.mm.timetravel.timesign = TWS_NONE end
+			p.mm.timetravel.warptimer = 0
 		end
 	end
 	
 	--reduce spark opacity after time warp
-	if (p.timetravel.spark and (leveltime % 8 == 0))
-		p.timetravel.spark = $ + 1 --increasing the translucenty level
-		if (p.timetravel.spark >= 10) p.timetravel.spark = 0 end
+	if (p.mm.timetravel.spark and (leveltime % 8 == 0))
+		p.mm.timetravel.spark = $ + 1 --increasing the translucenty level
+		if (p.mm.timetravel.spark >= 10) p.mm.timetravel.spark = 0 end
 	end
 end)
 
@@ -239,8 +231,8 @@ end)
 addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_FUTURE)) and (not special.spinning)
-		toucher.player.timetravel.timesign = TWS_FUTURE
+	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.mm.timetravel and (toucher.player.mm.timetravel.timesign != TWS_FUTURE)) and (not special.spinning)
+		toucher.player.mm.timetravel.timesign = TWS_FUTURE
 		S_StartSound(toucher.player.mo, sfx_cdpcm0, toucher.player)
 		special.spinning = 8
 	end
@@ -258,8 +250,8 @@ end, MT_TIMESIGN_F)
 addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.timetravel and (toucher.player.timetravel.timesign != TWS_PAST)) and (not special.spinning)
-		toucher.player.timetravel.timesign = TWS_PAST
+	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.mm.timetravel and (toucher.player.mm.timetravel.timesign != TWS_PAST)) and (not special.spinning)
+		toucher.player.mm.timetravel.timesign = TWS_PAST
 		S_StartSound(toucher.player.mo, sfx_cdpcm1, toucher.player)
 		special.spinning = 8
 	end

@@ -106,8 +106,8 @@ rawset(_G, "WEPCFG_DISABLERED", 2)
 
 --Customization API
 MM.AddLang = function(langID,langTbl)
-	if (not langID) error("Invalid Language Index") end
-	if (not langTbl) error("Invalid Language Table.") end
+	assert(langID, "Invalid Language Index")
+	assert(langTbl, "Invalid Language Table.")
 	if (type(langID) ~= "string") error("Language ID should be string and contain 2-3 characters long") end
 	if (type(langTbl) ~= "table") error("Language Talbe shoulb be table.") end
 	for l in pairs(MM.text)

@@ -12,3 +12,4 @@
 - Change the extended map names from MAPK# to MAPM# ("K" stands for Killer, "M" - Murder/Mystery)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
 - Make a complete rename of the project from "(SRB2) Murder Mystery" to "LeonardoTheMutant's Murder Mystery"
+- Include the documanetation explaining the custom MM userdata for player_t

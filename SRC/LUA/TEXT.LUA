@@ -247,7 +247,7 @@ MM.text={
 			"\23MMLANG\16 to change the language here",
 			"",
 			"",
-			"\2Have Fun!"
+			"\18Have Fun!"
 		},
 		-- Scores TAB screen role counters
 		["HUD_ROLESALIVE"]={
@@ -1104,7 +1104,7 @@ MM.text={
 		},["HUD_SNEAKING"]="\xCFEE\xE4EA\xF0E0\xE4FB\xE2E0\xEDE8\xE5...",
 		["HUD_SHOWDOWN"]="\xCFEE\xE5E4\xE8ED\xEEEA \xF1F3\xE4FC\xE1FB!",
 		["HUD_MINIGAME"]={
-			["PRESS"]="\xCDE0\xE6EC\xE8F2\xE5 \2CUSTOM3\16, \xF7F2\xEEE1\xFB",
+			["PRESS"]="\xCDE0\xE6EC\xE8F2\xE5 \18CUSTOM3\16, \xF7F2\xEEE1\xFB",
 			["LEAVE"]="\xE2FB\xE9F2\xE8",
 			["CANCEL"]="\xEEF2\xECE5\xEDE8\xF2FC",
 			["SPECTATE"]="\xEDE0\xE1EB\xFEE4\xE0F2\xFCE7\xE0",
@@ -1546,7 +1546,7 @@ MM.text={
 			"\xCDB2\xD7C8\xDF!", --NICHYJA!
 			"\21\xC2C1\xC8C2\xD6B2", --WBYWCI
 			"\19\xD6C8\xC2B2\xCBDC\xCDB2" --CYWIL'NI
-		},["HUD_PAST"]="\xCCC8\xCDD3\xCBC5",
-		["HUD_FUTURE"]="\xCCC0\xC9C1\xD3D2\xCDAA"
+		},["HUD_PAST"]="\xCCC8\xCDD3\xCBC5", --MYNULE
+		["HUD_FUTURE"]="\xCCC0\xC9C1\xD3D2\xCDAA" --MAJBUTN'E
 	},
 }

@@ -4,7 +4,6 @@
 -- Manage PlayerMsgs and redirect them to the right persons
 
 local chatdelayCVAR = CV_FindVar("mm_chatdelay")
-local mmsafechat = CV_FindVar("mm_safechat")
 
 local function chatcolor2textcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) return "\x80"
@@ -35,7 +34,7 @@ local function CHAT_Say(s, m, me)
 	elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
 
 	for p in players.iterate do
-		if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
+		if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
 			if (me)
 				chatprintf(p, "* "..badge..s.name.."\x80 "..m:sub(5)) --"/me" message
 			else
@@ -50,14 +49,14 @@ end
 
 local function CHAT_TeamSay(s, m) --sender, message
 	for p in players.iterate do
-		if (MM_IsTimelineCorrect(s.timetravel.timezone, p.timetravel.timezone))
-			if ((p.role == s.role) and (s.role == ROLE_MURDERER))
+		if (MM_IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
+			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER))
 				chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
 				S_StartSound(nil, sfx_radio, p)
-			elseif (p.role == ROLE_SHERIFF) or (p.role == ROLE_HERO)
-				if (s.role == ROLE_SHERIFF)
+			elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)
+				if (s.mm.role == ROLE_SHERIFF)
 					chatprintf(p, "\x84[TEAM]<"..s.name.."> "..m)
-				elseif (s.role == ROLE_HERO)
+				elseif (s.mm.role == ROLE_HERO)
 					chatprintf(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m)
 				end
 				S_StartSound(nil, sfx_radio, p)
@@ -66,7 +65,7 @@ local function CHAT_TeamSay(s, m) --sender, message
 	end
 end
 
---SAYDEAD command - Say to the Dead Chat as Dedicated server
+--SAYDEAD command - Say to the Dead Chat (as Server or Administrator)
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	--get the message string
 	local arg = {...}
@@ -85,16 +84,16 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 		for p in players.iterate do
 			if (p.spectator) chatprintf(p, "\x86{"..sender.."} "..m) end
 		end
-		CONS_Printf(server, "{"..sender.."} "..m)
+		if (isdedicatedserver) then CONS_Printf(server, "{"..sender.."} "..m) end
 	else
 		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat.")
 	end
 end, COM_ADMIN)
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mmlang) then return end
-	if (s.chatdelay) and (not (isdedicatedserver and s == server))
-		CONS_Printf(s, "You are sending too many messages, please wait "..(G_TicsToSeconds(s.chatdelay) + 1).." second(s)")
+	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mm.lang) then return end
+	if (s.mm.chatdelay) and (not (isdedicatedserver and s == server))
+		CONS_Printf(s, "You are sending too many messages, please wait "..(G_TicsToSeconds(s.mm.chatdelay) + 1).." second(s)")
 		return true
 	end
 
@@ -122,20 +121,20 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			return false
 		end
 	end
-	s.chatdelay = (chatdelayCVAR.value*TICRATE)
+	s.mm.chatdelay = (chatdelayCVAR.value*TICRATE)
 	return true
 end)
 
 --chat delay timers
 --gameplay timer
 addHook("PlayerThink", function(p)
-	if (p.chatdelay == nil) p.chatdelay = 0 end
-	if (p.chatdelay) p.chatdelay = $ - 1 end
+	if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
+	if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end
 end)
 --intermission timer
 addHook("IntermissionThinker", do
 	for p in players.iterate
-		if (p.chatdelay == nil) p.chatdelay = 0 end
-		if (p.chatdelay) p.chatdelay = $ - 1 end
+		if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
+		if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end
 	end
 end)
