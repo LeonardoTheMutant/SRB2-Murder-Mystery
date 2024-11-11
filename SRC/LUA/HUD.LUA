@@ -263,11 +263,11 @@ hud.add(function(v, p)
 				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
 			end
 		end
-		if (p.mm.killername)
-			if (p.mm.killername == "your stupidity")
+		if (p.mm.killedby)
+			if (p.mm.killedby == "your stupidity")
 				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..MM_GetText(consoleplayer.mm.lang, "HUD_STUPID"), V_SNAPTOTOP|V_SNAPTOLEFT)
 			else
-				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..p.killername, hudinfo[HUD_RINGS].f)
+				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..p.killedby, hudinfo[HUD_RINGS].f)
 			end
 		end
 		if ((not p.mm.minigame) and (not MM.twopgame) and (not MM.minigame))

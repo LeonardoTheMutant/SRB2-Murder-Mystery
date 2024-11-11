@@ -89,4 +89,4 @@ As a `[mapnum]` you can use **MAPK0** or **K0** (*"Abandoned Shelter"*)
 The [Pull Requests](https:github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulls) are always open! All contributions would be greatly appreciated especially maps, music, graphics, ideas or bug fixes. If you want to make something unique you can even make a translation. Yes you read it right, this gametype supports localisations on different languages. You can add your own language to the project by either
 
 1. Modifying the source code you are having right now and creating a new Pull Request
-2. Making a **Custom Language File** from the [template](TEMPLATES/customlang.lua) and then in SRB2 add it as a regular Add-On together with MM (main MM Add-On has to be loaded first)
+2. Making a **Language File** from the [template](SRC/LUA/TEXT/EN.LUA) and then in SRB2 add it as a regular Add-On together with MM (main MM Add-On has to be loaded first)

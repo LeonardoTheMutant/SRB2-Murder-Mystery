@@ -22,19 +22,17 @@ Now lets get into the "under the hood" details and how you can print such string
 <br><br>
 Functions like <code>**V_DrawStrASCII()**</code>, <code>**V_DrawStrASCII_Center()**</code> and <code>**V_DrawStrASCII_Right()**</code> are designed to print strings with Extended ASCII symbols. Still, this is not enough to actually print strings like these because you're missing the font for the characters (more specifically, font graphics/patches). `SRB2.pk3` contains graphics for the printable Standard ASCII characters only (0x19-0x7E range, 25-126 in decimal). You need the graphics for **every single extended character** you are going to use.
 <br><br>
-Let's imagine that we are making a Greek translation of Murder Mystery. We use ***Windows1253*** as our base. We make the font graphics and name them like `"1253C###"` (`###` is a decimal number that corresponds to a character in that codepage). Our prefix for Greek codepage is `"1253C"` because we named files like that. Now we need to tell our Rendering Functions to use these files as graphics for Greek letters. The 4th argument in the <code>**V_DrawStrASCII()**</code> function specifies the character set prefix to use. In case of the **Custom Language File** for Murder Mystery gametype we simply need to include the `"CHARSET"` key to the LUA table and set its value to the Character Set prefix we got. The final result should look something like this:
+Let's imagine that we are making a Greek translation of Murder Mystery. We use ***Windows1253*** as our base. We make the font graphics and name them like `"1253C###"` (`###` is a decimal number that corresponds to a character in that codepage). Our prefix for Greek codepage is `"1253C"` because we named files like that. Now we need to tell our Rendering Functions to use these files as graphics for Greek letters. The 4th argument in the <code>**V_DrawStrASCII()**</code> function specifies the character set prefix to use. In case of the **Language Files** for the LTM's Murder Mystery we simply need to include the `"CHARSET"` key to the LUA table and set its value to the Character Set prefix we got. The final result should look something like this:
 
 ```lua
-    local greekText={
-        ["VERSION"]="1.0", --don't forget about the compatibility!
-        ["AUTHOR"]="Sonic",
-        ["NONASCII"]=true, --little outdated name but we set this to show that this language is not Latin-based
-        ["CHARSET"]="1253C", --this is the font graphic file prefix that we needed!
-        ["MM"]="Murder Mystery in Greek",
+    MM.AddLang("GR", {
+        ["VERSION"] = "1.0", --don't forget about the compatibility!
+        ["AUTHOR"] = "Sonic",
+        ["NONASCII"] = true, --little outdated name but we set this to show that this language is not Latin-based
+        ["CHARSET"] = "1253C", --this is the font graphic file prefix that we needed!
+        ["MM"] = "Murder Mystery in Greek",
         ...
-    }
-
-    MM.AddLang("GR", greekText)
+    })
 ```
 
 And now when we kindly ask the <code>**V_DrawStrASCII()**</code> function (or the gametype) to print the Delta character (Δ, `0xC4` in hex, 192 in decimal) the function will try to load the file by the name of `"1253C192"` and draw this graphic on the screen. Wow, it works now! Amazing isn't it?
@@ -224,7 +222,7 @@ Similar to [Windows1252](https://wikipedia.org/wiki/Windows-1252) but also suppo
 
 ## Text Patches
 
-As an alternative to the regular Patch files, MM HUD Library provides a way to draw bitmap graphics provided by the **Text**. This is developed primarily for the **Custom Language Files** as these will most likely not be packed in a `.pk3` archive (to additionally include all required graphics).
+As an alternative to the regular Patch files, MM HUD Library provides a way to draw bitmap graphics provided by the **Text**. This is developed primarily for the **Language Files** as these will most likely not be packed in a `.pk3` archive (to additionally include all required graphics).
 <br><br>
 You must be very familliar how the `TIME` HUD label in vanilla SRB2 looks (if not you can open the game right now and see it)(this label can also be found in `srb2.pk3` as `STTTIME` lump). All you need to know about the Text Patch is that it is a bitmap representation of an image where every charater is a pointer to SRB2 palette's color. This is what `STTTIME` patch looks like as Text Patch:
 

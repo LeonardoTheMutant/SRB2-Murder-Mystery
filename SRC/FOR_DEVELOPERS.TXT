@@ -27,6 +27,9 @@ MM_LTMs_MurderMystery_v1.0-ALPHA.pk3
 |     |           +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
 |     |           +-MINIGAME.LUA      - Main logic code for "PONG" and "SONIC RUN" minigames
 |     |
+|     +-TEXT-\
+|     |      +-EN.LUA - All Text and messages used in the add-on (English version), also a template file for other languages
+|     |
 |     +-ABILITIES.LUA  - Character abilities & sneak
 |     +-CCMD.LUA       - MMHELP and MMLANG commands
 |     +-CHAT.LUA       - Chat management
@@ -48,10 +51,12 @@ MM_LTMs_MurderMystery_v1.0-ALPHA.pk3
 Other files are either textures or music and do not require an introduction
 
 
-As I've said earlier, the GitHub repository has more content to work with such as an additional LUA file
-in the repository called "customlang.lua" in the TEMPLATES/ folder. This is a template file for custom translations.
-Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. I tried my best to make the tutorial about languages in that template
-understandable but if you have questions you can always ask us in our MM_DEV Discord (or even on GitHub).
+As I've said earlier, the GitHub repository has more content to work with such as bunch of useful tools to make a
+MM language file in LUA format.
+
+Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. You can take /SRC/LUA/TEXT/EN.LUA as the template file for your language
+I tried my best to make the tutorial about languages in that template understandable but if you have questions you
+can always ask us in our SRB2MM_DEV Discord (or even on GitHub).
 
 If you're new to the LUA you can freely use our code for educational purposes
 

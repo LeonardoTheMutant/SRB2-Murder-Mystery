@@ -56,7 +56,7 @@ rawset(_G, "MM_InitPlayer", function(p)
 
 	if (not p.mm) then p.mm = {} end
 	p.mm.kills = 0
-	p.mm.killername = false
+	p.mm.killedby = false
 	p.mm.weapondelay = 0
 	p.mm.camping = 0
 	p.mm.chatdelay = 0
@@ -221,7 +221,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	plr.mm.hud.flashscrn = 1
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
-	plr.mm.killername = k.player.name
+	plr.mm.killedby = k.player.name
 	k.player.mm.kills = $ + 1
 	if (not k.player.mm.sneak) P_PlayDeathSound(p) end
 	plr.rmomx = 0
@@ -249,7 +249,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	plr.spectator = true
 	plr.mm.role = ROLE_NONE
 	plr.mm.hud.flashscrn = 1
-	plr.mm.killername = "your stupidity"
+	plr.mm.killedby = "your stupidity"
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)

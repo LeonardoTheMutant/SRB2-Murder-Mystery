@@ -35,7 +35,7 @@ There is a customization function defined in <code>MM</code> table inside the co
 
 | Name | Description |
 | --- | --- |
-| <code>**MM.AddLang**(*string* index, *table* lang)</code> | Add a translation into MM. <code>index</code> is usually a 2 or 3 characters long name of the language. For example `"EN"` shows that the language is English. <code>table</code> is the translation data itself. The format of the <code>table</code> can be found [here](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/TEMPLATES/customlang.lua).<br>*Note:* Index should be all characters **UPPERCASE** otherwise it won't be accesible! |
+| <code>**MM.AddLang**(*string* index, *table* lang)</code> | Add a translation into MM. <code>index</code> is usually a 2 or 3 characters long name of the language. For example `"EN"` shows that the language is English. <code>table</code> is the translation data itself. The format of the <code>table</code> can be found [here](../LUA/TEXT/EN.LUA).<br>*Note:* Index should be all characters **UPPERCASE** otherwise it won't be accesible! |
 
 ## `FUNCTIONS.LUA`
 
@@ -192,7 +192,7 @@ The description of each value in the `MM` table. The `MM` constant itself is def
 | <code>version</code> | *string* | Version number of the add-on | <code>"1.0-ALPHA"</code> |
 | <code>debug</code> | *boolean* | Enable/Disable the add-on's *Debug Mode* functionality<br>*Note:* **The add-on must boot with this variable set to <code>true</code> to use the Debug in any form.** | <code>true</code> |
 | <code>releasedate</code> | *string* | The release date of the add-on version. | <code>"August 19th 2024"</code> |
-| <code>text</code> | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | *See [the template file](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/blob/main/TEMPLATES/customlang.lua)* |
+| <code>text</code> | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | *See [the template file](../LUA/TEXT/EN.LUA)* |
 | <code>RoleColor</code> | *string[5]* | The text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
 | <code>RoleColorHUD</code> | *string[5]* | The HUD text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
 | <code>hud</code>          | *table* | HUD control variables for each sub-renderer (<code>MM.hud.game</code>, <code>MM.hud.scores</code>, <code>MM.hud.intermission</code>). Each sub-renderer has two attributes: <code>enabled</code> (custom scripts can disable MM's HUD renderers by setting this to <code>false</code>) and <code>pos</code> (coordinates of the different HUD elements) | *See [<code>INIT.LUA</code>](../INIT.LUA)* |

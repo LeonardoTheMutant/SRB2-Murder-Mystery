@@ -68,7 +68,8 @@ rawset(_G, "MM", {
 		pads = {32, 32},
 		hits = 0,
 		padcolor = {37, 153} --player role colors
-	}
+	},
+	text = {}
 })
 
 --
@@ -117,15 +118,15 @@ MM.AddLang = function(langID,langTbl)
 		end
 	end
 	MM.text[langID:upper()] = langTbl
-	print("\x83Succesfuly added \x82"..langID.." \x83(by "..tostring(MM.text[langID:upper()]["AUTHOR"])..") lang as a MM language.")
+	print("\x87Murder Mystery\x80: Added \x82\""..langID.."\"\x80 language by "..tostring(MM.text[langID:upper()]["AUTHOR"]))
 	if (MM.text[langID:upper()]["VERSION"] ~= MM.version) print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 end
 
 --CVARs
 local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mm_abilities")
-		if (v.value) print("\x87Murder Mystery:\x80 Skin abilities are Enabled (no limits)")
-		else print("\x87Murder Mystery:\x80 Skin abilities are Disabled (\"Regular person\" mode)") end
+		if (v.value) print("\x87Murder Mystery\x80: Skin abilities are Enabled (no limits)")
+		else print("\x87Murder Mystery\x80: Skin abilities are Disabled (\"Regular person\" mode)") end
 	elseif (v.name == "mm_wepconfig")
 		local sentences = {
 			[0] = "All weapons enabled",
@@ -137,14 +138,14 @@ local function VarChange(v) --callback function called by CV_CALL flag
 		MM.weaponconfig[2] = (v.value >> 2) & 3
 		MM.weaponconfig[3] = (v.value >> 4) & 3
 		MM.weaponconfig[4] = (v.value >> 6) & 3
-		print("\x87Murder Mystery:\x80 Weapon Configuration was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[1]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[2]].."\n\t\x88Showdown Duel\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[3]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[4]])
+		print("\x87Murder Mystery\x80: Weapon Configuration was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[1]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[2]].."\n\t\x88Showdown Duel\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[3]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[4]])
 	elseif (v.name == "mm_wepinno")
-		if (v.value == 0) print("\x87Murder Mystery:\x80 Weapons are disabled for "..MM.RoleColor[ROLE_INNOCENT].."Innoncents")
-		elseif (v.value == 1) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife and Red Ring weapons")
-		elseif (v.value == 2) print("\x87Murder Mystery: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife") end
+		if (v.value == 0) print("\x87Murder Mystery\x80: Weapons are disabled for "..MM.RoleColor[ROLE_INNOCENT].."Innoncents")
+		elseif (v.value == 1) print("\x87Murder Mystery\x80: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife and Red Ring weapons")
+		elseif (v.value == 2) print("\x87Murder Mystery\x80: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife") end
 	elseif (v.name == "mm_cryptic")
-		if (v.value) print("\x87Murder Mystery:\x80 Nametags and most of the player counters got disabled. \x81Good Luck finding out who others are.")
-		else print("\x87Murder Mystery:\x80 Nametags and player counters are now enabled") end
+		if (v.value) print("\x87Murder Mystery\x80: Nametags and most of the player counters got disabled. \x81Good Luck finding out who others are.")
+		else print("\x87Murder Mystery\x80: Nametags and player counters are now enabled") end
 	end
 end
 -- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
@@ -164,12 +165,9 @@ CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0,
 print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_LTM_MM', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
-freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
-
 G_AddGametype({
 	name = "LTM_MM",
-	identifier = "ltmmurdermystery",
+	identifier = "LTMMURDERMYSTERY",
 	typeoflevel = TOL_LTM_MM,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
@@ -177,6 +175,8 @@ G_AddGametype({
 	headerrightcolor = 153,
 	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, prevent the murders as \x84Sheriff\x80 and survive as \x83Innocent\x80!"
 })
+freeslot('TOL_LTM_MM', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
+freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 --Sheriff Drop Emerald
 mobjinfo[MT_SHREML]={
@@ -220,8 +220,18 @@ sfxinfo[sfx_mmdth5].caption = "OH NO!"
 sfxinfo[sfx_mmdth6].caption = "Pain"
 sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 
---Script files init
-dofile("TEXT.LUA")
+--Load the text and all translations (they have to be loaded first)
+print("\n\x87Murder Mystery\x80: Loading text...")
+dofile("TEXT/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
+dofile("TEXT/ES.LUA")
+dofile("TEXT/FR.LUA")
+dofile("TEXT/PL.LUA")
+dofile("TEXT/RU.LUA")
+dofile("TEXT/TR.LUA")
+dofile("TEXT/UA.LUA")
+
+--Script files load
+print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
 dofile("FUNCTIONS.LUA")
 if (MM.debug) dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
@@ -233,9 +243,13 @@ dofile("FOOTSTEPS.LUA")
 dofile("ABILITIES.LUA")
 dofile("TIMETRAVEL.LUA")
 
+--Minigames module
+print("\n\x87Murder Mystery\x80: Loading minigames module...")
 if (not isdedicatedserver) dofile("MINIGAMES/HUD_MINIGAMES.LUA") end
 dofile("MINIGAMES/MINIGAMES.LUA")
 
+--Map scripts
+print("\n\x87Murder Mystery\x80: Loading map scripts...")
 dofile("MAPS/MAPK0.LUA")
 dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")

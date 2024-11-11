@@ -1,18 +1,18 @@
 -- CCMD.LUA
 -- Code by LeonardoTheMutant
--- Translations by awesome MM_DEV members
+-- Translations by awesome SRB2MM_DEV members
 --
 -- Code for MMHELP and MMLANG console comands
 
 local tech_info = {
 	"\4LTM's \7Murder Mystery\16",
 	"Version\17 "..MM.version.."\16 ("..MM.releasedate..")",
-	"by \18\"SRB2 MM_DEV team\"\16",
+	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
 	"\nChanges from\17 10.1-BETA\16:",
 	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
-	"\20Discord (MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\16\n",
+	"\20Discord (SRB2MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\16\n",
 	"\22GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\16\n",
 	"\27Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\16\n"
 }
@@ -113,7 +113,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
 		if (nonascii) then CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
-		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82LTM_MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
+		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
 		if (MM.text[l])
@@ -129,7 +129,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 				f:close()
 				--CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
 			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
-		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present/loaded into the game\nPlease ask your game Administrator to add the required MM language file or contact our SRB2 MM_DEV Team for help.") end
+		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present/loaded into the game\nPlease ask your game Administrator to add the required MM language file or contact our SRB2MM_DEV Team for help.") end
 	end
 end, COM_LOCAL)
 
