@@ -1,4 +1,3 @@
-- Make a logo
 - Create at least 7 more maps (to make 18 in total)
 - Update translations
 - Rewrite the English Help manual from scratch
@@ -11,5 +10,5 @@
 - Make (several) release trailer(s)
 - Change the extended map names from MAPK# to MAPM# ("K" stands for Killer, "M" - Murder/Mystery)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
-- Make a complete rename of the project from "(SRB2) Murder Mystery" to "LeonardoTheMutant's Murder Mystery"
-- Include the documanetation explaining the custom MM userdata for player_t
+- Include the documanetation explaining the technical details for mappers
+- Digitize the entire MIDI soundtrack

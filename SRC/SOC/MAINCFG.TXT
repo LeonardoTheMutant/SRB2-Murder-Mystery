@@ -134,6 +134,7 @@ TypeOfLevel = LTM_MM
 Lua.Timelimit = 11
 NextLevel = KD
 Lua.ShowdownTrack = 11H_TR
+Lua.SuspenseTrack = 11H_SP
 Lua.SlowWalkSpeed = True
 Lua.DisableEmeraldRadar = True
 Lua.DisableFootmarks = True

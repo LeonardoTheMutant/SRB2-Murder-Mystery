@@ -346,7 +346,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	end
 
-	MM_StartSuspenceMusic()
+	MM_StartSuspenseMusic()
 	MM_StartShowdownMusic()
 end)
 
@@ -373,6 +373,7 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	MM.winner = winner
 	if (endtext == "WIN") then MM.winreason = reason end
 	MM.shwdwn = false
+	MM.susnce = false
 	G_ExitLevel()
 	if (endtext) MM_ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
@@ -381,10 +382,15 @@ rawset(_G, "MM_EndRound", function(winner, endtext, reason)
 	end
 end)
 
---Enable Suspence music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
-rawset(_G, "MM_StartSuspenceMusic", function()
+--Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
+rawset(_G, "MM_StartSuspenseMusic", function()
 	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremds))
-		S_ChangeMusic("SUSNCE", true)
+		if (mapheaderinfo[gamemap].suspensetrack and S_MusicExists(mapheaderinfo[gamemap].suspensetrack))
+			MM.susnce = mapheaderinfo[gamemap].suspensetrack
+		else
+			MM.susnce = "SUSNCE"
+		end
+		S_ChangeMusic(MM.susnce, true)
 		return true
 	end
 	return false
@@ -393,7 +399,7 @@ end)
 --Enable Showdown music when there are no innocents left
 rawset(_G, "MM_StartShowdownMusic", function()
 	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
-		if (mapheaderinfo[gamemap].showdowntrack)
+		if (mapheaderinfo[gamemap].showdowntrack and S_MusicExists(mapheaderinfo[gamemap].showdowntrack))
 			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
 		else
 			MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
@@ -810,7 +816,7 @@ end)
 
 --spawn Sheriff Emerald
 rawset(_G, "MM_SpawnSHREMD", function(x, y, z, timezone)
-	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, [player_t player])") end
+	if (x == nil) or (y == nil) or (z == nil) or (timezone == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, int timezone)") end
 	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
 	if (timezone) mo.timezone = timezone end
 	table.insert(MM.shremds, (#MM.shremds + 1), mo)

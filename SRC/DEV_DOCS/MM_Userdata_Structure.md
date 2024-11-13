@@ -51,7 +51,8 @@ The description of each value in the `MM` table. The `MM` constant itself is def
 | <code>**RoleColorHUD**</code> | *string[5]* | The MM text colors for roles, use one of the <code>ROLE_*</code> constants as index to get the color for the specified role. For the dead player color access <code>MM.RoleColorHUD[5]</code>. |
 | <code>**hud**</code> | *table* | HUD control variables for each sub-renderer (<code>MM.hud.game</code>, <code>MM.hud.scores</code>, <code>MM.hud.intermission</code>). Each sub-renderer has two attributes: <code>**enabled**</code> (custom scripts can disable MM's HUD renderers by setting this to <code>false</code>) and <code>pos</code> (coordinates of the different HUD elements). |
 | <code>**weaponconfig**</code> | *int[4]* | Table to contain the Weapon Configurations. Updated by the `mm_wepconfig` CVAR. See [MM_WEPCONFIG.PNG](MM_WEPCONFIG.PNG) and [INIT.LUA](../INIT.LUA) for details. |
-| <code>**shwdwn**</code> | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not | "S2MSBS" |
+| <code>**shwdwn**</code> | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not. |
+| <code>**susnce**</code> | *string* | The 6-character name of the current Suspense track playing. |
 | <code>**winner**</code> | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros and Innocents). This variable is **netsynced**. |
 | <code>**winreason**</code> | *int* | The win reason, can be one of the <code>WIN_*</code> constants. This variable is **netsynced**. |
 | <code>**timelimit**</code> | *int* | Works just like SRB2's vanilla `timelimit` but MM uses its own. The value is measured in Minutes. This variable is **netsynced**. |

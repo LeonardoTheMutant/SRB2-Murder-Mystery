@@ -51,8 +51,15 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	if (shift and shift!="false") P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
 end)
+COM_AddCommand("mmsusnce",function()
+	if (not MM.susnce)
+		if (mapheaderinfo[gamemap].suspensetrack) MM.shwdwn=mapheaderinfo[gamemap].suspensetrack
+		else MM.susnce="SUSNCE" end
+		S_ChangeMusic(MM.susnce,true)
+	end
+end)
 COM_AddCommand("mmduel",function()
-	if (not MM.shwdwn) and (not MM.twopgame)
+	if (not MM.shwdwn)
 		if (mapheaderinfo[gamemap].showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].showdowntrack
 		else MM.shwdwn=shwdwn_music[P_RandomKey(#shwdwn_music)+1] end
 		S_ChangeMusic(MM.shwdwn,true)

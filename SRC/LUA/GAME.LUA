@@ -9,8 +9,7 @@ local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 local crypticCVAR = CV_FindVar("mm_cryptic")
 
-local shremd_distances = {}
-local shremd_interval, shremd_closest
+local shremd_distances, shremd_interval, shremd_closest
 
 local function MM_GetSHREMDinterval(dist)
 	if (dist < 256) return 5
@@ -33,6 +32,7 @@ addHook("MapLoad", function(map)
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremds = {}
+	MM.susnce = false
 	MM.shwdwn = false
 
 	--Time limit
@@ -323,7 +323,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 	end
 
-	MM_StartSuspenceMusic()
+	MM_StartSuspenseMusic()
 	MM_StartShowdownMusic()
 	return true
 end, MT_PLAYER)
@@ -380,8 +380,9 @@ addHook("PlayerThink", function(p)
 	--Sheriff Emerald Radar distance logic
 	if ((#MM.shremds) and ((p.mm.role == ROLE_INNOCENT) or (p.mm.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
 		--find the distance to the closest emerald
+		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
-			if (MM.shremds[emeraldID].valid) and (MM.shremds[emeraldID].timezone and (MM.shremds[emeraldID].timezone == p.mm.timetravel.timezone))
+			if (valid(MM.shremds[emeraldID])) and (MM.shremds[emeraldID].timezone and (MM.shremds[emeraldID].timezone == p.mm.timetravel.timezone))
 				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremds[emeraldID].x, p.mo.y - MM.shremds[emeraldID].y), p.mo.z - MM.shremds[emeraldID].z))
 			end
 		end
@@ -389,12 +390,13 @@ addHook("PlayerThink", function(p)
 		for emeraldID = 1, #shremd_distances do
 			if (shremd_distances[emeraldID] < shremd_closest) then shremd_closest = shremd_distances[emeraldID] end
 		end
-		p.shremd_dist = shremd_closest
+
+		p.mm.shremd_dist = shremd_closest
 
 		--play sound
 		if (p.mm.shremd_dist)
 			if (p.mm.role == ROLE_INNOCENT) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
-				shremd_interval = MM_GetSHREMLinterval(fixint(p.mm.shremd_dist))
+				shremd_interval = MM_GetSHREMDinterval(fixint(p.mm.shremd_dist))
 				if (shremd_interval and (leveltime % shremd_interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 			elseif (p.mm.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)
 				if (p.mm.shremd_dist < 25165824) --384*FU)
@@ -459,8 +461,8 @@ addHook("MusicChange", function(old, new)
 	if ((gamestate == GS_LEVEL) and (leveltime) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime]))
 		--Showdown Duel music
 		if (MM.shwdwn) then return MM.shwdwn
-		--Suspence music
-		elseif (old == "SUSNCE") then return "SUSNCE" end
+		--Suspense music
+		elseif (MM.susnce) then return MM.susnce end
 	end
 
 	--Intermission theme

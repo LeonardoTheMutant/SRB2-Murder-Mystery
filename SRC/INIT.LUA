@@ -57,6 +57,7 @@ rawset(_G, "MM", {
 		0  --Sheriff (Duel)
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
+	susnce = false, --currently playing Suspense track
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced
