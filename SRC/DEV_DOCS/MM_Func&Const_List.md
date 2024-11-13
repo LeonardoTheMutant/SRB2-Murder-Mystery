@@ -1,8 +1,4 @@
-## List of functions and constants
-
-### For LTM's Murder Mystery `1.0-ALPHA`
-
----
+# List of functions and constants for LTM's Murder Mystery `1.0-ALPHA`
 
 This document contains the description of some important and globaly defined functions as well as constants which are used in Murder Mystery's LUA source code.
 
@@ -23,15 +19,14 @@ This document contains the description of some important and globaly defined fun
   - Win reasons (`WIN_*`)
   - Time Zones (`TIMEZONE_*`)
   - Time Warp (`TWS_*`)
-- [The core `MM` table](#the-core-mm-table)
 
-# Functions
+## Functions
 
 ## `INIT.LUA`
 
 ### Customisation API
 
-There is a customization function defined in <code>MM</code> table inside the code which allows you to create your own "sub-mods" for the Murder Mystery gametype. 
+There is a customization function defined in the [<code>MM</code>](./MM_Userdata_Structure.md#the-core-mm-table) table inside the code which allows you to create your own "sub-mods" for the Murder Mystery gametype. 
 
 | Name | Description |
 | --- | --- |
@@ -60,7 +55,7 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA) (th
 | <code>**MM_StartSuspenceMusic**()</code> | *boolean* | Starts the Suspence music and returns `true` if there are no Sheriffs and no Heroes alive but one Innocent with at least one Sheriff's Emerald dropped. |
 | <code>**MM_StartShowdownMusic**()</code> | *boolean* | Starts one of the Showdown Duel tunes and returns `true` if there are no Innocents in the game.|
 | <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Innocents. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
-| <code>**MM_GetMMSHREMLinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Innocents' Sheriff Emerald radar. |
+| <code>**MM_GetMMSHREMDinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Innocents' Sheriff Emerald radar. |
 | <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from <code>timezone1</code> can happen in <code>timezone2</code>. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are `TIMEZONE_*` constants. |
 | <code>**MM_GetText**(*string* language, *string* line, [*string*/*int* parameter])</code> | *string* | A safe way to extract the strings from the global MM Text Table (<code>MM.text</code>) without crashing/erroring LUA. When all 3 arguments are given this function returns the value at <code>MM.text[language][line][parameter]</code>. If only <code>language</code> and <code>line</code> arguments are given the function returns the value from <code>MM.text[language][line]</code>. If the text is not found or the arguments are invalid a blank string is returned instead.<br>*Note:* Even if the expected return value is table, this function will return an empty string!<br>*In Debug Builds:* If the text can not be reached or invalid arguments are given an error is triggered with the details. |
 | <code>**MM_PunishPlayer**(*player_t* player, *string* message, [*boolean* ban?])</code> | *nil* | Kick player from the game or ban if <code>ban?</code> is set. <code>message</code> is the kick/ban message.<br>*Note:* If the player who is going to be punished is the host, SRB2 automatically closes for this player, causing the server to shut down. |
@@ -104,7 +99,7 @@ Functions that are used in more than one script
 | --- | --- | --- |
 | <code>**PlayerCount**([*int* role])</code> | *int* | Get the total number of players online. If the <code>role</code> is specified return the total number of players who have the <code>role</code>. |
 | <code>**PlayersAlive**()</code> | *int* | Get the number of players who are still alive (aren't spectators). |
-| <code>**MM_SpawnSHREML**(*int* x, *int* y, *int* z, [*int* timezone])</code> | nil | Spawn the Sheriff's Emerald at (x, y, z) position. <code>timezone</code> argument is optional and is used only go get the timezone the Emerald was spawned in. |
+| <code>**MM_SpawnSHREMD**(*int* x, *int* y, *int* z, [*int* timezone])</code> | nil | Spawn the Sheriff's Emerald at (x, y, z) position. <code>timezone</code> argument is optional and is used only go get the timezone the Emerald was spawned in. |
 | <code>**P_GetSectorCeilingZAt**(*sector_t* sector, *int* x, *int* y)</code> | *fixed_t* | Returns the height of the sector ceiling at (x, y), works both for regular sectors and slopes. Ported from SRB2 source code |
 | <code>**P_GetFOFTopZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the top height of the FOF at (x, y). Ported from SRB2 source code |
 | <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code |
@@ -182,26 +177,5 @@ The constants for the configurations flag checks. Useful only with the `mm_wepco
 | --- | --- | --- |
 | `WEPCFG_REDONLY` | 1 | Only the Weapon Slot 1 is usable (Red/Infinite rings. Knife)
 | `WEPCFG_DISABLERED` | 2 | Weapon Slot 1 is occupied by the Knife only |
-
-# The core `MM` table
-
-The description of each value in the `MM` table. The `MM` constant itself is defined in [INIT.LUA](../INIT.LUA)
-
-| Name | Type | Description | Example value |
-| --- | --- | --- | --- |
-| <code>version</code> | *string* | Version number of the add-on | <code>"1.0-ALPHA"</code> |
-| <code>debug</code> | *boolean* | Enable/Disable the add-on's *Debug Mode* functionality<br>*Note:* **The add-on must boot with this variable set to <code>true</code> to use the Debug in any form.** | <code>true</code> |
-| <code>releasedate</code> | *string* | The release date of the add-on version. | <code>"August 19th 2024"</code> |
-| <code>text</code> | *table* | Collection of all text used in **Murder Mystery** with all translations. This variable is **netsynced** | *See [the template file](../LUA/TEXT/EN.LUA)* |
-| <code>RoleColor</code> | *string[5]* | The text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
-| <code>RoleColorHUD</code> | *string[5]* | The HUD text colors for roles | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
-| <code>hud</code>          | *table* | HUD control variables for each sub-renderer (<code>MM.hud.game</code>, <code>MM.hud.scores</code>, <code>MM.hud.intermission</code>). Each sub-renderer has two attributes: <code>enabled</code> (custom scripts can disable MM's HUD renderers by setting this to <code>false</code>) and <code>pos</code> (coordinates of the different HUD elements) | *See [<code>INIT.LUA</code>](../INIT.LUA)* |
-| <code>weaponconfig</code> | *int[4]* | Table to contain the Weapon Configurations. Updated by the `mm_wepconfig` CVAR. | *See [MM_WEPCONFIG.PNG](MM_WEPCONFIG.PNG) and [<code>INIT.LUA</code>](../INIT.LUA)* |
-| <code>shwdwn</code>       | *string* | The 6-character name of the current Showdown Duel track playing, also marks if the Duel is happening right now or not | "S2MSBS" |
-| <code>winner</code>       | *int* | The winner of the round, can be one of the 3 possible values: *0* - Tie, *1* - Murderer, *2* - Civilians (Sheriffs, Heros and Innocents). This variable is **netsynced** | 0 |
-| <code>winreason</code> | *int* | The win reason, can be one of the <code>WIN_*</code> constants. This variable is **netsynced** | 1 |
-| <code>timelimit</code> | *int* | Works just like SRB2's vanilla `timelimit` but MM uses its own. The value is measured in Minutes. This variable is **netsynced** | 5 |
-| <code>shremls</code> | *mobj_t[]* | The table containing all dropped *Sheriff Emerald* objects | *See [<code>LUA/GAME.LUA</code>](../LUA/GAME.LUA)* |
-| <code>pong</code> | *table* | Variables for Pong 2-player minigame. This variable is **netsynced** | *See [<code>INIT.LUA</code>](../INIT.LUA) and [<code>LUA/MINIGAMES/MINIGAMES.LUA</code>](../LUA/MINIGAMES/MINIGAMES.LUA)* |
 
 # That's all folks!

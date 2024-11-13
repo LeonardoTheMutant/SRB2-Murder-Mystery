@@ -103,14 +103,14 @@ hud.add(function(v, p)
 			if (leveltime & 1) then sonicSprite = "SNC_RUN1"
 			else sonicSprite = "SNC_RUN2" end
 		elseif (p.SonicRun.state == 2)
-			if (leveltime % 4 == 0) or (leveltime % 4 == 2) then sonicSprite = "SNC_SPN1"
-			elseif (leveltime % 4 == 1) then sonicSprite = "SNC_SPN2"
-			elseif (leveltime % 4 == 3) then sonicSprite = "SNC_SPN3" end
+			if (leveltime & 3 == 0) or (leveltime & 3 == 2) then sonicSprite = "SNC_SPN1"
+			elseif (leveltime & 3 == 1) then sonicSprite = "SNC_SPN2"
+			elseif (leveltime & 3 == 3) then sonicSprite = "SNC_SPN3" end
 		end
 		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite])
 
 		--hazards
-		local hazardSprite = "SPIK"..string.char(65 + ((leveltime % 16) >> 1)).."0"
+		local hazardSprite = "SPIK"..string.char(65 + ((leveltime & 15) >> 1)).."0"
 		for id, hazard in pairs(p.SonicRun.hazards)
 			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
 		end

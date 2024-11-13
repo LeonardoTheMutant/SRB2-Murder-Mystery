@@ -95,7 +95,7 @@ MM.AddLang("RU", {
 		"\x80".."byl ubit!"
 	},
     ["DIED_HAZARD"]="popal(a), kuda ne sledovalo",
-	["SHREML_PICK"]="Kto-to podobral \x84Izumrud Sherifa\x80...",
+	["SHREMD_PICK"]="Kto-to podobral \x84Izumrud Sherifa\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Ty ubil(a) \x83Nevinnogo\x87! Ty bolshe ne Sherif!",
 		"\x82Geroi\x87 ne sozdany, chtob ubivat' \x83Nevinnyh\x87. Za eto budet otvetnaya smert'.",

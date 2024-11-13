@@ -186,7 +186,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	["DIED_HAZARD"] = "has died in an accident",
 
 	--Sheriff's Emerald pickup global notification
-	["SHREML_PICK"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
+	["SHREMD_PICK"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
 
 	--Player has killed someone it did not have to
 	["KILL_PUNISHMENT_PM"] = {

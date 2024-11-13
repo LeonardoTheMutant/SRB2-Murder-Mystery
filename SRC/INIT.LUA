@@ -5,7 +5,7 @@ end
 rawset(_G, "MM", {
 	version = "1.0-ALPHA", --string, VERSION NUMBER
 	debug = true, --boolean, if set to true, enable the debug functionality in MM
-	releasedate = "not released yet", --string, meant to contain the day of release
+	builddate = "N/A", --string, meant to contain the day of the build
 	RoleColor = {
 		"\x85", --Murderer
 		"\x84", --Sheriff
@@ -60,7 +60,7 @@ rawset(_G, "MM", {
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced
-	shremls = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
+	shremds = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
 	pong = { --some of the variables for Pong minigame, netsynced
 		ball = {x=80, y=40},
 		velocity = {x=0, y=0},
@@ -149,15 +149,15 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	end
 end
 -- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
-CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
-CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
-CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
-CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
-CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
-CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
+CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
+CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
+CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 
 --
 --MM startup init
@@ -165,6 +165,7 @@ CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0,
 print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
 --Freeslot Gametype, Sheriff's Emerald & Knife object
+freeslot('TOL_LTM_MM', 'MT_SHREMD', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
 G_AddGametype({
 	name = "LTM_MM",
 	identifier = "LTMMURDERMYSTERY",
@@ -175,11 +176,10 @@ G_AddGametype({
 	headerrightcolor = 153,
 	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, prevent the murders as \x84Sheriff\x80 and survive as \x83Innocent\x80!"
 })
-freeslot('TOL_LTM_MM', 'MT_SHREML', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
 freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
 
 --Sheriff Drop Emerald
-mobjinfo[MT_SHREML]={
+mobjinfo[MT_SHREMD]={
 	spawnstate = S_CEMG3,
 	deathstate = S_SPRK1,
 	deathsound = sfx_cgot,
@@ -264,7 +264,7 @@ print("\n\x84LTM's Murder Mystery add-on was loaded succesfuly\n\x82Thank you fo
 
 addHook("NetVars", function(net)
 	MM.text = net($)
-	MM.shremls = net($)
+	MM.shremds = net($)
 	MM.winner = net($)
 	MM.winreason = net($)
 	MM.timelimit = net($)

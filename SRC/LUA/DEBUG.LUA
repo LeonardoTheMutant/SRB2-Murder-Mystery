@@ -30,8 +30,8 @@ COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
 	if (not reason) MM_EndRound(winner,"WIN",winner)
 	else MM_EndRound(winner,"WIN",reason) end
 end)
-COM_AddCommand("mmshreml",function(p) --Spawn Sheriff's Emerald at player's position
-	MM_SpawnSHREML(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)
+COM_AddCommand("mmshremd",function(p) --Spawn Sheriff's Emerald at player's position
+	MM_SpawnSHREMD(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)
 end)
 COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different time zones manually
 	if (gamestate!=1) or (not valid(p.mo)) return end

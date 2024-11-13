@@ -38,7 +38,7 @@ TypeOfLevel = LTM_MM
 SkyNum = 17
 Weather = 2
 NextLevel = K4
-Lua.Autor = Jisk, LeoTM
+Lua.Autor = Zombie Escape team, LeoTM
 
 Level K4
 LevelName = West City
@@ -57,7 +57,7 @@ Act = 0
 SkyNum = 30
 TypeOfLevel = LTM_MM
 NextLevel = K6
-Lua.Author = LeoTM, Rare
+Lua.Author = Rare, LeoTM
 
 Level K6
 LevelName = BACKROOMS
@@ -135,7 +135,7 @@ Lua.Timelimit = 11
 NextLevel = KD
 Lua.ShowdownTrack = 11H_TR
 Lua.SlowWalkSpeed = True
-Lua.DisableRadar = True
+Lua.DisableEmeraldRadar = True
 Lua.DisableFootmarks = True
 Lua.Author = Trillobyte, LeoTM
 

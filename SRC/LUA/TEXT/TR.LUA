@@ -94,7 +94,7 @@ MM.AddLang("TR", {
 		"\x80olduruldu!" 
 	},
     ["DIED_HAZARD"]="bir kazada oldu",
-	["SHREML_PICK"]="Birisi \x84Serif'in Zumrutu\x80'nu aldi...",
+	["SHREMD_PICK"]="Birisi \x84Serif'in Zumrutu\x80'nu aldi...",
 	["KILL_PUNISHMENT_PM"]={
 		"Bir\x87 \x83Masum\x87'u oldurdun! Kovuldun. (Artik bir Serif degilsin)",
 		"\x82Kahramanlar\x87, \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin idam cezasi aldiniz.",

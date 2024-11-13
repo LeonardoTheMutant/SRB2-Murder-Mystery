@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
             hexWritten = 0;
         } else {
             //print as an Escape Code (compression disabled or failed to convert)
-            if (!(hexWritten % 2)) //Writing an 8-bit Escape Code
+            if (!(hexWritten & 1)) //Writing an 8-bit Escape Code
             {
                 printf("\\x%X", int_symbol);
             } else { //We are allowed to write another value to make a 16-bit code

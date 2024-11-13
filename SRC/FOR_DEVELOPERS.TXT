@@ -11,8 +11,10 @@ MM_LTMs_MurderMystery_v1.0-ALPHA.pk3
 +-INIT.LUA - Init, freeslot, add-on PK3 properties, and some objects
 |
 +-DEV_DOCS-\
-|          +-List_of_Func_and_Const.md - Documentation of functions and constants
-|          \-MM_HUD_Library.md - Documentation of the "Murder Mystery HUD library"
+|          +-MM_Func&Const_List.md - Documentation of functions and constants
+|          +-MM_HUD_Library.md - Documentation of the "Murder Mystery HUD library"
+|          +-MM_Userdata_Structure.md - Documentation of the various MM userdata tables
+|          \-MM_WEPCONFIG.PNG - Visual explanation of the CVAR of the same name (in binary form)
 |
 +-LUA-\
 |     |
@@ -28,7 +30,7 @@ MM_LTMs_MurderMystery_v1.0-ALPHA.pk3
 |     |           +-MINIGAME.LUA      - Main logic code for "PONG" and "SONIC RUN" minigames
 |     |
 |     +-TEXT-\
-|     |      +-EN.LUA - All Text and messages used in the add-on (English version), also a template file for other languages
+|     |      \-EN.LUA - All Text and messages used in the add-on (English version), also a template file for other languages
 |     |
 |     +-ABILITIES.LUA  - Character abilities & sneak
 |     +-CCMD.LUA       - MMHELP and MMLANG commands

@@ -89,7 +89,7 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
         "\x80wbytyj!"
     },
     ["DIED_HAZARD"]="zagynuw(la) u neschasnomu wypadku",
-    ["SHREML_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
+    ["SHREMD_PICK"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
     ["KILL_PUNISHMENT_PM"]={
         "\x87Wy wbyly \x83Newynnogo\x87! Was zwil'neno! (Ty bil'she ne Sheryf)",
         "\x82Geroji\x87 ne majut' prawa wbywaty \x83Newynnych\x87! Was zasudzheno na smert' za wash zlochyn!",

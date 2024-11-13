@@ -203,7 +203,7 @@ addHook("PlayerThink", function(p)
 						end
 					end
 				end
-				p.mm.timetravel.spark = 1
+				MM_StartFlashFX(p, 7, 0)
 				--P_SpawnMobjFromMobj(p.mo,0,0,0,MT_THROWNEXPLOSION) --blast after a time warp (visual effect)
 				S_StartSound(p.mo, sfx_mixup, p)
 				p.mm.timetravel.timesign = TWS_NONE
@@ -214,12 +214,6 @@ addHook("PlayerThink", function(p)
 			if (p.mm.timetravel.warptimer >= 70) then p.mm.timetravel.timesign = TWS_NONE end
 			p.mm.timetravel.warptimer = 0
 		end
-	end
-	
-	--reduce spark opacity after time warp
-	if (p.mm.timetravel.spark and (leveltime % 8 == 0))
-		p.mm.timetravel.spark = $ + 1 --increasing the translucenty level
-		if (p.mm.timetravel.spark >= 10) p.mm.timetravel.spark = 0 end
 	end
 end)
 

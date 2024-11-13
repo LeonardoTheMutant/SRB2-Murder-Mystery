@@ -30,7 +30,7 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 *   The add-on was designed to not modify the vanilla aspects of the game.
     There is only one known bug where Metal Sonic can't get into his Hyper Dash
     mode when playing in vanilla game types with MM add-on present
-**  Please read READ_BEFORE_HOSTING.TXT for details
+**  Please read NOTES4HOSTERS.TXT for details
 *** Digital Music pack is separate and can be downloaded from the SRB2 MM's GitHub repository
 
 
@@ -40,30 +40,30 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 ============================================================
 
 SRB2MM_DEV team is:
-  LeonardoTheMutant  - "CEO of the project", Mapper, Coder, Visual Design, Ukrainian, Russian & Polish translator
+  LeonardoTheMutant  - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian & Polish translator, Ambassador of Europe
+  MinusMario         - "The Veteran of MM", Music Composer
+  Troplucky          - "The Official Bob representative in MM", Mapper, Music management, French translator
   Jesus.B            - Coder, Spanish translator
-  Troplucky          - Mapper, Music management, French translator
-  Arnie37, Sonic1983 - Russian translator(s)
-  SlainLBS           - Spanish translator
+  Arnie37, Sonic1983 - Russian translators
   Mobillia           - Turkish translator
   asdhio (aheiiv)    - Ukrainian translator
   LexTheGamer95      - Ambassador of North America
   lamon              - Ambassador of the United Kingdom
 
 Former members:
-  tedbasher3000 (AKA tedvin11) - Coder
+  tedbasher3000 (AKA tedvin11) - Former Leader Coder
   futuresmiles      - Ambassador of North America
-  SuperOfSRB2       - Ambassador of North America
+  SuperOfSRB2       - Ambassador of North America, Mapper
   White Tails {UKR} - Ambassador of Lituana
   sopix             - Polish translator
+  SlainLBS          - Spanish translator
   Piksqu            - Mapper & French translator
-  King Jonas        - Ambassador of Brazil & Portuguese translator
+  King Jonas        - Ambassador of Brazil, Portuguese translator
   ToeiSamurai       - Coder
 
 Special Thanks to:
  - tedvin11 for the idea, base code, and leadership during the very early development
  - Musicians from FREEDOOM community for the wonderful map MIDIs
- - King Meteor for his high-quality MIDI arrangements of songs from Sonic games
  - Collision Chaos Radio for Sonic CD Music restoration
  - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
  - Jisk for having an extremely negative opinion on us and our project
@@ -77,7 +77,7 @@ and Thank YOU for playing this add-on!
 
 
 
-If you are going to host this game type yourself please read the READ_BEFORE_HOSTING.TXT file for
+If you are going to host this game type yourself please read the NOTES4HOSTERS.TXT file for
 the correct server setup and important notes.
 
 If you're interested in modding this game type please take a look at our GitHub repository and/or

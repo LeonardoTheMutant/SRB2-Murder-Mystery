@@ -93,7 +93,7 @@ MM.AddLang("ES", {
 		"\x80".."fue asesinado!"
 	},
     ["DIED_HAZARD"]="ha muerto en un accidente",
-	["SHREML_PICK"]="Alguien ha tomado la\x84 Esmeralda del Comisario\x80...",
+	["SHREMD_PICK"]="Alguien ha tomado la\x84 Esmeralda del Comisario\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Has matado a un \x83Inocente\x87! Has sido despedido!. (Ya no eres un Comisario)",
 		"Los \x82Heroes\x87 no estan hechos para matar \x83Inocentes\x87. Conseguiste la penalizacion de muerte por eso."

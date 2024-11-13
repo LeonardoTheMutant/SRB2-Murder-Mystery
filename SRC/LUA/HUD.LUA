@@ -14,7 +14,7 @@ local function wep2rw(wep) --convert WEP_* constant to RW_* constant
 	return 2^(wep - 1)
 end
 
-local function V_GetSHREMLiconID(dist)
+local function V_GetSHREMDiconID(dist)
 	if (dist < 256) return 6
 	elseif (dist < 512) return 5
 	elseif (dist < 1024) return 4
@@ -231,7 +231,7 @@ hud.add(function(v, p)
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|V_PERPLAYER|v.localTransFlag())
 
 	--Show your role
-	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (not (p.mm.hud.roleflicker % 4)))
+	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (not (p.mm.hud.roleflicker & 3)))
 		V_DrawStrASCII(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), charset, MM.RoleColorHUD[p.mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 	end
 	
@@ -263,11 +263,11 @@ hud.add(function(v, p)
 				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
 			end
 		end
-		if (p.mm.killedby)
-			if (p.mm.killedby == "your stupidity")
+		if (p.mm.killername)
+			if (p.mm.killername == "your stupidity")
 				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..MM_GetText(consoleplayer.mm.lang, "HUD_STUPID"), V_SNAPTOTOP|V_SNAPTOLEFT)
 			else
-				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..p.killedby, hudinfo[HUD_RINGS].f)
+				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..p.mm.killername, hudinfo[HUD_RINGS].f)
 			end
 		end
 		if ((not p.mm.minigame) and (not MM.twopgame) and (not MM.minigame))
@@ -401,7 +401,7 @@ hud.add(function(v, p)
 					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
 				end
 			end
-			if ((p.ammoremovaltimer) and ((leveltime % 8) < 4))
+			if ((p.ammoremovaltimer) and ((leveltime % 7) < 4))
 				v.drawString((MM.hud.game.pos.ringWep.x + 8 + (p.ammoremovalweapon*20)), (MM.hud.game.pos.ringWep.y), "-"..p.ammoremoval, V_REDMAP|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ammo removal penalty
 			end
 
@@ -430,8 +430,8 @@ hud.add(function(v, p)
 	end
 
 	--Sheriff Emerald Radar for Innocents
-	if (p.mm.role == ROLE_INNOCENT) and (#MM.shremls) and (p.shreml_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableradar))
-		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMLiconID(fixint(p.shreml_dist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
+	if (p.mm.role == ROLE_INNOCENT) and (#MM.shremds) and (p.shremd_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(p.shremd_dist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
 
 	--Are you alone?
@@ -461,14 +461,9 @@ hud.add(function(v, p)
 		V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), charset, MM_GetText(consoleplayer.mm.lang, "HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), true)
 	end
 	
-	--red Flash effect when you die
-	if (p.mm.hud.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((p.mm.hud.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT)
-	end
-	
-	--white time warp spark effect
-	if (p.mm.timetravel and p.mm.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0], ((p.mm.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	--HUD frontend for the flash/spark effects
+	if (p.mm.hud.fx_translucency)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[p.mm.hud.fx_color], ((p.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	--Debug
@@ -481,8 +476,8 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82".."KILLS: \x80"..p.mm.kills, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82".."CHATDELAY: \x80"..p.mm.chatdelay, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."WEAPONDELAY: \x80"..p.mm.weapondelay, V_PERPLAYER, "thin")
-		if (p.shreml_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREML_DIST: \x81"..p.mm.shreml_dist.." \x80("..fixint(p.mm.shreml_dist)..")", V_PERPLAYER, "thin")
-		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREML_DIST: \x81nil", V_PERPLAYER, "thin") end
+		if (p.shremd_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81"..p.mm.shremd_dist.." \x80("..fixint(p.mm.shremd_dist)..")", V_PERPLAYER, "thin")
+		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81nil", V_PERPLAYER, "thin") end
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
@@ -522,17 +517,17 @@ hud.add(function(v)
 		for p in players.iterate
 			if (MM_AreTeammates(consoleplayer, p) and (consoleplayer != p))
 				--character icon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) << 4)) << FRACBITS, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo & 1) << 4)) << FRACBITS, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 				--player name (colored as role)
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) << 4)), MM.RoleColor[p.mm.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo & 1) << 4)), MM.RoleColor[p.mm.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
 				--icon of the currently held weapon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
 				--amount of currently held weapon ammo
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)), p.powers[pw_infinityring + p.currentweapon], v.localTransFlag(), "thin")
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)), p.powers[pw_infinityring + p.currentweapon], v.localTransFlag(), "thin")
 				--red ring icon
-				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[-1][1]], v.localTransFlag()) --FU/2
+				v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136*(teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[-1][1]], v.localTransFlag()) --FU/2
 				--amount of [red] rings
-				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) << 4)), p.rings, v.localTransFlag(), "thin")
+				v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136*(teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)), p.rings, v.localTransFlag(), "thin")
 				teammateNo = $ + 1
 			end
 		end
@@ -554,7 +549,7 @@ hud.add(function(v)
 		if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, charset, (MM.RoleColorHUD[ROLE_INNOCENT]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_INNOCENT)..": "..PlayerCount(ROLE_INNOCENT)), v.localTransFlag()) end
 
 		--"Sheriff's Emerald is available!"
-		if ((#MM.shremls) and (leveltime & 1))
+		if ((#MM.shremds) and (leveltime & 1))
 			v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
 		end
 	end
@@ -562,14 +557,9 @@ hud.add(function(v)
 	--Online
 	v.drawString(160, 176, "ONLINE: "..PlayerCount(), v.localTransFlag())
 
-	--red Flash effect when you die
-	if (consoleplayer.mm.hud.flashscrn)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() <<FRACBITS), MM.graphics.pixel[0x23], ((consoleplayer.mm.hud.flashscrn - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
-	end
-
-	--white time warp spark effect
-	if (consoleplayer.mm.timetravel and consoleplayer.mm.timetravel.spark)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0], ((consoleplayer.mm.timetravel.spark - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+	--HUD frontend for the flash/spark effects
+	if (consoleplayer.mm.hud.fx_translucency)
+		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[consoleplayer.mm.hud.fx_color], ((consoleplayer.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug

@@ -93,7 +93,7 @@ MM.AddLang("PL", {
 		"\x80zostal zamordowany!"
 	},
 	["DIED_HAZARD"]="zginal(ela) w nieszczesnym wypadku",
-	["SHREML_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
+	["SHREMD_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Zamordowales \x83Niewinnego\x87! Nie jestes juz \x84Szeryfem\x87!",
 		"\x82".."Bohaterowie nie sa po to, zeby zabijac \x83Niewinnych\x87. Masz za to kare smierci.",

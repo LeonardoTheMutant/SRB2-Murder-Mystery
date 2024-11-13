@@ -6,7 +6,7 @@
 
 local tech_info = {
 	"\4LTM's \7Murder Mystery\16",
-	"Version\17 "..MM.version.."\16 ("..MM.releasedate..")",
+	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
 	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
 	"\nChanges from\17 10.1-BETA\16:",
@@ -29,7 +29,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \x81\"Mystery\"\x80 and \x81\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).")
 		CONS_Printf(p, "\x87MM_AFK\x80         - AFK timeout in minutes. If player is AFK for the specified amount of minutes it is going to be kicked.")
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
-		CONS_Printf(p, "\x87MM_CHATDELAY\x80   - The message delay (in ticks) to control the time interval players must wait before sending another message.")
+		CONS_Printf(p, "\x87MM_CHATDELAY\x80   - The message delay (in tics) to control the time interval players must wait before sending another message.")
 		CONS_Printf(p, "\x87MM_CRYPTIC\x80     - Make the game more cryptic by disabling the teammate list, player nametags and most of the player counters on HUD")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80 - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_NOCAMPING\x80   - When enabled, \x85Murderers\x80 who are camping on the \x84Sheriff's Emerald\x80 for longer than 30 seconds will be kicked")
@@ -41,7 +41,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x82".."DEVELOPER DEBUG COMMANDS")
 		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
 		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
-		CONS_Printf(p, "\x87MMSHREML\x80    - Spawn Sheriff's Emerald at player's position")
+		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")

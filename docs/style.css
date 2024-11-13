@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #222222;
     color: white;
     font-family: arial;
@@ -9,21 +9,31 @@ body{
     border-style: solid;
     border-color: red
 }
-header{
+
+header {
     padding: 5px;
     background-color: #111111;
 }
-h3{
+
+footer {
+    padding: 5px;
+    background-color: #111111;
+}
+
+h3 {
 	color: orange;
 }
-#download h3{
+
+#download h3 {
 	color: #5555ff;
 }
-hr{
+
+hr {
     background-color: red;
     border: none;
     height: 2px;
 }
+
 img {
 	border: 4px dashed;
 	border-color: blue;

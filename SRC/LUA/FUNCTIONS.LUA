@@ -56,21 +56,22 @@ rawset(_G, "MM_InitPlayer", function(p)
 
 	if (not p.mm) then p.mm = {} end
 	p.mm.kills = 0
-	p.mm.killedby = false
+	p.mm.killername = false
 	p.mm.weapondelay = 0
 	p.mm.camping = 0
 	p.mm.chatdelay = 0
-	p.mm.shreml_dist = 0
+	p.mm.shremd_dist = 0
 	p.mm.sneak = false
 	p.mm.hud = {
-		flashscrn = 0,
+		fx_translucency = 0,
+		fx_duration = 0,
+		fx_color = 0,
 		roleflicker = 140,
 	}
 	p.mm.timetravel = {
 		timezone = TIMEZONE_PRESENT,
 		timesign = TWS_NONE,
-		warptimer = 0,
-		spark = 0
+		warptimer = 0
 	}
 end)
 
@@ -144,7 +145,7 @@ rawset(_G, "MM_AssignRoles", function()
 	for p in players.iterate
 		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
 		chatprintf(p, MM_GetText(p.mm.lang, "ROLE_GET", p.mm.role))
-		p.mm.roleflicker = 105 --timer for role name flickering on HUD
+		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
 	end
 end)
 
@@ -218,10 +219,10 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	local plr = p.player
 	plr.spectator = true
 	plr.mm.role = ROLE_NONE
-	plr.mm.hud.flashscrn = 1
+	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
-	plr.mm.killedby = k.player.name
+	plr.mm.killername = k.player.name
 	k.player.mm.kills = $ + 1
 	if (not k.player.mm.sneak) P_PlayDeathSound(p) end
 	plr.rmomx = 0
@@ -248,8 +249,8 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	local plr = p.player
 	plr.spectator = true
 	plr.mm.role = ROLE_NONE
-	plr.mm.hud.flashscrn = 1
-	plr.mm.killedby = "your stupidity"
+	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
+	plr.mm.killername = "your stupidity"
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
@@ -349,6 +350,21 @@ rawset(_G, "MM_PlayerQuit", function(p)
 	MM_StartShowdownMusic()
 end)
 
+rawset(_G, "MM_StartFlashFX", function(p, duration, color)
+	assert(p, "MM_StartFlashFX argument #1: player_t not given!")
+	assert(p.mm, "MM_StartFlashFX argument #1: player_t.mm table is not initialized!")
+	assert(p.mm.hud, "MM_StartFlashFX argument #1: player_t.mm.hud table is not initialized!")
+	assert(duration, "MM_StartFlashFX argument #2: Effect duration time is not specified")
+	if (type(duration) != "number") then error("MM_StartFlashFX argument #2: The value of the effect duration must be a number") end
+	if (color and (type(color) != "number")) then error("MM_StartFlashFX argument #3: The value of the effect's color must be a number") end
+
+	color = color or 0
+
+	p.mm.hud.fx_translucency = 1
+	p.mm.hud.fx_duration = duration
+	p.mm.hud.fx_color = color
+end)
+
 --Function to end the round, arguments here:
 --possible values for the winner of the game are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat (taken from the MM.text)
@@ -367,7 +383,7 @@ end)
 
 --Enable Suspence music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 rawset(_G, "MM_StartSuspenceMusic", function()
-	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremls))
+	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremds))
 		S_ChangeMusic("SUSNCE", true)
 		return true
 	end
@@ -395,7 +411,7 @@ rawset(_G, "MM_SetRandomInnoAs", function(role, message)
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
-	p.mm.roleflicker = 70
+	p.mm.hud.roleflicker = 70
 	chatprintf(p, MM_GetText(p.mm.lang, "NEWROLE_GET", message))
 	return
 end)
@@ -793,11 +809,11 @@ end)
 --
 
 --spawn Sheriff Emerald
-rawset(_G, "MM_SpawnSHREML", function(x, y, z, timezone)
-	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREML(int x, int y, int z, [player_t player])") end
-	local mo = P_SpawnMobj(x ,y, z, MT_SHREML)
+rawset(_G, "MM_SpawnSHREMD", function(x, y, z, timezone)
+	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, [player_t player])") end
+	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
 	if (timezone) mo.timezone = timezone end
-	table.insert(MM.shremls, (#MM.shremls + 1), mo)
+	table.insert(MM.shremds, (#MM.shremds + 1), mo)
 end)
 
 -- Returns the height of the sector floor at (x, y)

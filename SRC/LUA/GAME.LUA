@@ -9,10 +9,10 @@ local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 local crypticCVAR = CV_FindVar("mm_cryptic")
 
-local shreml_distances = {}
-local shreml_interval, shreml_closest
+local shremd_distances = {}
+local shremd_interval, shremd_closest
 
-local function MM_GetSHREMLinterval(dist)
+local function MM_GetSHREMDinterval(dist)
 	if (dist < 256) return 5
 	elseif (dist < 512) return 10
 	elseif (dist < 1024) return 20
@@ -32,7 +32,7 @@ addHook("MapLoad", function(map)
 	--Prepare the game
 	MM.winner = 0
 	MM.winreason = 0
-	MM.shremls = {}
+	MM.shremds = {}
 	MM.shwdwn = false
 
 	--Time limit
@@ -146,7 +146,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 
 		if (PlayerCount(ROLE_INNOCENT))
 			if (spawnBodyOrEmerald)
-				MM_SpawnSHREML(v.x, v.y, v.z, vp.mm.timetravel.timezone)
+				MM_SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 				MM_ChatprintGlobal("SHERI_DIED_DROP", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
 			else
@@ -195,7 +195,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 				MM_KillPlayerByHazard(a, true)
 				if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-				elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
+				elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				else
 					chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
@@ -257,7 +257,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 
 		if (PlayerCount(ROLE_INNOCENT))
-			MM_SpawnSHREML(v.x, v.y, v.z, vp.mm.timetravel.timezone)
+			MM_SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 			MM_ChatprintGlobal("SHERI_KILLED_DROP", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
@@ -306,7 +306,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_KillPlayerByHazard(a, true)
 			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremls)
+			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			else
 				chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
@@ -335,9 +335,9 @@ addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (toucher.player.mm.role == ROLE_INNOCENT)
-		for emeraldID = 1, #MM.shremls do
-			if ((MM.shremls[emeraldID].x == special.x) and (MM.shremls[emeraldID].y == special.y) and (MM.shremls[emeraldID].z == special.z))
-				table.remove(MM.shremls, emeraldID)
+		for emeraldID = 1, #MM.shremds do
+			if ((MM.shremds[emeraldID].x == special.x) and (MM.shremds[emeraldID].y == special.y) and (MM.shremds[emeraldID].z == special.z))
+				table.remove(MM.shremds, emeraldID)
 				P_RemoveMobj(special)
 				break
 			end
@@ -345,12 +345,12 @@ addHook("TouchSpecial", function(special, toucher)
 		S_StartSound(toucher.player.mo, sfx_cgot, toucher.player)
 		toucher.player.mm.role = ROLE_HERO
 		toucher.player.mm.hud.roleflicker = 70 --2 secs
-		MM_ChatprintGlobal("SHREML_PICK")
+		MM_ChatprintGlobal("SHREMD_PICK")
 		MM_StartShowdownMusic()
 	end
 
 	return true
-end, MT_SHREML)
+end, MT_SHREMD)
 
 --
 -- Player Thinker
@@ -371,33 +371,33 @@ addHook("PlayerThink", function(p)
 	--role flickering timer
 	if (p.mm.hud.roleflicker) p.mm.hud.roleflicker = $ - 1 end
 
-	--HUD flash screen fadeout
-	if (p.mm.hud.flashscrn) and (not (leveltime % 4))
-		p.mm.hud.flashscrn = $ + 1
-		if (p.mm.hud.flashscrn >= 10) p.mm.hud.flashscrn = 0 end
+	--HUD backend for fullscreen flash/spark effects
+	if (p.mm.hud.fx_translucency) and (p.mm.hud.fx_duration) and (not (leveltime & p.mm.hud.fx_duration))
+		p.mm.hud.fx_translucency = $ + 1
+		if (p.mm.hud.fx_translucency >= 10) p.mm.hud.fx_translucency = 0 end
 	end
 
 	--Sheriff Emerald Radar distance logic
-	if ((#MM.shremls) and ((p.mm.role == ROLE_INNOCENT) or (p.mm.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
+	if ((#MM.shremds) and ((p.mm.role == ROLE_INNOCENT) or (p.mm.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
 		--find the distance to the closest emerald
-		for emeraldID = 1, #MM.shremls do
-			if (MM.shremls[emeraldID].valid) and (MM.shremls[emeraldID].timezone and (MM.shremls[emeraldID].timezone == p.mm.timetravel.timezone))
-				table.insert(shreml_distances, #shreml_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremls[emeraldID].x, p.mo.y - MM.shremls[emeraldID].y), p.mo.z - MM.shremls[emeraldID].z))
+		for emeraldID = 1, #MM.shremds do
+			if (MM.shremds[emeraldID].valid) and (MM.shremds[emeraldID].timezone and (MM.shremds[emeraldID].timezone == p.mm.timetravel.timezone))
+				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremds[emeraldID].x, p.mo.y - MM.shremds[emeraldID].y), p.mo.z - MM.shremds[emeraldID].z))
 			end
 		end
-		shreml_closest = shreml_distances[0]
-		for emeraldID = 1, #shreml_distances do
-			if (shreml_distances[emeraldID] < shreml_closest) then shreml_closest = shreml_distances[emeraldID] end
+		shremd_closest = shremd_distances[0]
+		for emeraldID = 1, #shremd_distances do
+			if (shremd_distances[emeraldID] < shremd_closest) then shremd_closest = shremd_distances[emeraldID] end
 		end
-		p.shreml_dist = shreml_closest
+		p.shremd_dist = shremd_closest
 
 		--play sound
-		if (p.mm.shreml_dist)
-			if (p.mm.role == ROLE_INNOCENT) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableradar))
-				shreml_interval = MM_GetSHREMLinterval(fixint(p.mm.shreml_dist))
-				if (shreml_interval and (leveltime % shreml_interval) == 0) S_StartSound(nil, sfx_emfind, p) end
+		if (p.mm.shremd_dist)
+			if (p.mm.role == ROLE_INNOCENT) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+				shremd_interval = MM_GetSHREMLinterval(fixint(p.mm.shremd_dist))
+				if (shremd_interval and (leveltime % shremd_interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 			elseif (p.mm.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)
-				if (p.mm.shreml_dist < 25165824) --384*FU)
+				if (p.mm.shremd_dist < 25165824) --384*FU)
 					p.mm.camping = $ + 1
 					if (p.mm.camping == 1050) then MM_PunishPlayer(p, "Emerald camping") end --kick player after 30 seconds of camping
 				else p.mm.camping = 0 end
