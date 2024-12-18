@@ -12,7 +12,7 @@ freeslot("S_TIMESIGN_F_SPIN1", "S_TIMESIGN_F_SPIN2", "S_TIMESIGN_F_SPIN3", "S_TI
 -- FUTURE SIGN
 --
 mobjinfo[MT_TIMESIGN_F]={
-	doomednum = 37,
+	doomednum = 36,
 	spawnstate = S_TIMESIGN_F,
 	radius = 2097152, --32*FU
 	height = 4194304, --64*FU
@@ -73,7 +73,7 @@ states[S_TIMESIGN_F_SPIN7] = {
 -- PAST SIGN
 --
 mobjinfo[MT_TIMESIGN_P]={
-	doomednum = 36,
+	doomednum = 37,
 	spawnstate = S_TIMESIGN_P,
 	radius = 2097152, --32*FU
 	height = 4194304, --64*FU

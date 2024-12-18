@@ -61,7 +61,7 @@ addHook("LinedefExecute", function(l,mo,s)
             end
         end
         --now edit the texture of the ray to represent the kill count
-        if valid(rayControlLine) rayControlLine.frontside.midtexture = truthTextures[(mo.player.kills & 3) + 1] end
+        if valid(rayControlLine) rayControlLine.frontside.midtexture = truthTextures[(mo.player.mm.kills & 3) + 1] end
         rayTimer = 35
     end
 end,"K7_TRUTH")

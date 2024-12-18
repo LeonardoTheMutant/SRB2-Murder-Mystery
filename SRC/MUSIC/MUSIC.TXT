@@ -20,7 +20,7 @@ MAPK3 - "Inside the Ruins" by Korp (Freedoom: Phase 2 (MAP11's track in October 
 MAPK4 - "Under Maintenance" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
 MAPK5 - "Dam" by Graeme Norgate (Goldeneye 007) (MIDI by Jarron Woodsorre)
 MAPK7 - "Rough Landing" by Korp, remix of dave3d08.mid by jute (Freedoom: Phase 2 (v0.13.0))
-MAPK8 - *unknown*
+MAPK8 - "AimShootKill" by Tom Mustaine (Final Doom: TNT Evilution)
 MAPK9 - "Reflection" by Scragadelic (Freedoom: Phase 2 (v0.13.0))
 MAPKA - "Bright sound" (Sonic Adventure 2) (MIDI by Jose)
 MAPKE - "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)

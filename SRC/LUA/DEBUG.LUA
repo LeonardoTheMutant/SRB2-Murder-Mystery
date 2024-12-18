@@ -5,7 +5,7 @@
 --This script is executes on startup if MM.debug is set to true
 --I keep this minimalistic so don't wonder why code is unreadable there
 
-local shwdwn_music={"S2MSBS","S2GGBS","EWJ2TN","DRMBM2","STORMR","UNDYNE","SSBLSD"}
+local shwdwn_music={"DRMBM2","RDBSTR","S2MSBS","S2GGBS","SSBLSD","STORMR","UNDYNE"}
 
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead

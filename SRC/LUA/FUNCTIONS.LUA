@@ -188,16 +188,18 @@ end)
 rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
 	local ShiftX
 	local ShiftY
-	local ShiftX2
-	local ShiftY2
+	--local ShiftX2
+	--local ShiftY2
 	if (mapheaderinfo[gamemap].timetravel_shiftx) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX = tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
 	else ShiftX = 0 end
 	if (mapheaderinfo[gamemap].timetravel_shifty) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY = tonumber(mapheaderinfo[gamemap].timetravel_shifty)
 	else ShiftY = 0 end
+	/*
 	if (mapheaderinfo[gamemap].timetravel_shiftx2) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)) ShiftX2 = tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)
 	else ShiftX2 = 0 end
 	if (mapheaderinfo[gamemap].timetravel_shifty2) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty2)) ShiftY2 = tonumber(mapheaderinfo[gamemap].timetravel_shifty2)
 	else ShiftY2 = 0 end
+	*/
 
 	if (ShiftX) or (ShiftY)
 		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
@@ -207,10 +209,12 @@ rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (T
 			end
 		end
 	end
+	/*
 	if ((ShiftX2) or (ShiftY2)) and (MM_IsTimelineCorrect(t, TIMEZONE_FUTURE_GOOD))
 		local body = P_SpawnMobjFromMobj(p, ShiftX2, ShiftY2, 0, MT_DEADPLR)
 		body.state = S_MMSKELT
 	end
+	*/
 end)
 
 rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T)
@@ -263,7 +267,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
 		body.color = p.color
 
-		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.timetravel.timezone) end
+		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 	else
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
@@ -384,7 +388,7 @@ end)
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 rawset(_G, "MM_StartSuspenseMusic", function()
-	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremds))
+	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremds) and (PlayerCount()))
 		if (mapheaderinfo[gamemap].suspensetrack and S_MusicExists(mapheaderinfo[gamemap].suspensetrack))
 			MM.susnce = mapheaderinfo[gamemap].suspensetrack
 		else
@@ -398,7 +402,7 @@ end)
 
 --Enable Showdown music when there are no innocents left
 rawset(_G, "MM_StartShowdownMusic", function()
-	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame)
+	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame) and (PlayerCount())
 		if (mapheaderinfo[gamemap].showdowntrack and S_MusicExists(mapheaderinfo[gamemap].showdowntrack))
 			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
 		else
