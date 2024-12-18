@@ -67,6 +67,11 @@ end
 
 --SAYDEAD command - Say to the Dead Chat (as Server or Administrator)
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
+	if (gametype != GT_LTMMURDERMYSTERY)
+		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
+		return
+	end
+	
 	--get the message string
 	local arg = {...}
 	local m = ""
@@ -128,11 +133,13 @@ end)
 --chat delay timers
 --gameplay timer
 addHook("PlayerThink", function(p)
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
 	if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end
 end)
 --intermission timer
 addHook("IntermissionThinker", do
+	if (gametype != GT_LTMMURDERMYSTERY) return end
 	for p in players.iterate
 		if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
 		if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end

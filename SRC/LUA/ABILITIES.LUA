@@ -17,7 +17,7 @@ addHook("PlayerThink", function(p)
 		p.mindash = skins[s].mindash
 		p.maxdash = skins[s].maxdash
 		p.normalspeed = skins[s].normalspeed
-		p.mm.sneak = false
+		if (p.mm) p.mm.sneak = false end
 
 	--"Everyone are regular persons" mode (MM_ABILITIES disabled)
 	elseif ((gametype == GT_LTMMURDERMYSTERY) and (not MM_ABILITIES.value))

@@ -85,7 +85,7 @@ addHook("PlayerThink",function(p) --MMCHARSET logic
 	else p.mm.debugjumped=nil end
 end)
 hud.add(function(v, p) --MMCHARSET render
-	if not p.mm.debugdrawer return end
+	if not p.mm or not p.mm.debugdrawer return end
 	for row=-1, 7
 		for column=-1,15
 			if ((row==-1) and (column>-1)) v.drawString(16+(column<<4),0,string.format("%X",column))
