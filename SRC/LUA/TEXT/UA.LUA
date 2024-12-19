@@ -183,6 +183,8 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
         "\xC3C5\xD0CE\xC9", --HEROJ
         "\xCCC5\xD0D2\xC2C8\xC9" --MERTWYJ
     },
+    ["HUD_SUSPECTS"]="\xCFB3\xE4EE\xE7F0\xFEE2\xE0ED\xB3", --pidozriuwani
+    ["HUD_VICTIMS"]="\xC6E5\xF0F2\xE2E8", --zhertwy
     ["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --naparnyky
     ["HUD_KILLBY"]="\xC2E8 \xE2E1\xE8F2\xB3", --wy wbyti
     ["HUD_STUPID"]="\xC2E0\xF8E8\xEC \xB3E4\xB3EE\xF2E8\xE7EC\xE5EC", --washym idiotyzmem

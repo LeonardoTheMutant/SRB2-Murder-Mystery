@@ -194,7 +194,9 @@ MM.AddLang("TR", {
 		"KAHRAMAN",
 		"\xD6L\xDC"
 	},
-    ["HUD_TEAMMATES"]="Tak\xFDm arkada\xFElar\xFD",
+	["HUD_SUSPECTS"]="\xDEFCphel\xEDler",
+	["HUD_VICTIMS"]="Masumlar",
+	["HUD_TEAMMATES"]="Tak\xFDm arkada\xFElar\xFD",
 	["HUD_KILLBY"]="\xD6lmenin sebebi:",
 	["HUD_STUPID"]="senin aptall\xFDF0\xFDn",
 	["HUD_SCORESTAB"]={

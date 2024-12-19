@@ -320,6 +320,8 @@ local language_data = { --Language must be a table variable, you can name the va
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
+	["HUD_SUSPECTS"] = "Suspects",
+	["HUD_VICTIMS"] = "Victims",
 	["HUD_TEAMMATES"] = "Teammates",
 	["HUD_KILLBY"] = "Killed by",
 	["HUD_STUPID"] = "your stupidity",

@@ -186,6 +186,8 @@ MM.AddLang("PL", {
 		"NIEWINNY",
 		"MARTWY"
 	},
+	["HUD_SUSPECTS"]="Podejrzani",
+	["HUD_VICTIMS"]="Ofiary",
 	["HUD_TEAMMATES"]="Cz\xB3onkowie dru\xBFyny",
 	["HUD_KILLBY"]="Zabity przez",
 	["HUD_STUPID"]="tw\xF3j idiotyzm",

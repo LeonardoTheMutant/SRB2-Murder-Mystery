@@ -30,7 +30,8 @@ rawset(_G, "MM", {
 		},
 		scores = { --HUD for Scores Tab
 			pos = {
-				teammateInfo = {x=20, y=136}, --Teammates tracklist
+				playerInfo = {x=20, y=40}, --Player list
+				teammateInfo = {x=20, y=136}, --Teammates list
 				teammateInfoOffset1 = {x=18}, --Offset for current weapon icon
 				teammateInfoOffset2 = {x=36}, --Offset for Rings counter
 			}

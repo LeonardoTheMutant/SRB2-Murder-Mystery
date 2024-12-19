@@ -183,7 +183,9 @@ MM.AddLang("FR", {
 		"HERO",
 		"MORT"
 	},
-    ["HUD_TEAMMATES"]="Alli\xE9s",
+	["HUD_SUSPECTS"]="Suspects",
+	["HUD_VICTIMS"]="Victimes",
+	["HUD_TEAMMATES"]="Alli\xE9s",
 	["HUD_KILLBY"]="Tuer par",
 	["HUD_STUPID"]="Votre stupidit\xE9".."e",
 	["HUD_SCORESTAB"]={

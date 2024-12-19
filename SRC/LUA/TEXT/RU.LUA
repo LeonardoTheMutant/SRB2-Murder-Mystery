@@ -189,7 +189,9 @@ MM.AddLang("RU", {
 		"\xC3C5\xD0CE\xC9", --GEROJ
 		"\xCCC5\xD0D2\xC2C5\xD6" --MERTWEC
 	},
-    ["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --Naparniki
+	["HUD_SUSPECTS"]="\xCFEE\xE4EE\xE7F0\xE5E2\xE0E5\xECFB\xE5", --Podozrewajemyje
+	["HUD_VICTIMS"]="\xC6E5\xF0F2\xE2FB", --Zhertwy
+	["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --Naparniki
 	["HUD_KILLBY"]="\xD3E1\xE8F2\xFB", --Ubity
 	["HUD_STUPID"]="\xE2E0\xF8E5\xE9 \xF2F3\xEFEE\xF1F2\xFCFE", --washej tupostiu
 	["HUD_SCORESTAB"]={
