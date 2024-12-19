@@ -226,11 +226,10 @@ MM.AddLang("ES", {
 		["WAIT"]="Esperando a que el rival acepte...",
 		["SPECTATING"]="Espectando un duelo...",
 		["BORED"]="Aburrido?",
-		["PONGBALL"]="Los espectadores pueden cambiar la direccion de la pelota"
+		["GOAL"]="Gol!"
 	},
     ["HUD_YOU"]="TU",
 	["HUD_WINNERS"]="Ganadores:",
-	["HUD_WON"]="ganaron!",
 	["HUD_WINS"]="Ganan",
 	["HUD_WIN"]={
 		"EMPATE!",

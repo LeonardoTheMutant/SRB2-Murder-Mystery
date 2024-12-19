@@ -451,12 +451,29 @@ end)
 --HUD.LUA
 --
 rawset(_G, "V_LoadPatch", function(v, patch)
+	assert(v, "V_LoadPatch() argument #1: Video drawer object expected")
+	assert(patch, "V_LoadPatch() argument #2: Patch graphic expected")
+	if (type(patch) != "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
+
+	if (MM.debug and MM.graphics[patch]) print("\x87Patch \x81"..patch.."\x87 is already loaded into memory") end
 	MM.graphics[patch] = v.cachePatch(patch)
 	if (MM.debug) print("Loaded patch \x81"..patch) end
 end)
 
+rawset(_G, "V_UnloadPatch", function(patch)
+	assert(patch, "V_UnloadPatch() argument #1: Patch graphic expected")
+	if (type(patch) != "string") then error("V_UnloadCharset() argument #1: Patch graphic name expected in string type") end
+
+	if (MM.graphics[patch])
+		MM.graphics[patch] = nil
+		if (MM.debug) print("Unloaded patch \x81"..patch) end
+	else
+		if (MM.debug) print("\x87Trying to unload patch \x81"..patch.."\x87 that is not in the memory!") end
+	end
+end)
+
 rawset(_G, "V_LoadCharset", function(v, name)
-	assert(v, "V_LoadCharset() argument #1: drawer variable expected")
+	assert(v, "V_LoadCharset() argument #1: Video drawer object expected")
 	assert(name, "V_LoadCharset() argument #2: Character Set prefix name expected")
 	if (type(name) != "string") then error("V_LoadCharset() argument #2: Character Set prefix name expected in string type") end
 
@@ -474,7 +491,7 @@ end)
 rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)
 	--Draw strings in Murder Mystery format with swapable ASCII table
 
-	assert(v, "V_DrawStrASCII() argument #1: drawer variable expected")
+	assert(v, "V_DrawStrASCII() argument #1: Video drawer object expected")
 	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected") end
 
 	if (small) small = 1
@@ -621,7 +638,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 	assert(MM.graphics.pixel, "Palette pixels are not initialized!")
 
-	assert(v, "V_DrawTextPatch() argument #1: drawer variable expected")
+	assert(v, "V_DrawTextPatch() argument #1: Video drawer object expected")
 	local x = x or 0
 	local y = y or 0
 	local xoff = xoff or 0 --X offset

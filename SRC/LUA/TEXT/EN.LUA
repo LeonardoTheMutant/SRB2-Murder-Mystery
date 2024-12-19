@@ -379,7 +379,7 @@ local language_data = { --Language must be a table variable, you can name the va
 		["WAIT"] = "Waiting for the rival to accept...",
 		["SPECTATING"] = "Spectating a duel...",
 		["BORED"] = "Bored?",
-		["PONGBALL"] = "Spectators can change the ball's direction"
+		["GOAL"]="Goal!"
 	},
 	["HUD_YOU"] = "YOU",
 

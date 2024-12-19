@@ -229,11 +229,10 @@ MM.AddLang("PL", {
 		["WAIT"]="Czekamy na odpowied\x9F przeciwnika...",
 		["SPECTATING"]="Ogl\xB9".."damy za pojedynkiem...",
 		["BORED"]="Nudzisz si\xEA?",
-		["PONGBALL"]="Jako widz mo\xBF".."esz zmienia\xE6 kierunek pilki"
+		["GOAL"]="Gol!"
 	},
     ["HUD_YOU"]="TY",
 	["HUD_WINNERS"]="Wygrani:",
-	["HUD_WON"]="zwyci\xEABFyl(a)!",
 	["HUD_WIN"]={
 		"REMIS!",
 		"\21M\xD3RDERCY",

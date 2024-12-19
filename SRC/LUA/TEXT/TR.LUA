@@ -239,11 +239,10 @@ MM.AddLang("TR", {
 		["WAIT"]="Rakibin kabul etmesi bekleniyor...",
 		["SPECTATING"]="Bir d\xFC".."ello izleniyor...",
 		["BORED"]="S\xFDkl\xFDnd\xFDn m\xFD?",
-		["PONGBALL"]="Seyirciler topun y\xF6n\xFCn\xFC de\xF0i\xFEtirebilir"
+		["GOAL"]="Gol!"
 	},
     ["HUD_YOU"]="SEN",
 	["HUD_WINNERS"]="Kazananlar:",
-	["HUD_WON"]="kazand\xFD!",
 	["HUD_WIN"]={
 		"BERABERE!",
 		"\21KAT\xDDLLER",

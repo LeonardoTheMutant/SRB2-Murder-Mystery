@@ -96,7 +96,7 @@ hud.add(function(v, p)
 	end
 
 	--Do not render the main HUD if it was disabled by another script
-	if (p.mm.help.active) or (p.mm.debugdrawer) or ((MM.twopgame and MM.minigame) or (not MM.twopgame and p.mm.minigame)) return end
+	if (p.mm.help.active) or (p.mm.debugdrawer) or ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame)) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -292,7 +292,7 @@ hud.add(function(v, p)
 				V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			elseif ((p.mm.minigame) and (not rival.mm.minigame))
 				V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				if (not p.mm.minigametimeout)
+				if (not p.mm.minigame.timeout)
 					V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 				end
 			elseif ((not p.mm.minigame) and (rival.mm.minigame) and (leveltime & 1))

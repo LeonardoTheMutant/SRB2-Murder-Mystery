@@ -69,17 +69,18 @@ hud.add(function(v, p)
 
 	charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
 
-	--Load Sonic Run backgrounds into memory
-	if (not #SonicRunBG)
-		for i = 0, 2 do
-			if (v.patchExists("SNCRNBG"..i)) then SonicRunBG[i] = v.cachePatch("SNCRNBG"..i) end
-		end
-	end
-
     --
 	-- SONIC RUN minigame renderer
 	--
     if ((p.mm.minigame) and ((p.spectator) or (PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
+		--Load Sonic Run graphics into memory (if not already loaded)
+		--Backgrounds
+		if (not #SonicRunBG)
+			for i = 0, 2 do
+				if (v.patchExists("SNCRNBG"..i)) then SonicRunBG[i] = v.cachePatch("SNCRNBG"..i) end
+			end
+		end
+
 		--CUSTOM3 related text
 		if (not p.mm.minigame.timeout)
 			V_DrawStrASCII_Right(v, 320, 0, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
@@ -197,9 +198,8 @@ hud.add(function(v, p)
 		else
 			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			if (not p.mm.minigame.timeout) then
-				V_DrawStrASCII(v, (320 - V_StrWidthASCII((MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), 0, 32768)), 4, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), 32768)
+				V_DrawStrASCII_Right(v, 320, 4, charset, (MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			end
-			V_DrawStrASCII_Center(v, 160, 152, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PONGBALL"), v.localTransFlag()) --spectator ball text
 		end
 
 		--TIME
@@ -221,7 +221,7 @@ hud.add(function(v, p)
 				V_DrawStrASCII_Center(v, 160, 160, charset, MM_GetText(consoleplayer.mm.lang, "HUD_WIN", 1), v.localTransFlag())
 			else
 				if (MM.duelplrs[MM.pong.winner].mm.role)
-					V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[MM.pong.winner].mm.role).."\16 "..MM_GetText(consoleplayer.mm.lang, "HUD_WON"), v.localTransFlag())
+					V_DrawStrASCII_Center(v, 160, 160, charset, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "GOAL"), v.localTransFlag())
 				end
 			end
 		end

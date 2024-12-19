@@ -84,23 +84,6 @@ local function PONG_ThinkCmd(p)
     --Paddle controls, supports analog controls from joypads (kinda)
     if (PONG_GetMySlot(p)) --You are one of the duel players
         MM.pong.pads[PONG_GetMySlot(p)] = $ - (p.cmd.forwardmove / 24)
-    else --you must be a spectator
-        --spectators are allowed to manipulate the ball :P
-        if (not p.mm.weapondelay)
-            if (p.cmd.forwardmove > 10) --up
-                MM.pong.velocity.y = -1
-                p.mm.weapondelay = TICRATE
-            elseif (p.cmd.forwardmove < 10) --down
-                MM.pong.velocity.y = 1
-                p.mm.weapondelay = TICRATE
-            elseif (p.cmd.sidemove > 10) --right
-                MM.pong.velocity.x = 1
-                p.mm.weapondelay = TICRATE
-            elseif (p.cmd.sidemove < 10) --left
-                MM.pong.velocity.x = -1
-                p.mm.weapondelay = TICRATE
-            end
-        end
     end
 end
 
@@ -236,15 +219,15 @@ addHook("PlayerThink", function(p)
     if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
 		if ((p.mm.help) and (p.mm.help.active)) return end
         if (not (p.lastbuttons & BT_CUSTOM3))
-            if (p.mm.minigame)
-                if (not p.mm.minigame.timeout) then p.mm.minigame = nil end
-                if (MM.minigame)
+            if (p.mm.minigame) --Disable minigame
+                if (not p.mm.minigame.timeout) p.mm.minigame = nil end --Disable only when the timeout timer is out
+                if (MM.minigame and PONG_GetMySlot(p)) --PONG-specific code
                     MM.duelplrs[1].mm.minigame = nil
                     MM.duelplrs[2].mm.minigame = nil
                     MM.pong.pads[1] = 32
                     MM.pong.pads[2] = 32
                 end
-            else
+            else --Enable minigame
                 p.mm.minigame = {timeout = 105}
                 SONIC_Reset(p)
             end

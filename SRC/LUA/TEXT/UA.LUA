@@ -229,11 +229,10 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
         ["WAIT"]="\xD7E5\xEAE0\xBAEC\xEE \xEDE0 \xE2B3\xE4EF\xEEE2\xB3F2\xFC \xEFF0\xEEF2\xE8E2\xEDE8\xEAE0...", --Czekajemo na widpowid' protywnyka...
         ["SPECTATING"]="\xCDE0\xE3EB\xFFE4\xFFBA\xECEE \xE7E0 \xE3F0\xEEFE...", --Nagliadajemo za groju...
         ["BORED"]="\xCDF3\xE4ED\xEE?", --nudno?
-        ["PONGBALL"]="\xC3EB\xFFE4\xE0F7\xB3 \xECEE\xE6F3\xF2FC \xE7EC\xB3ED\xFEE2\xE0F2\xE8 \xEAE5\xF0F3\xEDEE\xEA \xEC'\xFFF7\xE0" --Gliadachi mozhut' zminiuwaty kerunok m'jacha
+        ["GOAL"]="\xC3EE\xEB!" --Gol!
     },
     ["HUD_YOU"]="\xD2C8", --TY
     ["HUD_WINNERS"]="\xC2E8\xE3F0\xE0EB\xE8:", --Wygraly
-    ["HUD_WON"]="\xE2E8\xE3F0\xE0E2(\xEBE0)!", --Wygraw(la)!
     ["HUD_WIN"]={
         "\xCDB2\xD7C8\xDF!", --NICHYJA!
         "\21\xC2C1\xC8C2\xD6B2", --WBYWCI

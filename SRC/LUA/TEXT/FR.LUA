@@ -226,7 +226,7 @@ MM.AddLang("FR", {
 		["WAIT"]="En attente que le rival accepte...",
 		["SPECTATING"]="En train de regarder un duel...",
 		["BORED"]="Ennuyez?",
-		["PONGBALL"]="Les Spectateurs peuvent changer la direction de la balle."
+		["GOAL"]="But!"
 	},
     ["HUD_YOU"]="VOUS",
 	["HUD_WINNERS"]="GAGNANTS:",
