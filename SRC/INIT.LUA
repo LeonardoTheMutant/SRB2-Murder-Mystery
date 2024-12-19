@@ -38,15 +38,11 @@ rawset(_G, "MM", {
 		intermission = { --Intermisson HUD
 			pos = {
 				players = {y=32},
-				num = {x=16},
-				name = {x=48},
+				name = {x=24},
 				kills = {x=264},
 				players2 = {y=40},
-				num2 = {x=4},
-				name2 = {x=40},
+				name2 = {x=12},
 				kills2 = {x=132},
-				num3 = {x=4},
-				name3 = {x=24}
 			}
 		}
 	},

@@ -615,22 +615,17 @@ hud.add(function(v)
 	end
 	--everything else which is uncommon
 	if (PlayerCount() <= 8)
-		v.drawString(MM.hud.intermission.pos.num.x, MM.hud.intermission.pos.players.y, "\x82#", 0)
 		v.drawString(MM.hud.intermission.pos.name.x, MM.hud.intermission.pos.players.y, "\x82NAME", 0)
 		v.drawString(MM.hud.intermission.pos.kills.x, MM.hud.intermission.pos.players.y, "\x82KILLS", 0)
 	elseif (PlayerCount() > 8) and (PlayerCount() <= 16)
 		--players 1-8
-		v.drawString(MM.hud.intermission.pos.num2.x, MM.hud.intermission.pos.players.y, "\x82#", 0, "thin")
 		v.drawString(MM.hud.intermission.pos.name2.x, MM.hud.intermission.pos.players.y, "\x82NAME", 0, "thin")
 		--players 9-16
-		v.drawString((MM.hud.intermission.pos.num2.x + 160), MM.hud.intermission.pos.players.y, "\x82#", 0, "thin")
 		v.drawString((MM.hud.intermission.pos.name2.x + 160), MM.hud.intermission.pos.players.y, "\x82NAME", 0, "thin")
 	else
 		--players 1-16
-		v.drawString(MM.hud.intermission.pos.num3.x, MM.hud.intermission.pos.players.y, "\x82#", 0, "thin")
 		v.drawString(MM.hud.intermission.pos.name3.x, MM.hud.intermission.pos.players.y, "\x82NAME", 0, "thin")
 		--players 17-32
-		v.drawString((MM.hud.intermission.pos.num3.x + 160), MM.hud.intermission.pos.players.y, "\x82#", 0, "thin")
 		v.drawString((MM.hud.intermission.pos.name3.x + 160), MM.hud.intermission.pos.players.y, "\x82NAME", 0, "thin")
 	end
 
@@ -638,12 +633,10 @@ hud.add(function(v)
 
 	for i = 1, #plrs
 		if (PlayerCount() <= 8) --Regular mode
-			--Player number
-			v.drawString((MM.hud.intermission.pos.num.x), (MM.hud.intermission.pos.players.y + (i << 4)), i)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name.x - 20) << FRACBITS, (((MM.hud.intermission.pos.players.y - 4) + i << 4) << FRACBITS), 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].mm.role) and (plrs[i].mm.role >= 1))
+			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
 				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i << 4)), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE)
 			else
 				--DEAD
@@ -656,16 +649,14 @@ hud.add(function(v)
 				multiply.x = 160
 				multiply.y = -128
 			end
-			--Player number
-			v.drawString((MM.hud.intermission.pos.num2.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), i)
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name2.x + multiply.x - 20) << FRACBITS, ((MM.hud.intermission.pos.players.y - 4) + (i << 4) + multiply.y) << FRACBITS, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
+			v.drawScaled((MM.hud.intermission.pos.name.x + multiply.x - 20) << FRACBITS, ((MM.hud.intermission.pos.players.y - 4) + (i << 4) + multiply.y) << FRACBITS, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].mm.role) and (plrs[i].mm.role >= 1))
-				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 11), V_ALLOWLOWERCASE)
+			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
+				v.drawString((MM.hud.intermission.pos.name.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 11), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			end
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills2.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) + multiply.y), plrs[i].mm.kills)
@@ -675,19 +666,17 @@ hud.add(function(v)
 				multiply.y = -128
 			end
 			--back to the rows
-			--Player number
-			v.drawString((MM.hud.intermission.pos.num3.x + multiply.x), (MM.hud.intermission.pos.first2.y + (i << 3) + multiply.y), i, 0, "thin")
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name3.x + multiply.x - 10) << FRACBITS, ((MM.hud.intermission.pos.first2.y - 1) + (i << 3) + multiply.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
+			v.drawScaled((MM.hud.intermission.pos.name2.x + multiply.x - 10) << FRACBITS, ((MM.hud.intermission.pos.players2.y - 1) + (i << 3) + multiply.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
-			if ((plrs[i].role) and (plrs[i].mm.role >= 1))
-				v.drawString((MM.hud.intermission.pos.name3.x + multiply.x), (MM.hud.intermission.pos.first2.y + (i << 3) + multiply.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+			if ((plrs[i].role) and (plrs[i].mm.role > ROLE_NONE))
+				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) + multiply.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name3.x + multiply.x), (MM.hud.intermission.pos.first2.y + (i << 3) + multiply.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) + multiply.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills2.x + multiply.x), (MM.hud.intermission.pos.first2.y + (i << 3) + multiply.y), plrs[i].mm.kills, 0, "thin")
+			v.drawString((MM.hud.intermission.pos.kills2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) + multiply.y), plrs[i].mm.kills, 0, "thin")
 		end
 	end
 
