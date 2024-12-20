@@ -93,7 +93,7 @@ local function P_SetWeaponDelay(p, delay)
 
     --Decrease the delay for Knuckles
     --Note that Knuckles has this feature in the vanilla game too, I just copied this feature into MM
-	if (p.skin == 2)
+	if ((p.skin == 2) and (not autofireCVAR.value))
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
 		p.mm.weapondelay = ($ << 1)/3
