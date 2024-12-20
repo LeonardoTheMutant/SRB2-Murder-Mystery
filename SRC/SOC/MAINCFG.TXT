@@ -186,13 +186,14 @@ SelectHeading = LTM's Murder Mystery
 Act = 0
 TypeOfLevel = LTM_MM
 SkyNum = 40
-NextLevel = K0
+NextLevel = KH
 Lua.Author = LeoTM
 
 Level KH
-Levelname = * Empty *
+Levelname = Eggstation
+SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
 Act = 0
 TypeOfLevel = LTM_MM
 NextLevel = K0
-Lua.Author = None
+Lua.Author = Troplucky, LeoTM
