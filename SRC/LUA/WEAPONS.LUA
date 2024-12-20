@@ -114,7 +114,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     end
     if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay)
 		or (not p.mm.role) or ((MM.minigame) and (p.mm.minigame))
-		or (p.playerstate == PST_DEAD) or (p.spectator)
+		or (p.playerstate == PST_DEAD) or (p.spectator) or (p.mm.help and p.mm.help.active)
 	then return end
 
     if (not autofireCVAR.value) then p.pflags = $|PF_ATTACKDOWN end

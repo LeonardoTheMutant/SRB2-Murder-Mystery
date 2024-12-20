@@ -43,19 +43,19 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA) (th
 | Name | Return value | Description |
 | --- | --- | --- |
 | <code>**MM_InitPlayer**(*player_t* player)</code> | nil | Initialize the <code>player.mm</code> table with some MM userdata for the player. |
-| <code>**MM_AssignRoles**()</code> | nil | The main role assigner function. Called durring `MapLoad` hook and when another player joins the game with a single player online.<br>Iterates through all players and gives them the role of  **Murderer**, **Sheriff** or **Innocent** randomly. Then it tells the assigned role to each player personally. |
+| <code>**MM_AssignRoles**()</code> | nil | The main role assigner function. Called durring `MapLoad` hook and when another player joins the game with a single player online.<br>Iterates through all players and gives them the role of  **Murderer**, **Sheriff** or **Civilian** randomly. Then it tells the assigned role to each player personally. |
 | <code>**MM_GetRoleMultiplier**()</code> | nil | Get the number of the required role duplicates. It is primarily used in <code>**MM_AssignRoles()**</code> to understand how many players should share **Murderer** or **Sheriff** roles. It is also used to adjust the map timelimit when a level starts. |
 | <code>**MM_ChatprintGlobal**(*string* message_id, * var)</code> | nil | Works similarly to <code>**chatprint**()</code> but prints the message in player's language. Unlike <code>**chatprint**()</code> this function can print only the messages available in the multilingual <code>MM.text</code> table. Possible values for the arguments of this function are shown below in the [Constants](#constants) section (`WIN_*` constants). |
-| <code>**MM_TeammatesCount**(*player_t* player)</code> | *int* | Returns the number of teammates the player has.<br>*Note:* Do not use this function for Innocents as they are technically not in a team. |
-| <code>**MM_AreTeammates**(*player_t* player1, *player_t* player2)</code> | *boolean* | Compares if <code>player1</code> and <code>player2</code> are in the same team (Murderer team, Sheriff/Hero team).<br>*Note*: For Innocents this functions returns `false` because such team does not exist in the game. |
+| <code>**MM_TeammatesCount**(*player_t* player)</code> | *int* | Returns the number of teammates the player has.<br>*Note:* Do not use this function for Civilians as they are technically not in a team. |
+| <code>**MM_AreTeammates**(*player_t* player1, *player_t* player2)</code> | *boolean* | Compares if <code>player1</code> and <code>player2</code> are in the same team (Murderer team, Sheriff/Hero team).<br>*Note*: For Civilians this functions returns `false` because such team does not exist in the game. |
 | <code>**MM_KillPlayerByPlayer**(*mobj_t* player, [*mobj_t* attacker])</code> | nil | Kill <code>player</code> by making him *DEAD*. <code>attacker</code> is a player who killed the <code>player</code>, it is used to print the killer's name for the <code>player</code>. If the <code>attacker</code> is not specified the killer's name is `"your stupidity"` instead.<br>*Note:* Both <code>player</code> and <code>attacker</code> arguments have to be `mobj_t`! |
 | <code>**MM_KillPlayerByHazard**(*mobj_t* player, [*bool* spawnBody])</code> | nil | Similar to <code>MM_KillPlayer()</code> but is used to kill by the level hazard (crusher, death pit, drown). Set <code>spawnBody</code> to `true` to also spawn the dead body (does not spawn one by default).<br>*Note:* <code>player</code> argument has to be `mobj_t`! |
 | <code>**MM_HitTeammate**(*player_t* victim, *player_t* attacker)</code> | nil | Make <code>victim</code> being hit by a teammate <code>attacker</code>. This function prints personal messages to both <code>victim</code> and <code>attacker</code> to let them know that they are in one team and they should not hit each other next time. |
-| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. <code>w</code> specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Innocents). <code>winreason</code> is optional but can be one of the `WIN_*` constants. |
-| <code>**MM_StartSuspenseMusic**()</code> | *boolean* | Starts the Suspense music and returns `true` if there are no Sheriffs and no Heroes alive but one Innocent with at least one Sheriff's Emerald dropped. |
-| <code>**MM_StartShowdownMusic**()</code> | *boolean* | Starts one of the Showdown Duel tunes and returns `true` if there are no Innocents in the game.|
-| <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Innocents. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Innocent to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
-| <code>**MM_GetMMSHREMDinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Innocents' Sheriff Emerald radar. |
+| <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. <code>w</code> specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Civilians). <code>winreason</code> is optional but can be one of the `WIN_*` constants. |
+| <code>**MM_StartSuspenseMusic**()</code> | *boolean* | Starts the Suspense music and returns `true` if there are no Sheriffs and no Heroes alive but one Civilian with at least one Sheriff's Emerald dropped. |
+| <code>**MM_StartShowdownMusic**()</code> | *boolean* | Starts one of the Showdown Duel tunes and returns `true` if there are no Civilians in the game.|
+| <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Civilians. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Civilian to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
+| <code>**MM_GetMMSHREMDinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Civilians' Sheriff Emerald radar. |
 | <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from <code>timezone1</code> can happen in <code>timezone2</code>. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are `TIMEZONE_*` constants. |
 | <code>**MM_GetText**(*string* language, *string* line, [*string*/*int* parameter])</code> | *string* | A safe way to extract the strings from the global MM Text Table (<code>MM.text</code>) without crashing/erroring LUA. When all 3 arguments are given this function returns the value at <code>MM.text[language][line][parameter]</code>. If only <code>language</code> and <code>line</code> arguments are given the function returns the value from <code>MM.text[language][line]</code>. If the text is not found or the arguments are invalid a blank string is returned instead.<br>*Note:* Even if the expected return value is table, this function will return an empty string!<br>*In Debug Builds:* If the text can not be reached or invalid arguments are given an error is triggered with the details. |
 | <code>**MM_PunishPlayer**(*player_t* player, *string* message, [*boolean* ban?])</code> | *nil* | Kick player from the game or ban if <code>ban?</code> is set. <code>message</code> is the kick/ban message.<br>*Note:* If the player who is going to be punished is the host, SRB2 automatically closes for this player, causing the server to shut down. |
@@ -120,7 +120,7 @@ Here is the full list of MM constants:
 | `ROLE_NONE`     | 0     | No role  |
 | `ROLE_MURDERER` | 1     | Murderer |
 | `ROLE_SHERIFF`  | 2     | Sheriff  |
-| `ROLE_INNOCENT` | 3     | Innocent |
+| `ROLE_INNOCENT` | 3     | Civilian |
 | `ROLE_HERO`     | 4     | Hero     |
 
 ### Game messages (for <code>MM_ChatprintGlobal()</code>)
@@ -133,8 +133,8 @@ Here is the full list of MM constants:
 | `"SHERI_DIED_DROP"` | *string* | Same as `"SHERI_DIED"` but also tells that the *Sheriff's Emerald* is dropped |
 | `"LAST_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "The last player with `var` role has left the game!" |
 | `"ONE_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "One of the players with `var` role has left the game!" |
-| `"REPLACE_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "Player with the `var` role left the game! Some random Innocent will take his role!" |
-| `"INNO_HURT"` | *1* or *2* | "Innocent is hurt" global notice. The context of the message is different depending on who hit the Civilian: 1 - Sheriff, 2 - Hero. |
+| `"REPLACE_LEFT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "Player with the `var` role left the game! Some random Civilian will take his role!" |
+| `"INNO_HURT"` | *1* or *2* | "Civilian is hurt" global notice. The context of the message is different depending on who hit the Civilian: 1 - Sheriff, 2 - Hero. |
 | `"WIN"` | One of the [`WIN_*`](#win-reasons-win) constants | The end round message. `var` is the reason of the round end. |
 
 ### Win reasons
@@ -145,8 +145,8 @@ Win reasons for `MM_EndRound("WIN")` and `MM_ChatprintGlobal("WIN")` functions
 | ------------------- | ----- | ------------------------------------------- |
 | `WIN_MURD`          | 1     | Murderers killed everyone                   |
 | `WIN_CIVILS`        | 2     | Sheriffs & Heroes  eliminated all Murderers |
-| `WIN_SHERIKILLINNO` | 3     | Sheriff killed the last Innocent            |
-| `WIN_HEROKILLINNO`  | 4     | Hero killed the last Innocent               |
+| `WIN_SHERIKILLINNO` | 3     | Sheriff killed the last Civilian            |
+| `WIN_HEROKILLINNO`  | 4     | Hero killed the last Civilian               |
 | `WIN_NODEFENDERS`   | 5     | All Sheriffs and Heros are dead             |
 
 ### Time Zones

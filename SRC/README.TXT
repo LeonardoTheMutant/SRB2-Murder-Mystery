@@ -35,11 +35,10 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 
 
 
-============================================================
- "LeonardoTheMutant's Murder Mystery" is made by SRB2MM_DEV
-============================================================
+===================================================================================================
+===--- "LeonardoTheMutant's Murder Mystery" is made by these people from the SRB2MM_DEV team ---===
+===================================================================================================
 
-SRB2MM_DEV team is:
   LeonardoTheMutant  - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian & Polish translator, Ambassador of Europe
   MinusMario         - "The Veteran of MM", Music Composer
   Troplucky          - "The Official Bob representative in MM", Mapper, Music management, French translator

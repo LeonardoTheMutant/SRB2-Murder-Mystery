@@ -12,9 +12,9 @@ local tech_info = {
 	"\nChanges from\17 10.1-BETA\16:",
 	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
-	"\20Discord (SRB2MM_DEV team):\ndiscord.com/invite/UgG8h2djFE\16\n",
-	"\22GitHub:\ngithub.com/LeonardoTheMutant/SRB2-Murder-Mystery\16\n",
-	"\27Website:\nleonardothemutant.github.io/SRB2-Murder-Mystery\16\n"
+	"\16Discord (\20SRB2MM community\16):\n\20www.discord.com/invite/UgG8h2djFE\n",
+	"\16GitHub:\n\22www.github.com/LeonardoTheMutant/\nSRB2-Murder-Mystery\n",
+	"\16Website:\n\27leonardothemutant.github.io/\nSRB2-Murder-Mystery\n"
 }
 
 --MMHELP console command
@@ -55,16 +55,12 @@ COM_AddCommand("mmhelp", function(p, page)
 		return
 	end
 
-	if (not MM.debug)
-		CONS_Printf(p, "The text of the game manual is being rewritten and is currently unavaiable, sorry") --Prerelease/Debug
-		return
-	end
-
 	--MMHELP GUI
 	--load HELP page
-	if (tonumber(page))
-		if (MM.text[p.mm.lang]["MMHELP"][tonumber(page)])
-			p.mm.help.page = tonumber(page)
+	local pageInt = tonumber(page)
+	if (pageInt)
+		if (pageInt <= (#MM.text[p.mm.lang]["MMHELP"] + 1))
+			p.mm.help.page = pageInt
 			p.mm.help.pos = 1
 		else p.mm.help.page = 1 end
 	end
@@ -107,12 +103,12 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 				langIncomp = $ + 1
 				arg2 = "\x85 (INCOMPATIBLE)"
 			end
-			if (MM.text[lang]["NONASCII"]) then arg3 = "* " end
-			CONS_Printf(p, arg3..lang..arg1..arg2)
+			if (MM.text[lang]["NONASCII"]) then arg3 = "\x89* " end
+			CONS_Printf(p, arg3.."\x88"..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
-		if (nonascii) then CONS_Printf(p, "\n* \x80Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
+		if (nonascii) then CONS_Printf(p, "\n\x89* Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
 		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
@@ -146,7 +142,7 @@ local realPagelen
 local function V_InsertToBuffer(player, array)
 	for i, line in ipairs(array) do
 		local wordWrapTemp = WordWrapString(line, scrnColumns)
-		for lineWrap = 1, #wordWrapTemp do table.insert(player.buffer, wordWrapTemp[lineWrap]) end
+		for lineWrap = 1, #wordWrapTemp do table.insert(player.mm.help.buffer, wordWrapTemp[lineWrap]) end
 	end
 end
 
@@ -160,7 +156,7 @@ addHook("PlayerThink", function(p)
 
 		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
 
-		p.mm.buffer = {}
+		p.mm.help.buffer = {}
 
 		if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["MMHELP"])
 			V_InsertToBuffer(p, MM_GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
@@ -171,9 +167,9 @@ addHook("PlayerThink", function(p)
 		end
 
 		if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
-			p.pflags = $|PF_ATTACKDOWN --this does not help to stop the fire
+			p.pflags = $|PF_ATTACKDOWN
 			p.mm.help.active = false
-			return --this also doesn't
+			return
 		end
 
 		if (p.cmd.buttons & BT_JUMP) --JUMP, up
@@ -187,7 +183,7 @@ addHook("PlayerThink", function(p)
 			if (not (p.lastbuttons & BT_SPIN))
     	    	p.mm.help.pos = $ + 1
     	    	--hit the end of the page
-    	    	if (p.mm.help.pos + scrnRows > (#p.buffer + 1)) then p.mm.help.pos = $ - 1 end
+    	    	if (p.mm.help.pos + scrnRows > (#p.mm.help.buffer + 1)) then p.mm.help.pos = $ - 1 end
 			end
     	end
 
@@ -225,13 +221,13 @@ hud.add(function(v, p)
 	v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0x10], V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
 		
 	for i = -3, 3
-		v.draw(((i*320) - (leveltime%320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
-		v.draw(((i*320) + (leveltime%320)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
+		v.draw(((i * 320) - (leveltime % 320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
+		v.draw(((i * 320) + (leveltime % 320)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
 	end
 
 	--draw the data from the screen buffer
-	for lineID = p.mm..help.pos, #p.mm.buffer do
-		stringToRender = p.mm.buffer[lineID]
+	for lineID = p.mm.help.pos, #p.mm.help.buffer do
+		stringToRender = p.mm.help.buffer[lineID]
 
 		--draw the line character-by-character
 		for charID = 1, stringToRender:len() do
@@ -240,12 +236,12 @@ hud.add(function(v, p)
 			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
 			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096
 
-			--print the character
+			--draw the character
 			if (chr > 0x7F) --Extended ASCII
 				if (MM.graphics.charset[charset][chr])
 					v.draw((cx << 3), (cy << 3), MM.graphics.charset[charset][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
-				else --unknown symbol, print "?"
-					v.drawString((cx << 3), (cy << 3), "?", V_SNAPTOTOP|V_SNAPTOLEFT)
+				else --unknown symbol, draw "?"
+					v.draw((cx << 3), (cy << 3), MM.graphics.charset["STCFN"][0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				end
 			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
 				v.draw((cx << 3), (cy << 3), MM.graphics.charset["STCFN"][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
@@ -267,11 +263,11 @@ hud.add(function(v, p)
 	--scrollBarHeight = v.height()/v.dupy() - 16
 	--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
 
-	if ((#p.mm.buffer + 1 - scrnRows) <= 0) realPagelen = 1
-	else realPagelen = #p.mm.buffer + 1 - scrnRows end
+	if ((#p.mm.help.buffer + 1 - scrnRows) <= 0) realPagelen = 1
+	else realPagelen = #p.mm.help.buffer + 1 - scrnRows end
 
-	--scrollstep = #p.mm.buffer/scrnRows * scrollBarHeight
-	--v.drawFill(312, ((p.mm.help.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.mm.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
+	--scrollstep = #p.mm.help.buffer/scrnRows * scrollBarHeight
+	--v.drawFill(312, ((p.mm.help.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.mm.help.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
 
 	v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 

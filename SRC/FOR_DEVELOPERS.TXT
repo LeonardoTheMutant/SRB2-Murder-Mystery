@@ -58,7 +58,7 @@ MM language file in LUA format.
 
 Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. You can take /SRC/LUA/TEXT/EN.LUA as the template file for your language
 I tried my best to make the tutorial about languages in that template understandable but if you have questions you
-can always ask us in our SRB2MM_DEV Discord (or even on GitHub).
+can always ask us in our SRB2MM Discord (or even on GitHub).
 
 If you're new to the LUA you can freely use our code for educational purposes
 
