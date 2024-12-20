@@ -11,4 +11,4 @@
 - Change the extended map names from MAPK# to MAPM# ("K" stands for Killer, "M" - Murder/Mystery)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
 - Include the documanetation explaining the technical details for mappers
-- Digitize the entire MIDI soundtrack
+- Digitize the entire MIDI soundtrack and move the files to the separate branch
