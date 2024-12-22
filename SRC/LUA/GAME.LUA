@@ -365,8 +365,12 @@ addHook("PlayerThink", function(p)
 		p.mo.flags = $ & ~MF_NOGRAVITY
 	end
 
-	--the game automatically removes the spectator flag if the player dies by map hazard (which lets him respawn), we don't want that to happen
-	if (p.mm.killername == "your stupidity") p.spectator = true end
+	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn), we don't want that to happen
+	--this is a very dirty hack but this is the only way I found to force being dead
+	if (p.mm.killername == "your stupidity")
+		p.playerstate = PST_DEAD
+		p.spectator = true
+	end
 
 	--role flickering timer
 	if (p.mm.hud.roleflicker) p.mm.hud.roleflicker = $ - 1 end
@@ -489,7 +493,7 @@ end)
 
 if tsourdt3rd
 	addHook("KeyDown", function(keyevent)
-		if (keyevent.num == 9) and (CV_FindVar("automapoutsidedevmode").value) and (gametype == GT_LTMMURDERMYSTERY)
+		if (keyevent.num == 9) and ((CV_FindVar("automapoutsidedevmode") and CV_FindVar("automapoutsidedevmode").value) or (CV_FindVar("tsourdt3rd_debug_automapanywhere") and CV_FindVar("tsourdt3rd_debug_automapanywhere").value)) and (gametype == GT_LTMMURDERMYSTERY)
 			COM_BufInsertText(consoleplayer, "QUIT")
 		end
 	end)

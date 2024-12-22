@@ -240,7 +240,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	elseif (p.skin == "amy") body.state = S_AMMDEAD
 	elseif (p.skin == "fang") body.state = S_FMMDEAD
 	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-	else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
+	else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton (I really should ban them)
 	body.color = p.color
 
 	if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
@@ -264,7 +264,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		elseif (p.skin == "amy") body.state = S_AMMDEAD
 		elseif (p.skin == "fang") body.state = S_FMMDEAD
 		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton(I really should ban them)
+		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton (I really should ban them)
 		body.color = p.color
 
 		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
