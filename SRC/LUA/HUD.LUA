@@ -96,8 +96,8 @@ hud.add(function(v, p)
 		V_LoadCharset(v, "1254C") --Windows1254
 	end
 
-	--Do not render the main HUD if it was disabled by another script
-	if (p.mm.help.active) or (p.mm.debugdrawer) or ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame)) return end
+	--Do not render the main HUD if it was disabled by another (MM) script
+	if (p.mm.help.active) or (p.mm.debugdrawer) or ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame) or (p.spectator and p.mm.minigame)) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -269,7 +269,7 @@ hud.add(function(v, p)
 				V_DrawStrASCII(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), charset, "\21"..MM_GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\16 "..p.mm.killername, hudinfo[HUD_RINGS].f)
 			end
 		end
-		if ((not p.mm.minigame) and (not MM.twopgame) and (not MM.minigame))
+		if ((not p.mm.minigame) and (not MM.minigame))
 			V_DrawStrASCII_Right(v, 320, 0, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			V_DrawStrASCII_Right(v, 320, 4, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			V_DrawStrASCII_Right(v, 320, 8, charset, MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)

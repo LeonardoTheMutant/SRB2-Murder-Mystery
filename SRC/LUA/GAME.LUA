@@ -25,6 +25,7 @@ addHook("MapLoad", function(map)
 	--Prepare players & server for the new round
 	for p in players.iterate
 		MM_InitPlayer(p)
+		p.mm.minigame = nil
 		p.spectator = false
 	end
 
@@ -34,6 +35,7 @@ addHook("MapLoad", function(map)
 	MM.shremds = {}
 	MM.susnce = false
 	MM.shwdwn = false
+	MM.minigame = false
 
 	--Time limit
 	if (timelimit) --Swapping the vanilla TIMELIMIT CVAR value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
