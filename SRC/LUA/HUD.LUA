@@ -517,20 +517,26 @@ hud.add(function(v)
 		--Draw the player list
 		--Suspects/Victims label
 		if (consoleplayer.mm.role and (consoleplayer.mm.role == ROLE_MURDERER))
-			V_DrawStrASCII(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 8), charset, "\18"..MM_GetText(consoleplayer.mm.lang, "HUD_VICTIMS")..":", v.localTransFlag())
+			V_DrawStrASCII(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), charset, "\18"..MM_GetText(consoleplayer.mm.lang, "HUD_VICTIMS")..":", v.localTransFlag())
 		else
-			V_DrawStrASCII(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 8), charset, "\18"..MM_GetText(consoleplayer.mm.lang, "HUD_SUSPECTS")..":", v.localTransFlag())
+			V_DrawStrASCII(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), charset, "\18"..MM_GetText(consoleplayer.mm.lang, "HUD_SUSPECTS")..":", v.localTransFlag())
 		end
 
 		--The list itself
 		local multiply = {x=0, y=0}
 		local plrs = {}
 		for p in players.iterate do
-			if ((not p.spectator) and (not MM_AreTeammates(consoleplayer, p)) and (p != consoleplayer)) then table.insert(plrs, p) end
+			if ((not p.spectator) and (not MM_AreTeammates(consoleplayer, p)) and (consoleplayer != p) and (not p.quittime)) then table.insert(plrs, p) end
 		end
 		for i = 1, #plrs do
-			if (i > 16) then multiply = {x=140, y=128} end
-			v.drawString((MM.hud.scores.pos.playerInfo.x + multiply.x), (MM.hud.scores.pos.playerInfo.y - multiply.y + (i << 3)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE)
+			if (PlayerCount() <= 20) --Regular ("Double column") mode
+				if (i > 10) then multiply = {x=140, y=80} end
+				v.drawString((MM.hud.scores.pos.playerInfo.x + multiply.x), (MM.hud.scores.pos.playerInfo.y - multiply.y + (i << 3)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE)
+			else --Compact ("Tripple column") mode
+				if (i > 11) then multiply = {x=94, y=88}
+				elseif (i > 22) then multiply = {x=188, y=88} end
+				v.drawString((MM.hud.scores.pos.playerInfo.x + multiply.x), (MM.hud.scores.pos.playerInfo.y - multiply.y + (i << 3)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE, "thin")
+			end
 		end
 
 		--Teammates tracker
@@ -687,7 +693,7 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name2.x + multiply.x - 10) << FRACBITS, ((MM.hud.intermission.pos.players2.y - 1) + (i << 3) - multiply.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
-			if ((plrs[i].role) and (plrs[i].mm.role > ROLE_NONE))
+			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
 				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) - multiply.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD
