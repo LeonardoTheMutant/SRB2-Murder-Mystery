@@ -125,6 +125,9 @@ local function VarChange(v) --callback function called by CV_CALL flag
 	if (v.name == "mm_abilities")
 		if (v.value) print("\x87Murder Mystery\x80: Skin abilities are Enabled (no limits)")
 		else print("\x87Murder Mystery\x80: Skin abilities are Disabled (\"Regular person\" mode)") end
+	elseif (v.name == "mm_allowshields")
+		if (v.value) print("\x87Murder Mystery\x80: Player shields got enabled. \x81Good luck surviving them.")
+		else print("\x87Murder Mystery\x80: Disabled player shields") end
 	elseif (v.name == "mm_wepconfig")
 		local sentences = {
 			[0] = "All weapons enabled",
@@ -154,6 +157,7 @@ CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV
 CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+CV_RegisterVar({name = "mm_allowshields", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 

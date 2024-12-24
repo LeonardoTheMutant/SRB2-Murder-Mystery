@@ -56,7 +56,6 @@ rawset(_G, "MM_InitPlayer", function(p)
 
 	if (not p.mm) then p.mm = {} end
 	p.mm.kills = 0
-	p.mm.killername = false
 	p.mm.weapondelay = 0
 	p.mm.camping = 0
 	p.mm.chatdelay = 0
@@ -222,6 +221,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	if ((not k) or (not k.player)) error("MM_KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
+	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
 	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
@@ -252,6 +252,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	if ((not p) or (not p.player)) error("MM_KillPlayerByHazard() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
+	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
 	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
 	plr.mm.killername = "your stupidity"

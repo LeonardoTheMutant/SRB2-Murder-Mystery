@@ -5,9 +5,10 @@
 -- The main logic script of the LTM's Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, AFK logic, and round endings
 
-local afkCVAR = CV_FindVar("mm_afk")
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
+local afkCVAR = CV_FindVar("mm_afk")
 local crypticCVAR = CV_FindVar("mm_cryptic")
+local shieldsCVAR = CV_FindVar("mm_allowshields")
 
 local shremd_distances, shremd_interval, shremd_closest
 
@@ -87,6 +88,9 @@ addHook("PlayerSpawn", function(p)
 
 	if (not p.mm.afk) then p.mm.afk = 0 end --Anti-AFK
 	if (not p.mm.help) then p.mm.help = {page = 1, pos = 1, active = false} end --MMHELP UI init
+
+	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
+	if (p.mm.killername == "your stupidity") then p.spectator = true end
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
@@ -360,19 +364,11 @@ end, MT_SHREMD)
 addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 	
-	p.powers[3] = 0 --disable shields completely
+	--Disable player shields
+	if (not shieldsCVAR.value) then p.powers[pw_shield] = 0 end
 
-	if (not p.spectator)
-		--for some reason when switching back from spectator MF_NOGRAVITY flag isn't removed by SRB2
-		p.mo.flags = $ & ~MF_NOGRAVITY
-	end
-
-	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn), we don't want that to happen
-	--this is a very dirty hack but this is the only way I found to force being dead
-	if (p.mm.killername == "your stupidity")
-		p.playerstate = PST_DEAD
-		p.spectator = true
-	end
+	--for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
+	if (not p.spectator) then p.mo.flags = $ & ~MF_NOGRAVITY end
 
 	--role flickering timer
 	if (p.mm.hud.roleflicker) p.mm.hud.roleflicker = $ - 1 end
