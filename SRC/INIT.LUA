@@ -3,7 +3,7 @@ if (MM)
 	return
 end
 rawset(_G, "MM", {
-	version = "1.0-ALPHA", --string, VERSION NUMBER
+	version = "1.0", --string, VERSION NUMBER
 	debug = true, --boolean, if set to true, enable the debug functionality in MM
 	builddate = "N/A", --string, meant to contain the day of the build
 	RoleColor = {
@@ -162,67 +162,14 @@ CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 
 --
---MM startup init
+--Boot sequence
 --
 print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
---Freeslot Gametype, Sheriff's Emerald & Knife object
-freeslot('TOL_LTM_MM', 'MT_SHREMD', 'MT_MMKNIFE', 'SPR_STEPA0', 'S_MMSTEP', 'MT_MMSTEP')
-G_AddGametype({
-	name = "LTM_MM",
-	identifier = "LTMMURDERMYSTERY",
-	typeoflevel = TOL_LTM_MM,
-	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
-	intermissiontype = int_match,
-	headerleftcolor = 37,
-	headerrightcolor = 153,
-	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, prevent the murders as \x84Sheriff\x80 and survive as \x83Innocent\x80!"
-})
-freeslot('sfx_mmdth1', 'sfx_mmdth2', 'sfx_mmdth3', 'sfx_mmdth4', 'sfx_mmdth5', 'sfx_mmdth6', 'sfx_mmdth7')
+--Freeslot
+dofile("FREESLOT.LUA")
 
---Sheriff Drop Emerald
-mobjinfo[MT_SHREMD]={
-	spawnstate = S_CEMG3,
-	deathstate = S_SPRK1,
-	deathsound = sfx_cgot,
-	radius = 1048576, --16*FU
-	height = 1048576, --16*FU
-	flags = MF_SPECIAL
-}
-
---Knife weapon
-mobjinfo[MT_MMKNIFE]={
-	spawnstate = S_SPRK1,
-	radius = 4194304, --64*FU
-	height = 3145728, --48*FU
-	flags = MF_NOGRAVITY|MF_SPECIAL
-}
-
---State for footstep mark
-states[S_MMSTEP]={
-	sprite = SPR_STEPA0,
-	frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A,
-	tics = 700, --20 seconds
-	nextstate = S_NULL
-}
-
---Footstep mark
-mobjinfo[MT_MMSTEP] = {
-	spawnstate = S_MMSTEP,
-	height = 1,
-	flags = MF_NOGRAVITY
-}
-
---Death SFX captions
-sfxinfo[sfx_mmdth1].caption = "\19 Good Night"
-sfxinfo[sfx_mmdth2].caption = "Killed"
-sfxinfo[sfx_mmdth3].caption = "Killed"
-sfxinfo[sfx_mmdth4].caption = "Killed"
-sfxinfo[sfx_mmdth5].caption = "OH NO!"
-sfxinfo[sfx_mmdth6].caption = "Pain"
-sfxinfo[sfx_mmdth7].caption = "Moonwalker"
-
---Load the text and all translations (they have to be loaded first)
+--Load the text and all translations (they have to be loaded before the scripts)
 print("\n\x87Murder Mystery\x80: Loading text...")
 dofile("TEXT/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
 dofile("TEXT/ES.LUA")

@@ -4,25 +4,23 @@ freeslot("MT_8BALL", "S_8BALL", "SPR_8BAL")
 
 --The 8-Ball
 mobjinfo[MT_8BALL] = {
+    --$Title 8-Ball
+    --$Sprite 8BALA0
+    --$Flags8Text Static?
+    --$Arg0 Static?
+    --$Arg0Type 11
+    --$Arg0Enum {0="False"; 2="True";}
+    --$NotAngled
     doomednum = 468,
     spawnstate = S_8BALL,
-    spawnhealth = 1000,
-    reactiontime = 8,
-    speed = 12*FU,
-    radius = 16*FU,
-    height = 32*FU,
-    mass = 50,
+    speed = 786432, --12*FU
+    radius = 1048576, --16*FU
+    height = 2097152, --32*FU
     activesound = sfx_statu2,
     flags = MF_SOLID|MF_SLIDEME|MF_PUSHABLE
 }
 
 states[S_8BALL] = {SPR_8BAL, 0, -1, nil, 0, 0, S_8BALL} -- S_RJETGLOOK1
-
-addHook("MobjThinker", function(ball)
-    if valid(ball)
-	    if (ball.eflags & MFE_UNDERWATER) A_ZThrust(ball, 1001, 0) end
-	end
-end, MT_8BALL)
 
 addHook("MapThingSpawn", function(mobj, mapthing)
     if (mapthing.options & MTF_AMBUSH) mobj.flags = $ & ~MF_PUSHABLE end

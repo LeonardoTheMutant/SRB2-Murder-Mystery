@@ -159,7 +159,7 @@ addHook("MapLoad", function(map)
 	else
 		TimeTravel_ShiftY2 = 0
 	end
-	if (MM.debug) and ((TimeTravel_ShiftX) or (TimeTravel_ShiftY) or (TimeTravel_ShiftX2) or (TimeTravel_ShiftY2))
+	if (MM.debug) and (TimeTravel_ShiftX or TimeTravel_ShiftY or TimeTravel_ShiftX2 or TimeTravel_ShiftY2)
 		print("\x82Map's Time Travel shift values")
 		print("X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
 		print("Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")
@@ -222,6 +222,12 @@ end)
 --
 
 --Future
+addHook("MapThingSpawn", function(mo) --Do not spawn the sign outside Murder Mystery
+	if (gametype != GT_LTMMURDERMYSTERY)
+		mo.state = 0
+		return true
+	end
+end, MT_TIMESIGN_F)
 addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
@@ -241,6 +247,12 @@ addHook("MobjThinker", function(mo)
 end, MT_TIMESIGN_F)
 
 --Past
+addHook("MapThingSpawn", function(mo) --Do not spawn the sign outside Murder Mystery
+	if (gametype != GT_LTMMURDERMYSTERY)
+		mo.state = 0
+		return true
+	end
+end, MT_TIMESIGN_P)
 addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 

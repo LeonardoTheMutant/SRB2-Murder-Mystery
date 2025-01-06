@@ -335,6 +335,15 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 end, MT_PLAYER)
 
 --
+-- Dead player body spawner (Map thing type 666)
+--
+addHook("MapThingSpawn", function(mo, mapthing)
+    mo.state = S_MMSKELT + mapthing.args[0]
+    mo.color = mapthing.args[1]
+    return true
+end, MT_DEADPLR)
+
+--
 -- Sheriff's Emerald pickup logic
 --
 addHook("TouchSpecial", function(special, toucher)
@@ -436,7 +445,7 @@ addHook("SeenPlayer", function(p, sp) --player, seenplayer
 end)
 
 --
--- Intermission Thinker
+-- Intermission logic
 --
 addHook("IntermissionThinker", do
 	if (gametype != GT_LTMMURDERMYSTERY) return end
@@ -455,7 +464,7 @@ addHook("IntermissionThinker", do
 end)
 
 --
--- Intermission ending theme switcher
+-- Music handler
 --
 addHook("MusicChange", function(old, new)
     if (gametype != GT_LTMMURDERMYSTERY) return end
@@ -474,7 +483,7 @@ addHook("MusicChange", function(old, new)
 			if (MM.winreason == 1) return "007WTC" --Goldeneye 007 "Watch theme"
 			elseif (MM.winreason == 2) return "FD2INT" --Freedoom: Phase 2 "Intermission"
 			elseif (MM.winreason == 3) return "GASTER" --Undertale "Gaster's theme"
-			elseif (MM.winreason == 4) return "11H_IN" --Main theme of "The 11th Hour: The sequel to The 7th Guest"
+			elseif (MM.winreason == 4) return "11H_IN" --The 11th Hour: The sequel to The 7th Guest "Dolls of Doom"
 			elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
 			else return "PBW_DC" end --Pokemon Black & White "Driftevil City"
 		end
@@ -482,7 +491,7 @@ addHook("MusicChange", function(old, new)
 end)
 
 --
--- Quit Handler
+-- Player Quit/Leave handler
 --
 addHook("PlayerQuit", function(p)
 	if ((gametype != GT_LTMMURDERMYSTERY) or (gamestate != GS_LEVEL)) return end

@@ -1,4 +1,4 @@
-# List of functions and constants for LTM's Murder Mystery `1.0-ALPHA`
+# List of functions and constants for LTM's Murder Mystery `1.0`
 
 This document contains the description of some important and globaly defined functions as well as constants which are used in Murder Mystery's LUA source code.
 

@@ -1,4 +1,4 @@
-# MM Userdata structure for LTM's Murder Mystery `1.0-ALPHA`
+# MM Userdata structure for LTM's Murder Mystery `1.0`
 
 This document describes the structure of the MM data
 

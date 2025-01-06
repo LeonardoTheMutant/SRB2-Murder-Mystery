@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="1.0-ALPHA"
+VERSION="1.0"
 BUILDDATE=$(date +"%d%m%y")
 
 if [ -d "/media/ramdisk" ]; then

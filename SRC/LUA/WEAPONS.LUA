@@ -230,3 +230,54 @@ addHook("TouchSpecial", function(special, toucher)
     P_DamageMobj(toucher, special, special.target)
     return true
 end, MT_MMKNIFE)
+
+-- Weapon Ring Panel despawner
+-- Works only when Weapon Configuration has "Red only" flag set everywhere
+
+--Bounce
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_BOUNCEPICKUP)
+
+--Rail
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_RAILPICKUP)
+
+--Automatic
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_AUTOPICKUP)
+
+--Explosion
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_EXPLODEPICKUP)
+
+--Scatter
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_SCATTERPICKUP)
+
+--Grenade
+addHook("MapThingSpawn", function(m)
+	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+		m.state = 0
+		return true
+	end
+end, MT_GRENADEPICKUP)

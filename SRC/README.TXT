@@ -7,7 +7,7 @@ ADD-ON TECHNICAL INFORMATION
 Add-On name       | LeonardoTheMutant's Murder Mystery
                   | (formely "SRB2 Murder Mystery")
                   |
-Add-On version    | 1.0-ALPHA
+Add-On version    | 1.0
 Add-On type       | New gametype
 REUSABLE          | Yes
                   |

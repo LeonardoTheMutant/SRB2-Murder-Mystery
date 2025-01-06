@@ -1,7 +1,9 @@
---FOOTSTEPS.LUA
+-- FOOTSTEPS.LUA
 --
---Original fork of the Modern Sonic's footstep engine available at:
---https://mb.srb2.org/addons/footsteps.1378/
+-- Original fork of the Modern Sonic's footstep engine available at:
+-- https://mb.srb2.org/addons/footsteps.1378/
+--
+-- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
 freeslot(
 "sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln",

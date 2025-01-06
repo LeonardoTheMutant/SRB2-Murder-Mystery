@@ -187,18 +187,10 @@ end)
 rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
 	local ShiftX
 	local ShiftY
-	--local ShiftX2
-	--local ShiftY2
 	if (mapheaderinfo[gamemap].timetravel_shiftx) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX = tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
 	else ShiftX = 0 end
 	if (mapheaderinfo[gamemap].timetravel_shifty) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY = tonumber(mapheaderinfo[gamemap].timetravel_shifty)
 	else ShiftY = 0 end
-	/*
-	if (mapheaderinfo[gamemap].timetravel_shiftx2) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)) ShiftX2 = tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)
-	else ShiftX2 = 0 end
-	if (mapheaderinfo[gamemap].timetravel_shifty2) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty2)) ShiftY2 = tonumber(mapheaderinfo[gamemap].timetravel_shifty2)
-	else ShiftY2 = 0 end
-	*/
 
 	if (ShiftX) or (ShiftY)
 		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
@@ -208,12 +200,6 @@ rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (T
 			end
 		end
 	end
-	/*
-	if ((ShiftX2) or (ShiftY2)) and (MM_IsTimelineCorrect(t, TIMEZONE_FUTURE_GOOD))
-		local body = P_SpawnMobjFromMobj(p, ShiftX2, ShiftY2, 0, MT_DEADPLR)
-		body.state = S_MMSKELT
-	end
-	*/
 end)
 
 rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T)

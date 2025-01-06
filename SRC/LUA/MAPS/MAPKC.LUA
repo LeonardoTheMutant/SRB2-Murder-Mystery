@@ -3,7 +3,8 @@
 --Original map idea by Trilobyte Inc.
 --SRB2 map port & code by LeonardoTheMutant
 
-freeslot('sfx_clkstr')
+freeslot('sfx_clktic', 'sfx_clkstr')
+sfxinfo[sfx_clktic].caption = "Clock tick"
 sfxinfo[sfx_clkstr].caption = "Clock strikes"
 
 local currMinute, finished, timeout, strike, notset
