@@ -92,7 +92,6 @@ hud.add(function(v, p)
 		V_LoadCharset(v, "STCFN") --"Standart Console Font", built-in SRB2 set
 		V_LoadCharset(v, "1250C") --Windows1250
 		V_LoadCharset(v, "1251C") --Windows1251
-		--V_LoadCharset(v, "1253C") --Windows1253
 		V_LoadCharset(v, "1254C") --Windows1254
 	end
 

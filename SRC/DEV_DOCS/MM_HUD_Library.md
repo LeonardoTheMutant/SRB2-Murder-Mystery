@@ -146,43 +146,6 @@ Cyrillic languages such as Russian, Ukrainian, Belarussian, Bulgarian, Macedonia
 
 <hr>
 
-### Windows1253 (1253C)
-
-Based on [Windows1253](https://wikipedia.org/wiki/Windows-1253) codepage.
-Greek alphabet
-
-<table>
-    <tr>
-        <th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
-    </tr>
-    <tr>
-        <th>8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-        <th>9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-        <th>A</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-        <th>B</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-        <th>C</th><td>ΐ</td><td>Α</th><td>Β</th><td>Γ</th><td>Δ</th><td>Ε</th><td>Ζ</td><td>Η</td><td>Θ</td><td>Ι</td><td>Κ</td><td>Λ</td><td>Μ</td><td>Ν</td><td>Ξ</td><td>Ο</td>
-    </tr>
-    <tr>
-        <th>D</th><td>Π</td><td>Ρ</td><td></td><td>Σ</td><td>Τ</td><td>Υ</td><td>Φ</td><td>Χ</td><td>Ψ</td><td>Ω</td><td>Ϊ</td><td>Ϋ</td><td>ά</td><td>έ</td><td>ή</td><td>ί</td>
-    </tr>
-    <tr>
-        <th>E</th><td>ΰ</td><td>α</td><td>β</td><td>γ</td><td>δ</td><td>ε</td><td>ζ</td><td>η</td><td>θ</td><td>ι</td><td>κ</td><td>λ</td><td>μ</td><td>ν</td><td>ξ</td><td>ο</td>
-    </tr>
-    <tr>
-        <th>F</th><td>π</td><td>ρ</td><td>ς</td><td>σ</td><td>τ</td><td>υ</td><td>φ</td><td>χ</td><td>ψ</td><td>ω</td><td>ϊ</td><td>ϋ</td><td>ό</td><td>ύ</td><td>ώ</td><td></td>
-    </tr>
-</table>
-
-<hr>
-
 ### Windows1254 (1254C)
 
 Based on [Windows1254](https://wikipedia.org/wiki/Windows-1254) codepage.
