@@ -495,15 +495,13 @@ hud.add(function(v)
 	end
 
 	hud.disable("rankings")
-	
-	v.drawString(160, 0, "GAMETYPE IN DEVELOPMENT, VERSION "..MM.version, V_SNAPTOTOP|v.localTransFlag(), "center") --Prerelease/Debug
 
 	local charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
 
-	V_DrawStrASCII_Center(v, 160, 12, charset, "\17"..MM_GetText(consoleplayer.mm.lang, "MM"), v.localTransFlag())
+	V_DrawStrASCII_Center(v, 160, 12, charset, "\23"..MM_GetText(consoleplayer.mm.lang, "MM"), v.localTransFlag())
 
 	--Player list
-	if (crypticCVAR.value)
+	if ((crypticCVAR.value) or (PlayerCount() == 1))
 		--Draw some text to replace the list
 		if (MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
 			for y,i in ipairs(MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
@@ -710,7 +708,7 @@ hud.add(function(v)
 		V_DrawStrASCII_Center(v, 160, 176, charset, MM_GetText(consoleplayer.mm.lang, "HUD_WINNERS").." "..MM_GetText(consoleplayer.mm.lang, "HUD_WIN", (MM.winner + 1)))
 	end
 
-	v.drawString(0, 184, "MM PREVIEW\nv"..MM.version, V_RETURN8|V_ALLOWLOWERCASE|V_SNAPTOBOTTOM|V_SNAPTOLEFT) --Prerelease/Debug
+	--Prerelease/Debug
 	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 	--THANK GOD IT ENDED
 end, "intermission")

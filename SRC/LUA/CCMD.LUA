@@ -211,8 +211,8 @@ hud.add(function(v, p)
 	if not (p.mm) or not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not ((MM.graphics) and (MM.graphics.pixel))) or (gametype != GT_LTMMURDERMYSTERY) return end
 		
 	--init everything
-	local cx = 0
-	local cy = 0
+	local x = 0
+	local y = 0
 	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
 	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
 	local charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
@@ -231,7 +231,7 @@ hud.add(function(v, p)
 		stringToRender = p.mm.help.buffer[lineID]
 
 		--draw the line character-by-character
-		for charID = 1, stringToRender:len() do
+		for charID = 1, #stringToRender do
 			chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
 
 			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
@@ -240,22 +240,22 @@ hud.add(function(v, p)
 			--draw the character
 			if (chr > 0x7F) --Extended ASCII
 				if (MM.graphics.charset[charset][chr])
-					v.draw((cx << 3), (cy << 3), MM.graphics.charset[charset][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					v.draw(x, y, MM.graphics.charset[charset][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				else --unknown symbol, draw "?"
-					v.draw((cx << 3), (cy << 3), MM.graphics.charset["STCFN"][0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					v.draw(x, y, MM.graphics.charset["STCFN"][0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				end
 			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-				v.draw((cx << 3), (cy << 3), MM.graphics.charset["STCFN"][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
+				v.draw(x, y, MM.graphics.charset["STCFN"][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
 			--position shifting for the next character
-			if (chr > 0x1F) then cx = $ + 1 end --make place for the next non-color character
+			if (chr > 0x1F) then x = $ + 8 end --make place for the next non-color character
 		end
 
 		--line is drawn, prepare everything for the next one
-		cx = 0
-		cy = $ + 1
-		if (cy >= scrnRows) then break end --Trying to draw out of screen bounds, stop rendering here
+		x = 0
+		y = $ + 8
+		if (y >= (scrnRows << 3)) then break end --Trying to draw out of screen bounds, stop rendering here
 	end
 
 	--scroll bar

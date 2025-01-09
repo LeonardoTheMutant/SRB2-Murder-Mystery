@@ -824,7 +824,7 @@ end)
 
 --spawn Sheriff Emerald
 rawset(_G, "MM_SpawnSHREMD", function(x, y, z, timezone)
-	if (x == nil) or (y == nil) or (z == nil) or (timezone == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, int timezone)") end
+	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, [int timezone])") end
 	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
 	if (timezone) mo.timezone = timezone end
 	table.insert(MM.shremds, (#MM.shremds + 1), mo)

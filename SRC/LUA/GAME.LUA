@@ -61,6 +61,15 @@ addHook("MapLoad", function(map)
 	MM_AssignRoles()
 end)
 
+--
+-- Dead player body spawner (Map thing type 666)
+--
+addHook("MapThingSpawn", function(mo, mapthing)
+    mo.state = S_MMSKELT + mapthing.args[0]
+    mo.color = mapthing.args[1]
+    return true
+end, MT_DEADPLR)
+
 -- Custom TIMELIMIT code
 -- An alternative to SRB2's built-in TIMELIMIT
 addHook("ThinkFrame", function()
@@ -333,15 +342,6 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 	MM_StartShowdownMusic()
 	return true
 end, MT_PLAYER)
-
---
--- Dead player body spawner (Map thing type 666)
---
-addHook("MapThingSpawn", function(mo, mapthing)
-    mo.state = S_MMSKELT + mapthing.args[0]
-    mo.color = mapthing.args[1]
-    return true
-end, MT_DEADPLR)
 
 --
 -- Sheriff's Emerald pickup logic
