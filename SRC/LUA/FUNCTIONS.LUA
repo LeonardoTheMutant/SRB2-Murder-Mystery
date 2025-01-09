@@ -1,32 +1,7 @@
 -- FUNCTIONS.LUA
 -- Code by LeonardoTheMutant, Jisk and Tedvin11
 --
--- Function declarations
-
---
---CONSTANTS
---
-local death_sfx = { --SFXs that are used as Death Sounds
-	sfx_mmdth1, --Super Mario World: Game Over theme
-	sfx_mmdth2, --Among Us: Death theme
-	sfx_mmdth3, --DOOM: Doomguy death 1
-	sfx_mmdth4, --DOOM: Doomguy death 2
-	sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
-	sfx_mmdth6, --Pain meme sfx
-	sfx_mmdth7  --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
-}
-
-local shwdwn_music = { --Tracks used as Showdown Duel themes
-	"DRMBM2", --Dr. Robotnik's Mean Bean Machine: 2 Player Vs.
-	--"RBYILL", --Sonic Mania: "Ruby Illusions"
-	"RDBSTR", --Deltarune: "Rude Buster" (by Toby Fox)
-	"S2MSBS", --Sonic 2 (Master System): Boss
-	"S2GGBS", --Sonic 2 (Game Gear): Boss
-	--"SSBLBS", --Sonic Spinball: Boss
-	"SSBLSD", --Sonic Spinball: "Showdown"
-	"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
-	"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
-}
+-- Main logic functions & MM HUD Library
 
 --
 -- GLOBAL PLAYER COUNTING FUNCTIONS
@@ -231,7 +206,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 
 	if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
-	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end)
 
 rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
@@ -259,7 +234,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
 	
-	S_StartSound(nil, death_sfx[P_RandomKey(#death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end)
 
 rawset(_G, "MM_TeammatesCount", function(p)
@@ -393,7 +368,7 @@ rawset(_G, "MM_StartShowdownMusic", function()
 		if (mapheaderinfo[gamemap].showdowntrack and S_MusicExists(mapheaderinfo[gamemap].showdowntrack))
 			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
 		else
-			MM.shwdwn = shwdwn_music[P_RandomKey(#shwdwn_music) + 1]
+			MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1]
 		end
 		S_ChangeMusic(MM.shwdwn, true)
 		return true
@@ -554,7 +529,7 @@ rawset(_G, "V_ConvertStringColor", function(str)
 	local chr
 	for i = 1, #str
 		chr = string.byte(str:sub(i,i))
-		if (chr >= 128) then strng[i] = string.char(((chr % 0x80) % 0x10) + 0x0F)
+		if (chr >= 128) then strng[i] = string.char(((chr & 0x7F) & 0x0F) + 0x0F)
 		else strng[i] = str:sub(i,i) end
 	end
 	return table.concat(strng)
@@ -693,9 +668,8 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 	return width
 end)
 
---Perfomance heavy Text Patch manipulation functions
---Useful only for the static images
-/*
+--Perfomance heavy Text Patch manipulation function!
+--Useful only for the static images!
 rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
 	assert(patch, "V_ShiftTextPatch() argument #1: patch text data expected")
 	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
@@ -724,6 +698,8 @@ rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
 	return buffer
 end)
 
+--Perfomance heavy Text Patch manipulation function!
+--Useful only for the static images!
 rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine, endLine)
 	assert(patch, "V_CropTextPatch() argument #1: patch text data expected")
 	if (startColumn < 0) then error("V_CropTextPatch() argument #2: positive starting column position value expected") end
@@ -751,6 +727,8 @@ rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine,
 	return buffer
 end)
 
+--Perfomance heavy Text Patch manipulation function!
+--Useful only for the static images!
 rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, startLine, height)
 	assert(patch, "V_CropTextPatch_Relative() argument #1: patch text data expected")
 	if (not startColumn) then startColumn = 1 end
@@ -782,7 +760,7 @@ rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, start
 
 	return buffer
 end)
-*/
+
 
 --
 --MINIGAME.LUA

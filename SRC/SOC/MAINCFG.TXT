@@ -153,7 +153,6 @@ Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
 Lua.TimeTravel_ShiftY2 = 0
 Lua.Timelimit = 10
 NextLevel = KE
-Lua.ShowdownTrack = RBYILL
 Lua.Author = LeoTM
 
 Level KE
@@ -166,7 +165,7 @@ SkyNum = 6
 Weather = 2
 TypeOfLevel = LTM_MM
 NextLevel = KF
-Lua.ShowdownTrack = MGSENC
+Lua.ShowdownTrack = MGS_DL
 Lua.Author = Konami, Hideo Kojima, LeoTM
 
 Level KF

@@ -2,6 +2,7 @@ if (MM)
 	error("SRB2 (LTM's) Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
+
 rawset(_G, "MM", {
 	version = "1.0", --string, VERSION NUMBER
 	debug = true, --boolean, if set to true, enable the debug functionality in MM
@@ -52,6 +53,18 @@ rawset(_G, "MM", {
 		0, --Sheriff (Normal)
 		0, --Murderer (Duel)
 		0  --Sheriff (Duel)
+	},
+	shwdwn_music = { --Tracks used as Showdown Duel themes
+		"DRMBM2", --Dr. Robotnik's Mean Bean Machine: "2 Player Vs."
+		"PWAAPR", --Phoenix Wright Ace Atourney: "Pressing Pursuit"
+		"PWTTPR", --Phoenix Wright: Trials and Tribulations: "Pressing Pursuit"
+		"RDBSTR", --Deltarune: "Rude Buster" (by Toby Fox)
+		"S2MSBS", --Sonic 2 (Master System): "Boss"
+		"S2GGBS", --Sonic 2 (Game Gear): "Boss"
+		--"SSBLBS", --Sonic Spinball: "Boss"
+		"SSBLSD", --Sonic Spinball: "Showdown"
+		"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
+		"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
 	susnce = false, --currently playing Suspense track

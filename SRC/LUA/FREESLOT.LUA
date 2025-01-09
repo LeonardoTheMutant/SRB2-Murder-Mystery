@@ -173,6 +173,16 @@ sfxinfo[sfx_mmdth5].caption = "OH NO!"
 sfxinfo[sfx_mmdth6].caption = "Pain"
 sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 
+MM.death_sfx = { --Add the SFX to the global table
+    sfx_mmdth1, --Super Mario World: Game Over theme
+    sfx_mmdth2, --Among Us: Death theme
+    sfx_mmdth3, --DOOM: Doomguy death 1
+    sfx_mmdth4, --DOOM: Doomguy death 2
+    sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
+    sfx_mmdth6, --Pain meme sfx
+    sfx_mmdth7  --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
+}
+
 --Maps
 sfxinfo[sfx_fallin].caption = "Falling..."
 sfxinfo[sfx_aldi].caption = "\19 I AM AT ALDI"
