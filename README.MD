@@ -15,7 +15,7 @@ A port of the popular multiplayer game in a form of a new gametype for [Sonic Ro
   <img src="https://img.shields.io/discord/1075825170658381926?logo=discord" alt="chat on Discord"></a>
 
 ## Overview
-*(There is supposed to be a short explanation of the game with some gameplay screenshots, feel free to contribute to this section)*
+The goal of the game is to locate and neutralise the Murderer(s) before they kill everyone. Looking for dead bodies and alerting the Sherrif(s) for any discrepancies, try to survive!
 
 ## How to build a **.PK3** file out of this repository
 
