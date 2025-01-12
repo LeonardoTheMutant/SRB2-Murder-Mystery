@@ -9,24 +9,32 @@
 char hexByte[3];
 int int_symbol;
 unsigned char hexWritten;
+char compressionARG = 0; //boolean
+unsigned char argvIndex;
 
 int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("HEX2LUA raw_hex_data [-c]\n");
+        printf("%s raw_hex_data [-c]\n", argv[0]);
         printf("Convert the raw hexadecimal data to C or LUA-compatible code\n");
         printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
         return 0;
+    } else {
+        for (unsigned char x = 0; x < argc; x++)
+        {
+            if (!strcmp(argv[x], "-c")) compressionARG = 1;
+			else argvIndex = x;
+        }
     }
 
     hexWritten = 0;
-    for (int i = 0; i < (strlen(argv[1]) >> 1); i++)
+    for (int i = 0; i < (strlen(argv[argvIndex]) >> 1); i++)
     {
-        strncpy(hexByte, (argv[1] + (i*2)), 2); //extract the 2-digit hexadecimal number from the user input
+        strncpy(hexByte, (argv[argvIndex] + (i*2)), 2); //extract the 2-digit hexadecimal number from the user input
         int_symbol = (int)strtol(hexByte, NULL, 16); //since we extracted the number as a Cstring we need it in INT form
 
-        if ((int_symbol >= 0x20) && (int_symbol < 127) && ((argc > 2) && (argv[2][0] == '-')))
+        if ((int_symbol >= 0x20) && (int_symbol < 127) && compressionARG)
         {
             //compression enabled, we can print the character directly (if possible)
             if (hexWritten && (((int_symbol >= 0x41) && (int_symbol <= 0x46)) || ((int_symbol >= 0x61) && (int_symbol <= 0x66))))

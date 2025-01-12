@@ -3,6 +3,7 @@
 // Code by LeoardoTheMutant
 
 #include <stdio.h>
+#include <string.h>
 
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
@@ -10,6 +11,8 @@ typedef unsigned int uint32_t;
 
 FILE *patchfile;
 FILE *outputfile;
+uint8_t compressionARG = 0; //Enable output compression
+uint8_t argvIndex;
 uint32_t columnPointer; //adress of the POST in a patch file
 uint8_t currPixel;      //value of the current pixel
 uint8_t hexWritten;     //Number of Hexadecimal numbers written to the output file in a row
@@ -27,25 +30,32 @@ uint8_t dummy;    //dummy bytes
 
 int main(int argc, char *argv[])
 {
+	//Read argv
     if (argc < 2)
     {
-        printf("PATCH2TXT patch_file [-c]\n");
+        printf("%s patch_file [-c]\n", argv[0]);
         printf("Convert the Patch in DOOM GFX Format to LUA-compatible code\n");
 		printf("Output will be written to ./OUTPUT.LUA\n");
         printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
         return 0;
-    }
+    } else {
+		for (uint8_t x = 0; x < argc; x++)
+		{
+			if (!strcmp(argv[x], "-c")) compressionARG = 1;
+			else argvIndex = x;
+		}
+	}
 
 	//
 	// READ AND CONVERSION
 	//
 
-    patchfile = fopen(argv[1], "rb"); //Open file in read-only binary mode
-	
-    if (patchfile == NULL) //failed to open?
+	patchfile = fopen(argv[argvIndex], "rb"); //Open file in read-only binary mode
+
+    if (!patchfile) //failed to open?
     {
-        printf("ERROR: Failed to open the patch file\n");
-        return 1;
+    	printf("ERROR: Failed to open the patch file\n");
+    	return 1;
     }
 
     //get the image width
@@ -149,7 +159,7 @@ int main(int argc, char *argv[])
 		for (uint32_t column = 0; column < patchWidth; column++)
 		{
 			currPixel = pixels[row][column];
-			if ((((currPixel >= 0x20) && (currPixel <= 0x2F)) || ((currPixel >= 0x47) && (currPixel <= 0x5A)) || ((currPixel >= 0x67) && (currPixel <= 0x7A))) && ((argc > 2) && (argv[2][0] == '-'))) //check if the compressiion option enabled (dash would be enough)
+			if ((((currPixel >= 0x20) && (currPixel <= 0x2F)) || ((currPixel >= 0x47) && (currPixel <= 0x5A)) || ((currPixel >= 0x67) && (currPixel <= 0x7A))) && compressionARG) //check if the compressiion option enabled
 			{
 				//compression enabled, type the printable character
 				if (hexWritten && (((currPixel >= 0x41) && (currPixel <= 0x46)) || ((currPixel >= 0x61) && (currPixel <= 0x66))))

@@ -8,7 +8,8 @@
 #include <ctype.h>
 
 char hexByte[3];
-unsigned char spaceArg;
+char spaceArg = 1; //bolean
+unsigned char argvIndex;
 
 void printHex(char chr, int doSpace)
 {
@@ -26,44 +27,47 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("LUA2HEX lua_string [-p]\n");
+        printf("%s lua_string [-p]\n", argv[0]);
         printf("Convert the C or LUA-compatible string to raw hexadecimal data\n");
-        printf("\n -p  Do not place spaces between each byte in the output\n");
+        printf("\n -c  Compress the output by not including spaces between each byte\n");
         return 0;
+    } else {
+        for (unsigned char x = 0; x < argc; x++)
+        {
+            if (!strcmp(argv[x], "-c")) spaceArg = 0;
+            else argvIndex = x;
+        }
     }
 
-    if ((argc > 2) && (argv[2][0] == '-')) spaceArg = 0;
-    else spaceArg = 1;
-
-    for (int i = 0; i < strlen(argv[1]); i++) {
-        if ((argv[1][i] == 0x5C) && ((i + 3) < strlen(argv[1])) && (argv[1][i + 1] == 0x78))
+    for (int i = 0; i < strlen(argv[argvIndex]); i++) {
+        if ((argv[argvIndex][i] == 0x5C) && ((i + 3) < strlen(argv[argvIndex])) && (argv[argvIndex][i + 1] == 0x78))
         {
             //hit an Escape Code sequence
             i += 2; //skip "\x"
 
             //Is it two byes Escape Code?
-            if (((i + 3) < strlen(argv[1])) && isxdigit(argv[1][i]) && isxdigit(argv[1][i + 1]) && isxdigit(argv[1][i + 2]) && isxdigit(argv[1][i + 3]))
+            if (((i + 3) < strlen(argv[argvIndex])) && isxdigit(argv[argvIndex][i]) && isxdigit(argv[argvIndex][i + 1]) && isxdigit(argv[argvIndex][i + 2]) && isxdigit(argv[argvIndex][i + 3]))
             {
                 //First byte
-                strncpy(hexByte, (argv[1] + i), 2);
+                strncpy(hexByte, (argv[argvIndex] + i), 2);
                 print(hexByte, spaceArg);
                 i += 2;
 
                 //Second byte
-                strncpy(hexByte, (argv[1] + i), 2);
+                strncpy(hexByte, (argv[argvIndex] + i), 2);
                 print(hexByte, spaceArg);
                 i += 1;
             }
             //Is it one byte Escape Code?
-            else if (((i + 1) < strlen(argv[1])) && isxdigit(argv[1][i]) && isxdigit(argv[1][i + 1]))
+            else if (((i + 1) < strlen(argv[argvIndex])) && isxdigit(argv[argvIndex][i]) && isxdigit(argv[argvIndex][i + 1]))
             {
-                strncpy(hexByte, (argv[1] + i), 2);
+                strncpy(hexByte, (argv[argvIndex] + i), 2);
                 print(hexByte, spaceArg);
                 i += 1;
             }
         } else {
             //The symbol is not a part of an Escape Code - print the character in HEX
-            printHex(argv[1][i], spaceArg);
+            printHex(argv[argvIndex][i], spaceArg);
         }
     }
     printf("\n");
