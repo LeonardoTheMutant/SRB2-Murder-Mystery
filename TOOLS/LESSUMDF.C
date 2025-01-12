@@ -48,16 +48,16 @@ int main(int argc, char *argv[])
     {
         printf("%s wad_file\n", argv[0]);
         printf("Compress the UMDF map data in WAD by removing unnesesary characters from the TEXTMAP lump\n");
-		printf("Output will be written to ./OUTPUT.WAD\n");
+        printf("Output will be written to ./OUTPUT.WAD\n");
         printf("\nMake sure to have a copy of the old file!\n");
         return 0;
     }
 
     //
-	// WAD READING AND EXTRACTING
-	//
-
-	inputWAD = fopen(argv[1], "rb");
+    // WAD READING AND EXTRACTING
+    //
+    
+    inputWAD = fopen(argv[1], "rb");
     if (!inputWAD)
     {
     	printf("ERROR: Failed to open the WAD file\n");

@@ -130,6 +130,22 @@ states[S_MMMDEAD]={
     nextstate = S_MMMDEAD,
 }
 
+--Superguide state
+states[S_GMMDEAD]={
+    sprite = SPR_GDED,
+    frame = A,
+    tics = -1,
+    nextstate = S_GMMDEAD,
+}
+
+--Bob state
+states[S_BMMDEAD]={
+    sprite = SPR_BDED,
+    frame = A,
+    tics = -1,
+    nextstate = S_MMMDEAD,
+}
+
 --Dead body object
 mobjinfo[MT_DEADPLR]={
     --$Title Dead player body
