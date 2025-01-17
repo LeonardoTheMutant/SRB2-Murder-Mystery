@@ -107,14 +107,14 @@ MM.AddLang("TR", {
 		"\x82Kahraman\x87, Masum'u oldurerek kotu adam olmaya karar verdi. Şimdi ikisi de olu yatiyor. Boyle bir kahramana yaziklar olsun"
 	},
     ["ONE_LEFT"]={
-		"\x85Katillerden\x80 biri kaldi!",
-		"\x84Seriflerden\x80 biri kaldi!!!",
+		"\x85Katillerden\x80 biri cikti!",
+		"\x84Seriflerden\x80 biri cikti!!!",
 		"\x82Kahramanlardan\x80 biri bizi terk etti!"
 	},
     ["LAST_LEFT"]={
-		"Son bir \x85Katil\x80 kaldi!",
-		"Son bir \x84Serif\x80 kaldi!",
-		"Son bir \x82Kahraman\x80 kaldi!"
+		"Son bir \x85Katil\x80 cikti!",
+		"Son bir \x84Serif\x80 cikti!",
+		"Son bir \x82Kahraman\x80 cikti!"
 	},
     ["REPLACE_LEFT"]={
 		"\x85Katil\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
