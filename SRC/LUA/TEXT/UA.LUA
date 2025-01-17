@@ -105,17 +105,17 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
         "\x84Sheryf\x80 wbyw Newynnu osobu! Komus' z\x83 Cywil'nych\x80 dowedet'sia zakinchyty jogo robotu!",
         "\x82Geroj\x80 wbyw myrnu\x83 Cywilnu\x80. Teper dwoje lezhat' mertwi. Sorom geroju"
     },
-    ["ONE_LEFT"]={
+    ["ONE_QUIT"]={
         "Odyn z \x85Wbywc'\x80 pokynuw gru!",
         "Odyn z \x84Sheryfiw\x80 pokynuw gru!",
         "Odyn z \x82Gerojiw\x80 pokynuw nas!"
     },
-    ["LAST_LEFT"]={
+    ["LAST_QUIT"]={
         "Ostannij \x85Wbywcia\x80 pokynuw gru!",
         "Ostannij \x84Sheryf\x80 pokynuw gru!",
         "Ostannij \x82Geroj\x80 pokynuw gru!"
     },
-    ["REPLACE_LEFT"]={
+    ["REPLACE_QUIT"]={
         "\x85Wbywcia\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!",
         "\x84Sheryf\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!",
         "\x82Geroj\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!"

@@ -140,7 +140,7 @@ rawset(_G, "MM_ChatprintGlobal", function(msg, var)
 			chatprintf(p, MM_GetText(p.mm.lang, "HERO_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "SHERI_DIED_DROP")
 			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD")..". "..MM_GetText(p.mm.lang, "SHERI_KILLED", 3))
-		elseif ((msg == "LAST_LEFT") or (msg == "ONE_LEFT") or (msg == "REPLACE_LEFT"))
+		elseif ((msg == "LAST_QUIT") or (msg == "ONE_QUIT") or (msg == "REPLACE_QUIT"))
 			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mm.lang, msg, var)) --for Murd and Sheri
 			else chatprintf(p, MM_GetText(p.mm.lang, msg, 3)) end --for Hero
 		elseif (msg == "WIN")
@@ -272,45 +272,45 @@ rawset(_G, "MM_PlayerQuit", function(p)
 	if (p.mm.role == ROLE_MURDERER)
 		p.mm.role = ROLE_NONE
 		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_INNOCENT) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
-			MM_EndRound(0, "LAST_LEFT", ROLE_MURDERER)
+			MM_EndRound(0, "LAST_QUIT", ROLE_MURDERER)
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_MURDERER)
+			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_MURDERER)
 			MM_SetRandomInnoAs(ROLE_MURDERER, 1)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_MURDERER)
+			MM_ChatprintGlobal("ONE_QUIT", ROLE_MURDERER)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 		end
 	elseif (p.mm.role == ROLE_SHERIFF)
 		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
-			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_SHERIFF)
-			else MM_EndRound(0, "LAST_LEFT", ROLE_SHERIFF) end
+			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_SHERIFF)
+			else MM_EndRound(0, "LAST_QUIT", ROLE_SHERIFF) end
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_SHERIFF)
+			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_SHERIFF)
 			MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_SHERIFF)
+			MM_ChatprintGlobal("ONE_QUIT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
 	elseif (p.mm.role == ROLE_HERO)
 		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
-			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_LEFT", ROLE_HERO)
-			else MM_EndRound(0, "LAST_LEFT", ROLE_HERO) end
+			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_HERO)
+			else MM_EndRound(0, "LAST_QUIT", ROLE_HERO) end
 		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_LEFT", ROLE_HERO)
+			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_HERO)
 			MM_SetRandomInnoAs(ROLE_HERO, 3)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 		else
-			MM_ChatprintGlobal("ONE_LEFT", ROLE_HERO)
+			MM_ChatprintGlobal("ONE_QUIT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
 	elseif (p.mm.role == ROLE_INNOCENT)
 		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_LEFT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
+			MM_EndRound(0, "LAST_QUIT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
 		end
 	end
 

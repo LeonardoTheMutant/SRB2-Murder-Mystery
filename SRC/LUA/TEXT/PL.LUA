@@ -109,17 +109,17 @@ MM.AddLang("PL", {
 		"\x84Szeryfie\x80 zamordowales Cywila! Ktos z\x83 Cywilow\x80 musi dokonczyc robote!",
 		"\x82".."Bohater\x80 jest skurwielem, zabil spokojnego\x83 Cywila\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
 	},
-    ["ONE_LEFT"]={
+    ["ONE_QUIT"]={
 		"Jeden z \x85Mordercow\x80 wyszedl!",
 		"Jeden z \x84Szeryfow\x80 wyszedl!",
 		"Jeden z\x82 Bohaterow\x80 zostawil nas!"
 	},
-    ["LAST_LEFT"]={
+    ["LAST_QUIT"]={
 		"Ostatni \x85Mordercow\x80 wyszedl!",
 		"Ostatni \x84Szeryfow\x80 wyszedl!",
 		"Ostatni\x82 Bohaterow\x80 wyszedl!"
 	},
-    ["REPLACE_LEFT"]={
+    ["REPLACE_QUIT"]={
 		"\x85Morderca\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!",
 		"\x84Szeryf\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!",
 		"\x82".."Bohater\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!"

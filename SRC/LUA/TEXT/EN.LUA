@@ -209,21 +209,21 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	-- "One of the [role]s left!"
-	["ONE_LEFT"] = {
+	["ONE_QUIT"] = {
 		"One of the \x85Murderers\x80 left!", --Murderer
 		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
 		"One of the \x82Heroes\x80 has abandoned us!" --Hero
 	},
 
 	-- "Last [role] left!"
-	["LAST_LEFT"] = {
+	["LAST_QUIT"] = {
 		"The last \x85Murderer\x80 has left!", --Murderer
 		"The last \x84Sheriff\x80 has left!", --Sheriff
 		"The last \x82Hero\x80 has left!" --Hero
 	},
 
 	-- "[role] left, replaced him"
-	["REPLACE_LEFT"] = {
+	["REPLACE_QUIT"] = {
 		"The \x85Murderer\x80 left! Some random\x83 Civilian\x80 will take their role!", --Murderer
 		"The \x84Sheriff\x80 left! Some random\x83 Civilian\x80 will take their role!", --Sheriff
 		"A \x82Hero\x80 left! Some random\x83 Civilian\x80 will take their role!" --Hero

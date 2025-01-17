@@ -102,17 +102,17 @@ MM.AddLang("ES", {
 		"The \x84Sheriff\x80 murdered an \x83Innocent\x80! Someone else should finish the job!",
 		"El \x82Heroe\x80 es un pendejo, ha matado a un \x83Inocente\x80. Ahora ambos estan muertos en el suelo. Que verguenza \x82Pendejo\x80"
 	},
-    ["ONE_LEFT"]={
+    ["ONE_QUIT"]={
 		"Uno de los\x85 Asesinos\x80 se fue!",
 		"Uno de los\x84 Comisarios\x80 se fue!!!",
 		"Uno de los \x82Heroes\x80 nos ha abandonado!"
 	},
-    ["LAST_LEFT"]={
+    ["LAST_QUIT"]={
 		"El ultimo\x85 Asesino\x80 se fue!",
 		"El ultimo\x84 Comisario\x80 se fue!",
 		"El ultimo \x82Heroe\x80 se fue!"
 	},
-    ["REPLACE_LEFT"]={
+    ["REPLACE_QUIT"]={
 		"El\x85 Asesino\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!",
 		"El\x84 Comisario\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!",
 		"Un \x82Heroe\x80 se fue! Algun \x83Inocente\x80 al azar tomara su rol!"

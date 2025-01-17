@@ -112,17 +112,17 @@ MM.AddLang("RU", {
 		"\x84Sherif\x80 ubil\x83 Cyvilnogo\x80! Nado poruchit' delo komu-to drugomu!",
 		"\x82Geroy\x80 zhostko tupanul i ubil\x83 Cyvilnogo\x80. I shas oni oba lezhat dohlye. Vot zhe\x82 Debil\x80"
 	},
-    ["ONE_LEFT"]={
+    ["ONE_QUIT"]={
 		"Odin iz \x85Ubiyts\x80 pokinul igru!",
 		"Odin iz \x84Sherifov\x80 vyshel!!!",
 		"Odin iz \x82Geroev\x80 predal nas (pokinul igru)!"
 	},
-    ["LAST_LEFT"]={
+    ["LAST_QUIT"]={
 		"Posledniy iz \x85Ubiyts\x80 pokinul igru!",
 		"Posledniy iz \x84Sherifov\x80 pokinul igru!",
 		"Posledniy iz \x82Geroev\x80 pokinul igru!"
 	},
-    ["REPLACE_LEFT"]={
+    ["REPLACE_QUIT"]={
 		"\x85Ubiytsa\x80 pokinul igru! Yego rol' vozmyot sluchayniy\x83 Cyvilniy\x80!",
 		"\x84Sherif\x80 pokinul igru! Yego rol' vozmyot sluchayniy\x83 Cyvilniy\x80!",
 		"\x82Geroy\x80 pokinul igru! Yego rol' vozmyot sluchayniy\x83 Cyvilniy\x80!"
