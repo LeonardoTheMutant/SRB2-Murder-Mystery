@@ -59,9 +59,8 @@ COM_AddCommand("mmduel",function()
 	else MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1] end
 	S_ChangeMusic(MM.shwdwn,true)
 end)
-COM_AddCommand("mmcharset",function(p, set) --Draw all characters from the Extended ASCII character set
-	if (not set) CONS_Printf(p,"\x87MMCHARSET\x80 [characterset_prefix]") end
-	p.mm.debugdrawer=set
+COM_AddCommand("mmcharset",function(p) --Draw all characters from the Extended ASCII character set
+	p.mm.debugdrawer=true
 	p.mm.debugcolor=0
 end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
@@ -80,13 +79,14 @@ addHook("PlayerThink",function(p) --MMCHARSET logic
 end)
 hud.add(function(v, p) --MMCHARSET render
 	if not p.mm or not p.mm.debugdrawer return end
-	for row=-1, 7
+	for row=-1, 15
 		for column=-1,15
-			if ((row==-1) and (column>-1)) v.drawString(16+(column<<4),0,string.format("%X",column))
-			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<4),string.format("%X",row+8))
+			if ((row==-1) and (column>-1)) v.drawString(16+(column<<3),0,string.format("%X",column))
+			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<3),string.format("%X",row))
 			elseif (column>-1) and (row>-1)
-				patchNum=((row+8)<<4)+column
-				if (MM.graphics.charset[p.mm.debugdrawer][patchNum]) v.draw((16 + column<<4),(16 + row<<4),MM.graphics.charset[p.mm.debugdrawer][patchNum],0,v.getStringColormap(p.mm.debugcolor<<12)) end
+				patchNum=((row)<<4)+column
+				if (patchNum>15 and patchNum<32) v.draw((16+column<<3),(16+row<<3),MM.graphics.charset[35],0,v.getStringColormap((patchNum-16)<<12)) end
+				if (MM.graphics.charset[patchNum]) v.draw((16+column<<3),(16+row<<3),MM.graphics.charset[patchNum],0,v.getStringColormap(p.mm.debugcolor<<12)) end
 			end
 		end
 	end

@@ -383,7 +383,7 @@ addHook("PlayerThink", function(p)
 	if (p.mm.hud.roleflicker) p.mm.hud.roleflicker = $ - 1 end
 
 	--HUD backend for fullscreen flash/spark effects
-	if (p.mm.hud.fx_translucency) and (p.mm.hud.fx_duration) and (not (leveltime & p.mm.hud.fx_duration))
+	if (p.mm.hud.fx_translucency) and (p.mm.hud.fx_duration) and (not (leveltime % p.mm.hud.fx_duration))
 		p.mm.hud.fx_translucency = $ + 1
 		if (p.mm.hud.fx_translucency >= 10) p.mm.hud.fx_translucency = 0 end
 	end

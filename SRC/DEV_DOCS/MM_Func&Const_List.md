@@ -7,12 +7,12 @@ This document contains the description of some important and globaly defined fun
 - [Functions](#functions)
   - `INIT.LUA`
     - Customisation API
-  - FUNCTIONS.LUA`
+  - `FUNCTIONS.LUA`
+    - Globaly used functions
     - `GAME.LUA`
     - `HUD.LUA`
     - `CHAT.LUA`
     - `MINIGAME.LUA`
-    - Globaly used functions
 - [Constants](#constants)
   - Roles (`ROLE_*`)
   - Game messages
@@ -36,6 +36,23 @@ There is a customization function defined in the [<code>MM</code>](./MM_Userdata
 
 There is a dedicated LUA script that contains the code of some MM functions. Some of those functions are used in only one LUA script and some are used globally.
 
+### Globally used functions
+
+Functions that are used in more than one script
+
+| Name | Return value | Description |
+| --- | --- | --- |
+| <code>**PlayerCount**([*int* role])</code> | *int* | Get the total number of players online. If the <code>role</code> is specified return the total number of players who have the <code>role</code>. |
+| <code>**PlayersAlive**()</code> | *int* | Get the number of players who are still alive (aren't spectators). |
+| <code>**MM_SpawnSHREMD**(*int* x, *int* y, *int* z, [*int* timezone])</code> | nil | Spawn the Sheriff's Emerald at (x, y, z) position. <code>timezone</code> argument is optional and is used only go get the timezone the Emerald was spawned in. |
+| <code>**P_GetSectorCeilingZAt**(*sector_t* sector, *int* x, *int* y)</code> | *fixed_t* | Returns the height of the sector ceiling at (x, y), works both for regular sectors and slopes. Ported from SRB2 source code |
+| <code>**P_GetFOFTopZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the top height of the FOF at (x, y). Ported from SRB2 source code |
+| <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code |
+| <code>**isExtendedASCII**(*string* str)</code> | *boolean* | Returns `true` if the <code>str</code> contains a symbol from Extended ASCII Range (`0x80` - `0xFF`) |
+| <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in <code>str</code> are from Standart (Printable) ASCII range (`0x20` - `0x7F`). |
+| <code>**valid**(* arg)</code> | *boolean* | Simply checks if both <code>arg</code> and <code>arg.valid</code> are true. |
+| <code>**SOC_IsTrue**(* arg)</code> | *boolean* | Returns `true` if the <code>arg</code> says so (<code>"true"</code> as string will return `true`). Useful only for boolean-based SOC arguments. |
+
 ### `GAME.LUA`
 
 These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA) (the main game logic script):
@@ -54,6 +71,7 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA) (th
 | <code>**MM_EndRound**(*int* win, * var, [*int* winreason])</code> | nil | Finish the round. <code>w</code> specifies the winner, possible values are: 0 - Tie, 1 - Murderers, 2 - Civilians (Sheriffs, Heros & Civilians). <code>winreason</code> is optional but can be one of the `WIN_*` constants. |
 | <code>**MM_StartSuspenseMusic**()</code> | *boolean* | Starts the Suspense music and returns `true` if there are no Sheriffs and no Heroes alive but one Civilian with at least one Sheriff's Emerald dropped. |
 | <code>**MM_StartShowdownMusic**()</code> | *boolean* | Starts one of the Showdown Duel tunes and returns `true` if there are no Civilians in the game.|
+| <code>**MM_StartFlashFX**(*player_t* player, *int* duration, [*int* color])</code> | nil | Initiate a fullscreen flash/spark visual effect for a specific player. <code>Duration</code> is the duration time of the effect's animation frame (animation has 10 frames in total). <code>color</code> sets the color of the effect, when this argument is not given the color will be set to white by default. |
 | <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Civilians. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Civilian to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
 | <code>**MM_GetMMSHREMDinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Civilians' Sheriff Emerald radar. |
 | <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from <code>timezone1</code> can happen in <code>timezone2</code>. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are `TIMEZONE_*` constants. |
@@ -69,7 +87,8 @@ Functions for HUD rendering code
 | --- | --- | --- |
 | <code>**V_LoadPatch**(*drawer* v, *string* patchName)</code> | nil | Load the Patch into the memory (<code>MM.graphics[patchName]</code>). |
 | <code>**V_UnloadPatch**(*string* patchName)</code> | nil | Unload the Patch from the memory (<code>MM.graphics[patchName]</code>). |
-| <code>**V_LoadCharset**(*drawer* v, *string* name)</code> | nil | Load the Character Set into the memory (<code>MM.graphics.charset[chrset_prefix]</code>). <code>name</code> is the 5-sign (no more, no less) patch prefix. This function will try to load 128 (256 for SRB2 built-in sets) patches named as `XXXXX###` where XXXXX is <code>name</code> and ### is a 3-digit number from 0 to 255. |
+| <code>**V_LoadCharset**(*drawer* v, *string* name)</code> | nil | Load the Character Set into the part of memory dedicated to storing Character Set patch graphics (<code>MM.graphics.charset</code>). <code>name</code> is the 5-sign (no more, no less) patch prefix. This function will try to load all character patches named as `XXXXX###` where XXXXX is <code>name</code> and ### is a 3-digit number from 0 to 255. |
+| <code>**V_ClearCharset**([*int* part]) | nil | Clear (a part of) the character table of the "Video Memory" (<code>MM.graphics.charset</code>). The <code>part</code> can be one of the following values: <table><tr><th>Value</th><th>Description</th></tr><tr><td>0</td><td>Clear the entire table (characters `33`-`255`), this is the default option.</td></tr><tr><td>1</td><td>Clear the Standard ASCII range of the table  (characters `33`-`127`).</td></tr><tr><td>2</td><td>Clear the Extended ASCII range of the table (characters `128`-`255`).</td></tr></table>
 | <code>**V_DrawStrASCII**(*drawer* v, *int* x, *int* y, *string* charset, *string* str, [*int* videoflags, [*bool* small?]])</code> | nil | An alternative to <code>**v.drawString()**</code>. This function supports text rendering in different character encodings. <code>charset</code> specifies the character set to use (the character set has to be preloaded into the memory with <code>**V_loadCharset()**</code>). <code>str</code> is the string to render. If <code>small?</code> is set to `true`, it will draw the string in half of the normal size<br>*Note:* Each character from the Extended ASCII range (0x80-0xFF) should be typed as an escape code of the character in <code>str</code> string. |
 | <code>**V_DrawStrASCII_Center**(*drawer* v, *int* x, *int* y, *string* charset, *string* str, [*int* videoflags, [*bool* small?]])</code> | nil | Alternative to <code>**v.drawString()**</code> with the `"center"` alignment flag. Uses <code>**V_DrawStrASCII()**</code> to render the string relatively centered. The <code>x</code> coordinate is the center. |
 | <code>**V_DrawStrASCII_Right**(*drawer* v, *int* x, *int* y, *string* charset, *string* str, [*int* videoflags, [*bool* small?]])</code> | nil | Alternative to <code>**v.drawString()**</code> with the `"right"` alignment flag. Uses <code>**V_DrawStrASCII()**</code> to render the string right-aligned. The <code>x</code> coordinate is the right edge of the string. |
@@ -91,23 +110,6 @@ Functions of global visibility for Pong 2-player Minigame
 | --- | --- |
 | <code>**PONG_SetVelocity**(*int* side) </code> | Set the Pong Ball's velocity. <code>side</code> determines the ball's direction, accepted values are:<table><tr><th><code>side</code> value</th><th>Direction</th></tr> <tr><td><code>< 0</code><td>Left</td></tr> <tr><td><code>0</code></td><td>Random</td></tr><tr><td><code>> 0</code></td><td>Right</td></tr></table> |
 | <code>**PONG_Reset**()</code> | Reset the PONG minigame |
-
-### Globally used functions
-
-Functions that are used in more than one script
-
-| Name | Return value | Description |
-| --- | --- | --- |
-| <code>**PlayerCount**([*int* role])</code> | *int* | Get the total number of players online. If the <code>role</code> is specified return the total number of players who have the <code>role</code>. |
-| <code>**PlayersAlive**()</code> | *int* | Get the number of players who are still alive (aren't spectators). |
-| <code>**MM_SpawnSHREMD**(*int* x, *int* y, *int* z, [*int* timezone])</code> | nil | Spawn the Sheriff's Emerald at (x, y, z) position. <code>timezone</code> argument is optional and is used only go get the timezone the Emerald was spawned in. |
-| <code>**P_GetSectorCeilingZAt**(*sector_t* sector, *int* x, *int* y)</code> | *fixed_t* | Returns the height of the sector ceiling at (x, y), works both for regular sectors and slopes. Ported from SRB2 source code |
-| <code>**P_GetFOFTopZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the top height of the FOF at (x, y). Ported from SRB2 source code |
-| <code>**P_GetFOFBottomZAt**(*ffloor_t* fof, *int* x, *int* y)</code> | *fixed_t* | Returns the bottom height of the FOF at (x, y). Ported from SRB2 source code |
-| <code>**isExtendedASCII**(*string* str)</code> | *boolean* | Returns `true` if the <code>str</code> contains a symbol from Extended ASCII Range (`0x80` - `0xFF`) |
-| <code>**isStandartASCII**(*string* str)</code> | *boolean* | Returns `true` if all characters in <code>str</code> are from Standart (Printable) ASCII range (`0x20` - `0x7F`). |
-| <code>**valid**(* arg)</code> | *boolean* | Simply checks if both <code>arg</code> and <code>arg.valid</code> are true. |
-| <code>**SOC_IsTrue**(* arg)</code> | *boolean* | Returns `true` if the <code>arg</code> says so (<code>"true"</code> as string will return `true`). Useful only for boolean-based SOC arguments. |
 
 # Constants
 

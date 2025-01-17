@@ -45,7 +45,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
-		CONS_Printf(p, "\x87MMCHARSET\x80   - Display all Extended ASCII characters from specified character set")
+		CONS_Printf(p, "\x87MMCHARSET\x80   - Display the loaded symbols in the Character Video Memory")
 		CONS_Printf(p, "") --newline
 	end
 
@@ -114,9 +114,18 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 	else
 		l = $:upper()
 		if (MM.text[l])
+			local oldcharset = MM_GetText(p.mm.lang, "CHARSET")
+
 			p.mm.lang = l
-			if (not p.mmhelp) p.mm.help = {page = 1} end
+			if (not p.mm.help) then p.mm.help = {page = 1} end
 			p.mm.help.pos = 1
+
+			--Update the characters in the (V)RAM if we change the Character Set
+			if (MM_GetText(p.mm.lang, "CHARSET") != oldcharset)
+				V_ClearCharset(2) --remove the graphics of Extended ASCII from (V)RAM
+				MM.CharsetExtendedReady = false --tell the HUD code to load new graphics
+			end
+
 			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM_GetText(p.mm.lang, "AUTHOR"))
 			CONS_Printf(p, MM_GetText(p.mm.lang, "MMLANG", 2))
 			if (MM_GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery "..MM.version) end
@@ -215,7 +224,6 @@ hud.add(function(v, p)
 	local y = 0
 	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
 	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
-	local charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
 	local color = v.getStringColormap(0) --default to white color
 	local chr, stringToRender, wordWrapTemp
 		
@@ -238,14 +246,12 @@ hud.add(function(v, p)
 			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096
 
 			--draw the character
-			if (chr > 0x7F) --Extended ASCII
-				if (MM.graphics.charset[charset][chr])
-					v.draw(x, y, MM.graphics.charset[charset][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
+			if (chr > 0x20)
+				if (MM.graphics.charset[chr])
+					v.draw(x, y, MM.graphics.charset[chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				else --unknown symbol, draw "?"
-					v.draw(x, y, MM.graphics.charset["STCFN"][0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
+					v.draw(x, y, MM.graphics.charset[0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 				end
-			elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-				v.draw(x, y, MM.graphics.charset["STCFN"][chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
 			end
 
 			--position shifting for the next character
@@ -276,6 +282,6 @@ hud.add(function(v, p)
 	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
 	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
 
-	V_DrawStrASCII(v, 0, 192, charset, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
-	V_DrawStrASCII(v, 0, 196, charset, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrASCII(v, 0, 192, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrASCII(v, 0, 196, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
 end, "game")

@@ -30,13 +30,17 @@ freeslot(
     'S_AMMDEAD',  --Dead body state (Amy)
     'S_FMMDEAD',  --Dead body state (Fang)
     'S_MMMDEAD',  --Dead body state (Metal Sonic)
+    'S_GMMDEAD',  --Dead body state (Superguide)
+    'S_BMMDEAD',  --Dead body state (Bob)
     'SPR_SKEL',   --Dead body sprite (Skeleton)
     'SPR_SDED',   --Dead body sprite (Sonic)
     'SPR_TDED',   --Dead body sprite (Tails)
     'SPR_KDED',   --Dead body sprite (Knuckles)
     'SPR_ADED',   --Dead body sprite (Amy)
     'SPR_FDED',   --Dead body sprite (Fang)
-    'SPR_MDED'    --Dead body sprite (Metal Sonic)
+    'SPR_MDED',   --Dead body sprite (Metal Sonic)
+    'SPR_GDED',   --Dead body sprite (Superguide)
+    'SPR_BDED'    --Dead body sprite (Bob)
 )
 
 --Sheriff's Emerald object

@@ -203,7 +203,7 @@ addHook("PlayerThink", function(p)
 						end
 					end
 				end
-				MM_StartFlashFX(p, 7, 0)
+				MM_StartFlashFX(p, 8, 0)
 				--P_SpawnMobjFromMobj(p.mo,0,0,0,MT_THROWNEXPLOSION) --blast after a time warp (visual effect)
 				S_StartSound(p.mo, sfx_mixup, p)
 				p.mm.timetravel.timesign = TWS_NONE

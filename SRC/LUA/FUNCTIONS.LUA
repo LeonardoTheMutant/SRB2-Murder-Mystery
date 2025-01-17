@@ -184,7 +184,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
-	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
+	MM_StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
 	plr.mm.killername = k.player.name
@@ -217,7 +217,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
-	MM_StartFlashFX(plr, 3, 0x23) --Red flash effect
+	MM_StartFlashFX(plr, 4, 0x23) --Red flash effect
 	plr.mm.killername = "your stupidity"
 
 	if (spawnbody)
@@ -444,15 +444,31 @@ rawset(_G, "V_LoadCharset", function(v, name)
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 	if (not MM.graphics.charset) then MM.graphics.charset = {} end
 
-	MM.graphics.charset[name] = {}
+	if (not MM.graphics.charset) then MM.graphics.charset = {} end
+	local patchname
 	for i = 33, 255 do
-		if (v.patchExists(name..string.format("%03d", i))) then MM.graphics.charset[name][i] = v.cachePatch(name..string.format("%03d", i)) end
+		patchname = name..string.format("%03d", i)
+		if (v.patchExists(patchname))
+			MM.graphics.charset[i] = v.cachePatch(patchname)
+			if (MM.debug) print("Loaded patch \x81"..name.."\x82"..string.format("%03d", i).."\x80 into Character Table") end
+		end
 	end
-
-	if (MM.debug) print("Loaded \x81\""..name.."\"\x80 charset") end
 end)
 
-rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)
+rawset(_G, "V_ClearCharset", function(part)
+	if (not part) --Clear all
+		MM.graphics.charset = {}
+		if (MM.debug) print("Cleared the entire Character Table") end
+	elseif (part == 1) --Clear standard
+		for i = 33, 127 do MM.graphics.charset[i] = nil end
+		if (MM.debug) print("Cleared the Standard ASCII characters") end
+	else --2, Clear extended
+		for i = 128, 255 do MM.graphics.charset[i] = nil end
+		if (MM.debug) print("Cleared the Extended ASCII characters") end
+	end
+end)
+
+rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	--Draw strings in Murder Mystery format with swapable ASCII table
 
 	assert(v, "V_DrawStrASCII() argument #1: Video drawer object expected")
@@ -474,11 +490,8 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)
 	end
 
 	--set the characer encoding
-	local charset = chrset or "STCFN"
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
-	assert(MM.graphics.charset[charset], "\x81\""..charset.."\"\x80 Character Set is not initialized!")
-	assert(MM.graphics.charset["STCFN"], "\x81\"STCFN\"\x80 Character Set is not initialized!")
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
@@ -505,17 +518,14 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, chrset, str, flags, small)
 		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16) << 12) end --(chr - 16) * 4096
 
 		--print the character
-		if (chr > 0x7F) --symbol is from the Extended ASCII range
-			if (MM.graphics.charset[charset][chr]) --Extended ASCII
-				width = MM.graphics.charset[charset][chr].width
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[charset][chr], flg, color)
+		if (chr > 0x20)
+			if (MM.graphics.charset[chr])
+				width = MM.graphics.charset[chr].width
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[chr], flg, color)
 			else --unknown symbol/patch not found, print "?"
-				width = MM.graphics.charset[charset][chr].width
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset["STCFN"][63], flg, color)
+				width = MM.graphics.charset[63].width --it should be 8, but we'll assume that STCFN font was replaced by an external add-on
+				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[63], flg, color)
 			end
-		elseif ((chr > 0x20) and (chr < 0x7F)) --Printable symbols of the Standart ASCII
-			width = MM.graphics.charset["STCFN"][chr].width
-			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset["STCFN"][chr], flg, color)
 		end
 
 		--shift position for the next character
@@ -550,7 +560,7 @@ rawset(_G, "V_ConvertStringColor2", function(str)
 	return table.concat(strng)
 end)
 
-rawset(_G, "V_StrWidthASCII", function(chrset, str, flags, small)
+rawset(_G, "V_StrWidthASCII", function(str, flags, small)
 	--Get string width for the V_DrawStrASCII() function
 
 	if (not str) or (str == "") return 0 end
@@ -560,8 +570,6 @@ rawset(_G, "V_StrWidthASCII", function(chrset, str, flags, small)
 
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
-	if (chrset) assert(MM.graphics.charset[chrset], "\x81\""..chrset.."\"\x80 Character Set is not initialized!") end
-	assert(MM.graphics.charset["STCFN"], "\x81\"STCFN\"\x80 Character Set is not initialized!")
 
 	--symbol width
 	local flg = flags or 0
@@ -580,19 +588,18 @@ rawset(_G, "V_StrWidthASCII", function(chrset, str, flags, small)
 	for i = 1, #str do
 		char = string.byte(str:sub(i, i)) --character number
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
-		elseif (char > 0x20) then --regular character should be a printable charactrer
-			if (char > 0x7F) then pixelLen = $ + (MM.graphics.charset[chrset][char].width >> small) --Extended ASCII
-			else pixelLen = $ + (MM.graphics.charset["STCFN"][char].width >> small) end --Standart ASCII
+		elseif ((char > 0x20) and MM.graphics.charset[char]) then --we count only visible charactrers
+			pixelLen = $ + (MM.graphics.charset[char].width >> small)
 		end
 	end
 	return pixelLen
 end)
 
-rawset(_G, "V_DrawStrASCII_Center", function(v, x, y, chrset, str, flags, small)
-	V_DrawStrASCII(v, (x - (V_StrWidthASCII(chrset, str, flags, small) >> 1)), y, chrset, str, flags, small)
+rawset(_G, "V_DrawStrASCII_Center", function(v, x, y, str, flags, small)
+	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str, flags, small) >> 1)), y, str, flags, small)
 end)
-rawset(_G, "V_DrawStrASCII_Right", function(v, x, y, chrset, str, flags, small)
-	V_DrawStrASCII(v, (x - V_StrWidthASCII(chrset, str, flags, small)), y, chrset, str, flags, small)
+rawset(_G, "V_DrawStrASCII_Right", function(v, x, y, str, flags, small)
+	V_DrawStrASCII(v, (x - V_StrWidthASCII(str, flags, small)), y, str, flags, small)
 end)
 
 rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
