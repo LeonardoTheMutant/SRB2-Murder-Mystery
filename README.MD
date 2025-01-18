@@ -3,7 +3,7 @@
 
 A port of the popular multiplayer game in a form of a new gametype for [Sonic Robo Blast 2](https://www.srb2.org)
 
-***Not to be confused with the [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery), which is an entirely different MM project for SRB2***
+***Not to be confused with [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery), which is an entirely different MM project for SRB2***
 
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/graphs/contributors" alt="Contributors">
   <img src="https://img.shields.io/github/contributors/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
@@ -16,6 +16,10 @@ A port of the popular multiplayer game in a form of a new gametype for [Sonic Ro
 
 ## Overview
 The goal of the game is to locate and neutralise the Murderer(s) before they kill everyone. Looking for dead bodies and alerting the Sherrif(s) for any discrepancies, try to survive!
+
+
+![til](./media/srb20026.gif)
+![til](./media/srb20028.gif)
 
 ## How to build a **.PK3** file out of this repository
 
