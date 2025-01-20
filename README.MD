@@ -17,9 +17,10 @@ A port of the popular multiplayer game in a form of a new gametype for [Sonic Ro
 ## Overview
 The goal of the game is to locate and neutralise the Murderer(s) before they kill everyone. Looking for dead bodies and alerting the Sherrif(s) for any discrepancies, try to survive!
 
-
-![til](./media/srb20059-3.gif)
-![til](./media/srb20056-4.gif)
+<img src="./media/GIF_Lamon_1.gif">
+<img src="./media/GIF_Lamon_2.gif">
+<img src="./media/GIF_Lamon_3.gif">
+<img src="./media/SCR_Leo_3.png" width="320">
 
 ## How to build a **.PK3** file out of this repository
 
@@ -95,5 +96,8 @@ The [Pull Requests](https:github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulls
 1. Modifying the source code you are having right now and creating a new Pull Request
 2. Making a **Language File** from the [template](SRC/LUA/TEXT/EN.LUA) and then in SRB2 add it as a regular Add-On together with MM (main MM Add-On has to be loaded first)
 
-![til](./media/srb20076.png)
-![til](./media/srb20078.png)
+## More media from the game
+<img src="./media/SCR_Lamon_1.png" width="320">
+<img src="./media/SCR_Lamon_2.png" width="320">
+<img src="./media/SCR_Leo_1.png" width="320">
+<img src="./media/SCR_Leo_2.png" width="320">
