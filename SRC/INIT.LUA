@@ -168,10 +168,8 @@ CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_chatdelay", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 60}, flags = 4})
 CV_RegisterVar({name = "mm_autofire", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_allowshields", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
-CV_RegisterVar({name = "mm_afk", defaultvalue = 2, PossibleValue = {MIN = 0, MAX = 10}, flags = 4})
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 
 --
@@ -216,7 +214,6 @@ dofile("MAPS/MAPK0.LUA")
 dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
-dofile("MAPS/MAPKB.LUA")
 dofile("MAPS/MAPKC.LUA")
 
 print("\n\x84LTM's Murder Mystery add-on was loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)\n")
@@ -236,4 +233,4 @@ addHook("NetVars", function(net)
 	MM.duelplrs = net($)
 end)
 
-if (MODVERSION != 54) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.13 only. Incompatibilities may occur", 0) end
+if (MODVERSION != 55) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.14 only. Incompatibilities may occur", 0) end

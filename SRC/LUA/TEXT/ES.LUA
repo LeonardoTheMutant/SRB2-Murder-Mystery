@@ -11,7 +11,7 @@ MM.AddLang("ES", {
 	["CHARSET"]="1250C", --Windows1250
 	["MMHELP_CMD"]={
 		"Usa \23JUMP\16/\23SPIN\16 para desplazarte, \23Next\16/\23Prev Weapon\16 para cambiar de pagina",
-		"Presiona \23FIRE\16 para abandonar AYUDA"
+		"Presiona \23CUSTOM1\16 para abandonar AYUDA"
 	},
     ["MMHELP"]={
 		{

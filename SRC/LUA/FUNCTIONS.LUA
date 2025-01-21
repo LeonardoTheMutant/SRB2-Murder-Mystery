@@ -33,7 +33,6 @@ rawset(_G, "MM_InitPlayer", function(p)
 	p.mm.kills = 0
 	p.mm.weapondelay = 0
 	p.mm.camping = 0
-	p.mm.chatdelay = 0
 	p.mm.shremd_dist = 0
 	p.mm.sneak = false
 	p.mm.hud = {
@@ -440,11 +439,10 @@ rawset(_G, "V_LoadCharset", function(v, name)
 	assert(v, "V_LoadCharset() argument #1: Video drawer object expected")
 	assert(name, "V_LoadCharset() argument #2: Character Set prefix name expected")
 	if (type(name) != "string") then error("V_LoadCharset() argument #2: Character Set prefix name expected in string type") end
-
 	assert(MM.graphics, "MM.graphics table is not initialized!")
-	if (not MM.graphics.charset) then MM.graphics.charset = {} end
 
 	if (not MM.graphics.charset) then MM.graphics.charset = {} end
+
 	local patchname
 	for i = 33, 255 do
 		patchname = name..string.format("%03d", i)
@@ -452,19 +450,6 @@ rawset(_G, "V_LoadCharset", function(v, name)
 			MM.graphics.charset[i] = v.cachePatch(patchname)
 			if (MM.debug) print("Loaded patch \x81"..name.."\x82"..string.format("%03d", i).."\x80 into Character Table") end
 		end
-	end
-end)
-
-rawset(_G, "V_ClearCharset", function(part)
-	if (not part) --Clear all
-		MM.graphics.charset = {}
-		if (MM.debug) print("Cleared the entire Character Table") end
-	elseif (part == 1) --Clear standard
-		for i = 33, 127 do MM.graphics.charset[i] = nil end
-		if (MM.debug) print("Cleared the Standard ASCII characters") end
-	else --2, Clear extended
-		for i = 128, 255 do MM.graphics.charset[i] = nil end
-		if (MM.debug) print("Cleared the Extended ASCII characters") end
 	end
 end)
 
@@ -607,7 +592,6 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	--the text data itself is a table of strings containing the
 	--SRB2 palette's color values
 	assert(MM.graphics, "MM.graphics table is not initialized!")
-	assert(MM.graphics.pixel, "Palette pixels are not initialized!")
 
 	assert(v, "V_DrawTextPatch() argument #1: Video drawer object expected")
 	local x = x or 0
@@ -622,7 +606,7 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 		for column = 1, #patch[row] do
 			pixelColor = patch[row]:byte(column, column) --get the pixel color value
 			if (pixelColor != 0xFF) --pixel is not transparent
-				v.draw((x - xoff + (column - 1)), (y - yoff + (row - 1)), MM.graphics.pixel[pixelColor], flags) --draw it
+				v.drawFill((x - xoff + (column - 1)), (y - yoff + (row - 1)), 1, 1, pixelColor|flags) --draw it
 			end
 		end
 	end

@@ -14,7 +14,7 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
     ["MM"]="\xD2E0\xBAEC\xEDE8\xF6FF \xC2E1\xE8E2\xF1F2\xE2E0", --Tajemnycia Wbywstwa
     ["MMHELP_CMD"]={
         "\xCDE0\xF2E8\xF1ED\xB3F2\xFC \23JUMP\16/\23SPIN\16 \xE4EB\xFF \xEFF0\xEEEA\xF0F3\xF7F3\xE2E0\xEDED\xFF, \23Next\16/\23Prev Weapon\16 \xE4EB\xFF \xE7EC\xB3ED\xE8 \xF1F2\xEEF0\xB3ED\xEAE8",
-        "\23FIRE\16 - \xEFEE\xEAE8\xEDF3\xF2E8 \xF6E5 \xECE5\xEDFE"
+        "\23CUSTOM1\16 - \xEFEE\xEAE8\xEDF3\xF2E8 \xF6E5 \xECE5\xEDFE"
     },
     ["MMHELP"]={
         {

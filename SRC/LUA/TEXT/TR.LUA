@@ -11,7 +11,7 @@ MM.AddLang("TR", {
 	["CHARSET"]="1254C", --Windows1254
 	["MMHELP_CMD"]={
 		"Kayd\xFDrmak \xFDE7\xFDn \23JUMP\16/\23SPIN\16 kullan\xFDn, sayfalar aras\xFD ge\xE7i\xFE yapmak \xFDE7\xFDn \23Next\16/\23Prev Weapon\16 kullan\xFDn",
-		"HELP'den ayr\xFDlmak i\xE7in \23FIRE\16'a bas\xFDn"
+		"HELP'den ayr\xFDlmak i\xE7in \23CUSTOM1\16'a bas\xFDn"
 	},
     ["MMHELP"]={
 		{

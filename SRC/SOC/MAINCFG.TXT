@@ -106,21 +106,8 @@ SelectHeading = LTM's Murder Mystery
 Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
-NextLevel = KB
-Lua.Author = SEGA, SandwichCinema, LeoTM
-
-Level KB
-LevelName = Myst Island
-SubTitle = ^7Myst
-SelectHeading = LTM's Murder Mystery
-Music = None
-Act = 0
-SkyNum = 16
-NoZone = True
-TypeOfLevel = LTM_MM
 NextLevel = KC
-Lua.DisableFootmarks = True
-Lua.Author = Cyan, LeoTM
+Lua.Author = SEGA, SandwichCinema, LeoTM
 
 Level KC
 LevelName = Stauf's Mansion

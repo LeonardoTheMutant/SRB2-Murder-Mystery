@@ -3,10 +3,9 @@
 -- Code modifications by LeonardoTheMutant with the additional help of Jesus.B
 --
 -- The main logic script of the LTM's Murder Mystery, takes control of each player Join/Quit,
--- hit detection, player parameters, AFK logic, and round endings
+-- hit detection, player parameters, and round endings
 
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
-local afkCVAR = CV_FindVar("mm_afk")
 local crypticCVAR = CV_FindVar("mm_cryptic")
 local shieldsCVAR = CV_FindVar("mm_allowshields")
 
@@ -95,7 +94,6 @@ addHook("PlayerSpawn", function(p)
 		else p.mm.lang = "EN" end --failed to open the file
 	end
 
-	if (not p.mm.afk) then p.mm.afk = 0 end --Anti-AFK
 	if (not p.mm.help) then p.mm.help = {page = 1, pos = 1, active = false} end --MMHELP UI init
 
 	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
@@ -418,14 +416,7 @@ addHook("PlayerThink", function(p)
 		end
 	end
 
-	--AFK logic
-	if ((not p.cmd.forwardmove) and (not p.cmd.sidemove) and (not p.cmd.buttons) and (not p.spectator) and (PlayerCount() > 1) and (afkCVAR.value))
-		p.mm.afk = $ + 1
-		if (p.mm.afk == afkCVAR.value*2100) then MM_PunishPlayer(p, "AFK") end
-	else p.mm.afk = 0 end
-
-	--Eliminate players who left the game (in case REJOINTIMEOUT cvar is enabled)
-	if (rejointimeoutCVAR.value) and (p.quittime) then MM_PlayerQuit(p) end
+	if ((rejointimeoutCVAR.value) and (p.quittime)) then MM_PlayerQuit(p) end
 
 	--Anti-RenameCheat
 	if ((p.name != p.oldname) and (p.spectator)) then MM_PunishPlayer(p, "Do not rename when dead!") end

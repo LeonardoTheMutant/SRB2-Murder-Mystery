@@ -11,7 +11,7 @@ MM.AddLang("FR", {
 	["CHARSET"]="1254C", --Windows1254 (or Windows1252)
 	["MMHELP_CMD"]={
 		"Utiliser \23JUMP\16/\23SPIN\16 pour faire d\xE9".."filer, \23Next\16/\23Prev Weapon\16 pour changer de pages",
-		"Appuyer sur \23FIRE\16 pour quitter l'aide"
+		"Appuyer sur \23CUSTOM1\16 pour quitter l'aide"
 	},
     ["MMHELP"]={
 		{

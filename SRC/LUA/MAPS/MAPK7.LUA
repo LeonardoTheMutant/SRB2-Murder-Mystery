@@ -18,15 +18,6 @@ local doors={
 }
 local doordelay=35
 
-local truthTextures = {
-    4166, --"~152", blue
-    4126, --"~112", green
-    4086, --"~072", yellow
-    4049  --"~035", red
-}
-local rayTimer
-local rayControlLine
-
 addHook("LinedefExecute", do --open door 1 trigger
     if (gametype == GT_LTMMURDERMYSTERY)
         P_LinedefExecute(23)
@@ -48,24 +39,6 @@ addHook("LinedefExecute", do --open door 3 trigger
     end
 end,"K7D3OPN")
 
---the Truth Ray
-addHook("LinedefExecute", function(l,mo,s)
-    if (gametype == GT_LTMMURDERMYSTERY)
-        --find the control linedef of the ray
-        if (not rayControlLine)
-            for line = 1, #s.lines
-                if (s.lines[line].tag == 36)
-                    rayControlLine = s.lines[line]
-                    break
-                end
-            end
-        end
-        --now edit the texture of the ray to represent the kill count
-        if valid(rayControlLine) rayControlLine.frontside.midtexture = truthTextures[(mo.player.mm.kills & 3) + 1] end
-        rayTimer = 35
-    end
-end,"K7_TRUTH")
-
 addHook("ThinkFrame", do
     if (gamemap != 467) return end
 
@@ -73,11 +46,5 @@ addHook("ThinkFrame", do
     for doornum, _ in pairs(doors)
         if (not doors[doornum][1]) then P_LinedefExecute(doors[doornum][2]) --close one of the doors
         else doors[doornum][1] = $ - 1 end --decrement the timer
-    end
-
-	--The Truth Ray reset
-    if valid(rayControlLine)
-        if (not rayTimer) rayControlLine.frontside.midtexture = 4029 --"~015", gray
-        else rayTimer = $ - 1 end
     end
 end)

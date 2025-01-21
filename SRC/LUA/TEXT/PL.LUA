@@ -11,7 +11,7 @@ MM.AddLang("PL", {
 	["MM"]="Tajemnica Morderstw",
 	["MMHELP_CMD"]={
 		"Dla scrollingu wci\x9Cnij klawisz\xEA \23JUMP\16/\23SPIN\16, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \23NEXT\16/\23PREV WEAPON\xF1\16",
-		"\23FIRE\16 - wyj\x9C\xE6 z menu pomocy"
+		"\23CUSTOM1\16 - wyj\x9C\xE6 z menu pomocy"
 	},
     ["MMHELP"]={
 		{

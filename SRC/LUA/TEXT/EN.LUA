@@ -77,7 +77,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	--For more details read /SRC/DOCS/MM_HUD_Library.md
 	["MMHELP_CMD"] = {
 		"Use \23JUMP\16/\23SPIN\16 to scroll, \23Next\16/\23Prev Weapon\16 to switch pages",
-		"Press \23FIRE\16 to leave HELP"
+		"Press \23CUSTOM1\16 to leave HELP"
 	},
 	["MMHELP"] = { --MMHELP command
         --Every table here acts as a different page

@@ -27,10 +27,8 @@ COM_AddCommand("mmhelp", function(p, page)
 	if ((p == server) or (IsPlayerAdmin(p)))
 		CONS_Printf(p, "\x82".."ADMIN CONSOLE VARIABLES")
 		CONS_Printf(p, "\x87MM_ABILITIES\x80   - Switch between \x81\"Mystery\"\x80 and \x81\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).")
-		CONS_Printf(p, "\x87MM_AFK\x80         - AFK timeout in minutes. If player is AFK for the specified amount of minutes it is going to be kicked.")
 		CONS_Printf(p, "\x87MM_ALLOWSHIELDS    - Allow shields to be used in MM.\x82 Do not enable this unless you want chaos in your game.\x80 Default value is \"NO\".")
 		CONS_Printf(p, "\x87MM_AUTOFIRE\x80    - Turn weapon autofire ON/OFF.")
-		CONS_Printf(p, "\x87MM_CHATDELAY\x80   - The message delay (in tics) to control the time interval players must wait before sending another message.")
 		CONS_Printf(p, "\x87MM_CRYPTIC\x80     - Make the game more cryptic by disabling the teammate list, player nametags and most of the player counters on HUD")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80 - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_NOCAMPING\x80   - When enabled, \x85Murderers\x80 who are camping on the \x84Sheriff's Emerald\x80 for longer than 30 seconds will be kicked")
@@ -122,7 +120,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 
 			--Update the characters in the (V)RAM if we change the Character Set
 			if (MM_GetText(p.mm.lang, "CHARSET") != oldcharset)
-				V_ClearCharset(2) --remove the graphics of Extended ASCII from (V)RAM
+				for i = 128, 255 do MM.graphics.charset[i] = nil end --remove the graphics of Extended ASCII from (V)RAM
 				MM.CharsetExtendedReady = false --tell the HUD code to load new graphics
 			end
 
@@ -176,10 +174,8 @@ addHook("PlayerThink", function(p)
 			V_InsertToBuffer(p, tech_info)
 		end
 
-		if (p.cmd.buttons & BT_ATTACK) --FIRE, leave HELP
-			p.pflags = $|PF_ATTACKDOWN
+		if (p.cmd.buttons & BT_CUSTOM1) --CUSTOM1, leave HELP
 			p.mm.help.active = false
-			return
 		end
 
 		if (p.cmd.buttons & BT_JUMP) --JUMP, up
@@ -217,7 +213,7 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if not (p.mm) or not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not ((MM.graphics) and (MM.graphics.pixel))) or (gametype != GT_LTMMURDERMYSTERY) return end
+	if not (p.mm) or not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
 		
 	--init everything
 	local x = 0
@@ -227,7 +223,7 @@ hud.add(function(v, p)
 	local color = v.getStringColormap(0) --default to white color
 	local chr, stringToRender, wordWrapTemp
 		
-	v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[0x10], V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	v.drawFill(0,0, v.width(), v.height(), 16|V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
 		
 	for i = -3, 3
 		v.draw(((i * 320) - (leveltime % 320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
@@ -279,8 +275,8 @@ hud.add(function(v, p)
 	v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
 	--bottom text
-	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Scroll position counter
-	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, "thin") --Page counter
+	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
+	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
 	V_DrawStrASCII(v, 0, 192, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
 	V_DrawStrASCII(v, 0, 196, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)

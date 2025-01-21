@@ -3,8 +3,6 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
-local chatdelayCVAR = CV_FindVar("mm_chatdelay")
-
 local function chatcolor2textcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) return "\x80"
 	elseif (c == V_MAGENTAMAP) return "\x81"
@@ -97,10 +95,6 @@ end, COM_ADMIN)
 
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mm) or (not s.mm.lang) then return end
-	if (s.mm.chatdelay) and (not (isdedicatedserver and s == server))
-		CONS_Printf(s, "You are sending too many messages, please wait "..(G_TicsToSeconds(s.mm.chatdelay) + 1).." second(s)")
-		return true
-	end
 
 	if (s.spectator)
 		if (type == 0) --If dead player sends a message, make that messsage appear only to the dead players
@@ -126,22 +120,5 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 			return false
 		end
 	end
-	s.mm.chatdelay = (chatdelayCVAR.value*TICRATE)
 	return true
-end)
-
---chat delay timers
---gameplay timer
-addHook("PlayerThink", function(p)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
-	if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
-	if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end
-end)
---intermission timer
-addHook("IntermissionThinker", do
-	if (gametype != GT_LTMMURDERMYSTERY) return end
-	for p in players.iterate
-		if (p.mm.chatdelay == nil) p.mm.chatdelay = 0 end
-		if (p.mm.chatdelay) p.mm.chatdelay = $ - 1 end
-	end
 end)

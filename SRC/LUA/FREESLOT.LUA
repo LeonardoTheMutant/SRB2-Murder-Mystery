@@ -19,7 +19,7 @@ G_AddGametype({
 freeslot(
     'MT_SHREMD',  --Sheriff's Emerald object
     'MT_MMKNIFE', --Knife weapon object
-    'SPR_STEPA0', --Footmark sprite
+    'SPR_STEP', --Footmark sprite
     'S_MMSTEP',   --Footmark state
     'MT_MMSTEP',  --Footmark object
     'MT_DEADPLR', --Dead body object
@@ -63,7 +63,7 @@ mobjinfo[MT_MMKNIFE]={
 
 --Footmark state
 states[S_MMSTEP]={
-	sprite = SPR_STEPA0,
+	sprite = SPR_STEP,
 	frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|A,
 	tics = 700, --20 seconds
 	nextstate = S_NULL

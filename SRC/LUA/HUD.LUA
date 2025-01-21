@@ -44,12 +44,6 @@ hud.add(function(v, p)
 
 		MM.graphics={}
 
-		--Palette pixels
-		MM.graphics.pixel={}
-		for i = 0, 255 do
-			if (v.patchExists("PIXEL_"..string.format("%02X", i))) then MM.graphics.pixel[i] = v.cachePatch("PIXEL_"..string.format("%02X", i)) end
-		end
-
 		--Colon for time counter
 		V_LoadPatch(v, "STTCOLON")
 
@@ -465,7 +459,7 @@ hud.add(function(v, p)
 	
 	--HUD frontend for the flash/spark effects
 	if (p.mm.hud.fx_translucency)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[p.mm.hud.fx_color], ((p.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawFill(0,0, v.width(), v.height(), p.mm.hud.fx_color|((p.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	--Debug
@@ -474,18 +468,17 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82".."LEVELTIME: \x80"..leveltime, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82".."PLAYERNODE: \x80"..#p, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82".."AFK: \x80"..p.mm.afk, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82".."LASTINPUTTIME: \x80"..consoleplayer.lastinputtime, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82".."LANG: \x80"..p.mm.lang, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82".."KILLS: \x80"..p.mm.kills, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."CHATDELAY: \x80"..p.mm.chatdelay, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."WEAPONDELAY: \x80"..p.mm.weapondelay, V_PERPLAYER, "thin")
-		if (p.mm.shremd_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREMD_DIST: \x81"..p.mm.shremd_dist.." \x80("..fixint(p.mm.shremd_dist)..")", V_PERPLAYER, "thin")
-		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SHREMD_DIST: \x81nil", V_PERPLAYER, "thin") end
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+112, "\x82".."MM.SUSNCE: \x80"..tostring(MM.susnce), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."WEAPONDELAY: \x80"..p.mm.weapondelay, V_PERPLAYER, "thin")
+		if (p.mm.shremd_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81"..p.mm.shremd_dist.." \x80("..fixint(p.mm.shremd_dist)..")", V_PERPLAYER, "thin")
+		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81nil", V_PERPLAYER, "thin") end
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."MM.SUSNCE: \x80"..tostring(MM.susnce), V_PERPLAYER, "thin")
 	end
 end, "game")
 
@@ -590,7 +583,7 @@ hud.add(function(v)
 
 	--HUD frontend for the flash/spark effects
 	if (consoleplayer.mm.hud.fx_translucency)
-		v.drawStretched(0,0, (v.width() << FRACBITS), (v.height() << FRACBITS), MM.graphics.pixel[consoleplayer.mm.hud.fx_color], ((consoleplayer.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
+		v.drawFill(0,0, v.width(), v.height(), consoleplayer.mm.hud.fx_color|((consoleplayer.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
 	end
 
 	-- Prerelease/Debug
