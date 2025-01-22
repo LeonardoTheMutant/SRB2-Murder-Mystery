@@ -30,29 +30,29 @@ MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 MAPKC: "Stauf's Mansion"
 ------------------------
 Original game soundtrack composed by the Fat Man and Team Fat
-11H_00 - "Hey conductor" (Foyer)
+11H_00 - "Hey Conductor" (Foyer)
 11H_01 - "Pool Balls" (Library)
 11H_02 - "Sadness" (Music room)
 11H_03 - Kitchen
 11H_04 - "Pool Balls (alt)" (Dinning room)
 11H_05 - "Creep" (Upstairs hallway)
-11H_06 - "In the walls II" (Foyer-Gallery passage)
+11H_06 - "In the Walls II" (Foyer-Gallery passage)
 11H_07 - Gallery
 11H_08 - "Ghost of Bo" (Hamilton Temple's bedroom)
 11H_09 - "Long jazzy end of XMusic Box" (Game room)
 11H_0A - "XMusic Box" (Julia Heine's bedroom)
-11H_0B - "All the guests" (Edward Knox's bedroom)
+11H_0B - "All the Guests" (Edward Knox's bedroom)
 11H_0C - Bathroom
 11H_0D - Doll room
 11H_0E - "Dool of Doom" (Nursery)
 11H_0F - Brian Dutton's bedroom
 11H_10 - "Bedspread" (Martin Burden's bedroom)
-11H_11 - "Mirror puzzle" (Attic staircase)
+11H_11 - "Mirror Puzzle" (Attic staircase)
 11H_12 - "Doorbell (short)" (Attic)
 11H_13 - "Rain" (Room at the top)
 11H_14 - "Funky tubes" (Chapel)
 11H_15 - Laboratory
-11H_16 - "In the walls I" (Dutton's-Chapel passage)
+11H_16 - "In the Walls I" (Dutton's-Chapel passage)
 11H_17 - "Bathroom (alt)" (Laboratory-Library passage)
 
 MAPKD: "East City"
@@ -76,7 +76,7 @@ SUSNCE - "Suspense"/"Thrill theme" by Toshihiko Horiyama (Apollo Justice: Ace At
 
 11H_TR - "Train puzzle" by the Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
 DRMBM2 - "2 player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine) (MIDI by ???)
-PWAAPR - "Pressing Pursuit" (Phoenix Wright Ace Attorney) (MIDI by ???)
+PWAAPR - "Pressing Pursuit" (Phoenix Wright: Ace Attorney) (MIDI by ???)
 PWTTPR - "Pressing Pursuit" (Phoenix Wright: Trials and Tribulations) (MIDI by ???)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
 RDBSTR - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ???)
