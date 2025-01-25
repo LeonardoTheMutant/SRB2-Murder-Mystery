@@ -6,15 +6,16 @@
 -- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
 freeslot(
-"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln",
-"sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
-"sfx_soco1", "sfx_soco2", "sfx_soco3", "sfx_soco4",
-"sfx_sodi1", "sfx_sodi2", "sfx_sodi3", "sfx_sodi4",
-"sfx_sogl1", "sfx_sogl2", "sfx_sogl3",
-"sfx_sogr1", "sfx_sogr2", "sfx_sogr3", "sfx_sogr4",
-"sfx_some1", "sfx_some2", "sfx_some3", "sfx_some4",
-"sfx_sowa1", "sfx_sowa2", "sfx_sowa3", "sfx_sowa4",
-"sfx_sowo1", "sfx_sowo2", "sfx_sowo3", "sfx_sowo4"
+	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln",
+	"sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
+	"sfx_soco1", "sfx_soco2", "sfx_soco3", "sfx_soco4",
+	"sfx_sodi1", "sfx_sodi2", "sfx_sodi3", "sfx_sodi4",
+	"sfx_sogl1", "sfx_sogl2", "sfx_sogl3",
+	"sfx_sogr1", "sfx_sogr2", "sfx_sogr3", "sfx_sogr4",
+	"sfx_some1", "sfx_some2", "sfx_some3", "sfx_some4",
+	"sfx_sowa1", "sfx_sowa2", "sfx_sowa3", "sfx_sowa4",
+	"sfx_sowo1", "sfx_sowo2", "sfx_sowo3", "sfx_sowo4",
+	"sfx_sosn1", "sfx_sosn2", "sfx_sosn3", "sfx_sosn4"
 )
 
 if not SoundListInfo
@@ -31,6 +32,7 @@ sfxinfo[sfx_someln].caption="Metal landing"
 sfxinfo[sfx_sogrln].caption="Grass landing"
 sfxinfo[sfx_sowaln].caption="Liquid landing"
 sfxinfo[sfx_soglln].caption="Glass landing"
+sfxinfo[sfx_sosnln].caption="Snow landing"
 
 sfxinfo[sfx_sowobr].caption="Wood skidding"
 sfxinfo[sfx_socobr].caption="Stone skidding"
@@ -74,6 +76,11 @@ sfxinfo[sfx_sowo2].caption="Wood steps"
 sfxinfo[sfx_sowo3].caption="Wood steps"
 sfxinfo[sfx_sowo4].caption="Wood steps"
 
+sfxinfo[sfx_sosn1].caption="Snow steps"
+sfxinfo[sfx_sosn2].caption="Snow steps"
+sfxinfo[sfx_sosn3].caption="Snow steps"
+sfxinfo[sfx_sosn4].caption="Snow steps"
+
 local soundinfolist={
 	["sonic"]={
 		["grass"]={
@@ -89,9 +96,9 @@ local soundinfolist={
 		  ["skid"]={sfx_sodibr},
 		  ["land"]={sfx_sodiln},
 		},["snow"]={
-		  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
+		  ["steps"]={sfx_sosn1, sfx_sosn2, sfx_sosn3, sfx_sosn4},
 		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sodiln},
+		  ["land"]={sfx_sosnln},
 		},["cloth"]={
 		  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
 		  ["skid"]={sfx_sodibr},
