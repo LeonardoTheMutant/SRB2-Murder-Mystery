@@ -6,7 +6,7 @@
 -- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
 freeslot(
-	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln",
+	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln",
 	"sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
 	"sfx_soco1", "sfx_soco2", "sfx_soco3", "sfx_soco4",
 	"sfx_sodi1", "sfx_sodi2", "sfx_sodi3", "sfx_sodi4",
@@ -15,7 +15,8 @@ freeslot(
 	"sfx_some1", "sfx_some2", "sfx_some3", "sfx_some4",
 	"sfx_sowa1", "sfx_sowa2", "sfx_sowa3", "sfx_sowa4",
 	"sfx_sowo1", "sfx_sowo2", "sfx_sowo3", "sfx_sowo4",
-	"sfx_sosn1", "sfx_sosn2", "sfx_sosn3", "sfx_sosn4"
+	"sfx_sosn1", "sfx_sosn2", "sfx_sosn3", "sfx_sosn4",
+	"sfx_sosa1", "sfx_sosa2", "sfx_sosa3", "sfx_sosa4"
 )
 
 if not SoundListInfo
@@ -81,6 +82,11 @@ sfxinfo[sfx_sosn2].caption="Snow steps"
 sfxinfo[sfx_sosn3].caption="Snow steps"
 sfxinfo[sfx_sosn4].caption="Snow steps"
 
+sfxinfo[sfx_sosa1].caption="Sand steps"
+sfxinfo[sfx_sosa2].caption="Sand steps"
+sfxinfo[sfx_sosa3].caption="Sand steps"
+sfxinfo[sfx_sosa4].caption="Sand steps"
+
 local soundinfolist={
 	["sonic"]={
 		["grass"]={
@@ -104,9 +110,9 @@ local soundinfolist={
 		  ["skid"]={sfx_sodibr},
 		  ["land"]={sfx_sodiln},
 		},["sand"]={
-		  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
+		  ["steps"]={sfx_sosa1, sfx_sosa2, sfx_sosa3, sfx_sosa4},
 		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sodiln},
+		  ["land"]={sfx_sosaln},
 		},["wood"]={
 		  ["steps"]={sfx_sowo1, sfx_sowo2, sfx_sowo3, sfx_sowo4},
 		  ["skid"]={sfx_sowobr},
@@ -1889,8 +1895,8 @@ local flatsounds={
 	["ROCKY6F"]="stone",
 	["RUINS1_1"]="stone",
 	["RUINS1_2"]="stone",
-	["SAND"]="dirt",
-	["SANDFLR"]="dirt",
+	["SAND"]="sand",
+	["SANDFLR"]="sand",
 	["SANDFLRA"]="stone",
 	["SANDFLRB"]="stone",
 	["SANDFLRC"]="stone",
