@@ -160,7 +160,7 @@ mobjinfo[MT_DEADPLR]={
     --$Arg1 Skincolor (SKINCOLOR_*)
     --$NotAngled
     spawnstate = S_MMSKELT,
-    doomednum = 666,
+    doomednum = 2023,
     radius = 1048576, --16*FU
     height = 1,
 }

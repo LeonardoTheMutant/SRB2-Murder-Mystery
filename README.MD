@@ -10,7 +10,7 @@ A port of the popular multiplayer game in a form of a new gametype for [Sonic Ro
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulse" alt="Activity">
   <img src="https://img.shields.io/github/commit-activity/m/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
 <a href="https://srb2.org">
-  <img src="https://img.shields.io/badge/SRB2_compatibility-v2.2.14-darkblue"></a>
+  <img src="https://img.shields.io/badge/SRB2_compatibility-v2.2.15-darkblue"></a>
 <a href="https://discord.gg/UgG8h2djFE">
   <img src="https://img.shields.io/discord/1075825170658381926?logo=discord" alt="chat on Discord"></a>
 

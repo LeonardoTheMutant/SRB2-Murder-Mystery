@@ -61,7 +61,7 @@ addHook("MapLoad", function(map)
 end)
 
 --
--- Dead player body spawner (Map thing type 666)
+-- Dead player body spawner (Map thing type 2023)
 --
 addHook("MapThingSpawn", function(mo, mapthing)
     mo.state = S_MMSKELT + mapthing.args[0]

@@ -233,4 +233,4 @@ addHook("NetVars", function(net)
 	MM.duelplrs = net($)
 end)
 
-if (MODVERSION != 55) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.14 only. Incompatibilities may occur", 0) end
+if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.15 only. Incompatibilities may occur", 0) end
