@@ -353,7 +353,7 @@ end)
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 rawset(_G, "MM_StartSuspenseMusic", function()
-	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_CIVILIAN) == 1) and #MM.shremds) and (PlayerCount()))
+	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_CIVILIAN) == 1) and #MM.shremds))
 		if (mapheaderinfo[gamemap].suspensetrack and S_MusicExists(mapheaderinfo[gamemap].suspensetrack))
 			MM.susnce = mapheaderinfo[gamemap].suspensetrack
 		else

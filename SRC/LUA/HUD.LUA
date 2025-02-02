@@ -449,7 +449,7 @@ hud.add(function(v, p)
 	end
 
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_CIVILIAN)))
+	if ((not PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame))
 		V_DrawStrASCII_Center(v, 160, 192, "\24"..MM_GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"))
 	end
 

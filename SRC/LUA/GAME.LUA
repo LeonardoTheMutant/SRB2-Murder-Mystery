@@ -8,6 +8,7 @@
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 local crypticCVAR = CV_FindVar("mm_cryptic")
 local shieldsCVAR = CV_FindVar("mm_allowshields")
+local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
 
@@ -163,7 +164,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 				MM_ChatprintGlobal("SHERI_DIED_DROP", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
 			else
-				if (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
+				if (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
 					MM_ChatprintGlobal("SHERI_DIED", vp.name)
 					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accicent") end
 				else
@@ -184,7 +185,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
 
-		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and (not wepcfgCVARs[ROLE_CIVILIAN].value))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
 			MM_ChatprintGlobal("HERO_DIED", vp.name)
@@ -208,7 +209,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 				MM_KillPlayerByHazard(a, true)
 				if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-				elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
+				elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				else
 					chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
@@ -293,7 +294,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 		end
 
-		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and (not wepcfgCVARs[ROLE_CIVILIAN].value))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
 			MM_ChatprintGlobal("HERO_KILLED", vp.name)
@@ -319,7 +320,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_KillPlayerByHazard(a, true)
 			if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-			elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
+			elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			else
 				chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
