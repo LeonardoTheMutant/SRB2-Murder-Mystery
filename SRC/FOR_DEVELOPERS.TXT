@@ -14,7 +14,7 @@ MM_LTMs_MurderMystery_v1.0.pk3
 |          +-MM_Func&Const_List.md - Documentation of functions and constants
 |          +-MM_HUD_Library.md - Documentation of the "Murder Mystery HUD library"
 |          +-MM_Userdata_Structure.md - Documentation of the various MM userdata tables
-|          \-MM_WEPCONFIG.PNG - Visual explanation of the CVAR of the same name (in binary form)
+|          \-MM_WEPCFG.PNG - Visual explanation of the Weapon Configuration Console Variables for each role
 |
 +-LUA-\
 |     |

@@ -3,6 +3,8 @@
 --
 -- Main logic functions & MM HUD Library
 
+local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
+
 --
 -- GLOBAL PLAYER COUNTING FUNCTIONS
 --
@@ -116,7 +118,7 @@ rawset(_G, "MM_AssignRoles", function()
     end
 	--tell each player its role personally
 	for p in players.iterate
-		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_INNOCENT end --we previously didn't make Innos so make them now
+		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
 		chatprintf(p, MM_GetText(p.mm.lang, "ROLE_GET", p.mm.role))
 		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
 	end
@@ -270,9 +272,9 @@ end)
 rawset(_G, "MM_PlayerQuit", function(p)
 	if (p.mm.role == ROLE_MURDERER)
 		p.mm.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_INNOCENT) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
+		if ((not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_CIVILIAN) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
 			MM_EndRound(0, "LAST_QUIT", ROLE_MURDERER)
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_MURDERER)))
+		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_MURDERER)))
 			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_MURDERER)
 			MM_SetRandomInnoAs(ROLE_MURDERER, 1)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
@@ -282,10 +284,10 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	elseif (p.mm.role == ROLE_SHERIFF)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF))
+		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF))
 			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_SHERIFF)
 			else MM_EndRound(0, "LAST_QUIT", ROLE_SHERIFF) end
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_SHERIFF)))
+		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_SHERIFF)
 			MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
@@ -295,10 +297,10 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	elseif (p.mm.role == ROLE_HERO)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_HERO))
+		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_HERO))
 			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_HERO)
 			else MM_EndRound(0, "LAST_QUIT", ROLE_HERO) end
-		elseif (PlayerCount(ROLE_INNOCENT) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
+		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
 			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_HERO)
 			MM_SetRandomInnoAs(ROLE_HERO, 3)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
@@ -306,9 +308,9 @@ rawset(_G, "MM_PlayerQuit", function(p)
 			MM_ChatprintGlobal("ONE_QUIT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
-	elseif (p.mm.role == ROLE_INNOCENT)
+	elseif (p.mm.role == ROLE_CIVILIAN)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 			MM_EndRound(0, "LAST_QUIT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
 		end
 	end
@@ -351,7 +353,7 @@ end)
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 rawset(_G, "MM_StartSuspenseMusic", function()
-	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_INNOCENT) == 1) and #MM.shremds) and (PlayerCount()))
+	if ((not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (PlayerCount(ROLE_CIVILIAN) == 1) and #MM.shremds) and (PlayerCount()))
 		if (mapheaderinfo[gamemap].suspensetrack and S_MusicExists(mapheaderinfo[gamemap].suspensetrack))
 			MM.susnce = mapheaderinfo[gamemap].suspensetrack
 		else
@@ -365,7 +367,7 @@ end)
 
 --Enable Showdown music when there are no innocents left
 rawset(_G, "MM_StartShowdownMusic", function()
-	if (not PlayerCount(ROLE_INNOCENT)) and (not MM.shwdwn) and (not MM.twopgame) and (PlayerCount())
+	if (not PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (PlayerCount())
 		if (mapheaderinfo[gamemap].showdowntrack and S_MusicExists(mapheaderinfo[gamemap].showdowntrack))
 			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
 		else
@@ -380,7 +382,7 @@ end)
 rawset(_G, "MM_SetRandomInnoAs", function(role, message)
 	local plrs = {}
 	for plr in players.iterate
-		if ((not plr.spectator) and (plr.mm.role == ROLE_INNOCENT)) then table.insert(plrs, #plr) end
+		if ((not plr.spectator) and (plr.mm.role == ROLE_CIVILIAN)) then table.insert(plrs, #plr) end
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
@@ -397,17 +399,13 @@ rawset(_G, "MM_PunishPlayer", function(p, msg, ban) --player (player_t), punishm
 	end
 end)
 
-rawset(_G, "MM_WeaponConfigFlags", function(role, flags)
-	if (role == ROLE_MURDERER)
-		if (PlayerCount(ROLE_INNOCENT)) then return MM.weaponconfig[1] & flags
-		else return MM.weaponconfig[3] & flags end
-	elseif (role == ROLE_SHERIFF) or (role == ROLE_HERO)
-		if (PlayerCount(ROLE_INNOCENT)) then return MM.weaponconfig[2] & flags
-		else return MM.weaponconfig[4] & flags end
-	elseif (role == ROLE_INNOCENT)
-		return CV_FindVar("mm_wepinno").value & flags
+rawset(_G, "MM_GetWepCfgFlags", function(role)
+	if (not role) or (role < ROLE_MURDERER) or (role > ROLE_HERO) or (role == ROLE_CIVILIAN) then return 0 end
+	if (PlayerCount(ROLE_CIVILIAN)) --Normal gameplay
+		return wepcfgCVARs[role].value & 3
+	else --Showdown Duel
+		return (wepcfgCVARs[role].value >> 2) & 3
 	end
-	return 0
 end)
 
 --

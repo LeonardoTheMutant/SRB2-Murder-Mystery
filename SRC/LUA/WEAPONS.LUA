@@ -4,6 +4,7 @@
 -- Vanilla weaponry recreation for modding it
 
 local autofireCVAR = CV_FindVar("mm_autofire")
+local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 MM.weapons = {}
 
 -- VANILLA WEAPONS
@@ -101,9 +102,9 @@ local function P_SetWeaponDelay(p, delay)
 end
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
-    if (gametype != GT_LTMMURDERMYSTERY) return end
+    if (gametype != GT_LTMMURDERMYSTERY) or (not p.mm.role) then return end
 
-    if (MM_WeaponConfigFlags(p.mm.role, WEPCFG_REDONLY) or (p.mm.role == ROLE_INNOCENT)) then p.currentweapon = 0 end --Force to weapon Slot 1
+    if ((p.mm.role != ROLE_CIVILIAN) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
 
     p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 
@@ -121,17 +122,27 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     local mo
 
-    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.currentweapon == 0) and MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
+    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
         -- KNIFE --
-        if ((p.mm.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.mm.role == ROLE_INNOCENT) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))))
-            P_SetWeaponDelay(p, MM.weapons[-2][4])
-            mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
-            if (p.mm.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
-                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails, take 50 rings instead
-                else P_GivePlayerRings(p, -100) end
-            else P_GivePlayerRings(p, -1) end
+        if (p.mm.role == ROLE_CIVILIAN)
+            if (((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+                P_SetWeaponDelay(p, MM.weapons[-2][4])
+                mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
 
-            if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+                --Weapon shot/use costs 100 rings for Innocents
+                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
+                else P_GivePlayerRings(p, -100) end
+
+                if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+            end
+        else --Roles other than Civilian
+            if (p.rings > 0)
+                P_SetWeaponDelay(p, MM.weapons[-2][4])
+                mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
+                P_GivePlayerRings(p, -1)
+
+                if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --stealth
+            end
         end
     elseif (p.currentweapon == WEP_AUTO) and (p.powers[pw_automaticring])
         -- AUTOMATIC --
@@ -170,7 +181,6 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         -- Reset everything modified previously
         p.mo.z = oldz
         p.aiming = oldaiming
-        return
     elseif (p.currentweapon == WEP_GRENADE) and (p.powers[pw_grenadering])
         -- GRENADE --
         P_DrainWeaponAmmo(p, pw_grenadering)
@@ -189,21 +199,31 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_RAIL][2], MM.weapons[WEP_RAIL][3])
         -- Rail has no unique thrown object, therefore its sound plays here.
         S_StartSound(p.mo, sfx_rail1)
-    elseif not (MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
-        if (p.currentweapon == 0) and (p.powers[pw_infinityring]) and (p.mm.role != ROLE_INNOCENT)
-            -- INFINITY --
-            P_SetWeaponDelay(p, MM.weapons[0][4])
-            mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
-            p.powers[pw_infinityring] = $ - 1
-        else
+    else
+        if (p.mm.role == ROLE_CIVILIAN)
             -- RED RING --
-            if ((p.mm.role != ROLE_INNOCENT) and (p.rings > 0)) or ((p.mm.role == ROLE_INNOCENT) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
+            if ((p.skin == 1 or p.skin == 5) and p.rings > 49) or ((p.skin != 1 or p.skin != 5) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1)
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
-                if (p.mm.role == ROLE_INNOCENT) --Weapon shot/use costs 100 rings for Innocents
-                    if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
-                    else P_GivePlayerRings(p, -100) end
-                else P_GivePlayerRings(p, -1) end
+
+                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
+                else P_GivePlayerRings(p, -100) end
+            end
+        else --Roles other than Civilian
+            if (not (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
+                if (p.currentweapon == 0) and (p.powers[pw_infinityring])
+                    -- INFINITY --
+                    P_SetWeaponDelay(p, MM.weapons[0][4])
+                    mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
+                    p.powers[pw_infinityring] = $ - 1
+                else
+                    -- RED RING --
+                    if ((p.mm.role != ROLE_CIVILIAN) and (p.rings > 0)) or ((p.mm.role == ROLE_CIVILIAN) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
+                        P_SetWeaponDelay(p, MM.weapons[-1][4])
+                        mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
+                        P_GivePlayerRings(p, -1)
+                    end
+                end
             end
         end
     end
@@ -234,9 +254,15 @@ end, MT_MMKNIFE)
 -- Weapon Ring Panel despawner
 -- Works only when Weapon Configuration has "Red only" flag set everywhere
 
+local function IsRedOnlyEverywhere()
+    return (wepcfgCVARs[ROLE_MURDERER].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_MURDERER].value >> 2) & WEPCFG_REDONLY)
+            and (wepcfgCVARs[ROLE_SHERIFF].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_SHERIFF].value >> 2) & WEPCFG_REDONLY)
+            and (wepcfgCVARs[ROLE_HERO].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_HERO].value >> 2) & WEPCFG_REDONLY)
+end
+
 --Bounce
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end
@@ -244,7 +270,7 @@ end, MT_BOUNCEPICKUP)
 
 --Rail
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end
@@ -252,7 +278,7 @@ end, MT_RAILPICKUP)
 
 --Automatic
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end
@@ -260,7 +286,7 @@ end, MT_AUTOPICKUP)
 
 --Explosion
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end
@@ -268,7 +294,7 @@ end, MT_EXPLODEPICKUP)
 
 --Scatter
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end
@@ -276,7 +302,7 @@ end, MT_SCATTERPICKUP)
 
 --Grenade
 addHook("MapThingSpawn", function(m)
-	if ((gametype == GT_LTMMURDERMYSTERY) and (MM.weaponconfig[1] & WEPCFG_REDONLY) and (MM.weaponconfig[2] & WEPCFG_REDONLY) and (MM.weaponconfig[3] & WEPCFG_REDONLY) and (MM.weaponconfig[4] & WEPCFG_REDONLY))
+	if ((gametype == GT_LTMMURDERMYSTERY) and IsRedOnlyEverywhere())
 		m.state = 0
 		return true
 	end

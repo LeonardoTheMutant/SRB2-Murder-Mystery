@@ -9,6 +9,7 @@
 local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
 local crypticCVAR = CV_FindVar("mm_cryptic")
+local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 local scorePatchName, plrsAlive, rival
 
 local function wep2rw(wep) --convert WEP_* constant to RW_* constant
@@ -159,7 +160,7 @@ hud.add(function(v, p)
 		plrsAlive = PlayersAlive() - PlayerCount(ROLE_MURDERER)
 	elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)
 		plrsAlive = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO)
-	elseif (p.mm.role == ROLE_INNOCENT) or (not p.mm.role)
+	elseif (p.mm.role == ROLE_CIVILIAN) or (not p.mm.role)
 		plrsAlive = PlayersAlive() - 1
 	end
 	--Draw the number
@@ -301,7 +302,7 @@ hud.add(function(v, p)
 	--WEAPON RINGS
 
 	--Weapon selector frame Y position calculation
-	--ported from the C Source Code
+	--ported from the SRB2's Source Code
 	local q = p.mm.weapondelay
 	local del = 0
 	local pv = 16
@@ -338,10 +339,10 @@ hud.add(function(v, p)
 		}
 		wepTextFlags[0] = 0 --infinity
 
-		if (MM_WeaponConfigFlags(p.mm.role, WEPCFG_REDONLY))
+		if (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)
 
 			--REDONLY|DISABLERED (Knife-only)
-			if (MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
+			if (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED)
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
 				v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
 
@@ -363,7 +364,7 @@ hud.add(function(v, p)
 		--Draw all weapons
 		else
 			--DISABLERED
-			if (MM_WeaponConfigFlags(p.mm.role, WEPCFG_DISABLERED))
+			if (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED)
 				--Knife weapon
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
 				v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
@@ -405,17 +406,17 @@ hud.add(function(v, p)
 			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 		end
 	
-	--Innocent weapon logic
-	elseif (p.mm.role == ROLE_INNOCENT) and ((((consoleplayer.skin == 1) or (consoleplayer.skin == 5)) and (p.rings > 49)) or (((consoleplayer.skin != 1) and (consoleplayer.skin != 5)) and (p.rings > 99))) and (CV_FindVar("mm_wepinno").value)
+	--Civilian weapon logic
+	elseif (p.mm.role == ROLE_CIVILIAN) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))) and (wepcfgCVARs[ROLE_CIVILIAN].value)
 		--Knife-only
-		if (MM_WeaponConfigFlags(ROLE_INNOCENT, WEPCFG_DISABLERED))
+		if (wepcfgCVARs[ROLE_CIVILIAN].value == 2)
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
 		else
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
 		end
 
 		--Ammo counter
-		if (consoleplayer.skin == 1) or (consoleplayer.skin == 5) --Player is Tails or MetalSonic
+		if (p.skin == 1) or (p.skin == 5) --Player is Tails or MetalSonic
 			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 50), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
 		else
 			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
@@ -426,7 +427,7 @@ hud.add(function(v, p)
 	end
 
 	--Sheriff Emerald Radar for Innocents
-	if (p.mm.role == ROLE_INNOCENT) and (#MM.shremds) and (p.mm.shremd_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+	if (p.mm.role == ROLE_CIVILIAN) and (#MM.shremds) and (p.mm.shremd_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
 		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(p.mm.shremd_dist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
 
@@ -448,7 +449,7 @@ hud.add(function(v, p)
 	end
 
 	--"Showdown duel!"
-	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT)))
+	if (PlayerCount(ROLE_MURDERER) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_CIVILIAN)))
 		V_DrawStrASCII_Center(v, 160, 192, "\24"..MM_GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"))
 	end
 
@@ -570,7 +571,7 @@ hud.add(function(v)
 			V_DrawStrASCII(v, 20, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
 		end
 		--Innocent
-		if (PlayerCount(ROLE_INNOCENT)) V_DrawStrASCII(v, 20, 192, (MM.RoleColorHUD[ROLE_INNOCENT]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_INNOCENT)..": "..PlayerCount(ROLE_INNOCENT)), v.localTransFlag()) end
+		if (PlayerCount(ROLE_CIVILIAN)) V_DrawStrASCII(v, 20, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..PlayerCount(ROLE_CIVILIAN)), v.localTransFlag()) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#MM.shremds) and (leveltime & 1))

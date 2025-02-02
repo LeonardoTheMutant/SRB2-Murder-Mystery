@@ -48,12 +48,6 @@ rawset(_G, "MM", {
 			}
 		}
 	},
-	weaponconfig = { --4 groups of 2-bit weapon configurations
-		0, --Murderer (Normal)
-		0, --Sheriff (Normal)
-		0, --Murderer (Duel)
-		0  --Sheriff (Duel)
-	},
 	shwdwn_music = { --Tracks used as Showdown Duel themes
 		"DRMBM2", --Dr. Robotnik's Mean Bean Machine: "2 Player Vs."
 		"PWAAPR", --Phoenix Wright Ace Atourney: "Pressing Pursuit"
@@ -91,7 +85,7 @@ rawset(_G, "MM", {
 rawset(_G, "ROLE_NONE", 0)
 rawset(_G, "ROLE_MURDERER", 1)
 rawset(_G, "ROLE_SHERIFF", 2)
-rawset(_G, "ROLE_INNOCENT", 3)
+rawset(_G, "ROLE_CIVILIAN", 3)
 rawset(_G, "ROLE_HERO", 4)
 
 --Win reason constants
@@ -133,38 +127,58 @@ MM.AddLang = function(langID,langTbl)
 	if (MM.text[langID:upper()]["VERSION"] ~= MM.version) print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 end
 
---CVARs
-local function VarChange(v) --callback function called by CV_CALL flag
+--
+-- CVARs
+--
+
+--Additional CVAR text
+local rolenames = {
+	MM.RoleColor[ROLE_MURDERER].."Murderer\x80",
+	MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80",
+	MM.RoleColor[ROLE_CIVILIAN].."Civilian\x80",
+	MM.RoleColor[ROLE_HERO].."Hero\x80"
+}
+local sentences = {
+	[0] = "All weapons enabled",
+	[1] = "Only Red/Infinite rings + Knife",
+	[2] = "All weapons with Red/Infinite rings replaced by knife",
+	[3] = "Knife only"
+}
+
+local sentences_civil = {
+	[0] = "No weapons",
+	[1] = "Red Ring + Knife",
+	[2] = "Knife only"
+}
+
+--callback function called by CV_CALL flag
+local function VarChange(v)
 	if (v.name == "mm_abilities")
 		if (v.value) print("\x87Murder Mystery\x80: Skin abilities are Enabled (no limits)")
 		else print("\x87Murder Mystery\x80: Skin abilities are Disabled (\"Regular person\" mode)") end
 	elseif (v.name == "mm_allowshields")
 		if (v.value) print("\x87Murder Mystery\x80: Player shields got enabled. \x81Good luck surviving them.")
 		else print("\x87Murder Mystery\x80: Disabled player shields") end
-	elseif (v.name == "mm_wepconfig")
-		local sentences = {
-			[0] = "All weapons enabled",
-			[1] = "Only Red/Infinite rings + Knife",
-			[2] = "All weapons with Red/Infinite rings replaced by knife",
-			[3] = "Knife only"
-		}
-		MM.weaponconfig[1] = v.value & 3
-		MM.weaponconfig[2] = (v.value >> 2) & 3
-		MM.weaponconfig[3] = (v.value >> 4) & 3
-		MM.weaponconfig[4] = (v.value >> 6) & 3
-		print("\x87Murder Mystery\x80: Weapon Configuration was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[1]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[2]].."\n\t\x88Showdown Duel\x80:\n\t\t"..MM.RoleColor[ROLE_MURDERER].."Murderer\x80: "..sentences[MM.weaponconfig[3]].."\n\t\t"..MM.RoleColor[ROLE_SHERIFF].."Sheriff\x80: "..sentences[MM.weaponconfig[4]])
-	elseif (v.name == "mm_wepinno")
-		if (v.value == 0) print("\x87Murder Mystery\x80: Weapons are disabled for "..MM.RoleColor[ROLE_INNOCENT].."Innoncents")
-		elseif (v.value == 1) print("\x87Murder Mystery\x80: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife and Red Ring weapons")
-		elseif (v.value == 2) print("\x87Murder Mystery\x80: "..MM.RoleColor[ROLE_INNOCENT].."Innoncents\x80 have an access to the Knife") end
+	elseif (v.name == "mm_wepcfg_murd") or (v.name == "mm_wepcfg_sheri") or (v.name == "mm_wepcfg_hero")
+		local role = 0
+		if (v.name == "mm_wepcfg_murd") then role = ROLE_MURDERER
+		elseif (v.name == "mm_wepcfg_sheri") then role = ROLE_SHERIFF
+		elseif (v.name == "mm_wepcfg_hero") then role = ROLE_HERO
+		end
+
+		print("\x87Murder Mystery\x80: Weapon Configuration for role "..rolenames[role].." was changed to \x81"..v.value.."\x80. In other words...\n\t\x89Normal gameplay\x80 :"..sentences[v.value & 3].."\n\t\x88Showdown Duel\x80 :"..sentences[(v.value >> 2) & 3])
+	elseif (v.name == "mm_wepcfg_civil")
+		print("\x87Murder Mystery\x80: Weapon Configuration for role "..rolenames[ROLE_CIVILIAN].." was changed to \x81"..v.value.."\x80. In other words... "..sentences_civil[v.value])
 	elseif (v.name == "mm_cryptic")
 		if (v.value) print("\x87Murder Mystery\x80: Nametags and most of the player counters got disabled. \x81Good Luck finding out who others are.")
 		else print("\x87Murder Mystery\x80: Nametags and player counters are now enabled") end
 	end
 end
 -- Flags: 4 = CV_NETVAR; 6 = CV_NETVAR|CV_CALL
-CV_RegisterVar({name = "mm_wepinno", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
-CV_RegisterVar({name = "mm_wepconfig", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 255}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepcfg_murd", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 15}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepcfg_sheri", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 15}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepcfg_civil", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_wepcfg_hero", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 15}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_nocamping", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
 CV_RegisterVar({name = "mm_customskins", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_cryptic", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})

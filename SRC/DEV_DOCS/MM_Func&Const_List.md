@@ -72,12 +72,12 @@ These are the functions that are used in [`GAME.LUA`](../LUA/MAIN//GAME.LUA) (th
 | <code>**MM_StartSuspenseMusic**()</code> | *boolean* | Starts the Suspense music and returns `true` if there are no Sheriffs and no Heroes alive but one Civilian with at least one Sheriff's Emerald dropped. |
 | <code>**MM_StartShowdownMusic**()</code> | *boolean* | Starts one of the Showdown Duel tunes and returns `true` if there are no Civilians in the game.|
 | <code>**MM_StartFlashFX**(*player_t* player, *int* duration, [*int* color])</code> | nil | Initiate a fullscreen flash/spark visual effect for a specific player. <code>Duration</code> is the duration time of the effect's animation frame (animation has 10 frames in total). <code>color</code> sets the color of the effect, when this argument is not given the color will be set to white by default. |
-| <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Civilians. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Civilian to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_INNOCENT`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
+| <code>**MM_SetRandomInnoAs**(*int* role, *int* message)</code> | nil | Similar to <code>**MM_AssignRoles()**</code> but works for only for Civilians. In some gameplay situations, there has to be a replacement of the player with some important <code>role</code> and this function selects random Civilian to give the <code>role</code> to it. Any of the `ROLE_*` constants (except `ROLE_CIVILIAN`) can act as a possible value for the <code>role</code> argument.<br>Possible values for <code>Message</code>:<table><tr><th>Value</th><th>Message</th></tr><tr><td>1</td><td>*"You became a Murderer"*</td></tr><tr><td>2</td><td>*"You became a Sheriff"*</td></tr><tr><td>3</td><td>*"You became a Hero"*</td></tr><tr><td>4</td><td>*"You were rewarded the role of Hero"*</td></tr></table> |
 | <code>**MM_GetMMSHREMDinterval**(*int* distance)</code> | *int* | Get the interval time in tics between each radar beep depending on the <code>dist</code> distance. Used for Civilians' Sheriff Emerald radar. |
 | <code>**MM_IsTimelineCorrect**(*int* timezone1, *int* timezone2)</code> | *boolean* | Check if the events from <code>timezone1</code> can happen in <code>timezone2</code>. For example, if the event has happened in the *Past* the consequence of this event can be seen in the *Present*, *Bad Future*, and *Good Future*. But the event from the *Present*, *Bad Future*, or the *Good Future* cannot be seen in the *Past* (because it happened in the future). For easier understanding imagine a one-way road (timeline): `Past > Present > Bad/Good Future`<br>*Note:* Both of the arguments are `TIMEZONE_*` constants. |
 | <code>**MM_GetText**(*string* language, *string* line, [*string*/*int* parameter])</code> | *string* | A safe way to extract the strings from the global MM Text Table (<code>MM.text</code>) without crashing/erroring LUA. When all 3 arguments are given this function returns the value at <code>MM.text[language][line][parameter]</code>. If only <code>language</code> and <code>line</code> arguments are given the function returns the value from <code>MM.text[language][line]</code>. If the text is not found or the arguments are invalid a blank string is returned instead.<br>*Note:* Even if the expected return value is table, this function will return an empty string!<br>*In Debug Builds:* If the text can not be reached or invalid arguments are given an error is triggered with the details. |
 | <code>**MM_PunishPlayer**(*player_t* player, *string* message, [*boolean* ban?])</code> | *nil* | Kick player from the game or ban if <code>ban?</code> is set. <code>message</code> is the kick/ban message.<br>*Note:* If the player who is going to be punished is the host, SRB2 automatically closes for this player, causing the server to shut down. |
-| <code>**MM_WeaponConfigFlags**(*int* role, *int* flags)</code> | *int* | Returns the result of the Logical AND operation between Weapon Configuration CVAR (`mm_wepconfig`) and <code>flags</code> argument for the given <code>role</code>. |
+| <code>**MM_GetWepCfgFlags**(*int* role)</code> | *int* | Returns the Weapon Configuration Flags for the given role. This function usually returns the lower 2 bits of the 4-bit configuration value, however, when the Showdown Duel is active the higher 2 bits are returned. This function always returns `0` for <code>ROLE_CIVILIAN</code> because this role has different weapon configuration values. |
 
 ### `HUD.LUA`
 
@@ -121,7 +121,7 @@ Here is the full list of MM constants:
 | `ROLE_NONE`     | 0     | No role  |
 | `ROLE_MURDERER` | 1     | Murderer |
 | `ROLE_SHERIFF`  | 2     | Sheriff  |
-| `ROLE_INNOCENT` | 3     | Civilian |
+| `ROLE_CIVILIAN` | 3     | Civilian |
 | `ROLE_HERO`     | 4     | Hero     |
 
 ### Game messages (for <code>MM_ChatprintGlobal()</code>)
@@ -132,9 +132,9 @@ Here is the full list of MM constants:
 | `"SHERI_KILLED_DROP"` | *string* | Same as `"SHERI_KILLED"` but also tells that the *Sheriff's Emerald* is dropped |
 | `"MURD_DIED"`, `"SHERI_DIED"`, `"HERO_DIED"` | *string* | "Murderer/Sheriff/Hero by the name of `var` has died in an accident (drown, crushed, fell into the pit)!". For `"SHERI_KILLED"` it just says that the Sheriff has died |
 | `"SHERI_DIED_DROP"` | *string* | Same as `"SHERI_DIED"` but also tells that the *Sheriff's Emerald* is dropped |
-| `"LAST_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "The last player with `var` role has left the game!" |
-| `"ONE_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "One of the players with `var` role has left the game!" |
-| `"REPLACE_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_INNOCENT`) | "Player with the `var` role left the game! Some random Civilian will take his role!" |
+| `"LAST_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_CIVILIAN`) | "The last player with `var` role has left the game!" |
+| `"ONE_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_CIVILIAN`) | "One of the players with `var` role has left the game!" |
+| `"REPLACE_QUIT"` | One of the [`ROLE_*`](#role-constants-role) constants (except `ROLE_CIVILIAN`) | "Player with the `var` role left the game! Some random Civilian will take his role!" |
 | `"INNO_HURT"` | *1* or *2* | "Civilian is hurt" global notice. The context of the message is different depending on who hit the Civilian: 1 - Sheriff, 2 - Hero. |
 | `"WIN"` | One of the [`WIN_*`](#win-reasons-win) constants | The end round message. `var` is the reason of the round end. |
 
@@ -173,7 +173,7 @@ These contants describe in which direction in the timeline player will warp
 
 ### Weapon configurations
 
-The constants for the configurations flag checks. Useful only with the `mm_wepconfig`'s CVAR value (Bitshift it to the right 2, 4 and 6 times)
+The constants for the configurations flag checks
 
 | Constant | Value | Description |
 | --- | --- | --- |

@@ -157,7 +157,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
 
-		if (PlayerCount(ROLE_INNOCENT))
+		if (PlayerCount(ROLE_CIVILIAN))
 			if (spawnBodyOrEmerald)
 				MM_SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 				MM_ChatprintGlobal("SHERI_DIED_DROP", vp.name)
@@ -170,10 +170,10 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 					MM_EndRound(1, "WIN", WIN_NODEFENDERS)
 				end
 			end
-		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
+		elseif (not PlayerCount(ROLE_CIVILIAN)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 			MM_ChatprintGlobal("SHERI_DIED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident") end
-		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
+		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_CIVILIAN))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
 	elseif (vp.mm.role == ROLE_HERO)
@@ -190,25 +190,25 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 			MM_ChatprintGlobal("HERO_DIED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) has died in an accident") end
 		end
-	elseif (vp.mm.role == ROLE_INNOCENT)
+	elseif (vp.mm.role == ROLE_CIVILIAN)
 		if (ap)
 			MM_KillPlayerByPlayer(v, a)
 			if (ap.mm.role == ROLE_SHERIFF)
 				-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 				-- otherwise Murderers win
-				if (PlayerCount(ROLE_INNOCENT))
+				if (PlayerCount(ROLE_CIVILIAN))
 					chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 1))
 					MM_ChatprintGlobal("INNO_HURT", 1)
 					MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
-					ap.mm.role = ROLE_INNOCENT
+					ap.mm.role = ROLE_CIVILIAN
 				else
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_SHERIKILLINNO)
 				end
 			elseif (ap.mm.role == ROLE_HERO)
 				MM_KillPlayerByHazard(a, true)
-				if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+				if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-				elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
+				elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
 					MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 				else
 					chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
@@ -217,7 +217,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 			end
 		else
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
-			if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (not PlayerCount(ROLE_INNOCENT)))
+			if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO) and (not PlayerCount(ROLE_CIVILIAN)))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 			end
 		end
@@ -244,12 +244,12 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 		end
 
 		if (not PlayerCount(ROLE_MURDERER))
-			if (ap.mm.role == ROLE_INNOCENT) then ap.mm.role = ROLE_HERO end --Reward the Innocent
+			if (ap.mm.role == ROLE_CIVILIAN) then ap.mm.role = ROLE_HERO end --Reward the Innocent
 			MM_EndRound(WIN_CIVILS, "WIN", WIN_CIVILS)
 		else
 			MM_ChatprintGlobal("MURD_KILLED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
-			if (ap.mm.role == ROLE_INNOCENT)
+			if (ap.mm.role == ROLE_CIVILIAN)
 				ap.mm.role = ROLE_HERO
 				chatprintf(ap, MM_GetText(ap.mm.lang, "NEWROLE_GET", 4))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
@@ -263,20 +263,20 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_KillPlayerByPlayer(v, a)
 		end
 
-		if (ap.mm.role == ROLE_INNOCENT)
+		if (ap.mm.role == ROLE_CIVILIAN)
 			MM_KillPlayerByHazard(a, true)
 			chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 3))
 			if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 		end
 
-		if (PlayerCount(ROLE_INNOCENT))
+		if (PlayerCount(ROLE_CIVILIAN))
 			MM_SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 			MM_ChatprintGlobal("SHERI_KILLED_DROP", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
-		elseif (not PlayerCount(ROLE_INNOCENT)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
+		elseif (not PlayerCount(ROLE_CIVILIAN)) and (PlayerCount(ROLE_SHERIFF) or PlayerCount(ROLE_HERO))
 			MM_ChatprintGlobal("SHERI_KILLED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
-		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_INNOCENT))
+		elseif (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_CIVILIAN))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		end
 	elseif (vp.mm.role == ROLE_HERO)
@@ -287,7 +287,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_KillPlayerByPlayer(v, a)
 		end
 
-		if (ap.mm.role == ROLE_INNOCENT)
+		if (ap.mm.role == ROLE_CIVILIAN)
 			MM_KillPlayerByHazard(a, true)
 			chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 5))
 			if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
@@ -299,35 +299,35 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			MM_ChatprintGlobal("HERO_KILLED", vp.name)
 			if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
 		end
-	elseif (vp.mm.role == ROLE_INNOCENT)
+	elseif (vp.mm.role == ROLE_CIVILIAN)
 		MM_KillPlayerByPlayer(v, a)
 
-		if (ap.mm.role == ROLE_MURDERER) and (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+		if (ap.mm.role == ROLE_MURDERER) and (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 		elseif (ap.mm.role == ROLE_SHERIFF)
 			-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 			-- otherwise, Murderers win
-			if (PlayerCount(ROLE_INNOCENT))
+			if (PlayerCount(ROLE_CIVILIAN))
 				chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 1))
 				MM_ChatprintGlobal("INNO_HURT", 1)
 				MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
-				ap.mm.role = ROLE_INNOCENT
+				ap.mm.role = ROLE_CIVILIAN
 			else
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_SHERIKILLINNO)
 			end
 		elseif (ap.mm.role == ROLE_HERO)
 			MM_KillPlayerByHazard(a, true)
-			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
-			elseif (PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
+			elseif (PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not #MM.shremds)
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			else
 				chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
 				MM_ChatprintGlobal("INNO_HURT", 2)
 			end
-		elseif (ap.mm.role == ROLE_INNOCENT)
+		elseif (ap.mm.role == ROLE_CIVILIAN)
 			MM_KillPlayerByHazard(a, true)
-			if (not PlayerCount(ROLE_INNOCENT)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
+			if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
 				MM_EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 			else
 				chatprintf(ap, MM_GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 4))
@@ -347,7 +347,7 @@ end, MT_PLAYER)
 addHook("TouchSpecial", function(special, toucher)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	if (toucher) and valid(toucher.player) and (toucher.player.mm.role == ROLE_INNOCENT)
+	if (toucher) and valid(toucher.player) and (toucher.player.mm.role == ROLE_CIVILIAN)
 		for emeraldID = 1, #MM.shremds do
 			if ((MM.shremds[emeraldID].x == special.x) and (MM.shremds[emeraldID].y == special.y) and (MM.shremds[emeraldID].z == special.z))
 				table.remove(MM.shremds, emeraldID)
@@ -387,7 +387,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--Sheriff Emerald Radar distance logic
-	if ((#MM.shremds) and ((p.mm.role == ROLE_INNOCENT) or (p.mm.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
+	if ((#MM.shremds) and ((p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_MURDERER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
@@ -404,7 +404,7 @@ addHook("PlayerThink", function(p)
 
 		--play sound
 		if (p.mm.shremd_dist)
-			if (p.mm.role == ROLE_INNOCENT) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+			if (p.mm.role == ROLE_CIVILIAN) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
 				shremd_interval = MM_GetSHREMDinterval(fixint(p.mm.shremd_dist))
 				if (shremd_interval and (leveltime % shremd_interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 			elseif (p.mm.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)
