@@ -30,6 +30,7 @@ VARIABLES
 	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
 		The default value is NO.
+	MM_FOOTMARKS - Enable/Disable the footmarks spawning. The default value is ON.
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
 	MM_WEPCFG_MURD, MM_WEPCFG_SHERI, MM_WEPCFG_HERO - Set the Weapon Configuration for Murderers, Sheriffs and Heroes respectively.
@@ -48,22 +49,26 @@ COMMANDS
 ---=== List of incompatible Add-On types ===---
 Here is the list of Add-On types that can break Murder Mystery and the reasons why they break:
 
-+--------------------------------+---------------------------------+
-| Add-On type                    | What does it break              |
-+--------------------------------+---------------------------------+
-+--------------------------------+---------------------------------+
-| Custom characters/abilities    | Can be too OP and ruin the way  |
-|                                | MM was meant to be played       |
-+--------------------------------+---------------------------------+
-| Custom HUD                     | Can create a mess on the screen.|
-|                                | Not much critical for gameplay. |
-+--------------------------------+--------------------------------=+
-| Murder Mystery Custom Language | LUA Errors might occur about    |
-| File (not matching version)    | missing string/block of text.   |
-|                                | Additionally, text may disappear|
-|                                | on the screen entirely          |
-+--------------------------------+---------------------------------+
-Watch what you're adding, AND TRY TO NOT ADD CUSTOM CHARACTERS (they are disabled in MM anyway)!
++------------------------------+---------------------------------------+
+| Add-On type                  | What does it break                    |
++------------------------------+---------------------------------------+
++------------------------------+---------------------------------------+
+| Custom characters/abilities  | Can be too OP and ruin the way MM was |
+|                              | meant to be played                    |
++------------------------------+---------------------------------------+
+| Custom HUD or additional HUD | Can create a mess on the screen. Some |
+| elements                     | HUD modifications can reveal player   |
+|                              | status, role, etc.                    |
++------------------------------+---------------------------------------+
+| Murder Mystery Language File | Depending on the file, the text might |
+| (not matching version)       | not show up in some places or show    |
+|                              | gibberish symbols instead.            |
++------------------------------+---------------------------------------+
+| Chat modifications           | Your custom chat code can conflict    |
+|                              | with the MM chat code, whch can lead  |
+|                              | to chat leaks and malfunctions of     |
+|                              | different sorts                       |
++------------------------------+---------------------------------------+
 
 We will add more information here if something else important will be noticed,
 please inform us as well if you will notice ANY KIND of bug/issue first.

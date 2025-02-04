@@ -5,6 +5,8 @@
 --
 -- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
+local footmarksCVAR = CV_FindVar("mm_footmarks")
+
 freeslot(
 	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln",
 	"sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
@@ -2428,7 +2430,7 @@ addHook("PlayerThink", function(player)
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks))
+							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks) and footmarksCVAR.value)
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
 							end
