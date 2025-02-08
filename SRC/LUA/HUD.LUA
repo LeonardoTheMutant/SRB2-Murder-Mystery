@@ -175,15 +175,15 @@ hud.add(function(v, p)
 		xoff = V_GetTextPatchOffsetX(consoleplayer.mm.lang, "BMP_TIME")
 		yoff = V_GetTextPatchOffsetY(consoleplayer.mm.lang, "BMP_TIME")
 		--Draw the Text Label
-		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4))
 			--Swap the colors in the label for flashing effect
 			--0x49 in SRB2's palette is Yellow, 0x25 is Red
-			V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|V_PERPLAYER.localTransFlag())
+			V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, V_TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
 		else
 			V_DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mm.lang]["BMP_TIME"], hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
 		end
 	else --in case Text Patch was not found
-		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4))
 			v.drawString(hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, "TIME", hudinfo[HUD_TIME].f|V_PERPLAYER|V_REDMAP|v.localTransFlag())
 		else
 			v.drawString(hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, "TIME", hudinfo[HUD_TIME].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag())

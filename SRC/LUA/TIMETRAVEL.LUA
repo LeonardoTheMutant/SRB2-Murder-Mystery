@@ -14,7 +14,6 @@ freeslot("S_TIMESIGN_F_SPIN1", "S_TIMESIGN_F_SPIN2", "S_TIMESIGN_F_SPIN3", "S_TI
 mobjinfo[MT_TIMESIGN_F]={
 	--$Title Time Warp sign (Future)
 	--$Sprite TMSNB0
-	--$Arg0 Skin (INT32)
 	--$NotAngled
 	doomednum = 36,
 	spawnstate = S_TIMESIGN_F,
@@ -79,7 +78,6 @@ states[S_TIMESIGN_F_SPIN7] = {
 mobjinfo[MT_TIMESIGN_P]={
 	--$Title Time Warp sign (Past)
 	--$Sprite TMSNA0
-	--$Arg0 Skin (INT32)
 	--$NotAngled
 	doomednum = 37,
 	spawnstate = S_TIMESIGN_P,
