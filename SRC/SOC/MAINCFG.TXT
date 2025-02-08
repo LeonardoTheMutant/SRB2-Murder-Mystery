@@ -3,97 +3,87 @@ MainCfg
 Level K0
 LevelName = Abandoned Shelter
 SelectHeading = LTM's Murder Mystery
-Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = K1
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level K1
 Levelname = Vineyard Castle
 SelectHeading = LTM's Murder Mystery
-Act = 0
 SkyNum = 10
 TypeOfLevel = LTM_MM
 NextLevel = K2
-Lua.Author = Piksqu, LeoTM
+Lua.Author = Piksqu, LeonardoTheMutant
 
 Level K2
 LevelName = Peridot Park
 SelectHeading = LTM's Murder Mystery
 SkyNum = 99
 SkyboxScale = 32
-Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = K3
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level K3
 Levelname = Mountain Fort
 SelectHeading = LTM's Murder Mystery
-Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
 SkyNum = 17
 Weather = 2
 NextLevel = K4
-Lua.Autor = Zombie Escape team, LeoTM
+Lua.Autor = SRB2 Zombie Escape team, LeonardoTheMutant
 
 Level K4
 LevelName = West City
 SelectHeading = LTM's Murder Mystery
 SkyNum = 13
-Act = 0
 TypeOfLevel = LTM_MM
 NextLevel = K5
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level K5
 LevelName = Dam
 SubTitle = ^2Goldeneye^5 007
 SelectHeading = LTM's Murder Mystery
-Act = 0
 SkyNum = 30
 TypeOfLevel = LTM_MM
 NextLevel = K6
-Lua.Author = Rare, LeoTM
+Lua.Author = Rareware, LeonardoTheMutant
 
 Level K6
 LevelName = BACKROOMS
 SelectHeading = LTM's Murder Mystery
 Music = None
 NoZone = True
-Act = 0
 TypeOfLevel = LTM_MM
 NextLevel = K7
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level K7
 LevelName = Space Mesa
 SelectHeading = LTM's Murder Mystery
 NoZone = True
-Act = 0
 SkyNum = 21
 TypeOfLevel = LTM_MM
 NextLevel = K8
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level K8
 LevelName = 8-Ball Hotel
 SelectHeading = LTM's Murder Mystery
 SkyNum = 6
-Act = 0
 NoZone = True
 Weather = 3
 TypeOfLevel = LTM_MM
 NextLevel = K9
-Lua.Author = SuperOfSrb2, LeoTM
+Lua.Author = SuperOfSrb2, LeonardoTheMutant
 
 Level K9
 LevelName = Greenflower Mystery
 SelectHeading = LTM's Murder Mystery
-Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = KA
@@ -103,83 +93,84 @@ Level KA
 LevelName = Mirage Express
 SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
-Act = 0
 NoZone = True
 TypeOfLevel = LTM_MM
+NextLevel = KB
+Lua.Author = SEGA, SandwichCinema, LeonardoTheMutant
+
+Level KB
+Levelname = Railway Station
+SubTitle = Under Construction
+NoZone = True
+SelectHeading = LTM's Murder Mystery
+TypeOfLevel = LTM_MM
 NextLevel = KC
-Lua.Author = SEGA, SandwichCinema, LeoTM
+Lua.Author = Troplucky, LeonardoTheMutant
 
 Level KC
 LevelName = Stauf's Mansion
 SubTitle = The^5 11th^0 hour
 SelectHeading = LTM's Murder Mystery
 Music = 11H_00
-Act = 0
 SkyNum = 6
 NoZone = True
 TypeOfLevel = LTM_MM
-Lua.Timelimit = 11
 NextLevel = KD
-Lua.ShowdownTrack = 11H_TR
-Lua.SuspenseTrack = 11H_SP
-Lua.SlowWalkSpeed = True
-Lua.DisableEmeraldRadar = True
-Lua.DisableFootmarks = True
-Lua.Author = Trillobyte, LeoTM
+Lua.MM-ShowdownTrack = 11H_TR
+Lua.MM_SuspenseTrack = 11H_SP
+Lua.MM_SlowWalkSpeed = True
+Lua.MM_DisableEmeraldRadar = True
+Lua.MM_DisableFootmarks = True
+Lua.Timelimit = 11
+Lua.Author = Trillobyte, LeonardoTheMutant
 
 Level KD
 LevelName = East City
 SelectHeading = LTM's Murder Mystery
-Act = 0
 SkyNum = 300
 SkyboxScale = 8
 TypeOfLevel = LTM_MM
-Lua.TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
-Lua.TimeTravel_ShiftY = 0
-Lua.TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
-Lua.TimeTravel_ShiftY2 = 0
-Lua.Timelimit = 10
 NextLevel = KE
-Lua.Author = LeoTM
+Lua.MM_TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
+Lua.MM_TimeTravel_ShiftY = 0
+Lua.MM_TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
+Lua.MM_TimeTravel_ShiftY2 = 0
+Lua.Timelimit = 10
+Lua.Author = LeonardoTheMutant
 
 Level KE
 LevelName = Shadow Moses Island
 SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
-Act = 0
 NoZone = true
 SkyNum = 6
 Weather = 2
 TypeOfLevel = LTM_MM
 NextLevel = KF
-Lua.ShowdownTrack = MGS_DL
-Lua.Author = Konami, Hideo Kojima, LeoTM
+Lua.MM_ShowdownTrack = MGS_DL
+Lua.Author = Konami, Hideo Kojima, LeonardoTheMutant
 
 Level KF
 Levelname = Merry Peak
 SelectHeading = LTM's Murder Mystery
-Act = 0
 Nozone = true
 TypeOfLevel = LTM_MM
 SkyNum = 17
 Weather = 2
 NextLevel = KG
-Lua.Author = Troplucky, LeoTM
+Lua.Author = Troplucky, LeonardoTheMutant
 
 Level KG
 Levelname = Atzec
 SelectHeading = LTM's Murder Mystery
-Act = 0
 TypeOfLevel = LTM_MM
 SkyNum = 40
 NextLevel = KH
-Lua.Author = LeoTM
+Lua.Author = LeonardoTheMutant
 
 Level KH
-Levelname = Eggstation
-SubTitle = Under Construction
+LevelName = Crystal Cave
 SelectHeading = LTM's Murder Mystery
-Act = 0
 TypeOfLevel = LTM_MM
 NextLevel = K0
-Lua.Author = Troplucky, LeoTM
+Lua.Author = LeonardoTheMutant, MinusMario

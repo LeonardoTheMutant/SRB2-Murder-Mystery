@@ -427,7 +427,7 @@ hud.add(function(v, p)
 	end
 
 	--Sheriff Emerald Radar for Innocents
-	if (p.mm.role == ROLE_CIVILIAN) and (#MM.shremds) and (p.mm.shremd_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+	if (p.mm.role == ROLE_CIVILIAN) and (#MM.shremds) and (p.mm.shremd_dist) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))
 		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(p.mm.shremd_dist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
 
@@ -449,7 +449,7 @@ hud.add(function(v, p)
 	end
 
 	--"Showdown duel!"
-	if ((not PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame))
+	if ((not PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame) and (PlayerCount() > 1))
 		V_DrawStrASCII_Center(v, 160, 192, "\24"..MM_GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"))
 	end
 
@@ -459,9 +459,7 @@ hud.add(function(v, p)
 	end
 	
 	--HUD frontend for the flash/spark effects
-	if (p.mm.hud.fx_translucency)
-		v.drawFill(0,0, v.width(), v.height(), p.mm.hud.fx_color|((p.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
-	end
+	if (p.mm.hud.fx_translucency) then v.fadeScreen(p.mm.hud.fx_color, p.mm.hud.fx_translucency) end
 
 	--Debug
 	if MM.debug
@@ -558,7 +556,7 @@ hud.add(function(v)
 		end
 	end
 
-	v.drawFill(0, 172, 320, 2, 0) --horizontal line
+	v.drawFill(0, 172, 320, 2, v.localTransFlag()) --horizontal line
 
 	--Roles counter
 	if (not crypticCVAR.value)
@@ -583,9 +581,7 @@ hud.add(function(v)
 	v.drawString(160, 176, "ONLINE: "..PlayerCount(), v.localTransFlag())
 
 	--HUD frontend for the flash/spark effects
-	if (consoleplayer.mm.hud.fx_translucency)
-		v.drawFill(0,0, v.width(), v.height(), consoleplayer.mm.hud.fx_color|((consoleplayer.mm.hud.fx_translucency - 1) << FRACBITS)|V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER)
-	end
+	if (consoleplayer.mm.hud.fx_translucency) then v.fadeScreen(consoleplayer.mm.hud.fx_color, consoleplayer.mm.hud.fx_translucency) end
 
 	-- Prerelease/Debug
 	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|v.localTransFlag(), "center") end
@@ -605,7 +601,6 @@ hud.add(function(v)
 
 	hud.disable("intermissiontally")
 	
-	--here starts the insanity
 	local charset = MM.text[consoleplayer.mm.lang]["CHARSET"] or "STCFN"
 	local plrs = {}
 	local multiply = {x=0, y=0}
@@ -708,5 +703,4 @@ hud.add(function(v)
 
 	--Prerelease/Debug
 	if (MM.debug) v.drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
-	--THANK GOD IT ENDED
 end, "intermission")

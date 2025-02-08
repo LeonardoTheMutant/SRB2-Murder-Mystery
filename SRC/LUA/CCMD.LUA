@@ -226,7 +226,7 @@ hud.add(function(v, p)
 	local color = v.getStringColormap(0) --default to white color
 	local chr, stringToRender, wordWrapTemp
 		
-	v.drawFill(0,0, v.width(), v.height(), 16|V_70TRANS|V_SNAPTOTOP|V_SNAPTOLEFT) --gray background
+	v.fadeScreen(16, 5) --gray background
 		
 	for i = -3, 3
 		v.draw(((i * 320) - (leveltime % 320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)

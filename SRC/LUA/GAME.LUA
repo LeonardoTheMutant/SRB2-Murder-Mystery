@@ -383,8 +383,7 @@ addHook("PlayerThink", function(p)
 
 	--HUD backend for fullscreen flash/spark effects
 	if (p.mm.hud.fx_translucency) and (p.mm.hud.fx_duration) and (not (leveltime % p.mm.hud.fx_duration))
-		p.mm.hud.fx_translucency = $ + 1
-		if (p.mm.hud.fx_translucency >= 10) p.mm.hud.fx_translucency = 0 end
+		p.mm.hud.fx_translucency = $ - 1
 	end
 
 	--Sheriff Emerald Radar distance logic
@@ -405,7 +404,7 @@ addHook("PlayerThink", function(p)
 
 		--play sound
 		if (p.mm.shremd_dist)
-			if (p.mm.role == ROLE_CIVILIAN) and (not SOC_IsTrue(mapheaderinfo[gamemap].disableemeraldradar))
+			if (p.mm.role == ROLE_CIVILIAN) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))
 				shremd_interval = MM_GetSHREMDinterval(fixint(p.mm.shremd_dist))
 				if (shremd_interval and (leveltime % shremd_interval) == 0) S_StartSound(nil, sfx_emfind, p) end
 			elseif (p.mm.role == ROLE_MURDERER) and (CV_FindVar("mm_nocamping").value)

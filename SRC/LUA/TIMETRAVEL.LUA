@@ -1,7 +1,7 @@
 -- TIMETRAVEL.LUA
 -- Code by LeonardoTheMutant
 --
--- Script responcible for time traveling in MM maps
+-- Script responsible for time traveling in MM maps
 
 --freeslots
 freeslot("MT_TIMESIGN_P", "MT_TIMESIGN_F", "SPR_TMSN", "S_TIMESIGN_P", "S_TIMESIGN_F")
@@ -12,6 +12,10 @@ freeslot("S_TIMESIGN_F_SPIN1", "S_TIMESIGN_F_SPIN2", "S_TIMESIGN_F_SPIN3", "S_TI
 -- FUTURE SIGN
 --
 mobjinfo[MT_TIMESIGN_F]={
+	--$Title Time Warp sign (Future)
+	--$Sprite TMSNB0
+	--$Arg0 Skin (INT32)
+	--$NotAngled
 	doomednum = 36,
 	spawnstate = S_TIMESIGN_F,
 	radius = 2097152, --32*FU
@@ -73,6 +77,10 @@ states[S_TIMESIGN_F_SPIN7] = {
 -- PAST SIGN
 --
 mobjinfo[MT_TIMESIGN_P]={
+	--$Title Time Warp sign (Past)
+	--$Sprite TMSNA0
+	--$Arg0 Skin (INT32)
+	--$NotAngled
 	doomednum = 37,
 	spawnstate = S_TIMESIGN_P,
 	radius = 2097152, --32*FU
@@ -130,46 +138,43 @@ states[S_TIMESIGN_P_SPIN7] = {
 	nextstate = S_TIMESIGN_P
 }
 
-local TimeTravel_ShiftX
-local TimeTravel_ShiftY
-local TimeTravel_ShiftX2
-local TimeTravel_ShiftY2
+local TimeTravel_ShiftX = 0
+local TimeTravel_ShiftY = 0
+local TimeTravel_ShiftX2 = 0
+local TimeTravel_ShiftY2 = 0
+local temp
 
-addHook("MapLoad", function(map)
+--Get the lengths between different Time Zones (if map has Time Travel)
+addHook("PlayerSpawn", function (p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	--Get the lengths between different Time Zones (if map has Time Travel)
-	if (mapheaderinfo[map].timetravel_shiftx) and (tonumber(mapheaderinfo[map].timetravel_shiftx))
-		TimeTravel_ShiftX = tonumber(mapheaderinfo[map].timetravel_shiftx)
-	else
-		TimeTravel_ShiftX = 0
-	end
-	if (mapheaderinfo[map].timetravel_shifty) and (tonumber(mapheaderinfo[map].timetravel_shifty))
-		TimeTravel_ShiftY = tonumber(mapheaderinfo[map].timetravel_shifty)
-	else
-		TimeTravel_ShiftY = 0
-	end
-	if (mapheaderinfo[map].timetravel_shiftx2) and (tonumber(mapheaderinfo[map].timetravel_shiftx2))
-		TimeTravel_ShiftX2 = tonumber(mapheaderinfo[map].timetravel_shiftx2)
-	else
-		TimeTravel_ShiftX2 = 0
-	end
-	if (mapheaderinfo[map].timetravel_shifty2) and (tonumber(mapheaderinfo[map].timetravel_shifty2))
-		TimeTravel_ShiftY2 = tonumber(mapheaderinfo[map].timetravel_shifty2)
-	else
-		TimeTravel_ShiftY2 = 0
-	end
+	--Shift X (Past, Present, Bad Future)
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)
+	if (temp) then TimeTravel_ShiftX = temp end
+
+	--Shift Y (Past, Present, Bad Future)
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)
+	if (temp) then TimeTravel_ShiftY = temp end
+
+	--Shift X 2 (Good Future)
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2)
+	if (temp) then TimeTravel_ShiftX2 = temp end
+
+	--Shift Y 2 (Good Future)
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2)
+	if (temp) then TimeTravel_ShiftY2 = temp end
+
 	if (MM.debug) and (TimeTravel_ShiftX or TimeTravel_ShiftY or TimeTravel_ShiftX2 or TimeTravel_ShiftY2)
-		print("\x82Map's Time Travel shift values")
-		print("X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
-		print("Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")
-		print("X2: \x81"..TimeTravel_ShiftX2.."\x80 ("..fixint(TimeTravel_ShiftX2)..")")
-		print("Y2: \x81"..TimeTravel_ShiftY2.."\x80 ("..fixint(TimeTravel_ShiftY2)..")")
+		CONS_Printf(p, "\x82Map's Time Travel shift values")
+		CONS_Printf(p, "X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
+		CONS_Printf(p, "Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")
+		CONS_Printf(p, "X2: \x81"..TimeTravel_ShiftX2.."\x80 ("..fixint(TimeTravel_ShiftX2)..")")
+		CONS_Printf(p, "Y2: \x81"..TimeTravel_ShiftY2.."\x80 ("..fixint(TimeTravel_ShiftY2)..")")
 	end
 end)
 
 addHook("PlayerThink", function(p)
-	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.mm.timetravel) or (not valid(p.mo))) return end
+	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.mm) or (not p.mm.timetravel) or (not valid(p.mo))) return end
 	
 	if (p.mm.timetravel.timesign)
 		if (p.speed >= 2949120) --45*FU
@@ -210,7 +215,7 @@ addHook("PlayerThink", function(p)
 				p.mm.timetravel.warptimer = 0
 			end
 		else
-			--if you lost speed while being in warping substate you lose your "Warp Ticket"
+			--if you lose speed while being in warping substate you lose your "Warp Ticket"
 			if (p.mm.timetravel.warptimer >= 70) then p.mm.timetravel.timesign = TWS_NONE end
 			p.mm.timetravel.warptimer = 0
 		end

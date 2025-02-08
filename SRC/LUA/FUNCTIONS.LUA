@@ -161,12 +161,15 @@ end)
 
 --Skeleton Body spawn (exclusive for MAPKD ("East City"))
 rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
-	local ShiftX
-	local ShiftY
-	if (mapheaderinfo[gamemap].timetravel_shiftx) and (tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX = tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
-	else ShiftX = 0 end
-	if (mapheaderinfo[gamemap].timetravel_shifty) and (tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY = tonumber(mapheaderinfo[gamemap].timetravel_shifty)
-	else ShiftY = 0 end
+	local ShiftX = 0
+	local ShiftY = 0
+	local temp
+
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)
+	if (temp) then ShiftX = temp end
+
+	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)
+	if (temp) then ShiftY = temp end
 
 	if (ShiftX) or (ShiftY)
 		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
@@ -204,7 +207,7 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
 	elseif (p.skin == "superguide") body.state = S_GMMDEAD
 	elseif (p.skin == "bob") body.state = S_BMMDEAD
-	else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton (I really should ban them)
+	else body.state = S_MMSKELT end --skeleton, fallback for custom chars
 	body.color = p.color
 
 	if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
@@ -229,7 +232,7 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		elseif (p.skin == "amy") body.state = S_AMMDEAD
 		elseif (p.skin == "fang") body.state = S_FMMDEAD
 		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-		else body.state = S_MMSKELT end --fallback for custom chars in a form of a skeleton (I really should ban them)
+		else body.state = S_MMSKELT end --skeleton, fallback for custom chars
 		body.color = p.color
 
 		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
@@ -311,7 +314,7 @@ rawset(_G, "MM_PlayerQuit", function(p)
 	elseif (p.mm.role == ROLE_CIVILIAN)
 		p.mm.role = ROLE_NONE
 		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_QUIT", 3) --Innocent has left the game where he was the last hope, we will still consider him as the Hero
+			MM_EndRound(0, "LAST_QUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
 		end
 	end
 
@@ -329,7 +332,7 @@ rawset(_G, "MM_StartFlashFX", function(p, duration, color)
 
 	color = color or 0
 
-	p.mm.hud.fx_translucency = 1
+	p.mm.hud.fx_translucency = 10
 	p.mm.hud.fx_duration = duration
 	p.mm.hud.fx_color = color
 end)
@@ -354,8 +357,8 @@ end)
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 rawset(_G, "MM_StartSuspenseMusic", function()
 	if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (PlayerCount(ROLE_CIVILIAN) == 1) and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
-		if (mapheaderinfo[gamemap].suspensetrack and S_MusicExists(mapheaderinfo[gamemap].suspensetrack))
-			MM.susnce = mapheaderinfo[gamemap].suspensetrack
+		if (mapheaderinfo[gamemap].mm_suspensetrack and S_MusicExists(mapheaderinfo[gamemap].mm_suspensetrack))
+			MM.susnce = mapheaderinfo[gamemap].mm_suspensetrack
 		else
 			MM.susnce = "SUSNCE"
 		end
@@ -368,8 +371,8 @@ end)
 --Enable Showdown music when there are no innocents left
 rawset(_G, "MM_StartShowdownMusic", function()
 	if (not PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (PlayerCount())
-		if (mapheaderinfo[gamemap].showdowntrack and S_MusicExists(mapheaderinfo[gamemap].showdowntrack))
-			MM.shwdwn = mapheaderinfo[gamemap].showdowntrack
+		if (mapheaderinfo[gamemap].mm_showdowntrack and S_MusicExists(mapheaderinfo[gamemap].mm_showdowntrack))
+			MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack
 		else
 			MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1]
 		end

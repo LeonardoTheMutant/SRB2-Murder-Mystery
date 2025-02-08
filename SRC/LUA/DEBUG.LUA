@@ -37,25 +37,25 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 		CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [true/false (optinal)]")
 		return
 	end
-	if (mapheaderinfo[gamemap].timetravel_shiftx and tonumber(mapheaderinfo[gamemap].timetravel_shiftx)) ShiftX=tonumber(mapheaderinfo[gamemap].timetravel_shiftx)
+	if (mapheaderinfo[gamemap].mm_timetravel_shiftx and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)) ShiftX=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)
 	else ShiftX=0 end
-	if (mapheaderinfo[gamemap].timetravel_shifty and tonumber(mapheaderinfo[gamemap].timetravel_shifty)) ShiftY=tonumber(mapheaderinfo[gamemap].timetravel_shifty)
+	if (mapheaderinfo[gamemap].mm_timetravel_shifty and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)) ShiftY=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)
 	else ShiftY=0 end
-	if (mapheaderinfo[gamemap].timetravel_shiftx2 and tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)) ShiftX2=tonumber(mapheaderinfo[gamemap].timetravel_shiftx2)
+	if (mapheaderinfo[gamemap].mm_timetravel_shiftx2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2)) ShiftX2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2)
 	else ShiftX2=0 end
-	if (mapheaderinfo[gamemap].timetravel_shifty2 and tonumber(mapheaderinfo[gamemap].timetravel_shifty2)) ShiftY2=tonumber(mapheaderinfo[gamemap].timetravel_shifty2)
+	if (mapheaderinfo[gamemap].mm_timetravel_shifty2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2)) ShiftY2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2)
 	else ShiftY2=0 end
 	if (direction=="-") sign=-1 else sign=1 end
 	if (shift and shift!="false") P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
 end)
 COM_AddCommand("mmsusnce",function()
-	if (mapheaderinfo[gamemap].suspensetrack) MM.shwdwn=mapheaderinfo[gamemap].suspensetrack
+	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.shwdwn=mapheaderinfo[gamemap].mm_suspensetrack
 	else MM.susnce="SUSNCE" end
 	S_ChangeMusic(MM.susnce,true)
 end)
 COM_AddCommand("mmduel",function()
-	if (mapheaderinfo[gamemap].showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].showdowntrack
+	if (mapheaderinfo[gamemap].mm_showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
 	else MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1] end
 	S_ChangeMusic(MM.shwdwn,true)
 end)

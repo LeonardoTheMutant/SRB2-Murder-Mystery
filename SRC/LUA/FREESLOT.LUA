@@ -185,7 +185,7 @@ freeslot(
 
 --Captions
 --Death SFX
-sfxinfo[sfx_mmdth1].caption = "\19 Good Night"
+sfxinfo[sfx_mmdth1].caption = "\25 Good Night"
 sfxinfo[sfx_mmdth2].caption = "Killed"
 sfxinfo[sfx_mmdth3].caption = "Killed"
 sfxinfo[sfx_mmdth4].caption = "Killed"
@@ -205,4 +205,4 @@ MM.death_sfx = { --Add the SFX to the global table
 
 --Maps
 sfxinfo[sfx_fallin].caption = "Falling..."
-sfxinfo[sfx_aldi].caption = "\19 I AM AT ALDI"
+sfxinfo[sfx_aldi].caption = "\25 I AM AT ALDI"

@@ -102,7 +102,7 @@ local function P_SetWeaponDelay(p, delay)
 end
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
-    if (gametype != GT_LTMMURDERMYSTERY) or (not p.mm.role) then return end
+    if (gametype != GT_LTMMURDERMYSTERY) then return end
 
     if ((p.mm.role != ROLE_CIVILIAN) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
 
@@ -115,7 +115,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     end
     if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay)
 		or (not p.mm.role) or ((MM.minigame) and (p.mm.minigame))
-		or (p.playerstate == PST_DEAD) or (p.spectator)
+		or (p.playerstate == PST_DEAD) or (p.spectator) or (not p.mm.role)
 	then return end
 
     if (not autofireCVAR.value) then p.pflags = $|PF_ATTACKDOWN end

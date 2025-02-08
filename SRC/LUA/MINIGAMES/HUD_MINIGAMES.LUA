@@ -89,8 +89,8 @@ hud.add(function(v, p)
 		--Draw scrolling background
 		--Despite checking for the patch width, it can currently work only with 200x80 images
 		local scroll = p.SonicRun.score % SonicRunBG[p.SonicRun.background].width
-		v.drawCropped((coords.sonicRun.x << FRACBITS), (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], 0, nil, (scroll << FRACBITS), 0, (SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, 5242880) --80*FU
-		v.drawCropped((coords.sonicRun.x + SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], 0, nil, 0, 0, (scroll << FRACBITS), 5242880) --80*FU
+		v.drawCropped((coords.sonicRun.x << FRACBITS), (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, (scroll << FRACBITS), 0, (SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, 5242880) --80*FU
+		v.drawCropped((coords.sonicRun.x + SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, 0, 0, (scroll << FRACBITS), 5242880) --80*FU
 
 
 		--Sonic
@@ -105,7 +105,7 @@ hud.add(function(v, p)
 			elseif (leveltime & 3 == 1) then sonicSprite = "SNC_SPN2"
 			elseif (leveltime & 3 == 3) then sonicSprite = "SNC_SPN3" end
 		end
-		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite])
+		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite], v.localTransFlag())
 
 		--hazards
 		local hazardSprite = "SPIK"..string.char(65 + ((leveltime & 15) >> 1)).."0"
@@ -114,10 +114,10 @@ hud.add(function(v, p)
 		end
 
 		--black screen outline
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31) --left side
-		v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y), 16, 80, 31) --right
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31) --top
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31) --bottom
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31|v.localTransFlag()) --left side
+		v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y), 16, 80, 31|v.localTransFlag()) --right
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31|v.localTransFlag()) --top
+		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31|v.localTransFlag()) --bottom
 
 		--Startup timer
 		if (p.SonicRun.timeout)
@@ -127,20 +127,20 @@ hud.add(function(v, p)
 				if (secondsLeft <= 2)
 					countdownPatch = "RACE"..secondsLeft
 				end
-				v.draw(152, 100, MM.graphics[countdownPatch])
+				v.draw(152, 100, MM.graphics[countdownPatch], v.localTransFlag())
 			elseif
-				v.draw(142, 100, MM.graphics["RACEGO"])
+				v.draw(142, 100, MM.graphics["RACEGO"], v.localTransFlag())
 			end
 		end
 
 		--score
-		v.drawString((coords.sonicRun.x + 200 - v.stringWidth(p.SonicRun.score)), (coords.sonicRun.y - 12), p.SonicRun.score, V_BLUEMAP)
+		v.drawString((coords.sonicRun.x + 200 - v.stringWidth(p.SonicRun.score)), (coords.sonicRun.y - 12), p.SonicRun.score, V_BLUEMAP|v.localTransFlag())
 
 		if (not p.SonicRun.active)
-			v.drawString(160, (coords.sonicRun.y + 44), "GAME OVER", V_INVERTMAP, "center")
+			v.drawString(160, (coords.sonicRun.y + 44), "GAME OVER", V_INVERTMAP|v.localTransFlag(), "center")
 		end
 
-		v.drawString(160, (coords.sonicRun.y + 84), "Controls: \x87JUMP\x80 & \x87SPIN\x80", 0, "center")
+		v.drawString(160, (coords.sonicRun.y + 84), "Controls: \x87JUMP\x80 & \x87SPIN\x80", v.localTransFlag(), "center")
 
 		--player side information
 		--character icon
@@ -203,14 +203,14 @@ hud.add(function(v, p)
 		V_DrawMinigameTime(v)
 
 		--draw board
-		v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, 0) --white outline
-		v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31) --black background
+		v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, v.localTransFlag()) --white outline
+		v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31|v.localTransFlag()) --black background
 		--draw player paddles
-		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role])
-		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role])
+		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role]|v.localTransFlag())
+		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role]|v.localTransFlag())
 		--draw ball
 		if (MM.pong.timeout & 1)
-			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72)
+			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72|v.localTransFlag())
 		end
 		--winner text
 		if (MM.pong.winner != nil)

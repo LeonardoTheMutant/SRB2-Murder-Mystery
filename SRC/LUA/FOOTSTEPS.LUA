@@ -2430,7 +2430,7 @@ addHook("PlayerThink", function(player)
 						local sounds = player.soundList[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							if (not SOC_IsTrue(mapheaderinfo[gamemap].disablefootmarks) and footmarksCVAR.value)
+							if (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disablefootmarks) and footmarksCVAR.value)
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
 							end
