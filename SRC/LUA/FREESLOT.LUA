@@ -10,7 +10,7 @@ G_AddGametype({
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,
-	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, prevent the murders as \x84Sheriff\x80 and survive as \x83Innocent\x80!"
+	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, stop the genocide as \x84Sheriff\x80 and survive as\x83 Civilian\x80!"
 })
 
 --

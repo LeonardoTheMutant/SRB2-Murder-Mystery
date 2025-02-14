@@ -4,7 +4,7 @@ Level K0
 LevelName = Abandoned Shelter
 SelectHeading = LTM's Murder Mystery
 NoZone = True
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K1
 Lua.Author = LeonardoTheMutant
 
@@ -12,7 +12,7 @@ Level K1
 Levelname = Vineyard Castle
 SelectHeading = LTM's Murder Mystery
 SkyNum = 10
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K2
 Lua.Author = Piksqu, LeonardoTheMutant
 
@@ -22,7 +22,7 @@ SelectHeading = LTM's Murder Mystery
 SkyNum = 99
 SkyboxScale = 32
 NoZone = True
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K3
 Lua.Author = LeonardoTheMutant
 
@@ -30,7 +30,7 @@ Level K3
 Levelname = Mountain Fort
 SelectHeading = LTM's Murder Mystery
 NoZone = True
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 17
 Weather = 2
 NextLevel = K4
@@ -40,7 +40,7 @@ Level K4
 LevelName = West City
 SelectHeading = LTM's Murder Mystery
 SkyNum = 13
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K5
 Lua.Author = LeonardoTheMutant
 
@@ -49,7 +49,7 @@ LevelName = Dam
 SubTitle = ^2Goldeneye^5 007
 SelectHeading = LTM's Murder Mystery
 SkyNum = 30
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K6
 Lua.Author = Rareware, LeonardoTheMutant
 
@@ -67,7 +67,7 @@ LevelName = Space Mesa
 SelectHeading = LTM's Murder Mystery
 NoZone = True
 SkyNum = 21
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K8
 Lua.Author = LeonardoTheMutant
 
@@ -77,15 +77,15 @@ SelectHeading = LTM's Murder Mystery
 SkyNum = 6
 NoZone = True
 Weather = 3
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K9
 Lua.Author = SuperOfSrb2, LeonardoTheMutant
 
 Level K9
-LevelName = Greenflower Mystery
+LevelName = Greenflower
+SubTitle = MM Edition
 SelectHeading = LTM's Murder Mystery
-NoZone = True
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KA
 Lua.Author = Sonic Team Jr.
 
@@ -103,7 +103,7 @@ Levelname = Railway Station
 SubTitle = Under Construction
 NoZone = True
 SelectHeading = LTM's Murder Mystery
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KC
 Lua.Author = Troplucky, LeonardoTheMutant
 
@@ -129,7 +129,7 @@ LevelName = East City
 SelectHeading = LTM's Murder Mystery
 SkyNum = 300
 SkyboxScale = 8
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KE
 Lua.MM_TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
 Lua.MM_TimeTravel_ShiftY = 0
@@ -154,7 +154,7 @@ Level KF
 Levelname = Merry Peak
 SelectHeading = LTM's Murder Mystery
 Nozone = true
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 17
 Weather = 2
 NextLevel = KG
@@ -163,7 +163,7 @@ Lua.Author = Troplucky, LeonardoTheMutant
 Level KG
 Levelname = Atzec
 SelectHeading = LTM's Murder Mystery
-TypeOfLevel = LTM_MM
+TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 40
 NextLevel = KH
 Lua.Author = LeonardoTheMutant
