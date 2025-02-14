@@ -407,7 +407,7 @@ hud.add(function(v, p)
 		end
 	
 	--Civilian weapon logic
-	elseif (p.mm.role == ROLE_CIVILIAN) and ((((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99))) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+	elseif (p.mm.role == ROLE_CIVILIAN) and ((((p.skin == 1) or (p.skin == 3)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 3)) and (p.rings > 99))) and (wepcfgCVARs[ROLE_CIVILIAN].value)
 		--Knife-only
 		if (wepcfgCVARs[ROLE_CIVILIAN].value == 2)
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
@@ -416,7 +416,7 @@ hud.add(function(v, p)
 		end
 
 		--Ammo counter
-		if (p.skin == 1) or (p.skin == 5) --Player is Tails or MetalSonic
+		if (p.skin == 1) or (p.skin == 3) --Player is Tails or Amy
 			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 50), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
 		else
 			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")

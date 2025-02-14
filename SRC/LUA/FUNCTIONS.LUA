@@ -232,6 +232,8 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		elseif (p.skin == "amy") body.state = S_AMMDEAD
 		elseif (p.skin == "fang") body.state = S_FMMDEAD
 		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
+		elseif (p.skin == "superguide") body.state = S_GMMDEAD
+		elseif (p.skin == "bob") body.state = S_BMMDEAD
 		else body.state = S_MMSKELT end --skeleton, fallback for custom chars
 		body.color = p.color
 

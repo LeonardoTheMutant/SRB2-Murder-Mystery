@@ -125,12 +125,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
         -- KNIFE --
         if (p.mm.role == ROLE_CIVILIAN)
-            if (((p.skin == 1) or (p.skin == 5)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 5)) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+            if (((p.skin == 1) or (p.skin == 3)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 3)) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
                 P_SetWeaponDelay(p, MM.weapons[-2][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
 
                 --Weapon shot/use costs 100 rings for Innocents
-                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
+                if ((p.skin == 1) or (p.skin == 3)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
                 else P_GivePlayerRings(p, -100) end
 
                 if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
@@ -202,11 +202,11 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
     else
         if (p.mm.role == ROLE_CIVILIAN)
             -- RED RING --
-            if ((p.skin == 1 or p.skin == 5) and p.rings > 49) or ((p.skin != 1 or p.skin != 5) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1)
+            if ((p.skin == 1 or p.skin == 3) and p.rings > 49) or ((p.skin != 1 or p.skin != 3) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1)
                 P_SetWeaponDelay(p, MM.weapons[-1][4])
                 mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
 
-                if ((p.skin == 1) or (p.skin == 5)) then P_GivePlayerRings(p, -50) --Player is Tails or MetalSonic, take 50 rings instead
+                if ((p.skin == 1) or (p.skin == 3)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
                 else P_GivePlayerRings(p, -100) end
             end
         else --Roles other than Civilian
@@ -218,7 +218,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
                     p.powers[pw_infinityring] = $ - 1
                 else
                     -- RED RING --
-                    if ((p.mm.role != ROLE_CIVILIAN) and (p.rings > 0)) or ((p.mm.role == ROLE_CIVILIAN) and (((p.skin == 1 or p.skin == 5) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
+                    if ((p.mm.role != ROLE_CIVILIAN) and (p.rings > 0)) or ((p.mm.role == ROLE_CIVILIAN) and (((p.skin == 1 or p.skin == 3) and p.rings > 49) or (p.skin != 1 and p.rings > 99)))
                         P_SetWeaponDelay(p, MM.weapons[-1][4])
                         mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
                         P_GivePlayerRings(p, -1)
