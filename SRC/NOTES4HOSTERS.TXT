@@ -36,6 +36,10 @@ VARIABLES
 	MM_FOOTMARKS - Enable/Disable the footmarks spawning. The default value is ON.
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
+	MM_SPEED_SNEAK - Adjust the sneaking speed for all players. This variable can range from 1 to 5.
+		This works only when MM_ABILITIES console variable is disabled. The default value is 3.
+	MM_SPEED_WALK - Adjust the walk speed for all players. This variable can range from 6 to 40.
+		This works only when MM_ABILITIES console variable is disabled. The default value is 20.
 	MM_WEPCFG_MURD, MM_WEPCFG_SHERI, MM_WEPCFG_HERO - Set the Weapon Configuration for Murderers, Sheriffs and Heroes respectively.
 		These CVARs in their value contain two sepparate configurations for Normal Gameplay and for Showdown Duel.
 		The variables accepts the *interger* in 0-15 range. For more details please see the DEV_DOCS/MM_WEPCFG.PNG

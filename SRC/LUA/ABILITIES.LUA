@@ -4,6 +4,8 @@
 -- This script takes care of player skin and abilities
 
 local MM_ABILITIES = CV_FindVar("mm_abilities")
+local speedsneakCVAR = CV_FindVar("mm_speed_sneak")
+local speedwalkCVAR = CV_FindVar("mm_speed_walk")
 
 addHook("PlayerThink", function(p)
 	if (not valid(p.mo)) return end
@@ -14,8 +16,6 @@ addHook("PlayerThink", function(p)
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
 		p.charflags = skins[s].flags
-		p.mindash = skins[s].mindash
-		p.maxdash = skins[s].maxdash
 		p.normalspeed = skins[s].normalspeed
 		if (p.mm) p.mm.sneak = false end
 
@@ -24,15 +24,12 @@ addHook("PlayerThink", function(p)
 		p.charability = 0
 		p.charability2 = 0
 		p.charflags = 0
-		p.mindash = 327680 --5*FU
-		p.maxdash = 2621440 --40*FU
 		if ((p.cmd.buttons & BT_SPIN)) --sneaking
-			p.normalspeed = 196608 --3*FU
+			p.normalspeed = speedsneakCVAR.value << FRACBITS
 			p.mm.sneak = true
-			--if (not p.speed) then p.state = S_PLAY_STND end
 		else
-			if (SOC_IsTrue(mapheaderinfo[gamemap].mm_slowwalkspeed)) then p.normalspeed = 917504 --14*FU
-			else p.normalspeed = 1572864 end --24*FU
+			if (SOC_IsTrue(mapheaderinfo[gamemap].mm_slowwalkspeed)) then p.normalspeed = (speedwalkCVAR.value - (speedwalkCVAR.value >> 2) - (speedwalkCVAR.value >> 3)) << FRACBITS --x0.625 of the normal speed
+			else p.normalspeed = speedwalkCVAR.value << FRACBITS end
 			p.mm.sneak = false
 		end
 	end
