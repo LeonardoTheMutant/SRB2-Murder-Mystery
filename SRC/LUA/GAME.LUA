@@ -8,6 +8,8 @@
 local rejointimeoutCVAR = CV_FindVar("rejointimeout")
 local crypticCVAR = CV_FindVar("mm_cryptic")
 local shieldsCVAR = CV_FindVar("mm_allowshields")
+local invincCVAR = CV_FindVar("mm_allowinvinc")
+local shoesCVAR = CV_FindVar("mm_allowshoes")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -374,6 +376,8 @@ addHook("PlayerThink", function(p)
 	
 	--Disable player shields
 	if (not shieldsCVAR.value) then p.powers[pw_shield] = 0 end
+	if (not invincCVAR.value) then p.powers[pw_invulnerability] = 0 end
+	if (not shoesCVAR.value) then p.powers[pw_sneakers] = 0 end
 
 	--for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
 	if (not p.spectator) then p.mo.flags = $ & ~MF_NOGRAVITY end

@@ -5,7 +5,7 @@
 G_AddGametype({
 	name = "LTM_MM",
 	identifier = "LTMMURDERMYSTERY",
-	typeoflevel = freeslot("TOL_LTM_MM"),
+	typeoflevel = freeslot("TOL_LTM_MM")|TOL_MATCH|TOL_TAG,
 	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
 	headerleftcolor = 37,

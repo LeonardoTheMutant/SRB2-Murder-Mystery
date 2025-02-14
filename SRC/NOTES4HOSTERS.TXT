@@ -22,8 +22,11 @@ VARIABLES
 	MM_ABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
 		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
 		Enable this Variable to remove the ability limit. The default value is NO;
-	MM_ALLOWSHIELDS - Allow/Restrict the usage of the shields. It is recommended to NOT ALLOW shields usage in the game
-		because they can quickly turn the game unplayable and more chaotic. Default value is NO;
+	MM_ALLOWINVINC - Allow/Restrict the usage of the Invincibility powerup. It is recommended to NOT ALLOW this powerup in the game
+		because they can turn the game into chaos. Default value is NO;
+	MM_ALLOWSHIELDS - Allow/Restrict the usage of the shield powerups. It is recommended to NOT ALLOW these powerups in the game
+		because they can turn the game into chaos and make it unplayable. Default value is NO;
+	MM_ALLOWSHOES - Allow/Restrict the usage of the Speed Sneakers powerup. Default value is NO;
 	MM_AUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
 	MM_CRYPTIC - Enable/Disable the "Cryptic game" mode, where most of the player counters, teammates list and
 		player nametags are disabled to make the game more cryptic (and feel more like a true mystery)

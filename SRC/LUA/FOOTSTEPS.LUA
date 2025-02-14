@@ -2423,8 +2423,8 @@ addHook("PlayerThink", function(player)
 			end
 			if (player.playsound) and (not player.mm.sneak)
 				if not (pmo.eflags & MFE_GOOWATER)
-					if (player.groundtexture) material=flatsounds[player.groundtexture]
-					else material="stone" end
+					if (player.groundtexture) material=flatsounds[player.groundtexture] end
+					if (not material) material="stone" end
 					player.lastgroundtexture = player.groundtexture
 					if (material) and (soundType) and (player.soundList[material]) and (player.soundList[material][soundType])
 						local sounds = player.soundList[material][soundType]
