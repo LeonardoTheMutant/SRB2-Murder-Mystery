@@ -1,6 +1,6 @@
 --Stauf's Mansion (MAPKC)
 --Level script
---Original map idea by Trilobyte Inc.
+--Original Mansion design by Trilobyte Inc.
 --SRB2 map port & code by LeonardoTheMutant
 
 freeslot('sfx_clktic', 'sfx_clkstr')
