@@ -2167,6 +2167,7 @@ local flatsounds={
 	["F_METAL1"]="metal",
 	["F_METAL2"]="metal",
 	["GFZFNCC"]="wood",
+	["GFZROOF"]="metal",
 	["GLASSTEX"]="glass",
 	["LIBRARYA"]="wood",
 	["OLDROCKW"]="stone",

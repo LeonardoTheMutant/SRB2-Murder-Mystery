@@ -136,15 +136,16 @@ states[S_TIMESIGN_P_SPIN7] = {
 	nextstate = S_TIMESIGN_P
 }
 
-local TimeTravel_ShiftX = 0
-local TimeTravel_ShiftY = 0
-local TimeTravel_ShiftX2 = 0
-local TimeTravel_ShiftY2 = 0
-local temp
+local TimeTravel_ShiftX, TimeTravel_ShiftY, TimeTravel_ShiftX2, TimeTravel_ShiftY2, temp
 
 --Get the lengths between different Time Zones (if map has Time Travel)
 addHook("PlayerSpawn", function (p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
+
+	TimeTravel_ShiftX = 0
+	TimeTravel_ShiftY = 0
+	TimeTravel_ShiftX2 = 0
+	TimeTravel_ShiftY2 = 0
 
 	--Shift X (Past, Present, Bad Future)
 	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)

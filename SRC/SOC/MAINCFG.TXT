@@ -100,12 +100,12 @@ Lua.Author = SEGA, SandwichCinema, LeonardoTheMutant
 
 Level KB
 Levelname = Railway Station
-SubTitle = Under Construction
+SkyNum = 300
 NoZone = True
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KC
-Lua.Author = Troplucky, LeonardoTheMutant
+Lua.Author = LeonardoTheMutant
 
 Level KC
 LevelName = Stauf's Mansion
