@@ -1,8 +1,7 @@
-- Create at least 7 more maps (to make 18 in total)
+- Make 18 maps in total (optional)
 - Update translations
 - Try to not let multiple players spawn in one spot (longer map load speeds?)
 - Deep test the add-on for SIGSEVG appearance
-- Include the "Minimal System Requirements" with the add-on
 - Make (several) release trailer(s)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
-- Include the documanetation explaining the technical details for mappers
+- Include the documentation explaining the technical details for mappers
