@@ -1,7 +1,7 @@
 # LeonardoTheMutant's Murder Mystery
 **(Formely "SRB2 Murder Mystery")**
 
-A port of the popular multiplayer game in a form of a new gametype for [Sonic Robo Blast 2](https://www.srb2.org)
+A port of the popular multiplayer game in a form of a new gametype for [Sonic Robo Blast 2](https://www.srb2.org), inspired by MM in Garry's Mod and MM in Minecraft
 
 ***Not to be confused with [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery), which is an entirely different MM project for SRB2***
 
@@ -17,10 +17,12 @@ A port of the popular multiplayer game in a form of a new gametype for [Sonic Ro
 ## Overview
 The goal of the game is to locate and neutralise the Murderer(s) before they kill everyone. Looking for dead bodies and alerting the Sherrif(s) for any discrepancies, try to survive!
 
-<img src="./media/GIF_Lamon_1.gif">
-<img src="./media/GIF_Lamon_2.gif">
-<img src="./media/GIF_Lamon_3.gif">
-<img src="./media/SCR_Leo_3.png" width="320">
+<section style="display: flex; flex-wrap: wrap;">
+  <img src="./media/GIF_Lamon_1.gif">
+  <img src="./media/GIF_Lamon_2.gif">
+  <img src="./media/GIF_Lamon_3.gif">
+  <img src="./media/SCR_Leo_3.png" style="width: 320px">
+</section>
 
 ## How to build a **.PK3** file out of this repository
 
@@ -97,7 +99,9 @@ The [Pull Requests](https:github.com/LeonardoTheMutant/SRB2-Murder-Mystery/pulls
 2. Making a **Language File** from the [template](SRC/LUA/TEXT/EN.LUA) and then in SRB2 add it as a regular Add-On together with MM (main MM Add-On has to be loaded first)
 
 ## More media from the game
-<img src="./media/SCR_Lamon_1.png" width="320">
-<img src="./media/SCR_Lamon_2.png" width="320">
-<img src="./media/SCR_Leo_1.png" width="320">
-<img src="./media/SCR_Leo_2.png" width="320">
+<section style="display: flex; flex-wrap: wrap;">
+  <img src="./media/SCR_Lamon_1.png" style="width: 320px">
+  <img src="./media/SCR_Lamon_2.png" style="width: 320px">
+  <img src="./media/SCR_Leo_1.png" style="width: 320px">
+  <img src="./media/SCR_Leo_2.png" style="width: 320px">
+</section>

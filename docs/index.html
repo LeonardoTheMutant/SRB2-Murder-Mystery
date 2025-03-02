@@ -2,7 +2,57 @@
 	<head>
 		<meta charset="UFT-8">
 		<title>LTM's Murder Mystery</title>
-		<link rel="stylesheet" href="style.css">
+		<style>
+			body {
+			    background-color: #222222;
+			    color: white;
+			    font-family: arial;
+			    margin: auto;
+			    border: 5px solid red;
+			    max-width: 800px;
+			    padding: 10px;
+			}
+
+			header {
+			    padding: 5px;
+			    background-color: #111111;
+			}
+
+			footer {
+			    padding: 5px;
+			    background-color: #111111;
+			}
+
+			hr {
+			    background-color: red;
+			    border: none;
+			    height: 2px;
+			}
+
+			#logoimg img {
+				border: 4px dashed blue;
+				padding: 8px;
+			}
+
+			#github_section {
+			    display: flex;
+			    justify-content: space-evenly;
+			}
+
+			.github_link {
+			    text-align: center;
+			    float: left;
+			}
+
+			.github_link > img {
+			    width: 64px;
+			    height: 64px;
+			}
+
+			a { color: rgb(195, 0, 255); }
+			h3 { color: orange; }
+			#download h3 { color: #5555ff; }
+		</style>
 	</head>
 	<body>
 		<main>
@@ -15,16 +65,18 @@
 					<h2>Welcome to the official LTM's MM webpage!</h2>
 					<h3><i>Formely "SRB2 MM"</i></h3>
 				</section>
-				<section id="img">
-					<center><img src="LTMsMM_cover.png" alt="Murder Mystery box art" width="500" height="500"></center>
+				<section id="logoimg">
+					<center><img src="LTMsMM_cover.png" alt="Murder Mystery box art" style="width: 500px; height: 500px"></center>
 				</section>
 				<section id="desc">
 					<h3>The port of the famous multiplayer game in SRB2!</h3>
-					<p>This project tries to make an SRB2 gametype similar to "Murder Mystery 2" on Roblox and make it feel like a Sonic game. The development originally started by Tedbasher3000 in February 2023 and continued by the SRB2MM_DEV team to this day. Even though the project is still in ALPHA state the game is pretty playable and can be hosted on public servers</p>
+					<p>The project's goal is to make a "Murder Mystery" gametype for Sonic Robo Blast 2 designed around (classic) Sonic the Hedgehog. We are primarily inspired by Murder Mystery in Garry's Mod and the variations of this game in Minecraft. The development originally started by Tedbasher3000 in February 2023 and continued by the SRB2MM_DEV team to this day. We want to make a gametype which would fit the astetics of the vanilla SRB2 so it would feel like an official gamtype (we don't really expect STJr to make it official)</p>
+					<p style="text-align: center;"><i>"Inspired by many, made for SRB2"</i></p>
 					<h3>Short introduction into the gameplay</h3>
-					<p>The goal of this game is to detect and eliminate all <b><font color="#dc143c">Murderers</font></b> among the players before they kill everyone (sounds very familiar, right?). <b><font color="#1e90ff">Sheriffs</font></b> are given the task to prevent this genocide and protect all <b><font color="#32cd32">Innocents</font></b> from being murde#dc143c.</p>
-					<p>At the beginning of each round you will recieve one of these 3 roles. As said, <b><font color="#dc143c">Murderers have to murder everyone</font></b>, <b><font color="#1e90ff">Sheriffs have to defend Innocents and eliminate Murderers</font></b> & <b><font color="#32cd32">Innocents have to hide from the killers but can also help in the investigation</font></b>.</p>
-					<p>You can find more description with all the details inside the Add-On in <font color="orange">MMHELP</font> console command.<p>
+					<p>The goal of this game is to detect and eliminate all <b><font color="#dc143c">Murderers</font></b> among the players before they kill everyone else (sounds very familiar to a popular 2020 game about austronauts, right?). <b><font color="#1e90ff">Sheriffs</font></b> are given the task to prevent this genocide and protect all <b><font color="#32cd32">Civilians</font></b> from being <font color="#dc143c">murdered</font>.</p>
+					<p>At the beginning of each round you will recieve one of these 3 roles. As said, <b><font color="#dc143c">Murderers have to murder everyone</font></b>, <b><font color="#1e90ff">Sheriffs have to defend Civilians and eliminate Murderers</font></b> & <b><font color="#32cd32">Innocents have to hide from the killers but can also help in the investigation</font></b>.</p>
+					<p>The gameplay is based on the Ringslinger gametypes of SRB2 (Match, Team Match, CTF, Tag, Hide&Seek) so you need some weapon aiming skills to play, unless you are a <font color="#32cd32"><b>Civilian</b></font></p>
+					<p>You can find more description with all the details in the game in <font color="orange">MMHELP</font> console command.<p>
 					<h3>Want to contribute? That's great!</h3>
 					<p>We made the <a href="https://discord.com/invite/UgG8h2djFE">SRB2MM Discord</a> server and a <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">GitHub repository</a> just for cases like this!<br>You can make any kind of contribution including new maps, music, ideas or even make a translation of the add-on to your native language! You can also join our Discord if you want talk with the developers and other players.</p>
 				</section>
@@ -38,7 +90,7 @@
 						<li>Stereo sound output system (better with headphones) with enabled in-game closed captions</li>
 						<li>150ms or faster ping connection with the game server</li>
 						<li>Fast reaction time or <i>faster</i></li>
-						<li>A Human® brain capable of running NI (Natural Intelligence) and CriticalThinking™ technology support</li>
+						<li>A Human® brain supporting the CriticalThinking™ technology and the capability of running NI (Natural Intelligence)</li>
 					</ul>
 					<p>If your system does not meet one of these requirements, you are pretty much DOOM™ed</p>
 				</section>
@@ -51,14 +103,28 @@
 					<p>Older versions and builds of the Add-On can be found in the <u><i>#release-builds</i></u> channel on our Discord server or in the repository's <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases">Releases</a> page</p>
 				</section>
 				<hr>
+				<section id="github_section">
+					<section class="github_link">
+							<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">
+								<img src="./github-mark-white.png" style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;">
+								<p>SRB2-Murder-Mystery repository</p>
+							</a>
+					</section>
+					<section class="github_link">
+							<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic">
+								<img src="./github-mark-white-music.png" style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;">
+								<p>Digital Music repository</p>
+							</a>
+					</section>
+				</section>
 				<iframe src="https://discord.com/widget?id=1075825170658381926&theme=dark" width="800" height="400" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 			</article>
 			<footer>
 				<p>All rights to Sonic The Hedgehog and the franchise belong to SEGA</p>
-				<p><a href="https://srb2.org">Sonic Robo Blast 2</a> is a free open-source game by Sonic Team Jr.</p>
+				<p><a href="https://srb2.org">Sonic Robo Blast 2</a> is a free and open-source game by Sonic Team Jr.</p>
 				<p>DOOM is a trademark of id Softare</p>
 				<p>LTM's Murder Mystery made by SRB2MM_DEV Team and LeonardoTheMutant</p>
-				<p>Webpage by <a href="https://github.com/LeonardoTheMutant">LeonardoTheMutant</a>. Last updated on January 10th 2025</p>
+				<p>Webpage by <a href="https://github.com/LeonardoTheMutant">LeonardoTheMutant</a></p>
 			</footer>
 		</main>
 	</body>
