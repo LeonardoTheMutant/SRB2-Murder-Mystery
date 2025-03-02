@@ -50,7 +50,7 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
 end)
 COM_AddCommand("mmsusnce",function()
-	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.shwdwn=mapheaderinfo[gamemap].mm_suspensetrack
+	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.susnce=mapheaderinfo[gamemap].mm_suspensetrack
 	else MM.susnce="SUSNCE" end
 	S_ChangeMusic(MM.susnce,true)
 end)

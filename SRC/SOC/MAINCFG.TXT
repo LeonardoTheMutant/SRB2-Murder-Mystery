@@ -6,6 +6,7 @@ SelectHeading = LTM's Murder Mystery
 NoZone = True
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K1
+Lua.MM_SuspenseTrack = CIVINS
 Lua.Author = LeonardoTheMutant
 
 Level K1

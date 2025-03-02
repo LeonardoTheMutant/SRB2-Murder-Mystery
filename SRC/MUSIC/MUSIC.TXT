@@ -68,8 +68,9 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 = SUSPENSE =
 ============
 
-SUSNCE - "Suspense"/"Thrill theme" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by ???)
 11H_SP - "No Hope In MY Mansion!" by MinusMario
+CIVINS - "Civilian's Instinct" by MinusMario
+SUSNCE - "Suspense"/"Thrill theme" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by ???)
 
 ============
 = SHOWDOWN =
