@@ -7,7 +7,7 @@ Most of the MIDI sequences/arrangements are downloaded from VGMusic.com
 
 This mod has music only in MIDI format, Digital Soundtrack is placed in
 a sepparate add-on (to not bloat the filesize of the main add-on) and can be downloaded from the GitHub repository:
-https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/tree/main/DIGITMUS
+https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 
 ========
 = MAPS =
