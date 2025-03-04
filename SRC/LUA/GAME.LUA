@@ -187,7 +187,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 			MM_KillPlayerByHazard(v, spawnBodyOrEmerald)
 		end
 
-		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and (not wepcfgCVARs[ROLE_CIVILIAN].value))
+		if (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and ((not PlayerCount(ROLE_CIVILIAN)) or (PlayerCount(ROLE_CIVILIAN) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
 			MM_ChatprintGlobal("HERO_DIED", vp.name)
@@ -226,7 +226,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor (unused here), att
 		end
 	end
 
-	if (PlayersAlive() > 1)
+	if (PlayersAlive() > 1) --Ignore those deaths if the player is being alone on the server
+		MM_StartSuspenseMusic()
 		MM_StartShowdownMusic()
 		return true
 	end
@@ -296,7 +297,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor (unused here), at
 			if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 		end
 
-		if ((not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and (not wepcfgCVARs[ROLE_CIVILIAN].value))
+		if (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)) and ((not PlayerCount(ROLE_CIVILIAN)) or (PlayerCount(ROLE_CIVILIAN) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 			MM_EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 		else
 			MM_ChatprintGlobal("HERO_KILLED", vp.name)
