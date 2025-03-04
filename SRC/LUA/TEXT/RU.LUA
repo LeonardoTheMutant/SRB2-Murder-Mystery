@@ -247,7 +247,7 @@ MM.AddLang("RU", {
 	["HUD_WON"]="\xEFEE\xE1E5\xE4E8\xEB!",
 	["HUD_WIN"]={
 		"\xCDC8\xD7DC\xDF!",
-		"\21\xECE8\xF0ED\xFBE5",
+		"\21\xD3C1\xC8C9\xD6C8",
 		"\19\xD6DB\xC2C8\xCBDC\xCDDB\xC5"
 	},
     ["HUD_PAST"]="\xCFD0\xCED8\xCBCE\xC5",
