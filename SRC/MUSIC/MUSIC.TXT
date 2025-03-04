@@ -6,7 +6,7 @@ Some songs were originally not in MIDI format, the authors of such sequences/arr
 Most of the MIDI sequences/arrangements are downloaded from VGMusic.com
 
 This mod has music only in MIDI format, Digital Soundtrack is placed in
-a sepparate add-on (to not bloat the filesize of the main add-on) and can be downloaded from the GitHub repository:
+a separate add-on (to not bloat the filesize of the main add-on) and can be downloaded from the GitHub repository:
 https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 
 ========
@@ -27,10 +27,12 @@ MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
 MAPKE - "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
+MAPKH - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
 
 MAPKC: "Stauf's Mansion"
 ------------------------
-Original game soundtrack composed by the Fat Man and Team Fat
+Original game soundtrack from "The 11th Hour: The Sequel to The 7th Guest" and "The 7th Guest"
+Composed by the Fat Man and Team Fat
 11H_00 - "Hey Conductor" (Foyer)
 11H_01 - "Pool Balls" (Library)
 11H_02 - "Sadness" (Music room)
@@ -70,33 +72,33 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 
 11H_SP - "No Hope In MY Mansion!" by MinusMario
 CIVINS - "Civilian's Instinct" by MinusMario
-SUSNCE - "Suspense"/"Thrill theme" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by ???)
+SUSNCE - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 
 ============
 = SHOWDOWN =
 ============
 
-11H_TR - "Train puzzle" by the Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
-DRMBM2 - "2 player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine) (MIDI by ???)
-PWAAPR - "Pressing Pursuit" (Phoenix Wright: Ace Attorney) (MIDI by ???)
-PWTTPR - "Pressing Pursuit" (Phoenix Wright: Trials and Tribulations) (MIDI by ???)
+11H_TR - "Train Puzzle" by the Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
+DRMBM2 - "2 Player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine) (MIDI by ???)
+PWAAPR - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)
+PWTTPR - "Pressing Pursuit ~ Caught" (Phoenix Wright: Trials and Tribulations) (MIDI by Seveneth)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
-RDBSTR - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ???)
-S2GGBS - "Boss theme" (Sonic the Hedgehog 2 (Game Gear)) (MIDI by King Meteor)
-S2MSBS - "Boss theme" (Sonic the Hedgehog 2 (Master System)) (MIDI by ???)
+RDBSTR - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ShinkoNetCavy)
+S2GGBS - "Boss Theme" (Sonic the Hedgehog 2 (Game Gear)) (MIDI by King Meteor)
+S2MSBS - "Boss Theme" (Sonic the Hedgehog 2 (Master System)) (MIDI by SwordBolt)
 SSBLSD - "Showdown" (Sonic Spinball (Genesis)) (MIDI by King Meteor)
 STORMR - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
-UNDYNE - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by ???)
+UNDYNE - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by S_T_D)
 
 
 ================
 = INTERMISSION =
 ================
 
-NOWAY  -          Tie         - "No way!" (Sonic the Hedgehog 3 & Knuckles) (MIDI taken from "Sonic 3 & Knuckles Collection")
-ULTINT -   Murderer ending    - "Doomguy and His Angry Band" by continuum.mid (The Ultimate DOOM Ultimate MIDI pack)
-FD2INT -   Civilian ending    - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
-VANDOM - No deffenders ending - "Vanilla Dome" by Koji Kondo (Super Mario World) (MIDI by Daniel Lippert)
-007WTC -  Bad Sheriff ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (MIDI by Jay Reichard)
-11H_IN -    Bad Hero ending   - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
-PBW_DC - 2 player duel ending - "Driftevil City" (Pokemon Black & White) (MIDI by ???)
+NOWAY  -          Tie         - "No Way? No way!" (Sonic the Hedgehog 3 & Knuckles) (MIDI taken from "Sonic 3 & Knuckles Collection")
+ULTINT -   Murderer Ending    - "Doomguy and His Angry Band" by Ivan "continuum.mid" Stanton (The Ultimate DOOM Ultimate MIDI pack)
+FD2INT -   Civilian Ending    - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
+VANDOM - No Defenders Ending - "Vanilla Dome" by Koji Kondo (Super Mario World) (MIDI by Daniel Lippert)
+007WTC -  Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (MIDI by Jay Reichard)
+11H_IN -    Murderous Hero Ending   - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
+PBW_DC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (MIDI by BlankPoints)
