@@ -49,6 +49,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
+		CONS_Printf(p, "\x87MMSUSNCE\x80    - Start the Suspense music")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display the loaded symbols in the Character Video Memory")
 		CONS_Printf(p, "") --newline
 	end
