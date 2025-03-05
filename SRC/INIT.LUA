@@ -235,7 +235,7 @@ dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
 dofile("MAPS/MAPKC.LUA")
 
-print("\n\x84LTM's Murder Mystery add-on was loaded succesfuly\n\x82Thank you for playtesting the\x81 ALPHA\x82 version of the gametype before the final release!\n\x85".."But we would like to ask you to NOT TALK or POST ABOUT this gametype on any Message Board or forum - we want to keep our work in Mystery until final release =)\n\x81If you are the server host \x81open this .PK3 (as a regular .ZIP) and look for \x82READ_BEFORE_HOSTING.txt\x81 file inside of it for imporant warnings and recommended server setup\x88\nThanks again =)\n")
+print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
 --
 --end of startup init
 --
