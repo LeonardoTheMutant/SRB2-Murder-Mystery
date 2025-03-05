@@ -5,7 +5,7 @@
 -- Made by Troplucky
 
 MM.AddLang("FR", {
-    ["VERSION"]="1.0-ALPHA",
+    ["VERSION"]="1.0",
 	["AUTHOR"]="Troplucky",
 	["MM"]="Murder Mystery",
 	["CHARSET"]="1254C", --Windows1254 (or Windows1252)
@@ -95,8 +95,11 @@ MM.AddLang("FR", {
     ["DIED_HAZARD"]="est mort dans un accident",
 	["SHREMD_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
 	["KILL_PUNISHMENT_PM"]={
-		"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (You're no longer a Sheriff)",
+		"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (Tu n'es plus Sherif)",
 		"Les \x82Heros\x87 ne doivent pas tuer les \x83Innocents\x87. Vous avez la penaliter de morts pour ca."
+		"\x87Oh non! Tu as assassine un \x84Sherif\x87!!! Tu as ete condamne a mort pour ca",
+		"\x87Vous avez assassine un joueur\x83 Civil\x87 comme vous! Vous avez ecope de la peine de mort pour cela",
+		"\x87Oh non! Tu as assassine un \x82Heros\x87! Tu as ecope de la peine de mort pour ca"
 	},
     ["INNO_HURT"]={
 		"Le \x84Sheriff\x80 a tuer \x83Innocent\x80! Quelqu'un d'autre dois finir le travail!",
@@ -179,7 +182,7 @@ MM.AddLang("FR", {
     ["HUD_ROLES"]={
 		"MEURTRIER",
 		"SHERIFF",
-		"INNOCENT",
+		"CIVIL",
 		"HERO",
 		"MORT"
 	},
@@ -199,7 +202,7 @@ MM.AddLang("FR", {
     ["HUD_ROLESALIVE"]={
 		"Meurtriers",
 		"Sheriffs",
-		"Innocents"
+		"Civils"
 	},
     ["HUD_DEAD"]={
 		"Vous \xEAtes\31 mort",
@@ -231,10 +234,12 @@ MM.AddLang("FR", {
 		["GOAL"]="But!"
 	},
     ["HUD_YOU"]="VOUS",
-	["HUD_WINNERS"]="GAGNANTS:",
+	["HUD_WINNERS"]="Gagnants:",
 	["HUD_WIN"]={
 		"MATCH NUL!",
 		"\21MEURTRIERS",
 		"\19CIVILS"
 	},
+	["HUD_PAST"]="PASS\xE9",
+	["HUD_FUTURE"]="AVENIR"
 })

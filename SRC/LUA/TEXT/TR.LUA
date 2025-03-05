@@ -5,7 +5,7 @@
 -- Made by Mobillia
 
 MM.AddLang("TR", {
-    ["VERSION"]="1.0-RC1", 
+    ["VERSION"]="1.0", 
 	["AUTHOR"]="Mobillia", 
 	["MM"]="Murder Mystery", 
 	["CHARSET"]="1254C", --Windows1254
