@@ -9,7 +9,7 @@ local tech_info = {
 	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
 	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\17 10.1-BETA\16:",
+	"\nChanges from\17 1.0-ALPHA\16:",
 	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
 	"\16Discord (\20SRB2MM community\16):\n\20www.discord.com/invite/UgG8h2djFE\n",
