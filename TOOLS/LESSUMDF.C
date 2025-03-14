@@ -11,18 +11,14 @@
 #include <string.h>
 
 FILE *inputWAD;
-int inputWAD_size;
 FILE *outputWAD;
 
-char hasUMDF = 0; //0 - WAD without UMDF data, 1 - WAD with UMDF data
-
-int buffer;
+int buffer; //multi purpose variable
 char buffer_str[0x400];
 
 int TEXTMAP_id;
-char* TEXTMAP_data;
 char* TEXTMAP_newdata;
-int TEXTMAP_size;
+int TEXTMAP_oldsize;
 
 struct WADfile_s {
     char type; //0 - PWAD; 1- IWAD
@@ -31,9 +27,10 @@ struct WADfile_s {
 } WADfile;
 
 struct file_s {
+    char name[8];
     int adress;
     int size;
-    char name[8];
+    char *data;
 } files[0xffff]; //WADs supports up to 2^32 files (in theory) but we'll limit to 65536 files here
 
 char isspace(char c)
@@ -46,10 +43,10 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("%s wad_file\n", argv[0]);
-        printf("Compress the UMDF map data in WAD by removing unnesesary characters from the TEXTMAP lump\n");
-        printf("Output will be written to ./OUTPUT.WAD\n");
-        printf("\nMake sure to have a copy of the old file!\n");
+        printf("%s [file.wad]\n\n", argv[0]);
+        puts("Compress the UMDF map data in WAD by removing unnesesary characters from the TEXTMAP lump");
+        puts("Output will be written to ./OUTPUT.WAD");
+        puts("\nMake sure to have a copy of the old file - new file can have corruptions!");
         return 0;
     }
 
@@ -60,14 +57,9 @@ int main(int argc, char *argv[])
     inputWAD = fopen(argv[1], "rb");
     if (!inputWAD)
     {
-    	printf("ERROR: Failed to open the WAD file\n");
+    	fprintf(stderr, "ERROR: Failed to open the WAD file\n");
     	return 1;
     }
-
-    //get the filesize of WAD
-    fseek(inputWAD, 0, SEEK_END);
-    inputWAD_size = ftell(inputWAD);
-    rewind(inputWAD);
 
     //read the type of WAD
     fread(&buffer_str, 4, 1, inputWAD);
@@ -77,7 +69,7 @@ int main(int argc, char *argv[])
         printf("Reading PWAD...\n");
     } else {
         WADfile.type = 1; //IWAD
-        printf("WARNING: IWADs are not supported by this program - output WAD may be unreadable by the game engine!\n");
+        puts("WARNING: IWADs are not supported by this program - output WAD may be unreadable by the game engine!");
     }
 
     fread(&WADfile.filesAmount, 4, 1, inputWAD);
@@ -105,24 +97,25 @@ int main(int argc, char *argv[])
     }
 
     //iterate throught files
+    buffer = 0;
     for (unsigned int fileID = 0; fileID < WADfile.filesAmount; fileID++)
     {
-        if (!strcmp(files[fileID].name, "TEXTMAP")) //we reached the file we were looking for
+        if (!strcmp(files[fileID].name, "TEXTMAP")) //Found TEXTMAP lump
         {
-            printf("Found TEXTMAP lump\n");
-            hasUMDF = 1;
+            puts("Found TEXTMAP lump");
+            buffer = 1; //map has UMDF map
             TEXTMAP_id = fileID;
             fseek(inputWAD, files[fileID].adress, SEEK_SET);
-            TEXTMAP_size = files[fileID].size;
-            TEXTMAP_data = (char*) calloc(TEXTMAP_size, sizeof(char));
-            TEXTMAP_newdata = (char*) calloc(TEXTMAP_size, sizeof(char));
-            fread(TEXTMAP_data, 1, TEXTMAP_size, inputWAD);
+            TEXTMAP_oldsize = files[fileID].size;
+            files[TEXTMAP_id].data = (char*) calloc(files[fileID].size, sizeof(char));
+            TEXTMAP_newdata = (char*) calloc(files[fileID].size, sizeof(char));
+            fread(files[TEXTMAP_id].data, files[fileID].size, 1, inputWAD);
         }
     }
 
-    if (!hasUMDF)
+    if (!buffer)
     {
-        printf("TEXTMAP lump was not found. Are you sure the WAD contains a map in UMDF?\n");
+        fprintf(stderr, "TEXTMAP lump was not found. Are you sure the WAD contains a map in UMDF?\n");
         return 1;
     }
 
@@ -130,17 +123,16 @@ int main(int argc, char *argv[])
     // TEXTMAP MODIFICATION
     //
 
-    printf("Modifying the TEXTMAP lump...\n");
-    char *line = strtok(TEXTMAP_data, "\n");
+    files[TEXTMAP_id].size = 0;
+    puts("Modifying the TEXTMAP lump...");
+    char *line = strtok(files[TEXTMAP_id].data, "\n");
     buffer = 0; //0x1 - currently in block; 0x2 - currently in string
 
     while (line)
     {
         //remove comments
         char *comment = strstr(line, "//");
-        if (comment) {
-            *comment = '\0'; // Truncate the line before the comment
-        }
+        if (comment) *comment = '\0'; // Truncate the line before the comment
 
         // Trim leading and trailing whitespace
         char *start = line;
@@ -170,15 +162,13 @@ int main(int argc, char *argv[])
         if (strchr(start, '}')) buffer &= ~1; //left the block
 
         // If not in a block - add newline, otherwise concatenate the other lines into one
-        sprintf(buffer_str, "%s%s", start, (buffer & 1) ? "" : "\n");
+        files[TEXTMAP_id].size += sprintf(buffer_str, "%s%s", start, (buffer & 1) ? "" : "\n");
         strcat(TEXTMAP_newdata, buffer_str);
 
         line = strtok(NULL, "\n");
     }
 
-    free(TEXTMAP_data);
-    files[TEXTMAP_id].size = strlen(TEXTMAP_newdata); //update the size of the TEXTMAP
-    printf("Old TEXTMAP size: %d\n", TEXTMAP_size);
+    printf("Old TEXTMAP size: %d\n", TEXTMAP_oldsize);
     printf("New TEXTMAP size: %d\n", files[TEXTMAP_id].size);
 
     //
@@ -188,23 +178,24 @@ int main(int argc, char *argv[])
     outputWAD = fopen("./OUTPUT.WAD", "wb");
     if (!outputWAD)
     {
-    	printf("ERROR: Failed to open ./OUTPUT.WAD file\n");
+    	fprintf(stderr, "ERROR: Failed to open ./OUTPUT.WAD file\n");
     	return 1;
     }
 
-    printf("Writing new header data...\n");
+    puts("Writing new header data...");
     //write WAD header
-    fwrite(WADfile.type ? "IWAD" : "PWAD", 4, 1, outputWAD);
-    fwrite(&WADfile.filesAmount, 4, 1, outputWAD);
-    putc(12, outputWAD); //write a dummy directory table address, it will be corrected later
+    fwrite(WADfile.type ? "IWAD" : "PWAD", 4, 1, outputWAD); //WAD type
+    fwrite(&WADfile.filesAmount, 4, 1, outputWAD); //Amount of files
+    //write a dummy directory table address, it will be corrected later
+    putc(12, outputWAD);
     for (unsigned char x=0; x<3; x++) putc(0, outputWAD);
 
     //write the new TEXTMAP lump
-    printf("Writing the new TEXTMAP data...\n");
+    puts("Writing the new TEXTMAP data...");
     fwrite(TEXTMAP_newdata, files[TEXTMAP_id].size, 1, outputWAD);
 
     //copy everything else from the Input WAD to the Output WAD until the directory table
-    printf("Copying other data into the new WAD...\n");
+    puts("Copying other data into the new WAD...");
     fseek(inputWAD, files[TEXTMAP_id + 1].adress, SEEK_SET);
     while (ftell(inputWAD) < WADfile.directory_adress)
     {
@@ -218,12 +209,12 @@ int main(int argc, char *argv[])
     fseek(outputWAD, buffer, SEEK_SET); //now we are back at the Directory Table
 
     //write the new directory table
-    printf("Writing new Directory Table:\n");
+    puts("Writing new Directory Table:");
     buffer = 12; //our adress offset counter
-    printf("\nID ADRESS SIZE NAME\n");
+    puts("\nID   ADRESS     SIZE     NAME");
     for (unsigned int fileID = 0; fileID < WADfile.filesAmount; fileID++)
     {
-        printf("%d: %d, %d, %s\n", fileID, files[fileID].adress, files[fileID].size, files[fileID].name);
+        printf("%2d % 8d % 8d %8s\n", fileID, files[fileID].adress, files[fileID].size, files[fileID].name);
         fwrite(&buffer, 4, 1, outputWAD); //adress
         buffer += files[fileID].size; //calculate the new adress of the next file
         fwrite(&files[fileID].size, 4, 1, outputWAD); //size
@@ -233,6 +224,6 @@ int main(int argc, char *argv[])
     fclose(inputWAD);
     fclose(outputWAD);
     
-    printf("\n./OUTPUT.WAD is ready. Make sure to check the map for corruptions!\n");
+    puts("\n./OUTPUT.WAD is ready. Make sure to check the map for corruptions!");
     return 0;
 }
