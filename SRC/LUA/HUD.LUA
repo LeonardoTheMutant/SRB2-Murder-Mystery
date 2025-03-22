@@ -450,7 +450,7 @@ hud.add(function(v, p)
 
 	--"Showdown duel!"
 	if ((not PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame) and (PlayerCount() > 1))
-		V_DrawStrASCII_Center(v, 160, 192, "\24"..MM_GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"))
+		V_DrawStrASCII_Center(v, 160, 192, "\24"..MM_GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"), V_SNAPTOBOTTOM)
 	end
 
 	--Sneaking

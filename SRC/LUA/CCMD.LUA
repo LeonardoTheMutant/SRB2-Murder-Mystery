@@ -1,6 +1,5 @@
 -- CCMD.LUA
 -- Code by LeonardoTheMutant
--- Translations by awesome SRB2MM_DEV members
 --
 -- Code for MMHELP and MMLANG console comands
 
@@ -9,18 +8,18 @@ local tech_info = {
 	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
 	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\17 10.1-BETA\16:",
+	"\nChanges from\17 1.0-ALPHA\16:",
 	" - TODO;",
 	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
-	"\16Discord (\20SRB2MM community\16):\n\20www.discord.com/invite/UgG8h2djFE\n",
-	"\16GitHub:\n\22www.github.com/LeonardoTheMutant/\nSRB2-Murder-Mystery\n",
-	"\16Website:\n\27leonardothemutant.github.io/\nSRB2-Murder-Mystery\n"
+	"\16Discord (\20SRB2MM community\16):\n\20https://www.discord.com/invite/\nUgG8h2djFE\n",
+	"\16GitHub:\n\22https://www.github.com/\nLeonardoTheMutant/SRB2-Murder-Mystery\n",
+	"\16Website:\n\27https:/leonardothemutant.github.io/\nSRB2-Murder-Mystery\n"
 }
 
 --MMHELP console command
 COM_AddCommand("mmhelp", function(p, page)
 	if (gametype != GT_LTMMURDERMYSTERY)
-		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
+		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command")
 		return
 	end
 
@@ -50,6 +49,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
 		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
 		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
+		CONS_Printf(p, "\x87MMSUSNCE\x80    - Start the Suspense music")
 		CONS_Printf(p, "\x87MMCHARSET\x80   - Display the loaded symbols in the Character Video Memory")
 		CONS_Printf(p, "") --newline
 	end
@@ -78,7 +78,7 @@ end, COM_LOCAL)
 --MMLANG console command
 COM_AddCommand("mmlang", function(p, l) --player, lang
 	if (gametype != GT_LTMMURDERMYSTERY)
-		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
+		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command")
 		return
 	end
 	if (p == server) and (isdedicatedserver)
@@ -133,7 +133,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 
 			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM_GetText(p.mm.lang, "AUTHOR"))
 			CONS_Printf(p, MM_GetText(p.mm.lang, "MMLANG", 2))
-			if (MM_GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery "..MM.version) end
+			if (MM_GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)

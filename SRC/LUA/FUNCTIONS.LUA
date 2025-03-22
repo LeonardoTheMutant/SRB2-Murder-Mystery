@@ -70,23 +70,23 @@ rawset(_G, "MM_GetText", function(lang, line, param)
 							return MM.text[lang][line][param]
 						else
 							if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87][\x80\""..param.."\"\x87]\x82 that does not exist!\x80") end
-							return ""
+							return "MM.text["..lang.."]["..line.."]["..param.."]"
 						end
 					end
 					if (type(MM.text[lang][line]) == "string")
 						return MM.text[lang][line]
 					else
 						if (MM.debug) error("\x82Tried to access the table at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 without parameter!\x80") end
-						return ""
+						return "MM.text["..lang.."]["..line.."][nil]"
 					end
 				else
 					if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 that does not exist!\x80") end
-					return ""
+					return "MM.text["..lang.."]["..line.."]"
 				end
 			end
 		else
 			if (MM.debug) error("\x82Tried to access the \x87MM.text\x82 table with \x80"..lang.."\x82 language that does not exist!\x80") end
-			return ""
+			return "MM.text["..lang.."]"
 		end
 	end
 	return ""

@@ -5,7 +5,7 @@
 -- Made by Mobillia
 
 MM.AddLang("TR", {
-    ["VERSION"]="1.0-ALPHA", 
+    ["VERSION"]="1.0", 
 	["AUTHOR"]="Mobillia", 
 	["MM"]="Murder Mystery", 
 	["CHARSET"]="1254C", --Windows1254
@@ -17,64 +17,69 @@ MM.AddLang("TR", {
 		{
 			"\23Murder Mystery'e ho\xFEgeldiniz!",
 			"\23Pop\xFCler \23\xE7ok oyunculu oyunun \23SRB2 yorumu!\16\n",
-			"Oyunun amac\xFD, di\xF0".."er herkesi\16 \xF6ld\xFCrmeden\19 \xF6nce t\xFCm \21Katiller\16'i bulup ortadan kald\xFDrmakt\xFDr. Bu oyun t\xFCr\xFC daha \xE7ok MATCH'a benzer, bu nedenle bu oyun t\xFCr\xFC i\xE7in ni\xFE".."an alma ve at\xFDFE becerilerinize ihtiyac\xFDn\xFDz olacak.",
+			"Oyunun amac\xFD, di\xF0".."er herkes\16 \xF6lmeden\19 \xF6nce t\xFCm \21Katiller\16'i bulup ortadan kald\xFDrmakt\xFDr. Bu oyun t\xFCr\xFC daha \xE7ok MATCH'a benzer, bu y\xFCzden bu oyun t\xFCr\xFC i\xE7in ni\xFE".."an alma ve at\xFDFE becerilerinize ihtiyac\xFDn\xFDz olacak.",
 			"Oynamaya ba\xFElamadan \xF6nce baz\xFD temel bilgileri \xF6F0renmeniz gerekiyor...",
-			"\nHer t\xFCr\xFC".."n ba\xFE".."\xFD".."nda, oyun s\xFD".."ras\xFD".."ndaki g\xF6revinizin ne oldu\xF0".."unu tan\xFD".."mlayan bir \26Rol\16 alacaks\xFD".."n\xFD".."z. \xDD".."\xFE".."te alabilece\xF0".."iniz 3 olas\xFD \26Roller\16:",
-			" * \21Katil\16 - Ger\xE7".."ek bir su\xE7".."ludur. Herkesi \xF6".."ld\xFC".."rmek zorundalar, ancak sadece B\xFD".."\xE7".."ak ve K\xFD".."rmizi Y\xFC".."z\xFC".."klerle donat\xFD".."lm\xFD".."\xFE".."lard\xFD".."r;",
-			" * \20\xDE".."erif\16  - G\xF6".."revleri, \21Katil(ler)\16'i bulmak ve ortadan kald\xFD".."rmakt\xFD".."r. \xDE".."erifler haritada bulunan her silah y\xFC".."z\xFC".."klerini kullanabilir;",
-			" * \19Masum\16 - Tamamen silahs\xFD".."z siviller, \xF6".."ld\xFC".."r\xFC".."lmekten ka\xE7".."\xFD".."nmalar\xFD".." gerekir ama ayn\xFD".." zamanda \21Katil\16'i bulmaya da yard\xFD".."mc\xFD".." olmalar\xFD".." gerekir.",
-			"\nOynamaya ba\xFE".."lamak i\xE7".."in gereken t\xFC".."m temel bilgiler budur, daha fazla bilgi i\xE7in bu k\xFDlavuzu sonuna kadar okuyun"
+			"\nHer turun ba\xFEFDnda, oyun s\xFDras\xFDndaki g\xF6revinizi belirleyen bir rol atanacakt\xFDr. Alabilece\xF0iniz olas\xFD roller \xFEunlard\xFDr:",
+			" * \21Katil\16 - \xD6l\xFCmc\xFCl bir su\xE7lu. Onlar\xFDn g\xF6revi herkesi ortadan kald\xFDrmakt\xFDr.",
+			" * \20\xDE".."erif\16  - \21Katil(ler)\16i bulmak ve ortadan kald\xFDrmakla g\xF6revlidir.",
+			" * \19Masum\16 - \xD6ld\xFCr\xFClmekten ka\xE7FDnmal\xFD ve \21Katilin\16 kimli\xF0inin belirlenmesine yard\xFDmc\xFD olmal\xFD".."d\xFDr. Oyun kurulumuna ba\xF0l\xFD olarak, 100 y\xFCz\xFCk (veya belirli karakterler i\xE7in 50 y\xFCz\xFCk) toplayarak kendilerini savunmak i\xE7in bir \21K\xFDrm\xFDz\xFD Y\xFCz\xFCk\16 elde edebilirler.",
+			"\nOynamaya ba\xFElamak i\xE7in gereken t\xFCm temel bilgiler budur, daha fazla bilgi i\xE7in bu k\xFDlavuzu sonuna kadar okuyun",
+			"\nHUD aray\xFCz\xFCn\xFCn dilini ve bu k\xFDlavuzu tercih etti\xF0iniz dile de\xF0i\xFEtirmek i\xE7in \23MMLANG\16 komutunu kullan\xFDn."
 		},
         {
-			"\23Oynan\xFDFE durumlar\xFD hakk\xFD".."nda\16\n",
-			"Temel bilgilerde daha \xF6".."nce a\xE7".."\xFD".."kland\xFD".."\xF0".."\xFD".." gibi, \xDE".."eriflerin amac\xFD".." t\xFC".."m \21Katil(ler)\16'i ortadan kald\xFD".."rmakt\xFD".."r, ancak farkl\xFD".." oyun durumlar\xFD".." ortaya \xE7".."\xFD".."kabilir:",
-			"\n* E\xF0".."er \xD6".."ld\xFC".."r\xFC".."l\xFC".."rseniz,\31 \xD6".."l\xFC".."\16 durumuna girersiniz. Bu durumdaki oyuncular yeniden do\xF0".."amaz veya hala hayatta olan oyuncularla k\xFC".."resel olarak konu\xFE".."amaz, mesajlar\xFD".." yaln\xFD".."zca di\xF0".."er\31 \xF6".."l\xFC".."\16 oyuncular taraf\xFD".."ndan g\xF6".."r\xFC".."lebilir.",
-			"\31 \xD6".."l\xFC".."\16 iken hala hayatta olan oyuncularla konu\xFE".."amazs\xFD".."n ve /PM yapamazs\xFD".."n (\"sayto\" komutu ile).",
-			"Ayr\xFD".."ca\18 \2KEND\xDD".."N\xDD".."Z\xDD".." \2YEN\xDD".."DEN \2ADLANDIRMAYA \2\xC7".."ALI\xDE".."MAYIN\16, bununla ilgili daha fazla ayr\xFD".."nt\xFD".." di\xF0".."er sayfada.",
-			"\n* \20\xDE".."erif'in \16 g\xF6".."revi, etraftaki t\xFC".."m \21Katiller\16'i ortadan kald\xFD".."rmakt\xFD".."r, ancak kazara bir \19Masum\16'u vurmalar\xFD".." m\xFC".."mk\xFC".."nd\xFC".."r.",
-			"E\xF0".."er bu ger\xE7".."ekle\xFE".."irse, \20\xDE".."erif\16 bir \19Masum\16'a d\xF6".."n\xFC".."\xFE".."ecek ve rastgele bir \19Masum\16 sinsice rol\xFC".."n\xFC".." \xFC".."stlenecektir. Bir dahaki sefere birini \20\xDE".."erif\16 olarak vurmak istedi\xF0".."inizde, o teti\xF0".."i \xE7".."ekmeden \xF6".."nce iki kez d\xFC".."\xFE".."\xFC".."n\xFC".."n!",
-			"\n* Bir \21Katil\16, bir \20\xDE".."erif\16'i \xF6".."ld\xFC".."r\xFC".."rse ve hala \19Masum\16 hayatta kal\xFD".."rsa, \xDE".."erif \20\xDE".."erif'in Z\xFC".."mr\xFC".."t\xFC".."\16'n\xFC cesedinin yan\xFD".."na b\xFD".."rakacakt\xFD".."r.",
-			"7 Kaos Z\xFC".."mr\xFC".."t\xFC".."'nun aksine, bu z\xFC".."mr\xFC".."t \18Kahraman\16 rol\xFC".."n\xFC".." onu alan herhangi bir \19Masum\16'a atayacak. \19Masumlar\16'dan biriyseniz, bu bir Kahraman olma ve herkesi \21Katil(ler)\16'den kurtarma \xFE".."ans\xFD".."n\xFD".."z!",
-			"\18Kahraman\16 rol\xFC"..", \20\xDE".."erif\16'den baz\xFD".." detaylar d\xFD".."\xFE".."\xFD".."nda farkl\xFD".." de\xF0".."ildir, \xF6".."rne\xF0".."in \18Kahraman\16 bir \19Masum\16'u \xF6".."ld\xFC".."rd\xFC".."\xF0".."\xFC".."nde, rol\xFC".." payla\xFE".."\xFD".."lmaz ve her ikisi de \xF6".."l\xFC".."r. Bir Kahraman \xF6".."l\xFC".."m\xFC".."nde \20\xDE".."erif'in Z\xFC".."mr\xFC".."t\xFC".."\16 d\xFC".."\xFE".."meyecektir.",
-			"\n* Oyuncu say\xFD".."s\xFD".."na ba\xF0".."l\xFD".." olarak, turdaki oyuncular aras\xFD".."nda birden fazla \21Katil\16 ve \20\xFE".."erif\16 olabilir. \xD6".."rne\xF0".."in, 7 ve daha fazla oyuncudan ba\xFE".."layarak, \21Katiller\19 ve \20\xDE".."erifler\16'den \26Tak\xFD".."mlar\16 olu\xFE".."turulacakt\xFD".."r.",
-			"\26Tak\xFD".."m arkada\xFE".."lar\xFD\16, \23SAYTEAM\16 konsol komutuyla tak\xFD".."m sohbetlerinde birbirleriyle sohbet edebilir (SAYTEAM sohbet d\xFC".."\xF0".."mesinin normal sohbetle ayn\xFD".." \xFE".."ekilde \xE7".."al\xFD".."\xFE".."aca\xF0".."\xFD".."n\xFD".." unutmay\xFD".."n).",
-			"E\xF0".."er bir \26Tak\xFD".."m arkada\xFE".."\xFD".."\16 ba\xFE".."ka bir tak\xFD".."m arkada\xFE".."\xFD".."na vurursa, her ikisi de birbirlerini tan\xFD".."malar\xFD".."n\xFD".." sa\xF0".."layacak ki\xFE".."iselle\xFE".."tirilmi\xFE".." bir uyar\xFD".." al\xFD".."r. Ba\xFE".."kalar\xFD".."n\xFD".."n 'arkada\xFE".."\xE7".."a' etkile\xFE".."iminizi g\xF6".."rebilece\xF0".."ini ve kim oldu\xF0".."unuzu anlayabilece\xF0".."ini unutmay\xFD".."n!"
+			"\23Oynan\xFDFE durumlar\xFD hakk\xFDnda\16\n",
+			"Temel bilgilerde daha \xF6nce a\xE7FDkland\xFDF0\xFD gibi, \xDE".."eriflerin amac\xFD t\xFCm \21Katil(ler)\16'i ortadan kald\xFDrmakt\xFDr, ancak farkl\xFD oyun durumlar\xFD ortaya \xE7FDkabilir:",
+			"\n* E\xF0".."er \xD6l\xFCrseniz,\31 \xD6l\xFC\16 durumuna girersiniz. Bu durumdaki oyuncular yeniden do\xF0".."amaz veya hala hayatta olan oyuncularla k\xFCresel olarak konu\xFE".."amaz, mesajlar\xFD yaln\xFDzca di\xF0".."er\31 \xF6l\xFC\16 oyuncular taraf\xFDndan g\xF6r\xFClebilir.",
+			"\31 \xD6l\xFC\16 iken hala hayatta olan oyuncularla konu\xFE".."amazs\xFDn ve /PM yapamazs\xFDn\xFDz.",
+			"K\xFDr\xFD".."c\xFDlar, \xE7ukurlara d\xFCFEme veya suda bo\xF0ulma gibi harita tehlikelerinden \xF6lmek de sizi turun geri kalan\xFDnda \31\xD6l\xFC\16 yapacakt\xFDr.",
+			"Ayr\xFD".."ca\18 \2KEND\xDDN\xDDZ\xDD \2YEN\xDD".."DEN \2ADLANDIRMAYA \2\xC7".."ALI\xDEMAYIN\16, bununla ilgili daha fazla ayr\xFDnt\xFD di\xF0".."er sayfada.",
+			"\n* \20\xDE".."erif'in\16 g\xF6revi, etraftaki t\xFCm \21Katiller\16'i ortadan kald\xFDrmakt\xFDr, ancak kazara bir \19Masum\16'u vurmalar\xFD m\xFCmk\xFCnd\xFCr.",
+			"E\xF0".."er bir \20\xDE".."erif\16 \19Masum\16u vurursa , rollerini kaybedecekler ve \19Masum\16 olacaklar: Rastgele bir \19Masum\16 daha sonra sessizce \20\xDE".."erif\16'in rol\xFCn\xFC \xFCstlenecektir. Teti\xF0i \xE7".."ekmeden \xF6nce iki kez d\xFCFE\xFCn\xFCn!",
+			"\n* Bir \21Katil\16, hala hayatta olan \19Masum\16lar varken bir \20\xDE".."erif\16'i \xF6ld\xFCr\xFCrse, \20\xDE".."erif'in Z\xFCmr\xFCt\xFC\16 cesedinin yan\xFDna d\xFCFE".."ecektir.",
+			"Bir \19Masum\16, \20\xDE".."erif'in Z\xFCmr\xFCt\xFC\16'n\xFC ald\xFDF0\xFDnda, bir \18Kahraman\16 olurlar. \18Kahraman\16lar \20\xDE".."erif\16lere benzer, ancak baz\xFD farkl\xFDl\xFDklarla birlikte gelir:",
+			"  - Bir \18Kahraman\16 bir \19Masum\16u \xF6ld\xFCr\xFCrse, her ikisi de \xF6l\xFCr ve rolleri yeniden atanmaz;",
+			"  - \18Kahramanlar\16 \xF6ld\xFCkten sonra \20\xDE".."erif'in Z\xFCmr\xFCt\xFC\16'n\xFC d\xFCFErmezler.",
+			"Oyuncu say\xFDs\xFDn\xFDn daha y\xFCksek oldu\xF0u turlarda birden fazla \21Katil\16ler ve \20\xDE".."erif\16ler olabilir. Bu turlar i\xE7in \21Katil\16ler ve \20\xDE".."erif\16'den olu\xFE".."an \26Tak\xFDm\16lar olu\xFEturulur.",
+			"\26Tak\xFDm arkada\xFElar\xFD\16, konsoldaki \23SAYTEAM\16 komutunu kullanarak (SAYTEAM d\xFCF0mesi normal sohbet d\xFCF0mesiyle ayn\xFD \xFE".."ekilde \xE7".."al\xFDFE\xFDr) veya mesaj\xFD otomatik olarak ekip \xFCyelerine g\xF6nderen \24%\16 simgesiyle bir mesaj ba\xFElatarak birbirleriyle sohbet edebilirler.",
+			"Yanl\xFDFEl\xFDkla bir \26Tak\xFDm arkada\xFEFD\16 sald\xFDr\xFDrsan\xFDz, her iki oyuncu da ki\xFEisell\xFEtirilmi\xFE bir uyar\xFD al\xFDr. Dikkatli olun - bu t\xFCr ekip etkile\xFEimleri ba\xFEkalar\xFDna \27rol\16'lerinizi if\xFE".."a edebilir!"
 		},
         {
-			"Murder \23Mystery\16'de yap\xFD".."lmas\xFD k\xF6".."t\xFC".." olan \23\xFE".."eyler\16\n",
-			"Herhangi bir oyunun 1 numaral\xFD".." kural\xFD"..": \1Nazik \1olun \1ve \1e\xF0".."lenin!\16 Bunun d\xFD".."\xFE".."\xFD".."nda...",
-			"\n* \26Rol\16'\xFC".."n kendini \xFE".."\xFD".."martmas\xFD oyunu bir 'gizem' yapmaz, e\xF0".."er eminseniz ba\xFE".."kas\xFD".."n\xFD".."n rol\xFC".."n\xFC".." s\xF6".."yleyebilirsiniz, ancak kendinizinkini asla s\xF6".."ylemeyin.",
-			"\n* Di\xF0".."er oyunculara hakaret etmeyin, \xFE".."akalara izin verilir, ancak yaln\xFD".."zca arkada\xFE".."\xE7".."a bir ruh hali i\xE7".."inde. Her oyuncuyu sebepsiz yere su\xE7".."larsan\xFD".."z kimse size g\xFC".."venmez.",
-			"\n* AFK olmak bir sava\xFE".." su\xE7".."udur. Bombalar at\xFD".."lacak ve \xE7".."ok uzun s\xFC".."re hareketsiz kal\xFD".."rsan\xFD".."z varl\xFD".."\xF0".."\xFD".."n\xFD".."z sona erecektir.",
-			"\n* \xD6".."l\xFC".."yken bir tur s\xFD".."ras\xFD".."nda kendinizi yeniden adland\xFD".."rmay\xFD".."n, bunu yapmak sizi sunucudan atacakt\xFD".."r. Hayattaysan\xFD".."z yeniden adland\xFD".."rabilirsiniz. Aran\xFD".."n g\xFC".."venli bir \xFE".."ekilde yeniden adland\xFD".."r\xFD".."lmas\xFD".."n\xFD".." bekleyin.",
-			"\nBu kurallardan birini ihlal etmek, oyundan at\xFD".."lma veya baz\xFD".." durumlarda Y\xF6".."netici taraf\xFD".."ndan yasaklanma ile sonu\xE7".."lanabilir! L\xFC".."tfen onlar\xFD".." k\xFD".."rmay\xFD".."n ve adil oynay\xFD".."n."
+			"Murder \23Mystery\16'de yap\xFDlmas\xFD k\xF6t\xFC olan \23\xFE".."eyler\16\n",
+			"Kural 1: \18Nazik olun ve \18e\xF0lenin!\16 \xDDFEte baz\xFD ek y\xF6nergeler:",
+			"\n* \26Rol\16'\xFCn kendini \xFEFDmartmas\xFD oyunu bir 'gizem' yapmaz, e\xF0".."er eminseniz ba\xFEkas\xFDn\xFDn rol\xFCn\xFC s\xF6yleyebilirsiniz, ancak kendinizinkini asla s\xF6ylemeyin.",
+			"\n* Di\xF0".."er oyunculara hakaret etmekten ka\xE7FDn\xFDn. Arkada\xFEE7".."a \xFE".."akalar iyidir, ancak s\xFCrekli su\xE7lamalar veya d\xFCFEmanca davran\xFDFElar ba\xFEkalar\xFDn\xFDn size g\xFCvenmemesine neden olur.",
+			"\n* AFK olmay\xFDn. \xC7ok uzun s\xFCre hareketsiz kal\xFDrsan\xFDz, \xFCzerinize bir bomba at\xFDlacak ve oyundan \xE7FDkar\xFDlacaks\xFDn\xFDz.",
+			"\n* \xD6l\xFCyken bir tur s\xFDras\xFDnda kendinizi yeniden adland\xFDrmay\xFDn, bunu yapmak sizi sunucudan atacakt\xFDr. Hayattaysan\xFDz yeniden adland\xFDrabilirsiniz. Aran\xFDn g\xFCvenli bir \xFE".."ekilde yeniden adland\xFDr\xFDlmas\xFDn\xFD bekleyin.",
+			"E\xF0".."er bir \21Katil\16 iseniz \20\xDE".."erif'in \20Z\xFCmr\xFCt\xFC\16 \xE7".."evresinde kamp yapmaktan ka\xE7FDn\xFDn. Z\xFCmr\xFCt\xFCn yan\xFDnda 30 saniye durmak, oyundan at\xFDlman\xFDza neden olacakt\xFDr.",
+			"\nBu kurallardan birini ihlal etmek, oyundan at\xFDlma veya baz\xFD durumlarda Y\xF6netici taraf\xFDndan yasaklanma ile sonu\xE7lanabilir. Adil oynay\xFDn ve e\xF0lenin!"
 		},
         {
 			"\23Faydal\xFD ipu\xE7lar\xFD\16\n",
-			"MM'deki oyununuz s\xFDras\xFDnda size yard\xFDmc\xFD olabilecek baz\xFD ipu\xE7lar\xFD toplad\xFDk:",
-			"\n* Karakter yetenekleri y\xF6netici taraf\xFDndan devre d\xFDFE\xFD b\xFDrak\xFDl\xFDrsa, iz birakmadan veya g\xFCr\xFClt\xFC yapmadan gizlice dola\xFEmak i\xE7in \23SPIN\16 tu\xFEuna ba\xFEFDn;",
+			"Murder Mystery'deki oyununuz s\xFDras\xFDnda size yard\xFDmc\xFD olabilecek baz\xFD ipu\xE7lar\xFD toplad\xFDk:",
+			"\n* Karakter yetenekleri y\xF6netici taraf\xFDndan devre d\xFDFE\xFD b\xFDrak\xFDl\xFDrsa, iz birakmadan veya g\xFCr\xFClt\xFC yapmadan gizlice dola\xFEmak i\xE7in \23SPIN\16 tu\xFEuna bas\xFDn;",
 			"\n* \20\xDE".."erif'in \20Z\xFCmr\xFCt\xFC\16'n\xFC ald\xFDF0\xFDn\xFDzda, \xF6nceden toplad\xFDF0\xFDn\xFDz t\xFCm silahlara ve y\xFCz\xFCklere eri\xFE".."ebileceksiniz;",
 			"\n* \23SAYTEAM\16 komutunu kullanarak \26tak\xFDm arkada\xFEFD\16'\xFDn\xFDz\xFDn kim oldu\xF0unu bulmak, onlar\xFD vurmaktan ka\xE7FDnman\xFDz\xFD ve yanl\xFDFEl\xFDkla rol\xFCn\xFCz\xFC ortaya \xE7FDkarman\xFDz\xFD sa\xF0layaca\xF0FD i\xE7in yard\xFDmc\xFD olacakt\xFDr;",
 			"\n* 3 saniyeli\xF0ine \xF6l\xFCms\xFCzl\xFCk kazanmak i\xE7in lav, dikenler ve ate\xFE gibi engellerden zarar alabilirsiniz;",
 			"\n* Haritada saklanacak bir yer aramaya \xE7".."al\xFDFE\xFDn. Bazen istenmeyen tan\xFDt\xFDmlardan kurtulmaya yard\xFDmc\xFD olur;",
 			"\n* Rol\xFCn\xFCz s\xFDzd\xFDr\xFDl\xFDrsa, kendinizi yeniden adland\xFDrabilir ve/veya ten rengini de\xF0i\xFEtirebilirsiniz. \1Yeniden \1adland\xFDrman\xFDz\xFDn \1sohbette \1g\xF6sterilece\xF0ini \1unutmay\xFDn\0;",
-			"\n* Gizlice girerseniz b\xFDE7".."ak sald\xFDr\xFD sesi \xE7FDkarmaz. Ayr\xFD".."ca,\18 FIRENORMAL\16 tu\xFEu, y\xFCz\xFCkleriniz oldu\xF0u s\xFCrece B\xFDE7".."a\xF0FD her yerde kullanman\xFDza izin verir (Masumlar\xFDn b\xFDE7".."a\xF0FD yoktur)"
+			"\n* Y\xFCz\xFCkleriniz oldu\xF0u s\xFCrece \22B\xFDE7".."ak\16'\xFD her yerde kullanmak i\xE7in \23FIRENORMAL\16 d\xFCF0mesini kullan\xFDn. \22B\xFDE7".."ak\16 kullan\xFDrken gizlice girmek, sald\xFDr\xFDn\xFDz\xFDn sessiz olmas\xFDn\xFD sa\xF0lar.",
+			"\n* HUD aray\xFCz\xFCn\xFCn dilini tercih etti\xF0iniz dile de\xF0i\xFEtirmek i\xE7in \23MMLANG\16 komutunu kullan\xFDn."
 		}
 	},
-    ["MMLANG"]={ -- Bundan sonra harfler Türkçe olarak çıkmıyor, Hüdapar çeviri diyeni gotten
+    ["MMLANG"]={
 		"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola \x87MMLANG [dil] \x80komutunu yazarak degistirebilirsiniz", -- cCc
 		"Murder Mystery icin kisisel dil \x82Turkce\x80 olarak ayarlanmistir" -- cCc
 	},
     ["ROLE_GET"]={
 		"Sen \x85Katil\x80'sin! \x85Herkesi oldur!", 
 		"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.", 
-		"Sen bir \x83Masum\x80'sun! Saklan ve sorusturmaya yardim et." 
+		"Sen bir\x83Masum\x80'sun! Saklan ve sorusturmaya yardim et." 
 	},
     ["NEWROLE_GET"]={
-		"\x87Hayat rastgele karar verdi \x85Katil\x87.\x85 Simdi git herkesi oldur!",
+		"\x87Hayat rastgele karar verdi, \x85Katil\x87 olacaksin.\x85 Simdi git herkesi oldur!",
 		"Evren\x87 seni bir \x84Serif\x87 yapti! Git ve\x84 tum Katilleri\x87 ortadan kaldir!", 
 		"\x82Kahraman\x87 olmaniza karar verildi. Herkesi Katillerden kurtarin!",
-		"\x87\x85Katillerden\x87 birini ortadan kaldirdiniz! \x82Kahramanliga\x87 terfi edildin!"
+		"\x87\x85Katillerden\x87 birini ortadan kaldirdiniz! \x82Kahramanliga\x87 terfi edildiniz!"
 	},
     ["TEAMMATE_HIT"]={
 		"Bu oyuncu senin takim arkadasin. Lutfen bir dahaki sefere takim arkadaslariniza vurmayin.",
@@ -97,7 +102,7 @@ MM.AddLang("TR", {
 	["SHREMD_PICK"]="Birisi \x84Serif'in Zumrutu\x80'nu aldi...",
 	["KILL_PUNISHMENT_PM"]={
 		"Bir\x87 \x83Masum\x87'u oldurdun! Kovuldun. (Artik bir Serif degilsin)",
-		"\x82Kahramanlar\x87, \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin idam cezasi aldiniz.",
+		"\x82Kahramanlar\x87 \x83Masumlar\x87'i oldurmek icin tasarlanmamistir. Bunun icin olum cezasi aldiniz.",
 		"\x87Oh hayir! Bir \x84Serif\x87'i oldurdun!!! Bunun icin olum cezasi aldin",
 		"\x87Senin gibi \x83Masum\x87 bir oyuncuyu oldurdun! Bunun icin olum cezasi aldin",
 		"\x87Oh hayir! Bir \x82Kahraman\x87'i oldurdun! Bunun icin olum cezasi aldin"
@@ -112,21 +117,21 @@ MM.AddLang("TR", {
 		"\x82Kahramanlardan\x80 biri bizi terk etti!"
 	},
     ["LAST_QUIT"]={
-		"Son bir \x85Katil\x80 cikti!",
-		"Son bir \x84Serif\x80 cikti!",
-		"Son bir \x82Kahraman\x80 cikti!"
+		"Son \x85Katil\x80 cikti!",
+		"Son \x84Serif\x80 cikti!",
+		"Son \x82Kahraman\x80 cikti!"
 	},
     ["REPLACE_QUIT"]={
-		"\x85Katil\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
-		"\x84Serif\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
-		"Bir \x82Kahraman\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!"
+		"\x85Katil\x80 cikti! Rastgele bir\x83 Masum\x80 onun rolunu ustlenecek!",
+		"\x84Serif\x80 cikti! Rastgele bir\x83 Masum\x80 onun rolunu ustlenecek!",
+		"Bir \x82Kahraman\x80 cikti! Rastgele bir\x83 Masum\x80 onun rolunu ustlenecek!"
 	},
     ["ENDROUND"]={
 		"Herkes oldu. \x85Katiller\x80 kazandi!",
 		"Tum \x85Katiller\x80 olduruldu! \x83 Masumlar\x80 kazandi!",
 		"\x85Katiller\x80 kazandi cunku \x84Serif\x80 son Masum'u oldurdu! \x84Serif\x80'e yaziklar olsun",
 		"\x82Kahraman\x80 son Masum'u oldurmeyi secti. \x85Katiller\x80 kazandi!",
-		"\x83Masumlarin savunuculari\x80 oldu. \x85Katiller\x80 kazandi!"
+		"\x83Masum\x80larin savunuculari oldu. \x85Katiller\x80 kazandi!"
 	},
     ["BMP_VICTIMS"]={
 		"\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFIIII\x1FFF\xFFIIIII\x1F",
