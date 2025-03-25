@@ -320,6 +320,10 @@ rawset(_G, "MM_PlayerQuit", function(p)
 		end
 	end
 
+	--If player was one of the PONG rivals, forget about him
+	local myslot = PONG_GetMySlot(p)
+	if (myslot) then MM.duelplrs[myslot] = nil end
+
 	MM_StartSuspenseMusic()
 	MM_StartShowdownMusic()
 end)
@@ -762,7 +766,7 @@ end)
 --MINIGAME.LUA
 --
 rawset(_G, "PONG_GetMySlot", function(p)
-	assert(p, "PONG_GetMysSlot(): player_t not given!")
+	assert(p, "PONG_GetMySlot(): player_t not given!")
 	if (not MM.duelplrs) return end
 	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
 end)

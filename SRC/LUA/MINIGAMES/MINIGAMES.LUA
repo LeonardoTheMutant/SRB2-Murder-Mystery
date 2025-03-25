@@ -192,9 +192,16 @@ addHook("ThinkFrame", do
     if (MM.twopgame)
         if (PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = MM_Get2Players() end
 
-        if ((not MM.duelplrs) or (not MM.duelplrs[1]) or (not MM.duelplrs[2])) return end
+        if ((MM.duelplrs) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].mm.minigame) and (MM.duelplrs[2].mm.minigame))
+            MM.minigame = true
 
-        if valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].mm.minigame) and (MM.duelplrs[2].mm.minigame) MM.minigame = true
+            --Pong overlay object for Player 1
+            if (valid(MM.duelplrs[1].mo.tracer)) then P_SetOrigin(MM.duelplrs[1].mo.tracer, MM.duelplrs[1].mo.x, MM.duelplrs[1].mo.y, MM.duelplrs[1].mo.z + MM.duelplrs[1].mo.height)
+            else MM.duelplrs[1].mo.tracer = P_SpawnMobjFromMobj(MM.duelplrs[1].mo, 0, 0, MM.duelplrs[1].mo.height, MT_PONGOVERLAY) end
+
+            --Pong overlay object for Player 2
+            if (valid(MM.duelplrs[2].mo.tracer)) then P_SetOrigin(MM.duelplrs[2].mo.tracer, MM.duelplrs[2].mo.x, MM.duelplrs[2].mo.y, MM.duelplrs[2].mo.z + MM.duelplrs[2].mo.height)
+            else MM.duelplrs[2].mo.tracer = P_SpawnMobjFromMobj(MM.duelplrs[2].mo, 0, 0, MM.duelplrs[2].mo.height, MT_PONGOVERLAY) end
         else MM.minigame = false end
     end
     if (MM.minigame)
@@ -226,6 +233,8 @@ addHook("PlayerThink", function(p)
                     MM.duelplrs[2].mm.minigame = nil
                     MM.pong.pads[1] = 32
                     MM.pong.pads[2] = 32
+                    P_RemoveMobj(MM.duelplrs[1].mo.tracer)
+                    P_RemoveMobj(MM.duelplrs[2].mo.tracer)
                 end
             else --Enable minigame
                 p.mm.minigame = {timeout = 105}
@@ -245,7 +254,7 @@ addHook("PlayerThink", function(p)
             if (valid(p.realmo))
                 p.realmo.momx = 0
                 p.realmo.momy = 0
-                p.realmo.state = S_PLAY_STND
+                p.realmo.state = S_PLAY_WAIT
             end
         elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
             if (p.SonicRun.timeout)

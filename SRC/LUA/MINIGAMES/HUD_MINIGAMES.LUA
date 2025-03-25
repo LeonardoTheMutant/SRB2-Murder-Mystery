@@ -179,8 +179,7 @@ hud.add(function(v, p)
     --
     -- PONG minigame
     --
-    elseif (MM.minigame) and (p.mm.minigame)
-		if (not valid(MM.duelplrs[1])) or (not valid(MM.duelplrs[2])) return end
+    elseif (MM.minigame) and (p.mm.minigame) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2])
 		--CUSTOM3 related text and show yourself
 		if (PONG_GetMySlot(p))
 			if (not p.mm.minigame.timeout) then
@@ -217,33 +216,29 @@ hud.add(function(v, p)
 			if (not MM.pong.winner)
 				V_DrawStrASCII_Center(v, 160, 160, MM_GetText(consoleplayer.mm.lang, "HUD_WIN", 1), v.localTransFlag())
 			else
-				if (MM.duelplrs[MM.pong.winner].mm.role)
-					V_DrawStrASCII_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "GOAL"), v.localTransFlag())
-				end
+				V_DrawStrASCII_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "GOAL"), v.localTransFlag())
 			end
 		end
+		
 		--player 1 side information
-		if (valid(MM.duelplrs[1]) and MM.duelplrs[1].mm.role)
-			--player name
-			v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
-			--role
-			V_DrawStrASCII(v, 16, 184, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag())
-			--character picture
-			v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
-			--win count
-			V_DrawStrASCII_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag())
-		end
+		--player name
+		v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
+		--role
+		V_DrawStrASCII(v, 16, 184, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag())
+		--character picture
+		v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
+		--win count
+		V_DrawStrASCII_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag())
+
 		--player 2 side information
-		if (valid(MM.duelplrs[2]) and MM.duelplrs[2].mm.role)
-			--name
-			v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
-			--role
-			V_DrawStrASCII_Right(v, 304, 184, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag())
-			--charpic
-			v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
-			--win
-			V_DrawStrASCII_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag())
-		end
+		--name
+		v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
+		--role
+		V_DrawStrASCII_Right(v, 304, 184, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag())
+		--charpic
+		v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
+		--win
+		V_DrawStrASCII_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag())
 
 		if (MM.debug)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")

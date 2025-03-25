@@ -19,6 +19,14 @@ G_AddGametype({
 freeslot(
     'MT_SHREMD',  --Sheriff's Emerald object
     'MT_MMKNIFE', --Knife weapon object
+    'MT_PONGOVERLAY', --Pong overlay bubble object
+    'SPR_PNGO', --Pong overlay bubble sprite
+    'S_PNGOVR1', --Pong overlay bubble state
+    'S_PNGOVR2', --Pong overlay bubble state
+    'S_PNGOVR3', --Pong overlay bubble state
+    'S_PNGOVR4', --Pong overlay bubble state
+    'S_PNGOVR5', --Pong overlay bubble state
+    'S_PNGOVR6', --Pong overlay bubble state
     'SPR_STEP', --Footmark sprite
     'S_MMSTEP',   --Footmark state
     'MT_MMSTEP',  --Footmark object
@@ -164,6 +172,20 @@ mobjinfo[MT_DEADPLR]={
     radius = 1048576, --16*FU
     height = 1,
 }
+
+
+--Pong overlay object
+mobjinfo[MT_PONGOVERLAY]={
+    spawnstate = S_PNGOVR1,
+    flags = MF_NOGRAVITY
+}
+--Pong overlay states
+states[S_PNGOVR1] = {SPR_PNGO, A, 12, nil, 0, 0, S_PNGOVR2}
+states[S_PNGOVR2] = {SPR_PNGO, B, 12, nil, 0, 0, S_PNGOVR3}
+states[S_PNGOVR3] = {SPR_PNGO, C, 12, nil, 0, 0, S_PNGOVR4}
+states[S_PNGOVR4] = {SPR_PNGO, D, 12, nil, 0, 0, S_PNGOVR5}
+states[S_PNGOVR5] = {SPR_PNGO, E, 12, nil, 0, 0, S_PNGOVR6}
+states[S_PNGOVR6] = {SPR_PNGO, F, 12, nil, 0, 0, S_PNGOVR1}
 
 --
 -- SOUNDS
