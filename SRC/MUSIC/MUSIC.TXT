@@ -37,17 +37,17 @@ Composed by the Fat Man and Team Fat
 11H_01 - "Pool Balls" (Library)
 11H_02 - "Sadness" (Music room)
 11H_03 - Kitchen
-11H_04 - "Pool Balls (alt)" (Dinning room)
+11H_04 - "Pool Balls (alt)" (Dining room)
 11H_05 - "Creep" (Upstairs hallway)
 11H_06 - "In the Walls II" (Foyer-Gallery passage)
 11H_07 - Gallery
 11H_08 - "Ghost of Bo" (Hamilton Temple's bedroom)
-11H_09 - "Long jazzy end of XMusic Box" (Game room)
+11H_09 - "Long Jazzy End of XMusic Box" (Game room)
 11H_0A - "XMusic Box" (Julia Heine's bedroom)
 11H_0B - "All the Guests" (Edward Knox's bedroom)
 11H_0C - Bathroom
-11H_0D - Doll room
-11H_0E - "Dool of Doom" (Nursery)
+11H_0D - Doll Room
+11H_0E - "Dolls of Doom" (Nursery)
 11H_0F - Brian Dutton's bedroom
 11H_10 - "Bedspread" (Martin Burden's bedroom)
 11H_11 - "Mirror Puzzle" (Attic staircase)
@@ -70,7 +70,7 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 = SUSPENSE =
 ============
 
-11H_SP - "No Hope In MY Mansion!" by MinusMario
+11H_SP - "I Can't Find a [hiding] Place Without Seeing Mr. Death" by MinusMario
 CIVINS - "Civilian's Instinct" by MinusMario
 SUSNCE - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 
@@ -100,5 +100,5 @@ ULTINT -   Murderer Ending    - "Doomguy and His Angry Band" by Ivan "continuum.
 FD2INT -   Civilian Ending    - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
 VANDOM - No Defenders Ending - "Vanilla Dome" by Koji Kondo (Super Mario World) (MIDI by Daniel Lippert)
 007WTC -  Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (MIDI by Jay Reichard)
-11H_IN -    Murderous Hero Ending   - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The sequel to The 7th Guest)
+11H_IN -    Murderous Hero Ending   - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
 PBW_DC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (MIDI by BlankPoints)
