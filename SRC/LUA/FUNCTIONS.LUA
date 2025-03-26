@@ -462,6 +462,7 @@ end)
 
 rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	--Draw strings in Murder Mystery format with swapable ASCII table
+	--The function mostly assumes you have font with 8x8 pixel characters
 
 	assert(v, "V_DrawStrASCII() argument #1: Video drawer object expected")
 	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected") end
@@ -476,7 +477,7 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	--if the string has no Extended ASCII symbols and is meant to be printed in normal size
 	--use SRB2 built-in function instead (it should be faster)
 	if (isStandartASCII(str))
-		if (small) v.drawString(x, y, str, flg|V_ALLOWLOWERCASE, "small")
+		if (small) then v.drawString(x, y, str, flg|V_ALLOWLOWERCASE, "small")
 		else v.drawString(x, y, str, flg|V_ALLOWLOWERCASE) end
 		return
 	end
@@ -498,23 +499,28 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	local cy = y --leftover from the older code, used as an alias
 
 	--init variables
-	local chr
-	local width
+	local chr, width
 	local color = v.getStringColormap(0) --default to white color
 	
 	--draw the string
 	for i = 1, #str do
-		chr = string.byte(str:sub(i,i)) --numeric value of the single character
+		chr = string.byte(str, i) --numeric value of the single character
 
 		--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
 		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16) << 12) end --(chr - 16) * 4096
+
+		--newline
+		if (chr == 0x0A)
+			cx = x --carriage return
+			cy = $ + (8 >> small)
+		end
 
 		--print the character
 		if (chr > 0x20)
 			if (MM.graphics.charset[chr])
 				width = MM.graphics.charset[chr].width
 				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[chr], flg, color)
-			else --unknown symbol/patch not found, print "?"
+			else --unknown symbol/patch, print "?"
 				width = MM.graphics.charset[63].width --it should be 8, but we'll assume that STCFN font was replaced by an external add-on
 				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[63], flg, color)
 			end
@@ -532,7 +538,7 @@ rawset(_G, "V_ConvertStringColor", function(str)
 	local strng = {}
 	local chr
 	for i = 1, #str
-		chr = string.byte(str:sub(i,i))
+		chr = string.byte(str, i)
 		if (chr >= 128) then strng[i] = string.char(((chr & 0x7F) & 0x0F) + 0x0F)
 		else strng[i] = str:sub(i,i) end
 	end
@@ -545,7 +551,7 @@ rawset(_G, "V_ConvertStringColor2", function(str)
 	local strng = {}
 	local chr
 	for i = 1, #str
-		chr = string.byte(str:sub(i,i))
+		chr = string.byte(str, i)
 		if ((chr >= 16) and (chr < 32)) then strng[i] = string.char((chr - 0x0F) + 0x80)
 		else strng[i] = str:sub(i,i) end
 	end
@@ -578,7 +584,7 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, small)
 	local char
 
 	for i = 1, #str do
-		char = string.byte(str:sub(i, i)) --character number
+		char = string.byte(str, i) --character number
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
 		elseif ((char > 0x20) and MM.graphics.charset[char]) then --we count only visible charactrers
 			pixelLen = $ + (MM.graphics.charset[char].width >> small)
@@ -834,7 +840,7 @@ end)
 rawset(_G, "isExtendedASCII", function(str)
 	--does string contain Extended ASCII symbols? (0x80 - 0xFF)
 	for CharID = 1, #str do
-		if (string.byte(str:sub(CharID, CharID)) >= 128) then return true end
+		if (string.byte(str, CharID) >= 128) then return true end
 	end
 	return false
 end)
@@ -842,7 +848,7 @@ rawset(_G, "isStandartASCII", function(str)
 	--is the whole string made of Standart ASCII symbols which are printable? (0x20 - 0x7F)
 	local CharCode
 	for CharID = 1, #str do
-		CharCode = string.byte(str:sub(CharID, CharID))
+		CharCode = string.byte(str, CharID)
 		if ((CharCode < 32) or (CharCode >= 128)) then return false end
 	end
 	return true

@@ -203,6 +203,12 @@ MM.AddLang("PL", {
 		"",
 		"\2Baw si\xEA dobrze ;)"
 	},
+	["HUD_ROLETARGET"] = {
+		"Zamorduj wszystkich.",
+		"Wyeliminuj wszystkich Morderc\xF3w.\nNie zabijaj Ciwil\xF3w!",
+		"Kryj si\xEA i pom\xF3BF w dochodzeniu,\nkiedy jest to mo\xBFliwe.",
+		"Masz szans\xEA powstrzyma\xE6 wszystkich\nMorderc\xF3w. Ruszaj i uratuj dzie\xF1,\nale b\xB9".."d\x9F ostro\xBFny!"
+	},
     ["HUD_ROLESALIVE"]={
 		"Morderc\xF3w",
 		"Szeryf\xF3w",

@@ -196,6 +196,12 @@ MM.AddLang("ES", {
 		"",
 		"\2Diviertete!"
 	},
+	["HUD_ROLETARGET"] = {
+		"",
+		"",
+		"",
+		""
+	},
     ["HUD_ROLESALIVE"]={
 		"Asesinos",
 		"Comisarios",

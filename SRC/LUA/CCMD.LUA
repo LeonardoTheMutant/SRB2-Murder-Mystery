@@ -243,7 +243,7 @@ hud.add(function(v, p)
 
 		--draw the line character-by-character
 		for charID = 1, #stringToRender do
-			chr = string.byte(stringToRender:sub(charID, charID)) --numeric value of the single character
+			chr = string.byte(stringToRender, charID) --numeric value of the single character
 
 			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
 			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096

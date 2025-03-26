@@ -341,6 +341,14 @@ local language_data = { --Language must be a table variable, you can name the va
 		"\18Have Fun!"
 	},
 
+	-- Role target/goal (a short description of the role) on TAB screen
+	["HUD_ROLETARGET"] = {
+		"Murder everyone.", --Murderer
+		"Find and eliminate all Murderers.\nDo not kill the Civilians!", --Sheriff
+		"Hide and protect yourself. Help with\nthe investigation when possible.", --Civilian
+		"You got a chance to stop all Murderers.\nGo and save the day, but be careful!" --Hero
+	},
+
 	-- Scores TAB screen role counters
 	["HUD_ROLESALIVE"] = {
 		"Murderers",

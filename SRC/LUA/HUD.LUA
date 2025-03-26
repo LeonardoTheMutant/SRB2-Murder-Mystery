@@ -580,6 +580,9 @@ hud.add(function(v)
 	--Online
 	v.drawString(160, 176, "ONLINE: "..PlayerCount(), v.localTransFlag())
 
+	--Role target
+	if (consoleplayer.mm.role) then V_DrawStrASCII(v, 160, 184, MM.RoleColorHUD[consoleplayer.mm.role]..MM_GetText(consoleplayer.mm.lang, "HUD_ROLETARGET", consoleplayer.mm.role), v.localTransFlag(), true) end
+
 	--HUD frontend for the flash/spark effects
 	if (consoleplayer.mm.hud.fx_translucency) then v.fadeScreen(consoleplayer.mm.hud.fx_color, consoleplayer.mm.hud.fx_translucency) end
 

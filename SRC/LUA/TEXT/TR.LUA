@@ -213,6 +213,12 @@ MM.AddLang("TR", {
 		"",
 		"\2\xDDyi e\xF0lenceler!"
 	},
+	["HUD_ROLETARGET"] = {
+		"",
+		"",
+		"",
+		""
+	},
     ["HUD_ROLESALIVE"]={
 		"Katiller",
 		"\xDE".."erifler",
