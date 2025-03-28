@@ -57,6 +57,7 @@ Composed by the Fat Man and Team Fat
 11H_15 - Laboratory
 11H_16 - "In the Walls I" (Dutton's-Chapel passage)
 11H_17 - "Bathroom (alt)" (Laboratory-Library passage)
+11H_18 - Basement maze
 
 MAPKD: "East City"
 ------------------
