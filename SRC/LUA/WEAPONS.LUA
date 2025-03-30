@@ -5,15 +5,18 @@
 
 local autofireCVAR = CV_FindVar("mm_autofire")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
+local knifeRadius = MELEERANGE --64*FU
+local knifeHeight = 1048576 --16*FU
 MM.weapons = {}
 
--- VANILLA WEAPONS
 MM.weapons[-2]={ --Knife
     "KNIFEIND", --HUD icon
-    MT_MMKNIFE, --MOBJ_T of this weapon
+    0, --MOBJ_T of this weapon
     0, --MF2_* flag
     35, --Weapon delay
 }
+
+-- VANILLA WEAPONS
 MM.weapons[-1]={ --Red Ring
     "RINGIND", --HUD icon
     MT_REDRING, --MOBJ_T of this weapon
@@ -101,6 +104,31 @@ local function P_SetWeaponDelay(p, delay)
 	end
 end
 
+local function P_DoKnife(source)
+    --calculate the knife coordinates. X and Y coordinates point in front of a player
+    local x = source.x + (FixedInt(MELEERANGE) * cos(source.angle))
+    local y = source.y + (FixedInt(MELEERANGE) * sin(source.angle))
+    local z --we need to do the flipped object checks
+    if (source.eflags & MFE_VERTICALFLIP) then z = source.z + (2 * source.height / 3) - FixedMul(mobjinfo[MT_MMKNIFE].height, source.scale)
+    else z = source.z + source.height / 3 end
+
+    --dummy object to act as a center of the blockmap search
+    local mo = P_SpawnMobj(x, y, z, MT_RAY)
+
+    --Find the players around the calculated point
+    searchBlockmap("objects", function(r, found)
+        if (source != found) and (f.type == MT_PLAYER) --Ignore the source player and every non-player object
+        and (R_PointToDist2(x, y, found.x, found.y) < knifeRadius) --player must be in knife hitbox's range
+        and (((found.z + found.height) > z) and (found.z < (z + knifeHeight))) --do precise Z axis check
+            P_DamageMobj(f, source, source) --damage the found player
+        end
+    end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608)) --128*FU radius range in every 4 arguments
+
+    --Spawn a visual indicator to show that player just used the knife
+    --We do not move it to the actual knife coordinates because it can spawn in a wall and be placed incorrectly on the Z axis
+    P_SpawnMobj(source.x, source.y, z, MT_SPARK)
+end
+
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_LTMMURDERMYSTERY) then return end
 
@@ -127,7 +155,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         if (p.mm.role == ROLE_CIVILIAN)
             if (((p.skin == 1) or (p.skin == 3)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 3)) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
                 P_SetWeaponDelay(p, MM.weapons[-2][4])
-                mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
+                P_DoKnife(p.mo)
 
                 --Weapon shot/use costs 100 rings for Innocents
                 if ((p.skin == 1) or (p.skin == 3)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
@@ -138,7 +166,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
         else --Roles other than Civilian
             if (p.rings > 0)
                 P_SetWeaponDelay(p, MM.weapons[-2][4])
-                mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-2][2], MM.weapons[-2][3])
+                P_DoKnife(p.mo)
                 P_GivePlayerRings(p, -1)
 
                 if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --stealth
@@ -243,13 +271,6 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 	    if valid(mo) then S_StartSound(mo, sfx_rail2) end
     end
 end)
-
---Knife collision and attack
-addHook("TouchSpecial", function(special, toucher)
-    if (special.state != S_SPRK1) then return true end
-    P_DamageMobj(toucher, special, special.target)
-    return true
-end, MT_MMKNIFE)
 
 -- Weapon Ring Panel despawner
 -- Works only when Weapon Configuration has "Red only" flag set everywhere

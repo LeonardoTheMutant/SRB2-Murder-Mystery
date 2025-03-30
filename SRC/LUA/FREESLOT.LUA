@@ -18,7 +18,6 @@ G_AddGametype({
 --
 freeslot(
     'MT_SHREMD',  --Sheriff's Emerald object
-    'MT_MMKNIFE', --Knife weapon object
     'MT_PONGOVERLAY', --Pong overlay bubble object
     'SPR_PNGO', --Pong overlay bubble sprite
     'S_PNGOVR1', --Pong overlay bubble state
@@ -59,14 +58,6 @@ mobjinfo[MT_SHREMD]={
 	radius = 1048576, --16*FU
 	height = 1048576, --16*FU
 	flags = MF_SPECIAL
-}
-
---Knife weapon object
-mobjinfo[MT_MMKNIFE]={
-	spawnstate = S_SPRK1,
-	radius = 4194304, --64*FU
-	height = 3145728, --48*FU
-	flags = MF_NOGRAVITY|MF_SPECIAL
 }
 
 --Footmark state
@@ -169,7 +160,7 @@ mobjinfo[MT_DEADPLR]={
     --$NotAngled
     spawnstate = S_MMSKELT,
     doomednum = 2023,
-    radius = 1048576, --16*FU
+    radius = 1048560, --16*FU
     height = 1,
 }
 
