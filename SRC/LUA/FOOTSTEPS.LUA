@@ -8,7 +8,7 @@
 local footmarksCVAR = CV_FindVar("mm_footmarks")
 
 freeslot(
-	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln",
+	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln", "sfx_soclln",
 	"sfx_sowobr", "sfx_socobr", "sfx_sodibr", "sfx_somebr", "sfx_sogrbr", "sfx_sowabr", "sfx_soglbr",
 	"sfx_soco1", "sfx_soco2", "sfx_soco3", "sfx_soco4",
 	"sfx_sodi1", "sfx_sodi2", "sfx_sodi3", "sfx_sodi4",
@@ -18,7 +18,8 @@ freeslot(
 	"sfx_sowa1", "sfx_sowa2", "sfx_sowa3", "sfx_sowa4",
 	"sfx_sowo1", "sfx_sowo2", "sfx_sowo3", "sfx_sowo4",
 	"sfx_sosn1", "sfx_sosn2", "sfx_sosn3", "sfx_sosn4",
-	"sfx_sosa1", "sfx_sosa2", "sfx_sosa3", "sfx_sosa4"
+	"sfx_sosa1", "sfx_sosa2", "sfx_sosa3", "sfx_sosa4",
+	"sfx_socl1", "sfx_socl2", "sfx_socl3", "sfx_socl4"
 )
 
 if not SoundListInfo
@@ -36,6 +37,7 @@ sfxinfo[sfx_sogrln].caption="Grass landing"
 sfxinfo[sfx_sowaln].caption="Liquid landing"
 sfxinfo[sfx_soglln].caption="Glass landing"
 sfxinfo[sfx_sosnln].caption="Snow landing"
+sfxinfo[sfx_soclln].caption="Cloth landing"
 
 sfxinfo[sfx_sowobr].caption="Wood skidding"
 sfxinfo[sfx_socobr].caption="Stone skidding"
@@ -89,6 +91,11 @@ sfxinfo[sfx_sosa2].caption="Sand steps"
 sfxinfo[sfx_sosa3].caption="Sand steps"
 sfxinfo[sfx_sosa4].caption="Sand steps"
 
+sfxinfo[sfx_socl1].caption="Cloth steps"
+sfxinfo[sfx_socl2].caption="Cloth steps"
+sfxinfo[sfx_socl3].caption="Cloth steps"
+sfxinfo[sfx_socl4].caption="Cloth steps"
+
 local soundinfolist={
 	["sonic"]={
 		["grass"]={
@@ -108,9 +115,9 @@ local soundinfolist={
 		  ["skid"]={sfx_sodibr},
 		  ["land"]={sfx_sosnln},
 		},["cloth"]={
-		  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
+		  ["steps"]={sfx_socl1, sfx_socl2, sfx_socl3, sfx_socl4},
 		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sodiln},
+		  ["land"]={sfx_soclln},
 		},["sand"]={
 		  ["steps"]={sfx_sosa1, sfx_sosa2, sfx_sosa3, sfx_sosa4},
 		  ["skid"]={sfx_sodibr},
@@ -1721,20 +1728,20 @@ local flatsounds={
 	["BRICK3"]="stone",
 	["BRICK4"]="stone",
 	["BUSTFLR"]="stone",
-	["CARPET01"]="dirt",
-	["CARPET02"]="dirt",
-	["CARPET03"]="dirt",
-	["CARPET04"]="dirt",
-	["CARPET05"]="dirt",
-	["CARPET06"]="dirt",
-	["CARPET07"]="dirt",
-	["CARPET08"]="dirt",
-	["CARPET09"]="dirt",
-	["CARPET10"]="dirt",
-	["CARPET11"]="dirt",
-	["CARPET12"]="dirt",
-	["CARPET13"]="dirt",
-	["CARPET14"]="dirt",
+	["CARPET01"]="cloth",
+	["CARPET02"]="cloth",
+	["CARPET03"]="cloth",
+	["CARPET04"]="cloth",
+	["CARPET05"]="cloth",
+	["CARPET06"]="cloth",
+	["CARPET07"]="cloth",
+	["CARPET08"]="cloth",
+	["CARPET09"]="cloth",
+	["CARPET10"]="cloth",
+	["CARPET11"]="cloth",
+	["CARPET12"]="cloth",
+	["CARPET13"]="cloth",
+	["CARPET14"]="cloth",
 	["CASINOF1"]="stone",
 	["CASINOF2"]="stone",
 	["CASINOF3"]="stone",
@@ -1771,11 +1778,11 @@ local flatsounds={
 	["DIRT3F"]="dirt",
 	["DIRT4F"]="dirt",
 	["DIRT5F"]="dirt",
-	["DISCO1"]="stone",
-	["DISCO2"]="stone",
-	["DISCO3"]="stone",
-	["DISCO4"]="stone",
-	["DISCOF1"]="dirt",
+	["DISCO1"]="glass",
+	["DISCO2"]="glass",
+	["DISCO3"]="glass",
+	["DISCO4"]="glass",
+	["DISCOF1"]="cloth",
 	["DKLEAFLR"]="grass",
 	["DLAVA1"]="stone",
 	["DLAVA2"]="stone",
