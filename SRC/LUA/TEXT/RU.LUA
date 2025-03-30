@@ -7,7 +7,7 @@
 -- This language is cyrilic-based, you will need a HEX to Windows1251 decoder to decode the messages here
 
 MM.AddLang("RU", {
-    ["VERSION"]="1.0",
+    ["VERSION"]="1.1",
 	["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 	["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 	["MM"]="\xD2E0\xE9ED\xE0 \xD3E1\xE8E9\xF1F2\xE2E0",

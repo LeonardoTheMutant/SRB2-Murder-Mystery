@@ -4,7 +4,7 @@ if (MM)
 end
 
 rawset(_G, "MM", {
-	version = "1.0", --string, VERSION NUMBER
+	version = "1.1", --string, VERSION NUMBER
 	debug = true, --boolean, if set to true, enable the debug functionality in MM
 	builddate = "N/A", --string, meant to contain the day of the build
 	RoleColor = {

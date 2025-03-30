@@ -8,10 +8,11 @@ local tech_info = {
 	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
 	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\17 1.0-ALPHA\16:",
+	"\nChanges from\17 1.0\16:",
 	" - TODO;",
-	"\n\nFound an issue or just want to help in this gametype's development? Any kind of contribution to the project matters and can help!\n",
-	"\16Discord (\20SRB2MM community\16):\n\20https://www.discord.com/invite/\nUgG8h2djFE\n",
+	"\n\nThe developer team can be reached out by using one of the following links:\n",
+	"\16Discord:\n\20https://www.discord.com/invite/\nUgG8h2djFE\n",
+	"\16Matrix:\n\19https://matrix.to/#/#ltm_mm:matrix.org\n",
 	"\16GitHub:\n\22https://www.github.com/\nLeonardoTheMutant/SRB2-Murder-Mystery\n",
 	"\16Website:\n\27https:/leonardothemutant.github.io/\nSRB2-Murder-Mystery\n"
 }

@@ -6,9 +6,9 @@ If you're reading this file from GitHub this is great - you have more content to
 But for now let me introduce you to our file structure first:
 
 
-MM_LTMs_MurderMystery_v1.0.pk3
+MM_LTMs_MurderMystery_v1.1.pk3
 |
-+-INIT.LUA - Boot script, initialization and the add-on properties
++-INIT.LUA - Boot script, CVAR initialization and constant definitions
 |
 +-DEV_DOCS-\
 |          +-MM_Func&Const_List.md - Documentation of functions and constants
@@ -20,6 +20,7 @@ MM_LTMs_MurderMystery_v1.0.pk3
 |     |
 |     +-LEVELS-\
 |     |        +-MAPK0.LUA - Code for Eggman's Bedroom door (Abandoned Shelter)
+|     |        +-MAPK6.LUA - Level layout randomizer (Backrooms)
 |     |        +-MAPK7.LUA - "The truth ray" and lab doors (Sky Mesa)
 |     |        +-MAPK8.LUA - Definition of the MT_8BALL object (8-Ball Hotel)
 |     |        \-MAPKC.LUA - Granfather clock strikes (Stauf's Mansion)
@@ -29,6 +30,7 @@ MM_LTMs_MurderMystery_v1.0.pk3
 |     |           +-MINIGAME.LUA      - Main logic code for "PONG" and "SONIC RUN" minigames
 |     |
 |     +-TEXT-\
+|     |     ...
 |     |      \-EN.LUA - All Text and messages used in the add-on (English version), also a template file for other languages
 |     |
 |     +-ABILITIES.LUA  - Character abilities & sneak
@@ -40,14 +42,11 @@ MM_LTMs_MurderMystery_v1.0.pk3
 |     +-FUNCTIONS.LUA  - Function library
 |     +-GAME.LUA       - The main core of the game logic
 |     +-HUD.LUA        - HUD renderer
-|     +-TEXT.LUA       - Entirety of the add-on text (with translations)
 |     +-TIMETRAVEL.LUA - Time travel module for maps (primarily for "East City" (MAPKD))
 |     \-WEAPONS.LUA    - Weapon management (recreation of the Vanilla Weapon Rings)
 |
 \-SOC-\
-      +-MAINCFG.TXT  - SOC for maps
-      +-OBJCTCFG.TXT - SOC for custom objects such as Dead Bodies, Footmark and Knife weapon
-      \-SOUNDCFG.TXT - SOC for some sounds
+      \-MAINCFG.TXT  - SOC for maps
 
 
 Other files are either textures or music and do not require an introduction
@@ -57,13 +56,11 @@ As I've said earlier, the GitHub repository has more content to work with such a
 MM language file in LUA format.
 
 Yes, THIS GAMETYPE SUPPORTS TRANSLATIONS. You can take /SRC/LUA/TEXT/EN.LUA as the template file for your language
-I tried my best to make the tutorial about languages in that template understandable but if you have questions you
-can always ask us in our SRB2MM Discord (or even on GitHub).
+I tried my best to make the translation tutorial in that template understandable but if you have questions you
+can always ask us in one of our communities (or even on GitHub).
 
 If you're new to the LUA you can freely use our code for educational purposes
 
 Have a nice modding!
-LeonardoTheMutant
 
-
-...oh you need the GitHub link? It's listed in Readme.txt, just look here as well :]
+Check out the add-on Wiki for more information: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/wiki

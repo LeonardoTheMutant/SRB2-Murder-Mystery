@@ -15,6 +15,7 @@ A. From the command line:
 B. From the in-game console:
 	MAP [MMmapnum] -GAMETYPE LTM_MM
 
+
 ---=== Admin-only MM commands/variables ===---
 There are a couple of Commands and Console Variables available for admins to use. Here are all of them:
 
@@ -22,27 +23,39 @@ VARIABLES
 	MM_ABILITIES - Enable/Disable abilities applied by a player's skin. When Disabled, all skins have Sonic1-like abilities
 		(spin jump (including Amy & Fang), sneaking (hold SPIN button to walk slower and leave no footmarks)).
 		Enable this Variable to remove the ability limit. The default value is NO;
+
 	MM_ALLOWINVINC - Allow/Restrict the usage of the Invincibility powerup. It is recommended to NOT ALLOW this powerup in the game
 		because they can turn the game into chaos. Default value is NO;
+
 	MM_ALLOWSHIELDS - Allow/Restrict the usage of the shield powerups. It is recommended to NOT ALLOW these powerups in the game
 		because they can turn the game into chaos and make it unplayable. Default value is NO;
+
 	MM_ALLOWSHOES - Allow/Restrict the usage of the Speed Sneakers powerup. Default value is NO;
+
 	MM_AUTOFIRE - Enable/Disable autofire for all weapons. The default value is ON.
+
 	MM_CRYPTIC - Enable/Disable the "Cryptic game" mode, where most of the player counters, teammates list and
 		player nametags are disabled to make the game more cryptic (and feel more like a true mystery)
+
 	MM_CUSTOMSKINS - Allow custom skins/characters in a Murder Mystery game.
 		WARNING: CUSTOM SKINS MAY NOT BE DESIGNED FOR THIS GAMETYPE, ENABLE AT YOUR OWN RISK.
 		The default value is NO.
+
 	MM_FOOTMARKS - Enable/Disable the footmarks spawning. The default value is ON.
+
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
+
 	MM_SPEED_SNEAK - Adjust the sneaking speed for all players. This variable can range from 1 to 5.
 		This works only when MM_ABILITIES console variable is disabled. The default value is 3.
+
 	MM_SPEED_WALK - Adjust the walk speed for all players. This variable can range from 6 to 40.
 		This works only when MM_ABILITIES console variable is disabled. The default value is 20.
+
 	MM_WEPCFG_MURD, MM_WEPCFG_SHERI, MM_WEPCFG_HERO - Set the Weapon Configuration for Murderers, Sheriffs and Heroes respectively.
 		These CVARs in their value contain two sepparate configurations for Normal Gameplay and for Showdown Duel.
 		The variables accepts the *interger* in 0-15 range. For more details please see the DEV_DOCS/MM_WEPCFG.PNG
+
 	MM_WEPCFG_CIVIL - Enable/Disable weapons for Civilians. When enabled, players need to have 100 rings (some skins require only 50 rings) for each shot/knife usage.
 		There are 3 possible values for this CVAR:
 			0 - Disable weapons for the Civilians entirely;
@@ -52,6 +65,7 @@ VARIABLES
 COMMANDS
 	SAYDEAD - This command is available only for the host player and can be used to send a message to the
 	    dead players as <~SERVER>.
+
 
 ---=== List of incompatible Add-On types ===---
 Here is the list of Add-On types that can break Murder Mystery and the reasons why they break:

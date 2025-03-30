@@ -4,4 +4,3 @@
 - Deep test the add-on for SIGSEVG appearance
 - Make (several) release trailer(s)
 - Fix Footmarks spawn code on FOFs, find a way to get the precise FOF boundaries, unless STJr does it first
-- Include the documentation explaining the technical details for mappers

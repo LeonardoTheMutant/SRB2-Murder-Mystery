@@ -5,7 +5,7 @@
 -- Made by Troplucky
 
 MM.AddLang("FR", {
-    ["VERSION"]="1.0",
+    ["VERSION"]="1.1",
 	["AUTHOR"]="Troplucky",
 	["MM"]="Murder Mystery",
 	["CHARSET"]="1254C", --Windows1254 (or Windows1252)

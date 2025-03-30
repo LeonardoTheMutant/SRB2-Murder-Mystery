@@ -120,7 +120,7 @@ local function P_DoKnife(source)
         if (source != found) and (f.type == MT_PLAYER) --Ignore the source player and every non-player object
         and (R_PointToDist2(x, y, found.x, found.y) < knifeRadius) --player must be in knife hitbox's range
         and (((found.z + found.height) > z) and (found.z < (z + knifeHeight))) --do precise Z axis check
-            P_DamageMobj(f, source, source) --damage the found player
+            P_DamageMobj(found, source, source) --damage the found player
         end
     end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608)) --128*FU radius range in every 4 arguments
 
