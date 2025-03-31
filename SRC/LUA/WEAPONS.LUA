@@ -117,7 +117,7 @@ local function P_DoKnife(source)
 
     --Find the players around the calculated point
     searchBlockmap("objects", function(r, found)
-        if (source != found) and (f.type == MT_PLAYER) --Ignore the source player and every non-player object
+        if (source != found) and (found.type == MT_PLAYER) --Ignore the source player and every non-player object
         and (R_PointToDist2(x, y, found.x, found.y) < knifeRadius) --player must be in knife hitbox's range
         and (((found.z + found.height) > z) and (found.z < (z + knifeHeight))) --do precise Z axis check
             P_DamageMobj(found, source, source) --damage the found player
