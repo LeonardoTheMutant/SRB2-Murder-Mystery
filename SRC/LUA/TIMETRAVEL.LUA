@@ -198,7 +198,7 @@ addHook("PlayerThink", function(p)
 						p.mm.timetravel.timezone = TIMEZONE_PRESENT
 						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
 					elseif (p.mm.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
-						if (PlayerCount(ROLE_MURDERER))
+						if (MM.PlayerCount(ROLE_MURDERER))
 							p.mm.timetravel.timezone = TIMEZONE_FUTURE_BAD
 							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
 						else --You will never see the Good Future version of this level in a regular playthrough :)
@@ -207,7 +207,7 @@ addHook("PlayerThink", function(p)
 						end
 					end
 				end
-				MM_StartFlashFX(p, 8, 0)
+				MM.StartFlashFX(p, 8, 0)
 				--P_SpawnMobjFromMobj(p.mo,0,0,0,MT_THROWNEXPLOSION) --blast after a time warp (visual effect)
 				S_StartSound(p.mo, sfx_mixup, p)
 				p.mm.timetravel.timesign = TWS_NONE

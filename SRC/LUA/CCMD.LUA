@@ -87,7 +87,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM_GetText(p.mm.lang, "MMLANG", 1))
+		CONS_Printf(p, MM.GetText(p.mm.lang, "MMLANG", 1))
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -106,7 +106,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			if (MM.text[lang]["NONASCII"]) then nonascii = true end
 
 			if (p.mm.lang == lang) then arg1 = "\x82 (current lang)" end
-			if (MM_GetText(lang, "VERSION") != MM.version) then 
+			if (MM.GetText(lang, "VERSION") != MM.version) then 
 				langIncomp = $ + 1
 				arg2 = "\x85 (INCOMPATIBLE)"
 			end
@@ -120,21 +120,21 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 	else
 		l = $:upper()
 		if (MM.text[l])
-			local oldcharset = MM_GetText(p.mm.lang, "CHARSET")
+			local oldcharset = MM.GetText(p.mm.lang, "CHARSET")
 
 			p.mm.lang = l
 			if (not p.mm.help) then p.mm.help = {page = 1} end
 			p.mm.help.pos = 1
 
 			--Update the characters in the (V)RAM if we change the Character Set
-			if (MM_GetText(p.mm.lang, "CHARSET") != oldcharset)
+			if (MM.GetText(p.mm.lang, "CHARSET") != oldcharset)
 				for i = 128, 255 do MM.graphics.charset[i] = nil end --remove the graphics of Extended ASCII from (V)RAM
 				MM.CharsetExtendedReady = false --tell the HUD code to load new graphics
 			end
 
-			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM_GetText(p.mm.lang, "AUTHOR"))
-			CONS_Printf(p, MM_GetText(p.mm.lang, "MMLANG", 2))
-			if (MM_GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
+			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM.GetText(p.mm.lang, "AUTHOR"))
+			CONS_Printf(p, MM.GetText(p.mm.lang, "MMLANG", 2))
+			if (MM.GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
@@ -175,7 +175,7 @@ addHook("PlayerThink", function(p)
 		p.mm.help.buffer = {}
 
 		if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["MMHELP"])
-			V_InsertToBuffer(p, MM_GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
+			V_InsertToBuffer(p, MM.GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
 		end
 
 		if (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) --last page is always a technical info page
@@ -286,6 +286,6 @@ hud.add(function(v, p)
 	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
 	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
-	V_DrawStrASCII(v, 0, 192, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
-	V_DrawStrASCII(v, 0, 196, MM_GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrASCII(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrASCII(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
 end, "game")

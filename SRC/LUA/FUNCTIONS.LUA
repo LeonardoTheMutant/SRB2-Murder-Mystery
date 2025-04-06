@@ -6,9 +6,9 @@
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 --
--- GLOBAL PLAYER COUNTING FUNCTIONS
+-- MM FUNCTIONS
 --
-rawset(_G, "PlayerCount", function(role)
+MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
 		for p in players.iterate do if ((p.mm.role == role) and (not p.quittime)) then plrc = $ + 1 end end
@@ -16,20 +16,17 @@ rawset(_G, "PlayerCount", function(role)
 		for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
 	end
 	return plrc
-end)
-rawset(_G, "PlayersAlive", function()
+end
+
+MM.PlayersAlive = function()
 	local plrs = 0
 	for p in players.iterate do if ((not p.spectator) and (not p.quittime)) then plrs = $ + 1 end end
 	return plrs
-end)
-
---
---GAME.LUA
---
+end
 
 --Player initializator
-rawset(_G, "MM_InitPlayer", function(p)
-	assert(p, "MM_InitPlayer(): player_t not given!")
+MM.InitPlayer = function(p)
+	assert(p, "MM.InitPlayer(): player_t not given!")
 
 	if (not p.mm) then p.mm = {} end
 	p.mm.kills = 0
@@ -48,19 +45,20 @@ rawset(_G, "MM_InitPlayer", function(p)
 		timesign = TWS_NONE,
 		warptimer = 0
 	}
-end)
+end
 
 -- how many players with same role should exist?
-rawset(_G, "MM_GetRoleMultiplier", function()
-	if (PlayerCount()<8) return 1
-	elseif (PlayerCount()>=8) and (PlayerCount()<=14) return 2
-	elseif (PlayerCount()>=15) and (PlayerCount()<=21) return 3
-	elseif (PlayerCount()>=22) and (PlayerCount()<=28) return 4
-	elseif (PlayerCount()>=29) return 5 end
-end)
+MM.GetRoleMultiplier = function()
+	local plrcount = MM.PlayerCount()
+	if (plrcount < 8) return 1
+	elseif (plrcount >= 8) and (plrcount <= 14) return 2
+	elseif (plrcount >= 15) and (plrcount <= 21) return 3
+	elseif (plrcount >= 22) and (plrcount <= 28) return 4
+	elseif (plrcount >= 29) return 5 end
+end
 
 --get the text line from the TEXT.LUA, if exists
-rawset(_G, "MM_GetText", function(lang, line, param)
+MM.GetText = function(lang, line, param)
 	if (lang)
 		if (MM.text[lang])
 			if (line)
@@ -90,16 +88,16 @@ rawset(_G, "MM_GetText", function(lang, line, param)
 		end
 	end
 	return ""
-end)
+end
 
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
-rawset(_G, "MM_AssignRoles", function()
+MM.AssignRoles = function()
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	-- Take care of the lonely player
-	if (PlayerCount() < 2)
+	if (MM.PlayerCount() < 2)
 		for p in players.iterate do p.mm.role = nil end
 		return
 	end
@@ -110,7 +108,7 @@ rawset(_G, "MM_AssignRoles", function()
 		table.insert(plrs, #p)
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
-        for i = 1, MM_GetRoleMultiplier()
+        for i = 1, MM.GetRoleMultiplier()
             local randPlr = P_RandomKey(#plrs) + 1 --select random player
             players[plrs[randPlr]].mm.role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
@@ -119,48 +117,48 @@ rawset(_G, "MM_AssignRoles", function()
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
-		chatprintf(p, MM_GetText(p.mm.lang, "ROLE_GET", p.mm.role))
+		chatprintf(p, MM.GetText(p.mm.lang, "ROLE_GET", p.mm.role))
 		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
 	end
-end)
+end
 
 --Function to display global messages in chat
 --Works as regular chatprint but sends the global message personally to everyone in their (player.mmlang) language
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
-rawset(_G, "MM_ChatprintGlobal", function(msg, var)
+MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate
 		if ((msg == "MURD_KILLED") or (msg == "SHERI_KILLED") or (msg == "HERO_KILLED"))
-			chatprintf(p, MM_GetText(p.mm.lang, msg, 1).." "..var.." "..MM_GetText(p.mm.lang, msg, 2))
+			chatprintf(p, MM.GetText(p.mm.lang, msg, 1).." "..var.." "..MM.GetText(p.mm.lang, msg, 2))
 		elseif (msg == "SHERI_KILLED_DROP")
-			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." "..MM_GetText(p.mm.lang, "SHERI_KILLED", 2).." "..MM_GetText(p.mm.lang, "SHERI_KILLED", 3))
+			chatprintf(p, MM.GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." "..MM.GetText(p.mm.lang, "SHERI_KILLED", 2).." "..MM.GetText(p.mm.lang, "SHERI_KILLED", 3))
 		elseif (msg == "MURD_DIED")
-			chatprintf(p, MM_GetText(p.mm.lang, "MURD_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
+			chatprintf(p, MM.GetText(p.mm.lang, "MURD_KILLED", 1).." "..var.." \x80"..MM.GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "SHERI_DIED")
-			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
+			chatprintf(p, MM.GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM.GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "HERO_DIED")
-			chatprintf(p, MM_GetText(p.mm.lang, "HERO_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD"))
+			chatprintf(p, MM.GetText(p.mm.lang, "HERO_KILLED", 1).." "..var.." \x80"..MM.GetText(p.mm.lang, "DIED_HAZARD"))
 		elseif (msg == "SHERI_DIED_DROP")
-			chatprintf(p, MM_GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM_GetText(p.mm.lang, "DIED_HAZARD")..". "..MM_GetText(p.mm.lang, "SHERI_KILLED", 3))
+			chatprintf(p, MM.GetText(p.mm.lang, "SHERI_KILLED", 1).." "..var.." \x80"..MM.GetText(p.mm.lang, "DIED_HAZARD")..". "..MM.GetText(p.mm.lang, "SHERI_KILLED", 3))
 		elseif ((msg == "LAST_QUIT") or (msg == "ONE_QUIT") or (msg == "REPLACE_QUIT"))
-			if (var != ROLE_HERO) then chatprintf(p, MM_GetText(p.mm.lang, msg, var)) --for Murd and Sheri
-			else chatprintf(p, MM_GetText(p.mm.lang, msg, 3)) end --for Hero
+			if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, msg, var)) --for Murd and Sheri
+			else chatprintf(p, MM.GetText(p.mm.lang, msg, 3)) end --for Hero
 		elseif (msg == "WIN")
-			chatprintf(p, MM_GetText(p.mm.lang, "ENDROUND", var))
+			chatprintf(p, MM.GetText(p.mm.lang, "ENDROUND", var))
 		elseif msg
-			chatprintf(p, MM_GetText(p.mm.lang, msg, var))
+			chatprintf(p, MM.GetText(p.mm.lang, msg, var))
 		end
 	end
-end)
+end
 
-rawset(_G, "MM_IsTimelineCorrect", function(timezone1, timezone2)
-	if ((timezone1 == TIMEZONE_PAST) and (timezone2 >= TIMEZONE_PAST)) or ((timezone1 == TIMEZONE_PRESENT) and (timezone2 >= TIMEZONE_PRESENT)) return true
-	elseif (timezone1 == TIMEZONE_FUTURE_BAD) and (timezone2 == TIMEZONE_FUTURE_BAD) return true
-	elseif (timezone1 == TIMEZONE_FUTURE_GOOD) and (timezone2 == TIMEZONE_FUTURE_GOOD) return true
-	end
-end)
+MM.IsTimelineCorrect = function(timezone1, timezone2)
+	return ((timezone1 == TIMEZONE_PAST) and (timezone2 >= TIMEZONE_PAST))
+		or ((timezone1 == TIMEZONE_PRESENT) and (timezone2 >= TIMEZONE_PRESENT))
+		or (timezone1 == TIMEZONE_FUTURE_BAD) and (timezone2 == TIMEZONE_FUTURE_BAD)
+		or (timezone1 == TIMEZONE_FUTURE_GOOD) and (timezone2 == TIMEZONE_FUTURE_GOOD)
+end
 
 --Skeleton Body spawn (exclusive for MAPKD ("East City"))
-rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
+MM.SpawnSkeletonBody = function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* constant)
 	local ShiftX = 0
 	local ShiftY = 0
 	local temp
@@ -173,22 +171,30 @@ rawset(_G, "MM_SpawnSkeletonBody", function(p, t) --player (MOBJ_T), timezone (T
 
 	if (ShiftX) or (ShiftY)
 		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
-			if MM_IsTimelineCorrect(t, timezone)
+			if MM.IsTimelineCorrect(t, timezone)
 				local body = P_SpawnMobjFromMobj(p, ShiftX, ShiftY, 0, MT_DEADPLR)
 				body.state = S_MMSKELT
 			end
 		end
 	end
-end)
+end
 
-rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T)
-	if ((not p) or (not p.player)) error("MM_KillPlayerByPlayer() argument #1: player's mobj_t expected") end
-	if ((not k) or (not k.player)) error("MM_KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
+--spawn Sheriff Emerald
+MM.SpawnSHREMD = function(x, y, z, timezone)
+	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM.SpawnSHREMD(int x, int y, int z, [int timezone])") end
+	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
+	if (timezone) mo.timezone = timezone end
+	table.insert(MM.shremds, (#MM.shremds + 1), mo)
+end
+
+MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
+	if ((not p) or (not p.player)) error("MM.KillPlayerByPlayer() argument #1: player's mobj_t expected") end
+	if ((not k) or (not k.player)) error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
-	MM_StartFlashFX(plr, 4, 0x23) --Red flash effect
+	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
 	plr.mm.killername = k.player.name
@@ -210,18 +216,18 @@ rawset(_G, "MM_KillPlayerByPlayer", function(p, k) --player, killer (both MOBJ_T
 	else body.state = S_MMSKELT end --skeleton, fallback for custom chars
 	body.color = p.color
 
-	if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
+	if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
 	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
-end)
+end
 
-rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
-	if ((not p) or (not p.player)) error("MM_KillPlayerByHazard() argument #1: player's mobj_t expected") end
+MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
+	if ((not p) or (not p.player)) error("MM.KillPlayerByHazard() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
-	MM_StartFlashFX(plr, 4, 0x23) --Red flash effect
+	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	plr.mm.killername = "your stupidity"
 
 	if (spawnbody)
@@ -237,86 +243,86 @@ rawset(_G, "MM_KillPlayerByHazard", function(p, spawnbody) --player (mobt_t), "S
 		else body.state = S_MMSKELT end --skeleton, fallback for custom chars
 		body.color = p.color
 
-		if (plr.mm.timetravel.timezone) then MM_SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
+		if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 	else
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
 	
 	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
-end)
+end
 
-rawset(_G, "MM_TeammatesCount", function(p)
+MM.TeammatesCount = function(p)
 	local teammates = false
 
 	if (p.mm.role == ROLE_MURDERER)
-		teammates = PlayerCount(ROLE_MURDERER) - 1 
+		teammates = MM.PlayerCount(ROLE_MURDERER) - 1 
 	elseif (p.mm.role == ROLE_SHERIFF)
-		teammates = (PlayerCount(ROLE_SHERIFF) - 1) + PlayerCount(ROLE_HERO)
+		teammates = (MM.PlayerCount(ROLE_SHERIFF) - 1) + MM.PlayerCount(ROLE_HERO)
 	elseif (p.mm.role == ROLE_HERO)
-		teammates = PlayerCount(ROLE_SHERIFF) + (PlayerCount(ROLE_HERO) - 1)
+		teammates = MM.PlayerCount(ROLE_SHERIFF) + (MM.PlayerCount(ROLE_HERO) - 1)
 	end
 
 	return teammates
-end)
+end
 
-rawset(_G, "MM_AreTeammates", function(p1, p2)
+MM.AreTeammates = function(p1, p2)
 	if ((not p1.mm.role) or (not p2.mm.role)) then return false end
 
 	return ((p1.mm.role == ROLE_MURDERER) and (p2.mm.role == ROLE_MURDERER))
 		or (((p1.mm.role == ROLE_SHERIFF) or (p1.mm.role == ROLE_HERO)) and ((p2.mm.role == ROLE_SHERIFF) or (p2.mm.role == ROLE_HERO)))
-end)
+end
 
-rawset(_G, "MM_HitTeammate", function(v, a)
-	chatprintf(a, MM.RoleColor[v.mm.role]..MM_GetText(a.mm.lang, "TEAMMATE_HIT", 1))
-	chatprintf(v, MM.RoleColor[a.mm.role]..MM_GetText(v.mm.lang, "TEAMMATE_HIT", 2))
+MM.HitTeammate = function(v, a)
+	chatprintf(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "TEAMMATE_HIT", 1))
+	chatprintf(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "TEAMMATE_HIT", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
-	v.powers[pw_flashing] = 105
-end)
+	v.powers[pw_flashing] = 105 --3 seconds
+end
 
-rawset(_G, "MM_PlayerQuit", function(p)
+MM.PlayerQuit = function(p)
 	if (p.mm.role == ROLE_MURDERER)
 		p.mm.role = ROLE_NONE
-		if ((not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_MURDERER))) or ((PlayerCount(ROLE_CIVILIAN) == 1) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_MURDERER)))
-			MM_EndRound(0, "LAST_QUIT", ROLE_MURDERER)
-		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_MURDERER)))
-			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_MURDERER)
-			MM_SetRandomInnoAs(ROLE_MURDERER, 1)
+		if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER))) or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER)))
+			MM.EndRound(0, "LAST_QUIT", ROLE_MURDERER)
+		elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER)))
+			MM.ChatprintGlobal("REPLACE_QUIT", ROLE_MURDERER)
+			MM.SetRandomInnoAs(ROLE_MURDERER, 1)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 		else
-			MM_ChatprintGlobal("ONE_QUIT", ROLE_MURDERER)
+			MM.ChatprintGlobal("ONE_QUIT", ROLE_MURDERER)
 			if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 		end
 	elseif (p.mm.role == ROLE_SHERIFF)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF))
-			if (PlayerCount(ROLE_HERO)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_SHERIFF)
-			else MM_EndRound(0, "LAST_QUIT", ROLE_SHERIFF) end
-		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_SHERIFF)
-			MM_SetRandomInnoAs(ROLE_SHERIFF, 2)
+		if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF))
+			if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("LAST_QUIT", ROLE_SHERIFF)
+			else MM.EndRound(0, "LAST_QUIT", ROLE_SHERIFF) end
+		elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF)))
+			MM.ChatprintGlobal("REPLACE_QUIT", ROLE_SHERIFF)
+			MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 		else
-			MM_ChatprintGlobal("ONE_QUIT", ROLE_SHERIFF)
+			MM.ChatprintGlobal("ONE_QUIT", ROLE_SHERIFF)
 			if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 		end
 	elseif (p.mm.role == ROLE_HERO)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_HERO))
-			if (PlayerCount(ROLE_SHERIFF)) then MM_ChatprintGlobal("LAST_QUIT", ROLE_HERO)
-			else MM_EndRound(0, "LAST_QUIT", ROLE_HERO) end
-		elseif (PlayerCount(ROLE_CIVILIAN) and (not PlayerCount(ROLE_HERO)) and (not PlayerCount(ROLE_SHERIFF)))
-			MM_ChatprintGlobal("REPLACE_QUIT", ROLE_HERO)
-			MM_SetRandomInnoAs(ROLE_HERO, 3)
+		if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_HERO))
+			if (MM.PlayerCount(ROLE_SHERIFF)) then MM.ChatprintGlobal("LAST_QUIT", ROLE_HERO)
+			else MM.EndRound(0, "LAST_QUIT", ROLE_HERO) end
+		elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF)))
+			MM.ChatprintGlobal("REPLACE_QUIT", ROLE_HERO)
+			MM.SetRandomInnoAs(ROLE_HERO, 3)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 		else
-			MM_ChatprintGlobal("ONE_QUIT", ROLE_HERO)
+			MM.ChatprintGlobal("ONE_QUIT", ROLE_HERO)
 			if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 		end
 	elseif (p.mm.role == ROLE_CIVILIAN)
 		p.mm.role = ROLE_NONE
-		if (not PlayerCount(ROLE_CIVILIAN)) and (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO))
-			MM_EndRound(0, "LAST_QUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
+		if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+			MM.EndRound(0, "LAST_QUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
 		end
 	end
 
@@ -324,45 +330,45 @@ rawset(_G, "MM_PlayerQuit", function(p)
 	local myslot = PONG_GetMySlot(p)
 	if (myslot) then MM.duelplrs[myslot] = nil end
 
-	MM_StartSuspenseMusic()
-	MM_StartShowdownMusic()
-end)
+	MM.StartSuspenseMusic()
+	MM.StartShowdownMusic()
+end
 
-rawset(_G, "MM_StartFlashFX", function(p, duration, color)
-	assert(p, "MM_StartFlashFX argument #1: player_t not given!")
-	assert(p.mm, "MM_StartFlashFX argument #1: player_t.mm table is not initialized!")
-	assert(p.mm.hud, "MM_StartFlashFX argument #1: player_t.mm.hud table is not initialized!")
-	assert(duration, "MM_StartFlashFX argument #2: Effect duration time is not specified")
-	if (type(duration) != "number") then error("MM_StartFlashFX argument #2: The value of the effect duration must be a number") end
-	if (color and (type(color) != "number")) then error("MM_StartFlashFX argument #3: The value of the effect's color must be a number") end
+MM.StartFlashFX = function(p, duration, color)
+	assert(p, "MM.StartFlashFX argument #1: player_t not given!")
+	assert(p.mm, "MM.StartFlashFX argument #1: player_t.mm table is not initialized!")
+	assert(p.mm.hud, "MM.StartFlashFX argument #1: player_t.mm.hud table is not initialized!")
+	assert(duration, "MM.StartFlashFX argument #2: Effect duration time is not specified")
+	if (type(duration) != "number") then error("MM.StartFlashFX argument #2: The value of the effect duration must be a number") end
+	if (color and (type(color) != "number")) then error("MM.StartFlashFX argument #3: The value of the effect's color must be a number") end
 
 	color = color or 0
 
 	p.mm.hud.fx_translucency = 10
 	p.mm.hud.fx_duration = duration
 	p.mm.hud.fx_color = color
-end)
+end
 
 --Function to end the round, arguments here:
 --possible values for the winner of the game are 0-None (Tie), 1-Murderer, 2-Civilians (Sheriff, Innocent, Hero)
 --endtext is the text to display in the chat (taken from the MM.text)
 --reason is used differently for each endtext message but usualy it is a win reason (WIN_* constant)
-rawset(_G, "MM_EndRound", function(winner, endtext, reason)
+MM.EndRound = function(winner, endtext, reason)
 	MM.winner = winner
 	if (endtext == "WIN") then MM.winreason = reason end
 	MM.shwdwn = false
 	MM.susnce = false
 	G_ExitLevel()
-	if (endtext) MM_ChatprintGlobal(endtext, reason) end
+	if (endtext) MM.ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM_GetText("EN", "ENDROUND", reason))
-		else CONS_Printf(server, "- "..MM_GetText("EN", endtext, reason)) end
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("EN", "ENDROUND", reason))
+		else CONS_Printf(server, "- "..MM.GetText("EN", endtext, reason)) end
 	end
-end)
+end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
-rawset(_G, "MM_StartSuspenseMusic", function()
-	if (not PlayerCount(ROLE_SHERIFF)) and (not PlayerCount(ROLE_HERO)) and (PlayerCount(ROLE_CIVILIAN) == 1) and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
+MM.StartSuspenseMusic = function()
+	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (MM.PlayerCount(ROLE_CIVILIAN) == 1) and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
 		if (mapheaderinfo[gamemap].mm_suspensetrack and S_MusicExists(mapheaderinfo[gamemap].mm_suspensetrack))
 			MM.susnce = mapheaderinfo[gamemap].mm_suspensetrack
 		else
@@ -372,11 +378,11 @@ rawset(_G, "MM_StartSuspenseMusic", function()
 		return true
 	end
 	return false
-end)
+end
 
 --Enable Showdown music when there are no innocents left
-rawset(_G, "MM_StartShowdownMusic", function()
-	if (not PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (PlayerCount())
+MM.StartShowdownMusic = function()
+	if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount())
 		if (mapheaderinfo[gamemap].mm_showdowntrack and S_MusicExists(mapheaderinfo[gamemap].mm_showdowntrack))
 			MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack
 		else
@@ -386,9 +392,9 @@ rawset(_G, "MM_StartShowdownMusic", function()
 		return true
 	end
 	return false
-end)
+end
 
-rawset(_G, "MM_SetRandomInnoAs", function(role, message)
+MM.SetRandomInnoAs = function(role, message)
 	local plrs = {}
 	for plr in players.iterate
 		if ((not plr.spectator) and (plr.mm.role == ROLE_CIVILIAN)) then table.insert(plrs, #plr) end
@@ -396,29 +402,67 @@ rawset(_G, "MM_SetRandomInnoAs", function(role, message)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
 	p.mm.hud.roleflicker = 70
-	chatprintf(p, MM_GetText(p.mm.lang, "NEWROLE_GET", message))
+	chatprintf(p, MM.GetText(p.mm.lang, "NEWROLE_GET", message))
 	return
-end)
+end
 
-rawset(_G, "MM_PunishPlayer", function(p, msg, ban) --player (player_t), punishment message (string), ban instead of kick? (boolean)
+MM.PunishPlayer = function(p, msg, ban) --player (player_t), punishment message (string), ban instead of kick? (boolean)
 	if (p == server) then COM_BufInsertText(server, "QUIT")
 	else
 		if (ban) then COM_BufInsertText(server, "BAN "..#p.." "..msg)
 		else COM_BufInsertText(server, "KICK "..#p.." "..msg) end
 	end
-end)
+end
 
-rawset(_G, "MM_GetWepCfgFlags", function(role)
+MM.GetWepCfgFlags = function(role)
 	if (not role) or (role < ROLE_MURDERER) or (role > ROLE_HERO) or (role == ROLE_CIVILIAN) then return 0 end
-	if (PlayerCount(ROLE_CIVILIAN)) --Normal gameplay
+	if (MM.PlayerCount(ROLE_CIVILIAN)) --Normal gameplay
 		return wepcfgCVARs[role].value & 3
 	else --Showdown Duel
 		return (wepcfgCVARs[role].value >> 2) & 3
 	end
-end)
+end
+
+
 
 --
---HUD.LUA
+-- MINIGAME.LUA
+--
+rawset(_G, "PONG_GetMySlot", function(p)
+	assert(p, "PONG_GetMySlot(): player_t not given!")
+	if (not MM.duelplrs) return end
+	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
+end)
+
+rawset(_G, "PONG_SetVelocity", function(side)
+	side = $ or 0
+
+	local x = 0
+	if (side < 0) x = -1
+	elseif (side > 0) x = 1
+	else while (not x) do x = P_RandomRange(-1, 1) end end
+
+	local y = 0
+	while (not y) y = P_RandomRange(-2, 2) end
+
+	MM.pong.velocity.x = x
+	MM.pong.velocity.y = y
+end)
+
+rawset(_G, "PONG_Reset", do
+	MM.pong.ball.x = 79
+	MM.pong.ball.y = 39
+
+	PONG_SetVelocity()
+
+	MM.pong.hits = 0
+	MM.pong.speed = 1
+end)
+
+
+
+--
+-- MM HUD LIBRARY
 --
 rawset(_G, "V_LoadPatch", function(v, patch)
 	assert(v, "V_LoadPatch() argument #1: Video drawer object expected")
@@ -768,51 +812,10 @@ rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, start
 end)
 
 
---
---MINIGAME.LUA
---
-rawset(_G, "PONG_GetMySlot", function(p)
-	assert(p, "PONG_GetMySlot(): player_t not given!")
-	if (not MM.duelplrs) return end
-	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
-end)
-
-rawset(_G, "PONG_SetVelocity", function(side)
-	side = $ or 0
-
-	local x = 0
-	if (side < 0) x = -1
-	elseif (side > 0) x = 1
-	else while (not x) do x = P_RandomRange(-1, 1) end end
-
-	local y = 0
-	while (not y) y = P_RandomRange(-2, 2) end
-
-	MM.pong.velocity.x = x
-	MM.pong.velocity.y = y
-end)
-
-rawset(_G, "PONG_Reset", do
-	MM.pong.ball.x = 79
-	MM.pong.ball.y = 39
-
-	PONG_SetVelocity()
-
-	MM.pong.hits = 0
-	MM.pong.speed = 1
-end)
 
 --
---GLOBAL
+-- MISCELANEOUS
 --
-
---spawn Sheriff Emerald
-rawset(_G, "MM_SpawnSHREMD", function(x, y, z, timezone)
-	if (x == nil) or (y == nil) or (z == nil) error("Not enough arguments for MM_SpawnSHREMD(int x, int y, int z, [int timezone])") end
-	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
-	if (timezone) mo.timezone = timezone end
-	table.insert(MM.shremds, (#MM.shremds + 1), mo)
-end)
 
 -- Returns the height of the sector floor at (x, y)
 rawset(_G, "P_GetSectorFloorZAt", function(sector, x, y)

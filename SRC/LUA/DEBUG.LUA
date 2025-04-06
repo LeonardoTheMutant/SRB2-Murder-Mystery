@@ -13,7 +13,7 @@ COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and 
 	end
 	if (prole=="nil") players[tonumber(pnum)].mm.role=nil
 	else players[tonumber(pnum)].mm.role=tonumber(prole) end
-	if (pdead) MM_KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)
+	if (pdead) MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)
 	else players[tonumber(pnum)].spectator=0 end
 end)
 COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
@@ -25,11 +25,11 @@ COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
 		CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"")
 		return
 	end
-	if (not reason) MM_EndRound(winner,"WIN",winner)
-	else MM_EndRound(winner,"WIN",reason) end
+	if (not reason) MM.EndRound(winner,"WIN",winner)
+	else MM.EndRound(winner,"WIN",reason) end
 end)
 COM_AddCommand("mmshremd",function(p) --Spawn Sheriff's Emerald at player's position
-	MM_SpawnSHREMD(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)
+	MM.SpawnSHREMD(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)
 end)
 COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different time zones manually
 	if (gamestate!=1) or (not valid(p.mo)) return end

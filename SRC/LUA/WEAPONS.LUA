@@ -132,7 +132,7 @@ end
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
     if (gametype != GT_LTMMURDERMYSTERY) then return end
 
-    if ((p.mm.role != ROLE_CIVILIAN) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
+    if ((p.mm.role != ROLE_CIVILIAN) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
 
     p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 
@@ -150,7 +150,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
     local mo
 
-    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
+    if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
         -- KNIFE --
         if (p.mm.role == ROLE_CIVILIAN)
             if (((p.skin == 1) or (p.skin == 3)) and (p.rings > 49)) or (((p.skin != 1) and (p.skin != 3)) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
@@ -238,7 +238,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
                 else P_GivePlayerRings(p, -100) end
             end
         else --Roles other than Civilian
-            if (not (MM_GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
+            if (not (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
                 if (p.currentweapon == 0) and (p.powers[pw_infinityring])
                     -- INFINITY --
                     P_SetWeaponDelay(p, MM.weapons[0][4])

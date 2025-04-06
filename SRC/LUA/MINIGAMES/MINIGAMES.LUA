@@ -6,8 +6,8 @@
 --
 -- PONG MINIGAME
 --
-local function MM_Get2Players()
-	if (PlayerCount() != 2) return end
+local function PONG_Get2Players()
+	if (MM.PlayerCount() != 2) return end
     local plrs = {}
 	for p in players.iterate
 		plrs[#plrs + 1] = p
@@ -190,7 +190,7 @@ end
 addHook("ThinkFrame", do
     if (gametype != GT_LTMMURDERMYSTERY) return end
     if (MM.twopgame)
-        if (PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = MM_Get2Players() end
+        if (MM.PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = PONG_Get2Players() end
 
         if ((MM.duelplrs) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].mm.minigame) and (MM.duelplrs[2].mm.minigame))
             MM.minigame = true
@@ -223,7 +223,7 @@ addHook("PlayerThink", function(p)
     if (gametype != GT_LTMMURDERMYSTERY) return end
 
     --Player's minigame toggle
-    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (PlayerCount() == 1))
+    if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1))
 		if ((p.mm.help) and (p.mm.help.active)) return end
         if (not (p.lastbuttons & BT_CUSTOM3))
             if (p.mm.minigame) --Disable minigame
@@ -256,7 +256,7 @@ addHook("PlayerThink", function(p)
                 p.realmo.momy = 0
                 p.realmo.state = S_PLAY_WAIT
             end
-        elseif ((p.spectator) or (PlayerCount() == 1)) --SONIC RUN
+        elseif ((p.spectator) or (MM.PlayerCount() == 1)) --SONIC RUN
             if (p.SonicRun.timeout)
                 p.SonicRun.timeout = $ - 1
                 if (p.SonicRun.timeout > TICRATE)

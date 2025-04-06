@@ -32,7 +32,7 @@ local function CHAT_Say(s, m, me)
 	elseif (IsPlayerAdmin(s)) badge = "\x82@"..chatcolor end
 
 	for p in players.iterate do
-		if (gamestate != GS_LEVEL) or (p.spectator) or (MM_IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
+		if (gamestate != GS_LEVEL) or (p.spectator) or (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
 			if (me)
 				chatprintf(p, "* "..badge..s.name.."\x80 "..m:sub(5)) --"/me" message
 			else
@@ -47,7 +47,7 @@ end
 
 local function CHAT_TeamSay(s, m) --sender, message
 	for p in players.iterate do
-		if (MM_IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
+		if (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
 			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER))
 				chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
 				S_StartSound(nil, sfx_radio, p)
