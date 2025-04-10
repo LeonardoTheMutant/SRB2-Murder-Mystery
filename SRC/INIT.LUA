@@ -48,20 +48,8 @@ rawset(_G, "MM", {
 			}
 		}
 	},
-	shwdwn_music = { --Tracks used as Showdown Duel themes
-		"DRMBM2", --Dr. Robotnik's Mean Bean Machine: "2 Player Vs."
-		"PWAAPR", --Phoenix Wright Ace Atourney: "Pressing Pursuit"
-		"PWTTPR", --Phoenix Wright: Trials and Tribulations: "Pressing Pursuit"
-		"RDBSTR", --Deltarune: "Rude Buster" (by Toby Fox)
-		"S2MSBS", --Sonic 2 (Master System): "Boss"
-		"S2GGBS", --Sonic 2 (Game Gear): "Boss"
-		--"SSBLBS", --Sonic Spinball: "Boss"
-		"SSBLSD", --Sonic Spinball: "Showdown"
-		"STORMR", --Freedoom Phase 2: "Stormer" (by Blastfrog & Korp)
-		"UNDYNE", --Undertale: "Battle Against A True Hero" (by Toby Fox)
-	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
-	susnce = false, --currently playing Suspense track
+	susnse = false, --currently playing Suspense track
 	winner = 0, --for intermission, netsynced
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced
@@ -77,8 +65,23 @@ rawset(_G, "MM", {
 	text = {}
 })
 
+--Synchronized Variables
+addHook("NetVars", function(net)
+	MM.text = net($)
+	MM.shremds = net($)
+	MM.winner = net($)
+	MM.winreason = net($)
+	MM.timelimit = net($)
+	MM.twopgame = net($)
+	MM.minigame = net($)
+	MM.pong = net($)
+	MM.duelplrs = net($)
+end)
+
+
+
 --
--- CONSTANTS
+-- ENUMERATES
 --
 
 --Role constants
@@ -110,7 +113,13 @@ rawset(_G, "TWS_FUTURE", 2)
 rawset(_G, "WEPCFG_REDONLY", 1)
 rawset(_G, "WEPCFG_DISABLERED", 2)
 
---Customization API
+
+
+--
+-- API FUNCTIONS
+--
+
+--Add language/translation to the game
 MM.AddLang = function(langID,langTbl)
 	assert(langID, "Invalid Language Index")
 	assert(langTbl, "Invalid Language Table.")
@@ -126,6 +135,34 @@ MM.AddLang = function(langID,langTbl)
 	print("\x87Murder Mystery\x80: Added \x82\""..langID.."\"\x80 language by "..tostring(MM.text[langID:upper()]["AUTHOR"]))
 	if (MM.text[langID:upper()]["VERSION"] ~= MM.version) print("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84"..tostring(MM.text[langID:upper()]["AUTHOR"]).."\x80 to update it for the \x87Murder Mystery "..MM.version) end
 end
+
+--(Re)Load a list of available Suspense music
+MM.LoadSuspenseTracks = function()
+	MM.susnse_music = {}
+	local lumpname
+	for i = 0, 15 do
+		lumpname = string.format("MMSUS%X", i)
+		if (S_MusicExists(lumpname))
+			table.insert(MM.susnse_music, lumpname)
+			if (MM.debug) print("Loaded Suspense Track \x81"..lumpname) end
+		end
+	end
+end
+
+--(Re)Load a list of available Showdown Duel music
+MM.LoadShowdownTracks = function()
+	MM.shwdwn_music = {}
+	local lumpname
+	for i = 0, 15 do
+		lumpname = string.format("MMSHD%X", i)
+		if (S_MusicExists(lumpname))
+			table.insert(MM.shwdwn_music, lumpname)
+			if (MM.debug) print("Loaded Showdown Track \x81"..lumpname) end
+		end
+	end
+end
+
+
 
 --
 -- CVARs
@@ -144,7 +181,6 @@ local sentences = {
 	[2] = "All weapons with Red/Infinite rings replaced by knife",
 	[3] = "Knife only"
 }
-
 local sentences_civil = {
 	[0] = "No weapons",
 	[1] = "Red Ring + Knife",
@@ -191,8 +227,10 @@ CV_RegisterVar({name = "mm_allowshields", defaultvalue = "No", PossibleValue = C
 CV_RegisterVar({name = "mm_allowinvinc", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 
+
+
 --
---Boot sequence
+-- BOOT SEQUENCE
 --
 print("\n\x87LTM's MURDER MYSTERY \x81v"..MM.version.."\n")
 
@@ -236,20 +274,5 @@ dofile("MAPS/MAPK8.LUA")
 dofile("MAPS/MAPKC.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
---
---end of startup init
---
-
-addHook("NetVars", function(net)
-	MM.text = net($)
-	MM.shremds = net($)
-	MM.winner = net($)
-	MM.winreason = net($)
-	MM.timelimit = net($)
-	MM.twopgame = net($)
-	MM.minigame = net($)
-	MM.pong = net($)
-	MM.duelplrs = net($)
-end)
 
 if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.15 only. Incompatibilities may occur", 0) end

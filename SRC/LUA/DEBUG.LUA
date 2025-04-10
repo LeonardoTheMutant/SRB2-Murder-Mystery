@@ -2,8 +2,8 @@
 --Code by LeonardoTheMutant
 --
 --Murder Mystery Debug commands
---This script is executes on startup if MM.debug is set to true
---I keep this minimalistic so don't wonder why code is unreadable there
+--This script is executed on startup if MM.debug is set to true
+--I keep this minimalistic so don't wonder why code is unreadable and unstable here
 
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
@@ -49,15 +49,21 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	if (shift and shift!="false") P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)
 	else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
 end)
-COM_AddCommand("mmsusnce",function()
-	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.susnce=mapheaderinfo[gamemap].mm_suspensetrack
-	else MM.susnce="SUSNCE" end
-	S_ChangeMusic(MM.susnce,true)
+COM_AddCommand("mmsusnse",do
+	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.susnse=mapheaderinfo[gamemap].mm_suspensetrack
+	else if (#MM.susnse_music) MM.susnse=MM.susnse_music[P_RandomKey(#MM.susnse_music)+1] end end
+	if (MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse, true) end
 end)
-COM_AddCommand("mmduel",function()
+COM_AddCommand("mmduel",do
 	if (mapheaderinfo[gamemap].mm_showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
-	else MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1] end
-	S_ChangeMusic(MM.shwdwn,true)
+	else if (#MM.shwdwn_music) MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1] end end
+	if (MM.shwdwn and S_MusicExists(MM.shwdwn)) S_ChangeMusic(MM.shwdwn, true) end
+end)
+COM_AddCommand("mmloadmus",do
+	MM.LoadSuspenseTracks()
+	print("\x82"..#MM.susnse_music.." Suspense Tracks")
+	MM.LoadShowdownTracks()
+	print("\x82"..#MM.shwdwn_music.." Showdown Tracks")
 end)
 COM_AddCommand("mmcharset",function(p) --Draw all characters from the Extended ASCII character set
 	p.mm.debugdrawer=true

@@ -36,7 +36,7 @@ addHook("MapLoad", function(map)
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremds = {}
-	MM.susnce = false
+	MM.susnse = false
 	MM.shwdwn = false
 	MM.minigame = false
 
@@ -465,25 +465,27 @@ end)
 addHook("MusicChange", function(old, new)
     if (gametype != GT_LTMMURDERMYSTERY) return end
 
+	--Keep the event music playing
 	if ((gamestate == GS_LEVEL) and (leveltime) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime]))
 		--Showdown Duel music
 		if (MM.shwdwn) then return MM.shwdwn
 		--Suspense music
-		elseif (MM.susnce) then return MM.susnce end
+		elseif (MM.susnse) then return MM.susnse end
 	end
 
 	--Intermission theme
 	if (new == "_inter")
-		if (not MM.winner) return "NOWAY" --Sonic 3 & Knuckles "No way!"
-		else
-			if (MM.winreason == 1) return "ULTINT" --Ultimate DOOM's Ultimate MIDI pack "Doomguy and His Angry Band"
-			elseif (MM.winreason == 2) return "FD2INT" --Freedoom: Phase 2 "Intermission"
-			elseif (MM.winreason == 3) return "007WTC" --Goldeneye 007 "Watch theme"
-			elseif (MM.winreason == 4) return "11H_IN" --The 11th Hour: The sequel to The 7th Guest "Dolls of Doom"
-			elseif (MM.winreason == 5) return "VANDOM" --Super Mario World "Vanilla Dome"
-			else return "PBW_DC" end --Pokemon Black & White "Driftevil City"
-		end
+		local lumpname
+		if (MM.winner) lumpname = "MMEND"..MM.winreason
+		else lumpname = "MM_TIE" end
+
+		if (S_MusicExists(lumpname)) then return lumpname end
 	end
+end)
+--Update the game music lists once a new add-on was loaded (it might contain new music)
+addHook("AddonLoaded", do
+	MM.LoadSuspenseTracks()
+	MM.LoadShowdownTracks()
 end)
 
 --

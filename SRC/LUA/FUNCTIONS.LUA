@@ -357,7 +357,7 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.winner = winner
 	if (endtext == "WIN") then MM.winreason = reason end
 	MM.shwdwn = false
-	MM.susnce = false
+	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) MM.ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
@@ -369,13 +369,15 @@ end
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 MM.StartSuspenseMusic = function()
 	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (MM.PlayerCount(ROLE_CIVILIAN) == 1) and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
-		if (mapheaderinfo[gamemap].mm_suspensetrack and S_MusicExists(mapheaderinfo[gamemap].mm_suspensetrack))
-			MM.susnce = mapheaderinfo[gamemap].mm_suspensetrack
+		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
-			MM.susnce = "SUSNCE"
+			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[P_RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
+			else return false end
 		end
-		S_ChangeMusic(MM.susnce, true)
-		return true
+		if (MM.susnse and S_MusicExists(MM.susnse)) then
+			S_ChangeMusic(MM.susnse, true)
+			return true
+		end
 	end
 	return false
 end
@@ -383,13 +385,15 @@ end
 --Enable Showdown music when there are no innocents left
 MM.StartShowdownMusic = function()
 	if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount())
-		if (mapheaderinfo[gamemap].mm_showdowntrack and S_MusicExists(mapheaderinfo[gamemap].mm_showdowntrack))
-			MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack
+		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
 		else
-			MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1]
+			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
+			else return false end
 		end
-		S_ChangeMusic(MM.shwdwn, true)
-		return true
+		if (MM.shwdwn and S_MusicExists(MM.shwdwn)) then
+			S_ChangeMusic(MM.shwdwn, true)
+			return true
+		end
 	end
 	return false
 end

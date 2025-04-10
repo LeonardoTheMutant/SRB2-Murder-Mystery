@@ -477,7 +477,7 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."MM.SUSNCE: \x80"..tostring(MM.susnce), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."MM.SUSNSE: \x80"..tostring(MM.susnse), V_PERPLAYER, "thin")
 	end
 end, "game")
 
