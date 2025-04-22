@@ -8,7 +8,7 @@ local tech_info = {
 	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
 	"by \18\"SRB2MM_DEV team\"\16",
 	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\17 1.0\16:",
+	"\nChanges from\17 1.1\16:",
 	" - TODO;",
 	"\n\nThe developer team can be reached out by using one of the following links:\n",
 	"\16Discord:\n\20https://www.discord.com/invite/\nUgG8h2djFE\n",

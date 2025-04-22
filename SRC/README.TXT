@@ -7,7 +7,7 @@ ADD-ON TECHNICAL INFORMATION
 Add-On name       | LeonardoTheMutant's Murder Mystery
                   | (formely "SRB2 Murder Mystery")
                   |
-Add-On version    | 1.0
+Add-On version    | 1.2
 Add-On type       | New gametype
 REUSABLE          | Yes
                   |
@@ -66,8 +66,6 @@ Special Thanks to:
  - Musicians from FREEDOOM community for the wonderful map MIDIs
  - Collision Chaos Radio for Sonic CD Music restoration
  - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
- - Jisk and Luigi Budd for having an extremely negative opinion on us and our project
- - Saxashitter for litteraly shitting on us and making his own MM (https://github.com/Saxashitter/murder-mystery)
  - Every player who played the BETA and ALPHA versions of the add-on
  - Ambassadors who hosted the servers with the old versions of the add-on
  - Sonic Team Junior for the best Sonic fan game ever

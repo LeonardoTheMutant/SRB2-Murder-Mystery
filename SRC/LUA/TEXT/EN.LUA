@@ -49,7 +49,7 @@
 --     Remember! A, B, C, D, E, F letters and 0-9 digits can be interpreted as a color code - be careful with them!
 
 local language_data = { --Language must be a table variable, you can name the variable as you like.
-	["VERSION"] = "1.1", --to check if lang content is not OUTDATED
+	["VERSION"] = "1.2", --to check if lang content is not OUTDATED
 	["AUTHOR"] = "SRB2MM community", --who made this language file
 	["MM"] = "Murder Mystery", --name of the gametype, this string supports MM format
 

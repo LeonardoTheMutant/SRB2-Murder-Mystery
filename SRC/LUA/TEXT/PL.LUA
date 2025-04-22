@@ -5,7 +5,7 @@
 -- Made by LeonardoTheMutant
 
 MM.AddLang("PL", {
-    ["VERSION"]="1.1",
+    ["VERSION"]="1.2",
 	["AUTHOR"]="LeonardoTheMutant",
 	["CHARSET"]="1250C", --Windows1250
 	["MM"]="Tajemnica Morderstw",

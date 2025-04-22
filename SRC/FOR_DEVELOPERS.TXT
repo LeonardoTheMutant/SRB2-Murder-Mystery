@@ -6,7 +6,7 @@ If you're reading this file from GitHub this is great - you have more content to
 But for now let me introduce you to our file structure first:
 
 
-MM_LTMs_MurderMystery_v1.1.pk3
+MM_LTMs_MurderMystery_v1.2.pk3
 |
 +-INIT.LUA - Boot script, CVAR initialization and constant definitions
 |

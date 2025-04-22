@@ -7,7 +7,7 @@
 -- This language is cyrilic-based, you will need a HEX to Windows1251 decoder to decode the messages here
 
 MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
-    ["VERSION"]="1.1",
+    ["VERSION"]="1.2",
     ["AUTHOR"]="LeonardoTheMutant",
     ["CHARSET"]="1251C",
     ["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones

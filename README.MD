@@ -3,7 +3,7 @@
 
 A port of the popular multiplayer game in a form of a new gametype for [Sonic Robo Blast 2](https://www.srb2.org), inspired by MM in Garry's Mod and MM in Minecraft
 
-***Not to be confused with [Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery), which is an entirely different MM project for SRB2***
+***Not to be confused with [Epic/Saxashitter's Murder Mystery](https://github.com/Saxashitter/murder-mystery), which is an entirely different MM project for SRB2***
 
 <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/graphs/contributors" alt="Contributors">
   <img src="https://img.shields.io/github/contributors/LeonardoTheMutant/SRB2-Murder-Mystery"></a>
@@ -88,6 +88,9 @@ Don't forget to replace `[]` brackets with your path and the name of your .PK3 f
 map [mapnum] -gametype LTM_MM
 ```
 As a `[mapnum]` you can use **MAPK0** or **K0** (*"Abandoned Shelter"*)
+
+## Digital Music
+This repository (as well as the main MM add-on) does not include the Digital Music, only MIDI files. If you need to get the Music in Digital format, please visit the [Digital Music Repository](https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic) 
 
 ## Open assets used in this project
 - Heavily modified ModernSonic's footsteps engine, [original fork of the script](https://mb.srb2.org/addons/footsteps.1378/) by Gomynola - Used to make footstep sounds and marks when players walk.

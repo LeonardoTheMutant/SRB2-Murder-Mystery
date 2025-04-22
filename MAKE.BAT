@@ -1,6 +1,6 @@
 @ECHO OFF
 
-SET VERSION=1.1
+SET VERSION=1.2
 SET BUILDDATE=%date:~8,2%%date:~5,2%%date:~2,2%
 
 IF EXIST R:\ (
