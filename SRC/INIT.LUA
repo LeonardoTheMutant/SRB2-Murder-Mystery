@@ -7,22 +7,23 @@ rawset(_G, "MM", {
 	version = "1.2", --string, VERSION NUMBER
 	debug = true, --boolean, if set to true, enable the debug functionality in MM
 	builddate = "N/A", --string, meant to contain the day of the build
-	RoleColor = {
+	RoleColor = { --Text Color codes for Console/Chat text
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
 		"\x8F" --Dead
 	},
-	RoleColorHUD = {
-		"\21", --Murderer
-		"\20", --Sheriff
-		"\19", --Innocent
-		"\18", --Hero
-		"\31" --Dead
+	RoleColorHUD = { --Text Color codes for HUD text
+		"\1\x85", --Murderer
+		"\1\x84", --Sheriff
+		"\1\x83", --Innocent
+		"\1\x82", --Hero
+		"\1\x8F" --Dead
 	},
 	hud = { --variables that control the HUD renderer
 		game = { --Main Game HUD
+			active = true,
 			pos = {
 				ringWepOnly = {x = 144}, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
@@ -30,6 +31,7 @@ rawset(_G, "MM", {
 			}
 		},
 		scores = { --HUD for Scores Tab
+			active = true,
 			pos = {
 				playerInfo = {x=20, y=28}, --Player list
 				teammateInfo = {x=20, y=136}, --Teammates list
@@ -38,6 +40,7 @@ rawset(_G, "MM", {
 			}
 		},
 		intermission = { --Intermisson HUD
+			active = true,
 			pos = {
 				players = {y=32},
 				name = {x=24},
@@ -46,6 +49,9 @@ rawset(_G, "MM", {
 				name2 = {x=12},
 				kills2 = {x=132},
 			}
+		},
+		minigames = {
+			active = false,
 		}
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
@@ -67,7 +73,6 @@ rawset(_G, "MM", {
 
 --Synchronized Variables
 addHook("NetVars", function(net)
-	MM.text = net($)
 	MM.shremds = net($)
 	MM.winner = net($)
 	MM.winreason = net($)

@@ -4,60 +4,57 @@
 -- UKRAINIAN
 -- Made by LeonardoTheMutant
 
--- This language is cyrilic-based, you will need a HEX to Windows1251 decoder to decode the messages here
-
 MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
     ["VERSION"]="1.2",
     ["AUTHOR"]="LeonardoTheMutant",
-    ["CHARSET"]="1251C",
     ["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
-    ["MM"]="\xD2E0\xBAEC\xEDE8\xF6FF \xC2E1\xE8E2\xF1F2\xE2E0", --Tajemnycia Wbywstwa
+    ["MM"]="Таємниця Вбивства",
     ["MMHELP_CMD"]={
-        "\xCDE0\xF2E8\xF1ED\xB3F2\xFC \23JUMP\16/\23SPIN\16 \xE4EB\xFF \xEFF0\xEEEA\xF0F3\xF7F3\xE2E0\xEDED\xFF, \23Next\16/\23Prev Weapon\16 \xE4EB\xFF \xE7EC\xB3ED\xE8 \xF1F2\xEEF0\xB3ED\xEAE8",
-        "\23CUSTOM1\16 - \xEFEE\xEAE8\xEDF3\xF2E8 \xF6E5 \xECE5\xEDFE"
+        "Натисніть \1\x87JUMP\4/\1\x87SPIN\4 для прокручування, \1\x87Next\4/\1\x87Prev Weapon\4 для зміни сторінки",
+        "\1\x87".."CUSTOM1\4 - покинути це меню"
     },
     ["MMHELP"]={
         {
-            "\23\xC2B3\xF2E0\xBAEC\xEE \xE2 \21\xD2E0\xBAEC\xEDE8\xF6B3 \xC2E1\xE8E2\xF1F2\xE2E0\23!\16\n",
-            "\xD6B3\xEBFC \xF6B3\xBABF \xE3F0\xE8 \xE4F3\xE6E5 \xEFF0\xEEF1\xF2E0: \xE7F0\xEEE7\xF3EC\xB3F2\xE8 \xF5F2\xEE \xE7 \xE3F0\xE0E2\xF6B3\xE2 \xBA \21\xC2E1\xE8E2\xF6E5\xFE\16 \xB3 \xE5EB\xB3EC\xB3ED\xF3E2\xE0F2\xE8 \xF6FC\xEEE3\xEE \xE3F0\xE0E2\xF6FF, \xEFEE\xEAE8 \xEDE5 \xF1F2\xE0EB\xEE \xE7E0 \xEFB3\xE7ED\xEE. \xC2E0\xF2F0\xEE \xF0EE\xE7F3\xECB3\xF2E8, \xF9EE \xF6E5\xE9 \xB3E3\xF0EE\xE2E8\xE9 \xF0E5\xE6E8\xEC \xBA \xE4F3\xE6E5 \xEFEE\xE4B3\xE1ED\xE8EC \xE4EE \xF0E5\xE6E8\xECF3 \xCCC0\xD2D7, \xF2EE\xECF3 \xEEEA\xF0B3\xEC \xE3EE\xF1F2\xF0EE\xE3EE \xF0EE\xE7F3\xECF3 \xF2F3\xF2 \xEFEE\xF2F0\xB3E1\xEDB3 \xEDE0\xE2E8\xF7EA\xE8 \xEFF0\xE8F6\xB3EB\xFEE2\xE0ED\xEDFF \xB3 \xF8E2\xE8E4\xEAE0 \xF0E5\xE0EA\xF6B3\xFF.",
-            "\n\xD1EF\xEEF7\xE0F2\xEAF3 \xF0EE\xE7E1\xE5F0\xE5EC\xEEF1\xFF \xE7 \xEEF1\xEDEE\xE2E0\xECE8, \xF9EE\xE1 \xE2E8 \xECEE\xE3EB\xE8 \xEFEE\xF7E0\xF2E8 \xE3F0\xE0F2\xE8...",
-            "\n\xCDE0 \xEFEE\xF7E0\xF2EA\xF3 \xEAEE\xE6ED\xEEE3\xEE \xF0E0\xF3ED\xE4F3 \xE2E0\xEC \xE1F3\xE4E5 \xEFF0\xE8E7\xEDE0\xF7E5\xEDE0 \27\xF0EE\xEBFC\16, \xFFEA\xE0 \xE2E8\xE7ED\xE0F7\xE0F2\xE8EC\xE5 \xE2E0\xF8E5 \xE7E0\xE2E4\xE0ED\xEDFF \xEFB3\xE4 \xF7E0\xF1 \xE3F0\xE8. \xCEF1\xFC \xECEE\xE6EB\xE8E2\xB3 \27\xF0EE\xEBB3\16, \xFFEA\xB3 \xE2E8 \xECEE\xE6E5\xF2E5 \xEEF2\xF0E8\xECE0\xF2E8:",
-            " * \21\xC2E1\xE8E2\xF6FF\16 - \xEEE4\xE8ED \xE7 \xE3EE\xEBEE\xE2ED\xE8F5 \xEFE5\xF0F1\xEEED\xE0E6\xB3E2 \xE3F0\xE8. \xC3F0\xE0E2\xE5F6\xFC \xE7 \xF6B3\xBAFE \xF0EE\xEBEB\xFE \xECF3\xF1E8\xF2FC \xE2E1\xE8F2\xE8 \xE0E1\xF1EE\xEBFE\xF2ED\xEE \xEAEE\xE6ED\xEEE3\xEE \xE0E1\xEE \xE7ED\xE8F9\xE8F2\xE8 \xE2F1\xB3 \xECEE\xE6EB\xE8E2\xEEF1\xF2B3 \xEFEE\xE2F1\xF2E0\xEDED\xFF \20\xD8E5\xF0E8\xF4B3\xE2\16;",
-            " * \20\xD8E5\xF0E8\xF4\16 - \xECB3\xF1F6\xE5E2\xE0 \xEFEE\xEBB3\xF6B3\xFF. \20\xD8E5\xF0E8\xF4E8\16 \xECF3\xF1FF\xF2FC \xE7ED\xE0E9\xF2E8 \xB3 \xE7E0\xF5E8\xF1F2\xE8F2\xE8 \19\xD6E8\xE2B3\xEBFC\xEDE8\xF5\16 \xE2B3\xE4 \xE3E5\xEDEE\xF6E8\xE4F3 \21\xC2E1\xE8E2\xF6FC\16 \xE2E8\xEAEE\xF0E8\xF1F2\xEEE2\xF3FE\xF7B3 \xE2F1\xB3 \xECEE\xE6EB\xE8E2\xB3 \xECE5\xF2EE\xE4E8 \xF0EE\xE7F1\xEBB3\xE4F3\xE2E0\xEDED\xFF. \xDFEA\xF9EE \xE2EE\xEDE8 \xEFEE\xECE8\xEBFF\xF2F1\xFF \xE7 \xE2E1\xE8E2\xF6E5\xFE \xB3 \xE2E1'\xFEF2\xFC \xEDE5\xE2E8\xEDED\xEEE3\xEE \xE3F0\xE0E2\xF6FF \xBFF5 \xEEF4\xB3F6\xB3E0\xEBFC\xEDEE \xEBB3\xEAE2\xB3E4\xF3FE\xF2FC \xE2B3\xE4 \xF0EE\xE7F1\xEBB3\xE4F3\xE2E0\xEDFF.",
-            "* \19\xD6E8\xE2B3\xEBFC\xEDE8\xE9(-\xE0)\16 - \xCCE0\xBA \xF3ED\xE8EA\xE0F2\xE8 \xF1EC\xE5F0\xF2B3 \xF2E0 \xE4EE\xEFEE\xECEE\xE3F2\xE8 \xB3E4\xE5ED\xF2E8\xF4B3\xEAF3\xE2E0\xF2E8 \21\xC2E1\xE8E2\xF6FE\16. \xC2 \xE7E0\xEBE5\xE6ED\xEEF1\xF2B3 \xE2B3\xE4 \xEDE0\xEBE0\xF8F2\xF3E2\xE0ED\xEDFF \xE3F0\xE8, \xE3F0\xE0E2\xF6B3 \xE7 \xF6B3\xBAFE \27\xF0EE\xEBEB\xFE\16 \xECEE\xE6F3\xF2FC \xEEF2\xF0E8\xECE0\xF2E8 \21\xD7E5\xF0E2\xEEED\xE5 \xCAB3\xEBFC\xF6E5\16 \xE4EB\xFF \xF1E2\xEEE3\xEE \xE7E0\xF5E8\xF1F2\xF3, \xE7B3\xE1F0\xE0E2\xF8E8 100 \xEAB3\xEBE5\xF6FC (\xE0E1\xEE 50 \xEAB3\xEBE5\xF6FC \xE4EB\xFF \xEFE5\xE2ED\xE8F5 \xEFE5\xF0F1\xEEED\xE0E6\xB3E2).",
-            "\n\xD6E5 \xF3F1\xFF \xE2E0\xE6EB\xE8E2\xE0 \xB3ED\xF4EE\xF0EC\xE0F6\xB3FF, \xFFEA\xE0 \xE2E0\xEC \xEFEE\xF2F0\xB3E1\xEDE0, \xF9EE\xE1 \xEFEE\xF7E0\xF2E8 \xE3F0\xE0F2\xE8. \xD9EE\xE1 \xE4B3\xE7ED\xE0F2\xE8F1\xFF \xE1B3\xEBFC\xF8E5, \xEFF0\xEEF7\xE8F2\xE0E9\xF2E5 \xF6E5\xE9 \xEFEE\xF1B3\xE1ED\xE8EA \xE4EE \xEAB3\xEDF6\xFF"
+            "\1\x87Вітаємо в \1\x85Таємниці Вбивства\1\x87!\n",
+            "Ціль цієї гри дуже проста: зрозуміти хто з гравців є \1\x85Вбивцею\4 і знешкодити цього гравця, поки не стало за пізно. Варто розуміти, що цей ігровий режим є дуже подібним до режиму МАТЧ, тому окрім гострого розуму тут потрібні навички прицілювання і швидка реакція.",
+            "\nСпочатку розберемося з основами, щоб ви могли почати грати...",
+            "\nНа початку кожного раунду вам буде призначенна \1\x8Bроль\4, яка визначатиме ваше завдання під час гри. Ось можливі \1\x8Bролі\4, яку Ви можете отримати:",
+            " * \1\x85Вбивця\4 - один з головних персонажів гри. Гравець з цією роллю мусить вбити абсолютно кожного або знищити всі можливості повстання \1\x84Шерифів\4;",
+            " * \1\x84Шериф\4 - місцева поліція. \1\x84Шерифи\4 мусять знайти і захистити \1\x83Цивільних\4 від геноциду \1\x85Вбивць\4 використовуючі всі можливі методи розслідування. Якщо вони помилятся із вбивцею і вб'ють невинного гравця їх офіціально ліквідують від розслідуваня.",
+            "* \1\x83Цивільний(-а)\4 - має уникати смерті та допомогти зідентифікувати \1\x85Вбивцю\4. В залежності від налаштування гри, гравці з цією \1\x8Bроллю\4 можуть отримати \1\x85Червоне кільце\4 для свого захисту, зібравши 100 кілець (або 50 кілець для певних персонажів).",
+            "\nЦе уся важлива інформація, яка вам потрібна, щоб почати грати. Щоб дізнатися більше, прочитайте цей посібник до кінця."
         },
         {
-            "\23\xC4E5\xF2E0\xEBFC\xEDB3\xF8E5 \xEFF0\xEE \xB3E3\xF0EE\xE2E8\xE9 \xEFF0\xEEF6\xE5F1\16",
-            "\n* \xDFEA\xF9EE \xE2E8 \xEFEE\xECF0\xE5F2\xE5, \xE2E8 \xEFE5\xF0E5\xE9E4\xE5F2\xE5 \xE2 \xF1F2\xE0ED \31\xECE5\xF0F2\xE2EE\xE3EE\16 \xE3F0\xE0E2\xF6FF. \xC3F0\xE0E2\xF6B3 \xE2 \xF6FC\xEEEC\xF3 \xF1F2\xE0ED\xB3 \xEDE5 \xECEE\xE6F3\xF2FC \xE2B3\xE4F0\xEEE6\xF3E2\xE0F2\xE8F1\xFF \xE0E1\xEE \xE3EB\xEEE1\xE0EB\xFCED\xEE \xF1EF\xB3EB\xEAF3\xE2E0\xF2E8\xF1FF \xE7 \xE3F0\xE0E2\xF6FF\xECE8, \xFFEA\xB3 \xF9E5 \xE6E8\xE2B3. \xCFEE\xE2B3\xE4EE\xECEB\xE5ED\xEDFF \31\xECE5\xF0F2\xE2E8\xF5\16 \xE3F0\xE0E2\xF6B3\xE2 \xECEE\xE6F3\xF2FC \xE1E0\xF7E8\xF2E8 \xF2B3\xEBFC\xEAE8 \xB3ED\xF8B3 \31\xECE5\xF0E2\xF2B3\16 \xE3F0\xE0E2\xF6B3.",
-            "\xC2E0\xE6EB\xE8E2\xE5! \18\xCDC5 \xCDC0\xCCC0\xC3C0\xC9D2\xC5D1\xDF \xC7CC\xB2CD\xC8D2\xC8 \xD1C2\xCEAA \xB2'\xCCDF \xC3D0\xC0C2\xD6DF \18\xD3 \31\xCCC5\xD0D2\xC2CE\xCCD3 \18\xD1D2\xC0CD\xB2!\16",
-            "\n* \20\xD8E5\xF0E8\xF4E8\16 \xECEE\xE6F3\xF2FC \xEFEE\xECE8\xEBE8\xF2E8\xF1FF \xF3 \xF1E2\xEEBA\xECF3 \xF0EE\xE7F1\xEBB3\xE4F3\xE2E0\xEDED\xB3 \xB3 \xE2E1\xE8F2\xE8 \19\xD6E8\xE2B3\xEBFC\xEDEE\xE3EE\16 - \xE0EB\xE5 \xF6E5 \xEDE5 \xEEE7\xEDE0\xF7E0\xBA \xEAB3\xEDE5\xF6FC \xE3F0\xE8. \xC2E8\xEDF3\xE2E0\xF2E5\xF2FC \xE7E3\xF3E1\xE8F2\xFC \xF1E2\xEEFE \xEFEE\xF1E0\xE4F3 \xF8E5\xF0E8\xF4E0, \xE0 \xEDE0\xF2EE\xECB3\xF1F2\xFC \xB3ED\xF8E8\xE9, \xE2E8\xEFE0\xE4EA\xEEE2\xE8E9, \19\xD6E8\xE2B3\xEBFC\xEDE8\xE9\16 \xEEF2\xF0E8\xECE0\xBA \xBFBF.",
-            "\xC2E0\xF0F2\xEE \xE7E0\xE2E6\xE4E8 \xEFEE\xE4F3\xECE0\xF2E8 \xF2F0\xE8F7\xB3 \xEFE5\xF0F8 \xEDB3\xE6 \xE2E8 \xE7F0\xEEE1\xE8F2\xE5 \xE2E8\xF1ED\xEEE2\xEAE8, \xE1EE \xEDE5\xEFF0\xE0E2\xE8EB\xFCED\xE5 \xF0B3\xF8E5\xEDED\xFF \xECEE\xE6E5 \xE4EE\xE2E5\xF1F2\xE8 \xE4EE \xEAE0\xF2E0\xF1F2\xF0EE\xF4E8!",
-            "\n* \xDFEA\xF9EE \21\xC2E1\xE8E2\xF6FF\16 \xE2E1'\xBA \20\xD8E5\xF0E8\xF4E0\16, \xEFEE\xEAE8 \19\xD6E8\xE2B3\xEBFC\xEDB3\16 \xF9E5 \xE6E8\xE2B3, \20\xD1EC\xE0F0\xE0E3\xE4 \xF8E5\xF0E8\xF4E0\16 \xE2EF\xE0E4\xE5 \xE1B3\xEBFF \xE9EE\xE3EE \xF2F0\xF3EF\xE0.",
-            "\xCAEE\xEBE8 \19\xD6E8\xE2B3\xEBFC\xEDE8\xE9\16 \xEFB3\xE4E1\xE5F0\xE5 \20\xD1EC\xE0F0\xE0E3\xE4 \xF8E5\xF0E8\xF4E0\16, \xE2B3\xED \xF1F2\xE0ED\xE5 \18\xC3E5\xF0EE\xBAEC\16. \27\xD0EE\xEBFC \18\xE3E5\xF0EE\xFF\16 \xF1F5\xEEE6\xE0 \xEDE0 \20\xD8E5\xF0E8\xF4E0\16, \xE0EB\xE5 \xE2EE\xEDE0 \xECE0\xBA \xE4E5\xFFEA\xB3 \xE2B3\xE4EC\xB3ED\xEDEE\xF1F2\xB3:",
-            "  - \xDFEA\xF9EE \18\xC3E5\xF0EE\xE9\16 \xE2E1'\xBA \19\xD6E8\xE2B3\xEBFC\xEDEE\xE3EE\16 - \xEEE1\xE8E4\xE2E0 \xE7E0\xE3E8\xEDF3\xF2FC, \xE0 \xBFF5 \27\xF0EE\xEBB3\16 \xEDE5 \xE1F3\xE4F3\xF2FC \xEFE5\xF0E5\xE4E0\xEDB3 \xB3ED\xF8E8\xEC \xE3F0\xE0E2\xF6FF\xEC;",
-            "  - \18\xC3E5\xF0EE\xBF\16 \xEDE5 \xE7E0\xEBE8\xF8E0\xFEF2\xFC \20\xD1EC\xE0F0\xE0E3\xE4 \xF8E5\xF0E8\xF4E0\16 \xEFEE \xF1E2\xEEBF\xE9 \xF1EC\xE5F0\xF2B3.",
-            "\n* \xCDE0 \xEFEE\xF7E0\xF2EA\xF3 \xF0E0\xF3ED\xE4F3 \xE3F0\xE0E2\xF6B3\xE2 \xE7 \27\xF0EE\xEBFF\xECE8\16 \21\xC2E1\xE8E2\xF6FC\16 \xF2E0 \20\xD8E5\xF0E8\xF4B3\xE2\16 \xECEE\xE6E5 \xE1F3\xF2E8 \xE4E5\xEAB3\xEBFC\xEAE0, \xE2 \xE7E0\xEBE5\xE6ED\xEEF1\xF2B3 \xE2B3\xE4 \xEAB3\xEBFC\xEAEE\xF1F2\xB3 \xEFF0\xE8F1\xF3F2\xEDB3\xF5 \xEBFE\xE4E5\xE9 \xF3 \xE3F0\xB3. \xC3F0\xE0E2\xF6B3 \xFFEA\xB3 \xECE0\xFEF2\xFC \xEEE4\xEDF3 \xB3 \xF2F3 \xF1E0\xECF3 \27\xF0EE\xEBFC\16 \xF3F2\xE2EE\xF0FE\xFEF2\xFC \8\xEAEE\xECE0\xEDE4\xF3\16 (\19\xD6E8\xE2B3\xEBFC\xEDB3\16 \xEDE5 \xE2E2\xE0E6\xE0FE\xF2FC\xF1FF \xE7E0 \xEAEE\xECE0\xEDE4\xF3).",
-            "\26\xD7EB\xE5ED\xE8 \xEAEE\xECE0\xEDE4\xE8\16 \xECEE\xE6F3\xF2FC \xF1EF\xB3EB\xEAF3\xE2E0\xF2E8\xF1FF \xECB3\xE6 \xF1EE\xE1EE\xFE \xE7E0 \xE4EE\xEFEE\xECEE\xE3EE\xFE \xEAEE\xECE0\xEDE4\xE8 \23SAYTEAM\16 \xF3 \xEAEE\xEDF1\xEEEB\xB3 (\xEAED\xEEEF\xEAE0 SAYTEAM \xEFF0\xE0F6\xFEBA \xF2E0\xEA \xF1E0\xECEE, \xFFEA \xB3 \xE7E2\xE8F7\xE0E9\xEDE0 \xEAED\xEEEF\xEAE0 \xF7E0\xF2F3) \xE0E1\xEE \xF0EE\xE7EF\xEEF7\xE0E2\xF8E8 \xEFEE\xE2B3\xE4EE\xECEB\xE5ED\xEDFF \xF1E8\xECE2\xEEEB\xEEEC \24%\16 \xFFEA\xE8E9 \xE0E2\xF2EE\xECE0\xF2E8\xF7ED\xEE \xEDE0\xE4F1\xE8EB\xE0BA \xEFEE\xE2B3\xE4EE\xECEB\xE5ED\xEDFF \xF3F1\xB3EC \xF7EB\xE5ED\xE0EC \xEAEE\xECE0\xEDE4\xE8.",
-            "\xDFEA\xF9EE \xE2E8 \xE2E8\xEFE0\xE4EA\xEEE2\xEE \xE7E0\xE0F2\xE0EA\xF3BA\xF2E5 \26\xEFE0\xF0F2\xEDE5\xF0E0 \26\xE2 \26\xEAEE\xECE0\xEDE4\xB3\16, \xEEE1\xE8E4\xE2E0 \xE3F0\xE0E2\xF6B3 \xEEF2\xF0E8\xECE0\xFEF2\xFC \xEFE5\xF0F1\xEEED\xE0EB\xFCED\xE5 \xEFEE\xEFE5\xF0E5\xE4E6\xE5ED\xEDFF. \xC1F3\xE4FC\xF2E5 \xEEE1\xE5F0\xE5E6\xEDB3 - \xF2E0\xEAE0 \xEAEE\xECE0\xEDE4\xEDE0 \xEFEE\xECE8\xEBEA\xE0 \xECEE\xE6E5 \xF0EE\xE7EA\xF0E8\xF2E8 \xE2E0\xF8F3 \27\xF0EE\xEBFC\16 \xB3ED\xF8E8\xEC!"
+            "\1\x87Детальніше про ігровий процес",
+            "\n* Якщо ви помрете, ви перейдете в стан \1\x8Fмертвого\4 гравця. Гравці в цьому стані не можуть відрожуватися або глобально спілкуватися з гравцями, які ще живі. Повідомлення \1\x8Fмертвих\4 гравців можуть бачити тільки інші \1\x8Fмервті\4 гравці.",
+            "Важливе! \1\x82НЕ НАМАГАЙТЕСЯ ЗМІНИТИ СВОЄ І'МЯ ГРАВЦЯ У \1\x8FМЕРТВОМУ \1\x82СТАНІ!",
+            "\n* \1\x84Шерифи\4 можуть помилитися у своєму розслідуванні і вбити \1\x83Цивільного\4 гравця - але це не означає кінець гри. Винуватеть згубить свою посаду шерифа, а натомість інший, випадковий, \1\x83Цивільний\4 отримає її.",
+            "Варто завжди подумати тричі перш ніж ви зробите висновки бо неправильне рішення може довести до катастрофи!",
+            "\n* Якщо \1\x85Вбивця\4 вб'є \1\x84Шерифа\4, поки ще є живі \1\x83Цивільні\4 гравці, \1\x84Смарагд шерифа\4 впаде біля його трупа.",
+            "Коли \1\x83Цивільний\4 підбере \1\x84Смарагд шерифа\4, він стане \1\x82Героєм\4. \1\x8BРоль \1\x82Героя\4 схожа на \1\x84Шерифа\4, але вона має деякі відмінності:",
+            "  - \xDFEA\xF9EE \1\x82\xC3E5\xF0EE\xE9\4 \xE2E1'\xBA \1\x83\xD6E8\xE2B3\xEBFC\xEDEE\xE3EE\4 - \xEEE1\xE8E4\xE2E0 \xE7E0\xE3E8\xEDF3\xF2FC, \xE0 \xBFF5 \1\x8B\xF0EE\xEBB3\4 \xEDE5 \xE1F3\xE4F3\xF2FC \xEFE5\xF0E5\xE4E0\xEDB3 \xB3ED\xF8E8\xEC \xE3F0\xE0E2\xF6FF\xEC;",
+            "  - \1\x82Герої\4 не залишають \1\x84Смарагд шерифа\4 по своїй смерті.",
+            "\n* На початку раунду гравців з \1\x8Bролями\4 \1\x85Вбивць\4 та \1\x84Шерифів\4 може бути декілька, в залежності від кількості присутніх людей у грі. Гравці які мають одну і ту саму \1\x8Bроль\4 утворюють \1\x8Aкоманду\4 (\1\x83Цивільні\4 не вважаються за команду).",
+            "\1\x8AЧлени команди\4 можуть спілкуватися між собою за допомогою команди \1\x87SAYTEAM\4 у консолі (кнопка SAYTEAM працює так само, як і звичайна кнопка чату) або розпочавши повідомлення символом \1\x88%\4 який автоматично надсилає повідомлення усім членам команди.",
+            "Якщо ви випадково заатакуєте \1\x8Aпартнера в команді\4, обидва гравці отримають персональне попередження. Будьте обережні - така командна помилка може розкрити вашу \1\x8Bроль\4 іншим!"
         },
         {
-            "\23\xD7EE\xE3EE \xF1EB\xB3E4 \xF3ED\xE8EA\xE0F2\xE8 \xE2 \21\xD2E0\xBAEC\xEDE8\xF6B3 \xC2E1\xE8E2\xF1F2\xE2E0\16\n",
-            "\n* \xC2E8\xEAE0\xE7F3\xE2E0\xEDED\xFF \xF1E2\xEEBA\xBF \27\xF0EE\xEBB3\16 - \xF0F3\xE9ED\xE0F6\xB3FF \xF2E0\xBAEC\xEDE8\xF6B3 \xF3 \21\"\xD2E0\xBAEC\xEDE8\xF6B3 \21\xC2E1\xE8E2\xF1F2\xE2E0\"\16. \xD0EE\xE7EA\xE0E7\xF3E2\xE0F2\xE8 \xEFF0\xEE \xF1E2\xEEFE \27\xF0EE\xEBFC\16 \xF3F1\xB3EC \xB3ED\xF8E8\xEC \xF1F3\xE2EE\xF0EE \xE7E0\xE1EE\xF0EE\xEDE5\xEDEE. \xCCEE\xE6ED\xE0 \xEBE8\xF8E5 \xE3EE\xE2EE\xF0E8\xF2E8 \xEFF0\xEE \27\xF0EE\xEBB3\16 \xB3ED\xF8E8\xF5 \xE3F0\xE0E2\xF6B3\xE2 \xEAEE\xEBE8 \xE9E4\xE5F2\xFCF1\xFF \xEFF0\xEE \xF0EE\xE7F1\xEBB3\xE4F3\xE2E0\xEDED\xFF.",
-            "\n* \xCDE5 \xEDE0\xE1F0\xE8E4\xE0E9\xF2E5 \xB3ED\xF8E8\xEC \xE3F0\xE0E2\xF6FF\xEC \xF2E0 \"\xEDE5 \xF1F3\xE4B3\xF2FC \xEFEE \xEEE1\xEAEB\xE0E4\xE8ED\xF6B3\". \xCDB3\xF5F2\xEE \xEDE5 \xE1F3\xE4E5 \xE2E0\xEC \xE2B3\xF0E8\xF2E8 \xEAEE\xEBE8 \xE2E8 \xE1F3\xE4E5\xF2E5 \xE7E2\xE8ED\xF3E2\xE0F7\xF3E2\xE0F2\xE8 \xF3F1\xB3F5 \xF3 \xE2E1\xE8E2\xF1F2\xE2B3 \xF2E0/\xE0E1\xEE \xEEE1\xF0E0\xE6E0\xF2E8.",
-            "\n* \xC1E5\xE7E0\xEAF2\xE8E2\xEDB3\xF1F2\xFC (AFK) \xE4F3\xE6E5 \xF1E8\xEBFC\xEDEE \xE2EF\xEBE8\xE2E0\xBA \xEDE0 \xEFEE\xE4B3\xBF \xE3F0\xE8. \xC2 \xE4E5\xFFEA\xE8F5 \xE2E8\xEFE0\xE4EA\xE0F5 \xE1E5\xE7E0\xEAF2\xE8E2\xEDB3\xF1F2\xFC \xEDE0\xE2B3\xF2FC \xEAE0\xF0E0\xBAF2\xFCF1\xFF \xE2E8\xE6E5\xEDE5\xEDED\xFFEC \xE7 \xE3F0\xE8.",
-            "\n* \xC7EC\xB3ED\xE0 \xB3EC\xE5ED\xB3 \xE3F0\xE0E2\xF6FF \xF3 \xECE5\xF0F2\xE2EE\xECF3 \xF1F2\xE0ED\xB3 \xE2E2\xE0E6\xE0BA\xF2FC\xF1FF \xF7B3\xF2EE\xEC \xB3 \xEAE0\xF0E0\xBAF2\xFCF1\xFF \xE2E8\xE6E5\xEDE5\xEDED\xFFEC \xE7 \xE3F0\xE8 (\xE1EE \xECEE\xE6ED\xE0 \xEFE5\xF0E5\xE4E0\xF2E8 \xB3ED\xF4EE\xF0EC\xE0F6\xB3FE \xE6E8\xE2E8\xEC \xE3F0\xE0E2\xF6FF\xEC). \xC0E1\xE8 \xE1E5\xE7EF\xE5F7\xEDEE \xE7EC\xB3ED\xE8F2\xE8 \xB3EC'\xFF \xE2E0\xF0F2\xEE \xF1EF\xE5F0\xF8F3 \xE2E8\xE9F2\xE8 \xE7 \xE3F0\xE8, \xE7EC\xB3ED\xE8F2\xE8 \xB3EC'\xFF, \xE0 \xE2E6\xE5 \xEFEE\xF2B3\xEC \xE7ED\xEEE2\xF3 \xE7E0\xE9F2\xE8 \xF3 \xE3F0\xF3.",
-            "\n* \xDFEA\xF9EE \xE2E8 \xE3F0\xE0BA\xF2E5 \xE7E0 \21\xC2E1\xE8E2\xF6FE\16, \xF3ED\xE8EA\xE0E9\xF2E5 \xEFE5\xF0E5\xE1F3\xE2E0\xEDED\xFF \xE1B3\xEBFF \20\xD1EC\xE0F0\xE0E3\xE4F3 \xD8E5\xF0E8\xF4E0\16. \xCFE5\xF0E5\xE1F3\xE2E0\xEDFF \xE1B3\xEBFF \xF1EC\xE0F0\xE0E3\xE4F3 \xEFF0\xEEF2\xFFE3\xEEEC 30 \xF1E5\xEAF3\xEDE4 \xEFF0\xE8E7\xE2E5\xE4E5 \xE4EE \xE2E8\xE6E5\xEDE5\xEDED\xFF \xE7 \xE3F0\xE8.",
-            "\n\xCFEE\xF0F3\xF8E5\xEDED\xFF \xEEE4\xEDEE\xE3EE \xE7 \xF6FC\xEEE3\xEE \xEFF0\xE0E2\xE8EB \xEFF0\xE8E7\xE2EE\xE4E8\xF2FC \xE4EE \xE2E8\xE6E5\xEDE5\xEDED\xFF (kick) \xE0E1\xEE \22\xE1E0\xEDF3 \xE2B3\xE4 \xC0E4\xECB3\xEDB3\xF1F2\xF0E0\xF2EE\xF0B3\xE2 \xE3F0\xE8. \xC1F3\xE4FC \xEBE0\xF1EA\xE0, \xE3F0\xE0E9\xF2E5 \xF7E5\xF1ED\xEE \xB3 \xEDE5 \xF0F3\xE9ED\xF3E9\xF2E5 \xB3ED\xF8E8\xEC \"\xF2E0\xBAEC\xEDE8\xF6B3\" \xE3F0\xE8!"
+            "\1\x87Чого слід уникати в \1\x85Таємниці Вбивства\n",
+            "\n* Виказування своєї \1\x8Bролі\4 - руйнація таємниці у \1\x85\"Таємниці \1…Вбивства\"\4. Розказувати про свою \1\x8Bроль\4 усім іншим суворо заборонено. Можна лише говорити про \1\x8Bролі\4 інших гравців коли йдеться про розслідування.",
+            "\n* Не набридайте іншим гравцям та \"не судіть по обкладинці\". Ніхто не буде вам вірити коли ви будете звинувачувати усіх у вбивстві та/або ображати.",
+            "\n* Безактивність (AFK) дуже сильно впливає на події гри. В деяких випадках безактивність навіть карається вижененням з гри.",
+            "\n* Зміна імені гравця у мертвому стані вважається чітом і карається вижененням з гри (бо можна передати інформацію живим гравцям). Аби безпечно змінити ім'я варто спершу вийти з гри, змінити ім'я, а вже потім знову зайти у гру.",
+            "\n* Якщо ви граєте за \1\x85Вбивцю\4, уникайте перебування біля \1\x84Смарагду Шерифа\4. Перебуваня біля смарагду протягом 30 секунд призведе до виженення з гри.",
+            "\nПорушення одного з цього правил призводить до виженення (kick) або бану від Адміністраторів гри. Будь ласка, грайте чесно і не руйнуйте іншим \"таємниці\" гри!"
         },
         {
-            "\23\xD1EF\xE8F1\xEEEA \xEFEE\xF0E0\xE4\16\n",
-            "\xCCE8 \xE7B3\xE1F0\xE0EB\xE8 \xF2F3\xF2 \xE4EB\xFF \xE2E0\xF1 \xE4E5\xEAB3\xEBFC\xEAE0 \xEFEE\xF0E0\xE4 \xFFEA\xB3 \xECEE\xE6F3\xF2FC \xE4EE\xEFEE\xECEE\xE3F2\xE8 \xE2E0\xEC \xF3 \xE2E0\xF8EE\xECF3 \xF0EE\xE7F1\xEBB3\xE4F3\xE2E0\xEDED\xB3:",
-            "\n* \xC2 \xE7E0\xEBE5\xE6ED\xEEF1\xF2B3 \xE2B3\xE4 \xEFE0\xF0E0\xECE5\xF2F0\xB3E2 \xE3F0\xE8 \xE2E8\xF1F2\xE0E2\xEBE5\xEDB3 \xC0E4\xECB3\xEDB3\xF1F2\xF0E0\xF2EE\xF0EE\xEC \xECEE\xE6ED\xE0 \xE7E0\xF2E8\xF1ED\xF3F2\xE8 \xEAEB\xE0E2\xB3F8\xF3 \23SPIN\16 \xE4EB\xFF \xEFB3\xE4EA\xF0E0\xE4E0\xEDED\xFF. \xCFB3\xE4EA\xF0E0\xE4E0\xEDED\xFF \xE4EE\xE7E2\xEEEB\xFFBA \xE2E0\xEC \xF5EE\xE4E8\xF2E8 \xEDE0\xE2EA\xEEEB\xEE \xE1E5\xE7 \xF8F3\xECF3 \xF2E0 \xF1EB\xB3E4\xB3E2 (\xE0 \xF2E0\xEAEE\xE6 \xB3ED\xF8B3 \xF2E8\xF5B3 \xF0E5\xF7B3);",
-            "\n* \19\xD6E8\xE2B3\xEBFC\xEDE8\xEC\16 \xECEE\xE6ED\xE0 \xEDE0\xEFE5\xF0E5\xE4 \xE7E1\xE8F0\xE0F2\xE8 \xE7E1\xF0EE\xFE \xF2E0 \xEAB3\xEBFC\xF6FF \xE0E1\xE8 \xEFEE\xF2B3\xEC, \xEAEE\xEBE8 \xEEF2\xF0E8\xECE0\xBA \27\xF0EE\xEBFC\16 \20\xD8E5\xF0E8\xF4E0\16 \xE0E1\xEE \xE4B3\xF1F2\xE0ED\xE5 \20\xF1EC\xE0F0\xE0E3\xE4\16, \xECB3\xE3 \xE7 \xE2EF\xE5E2\xEDE5\xEDB3\xF1F2\xFE \xE9F2\xE8 \xF3 \xE1B3\xE9;",
-            "\n* \xC2E8\xEAEE\xF0E8\xF1F2\xEEE2\xF3E9\xF2E5 \xEAEE\xECE0\xEDE4\xF3 \23SAYTEAM\16 \xE0E1\xE8 \xEAEE\xEEF0\xE4E8\xEDF3\xE2E0\xF2E8 \xF1E2\xEEBF \xE4B3\xBF \xE7 \xE2E0\xF8E8\xECE8 \26\xF2EE\xE2E0\xF0E8\xF8E0\xECE8 \26\xEFEE \26\xEAEE\xECE0\xEDE4\xB3\16 \xF2E0 \xF3ED\xE8EA\xE0F2\xE8 \xE4F0\xF3E6\xEDFC\xEEE3\xEE \xE2EE\xE3ED\xFE. \xDFEA\xF9EE \xEFEE\xF7E0\xF2E8 \xEFEE\xE2B3\xE4EE\xECEB\xE5ED\xEDFF \xE7 \xF1E8\xECE2\xEEEB\xE0 \24%\16 \xE2EE\xEDEE \xEDE0\xE4B3\xF8EB\xE5 \xEFEE\xE2B3\xE4EE\xECEB\xE5ED\xEDFF \xF3F1\xB3EC \xF7EB\xE5ED\xE0EC \xE2E0\xF8EE\xBF \xEAEE\xECE0\xEDE4\xE8.",
-            "\n* \xDFEA\xF9EE \xE2E0\xF1 \xE2E8\xEAF0\xE8EB\xE8 \xE2E8 \xE7E0\xE2E6\xE4E8 \xECEE\xE6E5\xF2E5 \xE7EC\xB3ED\xE8F2\xE8 \xEAEE\xEBB3\xF0 \xF1E2\xEEE3\xEE \xEFE5\xF0F1\xEEED\xE0E6\xF3 \xE0E1\xE8 \xE2E0\xF1 \xE2E0\xE6F7\xE5 \xE1F3\xEBEE \xE2EF\xB3E7\xEDE0\xF2E8;",
-            "\n* \xCAEB\xE0E2\xB3F8\xE0 \23FIRENORMAL\16 \xE0EA\xF2E8\xE2F3\xBA \22\xEDB3\xE6\16 \xEAEE\xEBE8 \xE2E8 \xECE0\xBAF2\xE5 \xE4EB\xFF \xEDFC\xEEE3\xEE \xEAB3\xEBFC\xF6FF. \xDFEA\xF9EE \xE2E8 \xEFB3\xE4EA\xF0E0\xE4E0\xBAF2\xE5F1\xFC \xF2EE \22\xEDB3\xE6\16 \xEDE5 \xF0EE\xE1E8\xF2FC \xE7E2\xF3EA\xB3E2 \xE0F2\xE0EA\xE8 \xF3E7\xE0E3\xE0EB\xB3."
+            "\1\x87Список порад\n",
+            "Ми зібрали для вас декілька порад які можуть допомогти вам у вашому розслідуванні:",
+            "\n* В залежності від параметрів гри виставлені Адмінінтратором можна затиснути клавішу \1\x87SPIN\4 для підкрадання. Підкрадання дозволяє вам ходити навколо без шуму та слідів (а також інші тихі речі);",
+            "\n* \1\x83Цивільним\4 можна наперед збирати зброю та кільця аби потім, коли отримає \1\x8Bроль \1\x84Шерифа\4 або дістане \1\x84смарагд\4, міг з впевненістю йти у бій;",
+            "\n* Використовуйте команду \1\x87SAYTEAM\4 аби координувати свої дії з вашими \1\x8Aтоваришами по команді\4 та уникати дружнього вогню. Якщо почати повідомлення з символа \1\x88%\4 воно надішле повідомлення усім членам вашої команди.",
+            "\n* Якщо вас викрили ви завжди можете змінити колір свого персонажу аби вас важче було впізнати;",
+            "\n* Клавіша\1\x87 FIRENORMAL\4 активує \1\x86ніж\4 коли ви маєте для нього кільця. Якщо ви підкрадаєтесь то \1\x86ніж\4 не робить звуків атаки узагалі."
         }
     },
     ["MMLANG"]={
@@ -181,75 +178,74 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
         "\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\x1F"
     },
     ["HUD_ROLES"]={
-        "\xC2C1\xC8C2\xD6DF", --WBYWCIA
-        "\xD8C5\xD0C8\xD4", --SHERYF
-        "\xD6C8\xC2B2\xCBDC\xCDC8\xC9", --CYWILNYJ
-        "\xC3C5\xD0CE\xC9", --HEROJ
-        "\xCCC5\xD0D2\xC2C8\xC9" --MERTWYJ
+        "ВБИВЦЯ",
+        "ШЕРИФ",
+        "ЦИВІЛЬНИЙ",
+        "ГЕРОЙ",
+        "МЕРТВИЙ"
     },
-    ["HUD_SUSPECTS"]="\xCFB3\xE4EE\xE7F0\xFEE2\xE0ED\xB3", --pidozriuwani
-    ["HUD_VICTIMS"]="\xC6E5\xF0F2\xE2E8", --zhertwy
-    ["HUD_TEAMMATES"]="\xCDE0\xEFE0\xF0ED\xE8EA\xE8", --naparnyky
-    ["HUD_KILLBY"]="\xC2E8 \xE2E1\xE8F2\xB3", --wy wbyti
-    ["HUD_STUPID"]="\xC2E0\xF8E8\xEC \xB3E4\xB3EE\xF2E8\xE7EC\xE5EC", --washym idiotyzmem
+    ["HUD_SUSPECTS"]="Підозрювані",
+    ["HUD_VICTIMS"]="Жертви",
+    ["HUD_TEAMMATES"]="Напарники",
+    ["HUD_KILLBY"]="Ви вбиті",
+    ["HUD_STUPID"]="Вашим ідіотизмем",
     ["HUD_SCORESTAB"]={
-        "\xDFEA\xF9EE \xE2E8 \xE3F0\xE0BA\xF2E5 \xE2 \xEFE5\xF0F8\xE8E9 \xF0E0\xE7 \xF3 \xF6FE \xE3F0\xF3", --Jaksho wy grajete w pershyj raz u ciu gru
-        "\xE2E8\xEAEE\xF0E8\xF1F2\xE0E9\xF2E5 \xEAEE\xECE0\xEDE4\xF3 \23MMHELP\16 \xF3 \xEAEE\xEDF1\xEEEB\xB3", --wykorystajte komandu MMHELP w konsoli
-        "\xE4EB\xFF \xB3ED\xF4EE\xF0EC\xE0F6\xB3BF \xF2E0 \xEFF0\xE0E2\xE8EB", --dlia informaciji ta prawyl
+        "Якщо ви граєте цю гру в перший раз",
+        "використайте команду \1\x87MMHELP\4 в консолі",
+        "для інформації та правил",
         "",
-        "\xCAEE\xECE0\xEDE4\xE0 \23MMLANG\16 \xE7EC\xB3ED\xFEBA \xECEE\xE2F3 \xB3ED\xF2E5\xF0F4\xE5E9\xF1F3",
+        "Команда \1\x87MMLANG\4 змінює мову інтерфейсу",
         "",
         "",
-        "\18\xD3E4\xE0F7\xB3  ;)" --Udachi
+        "\1\x82Удачі  ;)"
     },
     ["HUD_ROLETARGET"] = {
-		"\xC2E1\xE8E9\xF2E5 \xF3F1\xB3F5.",
-		"\xC7ED\xE0E9\xE4B3\xF2FC \xB3 \xE5EB\xE5EC\xB3ED\xF3E9\xF2E5 \xF3F1\xB3F5 \xC2E1\xE8E2\xF6FC.\n\xCDE5 \xE2E1\xE8E2\xE0E9\xF2E5 \xD6E8\xE2B3\xEBFC\xEDE8\xF5!",
-		"\xD1F5\xEEE2\xE0E9\xF2E5\xF1FF \xB3 \xE7E0\xF5E8\xF1F2\xB3F2\xFC \xF1E5\xE1E5.\n\xCFF0\xE8 \xECEE\xE6EB\xE8E2\xEEF1\xF2B3, \xE4EE\xEFEE\xECEE\xE6B3\xF2FC \xB3E7\n\xF0EE\xF1EB\xB3E4\xF3E2\xE0ED\xEDFF\xEC.",
-		"\xC2E0\xEC \xE2E8\xEFE0\xEBE0 \xEDE0\xE3EE\xE4E0 \xE7F3\xEFE8\xEDE8\xF2E8 \xF3F1\xB3F5 \xC2E1\xE8E2\xF6FC.\n\xC2E8\xEAEE\xF0E8\xF1F2\xE0E9\xF2E5 \xBFBF \xF2E0 \xE2F0\xFFF2\xF3E9\xF2E5 \xF1E8\xF2F3\xE0F6\xB3FE!\n\xC1F3\xE4FC\xF2E5 \xEEE1\xE5F0\xE5E6\xEDB3!"
+		"Вбийте усіх.",
+		"Знайдіть і елімінуйте усіх Вбивць.\nНе вбивайте Цивільних!",
+		"Сховайтеся і захистіть себе.\nПри можливості, допоможіть із\nрослідуванням.",
+		"Вам випала нагода зупинити усіх Вбивць.\nВикористайте її та врятуйте ситуацію!\nБудьте обережні!"
 	},
     ["HUD_ROLESALIVE"]={
-        "\xC2E1\xE8E2\xF6FC", --Wbywc'
-        "\xD8E5\xF0E8\xF4B3\xE2", --Sheryfiw
-        "\xD6E8\xE2B3\xEBFC\xEDE8\xF5" --Newynnych
+        "Вбивць",
+        "Шерифів",
+        "Невинних"
     },
     ["HUD_DEAD"]={
-        "\xC2E8 \31\xECE5\xF0F2\xE2B3", --Wy metrwi,
-        "\xC2E8 \xEDE5 \xECEE\xE6E5\xF2E5 \xE2B3\xE4F0\xEEE4\xE6F3\xE2E0\xF2E8\xF1FF \xF2E0 \xE3EE\xE2EE\xF0E8\xF2E8", --Ne mozhete widrodzhuwatysia ta goworyty
-        "\xE4EE \xE6E8\xE2E8\xF5 \xE3F0\xE0E2\xF6B3\xE2" --do zhywych grawciw
+        "Ви \1\x8Fмертві",
+        "Ви не маєте можливості відродження та розмов з живими гравцями"
     },
     ["HUD_MIDJOIN"]={
-        "\xC2E8 \xEFF0\xE8BA\xE4ED\xE0EB\xE8F1\xFF \20\xEFEE\xF1E5\xF0E5\xE4 \xF0E0\xF3ED\xE4F3\16, \xE1F3\xE4FC \xEBE0\xF1EA\xE0, \xE7E0\xF7E5\xEAE0\xE9F2\xE5 \xEDE0\xF1F2\xF3EF\xEDEE\xE3EE \xE0E1\xE8 \xE7E0\xE3F0\xE0F2\xE8.", --wy pryjednalysia posered raundu, bud' laska, zachekajte nastupnogo aby zagraty
-        "\xCFEE\xEAE8 \xC2E8 \xF7E5\xEAE0\xBAF2\xE5, \xE1F3\xE4FC \xEBE0\xF1EA\xE0, \xEFF0\xEEF7\xE8F2\xE0E9\xF2E5 \xEFF0\xE0E2\xE8EB\xE0 \xE3F0\xE8 \xE2 \xEAEE\xEDF1\xEEEB\xFCED\xB3E9 \xEAEE\xECE0\xEDE4\xB3 \23MMHELP\16"
+        "Ви приєдналися \1\x84посеред раунду\4, будь ласка, зачекайте наступного аби заграти.",
+        "Поки ви чекаєте, будь ласка, прочитайте правила гри в консольній команді \1\x87MMHELP\4"
     },
     ["HUD_ALONE"]={
-        "\xC4EB\xFF \xF1F2\xE0F0\xF2F3 \xE3F0\xE8 \xEFEE\xF2F0\xB3E1\xEDEE\20 2-\xBA \xE3F0\xE0E2\xF6B3\xE2\16,", --Dl'a startu gry potrebujetsia 2-je grawciw,
-        "\xE1F3\xE4FC \xEBE0\xF1EA\xE02C \xE7E0\xF7E5\xEAE0\xE9F2\xE5 \xEDE0\20 \xF9E5 \xEEE4\xEDEE\xE3EE", --bud' laska zachekajte na she odnogo,
-        "\xE0E1\xE8 \xEFEE\xF7E0\xF2E8" --aby pochaty
+        "Для початку гри потрібно\1\x84 2-є гравців\4,",
+        "будь ласка зачекайте на ще одного",
+        "аби почати"
     },
-    ["HUD_SNEAKING"]="\xCAF0\xE0E4\xE5EC\xEEF1\xFF...", --Krademosia
-    ["HUD_SHOWDOWN"]="\xC2E8\xF0B3\xF8E0\xEBFC\xEDE0 \xE4F3\xE5EB\xFC!", --Wyrishal'na duel'!
+    ["HUD_SNEAKING"]="Крадемося...",
+    ["HUD_SHOWDOWN"]="Вирішальна дуель!",
     ["HUD_MINIGAME"]={
-        ["PRESS"]="\xCDE0\xF2E8\xF1ED\xB3F2\xFC\18 CUSTOM3\16 \xE0E1\xE8", --Natysnit' CUSTOM3 aby
-        ["LEAVE"]="\xE2E8\xE9F2\xE8", --wyjty
-        ["CANCEL"]="\xF1EA\xE0F1\xF3E2\xE0F2\xE8", --skasuwaty
-        ["SPECTATE"]="\xEDE0\xE3EB\xFFE4\xE0F2\xE8", --nagliadaty
-        ["DUEL"]="\xE7E0 \xE4F3\xE5EB\xFCED\xEEFE \xECB3\xEDB3\xE3F0\xEEFE", --za duel'noju minigroju
-        ["REQUEST"]="\xE7B3\xE3F0\xE0F2\xE8 \xF3 \23PONG", --zigraty u PONG
-        ["START"]="\xE7B3\xE3F0\xE0F2\xE8 \xF3 \23SONIC RUN", --zigraty u SONIC RUN
-        ["ACCEPT"]="\xEFF0\xE8E9\xEDFF\xF2E8 \xE2E8\xEAEB\xE8EA \xF3 \23PONG\16!", --pryjniaty wyklyk u PONG!
-        ["WAIT"]="\xD7E5\xEAE0\xBAEC\xEE \xEDE0 \xE2B3\xE4EF\xEEE2\xB3F2\xFC \xEFF0\xEEF2\xE8E2\xEDE8\xEAE0...", --Czekajemo na widpowid' protywnyka...
-        ["SPECTATING"]="\xCDE0\xE3EB\xFFE4\xFFBA\xECEE \xE7E0 \xE3F0\xEEFE...", --Nagliadajemo za groju...
-        ["BORED"]="\xCDF3\xE4ED\xEE?", --nudno?
-        ["GOAL"]="\xC3EE\xEB!" --Gol!
+        ["PRESS"]="Натисніть\1\x82 CUSTOM3\4 аби",
+        ["LEAVE"]="вийти",
+        ["CANCEL"]="скасувати",
+        ["SPECTATE"]="наглядати",
+        ["DUEL"]="за дуельною мінігрою",
+        ["REQUEST"]="заграти в \1\x87PONG",
+        ["START"]="заграти в \1\x87SONIC RUN",
+        ["ACCEPT"]="Прийнати виклик в \1\x87PONG\4!",
+        ["WAIT"]="Чекаємо на відповідь противника...",
+        ["SPECTATING"]="Наглядаємо за грою...",
+        ["BORED"]="Нудно?",
+        ["GOAL"]="Гол!"
     },
-    ["HUD_YOU"]="\xD2C8", --TY
-    ["HUD_WINNERS"]="\xC2E8\xE3F0\xE0EB\xE8:", --Wygraly
+    ["HUD_YOU"]="ТИ",
+    ["HUD_WINNERS"]="Виграли:",
     ["HUD_WIN"]={
-        "\xCDB2\xD7C8\xDF!", --NICHYJA!
-        "\21\xC2C1\xC8C2\xD6B2", --WBYWCI
-        "\19\xD6C8\xC2B2\xCBDC\xCDB2" --CYWIL'NI
+        "НІЧИЯ!",
+        "\1\x85ВБИВЦІ",
+        "\1\x83ЦИВІЛЬНІ"
     },
-    ["HUD_PAST"]="\xCCC8\xCDD3\xCBC5", --MYNULE
-    ["HUD_FUTURE"]="\xCCC0\xC9C1\xD3D2\xCDAA" --MAJBUTN'E
+    ["HUD_PAST"]="МИНУЛЕ",
+    ["HUD_FUTURE"]="МАЙБУТНЄ"
 })

@@ -8,57 +8,56 @@ MM.AddLang("FR", {
     ["VERSION"]="1.2",
 	["AUTHOR"]="Troplucky",
 	["MM"]="Murder Mystery",
-	["CHARSET"]="1254C", --Windows1254 (or Windows1252)
 	["MMHELP_CMD"]={
-		"Utiliser \23JUMP\16/\23SPIN\16 pour faire d\xE9".."filer, \23Next\16/\23Prev Weapon\16 pour changer de pages",
-		"Appuyer sur \23CUSTOM1\16 pour quitter l'aide"
+		"Utiliser \1\x87JUMP\4/\1\x87SPIN\4 pour faire défiler, \1\x87Next\4/\1\x87Prev Weapon\4 pour changer de pages",
+		"Appuyer sur\1\x87 CUSTOM1\4 pour quitter l'aide"
 	},
     ["MMHELP"]={
 		{
-			"\23Bienvenue dans Murder Mystery!",
-			"\23L'interpr\xE9tation de SRB2 du \23jeu \23multijoueur \23populaire!\16\n",
-			"Le but du jeu est de trouver et \xE9liminer tout les \21Meurtriers\16 avant qu'ils tue\19 tout les autres \16. Ce mode de jeux est similaire \xE0 MATCH donc vous aurez besoins de vos talents de tirs et pr\xE9".."cision.",
+			"\1\x87".."Bienvenue dans Murder Mystery!",
+			"\1\x87L'interprétation de SRB2 du jeu multijoueur populaire!\4\n",
+			"Le but du jeu est de trouver et éliminer tout les \1\x85Meurtriers\4 avant qu'ils tue\1\x83 tout les autres \4. Ce mode de jeux est similaire à MATCH donc vous aurez besoins de vos talents de tirs et précision.",
 			"Vous devez apprendres quelques bases avant de jouer...",
-			"\nAu d\xE9".."but de chaque round cous recevrez un \27Role\16 qui d\xE9".."finira votre t\xE2".."che dans cette partie . Voici les tout 3 \27Roles\16 que vous pouvez avoir:",
-			" * \21Meurtrier \16 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
-			" * \20Sheriff\16  - leur t\xE2".."che est de trouver et tuer le/les \21Meurtrier(s)\16. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
-			" * \19Innocent\16 - Compl\xE8tement sans armes, ils doivent \xE9viter de mourir mais peuvent aider a trouver le \21Meurtrier\16.",
+			"\nAu début de chaque round cous recevrez un \1\x8BRole\4 qui définira votre tâche dans cette partie . Voici les tout 3 \1\x8BRoles\4 que vous pouvez avoir:",
+			" * \1\x85Meurtrier \4 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
+			" * \1\x84Sheriff\4  - leur tâche est de trouver et tuer le/les \1\x85Meurtrier(s)\4. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
+			" * \1\x83Innocent\4 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le \1\x85Meurtrier\4.",
 			"\nCela conclut les informations basique de ce jeu, si vous voulez and savoir plus continuer de lire ce manuel."
 		},
         {
-			"\23Par-apport aux gameplay\16\n",
-			"Expliquer plus-t\xF4t dans les bases, le but des Sheriffs est d'\xE9liminer tout les \21Meurtriers\16, mais des situations de gameplay differentes peuvent arriv\xE9:",
-			"\n* Si vous mourez, vous entrerez l'\xE9tat\31 Mort\16 , Les joueurs dans cet \xE9tat ne peuvent pas r\xE9".."appara\xEEtre ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
-			"Vous pouvez pas parler via /PM avec les \31 Mort\16.",
-			"aussi\18 N'ESSAYER \2PAS \2DE \2CHANGER \2DE \2NOM\16, plus de d\xE9tails sur la prochaine page.",
-			"\n* la t\xE2".."che du \20Sheriff\16 est d'\xE9liminer tout les \21Meurtriers \16 alentours, mais ils peuvent accidentellement tirer sur un \19Innocent\16.",
-			"Si cela arrive, le \20Sheriff\16 deviendra \19Innocent\16 et un \19Innocent\16 al\xE9".."atoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que \20Sheriff\16 r".."fl\xE9".."chissez deux fois avant de tirer!",
-			"\n* Quand un \21Meurtrier \16 tue un \20Sheriff\16 et qu'il restent des \19Innocents\16 en vie, le Sheriff va l\xE2".."cher l\xE0 \20Sheriff's Emerald\16 vers leur corps.",
-			"contraire aux 7 Chaos Emeralds, cette \xE9meraude va donner le r\xF4le \2H\xE9ro\16 \xE0  \19l'Innocent\16 qui l\xE0 ramasse. Si vous \xEAtes un \19l'Innocent\16, c'est votre chance d'\xEAtre un H\xE9ro et de sauver les gens des \21Meurtriers\16!",
-			"Le r\xF4le du \2H\xE9ro\16 r\xF4le ne change pas du \20Sheriff\16 except\xE9 quelques d\xE9tails tel que quand le \2H\xE9ro\16 tue un \19Innocent\16 sont r\xF4le ne se partagera pas et les deux mourront. un H\xE9ro ne l\xE2".."chera pas une \20Sheriff's \20Emerald\16 \xE0 sa mort.",
-			"\n* Bas\xE9 sur le nombre de joueurs, il-est possible d'avoir plus d'un \21Meurtrier\16 et \20Sheriff\16 parmis les joueurs dans le round. par exemple, \xE0 partir de 7 joueurs ou plus, \27Des \xE9quipes\16 de \21Meurtriers\16 et \20Sheriffs\16 seront faites.",
-			"\27Les alli\xE9s\16 peuvent parler en utilisant la commande de console \23SAYTEAM\16 (A not\xE9 que la touche sayteam fonctionne comme la touche say).",
-			"Si un \27Alli\xE9\16 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut r\xE9v\xE9ler quit vous \xEAtes!"
+			"\1\x87Par-apport aux gameplay\4\n",
+			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les \1\x85Meurtriers\4, mais des situations de gameplay differentes peuvent arrivé:",
+			"\n* Si vous mourez, vous entrerez l'état \1\x8FMort\4 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
+			"Vous pouvez pas parler via /PM avec les \1\x8FMort\4.",
+			"aussi \1\x82N'ESSAYER PAS DE CHANGER DE NOM\4, plus de détails sur la prochaine page.",
+			"\n* la tâche du \1\x84Sheriff\4 est d'éliminer tout les \1\x85Meurtriers \4 alentours, mais ils peuvent accidentellement tirer sur un \1\x83Innocent\4.",
+			"Si cela arrive, le \1\x84Sheriff\4 deviendra \1\x83Innocent\4 et un \1\x83Innocent\4 aléatoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que \1\x84Sheriff\4 rfléchissez deux fois avant de tirer!",
+			"\n* Quand un \1\x85Meurtrier \4 tue un \1\x84Sheriff\4 et qu'il restent des \1\x83Innocents\4 en vie, le Sheriff va lâcher là \1\x84Sheriff's Emerald\4 vers leur corps.",
+			"contraire aux 7 Chaos Emeralds, cette émeraude va donner le rôle \1\x82Héro\4 à  \1\x83l'Innocent\4 qui là ramasse. Si vous êtes un \1\x83l'Innocent\4, c'est votre chance d'être un Héro et de sauver les gens des \1\x85Meurtriers\4!",
+			"Le rôle du \1\x82Héro\4 rôle ne change pas du \1\x84Sheriff\4 excepté quelques détails tel que quand le \1\x82Héro\4 tue un \1\x83Innocent\4 sont rôle ne se partagera pas et les deux mourront. un Héro ne lâchera pas une \1\x84Sheriff's Emerald\4 à sa mort.",
+			"\n* Basé sur le nombre de joueurs, il-est possible d'avoir plus d'un \1\x85Meurtrier\4 et \1\x84Sheriff\4 parmis les joueurs dans le round. par exemple, à partir de 7 joueurs ou plus,\1\x8B Des équipes\4 de \1\x85Meurtriers\4 et \1\x84Sheriffs\4 seront faites.",
+			"\1\x8BLes alliés\4 peuvent parler en utilisant la commande de console \1\x87SAYTEAM\4 (A noté que la touche sayteam fonctionne comme la touche say).",
+			"Si un\1\x8B Allié\4 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
 		},
         {
-			"\23Choses\xE0 pas faire dans Murder \23Mystery\16\n",
-			"R\xE8gle No.1 pour tout les jeux: \1Soyer gentil et \1amusez-vous!\16 A-part \xE7".."a...",
-			"\n* R\xE9v\xE9ler son \27Role\16 ruine le \'Myst\xE8re\' (m\xEAme en blague), Vous pouvez r\xE9v\xE9ler le role d'une personne mais pas le votre.",
-			"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous cro\xEEre si vous accuser a tord constamment.",
+			"\1\x87".."Chosesà pas faire dans Murder Mystery\4\n",
+			"Règle No.1 pour tout les jeux: \1\x81Soyer gentil et amusez-vous!\4 A-part ça...",
+			"\n* Révéler son \1\x8BRole\4 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
+			"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous croîre si vous accuser a tord constamment.",
 			"\n* Rester \"AFK\" pendant trop de temps est un crime de guerre. Des bombes vont vous prendre par surprise si vous rester sans bouger trop longtemps.",
-			"\n* Ne changer pas de nom quand vous \xEAtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous \xEAtes en vie. Attender juste que la partie se finisse pour \xEAtre s\xFBr.",
-			"\nNe pas respecter ces r\xE8gle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
+			"\n* Ne changer pas de nom quand vous êtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous êtes en vie. Attender juste que la partie se finisse pour être sûr.",
+			"\nNe pas respecter ces règle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
 		},
         {
-			"\23Conseils\16\n",
+			"\1\x87".."Conseils\4\n",
 			"Voici des conseils collecter pour MM:",
-			"\n* Si les capacit\xE9".."es des personnages est d\xE9sactiver par les administrateurs, appuyer sur \2SPIN\16 pour vous d\xE9placer de fa\xE7on silencieuse;",
-			"\n* Quand vous ramasser une \20Sherrif \20Emerald\16, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
-			"\n* Trouver vos \27alli\xE9s\16 avec la commande \23SAYTEAM\16 permettera de savoir qui est dans votre \xE9quipe sans prendre de risque;",
-			"\n* Prendres des d\xE9gats de tout sauf un \20Sherrif\16 ou un \21Meurtrier\16 vous donne 3 secondes d'invincibilit\xE9;",
-			"\n* Chercher des zones pour vous cacher dans les cartes. Cela permet de la publicit\xE9s pas voulu en moins;",
-			"\n* Si votres role est r\xE9v\xE9ler, Vous pouvez changer de nom/couleur. \1Les \1changement \1de \1nom \1sont \1expos\xE9\16;",
-			"\n*La touche \18 FIRENORMAL\16 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
+			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur \1\x82SPIN\4 pour vous déplacer de façon silencieuse;",
+			"\n* Quand vous ramasser une \1\x84Sherrif Emerald\4, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
+			"\n* Trouver vos\1\x8B alliés\4 avec la commande \1\x87SAYTEAM\4 permettera de savoir qui est dans votre équipe sans prendre de risque;",
+			"\n* Prendres des dégats de tout sauf un \1\x84Sherrif\4 ou un \1\x85Meurtrier\4 vous donne 3 secondes d'invincibilité;",
+			"\n* Chercher des zones pour vous cacher dans les cartes. Cela permet de la publicités pas voulu en moins;",
+			"\n* Si votres role est révéler, Vous pouvez changer de nom/couleur. \1\x81Les changement de nom sont exposé\4;",
+			"\n*La touche\1\x82 FIRENORMAL\4 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
 		}
 	},
     ["MMLANG"]={
@@ -188,16 +187,16 @@ MM.AddLang("FR", {
 	},
 	["HUD_SUSPECTS"]="Suspects",
 	["HUD_VICTIMS"]="Victimes",
-	["HUD_TEAMMATES"]="Alli\xE9s",
+	["HUD_TEAMMATES"]="Alliés",
 	["HUD_KILLBY"]="Tuer par",
-	["HUD_STUPID"]="Votre stupidit\xE9".."e",
+	["HUD_STUPID"]="Votre stupiditée",
 	["HUD_SCORESTAB"]={
-		"Si vous \xEAtes nouveau au mode utiliser ",
-		"la commande \23MMHELP\16 dans la Console et",
-		"\23MMLANG\16 pour changer la langue ici",
+		"Si vous êtes nouveau au mode utiliser ",
+		"la commande \1\x87MMHELP\4 dans la Console et",
+		"\1\x87MMLANG\4 pour changer la langue ici",
 		"",
 		"",
-		"\2Amusez-Vous!!"
+		"\1\x82".."Amusez-Vous!!"
 	},
 	["HUD_ROLETARGET"] = {
 		"",
@@ -211,29 +210,29 @@ MM.AddLang("FR", {
 		"Civils"
 	},
     ["HUD_DEAD"]={
-		"Vous \xEAtes\31 mort",
-		"Vous ne pouvez ni r\xE9".."apparaitre, ni parler",
+		"Vous êtes\1\x8F mort",
+		"Vous ne pouvez ni réapparaitre, ni parler",
 		"au personnes en vie."
 	},
     ["HUD_MIDJOIN"]={
-		"Vous avez rejoins en \20pleine partie\16, attendez que le round ce finisse..."
+		"Vous avez rejoins en \1\x84pleine partie\4, attendez que le round ce finisse..."
 	},
     ["HUD_ALONE"]={
-		"\20".."2 joueurs\16 sont requis pour commencer,",
-		"attendez pour \20Un\16 joueur de plus",
+		"\1\x84".."2 joueurs\4 sont requis pour commencer,",
+		"attendez pour \1\x84Un\4 joueur de plus",
 		"pour commencer"
 	},
     ["HUD_SNEAKING"]="En Discret...",
 	["HUD_SHOWDOWN"]="Duel Final!",
 	["HUD_MINIGAME"]={
-		["PRESS"]="Appuyer sur\18 CUSTOM3\16 pour",
+		["PRESS"]="Appuyer sur\1\x82 CUSTOM3\4 pour",
 		["LEAVE"]="quitter",
 		["CANCEL"]="annulez",
 		["SPECTATE"]="Regarder",
 		["DUEL"]="un minijeux duel",
-		["REQUEST"]="demander une partie de \23PONG\16",
-		["START"]="d\xE9marrer une partie de \23\"SONIC RUN\"\16",
-		["ACCEPT"]="accepter le duel de \23PONG\16!",
+		["REQUEST"]="demander une partie de \1\x87PONG\4",
+		["START"]="démarrer une partie de \1\x87\"SONIC RUN\"\4",
+		["ACCEPT"]="accepter le duel de \1\x87PONG\4!",
 		["WAIT"]="En attente que le rival accepte...",
 		["SPECTATING"]="En train de regarder un duel...",
 		["BORED"]="Ennuyez?",
@@ -243,9 +242,9 @@ MM.AddLang("FR", {
 	["HUD_WINNERS"]="Gagnants:",
 	["HUD_WIN"]={
 		"MATCH NUL!",
-		"\21MEURTRIERS",
-		"\19CIVILS"
+		"\1\x85MEURTRIERS",
+		"\1\x83".."CIVILS"
 	},
-	["HUD_PAST"]="PASS\xE9",
+	["HUD_PAST"]="PASSÉ",
 	["HUD_FUTURE"]="AVENIR"
 })

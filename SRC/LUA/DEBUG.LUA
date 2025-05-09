@@ -65,37 +65,48 @@ COM_AddCommand("mmloadmus",do
 	MM.LoadShowdownTracks()
 	print("\x82"..#MM.shwdwn_music.." Showdown Tracks")
 end)
-COM_AddCommand("mmcharset",function(p) --Draw all characters from the Extended ASCII character set
-	p.mm.debugdrawer=true
-	p.mm.debugcolor=0
+--MMCHARSET: Draw Unicode characters
+local mmcharset={0,0,0}
+COM_AddCommand("mmcharset",function(p, r)
+	mmcharset[1]=1
+	mmcharset[2]=0
+	if tonumber(r) mmcharset[3]=tonumber(r) end
+	MM.hud.game.active=false
 end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
-	if not p.mm or not p.mm.debugdrawer return end
+	if not p.mm or not mmcharset[1] return end
 	if (p.cmd.buttons&BT_SPIN)
-		p.mm.debugdrawer=nil
-		p.mm.debugcolor=nil
+		mmcharset[1]=0
+		mmcharset[2]=0
+		MM.hud.game.active=true
 	end
-	if p.cmd.buttons&BT_JUMP
-		if not p.mm.debugjumped
-			p.mm.debugcolor=$+1
-			if p.mm.debugcolor>15 p.mm.debugcolor=0 end
-		end
-		p.mm.debugjumped=1
-	else p.mm.debugjumped=nil end
+	if p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP)
+		mmcharset[2]=$+1
+		if mmcharset[2]>15 mmcharset[2]=0 end
+	end
 end)
 hud.add(function(v, p) --MMCHARSET render
-	if not p.mm or not p.mm.debugdrawer return end
-	for row=-1, 15
+	if not p.mm or not mmcharset[1] return end
+	for row=-1, 20
 		for column=-1,15
-			if ((row==-1) and (column>-1)) v.drawString(16+(column<<3),0,string.format("%X",column))
-			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<3),string.format("%X",row))
+			if ((row==-1) and (column>-1)) v.drawString(24+(column<<3),0,string.format("%X",column))
+			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row<<3),string.format("%02X",row))
 			elseif (column>-1) and (row>-1)
-				patchNum=((row)<<4)+column
-				if (patchNum>15 and patchNum<32) v.draw((16+column<<3),(16+row<<3),MM.graphics.charset[35],0,v.getStringColormap((patchNum-16)<<12)) end
-				if (MM.graphics.charset[patchNum]) v.draw((16+column<<3),(16+row<<3),MM.graphics.charset[patchNum],0,v.getStringColormap(p.mm.debugcolor<<12)) end
+				patchNum=mmcharset[3]+((row)<<4)+column
+				if (MM.graphics.unicode[patchNum]) v.draw((24+column<<3),(16+row<<3),MM.graphics.unicode[patchNum],0,v.getStringColormap(mmcharset[2]<<12)) end
 			end
 		end
 	end
-	v.drawString(0,184,"Color: "..p.mm.debugcolor)
+	for row=20, 41
+		for column=-1,15
+			if ((row==20) and (column>-1)) v.drawString(192+(column<<3),0,string.format("%X",column))
+			elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row<<3),string.format("%02X",row))
+			elseif (column>-1) and (row>20)
+				patchNum=mmcharset[3]+((row)<<4)+column
+				if (MM.graphics.unicode[patchNum]) v.draw((192+column<<3),(-152+row<<3),MM.graphics.unicode[patchNum],0,v.getStringColormap(mmcharset[2]<<12)) end
+			end
+		end
+	end
+	v.drawString(0,184,"Color: "..mmcharset[2])
 	v.drawString(0,192,"JUMP - next color, SPIN - exit")
 end,"game")

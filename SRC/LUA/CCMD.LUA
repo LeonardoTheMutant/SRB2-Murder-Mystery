@@ -3,20 +3,6 @@
 --
 -- Code for MMHELP and MMLANG console comands
 
-local tech_info = {
-	"\4LTM's \7Murder Mystery\16",
-	"Version\17 "..MM.version.."\16 ("..MM.builddate..")",
-	"by \18\"SRB2MM_DEV team\"\16",
-	"(Full credits are in README.TXT inside this .PK3)",
-	"\nChanges from\17 1.1\16:",
-	" - TODO;",
-	"\n\nThe developer team can be reached out by using one of the following links:\n",
-	"\16Discord:\n\20https://www.discord.com/invite/\nUgG8h2djFE\n",
-	"\16Matrix:\n\19https://matrix.to/#/#ltm_mm:matrix.org\n",
-	"\16GitHub:\n\22https://www.github.com/\nLeonardoTheMutant/SRB2-Murder-Mystery\n",
-	"\16Website:\n\27https:/leonardothemutant.github.io/\nSRB2-Murder-Mystery\n"
-}
-
 --MMHELP console command
 COM_AddCommand("mmhelp", function(p, page)
 	if (gametype != GT_LTMMURDERMYSTERY)
@@ -117,25 +103,18 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
 		if (nonascii) then CONS_Printf(p, "\n\x89* Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
-		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n  \x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n  \x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
+		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
 		if (MM.text[l])
-			local oldcharset = MM.GetText(p.mm.lang, "CHARSET")
-
 			p.mm.lang = l
 			if (not p.mm.help) then p.mm.help = {page = 1} end
 			p.mm.help.pos = 1
 
-			--Update the characters in the (V)RAM if we change the Character Set
-			if (MM.GetText(p.mm.lang, "CHARSET") != oldcharset)
-				for i = 128, 255 do MM.graphics.charset[i] = nil end --remove the graphics of Extended ASCII from (V)RAM
-				MM.CharsetExtendedReady = false --tell the HUD code to load new graphics
-			end
-
 			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM.GetText(p.mm.lang, "AUTHOR"))
 			CONS_Printf(p, MM.GetText(p.mm.lang, "MMLANG", 2))
 			if (MM.GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
+			CONS_Printf(p, "\x81WARNING\x80: Unicode (UTF-8) text rendering is experimental, some text may dissapear or appear corrupted. Please report all problems you encounter at \x86https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/issues")
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
@@ -149,60 +128,98 @@ end, COM_LOCAL)
 --
 -- MMHELP UI
 --
-local scrnRows = 0
-local scrnColumns = 0
+local tech_info = {
+	"\1\x84LTM's \1\x87Murder Mystery\4",
+	"Version\1\x81 "..MM.version.."\4 ("..MM.builddate..")",
+	"by \1\x82\"SRB2MM_DEV team\"\4",
+	"(Full credits are in README.TXT inside this .PK3)",
+	"\nChanges from\1\x81 v1.1\4:",
+	" - TODO;",
+	"\n\nThe developer team can be reached out by using one of the following links:\n",
+	"Discord:\n\1\x84https://www.discord.com/invite/\nUgG8h2djFE\n",
+	"Matrix:\n\1\x83https://matrix.to/#/#ltm_mm:matrix.org\n",
+	"GitHub:\n\1\x86https://www.github.com/\nLeonardoTheMutant/SRB2-Murder-Mystery\n",
+	"Website:\n\1\x8Bhttps:/leonardothemutant.github.io/\nSRB2-Murder-Mystery"
+}
+
+--Default canvas resolution for 16:10 screen ratio resolutions (values in characters, character is 8x8 pixels)
+local scrnRows = 23
+local scrnColumns = 40
+
+local renderBuffer = {}
+local pageLength = 0
 --local scrollBarHeight
-local realPagelen
 --local scrollstep
 
---insert an array of data to the screen buffer
-local function V_InsertToBuffer(player, array)
+local oldScrnRows = 0
+local oldScrnColumns = 0
+local oldPage = 0
+local oldLang = ""
+
+--Insert an array of data to the render buffer
+local function V_InsertToBuffer(array)
 	for i, line in ipairs(array) do
-		local wordWrapTemp = WordWrapString(line, scrnColumns)
-		for lineWrap = 1, #wordWrapTemp do table.insert(player.mm.help.buffer, wordWrapTemp[lineWrap]) end
+		local wordWrapTemp = V_WordWrapString(line, scrnColumns)
+		for lineWrap = 1, #wordWrapTemp do table.insert(renderBuffer, wordWrapTemp[lineWrap]) end
 	end
 end
 
---input handler
+--Backend
 --I was unable to lock player controls here because clients would desynchronise each time they press something
 --Enjoy what you already have
 addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
-	--MMHELP UI controls
 	if (p.mm.help and p.mm.help.active) and (MM.text[consoleplayer.mm.lang]["MMHELP"])
+
+		--
+		-- UI LOGIC
+		--
 
 		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
 
-		p.mm.help.buffer = {}
+		--Update render buffer only when neccesary
+		if ((oldScrnColumns != scrnColumns) or (oldScrnRows != scrnRows) or (oldPage != p.mm.help.page) or (oldLang != p.mm.lang))
+			if (MM.debug) then print(string.format("\x87MMHELP\x80: Updating screen... (Columns: %d; Rows: %d; Language %s; Page: %d)", scrnColumns, scrnRows, p.mm.lang, p.mm.help.page)) end
+			renderBuffer = {}
+			pageLength = 0
+			oldScrnColumns = scrnColumns
+			oldScrnRows = scrnRows
+			oldPage = p.mm.help.page
+			oldLang = p.mm.lang
 
-		if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["MMHELP"])
-			V_InsertToBuffer(p, MM.GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
+			--Insert data into the render buffer
+			if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["MMHELP"])
+				V_InsertToBuffer(MM.GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
+			elseif (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) --last page is always a technical info page
+				V_InsertToBuffer(tech_info)
+			end
+
+			--calculate the page length
+			if (scrnRows > (#renderBuffer + 1)) pageLength = 1
+			else pageLength = #renderBuffer + 1 - scrnRows end
 		end
 
-		if (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) --last page is always a technical info page
-			V_InsertToBuffer(p, tech_info)
-		end
+		--
+		-- INPUTS
+		--
 
 		if (p.cmd.buttons & BT_CUSTOM1) --CUSTOM1, leave HELP
 			p.mm.help.active = false
 		end
 
-		if (p.cmd.buttons & BT_JUMP) --JUMP, up
-			if (not (p.lastbuttons & BT_JUMP))
+		if (p.cmd.buttons & BT_JUMP) --JUMP, scroll up
+			if (not (p.lastbuttons & BT_JUMP) and (p.mm.help.pos > 1))
 				p.mm.help.pos = $ - 1
-				if (p.mm.help.pos < 1) p.mm.help.pos = 1 end
 			end
 		end
 
-		if (p.cmd.buttons & BT_SPIN) --SPIN, down
-			if (not (p.lastbuttons & BT_SPIN))
+		if (p.cmd.buttons & BT_SPIN) --SPIN, scroll down
+			if (not (p.lastbuttons & BT_SPIN) and (p.mm.help.pos < pageLength))
     	    	p.mm.help.pos = $ + 1
-    	    	--hit the end of the page
-    	    	if (p.mm.help.pos + scrnRows > (#p.mm.help.buffer + 1)) then p.mm.help.pos = $ - 1 end
 			end
     	end
 
-    	if (p.cmd.buttons & BT_WEAPONNEXT) --Next weapon, right
+    	if (p.cmd.buttons & BT_WEAPONNEXT) --NextWeapon, next page
 			if (not (p.lastbuttons & BT_WEAPONNEXT))
     	    	p.mm.help.page = $ + 1
     	    	p.mm.help.pos = 1
@@ -210,7 +227,7 @@ addHook("PlayerThink", function(p)
 			end
     	end
 
-    	if (p.cmd.buttons & BT_WEAPONPREV) --Prev weapon, left
+    	if (p.cmd.buttons & BT_WEAPONPREV) --PrevWeapon, previous page
 			if (not (p.lastbuttons & BT_WEAPONPREV))
     	    	p.mm.help.page = $ - 1
     	    	p.mm.help.pos = 1
@@ -223,50 +240,27 @@ end)
 --renderer, frontend
 hud.add(function(v, p)
 	if not (p.mm) or not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
-		
-	--init everything
-	local x = 0
-	local y = 0
+	
+	--Update the Canvas resolution
 	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
 	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
-	local color = v.getStringColormap(0) --default to white color
-	local chr, stringToRender, wordWrapTemp
+
+	local y = 0
 		
 	v.fadeScreen(16, 5) --gray background
 		
+	--Foreground scrolling blue triangle thingies
 	for i = -3, 3
-		v.draw(((i * 320) - (leveltime % 320)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
-		v.draw(((i * 320) + (leveltime % 320)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
+		v.draw(((i * MM.graphics["NTSATKT2"].width) - (leveltime % MM.graphics["NTSATKT2"].width)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
+		v.draw(((i * MM.graphics["NTSATKB1"].width) + (leveltime % MM.graphics["NTSATKB1"].width)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
 	end
 
-	--draw the data from the screen buffer
-	for lineID = p.mm.help.pos, #p.mm.help.buffer do
-		stringToRender = p.mm.help.buffer[lineID]
+	--draw text from the render buffer
+	for lineID = p.mm.help.pos, #renderBuffer do
+		V_DrawStrUnicode(v, 0, y, renderBuffer[lineID], V_SNAPTOTOP|V_SNAPTOLEFT)
 
-		--draw the line character-by-character
-		for charID = 1, #stringToRender do
-			chr = string.byte(stringToRender, charID) --numeric value of the single character
-
-			--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
-			if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap(chr << 12) end -- chr*4096
-
-			--draw the character
-			if (chr > 0x20)
-				if (MM.graphics.charset[chr])
-					v.draw(x, y, MM.graphics.charset[chr], V_SNAPTOTOP|V_SNAPTOLEFT, color)
-				else --unknown symbol, draw "?"
-					v.draw(x, y, MM.graphics.charset[0x3F], V_SNAPTOTOP|V_SNAPTOLEFT, color)
-				end
-			end
-
-			--position shifting for the next character
-			if (chr > 0x1F) then x = $ + 8 end --make place for the next non-color character
-		end
-
-		--line is drawn, prepare everything for the next one
-		x = 0
-		y = $ + 8
-		if (y >= (scrnRows << 3)) then break end --Trying to draw out of screen bounds, stop rendering here
+		y = $ + 8 --line is drawn, move one row down for the next one
+		if (y >= (scrnRows << 3)) then break end --Trying to draw out of canvas bounds, stop rendering here
 	end
 
 	--scroll bar
@@ -275,18 +269,15 @@ hud.add(function(v, p)
 	--scrollBarHeight = v.height()/v.dupy() - 16
 	--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
 
-	if ((#p.mm.help.buffer + 1 - scrnRows) <= 0) realPagelen = 1
-	else realPagelen = #p.mm.help.buffer + 1 - scrnRows end
-
-	--scrollstep = #p.mm.help.buffer/scrnRows * scrollBarHeight
-	--v.drawFill(312, ((p.mm.help.pos - 1)*scrollstep), 8, (scrollBarHeight/#p.mm.help.buffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
+	--scrollstep = #renderBuffer/scrnRows * scrollBarHeight
+	--v.drawFill(312, ((p.mm.help.pos - 1)*scrollstep), 8, (scrollBarHeight/#renderBuffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
 
 	v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
 	--bottom text
-	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..realPagelen), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
+	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
 	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
-	V_DrawStrASCII(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
-	V_DrawStrASCII(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true)
+	V_DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
+	V_DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
 end, "game")

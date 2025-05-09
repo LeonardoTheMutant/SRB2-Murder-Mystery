@@ -7,61 +7,60 @@
 MM.AddLang("PL", {
     ["VERSION"]="1.2",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CHARSET"]="1250C", --Windows1250
 	["MM"]="Tajemnica Morderstw",
 	["MMHELP_CMD"]={
-		"Dla scrollingu wci\x9Cnij klawisz\xEA \23JUMP\16/\23SPIN\16, \xBF".."eby zmieni\xE6".."c stron\xEA wci\x9Cnij \23NEXT\16/\23PREV WEAPON\xF1\16",
-		"\23CUSTOM1\16 - wyj\x9C\xE6 z menu pomocy"
+		"Dla scrollingu wciśnij klawiszę \1\x87JUMP\4/\1\x87SPIN\4, żeby zmienić stronę wciśnij \1\x87NEXT\4/\1\x87PREV WEAPONń\4",
+		"\1\x87".."CUSTOM1\4 - wyjść z menu pomocy"
 	},
     ["MMHELP"]={
 		{
-			"\23Witaj w \21Tajemnicy Morderstw\23!",
-			"\23Interpretacji popularnej gry multiplayer w SRB2!\16\n",
-			"Celem gry jest znalezienie i wyeliminowanie wszystkich \21Morderc\xF3w\16 zanim zabij\xB9 \19wszystkich innych\16. Ten typ gry jest podobny do MATCH, wi\xEA".."c musisz umie\xE6 dobrze strzela\xE6 i celowa\xE6 si\xeA.",
-			"B\xEA".."dziesz potrzebowa\xE6 kilku podstaw....",
-			"\nNa pocz\xB9tku ka\xBF".."dej rundy dostaniesz \27role\16 kt\xF3ra dyktuje co masz robi\xE6 w grze. To s\xB9 3 mozliwe \27role\16 kt\xF3re mo\xBF".."esz dosta\xE6:",
-			" * \21Morderca\16 - Prawdziwy kryminalista - ma zabi\xE6 wszystkich.",
-			" * \20Szeryf\16   - Jego zadaniem jest znalezienie i wyeliminowanie \21Morderc\xF3w\16.",
-			" * \19Cywil\16 - Kompletnie bezbronny cywil, musi nie zosta\xE6 zabity i pom\xF3".."c w znalezieniu \21Mordercy\16. W zale\xBFno\x9C".."ci od ustawie\xF1 gry, \19Cywili\16 mog\xB9 posiada\xE6 Czerwony Ring dla samoobrony je\xBF".."eli b\xEA".."d\xB9 posiada\xE6 100 i wi\xEA".."cej ring\xF3w (dla niekt\xF3rych postaci starczy 50 ring\xF3w).",
-			"\nTo jest cala niezb\xEA".."dna informacja do gry, je\x9Cli nadal czego\x9C nie wiesz lub chcesz dowiedzie\xE6 si\xEA wi\xEA".."cej zach\xEA".."camy do przeczytania tego podr\xEA".."cznika do ko\xF1".."ca"
+			"\1\x87Witaj w \1\x85Tajemnicy Morderstw\1\x87!",
+			"\1\x87Interpretacji popularnej gry multiplayer w SRB2!\4\n",
+			"Celem gry jest znalezienie i wyeliminowanie wszystkich \1\x85Morderców\4 zanim zabiją \1\x83wszystkich innych\4. Ten typ gry jest podobny do MATCH, więc musisz umieć dobrze strzelać i celować się.",
+			"Będziesz potrzebować kilku podstaw....",
+			"\nNa początku każdej rundy dostaniesz \1\x8Brole\4 która dyktuje co masz robić w grze. To są 3 mozliwe \1\x8Brole\4 które możesz dostać:",
+			" * \1\x85Morderca\4 - Prawdziwy kryminalista - ma zabić wszystkich.",
+			" * \1\x84Szeryf\4   - Jego zadaniem jest znalezienie i wyeliminowanie \1\x85Morderców\4.",
+			" *\1\x83 Cywil\4 - Kompletnie bezbronny cywil, musi nie zostać zabity i pomóc w znalezieniu \1\x85Mordercy\4. W zależności od ustawień gry,\1\x83 Cywili\4 mogą posiadać Czerwony Ring dla samoobrony jeżeli będą posiadać 100 i więcej ringów (dla niektórych postaci starczy 50 ringów).",
+			"\nTo jest cala niezbędna informacja do gry, jeśli nadal czegoś nie wiesz lub chcesz dowiedzieć się więcej zachęcamy do przeczytania tego podręcznika do końca"
 		},
         {
-			"\23O sytuacjach w grze\16\n",
-			"Jak wyja\x9Cniono wcze\x9Cniej, ce\xB3".."em gry jest wyeliminowanie wszystkich \21Morderc\xF3w\16, ale r\xF3BFne sytuacje mog\xB9 zasta\xE6:",
-			"\n* Je\x9Cli umrzesz - staniesz si\xEA \31Martwym\16. Gracze w tym stanie nie mog\xB9 si\xEA odnawia\xE6 a tak\xBF".."e rozmawia\xE6 w globalnym czacie, twoje wiadomo\x9C".."ci s\xB9 widoczne tylko dla innych \31Martwych\16 graczy.",
-			"Nie mo\xBF".."esz te\xBF u\xBFywa\xE6 \23SAYTO\16 lub PW do osoby kt\xF3ra jest \xBFywa.",
-			"\x8Cmier\xE6 od takich zagro\xBF".."e\xF1 jak rozdrabiarka, przepa\x9CE6 lub utoni\xEA".."cie w wodzie tak samo zrobi\xB9 ci\xEA \31Martwym\16 do ko\xF1".."ca rundy.",
-			"Wa\xBFne! - \18NIE \18PR\xD3".."BUJ \18ZMIENIA\xC6 \18SWEGO \18IMIENIA \18GRACZA \18P\xD3KI \18JESTE\x8C \31MARTWY!\16 Wi\xEA".."cej opisu o tym jest na nast\xEApnej stronie.",
-			"\n* Obowi\xB9zkiem \20Szeryfa\16 jest wyeliminowanie wszystkich \21Morderc\xF3w\16, ale trzeba by\xE6 bardzo ostro\xBFnym \xBF".."eby przypadkiem nie zabi\xE6 \19Cywilnn\xB9 osob\xEA\16.",
-			"Je\x9Cli \20Szeryf\16 zabije \19Cywilnego\16 gracza to stanie si\xEA cywilem i inny \19Cywil\16 po cichu przejmie jego \27rol\xEA\16. Jak b\xEA".."dziesz strzela\xE6 jako \20Szeryf\16 pomy\x9Cl dwukrotnie kogo zabijasz!",
-			"\n* Kiedy \21Morderca\16 zabije \20Szeryfa\16 i zostan\xB9 \xBFywi \19Cywili\16 wtedy \20Szeryf\16 upu\x9C".."ci \20Szmaragd Szeryfa\16 obok jego cia\xB3".."a.",
-			"W przeciwie\xF1stwie do Szmaragd\xF3w Chaosu, ten Szmaragd daje \27role \18Bohatera\16 do \19Cywila\16 kt\xF3ry go pierwszy podni\xF3s\xB3. \18Bohaterzy\16 s\xB9 podobni do \20Szeryf\xF3w\16 ale maj\xB9 pewne r\xF3BFnice:",
-			"  - Je\x9Cli \18Bohater\16 zabija \19Cywilnego\16 to oboje umieraj\xB9 i ich \27role\16 nie s\xB9 ponownie pzydzielane;",
-			"  - \18Bohaterzy\16 nie upuszczaj\xB9 jakiegokolwiek Szmaragdu przy \x9Cmierci.",
-			"\n* Zale\xBFnie od ilosci graczy, mo\xBF".."e by\xE6 wi\xEA".."cej ni\xBF jeden \21Morderc\xF3w\16 i \20Szeryf\xF3w\16 w\x9Cr\xF3".."d graczy w grze. Wtedy tworz\xB9 si\xEA \26dru\xBFyny\16 \21Morderc\xF3w\16 i \20Szeryf\xF3w\16.",
-			"\26Wsp\xF3B3nicy\16 mog\xB9 komunikowa\xE6 ze sob\xB9 w dru\xBFyn\xB9 za pomoc\xB9 polecenia \23SAYTEAM\16 (przycisk SAYTEAM b\xEA".."dzie dziala\xB3 tak samo jak normalny czat) albo zacz\xB9E6 swoje powiadomnienie ze znaku \24%\16 kt\xF3ry spowoduje wys\xB3".."anie wiadomo\x9C".."ci do czatu dru\xBFyny.",
-			"Je\x9Cli jeden \26wsp\xF3lnik\16 strzeli drugiego to dostanie wiadomo\x9CE6 \xBF".."eby nie strzelal do wsp\xF3B3nika. Pami\xEAtaj \xBF".."e inni mog\xB9 zobaczy\xE6 wasz\xB9 interakcje i dowiedzie\xE6 si\xEA kim jeste\x9C".."cie!"
+			"\1\x87O sytuacjach w grze\4\n",
+			"Jak wyjaśniono wcześniej, cełem gry jest wyeliminowanie wszystkich \1\x85Morderców\4, ale róBFne sytuacje mogą zastać:",
+			"\n* Jeśli umrzesz - staniesz się \1\x8FMartwym\4. Gracze w tym stanie nie mogą się odnawiać a także rozmawiać w globalnym czacie, twoje wiadomości są widoczne tylko dla innych \1\x8FMartwych\4 graczy.",
+			"Nie możesz też używać \1\x87SAYTO\4 lub PW do osoby która jest żywa.",
+			"Śmierć od takich zagrożeń jak rozdrabiarka, przepaśE6 lub utonięcie w wodzie tak samo zrobią cię \1\x8FMartwym\4 do końca rundy.",
+			"Ważne! - \1\x82NIE PRÓBUJ ZMIENIAĆ SWEGO IMIENIA GRACZA PÓKI JESTEŚ \1\x8FMARTWY!\4 Więcej opisu o tym jest na następnej stronie.",
+			"\n* Obowiązkiem \1\x84Szeryfa\4 jest wyeliminowanie wszystkich \1\x85Morderców\4, ale trzeba być bardzo ostrożnym żeby przypadkiem nie zabić\1\x83 Cywilnną osobę\4.",
+			"Jeśli \1\x84Szeryf\4 zabije\1\x83 Cywilnego\4 gracza to stanie się cywilem i inny\1\x83 Cywil\4 po cichu przejmie jego \1\x8Brolę\4. Jak będziesz strzelać jako \1\x84Szeryf\4 pomyśl dwukrotnie kogo zabijasz!",
+			"\n* Kiedy \1\x85Morderca\4 zabije \1\x84Szeryfa\4 i zostaną żywi\1\x83 Cywili\4 wtedy \1\x84Szeryf\4 upuści \1\x84Szmaragd Szeryfa\4 obok jego ciała.",
+			"W przeciwieństwie do Szmaragdów Chaosu, ten Szmaragd daje \1\x8Brole\1\x82 Bohatera\4 do\1\x83 Cywila\4 który go pierwszy podniósł.\1\x82 Bohaterzy\4 są podobni do \1\x84Szeryfów\4 ale mają pewne róBFnice:",
+			"  - Jeśli\1\x82 Bohater\4 zabija\1\x83 Cywilnego\4 to oboje umierają i ich \1\x8Brole\4 nie są ponownie pzydzielane;",
+			"  -\1\x82 Bohaterzy\4 nie upuszczają jakiegokolwiek Szmaragdu przy śmierci.",
+			"\n* Zależnie od ilosci graczy, może być więcej niż jeden \1\x85Morderców\4 i \1\x84Szeryfów\4 wśród graczy w grze. Wtedy tworzą się\1\x8A drużyny\4 \1\x85Morderców\4 i \1\x84Szeryfów\4.",
+			"\1\x8AWspółnicy\4 mogą komunikować ze sobą w drużyną za pomocą polecenia \1\x87SAYTEAM\4 (przycisk SAYTEAM będzie dzialał tak samo jak normalny czat) albo zacząE6 swoje powiadomnienie ze znaku \1\x88%\4 który spowoduje wysłanie wiadomości do czatu drużyny.",
+			"Jeśli jeden \1\x8Awspólnik\4 strzeli drugiego to dostanie wiadomość żeby nie strzelal do współnika. Pamiętaj że inni mogą zobaczyć waszą interakcje i dowiedzieć się kim jesteście!"
 		},
         {
-			"\23Rzeczy kt\xF3rych nale\xBFy unika\xE6 \23w \21Tajemnicy \21Morderstw\16\n",
-			"Zasada numer 1 ka\xBF".."dej gry:\18 B\xB9".."d\x9F \18mi\xB3y \18i \18si\xEA \18baw!\16 Opr\xF3".."cz tego...",
-			"* Nie ujawniaj swojej roli innym, nawet dla \xBF".."artu. Wypowiedzenie swojej \27Roli\16 sprawi \xBF".."e gra nie b\xEA".."dzie ju\xBF \'Tajemnic\xB9\'. Mo\xBF".."esz wypowiedzie\xE6 \27role\16 kogo\x9C innego jak jeste\x9C pewny, ale nigdy swojej.",
-			"* Unikaj obra\xBF".."ania innych graczy. Przyjazne \xBF".."arty s\xB9 w porz\xB9".."dku, ale ci\xB9g\xB3".."e oskar\xBF".."enia lub wrogie zachowanie sprawi\xB9, \xBF".."e inni przestan\xB9 ci ufa\xE6.",
-			"* Nie odchod\x9F od klawiatury (AFK). Je\x9Cli nie b\xEA".."dziesz si\xEA ruszal przez dluzszy czas zostaniesz wygnany z gry (tylko je\x9Cli \xBFyjesz).",
-			"* Nie zmieniaj swego imienia gracza p\xF3ki jeste\x9C Martwy(a) - gra jest bardzo \x9C".."cis\xB3".."a i\21 wyrzuci\16 ci z gry je\xBF".."eli to zrobisz. Po prostu zaczekaj na ekran zako\xF1".."czenia rundy \xBF".."eby zn\xF3w bezpiecznie zmienia\xE6 imi\xEA.",
-			"* Unikaj obozowania w pobli\xBFu Szmaragdu Szeryfa, je\x9Cli jeste\x9C Morderc\xB9. Stanie w pobliżu Szmaragdu przez 30 sekund spowoduje wyrzucenie z gry.",
-			"Z\xB3".."amanie tych zasad mo\xBF".."e spowodowa\xE6 \xBF".."e zostaniesz wykopany a czasami zbanowany przez Administratora, prosimy ich nie \xB3".."ama\xE6 i gra\xE6 fer."
+			"\1\x87Rzeczy których należy unikać \1\x87w \1\x85Tajemnicy \1\x85Morderstw\4\n",
+			"Zasada numer 1 każdej gry:\1\x82 Bądź miły i się baw!\4 Oprócz tego...",
+			"* Nie ujawniaj swojej roli innym, nawet dla żartu. Wypowiedzenie swojej \1\x8BRoli\4 sprawi że gra nie będzie już \'Tajemnicą\'. Możesz wypowiedzieć \1\x8Brole\4 kogoś innego jak jesteś pewny, ale nigdy swojej.",
+			"* Unikaj obrażania innych graczy. Przyjazne żarty są w porządku, ale ciągłe oskarżenia lub wrogie zachowanie sprawią, że inni przestaną ci ufać.",
+			"* Nie odchodź od klawiatury (AFK). Jeśli nie będziesz się ruszal przez dluzszy czas zostaniesz wygnany z gry (tylko jeśli żyjesz).",
+			"* Nie zmieniaj swego imienia gracza póki jesteś Martwy(a) - gra jest bardzo ścisła i \1\x85wyrzuci\4 ci z gry jeżeli to zrobisz. Po prostu zaczekaj na ekran zakończenia rundy żeby znów bezpiecznie zmieniać imię.",
+			"* Unikaj obozowania w pobliżu Szmaragdu Szeryfa, jeśli jesteś Mordercą. Stanie w pobliżu Szmaragdu przez 30 sekund spowoduje wyrzucenie z gry.",
+			"Złamanie tych zasad może spowodować że zostaniesz wykopany a czasami zbanowany przez Administratora, prosimy ich nie łamać i grać fer."
 		},
         {
-			"\23Przydatne porady\16\n",
-			"Zebrali\x9Cmy kilka porad kt\xF3rzy mog\xB9 przyda\xE6 ci w twojej grze w \21TM\16:",
-			"\n* Je\xBF".."eli zdolno\x9C".."ci postaci s\xB9 wy\xB3B9".."czone administratorem, zaci\x9Cnij \23SPIN\16 \xBF".."eby skrada\xE6 si\xEA ukradkiem i nie zostawia\xE6 za sob\xB9 \x9Clad\xF3w.",
-			"\n* Kiedy podniesiesz \20Szmaragd \20Szeryfa\16 b\xEA".."dziesz mie\xE6 dost\xEAp do ka\xBF".."dej broni i ring\xF3w, kt\xF3rzy zebrale\x9C uprzednio.",
-			"\n* U\xBFyj polecenia \23SAYTEAM\16, aby koordynowa\xE6 dzia\xB3".."ania z cz\xB3onkami dru\xBFyny i unikn\xB9E6 strza\xB3u od sojusznika. Rozpocz\xEA".."cie wiadomo\x9C".."ci od symbola \24%\16 spowoduje \xBF".."e wiadomo\x9CE6 b\xEA".."dzie automatycznie wyslana do cz\xB3onk\xF3w dru\xBFyny.",
-			"\n* Mo\xBF".."esz zosta\xE6 zraniony przez przeszkody takie jak lawa, kolce i ogie\xF1 \xBF".."eby dosta\xE6 effekt niezwyci\xEAzo\x9C".."ci na 3 sekundy.",
-			"\n* Spr\xF3".."buj znale\x9FE6 miejsce dla kryj\xF3wke na mapie. Czasami, pomaga to pozby\xE6 si\xEA niechcianej publiczno\x9C".."ci.",
-			"\n* Je\xBF".."eli twoja \27rola\16 przestanie by\xE6 tajemnic\xB9, mo\xBF".."esz zmieni\xE6 swoje imi\xEA i zmieni\xE6 sw\xF3j kolor postaci. \18Pami\xEAtaj \18\xBF".."e \18zmiana \18imienia \18b\xEA".."dzie \18widoczna \18w \18czacie\16.",
-			"\n* Przycisk\23 FIRENORMAL\16 pozwala wykorzystywa\xE6 N\xF3BF wsz\xEA".."dzie, jak masz Ringi. Tak\xBF".."e, N\xF3BF nie robi dzwi\xEAk\xF3w ataku je\xBF".."eli skradzasz si\xEA."
+			"\1\x87Przydatne porady\4\n",
+			"Zebraliśmy kilka porad którzy mogą przydać ci w twojej grze w \1\x85TM\4:",
+			"\n* Jeżeli zdolności postaci są wyłączone administratorem, zaciśnij \1\x87SPIN\4 żeby skradać się ukradkiem i nie zostawiać za sobą śladów.",
+			"\n* Kiedy podniesiesz \1\x84Szmaragd \1\x84Szeryfa\4 będziesz mieć dostęp do każdej broni i ringów, którzy zebraleś uprzednio.",
+			"\n* Użyj polecenia \1\x87SAYTEAM\4, aby koordynować działania z członkami drużyny i uniknąE6 strzału od sojusznika. Rozpoczęcie wiadomości od symbola \1\x88%\4 spowoduje że wiadomośE6 będzie automatycznie wyslana do członków drużyny.",
+			"\n* Możesz zostać zraniony przez przeszkody takie jak lawa, kolce i ogień żeby dostać effekt niezwycięzości na 3 sekundy.",
+			"\n* Spróbuj znaleźE6 miejsce dla kryjówke na mapie. Czasami, pomaga to pozbyć się niechcianej publiczności.",
+			"\n* Jeżeli twoja \1\x8Brola\4 przestanie być tajemnicą, możesz zmienić swoje imię i zmienić swój kolor postaci. \1\x82Pamiętaj że zmiana imienia będzie widoczna w czacie\4.",
+			"\n* Przycisk\1\x87 FIRENORMAL\4 pozwala wykorzystywać NóBF wszędzie, jak masz Ringi. Także, NóBF nie robi dzwięków ataku jeżeli skradzasz się."
 		}
 	},
     ["MMLANG"]={
@@ -192,64 +191,64 @@ MM.AddLang("PL", {
 	},
 	["HUD_SUSPECTS"]="Podejrzani",
 	["HUD_VICTIMS"]="Ofiary",
-	["HUD_TEAMMATES"]="Cz\xB3onkowie dru\xBFyny",
+	["HUD_TEAMMATES"]="Członkowie drużyny",
 	["HUD_KILLBY"]="Zabity przez",
-	["HUD_STUPID"]="tw\xF3j idiotyzm",
+	["HUD_STUPID"]="twój idiotyzm",
 	["HUD_SCORESTAB"]={
-		"Je\x9Cli ten tryb jest ci nowy u\xBFyj",
-		"komendy \23MMHELP\16 w Konsoli dla pomocy",
-		"i \23MMLANG\16 dla zmiany j\xEAzyka tutaj",
+		"Jeśli ten tryb jest ci nowy użyj",
+		"komendy \1\x87MMHELP\4 w Konsoli dla pomocy",
+		"i \1\x87MMLANG\4 dla zmiany języka tutaj",
 		"",
 		"",
-		"\2Baw si\xEA dobrze ;)"
+		"\1\x82".."Baw się dobrze ;)"
 	},
 	["HUD_ROLETARGET"] = {
 		"Zamorduj wszystkich.",
-		"Wyeliminuj wszystkich Morderc\xF3w.\nNie zabijaj Ciwil\xF3w!",
-		"Kryj si\xEA i pom\xF3BF w dochodzeniu,\nkiedy jest to mo\xBFliwe.",
-		"Masz szans\xEA powstrzyma\xE6 wszystkich\nMorderc\xF3w. Ruszaj i uratuj dzie\xF1,\nale b\xB9".."d\x9F ostro\xBFny!"
+		"Wyeliminuj wszystkich Morderców.\nNie zabijaj Ciwilów!",
+		"Kryj się i pomóBF w dochodzeniu,\nkiedy jest to możliwe.",
+		"Masz szansę powstrzymać wszystkich\nMorderców. Ruszaj i uratuj dzień,\nale bądź ostrożny!"
 	},
     ["HUD_ROLESALIVE"]={
-		"Morderc\xF3w",
-		"Szeryf\xF3w",
-		"Cywil\xF3w"
+		"Morderców",
+		"Szeryfów",
+		"Cywilów"
 	},
     ["HUD_DEAD"]={
-		"Jeste\x9C\31 martwy(a)",
-		"Nie mozesz si\xEA odnawia\xE6 lub gada\xE6 do \xBFywych"
+		"Jesteś\1\x8F martwy(a)",
+		"Nie mozesz się odnawiać lub gadać do żywych"
 	},
     ["HUD_MIDJOIN"]={
-		"Pan(i) dolaczy\xB3(a) si\xEA \20w \x9Crodku rundy\16, prosze poczeka\xE6 na now\xB9 rund\xEA \xBF".."eby zagra\xE6.",
-		"Podczas oczekiwania prosimy o zapoznanie si\xEA z regulami gry w poleceniu konsoli \23MMHELP\16"
+		"Pan(i) dolaczył(a) się \1\x84w środku rundy\4, prosze poczekać na nową rundę żeby zagrać.",
+		"Podczas oczekiwania prosimy o zapoznanie się z regulami gry w poleceniu konsoli \1\x87MMHELP\4"
 	},
     ["HUD_ALONE"]={
-		"\20".."2 graczy\16 jest wymaganych do gry,",
-		"prosz\xEA poczeka\xE6 na \20jeszcze jednego\16 gracza",
+		"\1\x84".."2 graczy\4 jest wymaganych do gry,",
+		"proszę poczekać na \1\x84jeszcze jednego\4 gracza",
 		"dla startu"
 	},
-    ["HUD_SNEAKING"]="Skradzamy si\xEA...",
+    ["HUD_SNEAKING"]="Skradzamy się...",
 	["HUD_SHOWDOWN"]="Pojedynek losu!",
 	["HUD_MINIGAME"]={
-		["PRESS"] = "Naci\x9Cnij\18 CUSTOM3\16, aby", --must contain MM escape color codes
-		["LEAVE"]="opu\x9C".."ci\xE6 gr\xEA",
-		["CANCEL"]="anulowa\xE6",
-		["SPECTATE"]="ogl\xB9".."da\xE6",
-		["DUEL"]="za pojedynkiem w minigrz\xEA",
-		["REQUEST"]="zagra\xE6 w \23PONG\16 z przeciwnikiem", --must contain MM escape color codes
-		["START"]="zagra\xE6 w \23SONIC RUN", --must contain MM escape color codes
-		["ACCEPT"]="zaakceptowa\xE6 zaproszenie w \23PONG\16!", --must contain MM escape color codes
-		["WAIT"]="Czekamy na odpowied\x9F przeciwnika...",
-		["SPECTATING"]="Ogl\xB9".."damy za pojedynkiem...",
-		["BORED"]="Nudzisz si\xEA?",
+		["PRESS"] = "Naciśnij\1\x82 CUSTOM3\4, aby", --must contain MM escape color codes
+		["LEAVE"]="opuścić grę",
+		["CANCEL"]="anulować",
+		["SPECTATE"]="oglądać",
+		["DUEL"]="za pojedynkiem w minigrzę",
+		["REQUEST"]="zagrać w \1\x87PONG\4 z przeciwnikiem", --must contain MM escape color codes
+		["START"]="zagrać w \1\x87SONIC RUN", --must contain MM escape color codes
+		["ACCEPT"]="zaakceptować zaproszenie w \1\x87PONG\4!", --must contain MM escape color codes
+		["WAIT"]="Czekamy na odpowiedź przeciwnika...",
+		["SPECTATING"]="Oglądamy za pojedynkiem...",
+		["BORED"]="Nudzisz się?",
 		["GOAL"]="Gol!"
 	},
     ["HUD_YOU"]="TY",
 	["HUD_WINNERS"]="Wygrani:",
 	["HUD_WIN"]={
 		"REMIS!",
-		"\21M\xD3RDERCY",
-		"\19CYWILE"
+		"\1\x85MÓRDERCY",
+		"\1\x83".."CYWILE"
 	},
-    ["HUD_PAST"]="PRZESZLO\x8CC6",
-	["HUD_FUTURE"]="PRZYSZLO\x8CC6"
+    ["HUD_PAST"]="PRZESZLOŚĆ",
+	["HUD_FUTURE"]="PRZYSZLOŚĆ"
 })

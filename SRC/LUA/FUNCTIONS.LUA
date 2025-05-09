@@ -8,6 +8,7 @@ local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri")
 --
 -- MM FUNCTIONS
 --
+
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
@@ -466,8 +467,197 @@ end)
 
 
 --
+-- UTF-8 LIBRARY
+--
+-- https://github.com/blitmap/lua-utf8-simple
+
+rawset(_G, "utf8", {})
+local pattern = '[%z\1-\127\194-\244][\128-\191]*'
+
+-- helper function
+local posrelat = function (pos, len)
+	if (pos < 0) then pos = len + pos + 1 end
+	return pos
+end
+
+-- THE MEAT
+
+-- maps f over s's utf8 characters f can accept args: (visual_index, utf8_character, byte_index)
+utf8.map = function(s, f, no_subs)
+	local i = 0
+
+	if no_subs then
+		for b, e in s:gmatch('()' .. pattern .. '()') do
+			i = i + 1
+			local c = e - b
+			f(i, c, b)
+		end
+	else
+		for b, c in s:gmatch('()(' .. pattern .. ')') do
+			i = i + 1
+			f(i, c, b)
+		end
+	end
+end
+
+-- THE REST
+
+-- generator for the above -- to iterate over all utf8 chars
+utf8.chars = function(s, no_subs)
+	return coroutine.wrap(function () return utf8.map(s, coroutine.yield, no_subs) end)
+end
+
+-- returns the number of characters in a UTF-8 string
+utf8.len = function(s)
+	-- count the number of non-continuing bytes
+	return select(2, s:gsub('[^\128-\193]', ''))
+end
+
+-- replace all utf8 chars with mapping
+utf8.replace = function(s, map)
+	return s:gsub(pattern, map)
+end
+
+-- reverse a utf8 string
+utf8.reverse = function(s)
+	-- reverse the individual greater-than-single-byte characters
+	s = s:gsub(pattern, function (c) return #c > 1 and c:reverse() end)
+
+	return s:reverse()
+end
+
+-- strip non-ascii characters from a utf8 string
+utf8.strip = function(s)
+	return s:gsub(pattern, function (c) return #c > 1 and '' end)
+end
+
+-- like string.sub() but i, j are utf8 strings
+-- a utf8-safe string.sub()
+utf8.sub = function(s, i, j)
+	local l = utf8.len(s)
+
+	i =       posrelat(i, l)
+	j = j and posrelat(j, l) or l
+
+	if (i < 1) then i = 1 end
+	if (j > l) then j = l end
+
+	if (i > j) then return '' end
+
+	local diff = j - i
+	local iter = utf8.chars(s, true)
+
+	-- advance up to i
+	for _ = 1, i - 1 do iter() end
+
+	local c, b = select(2, iter())
+
+	-- i and j are the same, single-charaacter sub
+	if (not diff) then
+		return string.sub(s, b, b + c - 1)
+	end
+
+	i = b
+
+	-- advance up to j
+	for _ = 1, diff - 1 do iter() end
+
+	c, b = select(2, iter())
+
+	return string.sub(s, i, b + c - 1)
+end
+
+--https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
+--Return an integer value of a single Unicode symbol
+utf8.byte = function(char)
+    local b1, b2 = char:byte(1, 2)
+    local b3, b4 = char:byte(3, 4)
+    if (b1 < 128) then return b1 --b1 is less than 128, it's a single-byte character
+    elseif (b1 < 194) then return nil
+    elseif (b1 < 224) then return (b1 - 192) * 64 + (b2 - 128)
+    elseif (b1 < 240) then return (b1 - 192) * 64 + (b2 - 128)
+    elseif (b1 < 245) then return (b1 - 240) * 262144 + (b2 - 128) * 4096 + (b3 - 128) * 64 + (b4 - 128)
+	else return nil end
+end
+
+--Iterator function that returns integer values of all symbols in the string
+--ChatGPT helped with this one
+utf8.bytes = function(str)
+	local pos = 1
+	local isTextCode = false
+
+    return function()
+        if (pos > #str) then return nil end
+
+        local b1 = string.byte(str, pos)
+		local bytes = 0
+		local codepoint
+
+        --"Next byte is an SRB2 text code" (Start of Header)
+        if (b1 == 0x01) then
+			pos = $ + 1
+			if (pos <= #str) then
+				isTextCode = true
+                return b1 --return 1
+            else
+                error("Encountered SOH (\"Start of Header\", 0x01) character at the very end of the string")
+            end
+		elseif (isTextCode) then --Text color code
+			pos = $ + 1
+			isTextCode = false
+			return b1
+		elseif (b1 == 0x04) then --Text Formatting reset (End of Transmission)
+            pos = pos + 1
+            return b1 --return 4
+		elseif (b1 < 0x80) then
+            -- 1-byte ASCII (U+0000 - U+007F)
+            codepoint = b1
+            bytes = 1
+
+        -- 2-byte UTF-8
+		elseif (b1 >= 0xC2) and (b1 <= 0xDF) then
+			local b2 = str:byte(pos + 1)
+			if (b2 and (b2 >= 0x80) and (b2 <= 0xBF)) then
+				codepoint = ((b1 & 0x1F) << 6) | (b2 & 0x3F)
+				bytes = 2
+			else
+				codepoint = 0xFFFD
+				bytes = 1
+			end
+
+		-- 3-byte UTF-8
+		elseif (b1 >= 0xE0) and (b1 <= 0xEF) then
+			local b2 = str:byte(pos + 1)
+			local b3 = str:byte(pos + 2)
+			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
+				codepoint = ((b1 & 0x0F) << 12) | ((b2 & 0x3F) << 6) | (b3 & 0x3F)
+				bytes = 3
+
+				-- Reject UTF-16 surrogate pairs (U+D800–DFFF)
+				if ((codepoint >= 0xD800) and (codepoint <= 0xDFFF)) then
+					codepoint = 0xFFFD
+					bytes = 3
+				end
+			else
+				codepoint = 0xFFFD
+				bytes = 1
+			end
+        else --Malformed sequence
+            codepoint = 0xFFFD
+            bytes = 1
+        end
+
+        pos = $ + bytes
+        return codepoint
+    end
+end
+
+
+
+--
 -- MM HUD LIBRARY
 --
+
 rawset(_G, "V_LoadPatch", function(v, patch)
 	assert(v, "V_LoadPatch() argument #1: Video drawer object expected")
 	assert(patch, "V_LoadPatch() argument #2: Patch graphic expected")
@@ -480,7 +670,7 @@ end)
 
 rawset(_G, "V_UnloadPatch", function(patch)
 	assert(patch, "V_UnloadPatch() argument #1: Patch graphic expected")
-	if (type(patch) != "string") then error("V_UnloadCharset() argument #1: Patch graphic name expected in string type") end
+	if (type(patch) != "string") then error("V_UnloadPatch() argument #1: Patch graphic name expected in string type") end
 
 	if (MM.graphics[patch])
 		MM.graphics[patch] = nil
@@ -490,30 +680,35 @@ rawset(_G, "V_UnloadPatch", function(patch)
 	end
 end)
 
-rawset(_G, "V_LoadCharset", function(v, name)
-	assert(v, "V_LoadCharset() argument #1: Video drawer object expected")
-	assert(name, "V_LoadCharset() argument #2: Character Set prefix name expected")
-	if (type(name) != "string") then error("V_LoadCharset() argument #2: Character Set prefix name expected in string type") end
+--UNICODE STRING RENDERER
+
+rawset(_G, "V_LoadUnicode", function(v, a, b)
+	assert(v, "V_LoadUnicode() argument #1: Video drawer object expected")
+	--assert(a, "V_LoadUnicode() argument #2: Start index integer expected")
+	--assert(b, "V_LoadUnicode() argument #2: End index integer expected")
+	--if ((type(a) != "number") or (type(b) != "number")) then error("V_LoadUnicode() argument #2 & #3: Start & End indexes should be integer") end
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 
-	if (not MM.graphics.charset) then MM.graphics.charset = {} end
+	if (not MM.graphics.unicode) then MM.graphics.unicode = {} end
 
 	local patchname
-	for i = 33, 255 do
-		patchname = name..string.format("%03d", i)
+	a = a or 0x10
+	b = b or 0xFFFF
+	for i = a, b do
+		patchname = "UNIC"..string.format("%04X", i)
 		if (v.patchExists(patchname))
-			MM.graphics.charset[i] = v.cachePatch(patchname)
-			if (MM.debug) print("Loaded patch \x81"..name.."\x82"..string.format("%03d", i).."\x80 into Character Table") end
+			MM.graphics.unicode[i] = v.cachePatch(patchname)
+			if (MM.debug) print("Loaded patch \x81UNIC\x82"..string.format("%04X", i).."\x80 into the Unicode Character Table") end
 		end
 	end
 end)
 
-rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
-	--Draw strings in Murder Mystery format with swapable ASCII table
+rawset(_G, "V_DrawStrUnicode", function(v, x, y, str, flags, small)
+	--Draw strings encoded in UTF-8 formatting
 	--The function mostly assumes you have font with 8x8 pixel characters
 
-	assert(v, "V_DrawStrASCII() argument #1: Video drawer object expected")
-	if (not str) or (type(str) != "string") error("V_DrawStrASCII() argument #5: string expected") end
+	assert(v, "V_DrawStrUnicode() argument #1: Video drawer object expected")
+	if (not str) or (type(str) != "string") error("V_DrawStrUnicode() argument #5: string expected") end
 
 	if (small) small = 1
 	else small = 0 end
@@ -522,17 +717,9 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	local y = y or 0
 	local flg = flags or 0
 
-	--if the string has no Extended ASCII symbols and is meant to be printed in normal size
-	--use SRB2 built-in function instead (it should be faster)
-	if (isStandartASCII(str))
-		if (small) then v.drawString(x, y, str, flg|V_ALLOWLOWERCASE, "small")
-		else v.drawString(x, y, str, flg|V_ALLOWLOWERCASE) end
-		return
-	end
-
 	--set the characer encoding
 	assert(MM.graphics, "MM.graphics table is not initialized!")
-	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
+	assert(MM.graphics.unicode, "MM.graphics.unicode table is not initialized!")
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
@@ -547,15 +734,27 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 	local cy = y --leftover from the older code, used as an alias
 
 	--init variables
-	local chr, width
+	local chr
+	local isTextCode = false
 	local color = v.getStringColormap(0) --default to white color
+	local translucency = 0
 	
 	--draw the string
-	for i = 1, #str do
-		chr = string.byte(str, i) --numeric value of the single character
+	for chr in utf8.bytes(str) do
 
-		--characters from 0x10 to 0x1F (16 - 31 in decimal) set the color
-		if ((chr > 0x0F) and (chr < 0x20)) then color = v.getStringColormap((chr - 16) << 12) end --(chr - 16) * 4096
+		--SOH (Start of Header)
+		--Tell the interpreter "Hey, the next character is not a unicode symbol but a text code to change the color & translucency!"
+		if (chr == 0x01)
+			isTextCode = true
+			continue
+		end
+
+		--EOH (End of Transmission), clear the text formating
+		if (chr == 0x04)
+			color = v.getStringColormap(0)
+			translucency = 0
+			continue
+		end
 
 		--newline
 		if (chr == 0x0A)
@@ -563,51 +762,30 @@ rawset(_G, "V_DrawStrASCII", function(v, x, y, str, flags, small)
 			cy = $ + (8 >> small)
 		end
 
-		--print the character
-		if (chr > 0x20)
-			if (MM.graphics.charset[chr])
-				width = MM.graphics.charset[chr].width
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[chr], flg, color)
-			else --unknown symbol/patch, print "?"
-				width = MM.graphics.charset[63].width --it should be 8, but we'll assume that STCFN font was replaced by an external add-on
-				v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.charset[63], flg, color)
-			end
+		--characters from 0x80 to 0xFF (128 - 255 in decimal) set the color AND translucency
+		if ((chr >= 0x80) and (chr <= 0xFF) and isTextCode) then
+			color = v.getStringColormap((chr & 0x7F & 0x0F) << 12)
+			translucency = ((chr - 0x80) >> 4) << 16
+			isTextCode = false
+			continue
+		end
+
+		--draw the character
+		if ((chr > 0x0F) and (chr != 0x20))
+			if (not MM.graphics.unicode[chr]) then chr = 0xFFFD end --if character is not found in the graphics table, replace the character with the "Replacement Character" (U+FFFD)
+			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.unicode[chr], flg|translucency, color)
 		end
 
 		--shift position for the next character
 		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
-		elseif (chr > 0x20) then cx = $ + (width >> small) end --it's a regular character
+		else
+			if (chr > 0x0F) then cx = $ + (MM.graphics.unicode[chr].width >> small) end --it's a regular character
+		end
 	end
 end)
 
-rawset(_G, "V_ConvertStringColor", function(str)
-	--convert string color codes from SRB2 to MM format
-
-	local strng = {}
-	local chr
-	for i = 1, #str
-		chr = string.byte(str, i)
-		if (chr >= 128) then strng[i] = string.char(((chr & 0x7F) & 0x0F) + 0x0F)
-		else strng[i] = str:sub(i,i) end
-	end
-	return table.concat(strng)
-end)
-
-rawset(_G, "V_ConvertStringColor2", function(str)
-	--convert string color codes from MM to SRB2 format
-
-	local strng = {}
-	local chr
-	for i = 1, #str
-		chr = string.byte(str, i)
-		if ((chr >= 16) and (chr < 32)) then strng[i] = string.char((chr - 0x0F) + 0x80)
-		else strng[i] = str:sub(i,i) end
-	end
-	return table.concat(strng)
-end)
-
-rawset(_G, "V_StrWidthASCII", function(str, flags, small)
-	--Get string width for the V_DrawStrASCII() function
+rawset(_G, "V_StrWidthUnicode", function(str, flags, small)
+	--Get string width for the V_DrawStrUnicode() function
 
 	if (not str) or (str == "") return 0 end
 
@@ -615,7 +793,7 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, small)
 	else small = 0 end
 
 	assert(MM.graphics, "MM.graphics table is not initialized!")
-	assert(MM.graphics.charset, "MM.graphics.charset table is not initialized!")
+	assert(MM.graphics.unicode, "MM.graphics.unicode table is not initialized!")
 
 	--symbol width
 	local flg = flags or 0
@@ -631,22 +809,23 @@ rawset(_G, "V_StrWidthASCII", function(str, flags, small)
 
 	local char
 
-	for i = 1, #str do
-		char = string.byte(str, i) --character number
+	for char in utf8.bytes(str)
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
-		elseif ((char > 0x20) and MM.graphics.charset[char]) then --we count only visible charactrers
-			pixelLen = $ + (MM.graphics.charset[char].width >> small)
+		elseif ((char > 0x20) and MM.graphics.unicode[char]) then --we count only visible charactrers
+			pixelLen = $ + (MM.graphics.unicode[char].width >> small)
 		end
 	end
 	return pixelLen
 end)
 
-rawset(_G, "V_DrawStrASCII_Center", function(v, x, y, str, flags, small)
-	V_DrawStrASCII(v, (x - (V_StrWidthASCII(str, flags, small) >> 1)), y, str, flags, small)
+rawset(_G, "V_DrawStrUnicode_Center", function(v, x, y, str, flags, small)
+	V_DrawStrUnicode(v, (x - (V_StrWidthUnicode(str, flags, small) >> 1)), y, str, flags, small)
 end)
-rawset(_G, "V_DrawStrASCII_Right", function(v, x, y, str, flags, small)
-	V_DrawStrASCII(v, (x - V_StrWidthASCII(str, flags, small)), y, str, flags, small)
+rawset(_G, "V_DrawStrUnicode_Right", function(v, x, y, str, flags, small)
+	V_DrawStrUnicode(v, (x - V_StrWidthUnicode(str, flags, small)), y, str, flags, small)
 end)
+
+--TEXT PATCH RENDERING & MANIPULATION
 
 rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 	--draw an image from the text data, similar to v.draw()
@@ -815,6 +994,135 @@ rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, start
 	return buffer
 end)
 
+--Word wrapper, assisted with ChatGPT
+--Although he gave a direction, I had to spend a lot of time fixing the crap code he suggested
+--I know there are still bugs in this code, with color code wrapping to be precise, but I really could not figure them out
+rawset(_G, "V_WordWrapString", function(s, max_width)
+	local lines = {}
+	local current_line = ""
+	local current_word = ""
+	local visible_len = 0
+	local word_len = 0
+
+	local textcodes = ""
+
+	local i = 1 --iterator
+
+	while (i <= #s)
+		local b1 = s:byte(i)
+
+		-- Set formatting (SOH, Start of Header)
+		if ((b1 == 0x01) and (i < #s)) then
+			i = $ + 1 --skip a byte
+			textcodes = "\1" .. s:sub(i, i)
+			current_line = $ .. current_word .. textcodes
+			visible_len = $ + word_len
+			current_word = ""
+			word_len = 0
+
+		-- Reset formatting (EOT, End of Text)
+		elseif (b1 == 0x04) then
+			current_word = $ .. string.char(0x04)
+			textcodes = ""
+
+		-- Newline ('\n')
+		elseif (b1 == 0x0A) then
+			current_line = $ .. current_word --finish the current line we were doing
+			table.insert(lines, current_line) --send to the buffer
+
+			--create a new line with the currently applied text formatting
+			current_line = textcodes
+			current_word = ""
+			visible_len = 0
+			word_len = 0
+			
+			--Newline at the very end of the string
+			if (i == #s) then table.insert(lines, "") end
+
+		-- Space: word delimiter
+		elseif (b1 == 0x20) then
+			if (visible_len + word_len) > max_width then
+				--reached max string length
+				table.insert(lines, current_line)
+				if (word_len) then current_line = textcodes .. current_word .. " "
+				else current_line = textcodes end
+				visible_len = word_len + 1
+			else
+				--continue the current line
+				current_line = $ .. current_word .. " "
+				visible_len = $ + word_len + 1
+			end
+			current_word = ""
+			word_len = 0
+
+		--Interpreting bytes as Unicode symbols
+		--1-byte ASCII
+		elseif (b1 < 0x80) then
+			current_word = current_word .. s:sub(i, i)
+			word_len = word_len + 1
+
+		-- 2-byte UTF-8
+		elseif ((b1 >= 0xC2) and (b1 <= 0xDF) and ((i + 1) <= #s)) then
+			local b2 = s:byte(i + 1)
+			if b2 and b2 >= 0x80 and b2 <= 0xBF then
+				local cp = ((b1 & 0x1F) << 6) | (b2 & 0x3F)
+				if (cp <= 0xFFFF) then
+					current_word = current_word .. s:sub(i, i + 1)
+					word_len = $ + 1
+				else
+					current_word = $ .. "�"
+					word_len = $ + 1
+				end
+				i = i + 1
+			else
+				current_word = $ .. "�"
+				word_len = $ + 1
+			end
+
+		-- 3-byte UTF-8
+		elseif ((b1 >= 0xE0) and (b1 <= 0xEF) and ((i + 2) <= #s)) then
+			local b2 = s:byte(i + 1)
+			local b3 = s:byte(i + 2)
+			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
+				local cp = ((b1 & 0x0F) << 12) | ((b2 & 0x3F) << 6) | (b3 & 0x3F)
+				if (cp <= 0xFFFF) then
+					current_word = $ .. s:sub(i, i + 2)
+					word_len = $ + 1
+				else
+					current_word = $ .. "�"
+					word_len = $ + 1
+				end
+				i = i + 2
+			else
+				current_word = $ .. "�"
+				word_len = $ + 1
+			end
+
+		else
+			-- invalid byte or higher multibyte char: replace with "?"
+			current_word = $ .. "�"
+			word_len = $ + 1
+		end
+
+		i = $ + 1
+	end
+
+	-- Handle last word
+	if (#current_word) then
+		if (visible_len + word_len) > max_width then
+			table.insert(lines, current_line)
+			current_line = textcodes .. current_word
+		else
+			current_line = $ .. current_word
+		end
+	end
+
+	-- Add final line
+	if (#current_line) then table.insert(lines, current_line) end
+
+	return lines
+end)
+
 
 
 --
@@ -844,23 +1152,6 @@ rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
 	else return fof.bottomheight end
 end)
 
-rawset(_G, "isExtendedASCII", function(str)
-	--does string contain Extended ASCII symbols? (0x80 - 0xFF)
-	for CharID = 1, #str do
-		if (string.byte(str, CharID) >= 128) then return true end
-	end
-	return false
-end)
-rawset(_G, "isStandartASCII", function(str)
-	--is the whole string made of Standart ASCII symbols which are printable? (0x20 - 0x7F)
-	local CharCode
-	for CharID = 1, #str do
-		CharCode = string.byte(str, CharID)
-		if ((CharCode < 32) or (CharCode >= 128)) then return false end
-	end
-	return true
-end)
-
 rawset(_G, "valid", function(arg)
 	return (arg and arg.valid)
 end)
@@ -869,20 +1160,4 @@ rawset(_G, "SOC_IsTrue", function(arg)
 	if (not arg) then return false end
 	if (arg:upper() == "TRUE") or (arg == "1") then return true
 	else return false end
-end)
-
-rawset(_G, "WordWrapString", function(s, x) --https://stackoverflow.com/questions/35006931/lua-line-breaks-in-strings
-	if (not s) return {} end
-	x = x or 38
-	local t = {""}
-	local function cleanse(s) return s:gsub("@x%d%d%d",""):gsub("@r","") end
-	for prefix, word, suffix, newline in s:gmatch("([ \t]*)(%S*)([ \t]*)(\n?)") do
-		if #(cleanse(t[#t])) + #prefix + #cleanse(word) > x and #t > 0 then
-			table.insert(t, word..suffix) -- add new element
-		else -- add to the last element
-			t[#t] = t[#t]..prefix..word..suffix
-		end
-		if #newline > 0 then table.insert(t, "") end
-	end
-	return t
 end)

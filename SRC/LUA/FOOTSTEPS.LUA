@@ -1931,6 +1931,7 @@ local flatsounds={
 	["STONEF1"]="stone",
 	["STONEF2"]="stone",
 	["TRAPFLR"]="metal",
+	["VENT1"]="metal",
 	["VENT1F"]="metal",
 	["VFZFLR01"]="grass",
 	["WOODFLR"]="wood",
