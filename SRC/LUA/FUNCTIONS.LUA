@@ -206,16 +206,13 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 
 	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (p.skin == "sonic") body.state = S_SMMDEAD
-	elseif (p.skin == "tails") body.state = S_TMMDEAD
-	elseif (p.skin == "knuckles") body.state = S_KMMDEAD
-	elseif (p.skin == "amy") body.state = S_AMMDEAD
-	elseif (p.skin == "fang") body.state = S_FMMDEAD
-	elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-	elseif (p.skin == "superguide") body.state = S_GMMDEAD
-	elseif (p.skin == "bob") body.state = S_BMMDEAD
-	else body.state = S_MMSKELT end --skeleton, fallback for custom chars
-	body.color = p.color
+	if (P_IsValidSprite2(p, SPR2_MDED)) --Does skin have SPR2_MDED sprite ("MDEDA0" sprite lump)?
+		body.skin = p.skin
+		body.state = S_MMPLRDEAD
+		body.color = p.color
+	else
+		body.state = S_MMSKELT --Show skeleton instead
+	end
 
 	if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
@@ -233,16 +230,13 @@ MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead bo
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-		if (p.skin == "sonic") body.state = S_SMMDEAD
-		elseif (p.skin == "tails") body.state = S_TMMDEAD
-		elseif (p.skin == "knuckles") body.state = S_KMMDEAD
-		elseif (p.skin == "amy") body.state = S_AMMDEAD
-		elseif (p.skin == "fang") body.state = S_FMMDEAD
-		elseif (p.skin == "metalsonic") body.state = S_MMMDEAD
-		elseif (p.skin == "superguide") body.state = S_GMMDEAD
-		elseif (p.skin == "bob") body.state = S_BMMDEAD
-		else body.state = S_MMSKELT end --skeleton, fallback for custom chars
-		body.color = p.color
+		if (P_IsValidSprite2(p, SPR2_MDED)) --Does skin have SPR2_MDED sprite ("MDEDA0" sprite lump)?
+			body.skin = p.skin
+			body.state = S_MMPLRDEAD
+			body.color = p.color
+		else
+			body.state = S_MMSKELT --Show skeleton instead
+		end
 
 		if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 	else

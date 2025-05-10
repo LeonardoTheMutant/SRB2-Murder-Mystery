@@ -30,24 +30,10 @@ freeslot(
     'S_MMSTEP',   --Footmark state
     'MT_MMSTEP',  --Footmark object
     'MT_DEADPLR', --Dead body object
-    'S_MMSKELT',  --Dead body state (Skeleton)
-    'S_SMMDEAD',  --Dead body state (Sonic)
-    'S_TMMDEAD',  --Dead body state (Tails)
-    'S_KMMDEAD',  --Dead body state (Knuckles)
-    'S_AMMDEAD',  --Dead body state (Amy)
-    'S_FMMDEAD',  --Dead body state (Fang)
-    'S_MMMDEAD',  --Dead body state (Metal Sonic)
-    'S_GMMDEAD',  --Dead body state (Superguide)
-    'S_BMMDEAD',  --Dead body state (Bob)
-    'SPR_SKEL',   --Dead body sprite (Skeleton)
-    'SPR_SDED',   --Dead body sprite (Sonic)
-    'SPR_TDED',   --Dead body sprite (Tails)
-    'SPR_KDED',   --Dead body sprite (Knuckles)
-    'SPR_ADED',   --Dead body sprite (Amy)
-    'SPR_FDED',   --Dead body sprite (Fang)
-    'SPR_MDED',   --Dead body sprite (Metal Sonic)
-    'SPR_GDED',   --Dead body sprite (Superguide)
-    'SPR_BDED'    --Dead body sprite (Bob)
+    'S_MMPLRDEAD',--Dead player body state
+    'SPR2_MDED',  --Dead player body Sprite2
+    'S_MMSKELT',  --Dead player body state (Skeleton)
+    'SPR_SKEL'    --Dead player body sprite (Skeleton)
 )
 
 --Sheriff's Emerald object
@@ -75,7 +61,14 @@ mobjinfo[MT_MMSTEP] = {
 	flags = MF_NOGRAVITY
 }
 
---Dead body
+--Dead player body state
+
+states[S_MMPLRDEAD] = {
+    sprite = SPR_PLAY,
+    frame = SPR2_MDED|A,
+    tics = -1,
+    nextstate = S_MMPLRDEAD
+}
 
 --Skeleton state
 states[S_MMSKELT]={
@@ -85,78 +78,12 @@ states[S_MMSKELT]={
     nextstate = S_MMSKELT,
 }
 
---Sonic state
-states[S_SMMDEAD]={
-    sprite = SPR_SDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_SMMDEAD,
-}
-
---Tails state
-states[S_TMMDEAD]={
-    sprite = SPR_TDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_TMMDEAD,
-}
-
---Knuckles state
-states[S_KMMDEAD]={
-    sprite = SPR_KDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_KMMDEAD,
-}
-
---Amy state
-states[S_AMMDEAD]={
-    sprite = SPR_ADED,
-    frame = A,
-    tics = -1,
-    nextstate = S_AMMDEAD,
-}
-
---Fang state
-states[S_FMMDEAD]={
-    sprite = SPR_FDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_FMMDEAD,
-}
-
---Metal Sonic state
-states[S_MMMDEAD]={
-    sprite = SPR_MDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_MMMDEAD,
-}
-
---Superguide state
-states[S_GMMDEAD]={
-    sprite = SPR_GDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_GMMDEAD,
-}
-
---Bob state
-states[S_BMMDEAD]={
-    sprite = SPR_BDED,
-    frame = A,
-    tics = -1,
-    nextstate = S_MMMDEAD,
-}
-
---Dead body object
+--Dead player body object
 mobjinfo[MT_DEADPLR]={
     --$Title Dead player body
     --$Sprite SKELA0
-    --$Arg0 Skin (INT32)
-    --$Arg0Type 11
-    --$Arg0Enum {0="Skeleton"; 1="Sonic"; 2="Tails"; 3="Knuckles"; 4="Amy"; 5="Fang"; 6="Metal Sonic";}
-    --$Arg1 Skincolor (SKINCOLOR_*)
+    --$Arg0 Skincolor (SKINCOLOR_*)
+    --$StringArg0 Skin (string)
     --$NotAngled
     spawnstate = S_MMSKELT,
     doomednum = 2023,

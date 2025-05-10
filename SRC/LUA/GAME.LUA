@@ -67,8 +67,14 @@ end)
 -- Dead player body spawner (Map thing type 2023)
 --
 addHook("MapThingSpawn", function(mo, mapthing)
-    mo.state = S_MMSKELT + mapthing.args[0]
-    mo.color = mapthing.args[1]
+	if (mapthing.stringargs[0] and skins[mapthing.stringargs[0]])
+		mo.skin = mapthing.stringargs[0]
+		if (P_IsValidSprite2(mo, SPR2_MDED)) then mo.state = S_MMPLRDEAD
+		else mo.state = S_MMSKELT end
+	else
+		mo.state = S_MMSKELT
+	end
+    mo.color = mapthing.args[0]
     return true
 end, MT_DEADPLR)
 
