@@ -179,7 +179,7 @@ addHook("PlayerThink", function(p)
 
 		--Update render buffer only when neccesary
 		if ((oldScrnColumns != scrnColumns) or (oldScrnRows != scrnRows) or (oldPage != p.mm.help.page) or (oldLang != p.mm.lang))
-			if (MM.debug) then print(string.format("\x87MMHELP\x80: Updating screen... (Columns: %d; Rows: %d; Language %s; Page: %d)", scrnColumns, scrnRows, p.mm.lang, p.mm.help.page)) end
+			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (Columns: %d; Rows: %d; Language %s; Page: %d)", scrnColumns, scrnRows, p.mm.lang, p.mm.help.page))
 			renderBuffer = {}
 			pageLength = 0
 			oldScrnColumns = scrnColumns

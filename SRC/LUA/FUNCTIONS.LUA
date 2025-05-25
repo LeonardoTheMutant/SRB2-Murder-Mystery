@@ -9,6 +9,10 @@ local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri")
 -- MM FUNCTIONS
 --
 
+MM.DebugPrint = function(str)
+	if (MM.debug) print(str) end
+end
+
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
@@ -659,7 +663,7 @@ rawset(_G, "V_LoadPatch", function(v, patch)
 
 	if (MM.debug and MM.graphics[patch]) print("\x87Patch \x81"..patch.."\x87 is already loaded into memory") end
 	MM.graphics[patch] = v.cachePatch(patch)
-	if (MM.debug) print("Loaded patch \x81"..patch) end
+	MM.DebugPrint("Loaded patch \x81"..patch)
 end)
 
 rawset(_G, "V_UnloadPatch", function(patch)
@@ -668,9 +672,9 @@ rawset(_G, "V_UnloadPatch", function(patch)
 
 	if (MM.graphics[patch])
 		MM.graphics[patch] = nil
-		if (MM.debug) print("Unloaded patch \x81"..patch) end
+		MM.DebugPrint("Unloaded patch \x81"..patch)
 	else
-		if (MM.debug) print("\x87Trying to unload patch \x81"..patch.."\x87 that is not in the memory!") end
+		MM.DebugPrint("\x87Trying to unload patch \x81"..patch.."\x87 that is not in the memory!")
 	end
 end)
 
@@ -692,7 +696,7 @@ rawset(_G, "V_LoadUnicode", function(v, a, b)
 		patchname = "UNIC"..string.format("%04X", i)
 		if (v.patchExists(patchname))
 			MM.graphics.unicode[i] = v.cachePatch(patchname)
-			if (MM.debug) print("Loaded patch \x81UNIC\x82"..string.format("%04X", i).."\x80 into the Unicode Character Table") end
+			MM.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", i).."\x80 into the Unicode Character Table")
 		end
 	end
 end)

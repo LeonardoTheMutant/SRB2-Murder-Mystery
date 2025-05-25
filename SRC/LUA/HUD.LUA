@@ -41,7 +41,7 @@ hud.add(function(v, p)
 
 	--Patch Graphics loading
 	if (not MM.graphics)
-		if (MM.debug) print("\x82Loading MM graphics") end
+		MM.DebugPrint("\x82Loading MM graphics")
 
 		MM.graphics={}
 
