@@ -277,6 +277,7 @@ dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
 dofile("MAPS/MAPKC.LUA")
+dofile("MAPS/MAPKE.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
 
