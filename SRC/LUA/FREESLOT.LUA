@@ -31,7 +31,7 @@ freeslot(
     'MT_MMSTEP',  --Footmark object
     'MT_DEADPLR', --Dead body object
     'S_MMPLRDEAD',--Dead player body state
-    'SPR2_MDED',  --Dead player body Sprite2
+    'SPR2_SHIT',  --Dead player body Sprite2
     'S_MMSKELT',  --Dead player body state (Skeleton)
     'SPR_SKEL'    --Dead player body sprite (Skeleton)
 )
@@ -65,7 +65,7 @@ mobjinfo[MT_MMSTEP] = {
 
 states[S_MMPLRDEAD] = {
     sprite = SPR_PLAY,
-    frame = SPR2_MDED|A,
+    frame = SPR2_SHIT|A,
     tics = -1,
     nextstate = S_MMPLRDEAD
 }

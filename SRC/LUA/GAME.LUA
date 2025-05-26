@@ -69,7 +69,7 @@ end)
 addHook("MapThingSpawn", function(mo, mapthing)
 	if (mapthing.stringargs[0] and skins[mapthing.stringargs[0]])
 		mo.skin = mapthing.stringargs[0]
-		if (P_IsValidSprite2(mo, SPR2_MDED)) then mo.state = S_MMPLRDEAD
+		if (P_IsValidSprite2(mo, SPR2_SHIT)) then mo.state = S_MMPLRDEAD
 		else mo.state = S_MMSKELT end
 	else
 		mo.state = S_MMSKELT

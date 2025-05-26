@@ -210,7 +210,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 
 	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (P_IsValidSprite2(p, SPR2_MDED)) --Does skin have SPR2_MDED sprite ("MDEDA0" sprite lump)?
+	if (P_IsValidSprite2(p, SPR2_SHIT)) --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
 		body.skin = p.skin
 		body.state = S_MMPLRDEAD
 		body.color = p.color
@@ -234,7 +234,7 @@ MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead bo
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-		if (P_IsValidSprite2(p, SPR2_MDED)) --Does skin have SPR2_MDED sprite ("MDEDA0" sprite lump)?
+		if (P_IsValidSprite2(p, SPR2_SHIT)) --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
 			body.skin = p.skin
 			body.state = S_MMPLRDEAD
 			body.color = p.color
