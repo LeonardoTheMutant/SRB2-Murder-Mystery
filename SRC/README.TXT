@@ -41,13 +41,13 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 ===================================================================================================
 
   LeonardoTheMutant   - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian & Polish translator, Ambassador of Europe
-  MinusMario (mm8573) - "The Veteran of MM", Music Composer
+  MinusMario (mm8573) - "The Veteran of MM", Music Composer & Management, Visual Design
   Troplucky           - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
   Jesus.B             - Coder, Spanish translator
   Arnie37, Sonic1983  - Russian translators
   Mobillia            - Turkish translator
   LexTheGamer95       - Ambassador of North America
-  lamon               - Ambassador of the United Kingdom
+  lamon               - Ambassador of the United Kingdom, Music Composer & Management
 
 Former members:
   tedbasher3000 (AKA tedvin11) - Former Lead Coder

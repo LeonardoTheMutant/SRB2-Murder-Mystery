@@ -74,6 +74,7 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 11H_SP - "I Can't Find a [hiding] Place Without Seeing Mr. Death" by MinusMario
 CIVINS - "Civilian's Instinct" by MinusMario
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
+MMSUS1 - "HOLD ON" by Lamonite
 
 ============
 = SHOWDOWN =
