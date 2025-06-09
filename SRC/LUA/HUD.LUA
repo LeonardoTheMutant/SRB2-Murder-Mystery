@@ -44,6 +44,7 @@ hud.add(function(v, p)
 		MM.DebugPrint("\x82Loading MM graphics")
 
 		MM.graphics={}
+		V_LoadUnicode(v) --Initialize Unicode renderer
 
 		--Colon for time counter
 		V_LoadPatch(v, "STTCOLON")
@@ -82,12 +83,6 @@ hud.add(function(v, p)
 		--Countdown numbers
 		for i = 1, 3 do V_LoadPatch(v, "RACE"..i) end
 		V_LoadPatch(v, "RACEGO")
-
-		--Load the Unicode font graphics
-		if (not MM.UnicodeReady)
-			V_LoadUnicode(v)
-			MM.UnicodeReady = true
-		end
 	end
 
 	--Do not render the main HUD if it was disabled by another (MM) script

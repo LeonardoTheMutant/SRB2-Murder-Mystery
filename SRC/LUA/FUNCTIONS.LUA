@@ -680,24 +680,35 @@ end)
 
 --UNICODE STRING RENDERER
 
-rawset(_G, "V_LoadUnicode", function(v, a, b)
+rawset(_G, "V_LoadUnicode", function(v, a)
 	assert(v, "V_LoadUnicode() argument #1: Video drawer object expected")
 	--assert(a, "V_LoadUnicode() argument #2: Start index integer expected")
 	--assert(b, "V_LoadUnicode() argument #2: End index integer expected")
-	--if ((type(a) != "number") or (type(b) != "number")) then error("V_LoadUnicode() argument #2 & #3: Start & End indexes should be integer") end
+	if (a and (type(a) != "number")) then error("V_LoadUnicode() argument #2 & #3: Start & End indexes should be integer") end
 	assert(MM.graphics, "MM.graphics table is not initialized!")
 
 	if (not MM.graphics.unicode) then MM.graphics.unicode = {} end
 
-	local patchname
-	a = a or 0x10
-	b = b or 0xFFFF
-	for i = a, b do
-		patchname = "UNIC"..string.format("%04X", i)
-		if (v.patchExists(patchname))
-			MM.graphics.unicode[i] = v.cachePatch(patchname)
-			MM.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", i).."\x80 into the Unicode Character Table")
-		end
+	a = a or 0xFFFD
+	local patchname = "UNIC"..string.format("%04X", a)
+	if (v.patchExists(patchname))
+		MM.graphics.unicode[a] = v.cachePatch(patchname)
+		MM.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", a).."\x80 into the Unicode Character Table")
+	end
+end)
+
+rawset(_G, "V_GetUnicodePatch", function(v, chr)
+	assert(v, "V_GetUnicodePatch() argument #1: Video drawer object expected")
+	if (chr and type(chr) != "number") then error("V_LoadUnicode() argument #2: Unicode Character number should be integer") end
+	assert(MM.graphics, "MM.graphics table is not initialized!")
+
+	chr = chr or 0xFFFD
+
+	if (MM.graphics.unicode[chr]) return MM.graphics.unicode[chr]
+	else
+		V_LoadUnicode(v, chr, chr) --try to load the character if the slot is empty
+		if (MM.graphics.unicode[chr]) then return MM.graphics.unicode[chr]
+		else return MM.graphics.unicode[0xFFFD] end --if character is still not found in the graphics table, replace the character with the "Replacement Character" (U+FFFD)
 	end
 end)
 
@@ -770,14 +781,13 @@ rawset(_G, "V_DrawStrUnicode", function(v, x, y, str, flags, small)
 
 		--draw the character
 		if ((chr > 0x0F) and (chr != 0x20))
-			if (not MM.graphics.unicode[chr]) then chr = 0xFFFD end --if character is not found in the graphics table, replace the character with the "Replacement Character" (U+FFFD)
-			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), MM.graphics.unicode[chr], flg|translucency, color)
+			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), V_GetUnicodePatch(v, chr), flg|translucency, color)
 		end
 
 		--shift position for the next character
 		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
 		else
-			if (chr > 0x0F) then cx = $ + (MM.graphics.unicode[chr].width >> small) end --it's a regular character
+			if (chr > 0x0F) then cx = $ + (V_GetUnicodePatch(v, chr).width >> small) end --it's a regular character
 		end
 	end
 end)
