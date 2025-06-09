@@ -122,7 +122,8 @@ freeslot(
 
     --SFX for maps
     'sfx_fallin', --Falling SFX
-    'sfx_aldi'    --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
+    'sfx_aldi',   --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
+    'sfx_consle'  --Computer beeping
 )
 
 --Captions
@@ -152,3 +153,4 @@ MM.death_sfx = { --Add the SFX to the global table
 --Maps
 sfxinfo[sfx_fallin].caption = "Falling..."
 sfxinfo[sfx_aldi].caption = "\25 I AM AT ALDI"
+sfxinfo[sfx_consle].caption = "Console working"
