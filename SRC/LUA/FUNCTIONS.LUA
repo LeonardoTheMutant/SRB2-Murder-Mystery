@@ -197,6 +197,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not k) or (not k.player)) error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
+	plr.pflags = $|PF_FINISHED --force player to remain dead if they die as spectator (SRB2 bug fix)
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
@@ -227,6 +228,7 @@ MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead bo
 	if ((not p) or (not p.player)) error("MM.KillPlayerByHazard() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	plr.spectator = true
+	plr.pflags = $|PF_FINISHED --force player to remain dead if they die as spectator (SRB2 bug fix)
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect

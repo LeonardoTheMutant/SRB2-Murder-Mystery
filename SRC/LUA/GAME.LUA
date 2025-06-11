@@ -106,7 +106,7 @@ addHook("PlayerSpawn", function(p)
 	if (not p.mm.help) then p.mm.help = {page = 1, pos = 1, active = false} end --MMHELP UI init
 
 	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
-	if (p.mm.killername == "your stupidity") then p.spectator = true end
+	if (p.pflags & PF_FINISHED) then p.spectator = true end
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
@@ -116,7 +116,8 @@ addHook("PlayerSpawn", function(p)
 		MM.minigame = false --Tell server to disable the PONG minigame
 		MM.AssignRoles() --Assign roles for that duel
 		MM.twopgame = true
-	elseif ((MM.PlayerCount() > 2) and (p.mm.role == nil)) --Other players are dead on join
+	elseif ((MM.PlayerCount() > 2) and (p.mm.role == nil)) --Other players are dead on join`
+		p.pflags = $|PF_FINISHED
 		p.spectator = true
 	end
 	p.oldname = p.name
