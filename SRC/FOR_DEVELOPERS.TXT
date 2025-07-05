@@ -6,24 +6,23 @@ If you're reading this file from GitHub this is great - you have more content to
 But for now let me introduce you to our file structure first:
 
 
-MM_LTMs_MurderMystery_v1.2.pk3
+MM_LTMs_MurderMystery_v1.3.pk3
 |
 +-INIT.LUA - Boot script, CVAR initialization and constant definitions
 |
-+-DEV_DOCS-\
-|          +-MM_Func&Const_List.md - Documentation of functions and constants
-|          +-MM_HUD_Library.md - Documentation of the "Murder Mystery HUD library"
-|          +-MM_Userdata_Structure.md - Documentation of the various MM userdata tables
-|          \-MM_WEPCFG.PNG - Visual explanation of the Weapon Configuration Console Variables for each role
-|
 +-LUA-\
 |     |
-|     +-LEVELS-\
-|     |        +-MAPK0.LUA - Code for Eggman's Bedroom door (Abandoned Shelter)
-|     |        +-MAPK6.LUA - Level layout randomizer (Backrooms)
-|     |        +-MAPK7.LUA - "The truth ray" and lab doors (Sky Mesa)
-|     |        +-MAPK8.LUA - Definition of the MT_8BALL object (8-Ball Hotel)
-|     |        \-MAPKC.LUA - Granfather clock strikes (Stauf's Mansion)
+|     +-LIBRARIES-\
+|     |           +-CAROLINE.LUA     - Port of some C functionality to BLUA
+|     |           +-HIDEO.LUA        - A HUD/Video library
+|     |           \-MICHAELMYERS.LUA - Global function definitions for most of the codebase
+|     |
+|     +-MAPS-\
+|     |      +-MAPK0.LUA - Code for Eggman's Bedroom door (Abandoned Shelter)
+|     |      +-MAPK6.LUA - Level layout randomizer (Backrooms)
+|     |      +-MAPK7.LUA - "The truth ray" and lab doors (Sky Mesa)
+|     |      +-MAPK8.LUA - Definition of the MT_8BALL object (8-Ball Hotel)
+|     |      \-MAPKC.LUA - Granfather clock strikes (Stauf's Mansion)
 |     |
 |     +-MINIGAMES-\
 |     |           +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
@@ -33,16 +32,15 @@ MM_LTMs_MurderMystery_v1.2.pk3
 |     |     ...
 |     |      \-EN.LUA - All Text and messages used in the add-on (English version), also a template file for other languages
 |     |
-|     +-ABILITIES.LUA  - Character abilities & sneak
+|     +-ABILITIES.LUA  - Character abilities & sneak functionality
 |     +-CCMD.LUA       - MMHELP and MMLANG commands
 |     +-CHAT.LUA       - Chat management
-|     +-DEBUG.LUA      - Debug functionality (used only in debug builds of add-on)
+|     +-DEBUG.LUA      - Debug functionality (used only in the debug builds of add-on)
 |     +-FOOTSTEPS.LUA  - Footsteps and step sounds (Modified ModernSonic's footsteps engine)
 |     +-FREESLOT.LUA   - Gametype, Type of level, Objects, States and SFX freeslots
-|     +-FUNCTIONS.LUA  - Function library
 |     +-GAME.LUA       - The main core of the game logic
 |     +-HUD.LUA        - HUD renderer
-|     +-TIMETRAVEL.LUA - Time travel module for maps (primarily for "East City" (MAPKD))
+|     +-TIMETRAVEL.LUA - Time travel module for maps (primarily for the "East City" map (MAPKD))
 |     \-WEAPONS.LUA    - Weapon management (recreation of the Vanilla Weapon Rings)
 |
 \-SOC-\

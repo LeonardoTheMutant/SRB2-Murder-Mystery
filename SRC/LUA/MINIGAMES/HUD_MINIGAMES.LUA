@@ -95,16 +95,19 @@ hud.add(function(v, p)
 
 		--Sonic
 		local sonicSprite
-		if (p.SonicRun.state == 0)
-			sonicSprite = "SNC_STND"
-		elseif (p.SonicRun.state == 1)
-			if (leveltime & 1) then sonicSprite = "SNC_RUN1"
-			else sonicSprite = "SNC_RUN2" end
-		elseif (p.SonicRun.state == 2)
-			if (leveltime & 3 == 0) or (leveltime & 3 == 2) then sonicSprite = "SNC_SPN1"
-			elseif (leveltime & 3 == 1) then sonicSprite = "SNC_SPN2"
-			elseif (leveltime & 3 == 3) then sonicSprite = "SNC_SPN3" end
-		end
+		switch(p.SonicRun.state, {
+			[0] = do --Standing
+				sonicSprite = "SNC_STND"
+			end,
+			[1] = do --Running
+				sonicSprite = "SNC_RUN"..((leveltime & 1) + 1)
+			end,
+			[2] = do --Spinning/Jumping
+				if (leveltime & 3 == 0) or (leveltime & 3 == 2) then sonicSprite = "SNC_SPN1"
+				elseif (leveltime & 3 == 1) then sonicSprite = "SNC_SPN2"
+				elseif (leveltime & 3 == 3) then sonicSprite = "SNC_SPN3" end
+			end
+		})
 		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite], v.localTransFlag())
 
 		--hazards

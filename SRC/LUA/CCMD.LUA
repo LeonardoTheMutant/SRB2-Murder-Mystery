@@ -20,6 +20,7 @@ COM_AddCommand("mmhelp", function(p, page)
 		CONS_Printf(p, "\x87MM_CRYPTIC\x80      - Make the game more cryptic by disabling the teammate list, player nametags and most of the player counters on HUD.")
 		CONS_Printf(p, "\x87MM_CUSTOMSKINS\x80  - Allow the usage of the Custom Skins/Characters in MM.")
 		CONS_Printf(p, "\x87MM_FOOTMARKS\x80    - Enable/Disable the footmarks spawning.")
+		CONS_Printf(p, "\x87MM_KILLTRAILS\x80   - Enable/Disable the Red Footmarks (Kill Trails) after Killing a player with the knife or stepping on the dead body.")
 		CONS_Printf(p, "\x87MM_NOCAMPING\x80    - When enabled, \x85Murderers\x80 who are camping on the \x84Sheriff's Emerald\x80 for longer than 30 seconds will be kicked.")
 		CONS_Printf(p, "\x87MM_SPEED_SNEAK\x80  - Adjust the sneaking speed for all players. This works only when \x87MM_ABILITIES\x80 is disabled.")
 		CONS_Printf(p, "\x87MM_SPEED_WALK\x80   - Adjust the walk speed for all players. This works only when \x87MM_ABILITIES\x80 is disabled.")
@@ -108,7 +109,6 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		l = $:upper()
 		if (MM.text[l])
 			p.mm.lang = l
-			if (not p.mm.help) then p.mm.help = {page = 1} end
 			p.mm.help.pos = 1
 
 			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM.GetText(p.mm.lang, "AUTHOR"))
@@ -130,7 +130,7 @@ end, COM_LOCAL)
 --
 local tech_info = {
 	"\1\x84LTM's \1\x87Murder Mystery\4",
-	"Version\1\x81 "..MM.version.."\4 ("..MM.builddate..")",
+	"Version\1\x81 "..MM.version.."\4",
 	"by \1\x82\"SRB2MM_DEV team\"\4",
 	"Full credits are in the \1\x86README.TXT\4 inside this .PK3 file",
 	"\n\nThe developer team can be reached out by using one of the following links:\n",
@@ -173,8 +173,6 @@ addHook("PlayerThink", function(p)
 		-- UI LOGIC
 		--
 
-		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
-
 		--Update render buffer only when neccesary
 		if ((oldScrnColumns != scrnColumns) or (oldScrnRows != scrnRows) or (oldPage != p.mm.help.page) or (oldLang != p.mm.lang))
 			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (Columns: %d; Rows: %d; Language %s; Page: %d)", scrnColumns, scrnRows, p.mm.lang, p.mm.help.page))
@@ -201,6 +199,8 @@ addHook("PlayerThink", function(p)
 		-- INPUTS
 		--
 
+		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
+
 		if (p.cmd.buttons & BT_CUSTOM1) --CUSTOM1, leave HELP
 			p.mm.help.active = false
 		end
@@ -213,40 +213,40 @@ addHook("PlayerThink", function(p)
 
 		if (p.cmd.buttons & BT_SPIN) --SPIN, scroll down
 			if (not (p.lastbuttons & BT_SPIN) and (p.mm.help.pos < pageLength))
-    	    	p.mm.help.pos = $ + 1
+				p.mm.help.pos = $ + 1
 			end
-    	end
+		end
 
-    	if (p.cmd.buttons & BT_WEAPONNEXT) --NextWeapon, next page
+		if (p.cmd.buttons & BT_WEAPONNEXT) --NextWeapon, next page
 			if (not (p.lastbuttons & BT_WEAPONNEXT))
-    	    	p.mm.help.page = $ + 1
-    	    	p.mm.help.pos = 1
-    	    	if (p.mm.help.page >= (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) p.mm.help.page = (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1) end
+				p.mm.help.page = $ + 1
+				p.mm.help.pos = 1
+				if (p.mm.help.page >= (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) p.mm.help.page = (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1) end
 			end
-    	end
+		end
 
-    	if (p.cmd.buttons & BT_WEAPONPREV) --PrevWeapon, previous page
+		if (p.cmd.buttons & BT_WEAPONPREV) --PrevWeapon, previous page
 			if (not (p.lastbuttons & BT_WEAPONPREV))
-    	    	p.mm.help.page = $ - 1
-    	    	p.mm.help.pos = 1
-    	    	if (p.mm.help.page <= 1) p.mm.help.page = 1 end
+				p.mm.help.page = $ - 1
+				p.mm.help.pos = 1
+				if (p.mm.help.page <= 1) p.mm.help.page = 1 end
 			end
-    	end
+		end
 	end
 end)
 
 --renderer, frontend
 hud.add(function(v, p)
 	if not (p.mm) or not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
-	
+
 	--Update the Canvas resolution
 	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
 	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
 
 	local y = 0
-		
+
 	v.fadeScreen(16, 5) --gray background
-		
+
 	--Foreground scrolling blue triangle thingies
 	for i = -3, 3
 		v.draw(((i * MM.graphics["NTSATKT2"].width) - (leveltime % MM.graphics["NTSATKT2"].width)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
@@ -263,7 +263,7 @@ hud.add(function(v, p)
 
 	--scroll bar
 	--quite unfinished
-		
+
 	--scrollBarHeight = v.height()/v.dupy() - 16
 	--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
 

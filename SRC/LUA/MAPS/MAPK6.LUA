@@ -8,12 +8,12 @@ addHook("MapLoad", function(map)
     local random = P_RandomByte()
 
     if (MM.debug)
-        print("\x82Seed: "..random)
+        printf("\x82Seed: %d", random)
         for i=0,7 do
             if (random & (2^i))
-                print("\x85"..(i+1).." "..(random & (2^i)))
+                printf("\x85%d %d", (i+1), (random & (2^i)))
             else
-                print("\x83"..(i+1).." "..(random & (2^i)))
+                printf("\x83%d %d", (i+1), (random & (2^i)))
             end
         end
     end

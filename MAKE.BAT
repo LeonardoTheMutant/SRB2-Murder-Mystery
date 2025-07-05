@@ -1,7 +1,8 @@
 @ECHO OFF
 
-SET VERSION=1.2
-SET BUILDDATE=%date:~8,2%%date:~5,2%%date:~2,2%
+SET VERSION=1.3
+For /F %%A In ('WMIC OS Get LocalDateTime') Do If Not "%%~xA"=="" Set "ds=%%~nA"
+SET BUILDDATE=%ds:~,-6%
 
 IF EXIST R:\ (
 	SET BUILDDIR=R:

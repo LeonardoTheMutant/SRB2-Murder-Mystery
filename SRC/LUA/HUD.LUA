@@ -43,7 +43,7 @@ hud.add(function(v, p)
 	if (not MM.graphics)
 		MM.DebugPrint("\x82Loading MM graphics")
 
-		MM.graphics={}
+		V_HideoInit()
 		V_LoadUnicode(v) --Initialize Unicode renderer
 
 		--Colon for time counter
@@ -101,33 +101,25 @@ hud.add(function(v, p)
 
 	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
-	if ((p.mm.role == ROLE_MURDERER) or (p.spectator)) scorePatchName = "BMP_VICTIMS"
+	if ((p.mm.role == ROLE_MURDERER) or (p.mm.finished)) then scorePatchName = "BMP_VICTIMS"
 	else scorePatchName = "BMP_SUSPECTS" end
 
-	if (MM.text[consoleplayer.mm.lang][scorePatchName])
-		HudInfoSize[1] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang][scorePatchName]) + 40
-	else
-		HudInfoSize[1] = 96
-	end
+	if (MM.text[consoleplayer.mm.lang][scorePatchName]) then HudInfoSize[1] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang][scorePatchName]) + 40
+	else HudInfoSize[1] = 96 end
+
 	--TIME
-	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"])
-		HudInfoSize[2] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_TIME"]) + 64
-	else
-		HudInfoSize[2] = 96
-	end
+	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"]) then HudInfoSize[2] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_TIME"]) + 64
+	else HudInfoSize[2] = 96 end
+
 	--RINGS
-	if (MM.text[consoleplayer.mm.lang]["BMP_RINGS"])
-		HudInfoSize[3] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) + 52
-	else
-		HudInfoSize[3] = 92
-	end
+	if (MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) then HudInfoSize[3] = V_TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) + 52
+	else HudInfoSize[3] = 92 end
 
 	--find the longest element
 	maxHudIfnfoSize = HudInfoSize[1]
 	for element = 2, 3 do if (HudInfoSize[element] > maxHudIfnfoSize) then maxHudIfnfoSize = HudInfoSize[element] end end
 
-	local xoff --X offset for Text Patches
-	local yoff --Y offset for Text Patches
+	local xoff, yoff --X and Y offsets for Text Patches
 
 	--now we can draw
 
@@ -138,22 +130,20 @@ hud.add(function(v, p)
 		yoff = V_GetTextPatchOffsetY(consoleplayer.mm.lang, scorePatchName)
 		V_DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, xoff, yoff, MM.text[consoleplayer.mm.lang][scorePatchName], hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
 	else --in case Text Patch was not found
-		if (scorePatchName == "BMP_VICTIMS")
-			v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "VICTIMS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag())
-		else
-			v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "SUSPECTS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag())
-		end
+		switch(scorePatchName, {
+			["BMP_VICTIMS"] = do v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "VICTIMS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag()) end,
+			["BMP_SUSPECTS"] = do v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "SUSPECTS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag()) end
+		})
 	end
 	--Calculate the number of suspects/victims
-	if (p.mm.role == ROLE_MURDERER)
-		plrsAlive = MM.PlayersAlive() - MM.PlayerCount(ROLE_MURDERER)
-	elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)
-		plrsAlive = MM.PlayersAlive() - MM.PlayerCount(ROLE_SHERIFF) - MM.PlayerCount(ROLE_HERO)
-	elseif (p.mm.role == ROLE_CIVILIAN) or (not p.mm.role)
-		plrsAlive = MM.PlayersAlive() - 1
-	end
+	switch(p.mm.role, {
+		[ROLE_MURDERER] = do plrsAlive = MM.PlayersAlive() - MM.PlayerCount(ROLE_MURDERER) end,
+		[ROLE_SHERIFF] = do plrsAlive = MM.PlayersAlive() - MM.PlayerCount(ROLE_SHERIFF) - MM.PlayerCount(ROLE_HERO) end,
+		[ROLE_HERO] = do plrsAlive = MM.PlayersAlive() - MM.PlayerCount(ROLE_SHERIFF) - MM.PlayerCount(ROLE_HERO) end,
+		['default'] = do plrsAlive = MM.PlayersAlive() - 1 end --Civilian and Dead
+	})
 	--Draw the number
-	v.drawNum(((hudinfo[HUD_SCORE].x + maxHudIfnfoSize) - 16), hudinfo[HUD_SCORE].y, plrsAlive, hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
+	v.drawNum(((hudinfo[HUD_SCORE].x + maxHudIfnfoSize) - 16), hudinfo[HUD_SCORE].y, max(plrsAlive, 0), hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
 
 	--TIME
 	--timer calculation
@@ -231,7 +221,7 @@ hud.add(function(v, p)
 	end
 
 	--DEAD player exclusive HUD
-	if (p.spectator)
+	if (p.mm.finished)
 		V_DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		if (MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
 			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
@@ -454,19 +444,23 @@ hud.add(function(v, p)
 	if MM.debug
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87".."LTM_MM v"..MM.version.." DEBUG", V_PERPLAYER, "thin")
 		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")", V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82".."LEVELTIME: \x80"..leveltime, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82".."PLAYERNODE: \x80"..#p, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82".."LASTINPUTTIME: \x80"..consoleplayer.lastinputtime, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82".."LANG: \x80"..p.mm.lang, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82".."KILLS: \x80"..p.mm.kills, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."WEAPONDELAY: \x80"..p.mm.weapondelay, V_PERPLAYER, "thin")
-		if (p.mm.shremd_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81"..p.mm.shremd_dist.." \x80("..fixint(p.mm.shremd_dist)..")", V_PERPLAYER, "thin")
-		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."SHREMD_DIST: \x81nil", V_PERPLAYER, "thin") end
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
-		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."MM.SUSNSE: \x80"..tostring(MM.susnse), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82".."GAMEMAP: \x80"..gamemap, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82".."LEVELTIME: \x80"..leveltime, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82".."FINISHED: \x80"..tostring(p.mm.finished), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82".."PLAYERNODE: \x80"..#p, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82".."LASTINPUTTIME: \x80"..consoleplayer.lastinputtime, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82".."LANG: \x80"..p.mm.lang, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82".."KILLS: \x80"..p.mm.kills, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."KILLTRAILSTEPS: \x80"..p.mm.killtrailsteps, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+80, "\x82".."WEAPONDELAY: \x80"..p.mm.weapondelay, V_PERPLAYER, "thin")
+		if (p.mm.shremd_dist) v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."SHREMD_DIST: \x81"..p.mm.shremd_dist.." \x80("..fixint(p.mm.shremd_dist)..")", V_PERPLAYER, "thin")
+		else v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+88, "\x82".."SHREMD_DIST: \x81nil", V_PERPLAYER, "thin") end
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+96, "\x82".."SPEED: \x81"..p.speed.." \x80("..fixint(p.speed)..")", V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+104, "\x82".."CAMPING: \x80"..p.mm.camping, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+112, "\x82".."PFLAGS: \x80"..p.pflags, V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+120, "\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+128, "\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn), V_PERPLAYER, "thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+136, "\x82".."MM.SUSNSE: \x80"..tostring(MM.susnse), V_PERPLAYER, "thin")
 	end
 end, "game")
 

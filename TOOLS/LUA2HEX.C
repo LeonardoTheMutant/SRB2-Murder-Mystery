@@ -19,15 +19,14 @@ void printHex(char chr, int doSpace)
 
 void print(char chr[], int doSpace)
 {
-    if (doSpace) printf("%s ", chr);
-    else printf("%s", chr);
+    doSpace ? printf("%s ", chr) : printf("%s", chr);
 }
 
 int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("%s lua_string [-p]\n", argv[0]);
+        printf("%s lua_string [-c]\n", argv[0]);
         printf("Convert the C or LUA-compatible string to raw hexadecimal data\n");
         printf("\n -c  Compress the output by not including spaces between each byte\n");
         return 0;

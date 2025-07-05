@@ -5,14 +5,14 @@
 -- Made by Mobillia
 
 MM.AddLang("TR", {
-    ["VERSION"]="1.2", 
+	["VERSION"]="1.3", 
 	["AUTHOR"]="Mobillia", 
 	["MM"]="Murder Mystery", 
 	["MMHELP_CMD"]={
 		"Kaydırmak ıçın \1\x87JUMP\4/\1\x87SPIN\4 kullanın, sayfalar arası geçiş yapmak ıçın \1\x87Next\4/\1\x87Prev Weapon\4 kullanın",
 		"HELP'den ayrılmak için\1\x87 CUSTOM1\4'a basın"
 	},
-    ["MMHELP"]={
+	["MMHELP"]={
 		{
 			"\1\x87Murder Mystery'e hoşgeldiniz!",
 			"\1\x87Popüler \1\x87çok oyunculu oyunun \1\x87SRB2 yorumu!\4\n",
@@ -25,7 +25,7 @@ MM.AddLang("TR", {
 			"\nOynamaya başlamak için gereken tüm temel bilgiler budur, daha fazla bilgi için bu kılavuzu sonuna kadar okuyun",
 			"\nHUD arayüzünün dilini ve bu kılavuzu tercih ettiğiniz dile değiştirmek için \1\x87MMLANG\4 komutunu kullanın."
 		},
-        {
+		{
 			"\1\x87Oynanış durumları hakkında\4\n",
 			"Temel bilgilerde daha önce açıklandığı gibi, Şeriflerin amacı tüm \1\x85Katil(ler)\4'i ortadan kaldırmaktır, ancak farklı oyun durumları ortaya çıkabilir:",
 			"\n* Eğer Ölürseniz,\1\x8F Ölü\4 durumuna girersiniz. Bu durumdaki oyuncular yeniden doğamaz veya hala hayatta olan oyuncularla küresel olarak konuşamaz, mesajları yalnızca diğer\1\x8F ölü\4 oyuncular tarafından görülebilir.",
@@ -42,7 +42,7 @@ MM.AddLang("TR", {
 			"\1\x8ATakım arkadaşları\4, konsoldaki \1\x87SAYTEAM\4 komutunu kullanarak (SAYTEAM düğmesi normal sohbet düğmesiyle aynı şekilde çalışır) veya mesajı otomatik olarak ekip üyelerine gönderen \1\x88%\4 simgesiyle bir mesaj başlatarak birbirleriyle sohbet edebilirler.",
 			"Yanlışlıkla bir \1\x8ATakım arkadaşı\4 saldırırsanız, her iki oyuncu da kişisellştirilmiş bir uyarı alır. Dikkatli olun - bu tür ekip etkileşimleri başkalarına \1\x8Brol\4'lerinizi ifşa edebilir!"
 		},
-        {
+		{
 			"Murder \1\x87Mystery\4'de yapılması kötü olan \1\x87şeyler\4\n",
 			"Kural 1: \1\x82Nazik olun ve\1\x82 eğlenin!\4 İşte bazı ek yönergeler:",
 			"\n* \1\x8ARol\4'ün kendini şımartması oyunu bir 'gizem' yapmaz, eğer eminseniz başkasının rolünü söyleyebilirsiniz, ancak kendinizinkini asla söylemeyin.",
@@ -52,7 +52,7 @@ MM.AddLang("TR", {
 			"Eğer bir \1\x85Katil\4 iseniz \1\x84Şerif'in Zümrütü\4 çevresinde kamp yapmaktan kaçının. Zümrütün yanında 30 saniye durmak, oyundan atılmanıza neden olacaktır.",
 			"\nBu kurallardan birini ihlal etmek, oyundan atılma veya bazı durumlarda Yönetici tarafından yasaklanma ile sonuçlanabilir. Adil oynayın ve eğlenin!"
 		},
-        {
+		{
 			"\1\x87Faydalı ipuçları\4\n",
 			"Murder Mystery'deki oyununuz sırasında size yardımcı olabilecek bazı ipuçları topladık:",
 			"\n* Karakter yetenekleri yönetici tarafından devre dışı bırakılırsa, iz birakmadan veya gürültü yapmadan gizlice dolaşmak için \1\x87SPIN\4 tuşuna basın;",
@@ -65,39 +65,39 @@ MM.AddLang("TR", {
 			"\n* HUD arayüzünün dilini tercih ettiğiniz dile değiştirmek için \1\x87MMLANG\4 komutunu kullanın."
 		}
 	},
-    ["MMLANG"]={
+	["MMLANG"]={
 		"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola \x87MMLANG [dil] \x80komutunu yazarak degistirebilirsiniz", -- cCc
 		"Murder Mystery icin kisisel dil \x82Turkce\x80 olarak ayarlanmistir" -- cCc
 	},
-    ["ROLE_GET"]={
+	["ROLE_GET"]={
 		"Sen \x85Katil\x80'sin! \x85Herkesi oldur!", 
 		"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.", 
 		"Sen bir\x83Masum\x80'sun! Saklan ve sorusturmaya yardim et." 
 	},
-    ["NEWROLE_GET"]={
+	["NEWROLE_GET"]={
 		"\x87Hayat rastgele karar verdi, \x85Katil\x87 olacaksin.\x85 Simdi git herkesi oldur!",
 		"Evren\x87 seni bir \x84Serif\x87 yapti! Git ve\x84 tum Katilleri\x87 ortadan kaldir!", 
 		"\x82Kahraman\x87 olmaniza karar verildi. Herkesi Katillerden kurtarin!",
 		"\x87\x85Katillerden\x87 birini ortadan kaldirdiniz! \x82Kahramanliga\x87 terfi edildiniz!"
 	},
-    ["TEAMMATE_HIT"]={
+	["TEAMMATE_HIT"]={
 		"Bu oyuncu senin takim arkadasin. Lutşn bir dahaki seşre takim arkadaslariniza vurmayin.",
 		"Bir takim arkadasiniz size vurdu. Ondan intikam almayi planlamayin."
 	},
-    ["MURD_KILLED"]={
-		"\x85Katil\x87",
+	["MURD_KILLED"]={
+		"\x85Katil",
 		"\x80olduruldu"
 	},
-    ["SHERI_KILLED"]={
-		"\x84Serif\x87",
-		"\x80olduruldu!",
+	["SHERI_KILLED"]={
+		"\x84Serif",
+		"olduruldu!",
 		"Onun\x84 Zumrut\x80'unu bulun!"
 	},
-    ["HERO_KILLED"]={
-		"\x82Kahraman\x87",
-		"\x80olduruldu!" 
+	["HERO_KILLED"]={
+		"\x82Kahraman",
+		"olduruldu!" 
 	},
-    ["DIED_HAZARD"]="bir kazada oldu",
+	["DIED_HAZARD"]="bir kazada oldu.",
 	["SHREMD_PICK"]="Birisi \x84Serif'in Zumrutu\x80'nu aldi...",
 	["KILL_PUNISHMENT_PM"]={
 		"Bir\x87 \x83Masum\x87'u oldurdun! Kovuldun. (Artik bir Serif degilsin)",
@@ -106,33 +106,33 @@ MM.AddLang("TR", {
 		"\x87Senin gibi \x83Masum\x87 bir oyuncuyu oldurdun! Bunun icin olum cezasi aldin",
 		"\x87Oh hayir! Bir \x82Kahraman\x87'i oldurdun! Bunun icin olum cezasi aldin"
 	},
-    ["INNO_HURT"]={
+	["INNO_HURT"]={
 		"\x84Serif\x80 bir \x83Masum\x80'u oldurdu! Isi baskasi bitirmeli!",
 		"\x82Kahraman\x87, Masum'u oldurerek kotu adam olmaya karar verdi. Şimdi ikisi de olu yatiyor. Boyle bir kahramana yaziklar olsun"
 	},
-    ["ONE_QUIT"]={
+	["ONE_QUIT"]={
 		"\x85Katillerden\x80 biri cikti!",
 		"\x84Seriflerden\x80 biri cikti!!!",
 		"\x82Kahramanlardan\x80 biri bizi terk etti!"
 	},
-    ["LAST_QUIT"]={
+	["LAST_QUIT"]={
 		"Son \x85Katil\x80 cikti!",
 		"Son \x84Serif\x80 cikti!",
 		"Son \x82Kahraman\x80 cikti!"
 	},
-    ["REPLACE_QUIT"]={
+	["REPLACE_QUIT"]={
 		"\x85Katil\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
 		"\x84Serif\x80 cikti! Rastgele bir \x83Masum\x80 onun rolunu ustlenecek!",
 		"Bir \x82Kahraman\x80 cikti! Rastgele bir\x83 Masum\x80 onun rolunu ustlenecek!"
 	},
-    ["ENDROUND"]={
+	["ENDROUND"]={
 		"Herkes oldu. \x85Katiller\x80 kazandi!",
 		"Tum \x85Katiller\x80 olduruldu! \x83Masumlar\x80 kazandi!",
 		"\x85Katiller\x80 kazandi cunku \x84Serif\x80 son Masum'u oldurdu! \x84Serif\x80'e yaziklar olsun",
 		"\x82Kahraman\x80 son Masum'u oldurmeyi secti. \x85Katiller\x80 kazandi!",
 		"\x83Masum\x80larin savunuculari oldu. \x85Katiller\x80 kazandi!"
 	},
-    ["BMP_VICTIMS"]={
+	["BMP_VICTIMS"]={
 		"\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFIIII\x1FFF\xFFIIIII\x1F",
 		"\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1F\xFF\xFF\xFF\xFFII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFIIIIII\x1F\xFFIIIIII\x1F",
 		"\xFFIII\xFF\xFF\xFFIII\x1F\xFFII\x1F\x1FII\x1F\xFFII\x1F\x1FII\x1F\xFFII\x1F\xFFII\x1F\xFFIII\xFF\xFF\xFFIII\x1F\xFFII\x1F\xFF\xFF\xFF\xFF\xFFII\x1F\x1FII\x1F\xFFII\x1F\x1FII\x1F",
@@ -145,7 +145,7 @@ MM.AddLang("TR", {
 		"II\x1F\xFF\xFF\xFF\xFFII\x1F\xFFII\x1F\xFFII\x1F\xFF\x1FIIII\x1F\x1F\xFF\x1FIIII\x1F\x1F\xFFII\x1F\xFF\xFF\xFF\xFFII\x1F\xFFIIIIII\x1F\xFFII\x1F\xFFII\x1F\xFFII\x1F\xFFII\x1F",
 		"\x1F1F\x1FFF\xFFFF\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\x1F\x1F\xFF\xFF\xFF\x1F\x1F\x1F\x1F\x1F\xFF\xFF\x1F\x1F\x1F\xFF\xFF\xFF\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\x1F\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F\xFF\x1F\x1F\x1F"
 	},
-    ["BMP_SUSPECTS_INFO"]={yoff=2},
+	["BMP_SUSPECTS_INFO"]={yoff=2},
 	["BMP_SUSPECTS"]={
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1F",
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F",
@@ -162,7 +162,7 @@ MM.AddLang("TR", {
 		"\xFF1F\x1FI\x1FFF\xFFFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F",
 		"\xFFFF\xFF1F"
 	},
-    ["BMP_TIME"]={
+	["BMP_TIME"]={
 		"\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\xFF\xFF\xFFIIII\x1F\xFF\xFFIIIIII\x1F",
 		"\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F\xFFIIIIII\x1F",
 		"\xFFII\x1F\x1FII\x1F\xFFII\x1F\x1FII\x1F\xFFII\x1F\x1FII\x1F\xFF\xFF\xFFII\x1F\x1F\x1F",
@@ -175,7 +175,7 @@ MM.AddLang("TR", {
 		"\x1FIIII\x1F1F\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1F",
 		"\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F"
 	},
-    ["BMP_RINGS_INFO"]={yoff=2},
+	["BMP_RINGS_INFO"]={yoff=2},
 	["BMP_RINGS"]={
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFF\xFFFFII\x1FFFII\x1F",
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1F",
@@ -191,7 +191,7 @@ MM.AddLang("TR", {
 		"IIIII\x1F1F\xFF1FIIII\x1F1F\xFFIIIIII\x1FFF\x1FIIII\x1F1F\xFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1F",
 		"\x1F1F\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F"
 	},
-    ["HUD_ROLES"]={
+	["HUD_ROLES"]={
 		"KATİL",
 		"ŞERİF",
 		"MASUM",
@@ -218,26 +218,26 @@ MM.AddLang("TR", {
 		"",
 		""
 	},
-    ["HUD_ROLESALIVE"]={
+	["HUD_ROLESALIVE"]={
 		"Katiller",
 		"Şerifler",
 		"Masumlar"
 	},
-    ["HUD_DEAD"]={
+	["HUD_DEAD"]={
 		"\1\x8FÖldün",
 		"Yeninden doğamaz veya",
 		"ölmemiş insanlar ile konuşamazsın"
 	},
-    ["HUD_MIDJOIN"]={
+	["HUD_MIDJOIN"]={
 		"\1\x84Tur ortasında\4 katıldınız, lütşn bu turun bitmesini bekleyin.",
 		"Beklerken lütşn \1\x87MMHELP\4 konsol komutundaki oyun kurallarını okuyunuz."
 	},
-    ["HUD_ALONE"]={
+	["HUD_ALONE"]={
 		"Oyunun başlaması için en az \1\x84".."2 oyuncu\4",
 		"gereklidir, Lütşn\1\x84 bir oyuncunun\4 daha",
 		"gelmesini bekleyin"
 	},
-    ["HUD_SNEAKING"]="Sinsice...",
+	["HUD_SNEAKING"]="Sinsice...",
 	["HUD_SHOWDOWN"]="Hesaplaşma düellosu!",
 	["HUD_MINIGAME"]={
 		["PRESS"]="\1\x82 CUSTOM3\4'e bas ve",
@@ -253,13 +253,13 @@ MM.AddLang("TR", {
 		["BORED"]="Sıklındın mı?",
 		["GOAL"]="Gol!"
 	},
-    ["HUD_YOU"]="SEN",
+	["HUD_YOU"]="SEN",
 	["HUD_WINNERS"]="Kazananlar:",
 	["HUD_WIN"]={
 		"BERABERE!",
 		"\1\x85KATİLLER",
 		"\1\x83MASUMLAR"
 	},
-    ["HUD_PAST"]="GEÇMİŞ",
+	["HUD_PAST"]="GEÇMİŞ",
 	["HUD_FUTURE"]="GELECEK"
 })

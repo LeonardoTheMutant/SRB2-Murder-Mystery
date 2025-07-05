@@ -43,6 +43,8 @@ VARIABLES
 
 	MM_FOOTMARKS - Enable/Disable the footmarks spawning. The default value is ON.
 
+	MM_KILLTRAILS - Enable/Disable the Red Footmarks (Kill Trails) after Killing a player with the knife or stepping on the dead body. The default value is ON.
+
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
 

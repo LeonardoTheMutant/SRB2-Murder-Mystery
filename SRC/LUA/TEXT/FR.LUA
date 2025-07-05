@@ -5,14 +5,14 @@
 -- Made by Troplucky
 
 MM.AddLang("FR", {
-    ["VERSION"]="1.2",
+	["VERSION"]="1.3",
 	["AUTHOR"]="Troplucky",
 	["MM"]="Murder Mystery",
 	["MMHELP_CMD"]={
 		"Utiliser \1\x87JUMP\4/\1\x87SPIN\4 pour faire défiler, \1\x87Next\4/\1\x87Prev Weapon\4 pour changer de pages",
 		"Appuyer sur\1\x87 CUSTOM1\4 pour quitter l'aide"
 	},
-    ["MMHELP"]={
+	["MMHELP"]={
 		{
 			"\1\x87".."Bienvenue dans Murder Mystery!",
 			"\1\x87L'interprétation de SRB2 du jeu multijoueur populaire!\4\n",
@@ -24,7 +24,7 @@ MM.AddLang("FR", {
 			" * \1\x83Innocent\4 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le \1\x85Meurtrier\4.",
 			"\nCela conclut les informations basique de ce jeu, si vous voulez and savoir plus continuer de lire ce manuel."
 		},
-        {
+		{
 			"\1\x87Par-apport aux gameplay\4\n",
 			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les \1\x85Meurtriers\4, mais des situations de gameplay differentes peuvent arrivé:",
 			"\n* Si vous mourez, vous entrerez l'état \1\x8FMort\4 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
@@ -39,7 +39,7 @@ MM.AddLang("FR", {
 			"\1\x8BLes alliés\4 peuvent parler en utilisant la commande de console \1\x87SAYTEAM\4 (A noté que la touche sayteam fonctionne comme la touche say).",
 			"Si un\1\x8B Allié\4 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
 		},
-        {
+		{
 			"\1\x87".."Chosesà pas faire dans Murder Mystery\4\n",
 			"Règle No.1 pour tout les jeux: \1\x81Soyer gentil et amusez-vous!\4 A-part ça...",
 			"\n* Révéler son \1\x8BRole\4 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
@@ -48,7 +48,7 @@ MM.AddLang("FR", {
 			"\n* Ne changer pas de nom quand vous êtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous êtes en vie. Attender juste que la partie se finisse pour être sûr.",
 			"\nNe pas respecter ces règle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
 		},
-        {
+		{
 			"\1\x87".."Conseils\4\n",
 			"Voici des conseils collecter pour MM:",
 			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur \1\x82SPIN\4 pour vous déplacer de façon silencieuse;",
@@ -60,38 +60,38 @@ MM.AddLang("FR", {
 			"\n*La touche\1\x82 FIRENORMAL\4 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
 		}
 	},
-    ["MMLANG"]={
+	["MMLANG"]={
 		"Votre langue actuel est\x82 Francais\x80\nVous pouver le changer avec la commande \x87MMLANG [langue]",
 		"Votre langue choisie est actuellement\x82 Francais"
 	},
-    ["ROLE_GET"]={
+	["ROLE_GET"]={
 		"Vous etes le \x85Meurtrier\x80! \x85tuer tout le monde!",
 		"Vous etes le \x84Sheriff\x80!\x84 Eliminer tout les Meurtriers\x80. Si vous tuer un innocent, vous perdrer votre role.",
 		"Vous etes \x83Innocent\x80! Cacher vous et aider avec l'investigation."
 	},
-    ["NEWROLE_GET"]={
+	["NEWROLE_GET"]={
 		"\x87La vie a decider que vous serez un \x85Meurtrier\x87.\x85 Maintenant tuer tout le monde!",
 		"\x87L'univers vous a transformer en \x84Sheriff\x87! Allez\x84 eliminer tout les meurtriers\x87!",
 		"\x87Vous avez ete choisi comme \x82Hero\x87. Sauvez tout le monde des meurtriers!"
 	},
-    ["TEAMMATE_HIT"]={
+	["TEAMMATE_HIT"]={
 		"Ce joueur est vous Allie. Ne l'attaquer pas un autre fois.",
 		"Un Allie vous a attaquer. Ne vous venger pas sur eux."
 	},
-    ["MURD_KILLED"]={
-		"\x85Murtrier\x87",
-		"\x80".."est eliminer"
+	["MURD_KILLED"]={
+		"\x85Murtrier",
+		"est eliminer"
 	},
-    ["SHERI_KILLED"]={
-		"\x84Sheriff\x87",
-		"\x80".."a ete assassiner!",
+	["SHERI_KILLED"]={
+		"\x84Sheriff",
+		"a ete assassiner!",
 		"Trouver leur\x84 Emeraulde\x80!"
 	},
-    ["HERO_KILLED"]={
-		"\x82Hero\x87",
-		"\x80".."a ete assassiner!"
+	["HERO_KILLED"]={
+		"\x82Hero",
+		"a ete assassiner!"
 	},
-    ["DIED_HAZARD"]="est mort dans un accident",
+	["DIED_HAZARD"]="est mort dans un accident.",
 	["SHREMD_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (Tu n'es plus Sherif)",
@@ -100,33 +100,33 @@ MM.AddLang("FR", {
 		"\x87Vous avez assassine un joueur\x83 Civil\x87 comme vous! Vous avez ecope de la peine de mort pour cela",
 		"\x87Oh non! Tu as assassine un \x82Heros\x87! Tu as ecope de la peine de mort pour ca"
 	},
-    ["INNO_HURT"]={
+	["INNO_HURT"]={
 		"Le \x84Sheriff\x80 a tuer \x83Innocent\x80! Quelqu'un d'autre dois finir le travail!",
 		"Le \x82Hero\x80 est devenu un villain et a tuer un \x83Innocent\x80. Maintenant les deux sont morts. C'est t'a faute le\x82 \"Hero\"\x80"
 	},
-    ["ONE_QUIT"]={
+	["ONE_QUIT"]={
 		"Un des \x85Meurtriers\x80 est parti!",
 		"Un des \x84Sheriffs\x80 est parti!!!",
 		"Un des \x82Heros\x80 nous a abandonner!"
 	},
-    ["LAST_QUIT"]={
+	["LAST_QUIT"]={
 		"Le dernier \x85Meurtrier\x80 est parti!",
 		"Le dernier \x84Sheriff\x80 est parti!",
 		"Le dernier \x82Hero\x80 est parti!"
 	},
-    ["REPLACE_QUIT"]={
+	["REPLACE_QUIT"]={
 		"Le \x85Meurtrier\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!",
 		"Le \x84Sheriff\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!",
 		"Un \x82Hero\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!"
 	},
-    ["ENDROUND"]={
+	["ENDROUND"]={
 		"Tout le mondes est mort. Les \x85Meurtriers\x80 gagnent!",
 		"Tout les \x85Meurtriers\x80 sont morts! Les\x83 Civils\x80 gagnent!",
 		"Les \x85Meurtriers\x80 ont gagner car le \x84Sheriff\x80 a tuer le dernier Innocent ! Faute au \x84Sheriff\x80",
 		"Le \x82Hero\x80 a choisis de tuer le dernier Innocent. Les \x85Meurtriers\x80 gagnent!",
 		"Les protecteurs des \x83Innocents\x80 sont morts. Les \x85Meurtriers\x80 gagnent!"
 	},
-    ["BMP_VICTIMS"]={
+	["BMP_VICTIMS"]={
 		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1FFF\xFFIIII\x1FFF",
 		"\xFFII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1FFFIIIIII\x1F",
 		"\xFFII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1FFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1F",
@@ -139,7 +139,7 @@ MM.AddLang("FR", {
 		"\xFF1FII\x1FFF\xFFFFII\x1FFF\x1FIIII\x1F1F\xFFFF\xFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1FFF\x1FIIII\x1F1F\xFF",
 		"\xFFFF\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F\xFFFF\x1F1F\x1F1F\x1FFF\xFF"
 	},
-    ["BMP_SUSPECTS"]={
+	["BMP_SUSPECTS"]={
 		"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1F",
 		"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1F",
 		"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1F1FII\x1F",
@@ -152,7 +152,7 @@ MM.AddLang("FR", {
 		"\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\x1FIIII\x1F",
 		"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
 	},
-    ["BMP_TIME"]={
+	["BMP_TIME"]={
 		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1F",
 		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1F",
 		"\xFFFFII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\x1F",
@@ -165,7 +165,7 @@ MM.AddLang("FR", {
 		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1F",
 		"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F"
 	},
-    ["BMP_RINGS"]={
+	["BMP_RINGS"]={
 		"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F",
 		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\x1F",
 		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
@@ -178,7 +178,7 @@ MM.AddLang("FR", {
 		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
 	},
-    ["HUD_ROLES"]={
+	["HUD_ROLES"]={
 		"MEURTRIER",
 		"SHERIFF",
 		"CIVIL",
@@ -204,25 +204,25 @@ MM.AddLang("FR", {
 		"",
 		""
 	},
-    ["HUD_ROLESALIVE"]={
+	["HUD_ROLESALIVE"]={
 		"Meurtriers",
 		"Sheriffs",
 		"Civils"
 	},
-    ["HUD_DEAD"]={
+	["HUD_DEAD"]={
 		"Vous êtes\1\x8F mort",
 		"Vous ne pouvez ni réapparaitre, ni parler",
 		"au personnes en vie."
 	},
-    ["HUD_MIDJOIN"]={
+	["HUD_MIDJOIN"]={
 		"Vous avez rejoins en \1\x84pleine partie\4, attendez que le round ce finisse..."
 	},
-    ["HUD_ALONE"]={
+	["HUD_ALONE"]={
 		"\1\x84".."2 joueurs\4 sont requis pour commencer,",
 		"attendez pour \1\x84Un\4 joueur de plus",
 		"pour commencer"
 	},
-    ["HUD_SNEAKING"]="En Discret...",
+	["HUD_SNEAKING"]="En Discret...",
 	["HUD_SHOWDOWN"]="Duel Final!",
 	["HUD_MINIGAME"]={
 		["PRESS"]="Appuyer sur\1\x82 CUSTOM3\4 pour",
@@ -238,7 +238,7 @@ MM.AddLang("FR", {
 		["BORED"]="Ennuyez?",
 		["GOAL"]="But!"
 	},
-    ["HUD_YOU"]="VOUS",
+	["HUD_YOU"]="VOUS",
 	["HUD_WINNERS"]="Gagnants:",
 	["HUD_WIN"]={
 		"MATCH NUL!",

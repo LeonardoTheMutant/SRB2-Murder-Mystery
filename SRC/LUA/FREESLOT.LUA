@@ -17,23 +17,23 @@ G_AddGametype({
 -- OBJECTS, STATES & SPRITES
 --
 freeslot(
-    'MT_SHREMD',  --Sheriff's Emerald object
-    'MT_PONGOVERLAY', --Pong overlay bubble object
-    'SPR_PNGO', --Pong overlay bubble sprite
-    'S_PNGOVR1', --Pong overlay bubble state
-    'S_PNGOVR2', --Pong overlay bubble state
-    'S_PNGOVR3', --Pong overlay bubble state
-    'S_PNGOVR4', --Pong overlay bubble state
-    'S_PNGOVR5', --Pong overlay bubble state
-    'S_PNGOVR6', --Pong overlay bubble state
-    'SPR_STEP', --Footmark sprite
-    'S_MMSTEP',   --Footmark state
-    'MT_MMSTEP',  --Footmark object
-    'MT_DEADPLR', --Dead body object
-    'S_MMPLRDEAD',--Dead player body state
-    'SPR2_SHIT',  --Dead player body Sprite2
-    'S_MMSKELT',  --Dead player body state (Skeleton)
-    'SPR_SKEL'    --Dead player body sprite (Skeleton)
+	'MT_SHREMD',  --Sheriff's Emerald object
+	'MT_PONGOVERLAY', --Pong overlay bubble object
+	'SPR_PNGO', --Pong overlay bubble sprite
+	'S_PNGOVR1', --Pong overlay bubble state
+	'S_PNGOVR2', --Pong overlay bubble state
+	'S_PNGOVR3', --Pong overlay bubble state
+	'S_PNGOVR4', --Pong overlay bubble state
+	'S_PNGOVR5', --Pong overlay bubble state
+	'S_PNGOVR6', --Pong overlay bubble state
+	'SPR_STEP', --Footmark sprite
+	'S_MMSTEP',   --Footmark state
+	'MT_MMSTEP',  --Footmark object
+	'MT_DEADPLR', --Dead body object
+	'S_MMPLRDEAD',--Dead player body state
+	'SPR2_SHIT',  --Dead player body Sprite2
+	'S_MMSKELT',  --Dead player body state (Skeleton)
+	'SPR_SKEL'    --Dead player body sprite (Skeleton)
 )
 
 --Sheriff's Emerald object
@@ -64,38 +64,39 @@ mobjinfo[MT_MMSTEP] = {
 --Dead player body state
 
 states[S_MMPLRDEAD] = {
-    sprite = SPR_PLAY,
-    frame = SPR2_SHIT|A,
-    tics = -1,
-    nextstate = S_MMPLRDEAD
+	sprite = SPR_PLAY,
+	frame = SPR2_SHIT|A,
+	tics = -1,
+	nextstate = S_MMPLRDEAD
 }
 
 --Skeleton state
 states[S_MMSKELT]={
-    sprite = SPR_SKEL,
-    frame = A,
-    tics = -1,
-    nextstate = S_MMSKELT,
+	sprite = SPR_SKEL,
+	frame = A,
+	tics = -1,
+	nextstate = S_MMSKELT,
 }
 
 --Dead player body object
 mobjinfo[MT_DEADPLR]={
-    --$Title Dead player body
-    --$Sprite SKELA0
-    --$Arg0 Skincolor (SKINCOLOR_*)
-    --$StringArg0 Skin (string)
-    --$NotAngled
-    spawnstate = S_MMSKELT,
-    doomednum = 2023,
-    radius = 1048560, --16*FU
-    height = 1,
+	--$Title Dead player body
+	--$Sprite SKELA0
+	--$Arg0 Skincolor (SKINCOLOR_*)
+	--$StringArg0 Skin (string)
+	--$NotAngled
+	spawnstate = S_MMSKELT,
+	doomednum = 2023,
+	radius = 1048560, --16*FU
+	height = 1,
+	flags = MF_SPECIAL
 }
 
 
 --Pong overlay object
 mobjinfo[MT_PONGOVERLAY]={
-    spawnstate = S_PNGOVR1,
-    flags = MF_NOGRAVITY
+	spawnstate = S_PNGOVR1,
+	flags = MF_NOGRAVITY
 }
 --Pong overlay states
 states[S_PNGOVR1] = {SPR_PNGO, A, 12, nil, 0, 0, S_PNGOVR2}
@@ -109,21 +110,21 @@ states[S_PNGOVR6] = {SPR_PNGO, F, 12, nil, 0, 0, S_PNGOVR1}
 -- SOUNDS
 --
 freeslot(
-    --Death SFX
-    'sfx_mmdth1', --Super Mario World: Game Over theme
-    'sfx_mmdth2', --Among Us: Death theme
-    'sfx_mmdth3', --DOOM: Player death SFX 1
-    'sfx_mmdth4', --DOOM: Player death SFX 2
-    'sfx_mmdth5', --Sonic Adventure: Knuckles' "Oh no!"
-    'sfx_mmdth6', --Meme scream/pain
-    'sfx_mmdth7', --Michael Jackson's Moonwalker (Sega Mega Drive): Title theme
-    'sfx_mmdth8', --Metal Gear Solid: Game Over theme
-    'sfx_mmdth9', --Metal Gear Solid: Solid Snake's death
+	--Death SFX
+	'sfx_mmdth1', --Super Mario World: Game Over theme
+	'sfx_mmdth2', --Among Us: Death theme
+	'sfx_mmdth3', --DOOM: Player death SFX 1
+	'sfx_mmdth4', --DOOM: Player death SFX 2
+	'sfx_mmdth5', --Sonic Adventure: Knuckles' "Oh no!"
+	'sfx_mmdth6', --Meme scream/pain
+	'sfx_mmdth7', --Michael Jackson's Moonwalker (Sega Mega Drive): Title theme
+	'sfx_mmdth8', --Metal Gear Solid: Game Over theme
+	'sfx_mmdth9', --Metal Gear Solid: Solid Snake's death
 
-    --SFX for maps
-    'sfx_fallin', --Falling SFX
-    'sfx_aldi',   --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
-    'sfx_consle'  --Computer beeping
+	--SFX for maps
+	'sfx_fallin', --Falling SFX
+	'sfx_aldi',   --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
+	'sfx_consle'  --Computer beeping
 )
 
 --Captions
@@ -139,15 +140,15 @@ sfxinfo[sfx_mmdth8].caption = "Game Over"
 sfxinfo[sfx_mmdth9].caption = "AAAARGH..."
 
 MM.death_sfx = { --Add the SFX to the global table
-    sfx_mmdth1, --Super Mario World: Game Over theme
-    sfx_mmdth2, --Among Us: Death theme
-    sfx_mmdth3, --DOOM: Doomguy death 1
-    sfx_mmdth4, --DOOM: Doomguy death 2
-    sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
-    sfx_mmdth6, --Pain meme sfx
-    sfx_mmdth7, --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
-    sfx_mmdth8, --Metal Gear Solid: Game Over theme
-    sfx_mmdth9  --Metal Gear Solid: Solid Snake's death
+	sfx_mmdth1, --Super Mario World: Game Over theme
+	sfx_mmdth2, --Among Us: Death theme
+	sfx_mmdth3, --DOOM: Doomguy death 1
+	sfx_mmdth4, --DOOM: Doomguy death 2
+	sfx_mmdth5, --Sonic Adventure: Knuckles' "OH NO"
+	sfx_mmdth6, --Pain meme sfx
+	sfx_mmdth7, --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
+	sfx_mmdth8, --Metal Gear Solid: Game Over theme
+	sfx_mmdth9  --Metal Gear Solid: Solid Snake's death
 }
 
 --Maps

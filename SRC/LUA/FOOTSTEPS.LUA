@@ -6,6 +6,7 @@
 -- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
 local footmarksCVAR = CV_FindVar("mm_footmarks")
+local killtrailCVAR = CV_FindVar("mm_killtrails")
 
 freeslot(
 	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln", "sfx_soclln",
@@ -21,13 +22,6 @@ freeslot(
 	"sfx_sosa1", "sfx_sosa2", "sfx_sosa3", "sfx_sosa4",
 	"sfx_socl1", "sfx_socl2", "sfx_socl3", "sfx_socl4"
 )
-
-if not SoundListInfo
-	rawset(_G, "SoundListInfo", {})
-end
-if not PlayerAnimInfo
-	rawset(_G, "PlayerAnimInfo", {})
-end
 
 sfxinfo[sfx_sowoln].caption="Wood landing"
 sfxinfo[sfx_socoln].caption="Stone landing"
@@ -97,57 +91,53 @@ sfxinfo[sfx_socl3].caption="Cloth steps"
 sfxinfo[sfx_socl4].caption="Cloth steps"
 
 local soundinfolist={
-	["sonic"]={
-		["grass"]={
-		  ["steps"]={sfx_sogr1, sfx_sogr2, sfx_sogr3, sfx_sogr4},
-		  ["skid"]={sfx_sogrbr},
-		  ["land"]={sfx_sogrln},
-		},["metal"]={
-		  ["steps"]={sfx_some1, sfx_some2, sfx_some3, sfx_some4},
-		  ["skid"]={sfx_somebr},
-		  ["land"]={sfx_someln},
-		},["dirt"]={
-		  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
-		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sodiln},
-		},["snow"]={
-		  ["steps"]={sfx_sosn1, sfx_sosn2, sfx_sosn3, sfx_sosn4},
-		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sosnln},
-		},["cloth"]={
-		  ["steps"]={sfx_socl1, sfx_socl2, sfx_socl3, sfx_socl4},
-		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_soclln},
-		},["sand"]={
-		  ["steps"]={sfx_sosa1, sfx_sosa2, sfx_sosa3, sfx_sosa4},
-		  ["skid"]={sfx_sodibr},
-		  ["land"]={sfx_sosaln},
-		},["wood"]={
-		  ["steps"]={sfx_sowo1, sfx_sowo2, sfx_sowo3, sfx_sowo4},
-		  ["skid"]={sfx_sowobr},
-		  ["land"]={sfx_sowoln},
-		},["stone"]={
-		  ["steps"]={sfx_soco1, sfx_soco2, sfx_soco3, sfx_soco4},
-		  ["skid"]={sfx_socobr},
-		  ["land"]={sfx_socoln},
-		},["water"]={
-		  ["steps"]={sfx_sowa1, sfx_sowa2, sfx_sowa3, sfx_sowa4},
-		  ["skid"]={sfx_sowabr},
-		  ["land"]={sfx_sowaln},
-		},["lava"]={
-		  ["steps"]={sfx_sowa1, sfx_sowa2, sfx_sowa3, sfx_sowa4},
-		  ["skid"]={sfx_sowabr},
-		  ["land"]={sfx_sowaln},
-		},["glass"]={
-		  ["steps"]={sfx_sogl1, sfx_sogl2, sfx_sogl3},
-		  ["skid"]={sfx_soglbr},
-		  ["land"]={sfx_soglln},
-		}
+	["grass"]={
+	  ["steps"]={sfx_sogr1, sfx_sogr2, sfx_sogr3, sfx_sogr4},
+	  ["skid"]={sfx_sogrbr},
+	  ["land"]={sfx_sogrln},
+	},["metal"]={
+	  ["steps"]={sfx_some1, sfx_some2, sfx_some3, sfx_some4},
+	  ["skid"]={sfx_somebr},
+	  ["land"]={sfx_someln},
+	},["dirt"]={
+	  ["steps"]={sfx_sodi1, sfx_sodi2, sfx_sodi3, sfx_sodi4},
+	  ["skid"]={sfx_sodibr},
+	  ["land"]={sfx_sodiln},
+	},["snow"]={
+	  ["steps"]={sfx_sosn1, sfx_sosn2, sfx_sosn3, sfx_sosn4},
+	  ["skid"]={sfx_sodibr},
+	  ["land"]={sfx_sosnln},
+	},["cloth"]={
+	  ["steps"]={sfx_socl1, sfx_socl2, sfx_socl3, sfx_socl4},
+	  ["skid"]={sfx_sodibr},
+	  ["land"]={sfx_soclln},
+	},["sand"]={
+	  ["steps"]={sfx_sosa1, sfx_sosa2, sfx_sosa3, sfx_sosa4},
+	  ["skid"]={sfx_sodibr},
+	  ["land"]={sfx_sosaln},
+	},["wood"]={
+	  ["steps"]={sfx_sowo1, sfx_sowo2, sfx_sowo3, sfx_sowo4},
+	  ["skid"]={sfx_sowobr},
+	  ["land"]={sfx_sowoln},
+	},["stone"]={
+	  ["steps"]={sfx_soco1, sfx_soco2, sfx_soco3, sfx_soco4},
+	  ["skid"]={sfx_socobr},
+	  ["land"]={sfx_socoln},
+	},["water"]={
+	  ["steps"]={sfx_sowa1, sfx_sowa2, sfx_sowa3, sfx_sowa4},
+	  ["skid"]={sfx_sowabr},
+	  ["land"]={sfx_sowaln},
+	},["lava"]={
+	  ["steps"]={sfx_sowa1, sfx_sowa2, sfx_sowa3, sfx_sowa4},
+	  ["skid"]={sfx_sowabr},
+	  ["land"]={sfx_sowaln},
+	},["glass"]={
+	  ["steps"]={sfx_sogl1, sfx_sogl2, sfx_sogl3},
+	  ["skid"]={sfx_soglbr},
+	  ["land"]={sfx_soglln},
 	}
 }
-for soundlist, soundinfo in pairs(soundinfolist)
-	SoundListInfo[soundlist]=soundinfo
-end
+
 local flatsounds={ 
 	["GFZROCKC"]="stone",
 	["OLDGFZF1"]="dirt",
@@ -2201,7 +2191,6 @@ local flatsounds={
 	["THZWALLA"]="stone",
 	["THZWAL07"]="metal",
 	["THDOOR2B"]="stone",
-
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
 	["A-WOOD1"]="wood",
@@ -2336,9 +2325,6 @@ local playeraniminfo={ --only Vanilla characters are left
 	}
 }
 
-for skin, animinfo in pairs(playeraniminfo)
-	PlayerAnimInfo[skin]=animinfo
-end
 local function reset(player)
 	if valid(player.mo)
 		player.lastframe=0
@@ -2348,15 +2334,11 @@ local function reset(player)
 		player.variablesset=true
 		player.groundtexture=nil
 		player.lastgroundtexture=nil
-
-		player.soundList=SoundListInfo["sonic"]
 	end
 end
 local function has_value (tab, val)
     for index, value in ipairs(tab) do
-        if value == val then
-            return true
-        end
+        if value == val then return true end
     end
 
     return false
@@ -2380,7 +2362,7 @@ addHook("PlayerThink", function(player)
 	if (gametype!=GT_LTMMURDERMYSTERY) return end
 	if (valid(player.mo)) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
 		local pmo = player.mo
-		local panimInfo=PlayerAnimInfo[pmo.skin]
+		local panimInfo=playeraniminfo[pmo.skin]
 		if (panimInfo)
 			if (not player.variablesset) reset(player) end
 			player.groundtexture=getGroundTexture(pmo)
@@ -2405,17 +2387,26 @@ addHook("PlayerThink", function(player)
 						player.playsound=true
 						soundType="skid"
 					elseif not (player.powers[pw_carry])
-						if pmo.state == S_PLAY_RUN
-							player.playsound=panimInfo["run"] and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
-						elseif pmo.state == S_PLAY_DASH
-							player.playsound=panimInfo["dash"] and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
-						elseif pmo.state == S_PLAY_WALK
-							player.playsound=panimInfo["walk"] and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
-						elseif pmo.state == S_PLAY_STND or pmo.state == S_PLAY_EDGE
-							player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
-						elseif pmo.state == S_PLAY_WAIT 
-							player.playsound=panimInfo["wait"] and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
-						end
+						switch(pmo.state, {
+							[S_PLAY_RUN] = do
+								player.playsound=panimInfo["run"] and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
+							end,
+							[S_PLAY_DASH] = do
+								player.playsound=panimInfo["dash"] and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
+							end,
+							[S_PLAY_WALK] = do
+								player.playsound=panimInfo["walk"] and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
+							end,
+							[S_PLAY_STND] = do
+								player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
+							end,
+							[S_PLAY_EDGE] = do
+								player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
+							end,
+							[S_PLAY_WAIT] = do
+								player.playsound=panimInfo["wait"] and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
+							end
+						})
 
 						soundType="steps"
 						player.playsound=player.playsound and player.lastframe ~= pmo.frame
@@ -2435,22 +2426,29 @@ addHook("PlayerThink", function(player)
 					if (player.groundtexture) material=flatsounds[player.groundtexture] end
 					if (not material) material="stone" end
 					player.lastgroundtexture = player.groundtexture
-					if (material) and (soundType) and (player.soundList[material]) and (player.soundList[material][soundType])
-						local sounds = player.soundList[material][soundType]
+					if (material) and (soundType) and (soundinfolist[material]) and (soundinfolist[material][soundType])
+						local sounds = soundinfolist[material][soundType]
 						if (sounds)
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
 							if (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disablefootmarks) and footmarksCVAR.value)
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
+								--Kill trail steps
+								if (player.mm.killtrailsteps and killtrailCVAR.value)
+									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|min((player.mm.killtrailsteps >> 1), 9)
+									player.mm.killtrailsteps= $ - 1
+								else
+									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE --reset to black
+								end
 							end
 						end
 					end
 				end
 				if (pmo.eflags & MFE_TOUCHLAVA)
-					local sounds=player.soundList["lava"][soundType]
+					local sounds=soundinfolist["lava"][soundType]
 					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
 				elseif (pmo.eflags & MFE_UNDERWATER) or (pmo.eflags & MFE_TOUCHWATER) or (pmo.eflags & MFE_GOOWATER)
-					local sounds=player.soundList["water"][soundType]
+					local sounds=soundinfolist["water"][soundType]
 					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
 				end
 			end

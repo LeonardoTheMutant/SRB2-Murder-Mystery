@@ -183,29 +183,36 @@ addHook("PlayerThink", function(p)
 			--Time Warp itself
 			if ((p.mm.timetravel.warptimer >= 140))
 				if (p.mm.timetravel.timesign == TWS_PAST) --warping to the more Past stage
-					if (p.mm.timetravel.timezone == TIMEZONE_FUTURE_BAD) --warp from Bad Future
-						p.mm.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
-					elseif (p.mm.timetravel.timezone == TIMEZONE_FUTURE_GOOD) --warp from Good Future
-						p.mm.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z)
-					elseif (p.mm.timetravel.timezone == TIMEZONE_PRESENT) --warp from present
-						p.mm.timetravel.timezone = TIMEZONE_PAST
-						P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
-					end
-				else --warping to the more Future stage
-					if (p.mm.timetravel.timezone == TIMEZONE_PAST) --warp from Past
-						p.mm.timetravel.timezone = TIMEZONE_PRESENT
-						P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
-					elseif (p.mm.timetravel.timezone == TIMEZONE_PRESENT) --warp from Present
-						if (MM.PlayerCount(ROLE_MURDERER))
-							p.mm.timetravel.timezone = TIMEZONE_FUTURE_BAD
-							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
-						else --You will never see the Good Future version of this level in a regular playthrough :)
-							p.mm.timetravel.timezone = TIMEZONE_FUTURE_GOOD
-							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z)
+					switch(p.mm.timetravel.timezone, {
+						[TIMEZONE_FUTURE_BAD] = do --warp from Bad Future
+							p.mm.timetravel.timezone = TIMEZONE_PRESENT
+							P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
+						end,
+						[TIMEZONE_FUTURE_GOOD] = do --warp from Good Future
+							p.mm.timetravel.timezone = TIMEZONE_PRESENT
+							P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX2, p.mo.y - TimeTravel_ShiftY2, p.mo.z)
+						end,
+						[TIMEZONE_PRESENT] = do --warp from present
+							p.mm.timetravel.timezone = TIMEZONE_PAST
+							P_MoveOrigin(p.mo, p.mo.x - TimeTravel_ShiftX, p.mo.y - TimeTravel_ShiftY, p.mo.z)
 						end
-					end
+					})
+				else --warping to the more Future stage
+					switch(p.mm.timetravel.timezone, {
+						[TIMEZONE_PAST] = do --warp from Past
+							p.mm.timetravel.timezone = TIMEZONE_PRESENT
+							P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
+						end,
+						[TIMEZONE_PRESENT] = do --warp from Present
+							if (MM.PlayerCount(ROLE_MURDERER))
+								p.mm.timetravel.timezone = TIMEZONE_FUTURE_BAD
+								P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX, p.mo.y + TimeTravel_ShiftY, p.mo.z)
+							else --You will never see the Good Future version of this level in a regular playthrough :)
+								p.mm.timetravel.timezone = TIMEZONE_FUTURE_GOOD
+								P_MoveOrigin(p.mo, p.mo.x + TimeTravel_ShiftX2, p.mo.y + TimeTravel_ShiftY2, p.mo.z)
+							end
+						end
+					})
 				end
 				MM.StartFlashFX(p, 8, 0)
 				--P_SpawnMobjFromMobj(p.mo,0,0,0,MT_THROWNEXPLOSION) --blast after a time warp (visual effect)

@@ -5,7 +5,7 @@
 -- Made by Arnie37, Sonic1983 and LeonardoTheMutant
 
 MM.AddLang("RU", {
-    ["VERSION"]="1.2",
+	["VERSION"]="1.3",
 	["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 	["NONASCII"]=true, --special flag to show that language isn't Latin based and is trying to simulate its letters with English (ASCII) ones
 	["MM"]="Тайна Убийства",
@@ -13,7 +13,7 @@ MM.AddLang("RU", {
 		"\1\x87JUMP\4/\1\x87SPIN\4 - прокрутка страницы, \1\x87Next\4/\1\x87Prev Weapon\4 - сменить страницу",
 		"\1\x87".."CUSTOM1\4 - покинуть это меню"
 	},
-    ["MMHELP"]={
+	["MMHELP"]={
 		{
 			"\1\x87Добро пожаловать в \1\x85Тайну Убийства\1\x87!",
 			"\1\x87Интерпретацию популярной игры в SRB2!\4\n",
@@ -25,7 +25,7 @@ MM.AddLang("RU", {
 			"* \1\x83Мирный\4 - безобидный игрок. Им нужно избегать гибели, но также, они могут помочь отыскать \1\x85Убийцу\4. Если \1\x83Мирные\4 соберут 100 или более колец, они могут подбирать Красные Кольца для самообороны (некоторым персонажам для таких целей требуется всего лишь 50 колец).",
 			"\nЭто были все азы, нужные для понимания игры. Рекомендуем прочитать этут справку до конца для большего понимания игровых механик и много чего интересного."
 		},
-        {
+		{
 			"\1\x87Об игровых ситуациях и геймплее\4\n",
 			"Как было рассказано ранее в азах, цель \1\x84Шерифов\4 - устранить всех \1\x85Убийц\4, но также могут быть возможными следующие ситуации:",
 			"\n* Если в Вас попадет кольцо игрока, Вы станете \1\x8FМертвецом\4. Такие игроки не могут возрождатся, а также писать приватно в чат тем, кто ещё живой. Их сообщения будут видны только таким же \1\x8FМертвецам\4.",
@@ -42,7 +42,7 @@ MM.AddLang("RU", {
 			"\1\x8AНапарники\4 могут общаться в их командном чате через консольную команду \1\x87SAYTEAM\4 (подмечу, что кнопка командного чата будет работать так же, как кнопка обычного чата) или могут начать сообщение с символа \1\x88%\4, который автоматически отправит сообщение всем членам команды.",
 			"Если вы случайно нападете на \1\x8AНапарника\4, он и Вы получите персональное предупреждение. Будьте осторожны - такие командные взаимодействия могут раскрыть вашу \1\x8Bроль\4 другим!"
 		},
-        {
+		{
 			"\1\x87Чего следует избегать в \1\x85Тайне Убийства\4\n",
 			"Правило No.1 любой игры: \1\x82Будьте добры ко всем и развлекайтесь\4! И не делайте следующих вещей...\n",
 			"\n* Заспойлеришь \1\x8Bроль\4 - твоя вина, не будет \"Тайною\" игра. Разрешено раскрывать чью-то \1\x8Bроль\4, если сильно уверены в этом, но говорить свою - нельзя.",
@@ -52,7 +52,7 @@ MM.AddLang("RU", {
 			"\n* Избегайте нахождения около \1\x84Изумруда шерифа\4, когда играете за \1\x85Убийцу\4. Если вы простоите около изумруда 30 секунд, Вас выгонят из игры.",
 			"\nНарушение одного из этих правил может караться киком или баном от Админа! Просим, не нарушайте их и играйте честно."
 		},
-        {
+		{
 			"\1\x87Полезные советы\4\n",
 			"Мы собрали несколько советиков, которые могут помочь Вам при игре в \1\x85ТУ\4:",
 			"\n* Если способности персонажей отключены Админом, зажмите \1\x87SPIN\4, чтобы начать красться, не оставляя за собой следов и не создавая шума.",
@@ -64,39 +64,39 @@ MM.AddLang("RU", {
 			"\n* Нож не будет издавать звука атаки, если Вы крадётесь. Также, кнопка\1\x87 FIRENORMAL\4 позволяет везде использовать Нож, пока Ваши кольца не закончатся."
 		}
 	},
-    ["MMLANG"]={
+	["MMLANG"]={
 		"Seychas u Vas stoit\x82 russkiy\x80 yazyk.\nVy mozhete smenit' yazyk, propisav v konsol' \x87MMLANG [yazyk]",
 		"Vash personalniy yazyk etogo moda izmenyon na\x82 russkiy"
 	},
-    ["ROLE_GET"]={
+	["ROLE_GET"]={
 		"Vy \x85Ubiytsa\x80! \x85Ubeyte vseh!",
 		"Vy \x84Sherif\x80!\x84 Ustranite vseh Ubiyts\x80. Esli Vy ubyote Mirnogo, s Vas snimut etu rol'.",
 		"Vy \x83Mirniy\x80! Priachtes' i pomogayte v rassledovanii."
 	},
-    ["NEWROLE_GET"]={
+	["NEWROLE_GET"]={
 		"\x87Sud'ba darovala tebe rol' \x85Ubiytsy\x87.\x85 Teper' idi, ubivay!",
 		"\x87Tebe dana rol' \x84Sherifa\x87! Vperyod, \x84 ustrani ubiyts\x87, poka ne pozdno!",
 		"\x87Ty byl(-a) izbran(-a) \x82Geroem\x87. Spasi zhe Mirnyh ot Ubiyts!",
 		"\x87Ty ustranil(-a) odnogo iz \x85Ubiyts\x87! Tebia povysili do \x82Geroya\x87!"
 	},
-    ["TEAMMATE_HIT"]={
+	["TEAMMATE_HIT"]={
 		"Eto Vash naparnik. Bolshe ne streliayte po svoim.",
 		"Vas udaril Vash naparnik. Dazhe ne dumayte yemu mstit'."
 	},
-    ["MURD_KILLED"]={
-		"\x85Ubiytsa\x87",
-		"\x80ustranyon"
+	["MURD_KILLED"]={
+		"\x85Ubiytsa",
+		"ustranyon"
 	},
-    ["SHERI_KILLED"]={
-		"\x84Sherif\x87",
-		"\x80".."byl ubit!",
+	["SHERI_KILLED"]={
+		"\x84Sherif",
+		"byl ubit!",
 		"Naydite yego(yo)\x84 Izumrud\x80!"
 	},
-    ["HERO_KILLED"]={
-		"\x82Geroy\x87",
-		"\x80".."byl ubit!"
+	["HERO_KILLED"]={
+		"\x82Geroy",
+		"byl ubit!"
 	},
-    ["DIED_HAZARD"]="popal(a) tuda, kuda ne sledovalo",
+	["DIED_HAZARD"]="popal(a) tuda, kuda ne sledovalo.",
 	["SHREMD_PICK"]="Kto-to podobral \x84Izumrud Sherifa\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Ty ubil(a)\x83 Mirnogo\x87! Ty bolshe ne Sherif!",
@@ -105,33 +105,33 @@ MM.AddLang("RU", {
 		"\x87Ty ubil(-a) takogo zhe\x83 Mirnogo\x87 cheloveka kak i ty! Za eto budet otvetnaya smert'.",
 		"\x87O net! Ty ubil(-a) \x82Geroya\x87! Za eto budet otvetnaya smert'."
 	},
-    ["INNO_HURT"]={
+	["INNO_HURT"]={
 		"\x84Sherif\x80 ubil\x83 Mirnogo\x80! Nado poruchit' delo komu-to drugomu!",
 		"\x82Geroy\x80 zhostko tupanul i ubil\x83 Mirnogo\x80. I shas oni oba lezhat dohlye. Vot zhe\x82 Debil\x80"
 	},
-    ["ONE_QUIT"]={
+	["ONE_QUIT"]={
 		"Odin iz \x85Ubiyts\x80 pokinul igru!",
 		"Odin iz \x84Sherifov\x80 vyshel!!!",
 		"Odin iz \x82Geroev\x80 predal nas (pokinul igru)!"
 	},
-    ["LAST_QUIT"]={
+	["LAST_QUIT"]={
 		"Posledniy iz \x85Ubiyts\x80 pokinul igru!",
 		"Posledniy iz \x84Sherifov\x80 pokinul igru!",
 		"Posledniy iz \x82Geroev\x80 pokinul igru!"
 	},
-    ["REPLACE_QUIT"]={
+	["REPLACE_QUIT"]={
 		"\x85Ubiytsa\x80 pokinul igru! Yego rol' vozmyot sluchayniy \x83Mirniy\x80!",
 		"\x84Sherif\x80 pokinul igru! Yego rol' vozmyot sluchayniy \x83Mirniy\x80!",
 		"\x82Geroy\x80 pokinul igru! Yego rol' vozmyot sluchayniy \x83Mirniy\x80!"
 	},
-    ["ENDROUND"]={
+	["ENDROUND"]={
 		"Vse mertvy. \x85Ubiytsy\x80 pobedili!",
 		"Vse \x85Ubiytsy\x80 ustraneny! \x83Mirnyye\x80 pobedili!",
 		"\x85Ubiytsy\x80 pobedili, potomu chto \x84Sherif\x80 ubil poslednego Mirnogo! Pozor \x84Sherifu\x80",
 		"\x82Geroy\x80 ubil poslednego Mirnogo. \x85Ubiytsy\x80 pobedili!",
 		"Zashitniki \x83Mirnyh\x80 ubity. \x85Ubiytsy\x80 pobedili!"
 	},
-    ["BMP_VICTIMS"]={
+	["BMP_VICTIMS"]={
 		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIII\x1FFF",
 		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1F",
 		"\xFFII\x1FII\x1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\xFFFFII\x1F1F\x1FFFII\x1F1FII\x1F",
@@ -144,7 +144,7 @@ MM.AddLang("RU", {
 		"II\x1FII\x1FII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFIIIII\x1F",
 		"\x1F1F\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\x1F"
 	},
-    ["BMP_SUSPECTS"]={
+	["BMP_SUSPECTS"]={
 		"\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFFF\xFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1F",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1F",
 		"\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFF\xFFII\x1F1FII\x1FFF\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFIII\xFFFF\xFFIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIII\xFFFFIII\x1F",
@@ -157,7 +157,7 @@ MM.AddLang("RU", {
 		"II\x1FFFII\x1FFF\x1FIIII\x1FFF\xFFII\x1F1F\x1F1FII\x1FFF\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIII\x1F1F\xFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIII\x1F1FII\x1FFFII\x1FFF\xFFFFII\x1F",
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F",
 	},
-    ["BMP_TIME"]={
+	["BMP_TIME"]={
 		"\xFFIIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIIII\x1F",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\x1F",
 		"\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\x1F",
@@ -170,7 +170,7 @@ MM.AddLang("RU", {
 		"IIIII\x1F1F\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFII\x1FFFII\x1FFFII\x1F",
 		"\x1F1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F",
 	},
-    ["BMP_RINGS"]={
+	["BMP_RINGS"]={
 		"\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFIIII\x1F",
 		"\xFFII\x1FFFII\x1FFFIIIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFIIIIII\x1F",
 		"\xFFII\x1FFFII\x1FFFII\x1F1FII\x1FFF\xFFII\x1F1FII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFII\x1F1FII\x1F",
@@ -184,7 +184,7 @@ MM.AddLang("RU", {
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1F1FII\x1FFF\x1F1F\x1FFF\x1F1F\x1F",
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F\x1F\x1F"
 	},
-    ["HUD_ROLES"]={
+	["HUD_ROLES"]={
 		"УБИЙЦА",
 		"ШЕРИФ",
 		"МИРНЫЙ",
@@ -211,25 +211,25 @@ MM.AddLang("RU", {
 		"Спрячьтесь и защитите себя. Помогите\nрасследованию, когда это возможно.",
 		"У вас есть шанс остановить всех Убийц.\nИдите и спасите положение!\nБудьте осторожны!"
 	},
-    ["HUD_ROLESALIVE"]={
+	["HUD_ROLESALIVE"]={
 		"Убийц",
 		"Шерифов",
 		"Мирных"
 	},
-    ["HUD_DEAD"]={
+	["HUD_DEAD"]={
 		"Вы \1\x8Fмертвы",
 		"Вы не можете возрождатся и писать тем,",
 		"кто еще жив"
 	},
-    ["HUD_MIDJOIN"]={
+	["HUD_MIDJOIN"]={
 		"Вы присоединились на середине раунда. Пожалуйста, \1\x84дождитесь его окончания\4.",
 		"Пока Вы ждёте, просим прочесть правила игры, прописав в консоли команду \1\x87MMHELP\4"
 	},
-    ["HUD_ALONE"]={
+	["HUD_ALONE"]={
 		"Для начала игры требуется минимум\1\x84 2 игрока\4.",
 		"Пожалуйста, подождите \1\x84ещё одного игрока\4."
 	},
-    ["HUD_SNEAKING"]="Подкрадывание...",
+	["HUD_SNEAKING"]="Подкрадывание...",
 	["HUD_SHOWDOWN"]="Решающая дуель!",
 	["HUD_MINIGAME"]={
 		["PRESS"]="Нажмите\1\x82 CUSTOM3\4, чтобы",
@@ -245,7 +245,7 @@ MM.AddLang("RU", {
 		["BORED"]="Скучно?",
 		["GOAL"]="Гол!"
 	},
-    ["HUD_YOU"]="ВЫ",
+	["HUD_YOU"]="ВЫ",
 	["HUD_WINNERS"]="Победители:",
 	["HUD_WON"]="победил!",
 	["HUD_WIN"]={
@@ -253,6 +253,6 @@ MM.AddLang("RU", {
 		"\1\x85УБИЙЦИ",
 		"\1\x83ЦЫВИЛЬНЫЕ"
 	},
-    ["HUD_PAST"]="ПРОШЛОЕ",
+	["HUD_PAST"]="ПРОШЛОЕ",
 	["HUD_FUTURE"]="БУДУЩЕЕ"
 })

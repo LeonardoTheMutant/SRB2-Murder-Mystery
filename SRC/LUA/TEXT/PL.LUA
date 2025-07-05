@@ -5,14 +5,14 @@
 -- Made by LeonardoTheMutant
 
 MM.AddLang("PL", {
-    ["VERSION"]="1.2",
+	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
 	["MM"]="Tajemnica Morderstw",
 	["MMHELP_CMD"]={
 		"Dla scrollingu wciśnij klawiszę \1\x87JUMP\4/\1\x87SPIN\4, żeby zmienić stronę wciśnij \1\x87NEXT\4/\1\x87PREV WEAPONń\4",
 		"\1\x87".."CUSTOM1\4 - wyjść z menu pomocy"
 	},
-    ["MMHELP"]={
+	["MMHELP"]={
 		{
 			"\1\x87Witaj w \1\x85Tajemnicy Morderstw\1\x87!",
 			"\1\x87Interpretacji popularnej gry multiplayer w SRB2!\4\n",
@@ -24,7 +24,7 @@ MM.AddLang("PL", {
 			" *\1\x83 Cywil\4 - Kompletnie bezbronny cywil, musi nie zostać zabity i pomóc w znalezieniu \1\x85Mordercy\4. W zależności od ustawień gry,\1\x83 Cywili\4 mogą posiadać Czerwony Ring dla samoobrony jeżeli będą posiadać 100 i więcej ringów (dla niektórych postaci starczy 50 ringów).",
 			"\nTo jest cala niezbędna informacja do gry, jeśli nadal czegoś nie wiesz lub chcesz dowiedzieć się więcej zachęcamy do przeczytania tego podręcznika do końca"
 		},
-        {
+		{
 			"\1\x87O sytuacjach w grze\4\n",
 			"Jak wyjaśniono wcześniej, cełem gry jest wyeliminowanie wszystkich \1\x85Morderców\4, ale róBFne sytuacje mogą zastać:",
 			"\n* Jeśli umrzesz - staniesz się \1\x8FMartwym\4. Gracze w tym stanie nie mogą się odnawiać a także rozmawiać w globalnym czacie, twoje wiadomości są widoczne tylko dla innych \1\x8FMartwych\4 graczy.",
@@ -41,7 +41,7 @@ MM.AddLang("PL", {
 			"\1\x8AWspółnicy\4 mogą komunikować ze sobą w drużyną za pomocą polecenia \1\x87SAYTEAM\4 (przycisk SAYTEAM będzie dzialał tak samo jak normalny czat) albo zacząE6 swoje powiadomnienie ze znaku \1\x88%\4 który spowoduje wysłanie wiadomości do czatu drużyny.",
 			"Jeśli jeden \1\x8Awspólnik\4 strzeli drugiego to dostanie wiadomość żeby nie strzelal do współnika. Pamiętaj że inni mogą zobaczyć waszą interakcje i dowiedzieć się kim jesteście!"
 		},
-        {
+		{
 			"\1\x87Rzeczy których należy unikać \1\x87w \1\x85Tajemnicy \1\x85Morderstw\4\n",
 			"Zasada numer 1 każdej gry:\1\x82 Bądź miły i się baw!\4 Oprócz tego...",
 			"* Nie ujawniaj swojej roli innym, nawet dla żartu. Wypowiedzenie swojej \1\x8BRoli\4 sprawi że gra nie będzie już \'Tajemnicą\'. Możesz wypowiedzieć \1\x8Brole\4 kogoś innego jak jesteś pewny, ale nigdy swojej.",
@@ -51,7 +51,7 @@ MM.AddLang("PL", {
 			"* Unikaj obozowania w pobliżu Szmaragdu Szeryfa, jeśli jesteś Mordercą. Stanie w pobliżu Szmaragdu przez 30 sekund spowoduje wyrzucenie z gry.",
 			"Złamanie tych zasad może spowodować że zostaniesz wykopany a czasami zbanowany przez Administratora, prosimy ich nie łamać i grać fer."
 		},
-        {
+		{
 			"\1\x87Przydatne porady\4\n",
 			"Zebraliśmy kilka porad którzy mogą przydać ci w twojej grze w \1\x85TM\4:",
 			"\n* Jeżeli zdolności postaci są wyłączone administratorem, zaciśnij \1\x87SPIN\4 żeby skradać się ukradkiem i nie zostawiać za sobą śladów.",
@@ -63,39 +63,39 @@ MM.AddLang("PL", {
 			"\n* Przycisk\1\x87 FIRENORMAL\4 pozwala wykorzystywać NóBF wszędzie, jak masz Ringi. Także, NóBF nie robi dzwięków ataku jeżeli skradzasz się."
 		}
 	},
-    ["MMLANG"]={
+	["MMLANG"]={
 		"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
 		"Personalny jezyk zostal ustawiony na\x82 Polski"
 	},
-    ["ROLE_GET"]={
+	["ROLE_GET"]={
 		"Jestes \x85Morderca\x80! \x85Zamorduj wszystkich.",
 		"Jestes \x84Szeryfem\x80!\x84 Wyeliminuj wszystkich Mordercow\x80. Jesli zabijesz Ciwila, stracisz role.",
 		"Jestes\x83 Cywilem\x80! Kryj sie i pomoz w dochodzeniu."
 	},
-    ["NEWROLE_GET"]={
+	["NEWROLE_GET"]={
 		"\x87Zycie zrobilo z ciebie \x85Morderce\x87, \x85teraz idz wszystkich zabic.",
 		"\x87Swiat sprawil cie nowym \x84Szeryfem\x87! To teraz twoja robota\x84 wyeliminowac wszystkich Mordercow\x87!",
 		"\x87Wszyscy obroncy odeszli ale swiat sprawil cie nowym\x82 Bohaterem\x87! To twoja szansa uratowac dzien!",
 		"\x87Wyeliminowales jednego z \x85Morderc\x87! Zostales awansowany na\x82 Bohatera\x87!"
 	},
-    ["TEAMMATE_HIT"]={
+	["TEAMMATE_HIT"]={
 		"Ten gracz jest twoim wspolnikiem, natepnym razem nie probuj zabiac ich ponownie",
 		"Twoj wspolnik cie zaatakowal, nie probuj sie mscic"
 	},
-    ["MURD_KILLED"]={
-		"\x85Morderca\x87",
-		"\x80zostal wyeliminowany!"
+	["MURD_KILLED"]={
+		"\x85Morderca",
+		"zostal wyeliminowany!"
 	},
-    ["SHERI_KILLED"]={
-		"\x84Szeryf\x87",
-		"\x80zostal zamordowany!",
+	["SHERI_KILLED"]={
+		"\x84Szeryf",
+		"zostal zamordowany!",
 		"Znajdz zgubiony \x84Szmaragd Szeryfa\x80!"
 	},
-    ["HERO_KILLED"]={
-		"\x82".."Bohater\x87",
-		"\x80zostal zamordowany!"
+	["HERO_KILLED"]={
+		"\x82".."Bohater",
+		"zostal zamordowany!"
 	},
-	["DIED_HAZARD"]="zginal(ela) w nieszczesnym wypadku",
+	["DIED_HAZARD"]="zginal(ela) w nieszczesnym wypadku.",
 	["SHREMD_PICK"]="Ktos podniosl \x84Szmaragd Szeryfa\x80...",
 	["KILL_PUNISHMENT_PM"]={
 		"\x87Zamordowales\x83 Cywilnego\x87! Nie jestes juz \x84Szeryfem\x87!",
@@ -104,33 +104,33 @@ MM.AddLang("PL", {
 		"\x87Zabiles takiego samego\x83 Cywilnego\x87 gracza jak i ty! Masz za to kare smierci!",
 		"\x87O nie! Zamordowales\x82 Bohatera\x87! Masz za to kare smierci!"
 	},
-    ["INNO_HURT"]={
+	["INNO_HURT"]={
 		"\x84Szeryfie\x80 zamordowales Cywila! Ktos z\x83 Cywilow\x80 musi dokonczyc robote!",
 		"\x82".."Bohater\x80 jest skurwielem, zabil spokojnego\x83 Cywila\x80. Teraz obydwoje nie zyja. Wstyd dla bohatera"
 	},
-    ["ONE_QUIT"]={
+	["ONE_QUIT"]={
 		"Jeden z \x85Mordercow\x80 wyszedl!",
 		"Jeden z \x84Szeryfow\x80 wyszedl!",
 		"Jeden z\x82 Bohaterow\x80 zostawil nas!"
 	},
-    ["LAST_QUIT"]={
+	["LAST_QUIT"]={
 		"Ostatni \x85Mordercow\x80 wyszedl!",
 		"Ostatni \x84Szeryfow\x80 wyszedl!",
 		"Ostatni\x82 Bohaterow\x80 wyszedl!"
 	},
-    ["REPLACE_QUIT"]={
+	["REPLACE_QUIT"]={
 		"\x85Morderca\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!",
 		"\x84Szeryf\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!",
 		"\x82".."Bohater\x80 wyszedl! Jeden z\x83 Cywilow\x80 zdobyl jego role!"
 	},
-    ["ENDROUND"]={
+	["ENDROUND"]={
 		"Wszyscy zostali zamordowani, \x85Mordercy\x80 wygrywaja!",
 		"Wszyscy Mordercy zostali wyeliminowani,\x83 Cywile\x80 wygrywaja!",
 		"\x85Mordercy\x80 wygrywaja, poniewaz \x84Szeryf\x80 zamordowal ostatniego\x83 Cywila\x80!",
 		"\x82".."Bohater\x80 wybral do zabicia ostatniego\x83 Cywila\x80. \x85Moredrcy\x80 Wygrywaja!",
 		"Wszyscy Szeryfi i Bohaterzy zginely, \x85Mordercy\x80 wygrywaja!"
 	},
-    ["BMP_VICTIMS"]={
+	["BMP_VICTIMS"]={
 		"\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1F",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1F",
 		"\xFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
@@ -143,7 +143,7 @@ MM.AddLang("PL", {
 		"\x1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1F",
 		"\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F"
 	},
-    ["BMP_SUSPECTS"]={
+	["BMP_SUSPECTS"]={
 		"\xFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFFF\xFFFFII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFII\x1FFFII\x1F",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFF\xFFFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFFII\x1F",
 		"\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFF\xFFFF\xFFFFII\x1FFFII\x1F1FII\x1FFF\x1F1F\x1F1FII\x1FFFII\x1F1FII\x1FFFIII\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1F",
@@ -156,7 +156,7 @@ MM.AddLang("PL", {
 		"II\x1FFF\xFFFF\xFFFF\x1FIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFII\x1FFFII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFF1FII\x1FFFIIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFFII\x1F",
 		"\x1F1F\x1FFF\xFFFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1F"
 	},
-    ["BMP_TIME"]={
+	["BMP_TIME"]={
 		"\xFFFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFF\xFFIIII\x1F",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1F",
 		"\xFFII\x1F1FII\x1FFF\x1F1F\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1F",
@@ -169,7 +169,7 @@ MM.AddLang("PL", {
 		"\x1FIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFFII\x1F\xFF\x1FIIII\x1F\x1F",
 		"\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F"
 	},
-    ["BMP_RINGS"]={
+	["BMP_RINGS"]={
 		"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFII\x1F",
 		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFII\x1F",
 		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F",
@@ -182,7 +182,7 @@ MM.AddLang("PL", {
 		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFII\x1F",
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1F"
 	},
-    ["HUD_ROLES"]={
+	["HUD_ROLES"]={
 		"MORDERCA",
 		"SZERYF",
 		"CYWIL",
@@ -205,28 +205,28 @@ MM.AddLang("PL", {
 	["HUD_ROLETARGET"] = {
 		"Zamorduj wszystkich.",
 		"Wyeliminuj wszystkich Morderców.\nNie zabijaj Ciwilów!",
-		"Kryj się i pomóBF w dochodzeniu,\nkiedy jest to możliwe.",
+		"Kryj się i pomóż w dochodzeniu,\nkiedy jest to możliwe.",
 		"Masz szansę powstrzymać wszystkich\nMorderców. Ruszaj i uratuj dzień,\nale bądź ostrożny!"
 	},
-    ["HUD_ROLESALIVE"]={
+	["HUD_ROLESALIVE"]={
 		"Morderców",
 		"Szeryfów",
 		"Cywilów"
 	},
-    ["HUD_DEAD"]={
+	["HUD_DEAD"]={
 		"Jesteś\1\x8F martwy(a)",
 		"Nie mozesz się odnawiać lub gadać do żywych"
 	},
-    ["HUD_MIDJOIN"]={
+	["HUD_MIDJOIN"]={
 		"Pan(i) dolaczył(a) się \1\x84w środku rundy\4, prosze poczekać na nową rundę żeby zagrać.",
 		"Podczas oczekiwania prosimy o zapoznanie się z regulami gry w poleceniu konsoli \1\x87MMHELP\4"
 	},
-    ["HUD_ALONE"]={
+	["HUD_ALONE"]={
 		"\1\x84".."2 graczy\4 jest wymaganych do gry,",
 		"proszę poczekać na \1\x84jeszcze jednego\4 gracza",
 		"dla startu"
 	},
-    ["HUD_SNEAKING"]="Skradzamy się...",
+	["HUD_SNEAKING"]="Skradzamy się...",
 	["HUD_SHOWDOWN"]="Pojedynek losu!",
 	["HUD_MINIGAME"]={
 		["PRESS"] = "Naciśnij\1\x82 CUSTOM3\4, aby", --must contain MM escape color codes
@@ -242,13 +242,13 @@ MM.AddLang("PL", {
 		["BORED"]="Nudzisz się?",
 		["GOAL"]="Gol!"
 	},
-    ["HUD_YOU"]="TY",
+	["HUD_YOU"]="TY",
 	["HUD_WINNERS"]="Wygrani:",
 	["HUD_WIN"]={
 		"REMIS!",
 		"\1\x85MÓRDERCY",
 		"\1\x83".."CYWILE"
 	},
-    ["HUD_PAST"]="PRZESZLOŚĆ",
+	["HUD_PAST"]="PRZESZLOŚĆ",
 	["HUD_FUTURE"]="PRZYSZLOŚĆ"
 })
