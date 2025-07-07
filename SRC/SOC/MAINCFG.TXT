@@ -57,7 +57,6 @@ Lua.Author = Rareware, LeonardoTheMutant
 Level K6
 LevelName = BACKROOMS
 SelectHeading = LTM's Murder Mystery
-Music = None
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = K7
