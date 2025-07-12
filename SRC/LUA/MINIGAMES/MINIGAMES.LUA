@@ -114,14 +114,15 @@ local function SONIC_Thinker(p)
 		p.SonicRun.velocity = 0
 
 		--controls
-		if ((p.cmd.forwardmove > 0) or (p.cmd.buttons & BT_JUMP)) --FORWARD/JUMP (jump)
+		if (p.cmd.buttons & BT_JUMP) --FORWARD/JUMP (jump)
 			p.SonicRun.state = 2 --spinning (jump/spin)
 			p.SonicRun.velocity = 10
 			S_StartSound(nil, sfx_cdfm02, p)
-		elseif ((p.cmd.forwardmove < 0) or (p.cmd.buttons & BT_SPIN)) --BACKWARD/SPIN (spin)
+		elseif (p.cmd.buttons & BT_SPIN) --BACKWARD/SPIN (spin)
 			p.SonicRun.state = 2 --spinning (jump/spin)
 			if (not p.SonicRun.spinsound) S_StartSound(nil, sfx_spin, p) end
-			p.SonicRun.spinsound = 1
+			p.SonicRun.
+			 = 1
 		else p.SonicRun.spinsound = 0 end
 	else p.SonicRun.velocity = $ - 1 end
 
@@ -230,8 +231,7 @@ addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Player's minigame toggle
-	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1))
-		if ((p.mm.help) and (p.mm.help.active)) return end
+	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and not ((p.mm.help) and (p.mm.help.active))
 		if (not (p.lastbuttons & BT_CUSTOM3))
 			if (p.mm.minigame) --Disable minigame
 				if (not p.mm.minigame.timeout) p.mm.minigame = nil end --Disable only when the timeout timer is out

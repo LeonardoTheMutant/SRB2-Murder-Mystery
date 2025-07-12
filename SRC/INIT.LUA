@@ -38,7 +38,7 @@ rawset(_G, "MM", {
 				teammateInfoOffset2 = {x=36}, --Offset for Rings counter
 			}
 		},
-		intermission = { --Intermisson HUD
+		intermission = { --Intermission HUD
 			active = true,
 			pos = {
 				players = {y=32},
