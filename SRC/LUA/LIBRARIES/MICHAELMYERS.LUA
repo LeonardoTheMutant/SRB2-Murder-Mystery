@@ -50,7 +50,7 @@ MM.LoadShowdownTracks = do
 end
 
 MM.DebugPrint = function(str, ...)
-	if (MM.debug) printf(str, {...}) end
+	if (MM.debug) printf("\x87Murder Mystery\x80: %s", str, {...}) end
 end
 
 --Count the Players
@@ -562,6 +562,54 @@ rawset(_G, "PONG_Reset", do
 end)
 
 
+
+--
+-- HUD
+--
+
+--Load (precache) patch into (V)RAM
+MM.LoadPatch = function(v, patchname)
+	assert(v, "MM.LoadPatch() argument #1: Video drawer object expected")
+	assert(patchname, "MM.LoadPatch() argument #2: Patch graphic name expected")
+	if (type(patchname) != "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
+
+	if (not MM.graphics) then MM.graphics = {} end
+
+	if (MM.graphics[patchname]) MM.DebugPrint("Patch \x81"..patchname.."\x87 is already loaded into memory") end
+	MM.graphics[patchname] = v.cachePatch(patchname)
+	MM.DebugPrint("Loaded patch \x81"..patchname)
+end
+
+--Unload patch from (V)RAM
+MM.UnloadPatch = function(patchname)
+	assert(patchname, "MM.UnloadPatch() argument #1: Patch graphic name expected")
+	if (type(patchname) != "string") then error("MM.UnloadPatch() argument #1: Patch graphic name expected in string type") end
+
+	if (MM.graphics[patchname])
+		MM.graphics[patchname] = nil
+		MM.DebugPrint("Unloaded patch \x81"..patchname)
+	else
+		MM.DebugPrint("Trying to unload patch \x81"..patchname.."\x87 that is not in the memory!")
+	end
+end
+
+--Retrieve the X Offset of the Text Patch
+MM.GetTextPatchOffsetX = function(lang, patchname)
+	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
+		return MM.text[lang][patchname.."_INFO"].xoff
+	else
+		return 0
+	end
+end
+
+--Retrieve the Y Offset of the Text Patch
+MM.GetTextPatchOffsetY = function(lang, patchname)
+	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].yoff)
+		return MM.text[lang][patchname.."_INFO"].yoff
+	else
+		return 0
+	end
+end
 
 --
 -- MISCELANEOUS

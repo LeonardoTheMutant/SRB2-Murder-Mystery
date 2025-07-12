@@ -6,7 +6,7 @@
 
 
 
--- UTF-8 SUBLIBRARY
+-- UTF-8 HELPER LIBRARY
 --
 -- https://github.com/blitmap/lua-utf8-simple
 
@@ -18,8 +18,6 @@ local posrelat = function (pos, len)
 	if (pos < 0) then pos = len + pos + 1 end
 	return pos
 end
-
--- MAIN
 
 -- maps f over s's utf8 characters f can accept args: (visual_index, utf8_character, byte_index)
 utf8.map = function(s, f, no_subs)
@@ -38,8 +36,6 @@ utf8.map = function(s, f, no_subs)
 		end
 	end
 end
-
--- THE REST
 
 -- generator for the above -- to iterate over all utf8 chars
 utf8.chars = function(s, no_subs)
@@ -108,9 +104,9 @@ end
 
 --https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
 --Return an integer value of a single Unicode symbol
-utf8.byte = function(char)
-    local b1, b2 = char:byte(1, 2)
-    local b3, b4 = char:byte(3, 4)
+utf8.byte = function(c)
+    local b1, b2 = c:byte(1, 2)
+    local b3, b4 = c:byte(3, 4)
     if (b1 < 128) then return b1 --b1 is less than 128, it's a single-byte character
     elseif (b1 < 194) then return nil
     elseif (b1 < 224) then return (b1 - 192) * 64 + (b2 - 128)
@@ -194,83 +190,56 @@ end
 
 
 --
--- MM HUD LIBRARY (Codename "Hideo")
+-- HIDEO LIBRARY
 --
+rawset(_G, "HIDEO", {font = {}})
 
-rawset(_G, "V_HideoInit", do
-	MM.graphics = {unicode = {}}
-end)
+HIDEO.debug = true
 
---Load (precache) patch into (V)RAM
-rawset(_G, "V_LoadPatch", function(v, patchname)
-	assert(v, "V_LoadPatch() argument #1: Video drawer object expected")
-	assert(patchname, "V_LoadPatch() argument #2: Patch graphic name expected")
-	if (type(patchname) != "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
-
-	if (MM.debug and MM.graphics[patchname]) print("\x87Patch \x81"..patchname.."\x87 is already loaded into memory") end
-	MM.graphics[patchname] = v.cachePatch(patchname)
-	MM.DebugPrint("Loaded patch \x81"..patchname)
-end)
-
---Unload patch from (V)RAM
-rawset(_G, "V_UnloadPatch", function(patchname)
-	assert(patchname, "V_UnloadPatch() argument #1: Patch graphic name expected")
-	if (type(patchname) != "string") then error("V_UnloadPatch() argument #1: Patch graphic name expected in string type") end
-
-	if (MM.graphics[patchname])
-		MM.graphics[patchname] = nil
-		MM.DebugPrint("Unloaded patch \x81"..patchname)
-	else
-		MM.DebugPrint("\x87Trying to unload patch \x81"..patchname.."\x87 that is not in the memory!")
-	end
-end)
+HIDEO.DebugPrint = function(str)
+	if (HIDEO.debug) print("\x88HIDEO\x80: "..str) end
+end
 
 --
 --UNICODE STRING RENDERER
 --
 
 --Load (precache) font patch into (V)RAM
-rawset(_G, "V_LoadUnicode", function(v, a)
-	assert(v, "V_LoadUnicode() argument #1: Video drawer object expected")
-	--assert(a, "V_LoadUnicode() argument #2: Start index integer expected")
-	--assert(b, "V_LoadUnicode() argument #2: End index integer expected")
-	if (a and (type(a) != "number")) then error("V_LoadUnicode() argument #2 & #3: Start & End indexes should be integer") end
-	assert(MM.graphics, "MM.graphics table is not initialized!")
-
-	if (not MM.graphics.unicode) then MM.graphics.unicode = {} end
+HIDEO.LoadUnicodeFont = function(v, a)
+	assert(v, "HIDEO.LoadUnicodeFont() argument #1: Video drawer object expected")
+	if (a and (type(a) != "number")) then error("HIDEO.LoadUnicodeFont() argument #2: Unicode charachter index should be integer") end
 
 	a = a or 0xFFFD
 	local patchname = "UNIC"..string.format("%04X", a)
 	if (v.patchExists(patchname))
-		MM.graphics.unicode[a] = v.cachePatch(patchname)
-		MM.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", a).."\x80 into the Unicode Character Table")
+		HIDEO.font[a] = v.cachePatch(patchname)
+		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", a).."\x80 into the Unicode Font Table")
 	end
-end)
+end
 
 --Retrieve a precached font patch from (V)RAM
-rawset(_G, "V_GetUnicodePatch", function(v, chr)
-	assert(v, "V_GetUnicodePatch() argument #1: Video drawer object expected")
-	if (chr and type(chr) != "number") then error("V_LoadUnicode() argument #2: Unicode Character number should be integer") end
-	assert(MM.graphics, "MM.graphics table is not initialized!")
+HIDEO.GetUnicodeFont = function(v, chr)
+	assert(v, "HIDEO.GetUnicodeFont() argument #1: Video drawer object expected")
+	if (chr and type(chr) != "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
 
-	chr = chr or 0xFFFD
+	chr = chr or 0xFFFD 
 
-	if (MM.graphics.unicode[chr]) return MM.graphics.unicode[chr]
+	if (HIDEO.font[chr]) return HIDEO.font[chr]
 	else
-		V_LoadUnicode(v, chr, chr) --try to load the character if the slot is empty
-		if (MM.graphics.unicode[chr]) then return MM.graphics.unicode[chr]
-		else return MM.graphics.unicode[0xFFFD] end --if character is still not found in the graphics table, replace the character with the "Replacement Character" (U+FFFD)
+		HIDEO.LoadUnicodeFont(v, chr, chr) --try to load the character if the slot is empty
+		if (HIDEO.font[chr]) then return HIDEO.font[chr]
+		else return HIDEO.font[0xFFFD] end --if character is still not found in the font table, replace the character with the "Replacement Character" (U+FFFD)
 	end
-end)
+end
 
 --Draw strings encoded in UTF-8 formatting
 --The function mostly assumes you have font with 8x8 pixel characters
 --Special escape codes:
 --	\1 - Interpret the following byte as the SRB2 color & translucency code instead of the Unicode character
 --	\4 - Clear the Color & Translucency effects (shortcut to the "\1\x80" text code sequence)
-rawset(_G, "V_DrawStrUnicode", function(v, x, y, str, flags, small)
-	assert(v, "V_DrawStrUnicode() argument #1: Video drawer object expected")
-	if (not str) or (type(str) != "string") error("V_DrawStrUnicode() argument #5: string expected") end
+HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
+	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
+	if (not str) or (type(str) != "string") error("HIDEO.DrawStrUnicode() argument #5: string expected") end
 
 	if (small) small = 1
 	else small = 0 end
@@ -278,10 +247,6 @@ rawset(_G, "V_DrawStrUnicode", function(v, x, y, str, flags, small)
 	local x = x or 0
 	local y = y or 0
 	local flg = flags or 0
-
-	--set the characer encoding
-	assert(MM.graphics, "MM.graphics table is not initialized!")
-	assert(MM.graphics.unicode, "MM.graphics.unicode table is not initialized!")
 
 	--set the space width
 	local spaceSize = 4 --default to V_OLDSPACING
@@ -334,26 +299,23 @@ rawset(_G, "V_DrawStrUnicode", function(v, x, y, str, flags, small)
 
 		--draw the character
 		if ((chr > 0x0F) and (chr != 0x20))
-			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), V_GetUnicodePatch(v, chr), flg|translucency, color)
+			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), HIDEO.GetUnicodeFont(v, chr), flg|translucency, color)
 		end
 
 		--shift position for the next character
 		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
 		else
-			if (chr > 0x0F) then cx = $ + (V_GetUnicodePatch(v, chr).width >> small) end --it's a regular character
+			if (chr > 0x0F) then cx = $ + (HIDEO.GetUnicodeFont(v, chr).width >> small) end --it's a regular character
 		end
 	end
-end)
+end
 
---Get string width for the V_DrawStrUnicode() function
-rawset(_G, "V_StrWidthUnicode", function(str, flags, small)
+--Get string width for the HIDEO.DrawStrUnicode() function
+HIDEO.StrWidthUnicode = function(str, flags, small)
 	if (not str) or (str == "") return 0 end
 
 	if (small) small = 1
 	else small = 0 end
-
-	assert(MM.graphics, "MM.graphics table is not initialized!")
-	assert(MM.graphics.unicode, "MM.graphics.unicode table is not initialized!")
 
 	--symbol width
 	local flg = flags or 0
@@ -371,19 +333,20 @@ rawset(_G, "V_StrWidthUnicode", function(str, flags, small)
 
 	for char in utf8.bytes(str)
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
-		elseif ((char > 0x20) and MM.graphics.unicode[char]) then --we count only visible charactrers
-			pixelLen = $ + (MM.graphics.unicode[char].width >> small)
+		elseif ((char > 0x20) and HIDEO.font[char]) then --we count only visible charactrers
+			pixelLen = $ + (HIDEO.font[char].width >> small)
 		end
 	end
 	return pixelLen
-end)
+end
 
-rawset(_G, "V_DrawStrUnicode_Center", function(v, x, y, str, flags, small)
-	V_DrawStrUnicode(v, (x - (V_StrWidthUnicode(str, flags, small) >> 1)), y, str, flags, small)
-end)
-rawset(_G, "V_DrawStrUnicode_Right", function(v, x, y, str, flags, small)
-	V_DrawStrUnicode(v, (x - V_StrWidthUnicode(str, flags, small)), y, str, flags, small)
-end)
+HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, small)
+	HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(str, flags, small) >> 1)), y, str, flags, small)
+end
+
+HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, small)
+	HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, small)), y, str, flags, small)
+end
 
 
 
@@ -393,15 +356,13 @@ end)
 
 --Draw an image from the Text Patch, similar to v.draw()
 --The Text Patch itself is a table of strings where each byte in the string is the SRB2 color index
-rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
-	assert(MM.graphics, "MM.graphics table is not initialized!")
-
-	assert(v, "V_DrawTextPatch() argument #1: Video drawer object expected")
+HIDEO.DrawTextPatch = function(v, x, y, xoff, yoff, patch, flags)
+	assert(v, "HIDEO.DrawTextPatch() argument #1: Video drawer object expected")
 	local x = x or 0
 	local y = y or 0
 	local xoff = xoff or 0 --X offset
 	local yoff = yoff or 0 --Y offset
-	assert(patch, "V_DrawTextPatch() argument #4: patch text data expected")
+	assert(patch, "HIDEO.DrawTextPatch() argument #4: patch text data expected")
 
 	local pixelColor
 
@@ -413,12 +374,12 @@ rawset(_G, "V_DrawTextPatch", function(v, x, y, xoff, yoff, patch, flags)
 			end
 		end
 	end
-end)
+end
 
 --Swap colors in the Text Patch
 --Each pixel of the color1 will be replaced by color2
-rawset(_G, "V_TextPatch_SwapColor", function(patch, color1, color2)
-	assert(patch, "V_TextPatch_SwapColor() argument #1: patch text data expected")
+HIDEO.TextPatch_SwapColor = function(patch, color1, color2)
+	assert(patch, "HIDEO.TextPatch_SwapColor() argument #1: patch text data expected")
 	local color1 = color1
 	if (type(color1) == "string") color1 = color1:byte() end
 	local color2 = color2
@@ -438,31 +399,11 @@ rawset(_G, "V_TextPatch_SwapColor", function(patch, color1, color2)
 	end
 
 	return ptch
-end)
-
---Retrieve the X Offset of the Text Patch
---This function relies on the MM.text table!
-rawset(_G, "V_GetTextPatchOffsetX", function(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
-		return MM.text[lang][patchname.."_INFO"].xoff
-	else
-		return 0
-	end
-end)
-
---Retrieve the Y Offset of the Text Patch
---This function relies on the MM.text table!
-rawset(_G, "V_GetTextPatchOffsetY", function(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].yoff)
-		return MM.text[lang][patchname.."_INFO"].yoff
-	else
-		return 0
-	end
-end)
+end
 
 --Calculate the horizontal width of the Text Patch
-rawset(_G, "V_TextPatchWidth", function(patch)
-	assert(patch, "V_TextPatchWidth() argument #1: patch text data expected")
+HIDEO.TextPatchWidth = function(patch)
+	assert(patch, "HIDEO.TextPatchWidth() argument #1: patch text data expected")
 	local width = 0
 
 	for row = 1, #patch do
@@ -470,12 +411,12 @@ rawset(_G, "V_TextPatchWidth", function(patch)
 	end
 
 	return width
-end)
+end
 
 --Scroll the Text Patch by n pixels
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
-rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
+HIDEO.ScrollTextPatch_Vertical = function(patch, offset, side)
 	assert(patch, "V_ShiftTextPatch() argument #1: patch text data expected")
 	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
 
@@ -501,7 +442,7 @@ rawset(_G, "V_ScrollTextPatch_Vertical", function(patch, offset, side)
 	end
 
 	return buffer
-end)
+end
 
 --Crop the Text Patch using relative coordinates
 --Arguments:
@@ -512,12 +453,12 @@ end)
 --
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
-rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine, endLine)
-	assert(patch, "V_CropTextPatch() argument #1: patch text data expected")
-	if (startColumn < 0) then error("V_CropTextPatch() argument #2: positive starting column position value expected") end
-	if (endColumn < 0) then error("V_CropTextPatch() argument #3: positive ending column position value expected") end
-	if (startLine < 0) then error("V_CropTextPatch() argument #4: positive starting line position value expected") end
-	if (endLine < 0) then error("V_CropTextPatch() argument #5: positive ending line position value expected") end
+HIDEO.CropTextPatch = function(patch, startColumn, endColumn, startLine, endLine)
+	assert(patch, "HIDEO.CropTextPatch() argument #1: patch text data expected")
+	if (startColumn < 0) then error("HIDEO.CropTextPatch() argument #2: positive starting column position value expected") end
+	if (endColumn < 0) then error("HIDEO.CropTextPatch() argument #3: positive ending column position value expected") end
+	if (startLine < 0) then error("HIDEO.CropTextPatch() argument #4: positive starting line position value expected") end
+	if (endLine < 0) then error("HIDEO.CropTextPatch() argument #5: positive ending line position value expected") end
 
 	if (not startColumn) then startColumn = 1 end
 	if (not endColumn) then endColumn = 1 end
@@ -537,7 +478,7 @@ rawset(_G, "V_CropTextPatch", function(patch, startColumn, endColumn, startLine,
 	end
 
 	return buffer
-end)
+end
 
 --Crop the Text Patch using relative coordinates
 --Arguments:
@@ -548,17 +489,17 @@ end)
 --
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
-rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, startLine, height)
-	assert(patch, "V_CropTextPatch_Relative() argument #1: patch text data expected")
+HIDEO.CropTextPatch_Relative = function(patch, startColumn, width, startLine, height)
+	assert(patch, "HIDEO.CropTextPatch_Relative() argument #1: patch text data expected")
 	if (not startColumn) then startColumn = 1 end
-	if (not width) then width = V_TextPatchWidth(patch) end
+	if (not width) then width = HIDEO.TextPatchWidth(patch) end
 	if (not startLine) then startLine = 1 end
 	if (not height) then height = #patch end
 
-	if (startColumn < 0) then error("V_CropTextPatch_Relative() argument #2: positive starting column position value expected") end
-	if (width < 0) then error("V_CropTextPatch_Relative() argument #3: positive width value expected") end
-	if (startLine < 0) then error("V_CropTextPatch_Relative() argument #4: positive starting line position value expected") end
-	if (height < 0) then error("V_CropTextPatch_Relative() argument #5: positive height value expected") end
+	if (startColumn < 0) then error("HIDEO.CropTextPatch_Relative() argument #2: positive starting column position value expected") end
+	if (width < 0) then error("HIDEO.CropTextPatch_Relative() argument #3: positive width value expected") end
+	if (startLine < 0) then error("HIDEO.CropTextPatch_Relative() argument #4: positive starting line position value expected") end
+	if (height < 0) then error("HIDEO.CropTextPatch_Relative() argument #5: positive height value expected") end
 
 	local buffer = {}
 	local x = 0
@@ -578,13 +519,13 @@ rawset(_G, "V_CropTextPatch_Relative", function(patch, startColumn, width, start
 	end
 
 	return buffer
-end)
+end
 
 --Word wrapper, assisted with ChatGPT
 --Although he gave a direction, I had to spend a lot of time fixing the crap code he suggested
 --I know there are still bugs in this code, with color code wrapping to be precise, but I really could not figure them out
 --The function returns a table with the word-wrapped string
-rawset(_G, "V_WordWrapString", function(s, max_width)
+HIDEO.WordWrapString = function(s, max_width)
 	local lines = {}
 	local current_line = ""
 	local current_word = ""
@@ -708,4 +649,4 @@ rawset(_G, "V_WordWrapString", function(s, max_width)
 	if (#current_line) then table.insert(lines, current_line) end
 
 	return lines
-end)
+end

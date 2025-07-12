@@ -352,7 +352,7 @@ local oldLang = ""
 --Insert an array of data to the render buffer
 local function V_InsertToBuffer(array)
 	for i, line in ipairs(array) do
-		local wordWrapTemp = V_WordWrapString(line, scrnColumns)
+		local wordWrapTemp = HIDEO.WordWrapString(line, scrnColumns)
 		for lineWrap = 1, #wordWrapTemp do table.insert(renderBuffer, wordWrapTemp[lineWrap]) end
 	end
 end
@@ -451,7 +451,7 @@ hud.add(function(v, p)
 
 	--draw text from the render buffer
 	for lineID = p.mm.help.pos, #renderBuffer do
-		V_DrawStrUnicode(v, 0, y, renderBuffer[lineID], V_SNAPTOTOP|V_SNAPTOLEFT)
+		HIDEO.DrawStrUnicode(v, 0, y, renderBuffer[lineID], V_SNAPTOTOP|V_SNAPTOLEFT)
 
 		y = $ + 8 --line is drawn, move one row down for the next one
 		if (y >= (scrnRows << 3)) then break end --Trying to draw out of canvas bounds, stop rendering here
@@ -472,6 +472,6 @@ hud.add(function(v, p)
 	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
 	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
-	V_DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
-	V_DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
+	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
+	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
 end, "game")

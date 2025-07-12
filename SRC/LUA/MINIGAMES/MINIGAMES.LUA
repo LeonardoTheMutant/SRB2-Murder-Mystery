@@ -121,8 +121,7 @@ local function SONIC_Thinker(p)
 		elseif (p.cmd.buttons & BT_SPIN) --BACKWARD/SPIN (spin)
 			p.SonicRun.state = 2 --spinning (jump/spin)
 			if (not p.SonicRun.spinsound) S_StartSound(nil, sfx_spin, p) end
-			p.SonicRun.
-			 = 1
+			p.SonicRun.spinsound = 1
 		else p.SonicRun.spinsound = 0 end
 	else p.SonicRun.velocity = $ - 1 end
 
