@@ -26,14 +26,17 @@ freeslot(
 	'S_PNGOVR4', --Pong overlay bubble state
 	'S_PNGOVR5', --Pong overlay bubble state
 	'S_PNGOVR6', --Pong overlay bubble state
-	'SPR_STEP', --Footmark sprite
+	'SPR_STEP',  --Footmark sprite
 	'S_MMSTEP',   --Footmark state
 	'MT_MMSTEP',  --Footmark object
 	'MT_DEADPLR', --Dead body object
 	'S_MMPLRDEAD',--Dead player body state
 	'SPR2_SHIT',  --Dead player body Sprite2
 	'S_MMSKELT',  --Dead player body state (Skeleton)
-	'SPR_SKEL'    --Dead player body sprite (Skeleton)
+	'SPR_SKEL',   --Dead player body sprite (Skeleton)
+	'SPR_KNUX',   --Evil Knuckles Plush
+	'S_EVILKNUX', --Evil Knuckles Plush
+	'MT_EVILKNUX' --Evil Knuckles Plush
 )
 
 --Sheriff's Emerald object
@@ -106,6 +109,24 @@ states[S_PNGOVR4] = {SPR_PNGO, D, 12, nil, 0, 0, S_PNGOVR5}
 states[S_PNGOVR5] = {SPR_PNGO, E, 12, nil, 0, 0, S_PNGOVR6}
 states[S_PNGOVR6] = {SPR_PNGO, F, 12, nil, 0, 0, S_PNGOVR1}
 
+-- Evil Knuckles Plush
+mobjinfo[MT_EVILKNUX] = {
+    --$Title Evil Knuckles Plush
+    --$Sprite KNUXA0
+    --$NotAngled
+    doomednum = 2025,
+    spawnstate = S_EVILKNUX,
+	seestate = S_EVILKNUX,
+	flags = MF_SPECIAL
+}
+
+states[S_EVILKNUX] = {
+    sprite = SPR_KNUX,
+	frame = A,
+    tics = -1,
+	nextstate = S_EVILKNUX,
+}
+
 --
 -- SOUNDS
 --
@@ -114,8 +135,8 @@ freeslot(
 	'sfx_mmdth1', --Super Mario World: Game Over theme
 	'sfx_mmdth2', --Among Us: Death theme
 	'sfx_mmdth3', --DOOM: Player death SFX 1
-	'sfx_mmdth4', --DOOM: Player death SFX 2
-	'sfx_mmdth5', --Sonic Adventure: Knuckles' "Oh no!"
+	'sfx_mmdth4', --Sonic the Hedgehog 2006: Shadow's death sound
+	'sfx_mmdth5', --The Legend of Zelda: Faces of Evil: Ganon's "DIE"
 	'sfx_mmdth6', --Meme scream/pain
 	'sfx_mmdth7', --Michael Jackson's Moonwalker (Sega Mega Drive): Title theme
 	'sfx_mmdth8', --Metal Gear Solid: Game Over theme
@@ -124,7 +145,10 @@ freeslot(
 	--SFX for maps
 	'sfx_fallin', --Falling SFX
 	'sfx_aldi',   --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
-	'sfx_consle'  --Computer beeping
+	'sfx_consle', --Computer beeping
+
+	--SFX for objects
+	'sfx_squeak' --Squeak SFX
 )
 
 --Captions
@@ -132,12 +156,12 @@ freeslot(
 sfxinfo[sfx_mmdth1].caption = "\25 Good Night"
 sfxinfo[sfx_mmdth2].caption = "Killed"
 sfxinfo[sfx_mmdth3].caption = "Killed"
-sfxinfo[sfx_mmdth4].caption = "Killed"
-sfxinfo[sfx_mmdth5].caption = "OH NO!"
-sfxinfo[sfx_mmdth6].caption = "Pain"
+sfxinfo[sfx_mmdth4].caption = "nnooOOOO!!"
+sfxinfo[sfx_mmdth5].caption = "DIE"
+sfxinfo[sfx_mmdth6].caption = "PAIN"
 sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 sfxinfo[sfx_mmdth8].caption = "Game Over"
-sfxinfo[sfx_mmdth9].caption = "AAAARGH..."
+sfxinfo[sfx_mmdth9].caption = "EAAARGH..."
 
 MM.death_sfx = { --Add the SFX to the global table
 	sfx_mmdth1, --Super Mario World: Game Over theme
@@ -155,3 +179,4 @@ MM.death_sfx = { --Add the SFX to the global table
 sfxinfo[sfx_fallin].caption = "Falling..."
 sfxinfo[sfx_aldi].caption = "\25 I AM AT ALDI"
 sfxinfo[sfx_consle].caption = "Console working"
+sfxinfo[sfx_squeak].caption = "Squeak :D"

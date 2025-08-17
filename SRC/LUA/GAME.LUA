@@ -436,6 +436,14 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 end, MT_DEADPLR)
 
 --
+-- Evil Knuckles Plush squeak activator
+--
+addHook("TouchSpecial", function(s, t) --special, toucher
+    S_StartSound(nil, sfx_squeak)
+    return true
+end, MT_EVILKNUX)
+
+--
 -- Intermission logic
 --
 addHook("IntermissionThinker", do

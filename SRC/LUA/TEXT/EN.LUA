@@ -145,14 +145,14 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	--MMLANG command
 	["MMLANG"] = {
-		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command", --when typed MMHELP with no argument
-		"Personal language for Murder Mystery is set to\x82 English" --when typed MMHELP with language argument (it sets the new language)
+		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command.", --when typed MMHELP with no argument
+		"Personal language for Murder Mystery is set to\x82 English." --when typed MMHELP with language argument (it sets the new language)
 	},
 
 	-- "You got the role" personal messages
 	["ROLE_GET"] = {
-		"You are the \x85Murderer\x80! \x85Murder everyone!", --Murderer
-		"You are the \x84Sheriff\x80!\x84 Eliminate all the Murderers\x80. If you kill a\x83 Civilian\x80, you will be stripped of your role.", --Sheriff
+		"You are the \x85Murderer. Murder them all.", --Murderer 
+		"You are the \x84Sheriff\x80!\x84 Eliminate all the Murderers\x80. Kill the \x83wrong person\x80, and the role no longer belongs to you.", --Sheriff
 		"You are a\x83 Civilian\x80! Hide and help with the investigation." --Civilian
 	},
 
@@ -161,19 +161,19 @@ local language_data = { --Language must be a table variable, you can name the va
 		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!",
 		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
 		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!",
-		"\x87You have eliminated one of the \x85Murderers\x87! You were promoted to \x82Hero\x87!"
+		"\x87You've eliminated one of the \x85Murderers\x87! You've earned the honor of \x82Hero\x87!"
 	},
 
 	-- Teammate hit
 	["TEAMMATE_HIT"] = {
-		"This player is your teammate. Please do not hit your teammates next time.",
-		"A teammate hit you. Please do not take your revenge on them."
+		"Careful! That's your teammate. Avoid friendly fire next time!",
+		"A teammate accidentally hit you. Revenge is NOT recommended!"
 	},
 
 	-- Murderer killed
 	["MURD_KILLED"] = {
 		"\x85Murderer", --beginning of the string
-		"got eliminated", --ending
+		"got eliminated!", --ending
 	},
 
 	-- Sheriff killed
@@ -190,7 +190,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	--player was crushed, has drown or fell into a pit
-	["DIED_HAZARD"] = "has died in an accident.",
+	["DIED_HAZARD"] = "died accidentally. Unfortunate.",
 
 	--Sheriff's Emerald pickup global notification
 	["SHREMD_PICK"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
@@ -198,30 +198,30 @@ local language_data = { --Language must be a table variable, you can name the va
 	--Player has killed someone it did not have to
 	["KILL_PUNISHMENT_PM"] = {
 		"\x87You murdered a\x83 Civilian\x87! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
-		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You got the death penalty for that.", --Hero killed Civilian
-		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You got the death penalty for that", --Civilian killed Sheriff
-		"\x87You murdered a\x83 Civilian\x87 player just like you! You got the death penalty for that", --Civilian killed Civilian
-		"\x87Oh no! You murdered a \x82Hero\x87! You got the death penalty for that" --Civilian killed Hero
+		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You were\x85 executed\x80 for that.", --Hero killed Civilian
+		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You were\x85 executed \x80 for that.", --Civilian killed Sheriff
+		"\x87You murdered a\x83 Civilian\x87 player just like you! You were\x85 executed\x80 for that.", --Civilian killed Civilian
+		"\x87Oh no! You murdered a \x82Hero\x87! You were\x85 executed\x80 for that." --Civilian killed Hero
 	},
 
 	-- Civilian hurt by Sheriff/Hero personal messages
 	["INNO_HURT"] = {
 		"The \x84Sheriff\x80 murdered a\x83 Civilian\x80! Someone else should finish the job!", --Sheriff
-		"The \x82Hero\x80 decided to become a villian by killing the\x83 Civilian\x80. Now both are lying dead. Shame on such\x82 Hero\x80" --Hero
+		"By killing the\x83 Civilian\x80, the \x82Hero\x80 became the \x85villain\x80 and paid the price." --Hero
 	},
 
 	-- "One of the [role]s left!"
 	["ONE_QUIT"] = {
 		"One of the \x85Murderers\x80 left!", --Murderer
 		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
-		"One of the \x82Heroes\x80 has abandoned us!" --Hero
+		"One of the \x82Heroes\x80 has left!" --Hero
 	},
 
 	-- "Last [role] left!"
 	["LAST_QUIT"] = {
 		"The last \x85Murderer\x80 has left!", --Murderer
 		"The last \x84Sheriff\x80 has left!", --Sheriff
-		"The last \x82Hero\x80 has left!" --Hero
+		"The last \x82Hero\x80 has abandoned everyone!" --Hero
 	},
 
 	-- "[role] left, replaced him"
@@ -235,8 +235,8 @@ local language_data = { --Language must be a table variable, you can name the va
 	["ENDROUND"] = {
 		"Everyone is dead. The \x85Murderers\x80 win!", --Murderers win
 		"All of the \x85Murderers\x80 were killed! The\x83 Civilians\x80 win!", --Sheriffs / Heros win
-		"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Civilian! Shame on the \x84Sheriff\x80", --Sheriff killed the last Civilian
-		"The \x82Hero\x80 chose to kill the last Civilian. The \x85Murderers\x80 win!", --Hero killed the last Civilian
+		"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Civilian! Shame on the \x84Sheriff\x80...", --Sheriff killed the last Civilian
+		"The \x85Murderers\x80 win because the \x82Hero\x80 chose to kill the last Civilian. Shame on such \x82Hero\x80...", --Hero killed the last Civilian
 		"The Defenders of the\x83 Civilians\x80 are dead. The \x85Murderers\x80 win!" --All sheriffs and Heroes are dead
 	},
 
@@ -331,13 +331,13 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_VICTIMS"] = "Victims",
 	["HUD_TEAMMATES"] = "Teammates",
 	["HUD_KILLBY"] = "Killed by",
-	["HUD_STUPID"] = "your stupidity",
+	["HUD_STUPID"] = "natural causes",
 
 	-- Scores TAB screen
 	["HUD_SCORESTAB"] = {
-		"If you are new to the gametype use \1\x87MMHELP\4",
+		"If you're new to this gametype, use the \1\x87MMHELP\4",
 		"command in the Console for help and",
-		"\1\x87MMLANG\4 to change the language here",
+		"\1\x87MMLANG\4 to change the language here.",
 		"",
 		"",
 		"\1\x82Have Fun!"
@@ -345,7 +345,7 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Role target/goal (a short description of the role) on TAB screen
 	["HUD_ROLETARGET"] = {
-		"Murder everyone.", --Murderer
+		"Blend in, build trust, then strike.", --Murderer
 		"Find and eliminate all Murderers.\nDo not kill the Civilians!", --Sheriff
 		"Hide and protect yourself. Help with\nthe investigation when possible.", --Civilian
 		"You got a chance to stop all Murderers.\nGo and save the day, but be careful!" --Hero
@@ -360,28 +360,28 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Centered text when you're dead
 	["HUD_DEAD"] = {
-		"You are\1\x8F dead",
-		"You can not respawn or talk to",
-		"people who are not dead."
+		"You are\1\x8F dead.",
+		"You can't respawn or talk to",
+		"people who are alive."
 	},
 
 	-- Centered text when you joined
 	["HUD_MIDJOIN"] = {
 		"You joined \1\x84mid-game\4, please wait for this round to finish.",
-		"While you are waiting, please read the game rules in the \1\x87MMHELP\4 console command"
+		"While you are waiting, please read the game rules in the \1\x87MMHELP\4 console command!"
 	},
 
 	-- Centered text when you are alone
 	["HUD_ALONE"] = {
 		"\1\x84".."2 players\4 are required for the game,",
-		"Please wait for \1\x84one more\4 player to start"
+		"Please wait for \1\x84one more\4 player to start."
 	},
 
 	--Sneaking
 	["HUD_SNEAKING"] = "Sneaking...",
 
 	-- "Showdown duel!"
-	["HUD_SHOWDOWN"] = "Showdown duel!",
+	["HUD_SHOWDOWN"] = "Showdown Duel!",
 
 	--minigame stuff
 	["HUD_MINIGAME"] = {
@@ -390,8 +390,8 @@ local language_data = { --Language must be a table variable, you can name the va
 		["CANCEL"] = "cancel",
 		["SPECTATE"] = "spectate",
 		["DUEL"] = "a minigame duel",
-		["REQUEST"] = "request a \1\x87PONG\4 minigame", --must contain MM escape color codes
-		["START"] = "start a \1\x87\"SONIC RUN\"\4 minigame", --must contain MM escape color codes
+		["REQUEST"] = "request a \1\x87PONG\4 minigame!", --must contain MM escape color codes
+		["START"] = "start a \1\x87\"SONIC RUN\"\4 minigame!", --must contain MM escape color codes
 		["ACCEPT"] = "accept the \1\x87PONG\4 challenge!", --must contain MM escape color codes
 		["WAIT"] = "Waiting for the rival to accept...",
 		["SPECTATING"] = "Spectating a duel...",

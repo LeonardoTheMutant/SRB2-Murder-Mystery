@@ -65,7 +65,7 @@ Special Thanks to:
  - tedvin11 for the idea, base code, and leadership during the very early development
  - Musicians from FREEDOOM community for the wonderful map MIDIs
  - Collision Chaos Radio for Sonic CD Music restoration
- - "MM2 in Roblox" & "MM in Minecraft" for the inspiration
+ - "MM in Garry's Mod" & "MM in Minecraft" for the inspiration
  - Every player who played the BETA and ALPHA versions of the add-on
  - Ambassadors who hosted the servers with the old versions of the add-on
  - Sonic Team Junior for the best Sonic fan game ever

@@ -82,7 +82,7 @@ MMSUS1 - "HOLD ON" by Lamonite
 
 11H_TR - "Train Puzzle" by the Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
-MMSHD0 - "2 Player VS." (Puyo Puyo, Dr. Robotnik's Mean Bean Machine) (MIDI by ???)
+MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear NES) (MIDI by Tsu Ryu and Takeuchi Yuka)
 MMSHD1 - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)
 MMSHD2 - "Pressing Pursuit ~ Caught" (Phoenix Wright: Trials and Tribulations) (MIDI by Seveneth)
 MMSHD3 - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ShinkoNetCavy)
@@ -102,5 +102,5 @@ MMEND0 - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (M
 MMEND1 -      Murderer Ending      - "Doomguy and His Angry Band" by Ivan "continuum.mid" Stanton (The Ultimate DOOM Ultimate MIDI pack)
 MMEND2 -      Civilian Ending      - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
 MMEND3 - Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (MIDI by Jay Reichard)
-MMEND4 -   Murderous Hero Ending   - "Dolls of Doom" by The Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
-MMEND5 -    No Defenders Ending    - "Vanilla Dome" by Koji Kondo (Super Mario World) (MIDI by Daniel Lippert)
+MMEND4 -   Murderous Hero Ending   - "Shhh, The Shadows Are Near" by decino
+MMEND5 -    No Defenders Ending    - "Vanilla Dome (Remix)" by Jay Reichard (Super Mario World)
