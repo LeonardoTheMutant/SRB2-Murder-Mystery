@@ -134,6 +134,14 @@ enum(
 	"WEPCFG_DISABLERED" --2
 )
 
+--Kill reasons (what killed the player)
+enum(
+	"KILLBY_NOTHING",
+	"KILLBY_PLR",  --1, by player
+	"KILLBY_GAME", --2, by game as a punishment
+	"KILLBY_MAP"   --3, by map hazard
+)
+
 
 
 --

@@ -273,6 +273,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
+	plr.mm.killreason = KILLBY_PLR
 	plr.mm.killername = k.player.name
 	k.player.mm.kills = $ + 1
 	if (not k.player.mm.sneak) then P_PlayDeathSound(p) end
@@ -294,9 +295,9 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 
---Kill Player by map hazard (pit, crusher, water drowning, etc.)
-MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead body?" (boolean)
-	if ((not p) or (not p.player)) error("MM.KillPlayerByHazard() argument #1: player's mobj_t expected") end
+--Kill Player by not player (map hazards such as pit, crusher, water drowning or simply as a punishment)
+MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "Spawn dead body?" (boolean), "Was this player killed for punishment?" (boolean)
+	if ((not p) or (not p.player)) error("MM.KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	if (MM.PlayerCount() != 1) --force player to remain dead if they die as spectator (SRB2 bug fix)
 		plr.pflags = $|PF_GODMODE
@@ -306,7 +307,8 @@ MM.KillPlayerByHazard = function(p, spawnbody) --player (mobt_t), "Spawn dead bo
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
-	plr.mm.killername = "your stupidity"
+	if (killedForPunishment) then plr.mm.killreason = KILLBY_GAME
+	else plr.mm.killreason = KILLBY_MAP end
 
 	if (spawnbody)
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)

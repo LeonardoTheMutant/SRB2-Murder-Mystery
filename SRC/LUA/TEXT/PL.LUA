@@ -192,8 +192,11 @@ MM.AddLang("PL", {
 	["HUD_SUSPECTS"]="Podejrzani",
 	["HUD_VICTIMS"]="Ofiary",
 	["HUD_TEAMMATES"]="Członkowie drużyny",
-	["HUD_KILLBY"]="Zabity przez",
-	["HUD_STUPID"]="twój idiotyzm",
+	["HUD_KILLBY"] = {
+		"Zabity przez",
+		"sprawiedliwość",
+		"pułapkę na mapie"
+	},
 	["HUD_SCORESTAB"]={
 		"Jeśli ten tryb jest ci nowy użyj",
 		"komendy \1\x87MMHELP\4 w Konsoli dla pomocy",

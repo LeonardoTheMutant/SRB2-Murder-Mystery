@@ -187,8 +187,11 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 	["HUD_SUSPECTS"]="Підозрювані",
 	["HUD_VICTIMS"]="Жертви",
 	["HUD_TEAMMATES"]="Напарники",
-	["HUD_KILLBY"]="Ви вбиті",
-	["HUD_STUPID"]="Вашим ідіотизмем",
+	["HUD_KILLBY"] = {
+		"Ви вбиті",
+		"справедливістю",
+		"пасткою на рівні"
+	},
 	["HUD_SCORESTAB"]={
 		"Якщо ви граєте цю гру в перший раз",
 		"використайте команду \1\x87MMHELP\4 в консолі",

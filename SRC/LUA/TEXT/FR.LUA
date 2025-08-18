@@ -188,8 +188,11 @@ MM.AddLang("FR", {
 	["HUD_SUSPECTS"]="Suspects",
 	["HUD_VICTIMS"]="Victimes",
 	["HUD_TEAMMATES"]="Alliés",
-	["HUD_KILLBY"]="Tuer par",
-	["HUD_STUPID"]="Votre stupiditée",
+	["HUD_KILLBY"]={
+		"Tuer par",
+		"la justice",
+		"un piège"
+	},
 	["HUD_SCORESTAB"]={
 		"Si vous êtes nouveau au mode utiliser ",
 		"la commande \1\x87MMHELP\4 dans la Console et",

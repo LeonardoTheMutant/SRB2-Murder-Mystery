@@ -201,8 +201,11 @@ MM.AddLang("TR", {
 	["HUD_SUSPECTS"]="Şüphelíler",
 	["HUD_VICTIMS"]="Masumlar",
 	["HUD_TEAMMATES"]="Takım arkadaşları",
-	["HUD_KILLBY"]="Ölmenin sebebi:",
-	["HUD_STUPID"]="senin aptallığın",
+	["HUD_KILLBY"]={
+		"Ölmenin sebebi:",
+		"adalet",
+		"tuzak"
+	},
 	["HUD_SCORESTAB"]={
 		"Oyun türünde yeniyseniz konsola",
 		"\1\x87MMHELP\4 yazın.",

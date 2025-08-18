@@ -195,7 +195,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 		if (MM.AreTeammates(vp, ap)) then return false
 		else MM.KillPlayerByPlayer(v, a) end
 	else
-		MM.KillPlayerByHazard(v, spawnBodyOrEmerald)
+		MM.KillPlayer(v, spawnBodyOrEmerald)
 	end
 
 	switch(vprole, {
@@ -253,7 +253,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						end
 					end,
 					[ROLE_HERO] = do
-						MM.KillPlayerByHazard(a, true)
+						MM.KillPlayer(a, true, true)
 						if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 							MM.EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
@@ -310,7 +310,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		end,
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
-				MM.KillPlayerByHazard(a, true)
+				MM.KillPlayer(a, true, true)
 				chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
@@ -328,7 +328,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		end,
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
-				MM.KillPlayerByHazard(a, true)
+				MM.KillPlayer(a, true, true)
 				chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
@@ -358,7 +358,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					end
 				end,
 				[ROLE_HERO] = do
-					MM.KillPlayerByHazard(a, true)
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_HEROKILLINNO)
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
@@ -369,7 +369,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					end
 				end,
 				[ROLE_CIVILIAN] = do
-					MM.KillPlayerByHazard(a, true)
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 					else

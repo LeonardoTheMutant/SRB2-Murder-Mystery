@@ -220,6 +220,7 @@ hud.add(function(v, p)
 
 	--DEAD player exclusive HUD
 	if (p.mm.finished)
+		--DEAD role label
 		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		if (MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
 			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
@@ -228,6 +229,8 @@ hud.add(function(v, p)
 		else
 			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
 		end
+
+		--"You joined mid-game"
 		if (p.mm.role == nil)
 			if (MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
 				for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
@@ -237,13 +240,19 @@ hud.add(function(v, p)
 				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
 			end
 		end
-		if (p.mm.killername)
-			if (p.mm.killername == "your stupidity")
-				HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\4 "..MM.GetText(consoleplayer.mm.lang, "HUD_STUPID"), V_SNAPTOTOP|V_SNAPTOLEFT)
-			else
-				HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY").."\4 "..p.mm.killername, hudinfo[HUD_RINGS].f)
-			end
+
+		--"Killed by"
+		if (p.mm.killreason)
+			switch(p.mm.killreason, {
+				[KILLBY_PLR] = do
+					if (p.mm.killername) then HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", 1).."\4 "..p.mm.killername, hudinfo[HUD_RINGS].f) end
+				end,
+				['default'] = do
+					HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", 1).."\4 "..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
+				end
+			})
 		end
+
 		if ((not p.mm.minigame) and (not MM.minigame))
 			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
 			HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)

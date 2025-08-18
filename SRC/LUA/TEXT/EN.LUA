@@ -41,41 +41,46 @@
 --
 -- Get it? That's great, now you can begin translating!
 --
+--
+--
 -- TROUBLESHOOTING:
 --
 -- "escape sequence wrong size (2 or 4 digits) near ..." warning on load
 --     If you get this error when trying to load your language file it means that some of your text is not interpreted
---     correctly. Go to the line where the error occurs and look carefully in places where you have placed the escape color
---     codes in the text.
---     For example when you write something like "\x85Dictionary" and you want it red the game thinks that "\x85D" is an
---     escape color code and try to interpret it. To prevent this error you can format the string like "\x85".."Dictionary"
---     (.. in LUA is a string concatenation operator) or if it's in the middle of the text you can fix the error by simply
---     shifting the SPACE symbol.
+--     correctly by the game. Go to the line where the error occurs and look carefully in places where you have placed
+--     the escape color codes in the text.
+--     For example, if you write something like "\x85Dictionary" and you want it red the game thinks that "\x85D" is an
+--     escape color code and tries to interpret it. In reality, "\x85D" is an invalid code and the game will show an error.
+--     To prevent this, you can format the string like "\x85".."Dictionary" (.. in LUA is a string concatenation operator)
+--     or if it's in the middle of the text you can fix the error by simply shifting the SPACE symbol.
 --     If your text looks like this: "A wonderful \x85Dictionary"
 --     Make it like this instead: "A wonderful\x85 Dictionary"
 --     This should fix the problem.
 --     Remember! A, B, C, D, E, F letters and 0-9 digits can be interpreted as a color code - be careful with them!
 --
--- Symbols like � or gibberish stuff apear instead of the wanted text in HUD lines and/or MMHELP text
---     There might be several reasons for this problem. One of them is that you placed symbols in your text but there
+-- Symbols like � or gibberish stuff appear in the HUD lines and/or MMHELP text
+--     There might be several reasons for this problem. One of them is that you placed symbols in your text, but there
 --     are no font graphics for those symbols. You have to contact our team and kindly ask us to make them for you in
 --     the next MM update.
---     Another speculation is that you placed the color codes incorrectly. Please check your color codes in the text.
---     If you are unsure how they should work look at this English text example at any time.
---     The third and final speculation is that your text contains unreadable symbols which the renderer cannot decode.
---     First of all, make sure you save your Language File in UTF-8 encoding. If that does not help try typing
---     the problematic text again, but with UTF-8 encoding
+--     Another possible reason is that you placed the color codes incorrectly. Please check your color codes in the text.
+--     If you are unsure how they should work, look at this English text example at any time.
+--     As a last speculation, your text may contain unreadable symbols that the renderer cannot decode. Make sure you saved
+--     your Language File in UTF-8 encoding. If that does not help, try typing the problematic text again, but with the UTF-8 encoding.
 --
--- For any other questions please visit https://leonardothemutant.github.io/SRB2-Murder-Mystery to find our contants
+-- For any other questions please visit https://leonardothemutant.github.io/SRB2-Murder-Mystery to contact us
+
 
 local language_data = { --Language must be a table variable, you can name the variable as you like.
-	["VERSION"] = "1.3", --to check if lang content is not OUTDATED
+	["VERSION"] = "1.3", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
 	["AUTHOR"] = "SRB2MM community", --who made this language file
-	["MM"] = "Murder Mystery", --name of the gametype, this string supports MM format
+	["MM"] = "Murder Mystery", --translated name of the gametype, this string supports UTF-8
 
 	["NONASCII"] = false, --set this to true if your language is not Latin-based. This only marks the language with * in the MMLANG language list
 
-	--The following sections contain strings that allow your language's native letters to display.
+
+	--
+	--The following 2 entries contain strings that allow your language's native letters to display.
+	--
 
 	["MMHELP_CMD"] = {
 		"Use \1\x87JUMP\4/\1\x87SPIN\4 to scroll, \1\x87Next\4/\1\x87Prev Weapon\4 to switch pages",
@@ -83,7 +88,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 	["MMHELP"] = { --MMHELP command
 		--Every table here acts as a different page
-		{ --MAIN
+		{
 			"\1\x87Welcome to \1\x85Murder Mystery\1\x87!",
 			"\1\x87The SRB2 interpretation of the popular multiplayer game!\n",
 			"The goal of the game is to find and eliminate all the \1\x85Murderers\4 before they can kill\1\x83 everyone else\4. This gametype is similar to MATCH, so you will need sharp aiming and shooting skills to win!",
@@ -95,7 +100,6 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\nThat is the essential information you need to start playing. For more details, read through this manual to the end",
 			"\nUse the \1\x87MMLANG\4 command to change the language of the HUD interface and this manual to your preferred language."
 		},
-		--GAME
 		{
 			"\1\x87".."About the gameplay situations\4\n",
 			"As mentioned in the basics, the game's goal is to eliminate all \1\x85Murderers\4, but different scenarios can occur during gameplay:",
@@ -113,7 +117,6 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\1\x8ATeammates\4 can communicate using the \1\x87SAYTEAM\4 command in the console (SAYTEAM button works as same as the regular chat button) or by starting a message with the \1\x88%\4 symbol, which automatically sends the message to team members.",
 			"If you accidentally attack a \1\x8Ateammate\4, both players will receive a personalized warning. Be careful - such team interactions may reveal your \1\x8Brole\4 to others!"
 		},
-		--BAD
 		{
 			"\1\x87Things to avoid in \1\x85Murder Mystery\4\n",
 			"Rule No. 1:\1\x82 Be kind and have fun!\4 Here are some additional guidelines:",
@@ -124,7 +127,6 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\n* Avoid camping around the \1\x84Sheriff's Emerald\4 if you are a \1\x85Murderer\4. Standing near the emerald for 30 seconds will result in being kicked from the game.",
 			"\nBreaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!"
 		},
-		--TIPS
 		{
 			"\1\x87Useful tips\4\n",
 			"Here are some tips to help you succeed in \1\x85Murder Mystery\4:",
@@ -138,6 +140,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\n* Use the \1\x87MMLANG\4 command to change the language of the HUD interface to your preferred language."
 		}
 	},
+
 
 	--
 	--console/chat messages, these messages can support only ASCII (English-only) characters. Color is made with Vanilla Color Escape Codes
@@ -198,10 +201,10 @@ local language_data = { --Language must be a table variable, you can name the va
 	--Player has killed someone it did not have to
 	["KILL_PUNISHMENT_PM"] = {
 		"\x87You murdered a\x83 Civilian\x87! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
-		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You were\x85 executed\x80 for that.", --Hero killed Civilian
-		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You were\x85 executed \x80 for that.", --Civilian killed Sheriff
-		"\x87You murdered a\x83 Civilian\x87 player just like you! You were\x85 executed\x80 for that.", --Civilian killed Civilian
-		"\x87Oh no! You murdered a \x82Hero\x87! You were\x85 executed\x80 for that." --Civilian killed Hero
+		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You were\x85 executed\x87 for your war crime.", --Hero killed Civilian
+		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You were\x85 executed\x87 for that.", --Civilian killed Sheriff
+		"\x87You murdered a\x83 Civilian\x87 player just like you! You were\x85 executed\x87 for your crime.", --Civilian killed Civilian
+		"\x87Oh no! You murdered a \x82Hero\x87! You were\x85 executed\x87 for that." --Civilian killed Hero
 	},
 
 	-- Civilian hurt by Sheriff/Hero personal messages
@@ -210,21 +213,21 @@ local language_data = { --Language must be a table variable, you can name the va
 		"By killing the\x83 Civilian\x80, the \x82Hero\x80 became the \x85villain\x80 and paid the price." --Hero
 	},
 
-	-- "One of the [role]s left!"
+	-- "One of the players with role left!"
 	["ONE_QUIT"] = {
 		"One of the \x85Murderers\x80 left!", --Murderer
 		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
 		"One of the \x82Heroes\x80 has left!" --Hero
 	},
 
-	-- "Last [role] left!"
+	-- "Last player with role left!"
 	["LAST_QUIT"] = {
 		"The last \x85Murderer\x80 has left!", --Murderer
 		"The last \x84Sheriff\x80 has left!", --Sheriff
 		"The last \x82Hero\x80 has abandoned everyone!" --Hero
 	},
 
-	-- "[role] left, replaced him"
+	-- "Player with role left, replaced him"
 	["REPLACE_QUIT"] = {
 		"The \x85Murderer\x80 left! Some random\x83 Civilian\x80 will take their role!", --Murderer
 		"The \x84Sheriff\x80 left! Some random\x83 Civilian\x80 will take their role!", --Sheriff
@@ -240,10 +243,11 @@ local language_data = { --Language must be a table variable, you can name the va
 		"The Defenders of the\x83 Civilians\x80 are dead. The \x85Murderers\x80 win!" --All sheriffs and Heroes are dead
 	},
 
-	--HUD.LUA
 
-	-- Bitmap patches
-	-- DO NOT EDIT THESE UNLESS YOU UNDERSTAND WHAT YOU ARE DOING
+	--
+	--BITMAP PATCHES
+	--
+	--DO NOT EDIT THESE UNLESS YOU UNDERSTAND WHAT YOU ARE DOING
 	["BMP_VICTIMS_INFO"] = {
 		xoff = 0, --X offset
 		yoff = 0  --Y offset
@@ -313,8 +317,9 @@ local language_data = { --Language must be a table variable, you can name the va
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
 	},
 
+
 	--
-	--MM string formatted HUD section
+	--HUD STRINGS
 	--
 	--The following section contains strings that allow your language's native letters to display.
 	--These strings also use "Murder Mystery string format", which means that vanilla color codes WILL NOT WORK HERE.
@@ -330,8 +335,13 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_SUSPECTS"] = "Suspects",
 	["HUD_VICTIMS"] = "Victims",
 	["HUD_TEAMMATES"] = "Teammates",
-	["HUD_KILLBY"] = "Killed by",
-	["HUD_STUPID"] = "natural causes",
+
+	--"Killed by" parts of text
+	["HUD_KILLBY"] = {
+		"Killed by", --"Killed by"
+		"justice", --player got killed for punishment
+		"the map design" --player got killed by the map hazard
+	},
 
 	-- Scores TAB screen
 	["HUD_SCORESTAB"] = {
@@ -362,10 +372,10 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_DEAD"] = {
 		"You are\1\x8F dead.",
 		"You can't respawn or talk to",
-		"people who are alive."
+		"people who are still alive."
 	},
 
-	-- Centered text when you joined
+	-- Centered text when you joined in the middle of the game
 	["HUD_MIDJOIN"] = {
 		"You joined \1\x84mid-game\4, please wait for this round to finish.",
 		"While you are waiting, please read the game rules in the \1\x87MMHELP\4 console command!"
@@ -385,14 +395,14 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	--minigame stuff
 	["HUD_MINIGAME"] = {
-		["PRESS"] = "Press\1\x82 CUSTOM3\4 to", --must contain MM escape color codes
+		["PRESS"] = "Press\1\x82 CUSTOM3\4 to",
 		["LEAVE"] = "leave",
 		["CANCEL"] = "cancel",
 		["SPECTATE"] = "spectate",
 		["DUEL"] = "a minigame duel",
-		["REQUEST"] = "request a \1\x87PONG\4 minigame!", --must contain MM escape color codes
-		["START"] = "start a \1\x87\"SONIC RUN\"\4 minigame!", --must contain MM escape color codes
-		["ACCEPT"] = "accept the \1\x87PONG\4 challenge!", --must contain MM escape color codes
+		["REQUEST"] = "request a \1\x87PONG\4 minigame!",
+		["START"] = "start a \1\x87\"SONIC RUN\"\4 minigame!",
+		["ACCEPT"] = "accept the \1\x87PONG\4 challenge!",
 		["WAIT"] = "Waiting for the rival to accept...",
 		["SPECTATING"] = "Spectating a duel...",
 		["BORED"] = "Bored?",
