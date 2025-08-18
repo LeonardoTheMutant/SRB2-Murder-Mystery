@@ -220,11 +220,10 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM.GetText(p.mm.lang, "MMLANG", 1))
+		CONS_Printf(p, MM.GetText(p.mm.lang, "CHAT_MMLANG", 1))
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
-		local nonascii
 
 		--sort languages order
 		local langkeys = {}
@@ -235,20 +234,16 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			langCount = $ + 1
 			local arg1 = ""
 			local arg2 = ""
-			local arg3 = "  "
-			if (MM.text[lang]["NONASCII"]) then nonascii = true end
 
-			if (p.mm.lang == lang) then arg1 = "\x82 (current lang)" end
+			if (p.mm.lang == lang) then arg1 = "\x82 [current lang]" end
 			if (MM.GetText(lang, "VERSION") != MM.version) then 
 				langIncomp = $ + 1
-				arg2 = "\x85 (INCOMPATIBLE)"
+				arg2 = "\x85 {INCOMPATIBLE}"
 			end
-			if (MM.text[lang]["NONASCII"]) then arg3 = "\x89* " end
-			CONS_Printf(p, arg3.."\x88"..lang..arg1..arg2)
+			CONS_Printf(p, "\x88"..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
-		if (nonascii) then CONS_Printf(p, "\n\x89* Language is not Latin based. All letters of this language in the console/chat texts will be simulated with English (ASCII compatible) ones.") end
 		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
@@ -257,7 +252,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			p.mm.help.pos = 1
 
 			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM.GetText(p.mm.lang, "AUTHOR"))
-			CONS_Printf(p, MM.GetText(p.mm.lang, "MMLANG", 2))
+			CONS_Printf(p, MM.GetText(p.mm.lang, "CHAT_MMLANG", 2))
 			if (MM.GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
 			CONS_Printf(p, "\x81WARNING\x80: Unicode (UTF-8) text rendering is experimental, some text may dissapear entirely or appear corrupted. Please report all problems you encounter at \x86https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/issues")
 			local f = io.openlocal("client/MM.DAT", 'w')
@@ -309,7 +304,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	--load HELP page
 	local pageInt = tonumber(page)
 	if (pageInt)
-		if (pageInt <= (#MM.text[p.mm.lang]["MMHELP"] + 1))
+		if (pageInt <= (#MM.text[p.mm.lang]["HUD_MMHELP"] + 1))
 			p.mm.help.page = pageInt
 			p.mm.help.pos = 1
 		else p.mm.help.page = 1 end
@@ -362,7 +357,7 @@ end
 --Enjoy what you already have
 addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
-	if (p.mm.help and p.mm.help.active) and (MM.text[consoleplayer.mm.lang]["MMHELP"])
+	if (p.mm.help and p.mm.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
 
 		--
 		-- UI LOGIC
@@ -379,9 +374,9 @@ addHook("PlayerThink", function(p)
 			oldLang = p.mm.lang
 
 			--Insert data into the render buffer
-			if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["MMHELP"])
-				V_InsertToBuffer(MM.GetText(consoleplayer.mm.lang, "MMHELP", p.mm.help.page))
-			elseif (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) --last page is always a technical info page
+			if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+				V_InsertToBuffer(MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP", p.mm.help.page))
+			elseif (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) --last page is always a technical info page
 				V_InsertToBuffer(tech_info)
 			end
 
@@ -417,7 +412,7 @@ addHook("PlayerThink", function(p)
 			if (not (p.lastbuttons & BT_WEAPONNEXT))
 				p.mm.help.page = $ + 1
 				p.mm.help.pos = 1
-				if (p.mm.help.page >= (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)) p.mm.help.page = (#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1) end
+				if (p.mm.help.page >= (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) p.mm.help.page = (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1) end
 			end
 		end
 
@@ -433,7 +428,7 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
+	if not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Update the Canvas resolution
 	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
@@ -470,8 +465,8 @@ hud.add(function(v, p)
 
 	--bottom text
 	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
-	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
+	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
-	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
-	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "MMHELP_CMD", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
+	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
+	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
 end, "game")

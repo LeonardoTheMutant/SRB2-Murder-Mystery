@@ -165,7 +165,7 @@ MM.AssignRoles = do
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
-		chatprintf(p, MM.GetText(p.mm.lang, "ROLE_GET", p.mm.role))
+		chatprintf(p, MM.GetText(p.mm.lang, "CHAT_ROLEGET_PM", p.mm.role))
 		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
 	end
 end
@@ -176,44 +176,44 @@ end
 MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
-			["MURD_KILLED"] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "MURD_KILLED", 1), var, MM.GetText(p.mm.lang, "MURD_KILLED", 2)))
+			["CHAT_MURDKILLED"] = do
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
 			end,
-			['SHERI_KILLED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "SHERI_KILLED", 1), var, MM.GetText(p.mm.lang, "SHERI_KILLED", 2)))
+			['CHAT_SHERIKILLED'] = do
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
 			end,
-			["HERO_KILLED"] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "HERO_KILLED", 1), var, MM.GetText(p.mm.lang, "HERO_KILLED", 2)))
+			["CHAT_HEROKILLED"] = do
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
 			end,
-			['SHERI_KILLED_DROP'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "SHERI_KILLED", 1), var, MM.GetText(p.mm.lang, "SHERI_KILLED", 2), MM.GetText(p.mm.lang, "SHERI_KILLED", 3)))
+			['SHERIKILLED_DROP'] = do
+				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
 			['MURD_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "MURD_KILLED", 1), var, MM.GetText(p.mm.lang, "DIED_HAZARD")))
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "SHERI_KILLED", 1), var, MM.GetText(p.mm.lang, "DIED_HAZARD")))
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['HERO_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "HERO_KILLED", 1), var, MM.GetText(p.mm.lang, "DIED_HAZARD")))
+				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED_DROP'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "SHERI_KILLED", 1), var, MM.GetText(p.mm.lang, "DIED_HAZARD"), MM.GetText(p.mm.lang, "SHERI_KILLED", 3)))
+				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
-			['LAST_QUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'LAST_QUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'LAST_QUIT', 3)) end --for Hero	
+			['CHAT_LASTQUIT'] = do
+				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', var)) --for Murd and Sheri
+				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', 3)) end --for Hero	
 			end,
-			['ONE_QUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'ONE_QUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'ONE_QUIT', 3)) end --for Hero	
+			['CHAT_ONEQUIT'] = do
+				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', var)) --for Murd and Sheri
+				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', 3)) end --for Hero	
 			end,
-			['REPLACE_QUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'REPLACE_QUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'REPLACE_QUIT', 3)) end --for Hero	
+			['CHAT_REPLACEQUIT'] = do
+				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', var)) --for Murd and Sheri
+				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', 3)) end --for Hero	
 			end,
 			['WIN'] = do
-				chatprintf(p, MM.GetText(p.mm.lang, "ENDROUND", var))	
+				chatprintf(p, MM.GetText(p.mm.lang, "CHAT_ENDROUND", var))	
 			end,
 			['default'] = do
 				chatprintf(p, MM.GetText(p.mm.lang, msg, var))
@@ -357,8 +357,8 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	chatprintf(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "TEAMMATE_HIT", 1))
-	chatprintf(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "TEAMMATE_HIT", 2))
+	chatprintf(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
+	chatprintf(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
@@ -371,45 +371,45 @@ MM.PlayerQuit = function(p)
 	switch(role, {
 		[ROLE_MURDERER] = do
 			if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER))) or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER)))
-				MM.EndRound(0, "LAST_QUIT", ROLE_MURDERER)
+				MM.EndRound(0, "CHAT_LASTQUIT", ROLE_MURDERER)
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER)))
-				MM.ChatprintGlobal("REPLACE_QUIT", ROLE_MURDERER)
+				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_MURDERER)
 				MM.SetRandomInnoAs(ROLE_MURDERER, 1)
 				if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 			else
-				MM.ChatprintGlobal("ONE_QUIT", ROLE_MURDERER)
+				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_MURDERER)
 				if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 			end
 		end,
 		[ROLE_SHERIFF] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF))
-				if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("LAST_QUIT", ROLE_SHERIFF)
-				else MM.EndRound(0, "LAST_QUIT", ROLE_SHERIFF) end
+				if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("CHAT_LASTQUIT", ROLE_SHERIFF)
+				else MM.EndRound(0, "CHAT_LASTQUIT", ROLE_SHERIFF) end
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF)))
-				MM.ChatprintGlobal("REPLACE_QUIT", ROLE_SHERIFF)
+				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_SHERIFF)
 				MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 				if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 			else
-				MM.ChatprintGlobal("ONE_QUIT", ROLE_SHERIFF)
+				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_SHERIFF)
 				if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 			end
 		end,
 		[ROLE_HERO] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_HERO))
-				if (MM.PlayerCount(ROLE_SHERIFF)) then MM.ChatprintGlobal("LAST_QUIT", ROLE_HERO)
-				else MM.EndRound(0, "LAST_QUIT", ROLE_HERO) end
+				if (MM.PlayerCount(ROLE_SHERIFF)) then MM.ChatprintGlobal("CHAT_LASTQUIT", ROLE_HERO)
+				else MM.EndRound(0, "CHAT_LASTQUIT", ROLE_HERO) end
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF)))
-				MM.ChatprintGlobal("REPLACE_QUIT", ROLE_HERO)
+				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_HERO)
 				MM.SetRandomInnoAs(ROLE_HERO, 3)
 				if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 			else
-				MM.ChatprintGlobal("ONE_QUIT", ROLE_HERO)
+				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_HERO)
 				if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 			end
 		end,
 		[ROLE_CIVILIAN] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
-				MM.EndRound(0, "LAST_QUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
+				MM.EndRound(0, "CHAT_LASTQUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
 			end
 		end
 	})
@@ -451,7 +451,7 @@ MM.EndRound = function(winner, endtext, reason)
 	G_ExitLevel()
 	if (endtext) MM.ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("EN", "ENDROUND", reason))
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("EN", "CHAT_ENDROUND", reason))
 		else CONS_Printf(server, "- "..MM.GetText("EN", endtext, reason)) end
 	end
 end
@@ -497,7 +497,7 @@ MM.SetRandomInnoAs = function(role, message)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
 	p.mm.hud.roleflicker = 70
-	chatprintf(p, MM.GetText(p.mm.lang, "NEWROLE_GET", message))
+	chatprintf(p, MM.GetText(p.mm.lang, "CHAT_NEWROLEGET_PM", message))
 	return
 end
 

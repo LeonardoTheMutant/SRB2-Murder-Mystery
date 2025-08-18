@@ -73,94 +73,29 @@
 local language_data = { --Language must be a table variable, you can name the variable as you like.
 	["VERSION"] = "1.3", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
 	["AUTHOR"] = "SRB2MM community", --who made this language file
-	["MM"] = "Murder Mystery", --translated name of the gametype, this string supports UTF-8
 
-	["NONASCII"] = false, --set this to true if your language is not Latin-based. This only marks the language with * in the MMLANG language list
 
 
 	--
-	--The following 2 entries contain strings that allow your language's native letters to display.
+	-- CONSOLE/CHAT SECTION
 	--
+	-- These messages can support only ASCII (English-only) characters, color is made with Vanilla Color Escape Codes!
 
-	["MMHELP_CMD"] = {
-		"Use \1\x87JUMP\4/\1\x87SPIN\4 to scroll, \1\x87Next\4/\1\x87Prev Weapon\4 to switch pages",
-		"Press\1\x87 CUSTOM1\4 to leave HELP"
-	},
-	["MMHELP"] = { --MMHELP command
-		--Every table here acts as a different page
-		{
-			"\1\x87Welcome to \1\x85Murder Mystery\1\x87!",
-			"\1\x87The SRB2 interpretation of the popular multiplayer game!\n",
-			"The goal of the game is to find and eliminate all the \1\x85Murderers\4 before they can kill\1\x83 everyone else\4. This gametype is similar to MATCH, so you will need sharp aiming and shooting skills to win!",
-			"\nFirst, let's go over the basics so you can jump in and start playing...",
-			"\nAt the beginning of each round, you will be assigned a \1\x8Brole\4, which determines your task during the game. Here are the possible \1\x8Broles\4 you might receive:",
-			" * \1\x85Murderer\4 - A deadly criminal. Their job is to eliminate everyone.",
-			" * \1\x84Sheriff\4 - Tasked with finding and eliminating the \1\x85Murderer(s)\4.",
-			" *\1\x83 Civilian\4 - Must avoid being killed and assist in identifying the \1\x85Murderer\4. Depending on the game setup, they can obtain a \1\x85Red Ring\4 to defend themselves by collecting 100 rings (or 50 rings for certain skins).",
-			"\nThat is the essential information you need to start playing. For more details, read through this manual to the end",
-			"\nUse the \1\x87MMLANG\4 command to change the language of the HUD interface and this manual to your preferred language."
-		},
-		{
-			"\1\x87".."About the gameplay situations\4\n",
-			"As mentioned in the basics, the game's goal is to eliminate all \1\x85Murderers\4, but different scenarios can occur during gameplay:",
-			"\n* If you die, you will enter the\1\x8F Dead\4 state. Players in this state cannot respawn or communicate globally with players who are still alive. Their messages are visible only to other\1\x8F Dead\4 players.",
-			"You cannot chat with or send Personal Messages to still living players while you are\1\x8F Dead\4.",
-			"Dying from map hazards such as crushers, falling into pits, or drowning in water will also make you\1\x8F Dead\4 for the rest of the round.",
-			"Also,\1\x82 DO NOT TRY TO RENAME YOURSELF WHILE\1\x8F DEAD\4. More details about this are on the next page.",
-			"\n* The \1\x84Sheriff's\4 job is to eliminate the \1\x85Murderers\4, but be careful not to shoot a\1\x83 Civilian\4 by mistake.",
-			"If a \1\x84Sheriff\4 shoots a\1\x83 Civilian\4, they will lose their \1\x8Brole\4 and become a\1\x83 Civilian\4. A random\1\x83 Civilian\4 will then silently take on the \1\x84Sheriff's\4 \1\x8Brole\4. Think before you pull the trigger!",
-			"\n* If a \1\x85Murderer\4 kills a \1\x84Sheriff\4 while there are still\1\x83 Civilians\4 alive, the \1\x84Sheriff's Emerald\4 will drop near their corpse.",
-			"When a\1\x83 Civilian\4 picks up the \1\x84Sheriff's Emerald\4, they become a \1\x82Hero\4. \1\x82Heroes\4 are similar to \1\x84Sheriffs\4 but come with some differences:",
-			"  - If a \1\x82Hero\4 kills a\1\x83 Civilian\4, both die, and their \1\x8Brole\4 is not reassigned;",
-			"  - \1\x82Heroes\4 do not drop the \1\x84Sheriff's Emerald\4 upon death.",
-			"\n* In rounds with higher player counts, there may be multiple \1\x85Murderers\4 and \1\x84Sheriffs\4. \1\x8ATeams\4 of \1\x85Murderers\4 and \1\x84Sheriffs\4 are formed for these rounds.",
-			"\1\x8ATeammates\4 can communicate using the \1\x87SAYTEAM\4 command in the console (SAYTEAM button works as same as the regular chat button) or by starting a message with the \1\x88%\4 symbol, which automatically sends the message to team members.",
-			"If you accidentally attack a \1\x8Ateammate\4, both players will receive a personalized warning. Be careful - such team interactions may reveal your \1\x8Brole\4 to others!"
-		},
-		{
-			"\1\x87Things to avoid in \1\x85Murder Mystery\4\n",
-			"Rule No. 1:\1\x82 Be kind and have fun!\4 Here are some additional guidelines:",
-			"\n* Do not spoil your \1\x8BRole\4, even as a joke. While you can call out someone else's \1\x8Brole\4 if you are sure, never reveal your own.",
-			"\n* Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.",
-			"\n* Do not go AFK (Away From Keyboard). If you stand still too long, a bomb will be dropped on you, and you will be removed from the game.",
-			"\n* Do not rename yourself during a round if you are\1\x8F Dead\4. Doing so will result in being kicked from the server. If\1\x8F Dead\4, wait until the intermission to rename safely.",
-			"\n* Avoid camping around the \1\x84Sheriff's Emerald\4 if you are a \1\x85Murderer\4. Standing near the emerald for 30 seconds will result in being kicked from the game.",
-			"\nBreaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!"
-		},
-		{
-			"\1\x87Useful tips\4\n",
-			"Here are some tips to help you succeed in \1\x85Murder Mystery\4:",
-			"\n* If character abilities are disabled by the admin, press \1\x87SPIN\4 to sneak silently without leaving traces or making noise.",
-			"\n* Picking up the \1\x84Sheriff's Emerald\4 grants you access to all the weapons and rings you previously collected.",
-			"\n* Use the \1\x87SAYTEAM\4 command to coordinate with your \1\x8Ateammates\4 and avoid friendly fire. Starting a message with \1\x88%\4 will automatically send it to your team members.",
-			"\n* Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.",
-			"\n* Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.",
-			"\n* If your role is leaked, rename yourself and/or change your skin color. \1\x82Keep in mind that your rename will appear in chat.\4",
-			"\n* Use the\1\x87 FIRENORMAL\4 button to wield the \1\x86Knife\4 anywhere, as long as you have rings. Sneaking while using a \1\x86Knife\4 ensures your attack is silent.",
-			"\n* Use the \1\x87MMLANG\4 command to change the language of the HUD interface to your preferred language."
-		}
-	},
-
-
-	--
-	--console/chat messages, these messages can support only ASCII (English-only) characters. Color is made with Vanilla Color Escape Codes
-	--
-
-	--MMLANG command
-	["MMLANG"] = {
+	-- MMLANG command
+	["CHAT_MMLANG"] = {
 		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command.", --when typed MMHELP with no argument
 		"Personal language for Murder Mystery is set to\x82 English." --when typed MMHELP with language argument (it sets the new language)
 	},
 
 	-- "You got the role" personal messages
-	["ROLE_GET"] = {
+	["CHAT_ROLEGET_PM"] = {
 		"You are the \x85Murderer. Murder them all.", --Murderer 
 		"You are the \x84Sheriff\x80!\x84 Eliminate all the Murderers\x80. Kill the \x83wrong person\x80, and the role no longer belongs to you.", --Sheriff
 		"You are a\x83 Civilian\x80! Hide and help with the investigation." --Civilian
 	},
 
 	-- Randomly selected civilian has a new role
-	["NEWROLE_GET"] = {
+	["CHAT_NEWROLEGET_PM"] = {
 		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!",
 		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
 		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!",
@@ -168,38 +103,38 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	-- Teammate hit
-	["TEAMMATE_HIT"] = {
+	["CHAT_TEAMMATEHIT_PM"] = {
 		"Careful! That's your teammate. Avoid friendly fire next time!",
 		"A teammate accidentally hit you. Revenge is NOT recommended!"
 	},
 
 	-- Murderer killed
-	["MURD_KILLED"] = {
+	["CHAT_MURDKILLED"] = {
 		"\x85Murderer", --beginning of the string
 		"got eliminated!", --ending
 	},
 
 	-- Sheriff killed
-	["SHERI_KILLED"] = {
+	["CHAT_SHERIKILLED"] = {
 		"\x84Sheriff", --beginning
 		"got murdered!", --ending
 		"Find their\x84 Emerald\x80!" --additional ending if Sheriff's Emerald is dropped
 	},
 
-	--Hero killed
-	["HERO_KILLED"] = {
+	-- Hero killed
+	["CHAT_HEROKILLED"] = {
 		"\x82Hero",
 		"got murdered!",
 	},
 
-	--player was crushed, has drown or fell into a pit
-	["DIED_HAZARD"] = "died accidentally. Unfortunate.",
+	-- Player was crushed, has drown or fell into a pit
+	["CHAT_DIEDHAZARD"] = "died accidentally. Unfortunate.",
 
-	--Sheriff's Emerald pickup global notification
-	["SHREMD_PICK"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
+	-- Sheriff's Emerald pickup global notification
+	["CHAT_SHREMDPICKUP"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
 
-	--Player has killed someone it did not have to
-	["KILL_PUNISHMENT_PM"] = {
+	-- Player has killed someone it did not have to
+	["CHAT_KILLPUNISHMENT_PM"] = {
 		"\x87You murdered a\x83 Civilian\x87! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
 		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You were\x85 executed\x87 for your war crime.", --Hero killed Civilian
 		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You were\x85 executed\x87 for that.", --Civilian killed Sheriff
@@ -208,34 +143,34 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	-- Civilian hurt by Sheriff/Hero personal messages
-	["INNO_HURT"] = {
+	["CHAT_INNOHURT"] = {
 		"The \x84Sheriff\x80 murdered a\x83 Civilian\x80! Someone else should finish the job!", --Sheriff
 		"By killing the\x83 Civilian\x80, the \x82Hero\x80 became the \x85villain\x80 and paid the price." --Hero
 	},
 
 	-- "One of the players with role left!"
-	["ONE_QUIT"] = {
+	["CHAT_ONEQUIT"] = {
 		"One of the \x85Murderers\x80 left!", --Murderer
 		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
 		"One of the \x82Heroes\x80 has left!" --Hero
 	},
 
 	-- "Last player with role left!"
-	["LAST_QUIT"] = {
+	["CHAT_LASTQUIT"] = {
 		"The last \x85Murderer\x80 has left!", --Murderer
 		"The last \x84Sheriff\x80 has left!", --Sheriff
 		"The last \x82Hero\x80 has abandoned everyone!" --Hero
 	},
 
 	-- "Player with role left, replaced him"
-	["REPLACE_QUIT"] = {
+	["CHAT_REPLACEQUIT"] = {
 		"The \x85Murderer\x80 left! Some random\x83 Civilian\x80 will take their role!", --Murderer
 		"The \x84Sheriff\x80 left! Some random\x83 Civilian\x80 will take their role!", --Sheriff
 		"A \x82Hero\x80 left! Some random\x83 Civilian\x80 will take their role!" --Hero
 	},
 
 	-- Win texts
-	["ENDROUND"] = {
+	["CHAT_ENDROUND"] = {
 		"Everyone is dead. The \x85Murderers\x80 win!", --Murderers win
 		"All of the \x85Murderers\x80 were killed! The\x83 Civilians\x80 win!", --Sheriffs / Heros win
 		"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Civilian! Shame on the \x84Sheriff\x80...", --Sheriff killed the last Civilian
@@ -319,10 +254,19 @@ local language_data = { --Language must be a table variable, you can name the va
 
 
 	--
-	--HUD STRINGS
+	--HUD SECTION
 	--
-	--The following section contains strings that allow your language's native letters to display.
-	--These strings also use "Murder Mystery string format", which means that vanilla color codes WILL NOT WORK HERE.
+	--The following section contains strings that allow your language's native letters to display (UTF-8 compatible).
+	--Text color codes are little different here than vanilla ones and work as following:
+	--  \1\x[hexcode] - Set color & translucency of the text, where [hexcode] is the vanilla color code
+	--  \4"           - Clear color & translucency effect (shortcut to "\1\x80")
+
+	-- Name of the gametype
+	["HUD_MM"] = "Murder Mystery",
+
+	["HUD_SUSPECTS"] = "Suspects",
+	["HUD_VICTIMS"] = "Victims",
+	["HUD_TEAMMATES"] = "Teammates",
 
 	-- Role names
 	["HUD_ROLES"] = {
@@ -332,12 +276,9 @@ local language_data = { --Language must be a table variable, you can name the va
 		"HERO", --Hero
 		"DEAD" --Dead
 	},
-	["HUD_SUSPECTS"] = "Suspects",
-	["HUD_VICTIMS"] = "Victims",
-	["HUD_TEAMMATES"] = "Teammates",
 
 	--"Killed by" parts of text
-	["HUD_KILLBY"] = {
+	["HUD_KILLEDBY"] = {
 		"Killed by", --"Killed by"
 		"justice", --player got killed for punishment
 		"the map design" --player got killed by the map hazard
@@ -387,7 +328,7 @@ local language_data = { --Language must be a table variable, you can name the va
 		"Please wait for \1\x84one more\4 player to start."
 	},
 
-	--Sneaking
+	-- Sneaking
 	["HUD_SNEAKING"] = "Sneaking...",
 
 	-- "Showdown duel!"
@@ -420,7 +361,74 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Time Travel stuff
 	["HUD_PAST"] = "PAST",
-	["HUD_FUTURE"] = "FUTURE"
+	["HUD_FUTURE"] = "FUTURE",
+
+
+
+	--
+	-- "MMHELP" CONSOLE COMMAND SECTION
+	--
+
+	-- Additional UI text
+	["HUD_MMHELP_UI"] = {
+		"Use \1\x87JUMP\4/\1\x87SPIN\4 to scroll, \1\x87Next\4/\1\x87Prev Weapon\4 to switch pages",
+		"Press\1\x87 CUSTOM1\4 to leave HELP"
+	},
+	-- MMHELP's text
+	["HUD_MMHELP"] = {
+		--Every table here acts as a different page
+		{
+			"\1\x87Welcome to \1\x85Murder Mystery\1\x87!",
+			"\1\x87The SRB2 interpretation of the popular multiplayer game!\n",
+			"The goal of the game is to find and eliminate all the \1\x85Murderers\4 before they can kill\1\x83 everyone else\4. This gametype is similar to MATCH, so you will need sharp aiming and shooting skills to win!",
+			"\nFirst, let's go over the basics so you can jump in and start playing...",
+			"\nAt the beginning of each round, you will be assigned a \1\x8Brole\4, which determines your task during the game. Here are the possible \1\x8Broles\4 you might receive:",
+			" * \1\x85Murderer\4 - A deadly criminal. Their job is to eliminate everyone.",
+			" * \1\x84Sheriff\4 - Tasked with finding and eliminating the \1\x85Murderer(s)\4.",
+			" *\1\x83 Civilian\4 - Must avoid being killed and assist in identifying the \1\x85Murderer\4. Depending on the game setup, they can obtain a \1\x85Red Ring\4 to defend themselves by collecting 100 rings (or 50 rings for certain skins).",
+			"\nThat is the essential information you need to start playing. For more details, read through this manual to the end",
+			"\nUse the \1\x87MMLANG\4 command to change the language of the HUD interface and this manual to your preferred language."
+		},
+		{
+			"\1\x87".."About the gameplay situations\4\n",
+			"As mentioned in the basics, the game's goal is to eliminate all \1\x85Murderers\4, but different scenarios can occur during gameplay:",
+			"\n* If you die, you will enter the\1\x8F Dead\4 state. Players in this state cannot respawn or communicate globally with players who are still alive. Their messages are visible only to other\1\x8F Dead\4 players.",
+			"You cannot chat with or send Personal Messages to still living players while you are\1\x8F Dead\4.",
+			"Dying from map hazards such as crushers, falling into pits, or drowning in water will also make you\1\x8F Dead\4 for the rest of the round.",
+			"Also,\1\x82 DO NOT TRY TO RENAME YOURSELF WHILE\1\x8F DEAD\4. More details about this are on the next page.",
+			"\n* The \1\x84Sheriff's\4 job is to eliminate the \1\x85Murderers\4, but be careful not to shoot a\1\x83 Civilian\4 by mistake.",
+			"If a \1\x84Sheriff\4 shoots a\1\x83 Civilian\4, they will lose their \1\x8Brole\4 and become a\1\x83 Civilian\4. A random\1\x83 Civilian\4 will then silently take on the \1\x84Sheriff's\4 \1\x8Brole\4. Think before you pull the trigger!",
+			"\n* If a \1\x85Murderer\4 kills a \1\x84Sheriff\4 while there are still\1\x83 Civilians\4 alive, the \1\x84Sheriff's Emerald\4 will drop near their corpse.",
+			"When a\1\x83 Civilian\4 picks up the \1\x84Sheriff's Emerald\4, they become a \1\x82Hero\4. \1\x82Heroes\4 are similar to \1\x84Sheriffs\4 but come with some differences:",
+			"  - If a \1\x82Hero\4 kills a\1\x83 Civilian\4, both die, and their \1\x8Brole\4 is not reassigned;",
+			"  - \1\x82Heroes\4 do not drop the \1\x84Sheriff's Emerald\4 upon death.",
+			"\n* In rounds with higher player counts, there may be multiple \1\x85Murderers\4 and \1\x84Sheriffs\4. \1\x8ATeams\4 of \1\x85Murderers\4 and \1\x84Sheriffs\4 are formed for these rounds.",
+			"\1\x8ATeammates\4 can communicate using the \1\x87SAYTEAM\4 command in the console (SAYTEAM button works as same as the regular chat button) or by starting a message with the \1\x88%\4 symbol, which automatically sends the message to team members.",
+			"If you accidentally attack a \1\x8Ateammate\4, both players will receive a personalized warning. Be careful - such team interactions may reveal your \1\x8Brole\4 to others!"
+		},
+		{
+			"\1\x87Things to avoid in \1\x85Murder Mystery\4\n",
+			"Rule No. 1:\1\x82 Be kind and have fun!\4 Here are some additional guidelines:",
+			"\n* Do not spoil your \1\x8BRole\4, even as a joke. While you can call out someone else's \1\x8Brole\4 if you are sure, never reveal your own.",
+			"\n* Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.",
+			"\n* Do not go AFK (Away From Keyboard). If you stand still too long, a bomb will be dropped on you, and you will be removed from the game.",
+			"\n* Do not rename yourself during a round if you are\1\x8F Dead\4. Doing so will result in being kicked from the server. If\1\x8F Dead\4, wait until the intermission to rename safely.",
+			"\n* Avoid camping around the \1\x84Sheriff's Emerald\4 if you are a \1\x85Murderer\4. Standing near the emerald for 30 seconds will result in being kicked from the game.",
+			"\nBreaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!"
+		},
+		{
+			"\1\x87Useful tips\4\n",
+			"Here are some tips to help you succeed in \1\x85Murder Mystery\4:",
+			"\n* If character abilities are disabled by the admin, press \1\x87SPIN\4 to sneak silently without leaving traces or making noise.",
+			"\n* Picking up the \1\x84Sheriff's Emerald\4 grants you access to all the weapons and rings you previously collected.",
+			"\n* Use the \1\x87SAYTEAM\4 command to coordinate with your \1\x8Ateammates\4 and avoid friendly fire. Starting a message with \1\x88%\4 will automatically send it to your team members.",
+			"\n* Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.",
+			"\n* Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.",
+			"\n* If your role is leaked, rename yourself and/or change your skin color. \1\x82Keep in mind that your rename will appear in chat.\4",
+			"\n* Use the\1\x87 FIRENORMAL\4 button to wield the \1\x86Knife\4 anywhere, as long as you have rings. Sneaking while using a \1\x86Knife\4 ensures your attack is silent.",
+			"\n* Use the \1\x87MMLANG\4 command to change the language of the HUD interface to your preferred language."
+		}
+	}
 }
 
 --finally import your language to the MM

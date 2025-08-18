@@ -245,10 +245,10 @@ hud.add(function(v, p)
 		if (p.mm.killreason)
 			switch(p.mm.killreason, {
 				[KILLBY_PLR] = do
-					if (p.mm.killername) then HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", 1).."\4 "..p.mm.killername, hudinfo[HUD_RINGS].f) end
+					if (p.mm.killername) then HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."\4 "..p.mm.killername, hudinfo[HUD_RINGS].f) end
 				end,
 				['default'] = do
-					HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", 1).."\4 "..MM.GetText(consoleplayer.mm.lang, "HUD_KILLBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
+					HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."\4 "..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
 			})
 		end
@@ -484,7 +484,7 @@ hud.add(function(v)
 
 	hud.disable("rankings")
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 12, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "MM"), v.localTransFlag())
+	HIDEO.DrawStrUnicode_Center(v, 160, 12, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"), v.localTransFlag())
 
 	--Player list
 	if ((crypticCVAR.value) or (MM.PlayerCount() == 1))
@@ -597,7 +597,7 @@ hud.add(function(v)
 	local plrs = {}
 	local multiply = {x=0, y=0}
 	
-	HIDEO.DrawStrUnicode_Center(v, 160, 4, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "MM"))
+	HIDEO.DrawStrUnicode_Center(v, 160, 4, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"))
 
 	--Map name drawer
 	if (mapheaderinfo[gamemap].actnum == 0)

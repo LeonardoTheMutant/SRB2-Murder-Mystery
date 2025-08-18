@@ -244,8 +244,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 						-- otherwise Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
-							chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 1))
-							MM.ChatprintGlobal("INNO_HURT", 1)
+							chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+							MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 							MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 							ap.mm.role = ROLE_CIVILIAN
 						else
@@ -259,8 +259,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 							MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 						else
-							chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
-							MM.ChatprintGlobal("INNO_HURT", 2)
+							chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+							MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 						end
 					end
 				})
@@ -296,11 +296,11 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 	switch(vprole, {
 		[ROLE_MURDERER] = do
 			if (MM.PlayerCount(ROLE_MURDERER))
-				MM.ChatprintGlobal("MURD_KILLED", vp.name)
+				MM.ChatprintGlobal("CHAT_MURDKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 				if (ap.mm.role == ROLE_CIVILIAN)
 					ap.mm.role = ROLE_HERO
-					chatprintf(ap, MM.GetText(ap.mm.lang, "NEWROLE_GET", 4))
+					chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_NEWROLEGET_PM", 4))
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -311,16 +311,16 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 3))
+				chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
 			if (MM.PlayerCount(ROLE_CIVILIAN))
 				MM.SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
-				MM.ChatprintGlobal("SHERI_KILLED_DROP", vp.name)
+				MM.ChatprintGlobal("SHERIKILLED_DROP", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
 			elseif (not MM.PlayerCount(ROLE_CIVILIAN)) and (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO))
-				MM.ChatprintGlobal("SHERI_KILLED", vp.name)
+				MM.ChatprintGlobal("CHAT_SHERIKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
 			elseif (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_CIVILIAN))
 				MM.EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
@@ -329,14 +329,14 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 5))
+				chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
 
 			if (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF)) and ((not MM.PlayerCount(ROLE_CIVILIAN)) or (MM.PlayerCount(ROLE_CIVILIAN) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 				MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 			else
-				MM.ChatprintGlobal("HERO_KILLED", vp.name)
+				MM.ChatprintGlobal("CHAT_HEROKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
 			end
 		end,
@@ -349,8 +349,8 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
-						chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 1))
-						MM.ChatprintGlobal("INNO_HURT", 1)
+						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+						MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 						MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 						ap.mm.role = ROLE_CIVILIAN
 					else
@@ -364,8 +364,8 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 					else
-						chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 2))
-						MM.ChatprintGlobal("INNO_HURT", 2)
+						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+						MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 					end
 				end,
 				[ROLE_CIVILIAN] = do
@@ -373,7 +373,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 					else
-						chatprintf(ap, MM.GetText(ap.mm.lang, "KILL_PUNISHMENT_PM", 4))
+						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 4))
 					end
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
 				end
@@ -418,7 +418,7 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 		S_StartSound(t.player.mo, sfx_cgot, t.player)
 		t.player.mm.role = ROLE_HERO
 		t.player.mm.hud.roleflicker = 70 --2 secs
-		MM.ChatprintGlobal("SHREMD_PICK")
+		MM.ChatprintGlobal("CHAT_SHREMDPICKUP")
 		MM.StartShowdownMusic()
 	end
 

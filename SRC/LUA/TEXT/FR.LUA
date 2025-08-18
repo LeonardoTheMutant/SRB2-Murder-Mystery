@@ -7,119 +7,66 @@
 MM.AddLang("FR", {
 	["VERSION"]="1.3",
 	["AUTHOR"]="Troplucky",
-	["MM"]="Murder Mystery",
-	["MMHELP_CMD"]={
-		"Utiliser \1\x87JUMP\4/\1\x87SPIN\4 pour faire défiler, \1\x87Next\4/\1\x87Prev Weapon\4 pour changer de pages",
-		"Appuyer sur\1\x87 CUSTOM1\4 pour quitter l'aide"
-	},
-	["MMHELP"]={
-		{
-			"\1\x87".."Bienvenue dans Murder Mystery!",
-			"\1\x87L'interprétation de SRB2 du jeu multijoueur populaire!\4\n",
-			"Le but du jeu est de trouver et éliminer tout les \1\x85Meurtriers\4 avant qu'ils tue\1\x83 tout les autres \4. Ce mode de jeux est similaire à MATCH donc vous aurez besoins de vos talents de tirs et précision.",
-			"Vous devez apprendres quelques bases avant de jouer...",
-			"\nAu début de chaque round cous recevrez un \1\x8BRole\4 qui définira votre tâche dans cette partie . Voici les tout 3 \1\x8BRoles\4 que vous pouvez avoir:",
-			" * \1\x85Meurtrier \4 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
-			" * \1\x84Sheriff\4  - leur tâche est de trouver et tuer le/les \1\x85Meurtrier(s)\4. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
-			" * \1\x83Innocent\4 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le \1\x85Meurtrier\4.",
-			"\nCela conclut les informations basique de ce jeu, si vous voulez and savoir plus continuer de lire ce manuel."
-		},
-		{
-			"\1\x87Par-apport aux gameplay\4\n",
-			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les \1\x85Meurtriers\4, mais des situations de gameplay differentes peuvent arrivé:",
-			"\n* Si vous mourez, vous entrerez l'état \1\x8FMort\4 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
-			"Vous pouvez pas parler via /PM avec les \1\x8FMort\4.",
-			"aussi \1\x82N'ESSAYER PAS DE CHANGER DE NOM\4, plus de détails sur la prochaine page.",
-			"\n* la tâche du \1\x84Sheriff\4 est d'éliminer tout les \1\x85Meurtriers \4 alentours, mais ils peuvent accidentellement tirer sur un \1\x83Innocent\4.",
-			"Si cela arrive, le \1\x84Sheriff\4 deviendra \1\x83Innocent\4 et un \1\x83Innocent\4 aléatoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que \1\x84Sheriff\4 rfléchissez deux fois avant de tirer!",
-			"\n* Quand un \1\x85Meurtrier \4 tue un \1\x84Sheriff\4 et qu'il restent des \1\x83Innocents\4 en vie, le Sheriff va lâcher là \1\x84Sheriff's Emerald\4 vers leur corps.",
-			"contraire aux 7 Chaos Emeralds, cette émeraude va donner le rôle \1\x82Héro\4 à  \1\x83l'Innocent\4 qui là ramasse. Si vous êtes un \1\x83l'Innocent\4, c'est votre chance d'être un Héro et de sauver les gens des \1\x85Meurtriers\4!",
-			"Le rôle du \1\x82Héro\4 rôle ne change pas du \1\x84Sheriff\4 excepté quelques détails tel que quand le \1\x82Héro\4 tue un \1\x83Innocent\4 sont rôle ne se partagera pas et les deux mourront. un Héro ne lâchera pas une \1\x84Sheriff's Emerald\4 à sa mort.",
-			"\n* Basé sur le nombre de joueurs, il-est possible d'avoir plus d'un \1\x85Meurtrier\4 et \1\x84Sheriff\4 parmis les joueurs dans le round. par exemple, à partir de 7 joueurs ou plus,\1\x8B Des équipes\4 de \1\x85Meurtriers\4 et \1\x84Sheriffs\4 seront faites.",
-			"\1\x8BLes alliés\4 peuvent parler en utilisant la commande de console \1\x87SAYTEAM\4 (A noté que la touche sayteam fonctionne comme la touche say).",
-			"Si un\1\x8B Allié\4 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
-		},
-		{
-			"\1\x87".."Chosesà pas faire dans Murder Mystery\4\n",
-			"Règle No.1 pour tout les jeux: \1\x81Soyer gentil et amusez-vous!\4 A-part ça...",
-			"\n* Révéler son \1\x8BRole\4 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
-			"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous croîre si vous accuser a tord constamment.",
-			"\n* Rester \"AFK\" pendant trop de temps est un crime de guerre. Des bombes vont vous prendre par surprise si vous rester sans bouger trop longtemps.",
-			"\n* Ne changer pas de nom quand vous êtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous êtes en vie. Attender juste que la partie se finisse pour être sûr.",
-			"\nNe pas respecter ces règle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
-		},
-		{
-			"\1\x87".."Conseils\4\n",
-			"Voici des conseils collecter pour MM:",
-			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur \1\x82SPIN\4 pour vous déplacer de façon silencieuse;",
-			"\n* Quand vous ramasser une \1\x84Sherrif Emerald\4, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
-			"\n* Trouver vos\1\x8B alliés\4 avec la commande \1\x87SAYTEAM\4 permettera de savoir qui est dans votre équipe sans prendre de risque;",
-			"\n* Prendres des dégats de tout sauf un \1\x84Sherrif\4 ou un \1\x85Meurtrier\4 vous donne 3 secondes d'invincibilité;",
-			"\n* Chercher des zones pour vous cacher dans les cartes. Cela permet de la publicités pas voulu en moins;",
-			"\n* Si votres role est révéler, Vous pouvez changer de nom/couleur. \1\x81Les changement de nom sont exposé\4;",
-			"\n*La touche\1\x82 FIRENORMAL\4 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
-		}
-	},
-	["MMLANG"]={
+	["CHAT_MMLANG"]={
 		"Votre langue actuel est\x82 Francais\x80\nVous pouver le changer avec la commande \x87MMLANG [langue]",
 		"Votre langue choisie est actuellement\x82 Francais"
 	},
-	["ROLE_GET"]={
+	["CHAT_ROLEGET_PM"]={
 		"Vous etes le \x85Meurtrier\x80! \x85tuer tout le monde!",
 		"Vous etes le \x84Sheriff\x80!\x84 Eliminer tout les Meurtriers\x80. Si vous tuer un innocent, vous perdrer votre role.",
 		"Vous etes \x83Innocent\x80! Cacher vous et aider avec l'investigation."
 	},
-	["NEWROLE_GET"]={
+	["CHAT_NEWROLEGET_PM"]={
 		"\x87La vie a decider que vous serez un \x85Meurtrier\x87.\x85 Maintenant tuer tout le monde!",
 		"\x87L'univers vous a transformer en \x84Sheriff\x87! Allez\x84 eliminer tout les meurtriers\x87!",
 		"\x87Vous avez ete choisi comme \x82Hero\x87. Sauvez tout le monde des meurtriers!"
 	},
-	["TEAMMATE_HIT"]={
+	["CHAT_TEAMMATEHIT_PM"]={
 		"Ce joueur est vous Allie. Ne l'attaquer pas un autre fois.",
 		"Un Allie vous a attaquer. Ne vous venger pas sur eux."
 	},
-	["MURD_KILLED"]={
+	["CHAT_MURDKILLED"]={
 		"\x85Murtrier",
 		"est eliminer"
 	},
-	["SHERI_KILLED"]={
+	["CHAT_SHERIKILLED"]={
 		"\x84Sheriff",
 		"a ete assassiner!",
 		"Trouver leur\x84 Emeraulde\x80!"
 	},
-	["HERO_KILLED"]={
+	["CHAT_HEROKILLED"]={
 		"\x82Hero",
 		"a ete assassiner!"
 	},
-	["DIED_HAZARD"]="est mort dans un accident.",
-	["SHREMD_PICK"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
-	["KILL_PUNISHMENT_PM"]={
+	["CHAT_DIEDHAZARD"]="est mort dans un accident.",
+	["CHAT_SHREMDPICKUP"]="Quelqu'un a pris la \x84Sheriff's Emerald\x80...",
+	["CHAT_KILLPUNISHMENT_PM"]={
 		"\x87Vous avez tuer un \x83Innocent\x87! ous etes virez. (Tu n'es plus Sherif)",
 		"Les \x82Heros\x87 ne doivent pas tuer les \x83Innocents\x87. Vous avez la penaliter de morts pour ca.",
 		"\x87Oh non! Tu as assassine un \x84Sherif\x87!!! Tu as ete condamne a mort pour ca",
 		"\x87Vous avez assassine un joueur\x83 Civil\x87 comme vous! Vous avez ecope de la peine de mort pour cela",
 		"\x87Oh non! Tu as assassine un \x82Heros\x87! Tu as ecope de la peine de mort pour ca"
 	},
-	["INNO_HURT"]={
+	["CHAT_INNOHURT"]={
 		"Le \x84Sheriff\x80 a tuer \x83Innocent\x80! Quelqu'un d'autre dois finir le travail!",
 		"Le \x82Hero\x80 est devenu un villain et a tuer un \x83Innocent\x80. Maintenant les deux sont morts. C'est t'a faute le\x82 \"Hero\"\x80"
 	},
-	["ONE_QUIT"]={
+	["CHAT_ONEQUIT"]={
 		"Un des \x85Meurtriers\x80 est parti!",
 		"Un des \x84Sheriffs\x80 est parti!!!",
 		"Un des \x82Heros\x80 nous a abandonner!"
 	},
-	["LAST_QUIT"]={
+	["CHAT_LASTQUIT"]={
 		"Le dernier \x85Meurtrier\x80 est parti!",
 		"Le dernier \x84Sheriff\x80 est parti!",
 		"Le dernier \x82Hero\x80 est parti!"
 	},
-	["REPLACE_QUIT"]={
+	["CHAT_REPLACEQUIT"]={
 		"Le \x85Meurtrier\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!",
 		"Le \x84Sheriff\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!",
 		"Un \x82Hero\x80 left! Un \x83Innocent\x80 Aleatoire va prendre son role!"
 	},
-	["ENDROUND"]={
+	["CHAT_ENDROUND"]={
 		"Tout le mondes est mort. Les \x85Meurtriers\x80 gagnent!",
 		"Tout les \x85Meurtriers\x80 sont morts! Les\x83 Civils\x80 gagnent!",
 		"Les \x85Meurtriers\x80 ont gagner car le \x84Sheriff\x80 a tuer le dernier Innocent ! Faute au \x84Sheriff\x80",
@@ -178,6 +125,7 @@ MM.AddLang("FR", {
 		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
 		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1F"
 	},
+	["HUD_MM"]="Murder Mystery",
 	["HUD_ROLES"]={
 		"MEURTRIER",
 		"SHERIFF",
@@ -188,7 +136,7 @@ MM.AddLang("FR", {
 	["HUD_SUSPECTS"]="Suspects",
 	["HUD_VICTIMS"]="Victimes",
 	["HUD_TEAMMATES"]="Alliés",
-	["HUD_KILLBY"]={
+	["HUD_KILLEDBY"]={
 		"Tuer par",
 		"la justice",
 		"un piège"
@@ -249,5 +197,57 @@ MM.AddLang("FR", {
 		"\1\x83".."CIVILS"
 	},
 	["HUD_PAST"]="PASSÉ",
-	["HUD_FUTURE"]="AVENIR"
+	["HUD_FUTURE"]="AVENIR",
+	["HUD_MMHELP_UI"]={
+		"Utiliser \1\x87JUMP\4/\1\x87SPIN\4 pour faire défiler, \1\x87Next\4/\1\x87Prev Weapon\4 pour changer de pages",
+		"Appuyer sur\1\x87 CUSTOM1\4 pour quitter l'aide"
+	},
+	["HUD_MMHELP"]={
+		{
+			"\1\x87".."Bienvenue dans Murder Mystery!",
+			"\1\x87L'interprétation de SRB2 du jeu multijoueur populaire!\4\n",
+			"Le but du jeu est de trouver et éliminer tout les \1\x85Meurtriers\4 avant qu'ils tue\1\x83 tout les autres \4. Ce mode de jeux est similaire à MATCH donc vous aurez besoins de vos talents de tirs et précision.",
+			"Vous devez apprendres quelques bases avant de jouer...",
+			"\nAu début de chaque round cous recevrez un \1\x8BRole\4 qui définira votre tâche dans cette partie . Voici les tout 3 \1\x8BRoles\4 que vous pouvez avoir:",
+			" * \1\x85Meurtrier \4 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
+			" * \1\x84Sheriff\4  - leur tâche est de trouver et tuer le/les \1\x85Meurtrier(s)\4. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
+			" * \1\x83Innocent\4 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le \1\x85Meurtrier\4.",
+			"\nCela conclut les informations basique de ce jeu, si vous voulez and savoir plus continuer de lire ce manuel."
+		},
+		{
+			"\1\x87Par-apport aux gameplay\4\n",
+			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les \1\x85Meurtriers\4, mais des situations de gameplay differentes peuvent arrivé:",
+			"\n* Si vous mourez, vous entrerez l'état \1\x8FMort\4 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
+			"Vous pouvez pas parler via /PM avec les \1\x8FMort\4.",
+			"aussi \1\x82N'ESSAYER PAS DE CHANGER DE NOM\4, plus de détails sur la prochaine page.",
+			"\n* la tâche du \1\x84Sheriff\4 est d'éliminer tout les \1\x85Meurtriers \4 alentours, mais ils peuvent accidentellement tirer sur un \1\x83Innocent\4.",
+			"Si cela arrive, le \1\x84Sheriff\4 deviendra \1\x83Innocent\4 et un \1\x83Innocent\4 aléatoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que \1\x84Sheriff\4 rfléchissez deux fois avant de tirer!",
+			"\n* Quand un \1\x85Meurtrier \4 tue un \1\x84Sheriff\4 et qu'il restent des \1\x83Innocents\4 en vie, le Sheriff va lâcher là \1\x84Sheriff's Emerald\4 vers leur corps.",
+			"contraire aux 7 Chaos Emeralds, cette émeraude va donner le rôle \1\x82Héro\4 à  \1\x83l'Innocent\4 qui là ramasse. Si vous êtes un \1\x83l'Innocent\4, c'est votre chance d'être un Héro et de sauver les gens des \1\x85Meurtriers\4!",
+			"Le rôle du \1\x82Héro\4 rôle ne change pas du \1\x84Sheriff\4 excepté quelques détails tel que quand le \1\x82Héro\4 tue un \1\x83Innocent\4 sont rôle ne se partagera pas et les deux mourront. un Héro ne lâchera pas une \1\x84Sheriff's Emerald\4 à sa mort.",
+			"\n* Basé sur le nombre de joueurs, il-est possible d'avoir plus d'un \1\x85Meurtrier\4 et \1\x84Sheriff\4 parmis les joueurs dans le round. par exemple, à partir de 7 joueurs ou plus,\1\x8B Des équipes\4 de \1\x85Meurtriers\4 et \1\x84Sheriffs\4 seront faites.",
+			"\1\x8BLes alliés\4 peuvent parler en utilisant la commande de console \1\x87SAYTEAM\4 (A noté que la touche sayteam fonctionne comme la touche say).",
+			"Si un\1\x8B Allié\4 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
+		},
+		{
+			"\1\x87".."Chosesà pas faire dans Murder Mystery\4\n",
+			"Règle No.1 pour tout les jeux: \1\x81Soyer gentil et amusez-vous!\4 A-part ça...",
+			"\n* Révéler son \1\x8BRole\4 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
+			"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous croîre si vous accuser a tord constamment.",
+			"\n* Rester \"AFK\" pendant trop de temps est un crime de guerre. Des bombes vont vous prendre par surprise si vous rester sans bouger trop longtemps.",
+			"\n* Ne changer pas de nom quand vous êtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous êtes en vie. Attender juste que la partie se finisse pour être sûr.",
+			"\nNe pas respecter ces règle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
+		},
+		{
+			"\1\x87".."Conseils\4\n",
+			"Voici des conseils collecter pour MM:",
+			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur \1\x82SPIN\4 pour vous déplacer de façon silencieuse;",
+			"\n* Quand vous ramasser une \1\x84Sherrif Emerald\4, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
+			"\n* Trouver vos\1\x8B alliés\4 avec la commande \1\x87SAYTEAM\4 permettera de savoir qui est dans votre équipe sans prendre de risque;",
+			"\n* Prendres des dégats de tout sauf un \1\x84Sherrif\4 ou un \1\x85Meurtrier\4 vous donne 3 secondes d'invincibilité;",
+			"\n* Chercher des zones pour vous cacher dans les cartes. Cela permet de la publicités pas voulu en moins;",
+			"\n* Si votres role est révéler, Vous pouvez changer de nom/couleur. \1\x81Les changement de nom sont exposé\4;",
+			"\n*La touche\1\x82 FIRENORMAL\4 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
+		}
+	}
 })
