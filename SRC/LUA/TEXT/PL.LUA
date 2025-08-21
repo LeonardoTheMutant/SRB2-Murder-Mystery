@@ -200,7 +200,7 @@ MM.AddLang("PL", {
 	["HUD_PAST"]="PRZESZLOŚĆ",
 	["HUD_FUTURE"]="PRZYSZLOŚĆ",
 	["HUD_MMHELP_UI"]={
-		"Dla scrollingu wciśnij klawiszę \1\x87JUMP\4/\1\x87SPIN\4, żeby zmienić stronę wciśnij \1\x87NEXT\4/\1\x87PREV WEAPONń\4",
+		"\1\x87JUMP\4/\1\x87SPIN\4 - scrolling strony, \1\x87NEXT\4/\1\x87PREV WEAPONń\4 - zmiana strony",
 		"\1\x87".."CUSTOM1\4 - wyjść z menu pomocy"
 	},
 	["HUD_MMHELP"]={

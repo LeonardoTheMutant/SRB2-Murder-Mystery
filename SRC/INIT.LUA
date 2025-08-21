@@ -224,6 +224,7 @@ dofile("FREESLOT.LUA")
 --Load the text and all translations
 print("\n\x87Murder Mystery\x80: Loading text...")
 dofile("TEXT/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
+dofile("TEXT/DE.LUA")
 dofile("TEXT/FR.LUA")
 dofile("TEXT/PL.LUA")
 dofile("TEXT/RU.LUA")

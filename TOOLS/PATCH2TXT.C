@@ -20,8 +20,8 @@ uint8_t hexWritten;     //Number of Hexadecimal numbers written to the output fi
 //header data
 uint16_t patchWidth;
 uint16_t patchHeight;
-uint16_t patchOffsetX;
-uint16_t patchOffsetY;
+int16_t patchOffsetX;
+int16_t patchOffsetY;
 
 //POST (column) data
 uint8_t rowstart; //Column top offset
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     //image Y offset
     fread(&patchOffsetY, 2, 1, patchfile);
 
-	printf("Width: %hu\nHeight: %hu\nOffset X: %hu\nOffset Y: %hu\n\n", patchWidth, patchHeight, patchOffsetX, patchOffsetY);
+	printf("Width: %hu\nHeight: %hu\nOffset X: %hd\nOffset Y: %hd\n\n", patchWidth, patchHeight, patchOffsetX, patchOffsetY);
 
 	//prepare a table which will contain the pixels data
 	uint8_t pixels[patchHeight][patchWidth];
@@ -146,8 +146,8 @@ int main(int argc, char *argv[])
 
 	//Bitmap info table
 	fprintf(outputfile, "local OUTPUT_BITMAP_INFO = {\n"); //Table declaration
-	fprintf(outputfile, "\txoff = %hu,\n", patchOffsetX);  //X offset
-	fprintf(outputfile, "\tyoff = %hu\n", patchOffsetY);   //Y offset
+	fprintf(outputfile, "\txoff = %hd,\n", patchOffsetX);  //X offset
+	fprintf(outputfile, "\tyoff = %hd\n", patchOffsetY);   //Y offset
 	fprintf(outputfile, "}\n");                            //end of the table
 
 	//Bitmap table

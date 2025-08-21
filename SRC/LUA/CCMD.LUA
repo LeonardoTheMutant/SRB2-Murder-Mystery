@@ -240,7 +240,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 				langIncomp = $ + 1
 				arg2 = "\x85 {INCOMPATIBLE}"
 			end
-			CONS_Printf(p, "\x88"..lang..arg1..arg2)
+			CONS_Printf(p, "\x88 "..lang..arg1..arg2)
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end

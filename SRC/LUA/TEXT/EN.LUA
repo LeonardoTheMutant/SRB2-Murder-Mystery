@@ -355,8 +355,8 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_WINNERS"] = "Winners:",
 	["HUD_WIN"] = {
 		"TIE!",
-		"\1\x85MURDERERS", --must contain MM escape color code
-		"\1\x83".."CIVILIANS" --must contain MM escape color code
+		"\1\x85MURDERERS",
+		"\1\x83".."CIVILIANS"
 	},
 
 	-- Time Travel stuff
@@ -397,12 +397,12 @@ local language_data = { --Language must be a table variable, you can name the va
 			"Dying from map hazards such as crushers, falling into pits, or drowning in water will also make you\1\x8F Dead\4 for the rest of the round.",
 			"Also,\1\x82 DO NOT TRY TO RENAME YOURSELF WHILE\1\x8F DEAD\4. More details about this are on the next page.",
 			"\n* The \1\x84Sheriff's\4 job is to eliminate the \1\x85Murderers\4, but be careful not to shoot a\1\x83 Civilian\4 by mistake.",
-			"If a \1\x84Sheriff\4 shoots a\1\x83 Civilian\4, they will lose their \1\x8Brole\4 and become a\1\x83 Civilian\4. A random\1\x83 Civilian\4 will then silently take on the \1\x84Sheriff's\4 \1\x8Brole\4. Think before you pull the trigger!",
-			"\n* If a \1\x85Murderer\4 kills a \1\x84Sheriff\4 while there are still\1\x83 Civilians\4 alive, the \1\x84Sheriff's Emerald\4 will drop near their corpse.",
+			"If a \1\x84Sheriff\4 player shoots a\1\x83 Civilian\4, that player will lose their \1\x8Brole\4 and become a\1\x83 Civilian\4 as a punishment. Another, randomly selected,\1\x83 Civilian\4 player will then silently take on the \1\x84Sheriff's\4 \1\x8Brole\4. Think before you pull the trigger!",
+			"\n* If a \1\x85Murderer\4 kills a \1\x84Sheriff\4 while there are still\1\x83 Civilians\4 alive, the \1\x84Sheriff's Emerald\4 will drop near the corpse.",
 			"When a\1\x83 Civilian\4 picks up the \1\x84Sheriff's Emerald\4, they become a \1\x82Hero\4. \1\x82Heroes\4 are similar to \1\x84Sheriffs\4 but come with some differences:",
 			"  - If a \1\x82Hero\4 kills a\1\x83 Civilian\4, both die, and their \1\x8Brole\4 is not reassigned;",
 			"  - \1\x82Heroes\4 do not drop the \1\x84Sheriff's Emerald\4 upon death.",
-			"\n* In rounds with higher player counts, there may be multiple \1\x85Murderers\4 and \1\x84Sheriffs\4. \1\x8ATeams\4 of \1\x85Murderers\4 and \1\x84Sheriffs\4 are formed for these rounds.",
+			"\n* In rounds with higher amount of players, there may be multiple \1\x85Murderers\4 and \1\x84Sheriffs\4. \1\x8ATeams\4 of \1\x85Murderers\4 and \1\x84Sheriffs\4 are formed for these rounds.",
 			"\1\x8ATeammates\4 can communicate using the \1\x87SAYTEAM\4 command in the console (SAYTEAM button works as same as the regular chat button) or by starting a message with the \1\x88%\4 symbol, which automatically sends the message to team members.",
 			"If you accidentally attack a \1\x8Ateammate\4, both players will receive a personalized warning. Be careful - such team interactions may reveal your \1\x8Brole\4 to others!"
 		},
@@ -412,7 +412,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\n* Do not spoil your \1\x8BRole\4, even as a joke. While you can call out someone else's \1\x8Brole\4 if you are sure, never reveal your own.",
 			"\n* Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.",
 			"\n* Do not go AFK (Away From Keyboard). If you stand still too long, a bomb will be dropped on you, and you will be removed from the game.",
-			"\n* Do not rename yourself during a round if you are\1\x8F Dead\4. Doing so will result in being kicked from the server. If\1\x8F Dead\4, wait until the intermission to rename safely.",
+			"\n* Do not rename yourself during a round if you are\1\x8F Dead\4. Doing so will result in being kicked from the server. If you are\1\x8F Dead\4, wait until the intermission to rename safely.",
 			"\n* Avoid camping around the \1\x84Sheriff's Emerald\4 if you are a \1\x85Murderer\4. Standing near the emerald for 30 seconds will result in being kicked from the game.",
 			"\nBreaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!"
 		},
