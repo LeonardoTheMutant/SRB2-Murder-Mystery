@@ -85,6 +85,7 @@ Level K9
 LevelName = Greenflower
 SubTitle = MM Edition
 SelectHeading = LTM's Murder Mystery
+SkyNum = 4
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KA
 Lua.Author = Sonic Team Jr.
