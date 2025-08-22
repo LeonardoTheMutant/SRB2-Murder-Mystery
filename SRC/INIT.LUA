@@ -236,6 +236,7 @@ print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
 if (MM.debug) dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
 dofile("WEAPONS.LUA")
+dofile("OBJECTS.LUA")
 if (not isdedicatedserver) dofile("HUD.LUA") end
 dofile("CHAT.LUA")
 dofile("CCMD.LUA")
@@ -259,4 +260,4 @@ dofile("MAPS/MAPKE.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
 
-if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.15 only. Incompatibilities may occur", 0) end
+if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.15 only. You can ignore this warning, but incompatibilities may occur", 0) end

@@ -17,9 +17,9 @@ G_AddGametype({
 -- OBJECTS, STATES & SPRITES
 --
 freeslot(
-	'MT_SHREMD',  --Sheriff's Emerald object
+	'MT_SHREMD', --Sheriff's Emerald object
 	'MT_PONGOVERLAY', --Pong overlay bubble object
-	'SPR_PNGO', --Pong overlay bubble sprite
+	'SPR_PNGO',  --Pong overlay bubble sprite
 	'S_PNGOVR1', --Pong overlay bubble state
 	'S_PNGOVR2', --Pong overlay bubble state
 	'S_PNGOVR3', --Pong overlay bubble state
@@ -27,16 +27,17 @@ freeslot(
 	'S_PNGOVR5', --Pong overlay bubble state
 	'S_PNGOVR6', --Pong overlay bubble state
 	'SPR_STEP',  --Footmark sprite
-	'S_MMSTEP',   --Footmark state
-	'MT_MMSTEP',  --Footmark object
-	'MT_DEADPLR', --Dead body object
-	'S_MMPLRDEAD',--Dead player body state
-	'SPR2_SHIT',  --Dead player body Sprite2
-	'S_MMSKELT',  --Dead player body state (Skeleton)
-	'SPR_SKEL',   --Dead player body sprite (Skeleton)
-	'SPR_KNUX',   --Evil Knuckles Plush
-	'S_EVILKNUX', --Evil Knuckles Plush
-	'MT_EVILKNUX' --Evil Knuckles Plush
+	'S_MMSTEP',  --Footmark state
+	'MT_MMSTEP', --Footmark object
+	'MT_DEADPLR',  --Dead body object
+	'S_MMPLRDEAD', --Dead player body state
+	'SPR2_SHIT',   --Dead player body Sprite2
+	'S_MMSKELT',   --Dead player body state (Skeleton)
+	'SPR_SKEL',    --Dead player body sprite (Skeleton)
+	'SPR_KNUX',        --Evil Knuckles Plush sprite
+	'S_EVILKNUX',      --Evil Knuckles Plush state
+	'MT_EVILKNUX',     --Evil Knuckles Plush object
+	'MT_EVILKNUXSPAWN' --Evil Knuckles Plush spawnpoint
 )
 
 --Sheriff's Emerald object
@@ -111,13 +112,17 @@ states[S_PNGOVR6] = {SPR_PNGO, F, 12, nil, 0, 0, S_PNGOVR1}
 
 -- Evil Knuckles Plush
 mobjinfo[MT_EVILKNUX] = {
-    --$Title Evil Knuckles Plush
-    --$Sprite KNUXA0
-    --$NotAngled
-    doomednum = 2025,
-    spawnstate = S_EVILKNUX,
-	seestate = S_EVILKNUX,
+	spawnstate = S_EVILKNUX,
+	radius = 1048576, --16*FU
+	height = 1572864, --24*FU
 	flags = MF_SPECIAL
+}
+
+mobjinfo[MT_EVILKNUXSPAWN] = {
+	--$Title Evil Knuckles Plush spawn point
+	--$Sprite KNUXA0
+	--$NotAngled
+	doomednum = 2025
 }
 
 states[S_EVILKNUX] = {

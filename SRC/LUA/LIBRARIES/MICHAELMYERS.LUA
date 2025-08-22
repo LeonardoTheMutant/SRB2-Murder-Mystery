@@ -50,7 +50,7 @@ MM.LoadShowdownTracks = do
 end
 
 MM.DebugPrint = function(str, ...)
-	if (MM.debug) printf("\x87Murder Mystery\x80: %s", str, {...}) end
+	if (MM.debug) printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end
 
 --Count the Players

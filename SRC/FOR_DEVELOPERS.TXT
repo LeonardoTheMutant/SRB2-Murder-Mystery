@@ -40,6 +40,7 @@ MM_LTMs_MurderMystery_v1.3.pk3
 |     +-FREESLOT.LUA   - Gametype, Type of level, Objects, States and SFX freeslots
 |     +-GAME.LUA       - The main core of the game logic
 |     +-HUD.LUA        - HUD renderer
+|     +-OBJECTS.LUA    - Logic script for various objects and mapthings
 |     +-TIMETRAVEL.LUA - Time travel module for maps (primarily for the "East City" map (MAPKD))
 |     \-WEAPONS.LUA    - Weapon management (recreation of the Vanilla Weapon Rings)
 |
