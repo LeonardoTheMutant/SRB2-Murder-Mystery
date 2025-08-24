@@ -31,14 +31,14 @@ uint8_t dummy;    //dummy bytes
 int main(int argc, char *argv[])
 {
 	//Read argv
-    if (argc < 2)
-    {
-        printf("%s patch_file [-c]\n", argv[0]);
-        printf("Convert the Patch in DOOM GFX Format to LUA-compatible code\n");
+	if (argc < 2)
+	{
+		printf("%s patch_file [-c]\n", argv[0]);
+		printf("Convert the Patch in DOOM GFX Format to LUA-compatible code\n");
 		printf("Output will be written to ./OUTPUT.LUA\n");
-        printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
-        return 0;
-    } else {
+		printf("\n -c  Compress the output by converting some of the Escape Codes\n     to printable characters (\"\\x41\" - \"A\", \"\\x42\" - \"B\" etc.)\n");
+		return 0;
+	} else {
 		for (uint8_t x = 0; x < argc; x++)
 		{
 			if (!strcmp(argv[x], "-c")) compressionARG = 1;
@@ -52,23 +52,23 @@ int main(int argc, char *argv[])
 
 	patchfile = fopen(argv[argvIndex], "rb"); //Open file in read-only binary mode
 
-    if (!patchfile) //failed to open?
-    {
-    	printf("ERROR: Failed to open the patch file\n");
-    	return 1;
-    }
+	if (!patchfile) //failed to open?
+	{
+		printf("ERROR: Failed to open the patch file\n");
+		return 1;
+	}
 
-    //get the image width
+	//get the image width
 	fread(&patchWidth, 2, 1, patchfile);
 
-    //image height
-    fread(&patchHeight, 2, 1, patchfile);
+	//image height
+	fread(&patchHeight, 2, 1, patchfile);
 
-    //image X offset
-    fread(&patchOffsetX, 2, 1, patchfile);
+	//image X offset
+	fread(&patchOffsetX, 2, 1, patchfile);
 
-    //image Y offset
-    fread(&patchOffsetY, 2, 1, patchfile);
+	//image Y offset
+	fread(&patchOffsetY, 2, 1, patchfile);
 
 	printf("Width: %hu\nHeight: %hu\nOffset X: %hd\nOffset Y: %hd\n\n", patchWidth, patchHeight, patchOffsetX, patchOffsetY);
 
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 	if (outputfile == NULL) //failed to create/open?
 	{
 		printf("ERROR: Failed to open an output file\n");
-        return 1;
+		return 1;
 	}
 
 	//Bitmap info table
@@ -169,10 +169,17 @@ int main(int argc, char *argv[])
 				fprintf(outputfile, "%c", currPixel);
 				hexWritten = 0;
 			} else {
-				//compression disabled or non-convertable symbol, write in HEX format
-				if (!(hexWritten & 1)) fprintf(outputfile, "\\x%02X", currPixel); //Writing an 8-bit Escape Code
-				else fprintf(outputfile, "%02X", currPixel); //We are allowed to write another value to make a 16-bit code
-				hexWritten++;
+				//compression is disabled or non-convertable symbol, write as number
+				if ((currPixel < 100) && !(hexWritten & 1)) {
+					//print as integer
+					fprintf(outputfile, "\\%d", currPixel);
+					hexWritten = 0;
+				} else {
+					//print as HEX
+					if (hexWritten & 1) fprintf(outputfile, "%02X", currPixel); //We are allowed to write another value to make a 16-bit code
+					else fprintf(outputfile, "\\x%02X", currPixel); //Writing an 8-bit Escape Code (or the beginning of 16-bit code)
+					hexWritten++;
+				}
 			}
 		}
 		fprintf(outputfile, "\",\n"); //end of the row line
@@ -183,5 +190,5 @@ int main(int argc, char *argv[])
 
 	printf("Output written to ./OUTPUT.LUA\n");
 
-    return 0;
+	return 0;
 }

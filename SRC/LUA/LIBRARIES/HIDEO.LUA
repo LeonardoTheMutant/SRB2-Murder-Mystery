@@ -362,6 +362,7 @@ HIDEO.DrawTextPatch = function(v, x, y, xoff, yoff, patch, flags)
 	local y = y or 0
 	local xoff = xoff or 0 --X offset
 	local yoff = yoff or 0 --Y offset
+	local flags = flags or 0
 	assert(patch, "HIDEO.DrawTextPatch() argument #4: patch text data expected")
 
 	local pixelColor
