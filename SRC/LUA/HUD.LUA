@@ -81,6 +81,9 @@ hud.add(function(v, p)
 		--Countdown numbers
 		for i = 1, 3 do MM.LoadPatch(v, "RACE"..i) end
 		MM.LoadPatch(v, "RACEGO")
+
+		--Intermission background
+		MM.LoadPatch(v, "INTERMBG")
 	end
 
 	--Do not render the main HUD if it was disabled by another (MM) script
@@ -483,19 +486,19 @@ hud.add(function(v)
 		end
 
 		--The list itself
-		local multiply = {x=0, y=0}
+		local shift = {x=0, y=0}
 		local plrs = {}
 		for p in players.iterate do
 			if ((not p.spectator) and (not MM.AreTeammates(consoleplayer, p)) and (consoleplayer != p) and (not p.quittime)) then table.insert(plrs, p) end
 		end
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
-				if (i > 10) then multiply = {x=140, y=80} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + multiply.x), (MM.hud.scores.pos.playerInfo.y - multiply.y + (i << 3)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE|v.localTransFlag())
+				if (i > 10) then shift = {x=140, y=80} end
+				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i << 3)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE|v.localTransFlag())
 			else --Compact ("Tripple column") mode
-				if (i > 11) then multiply = {x=94, y=88}
-				elseif (i > 22) then multiply = {x=188, y=88} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + multiply.x), (MM.hud.scores.pos.playerInfo.y - multiply.y + (i << 3)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
+				if (i > 11) then shift = {x=94, y=88}
+				elseif (i > 22) then shift = {x=188, y=88} end
+				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i << 3)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
 			end
 		end
 
@@ -569,10 +572,18 @@ hud.add(function(v)
 	--Do not render the Intermission when MapVote is working or when other script specifically disables it
 	if ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) or (not MM.hud.intermission.active)) return end
 
+	--Background
+	local BGpatch = MM.graphics['INTERMBG']
+	for x = 0, v.width(), BGpatch.width * v.dupx() do
+		for y = 0, v.height(), BGpatch.height * v.dupy() do
+			v.draw(x, y, BGpatch, V_NOSCALESTART)
+		end
+	end
+
 	hud.disable("intermissiontally")
 
 	local plrs = {}
-	local multiply = {x=0, y=0}
+	local shift = {x=0, y=0}
 	
 	HIDEO.DrawStrUnicode_Center(v, 160, 4, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"))
 
@@ -632,34 +643,34 @@ hud.add(function(v)
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills.x), (MM.hud.intermission.pos.players.y + (i << 4)), plrs[i].mm.kills)
 		elseif ((MM.PlayerCount() > 8) and (MM.PlayerCount() <= 16)) --"Double column" mode
-			if (i > 8) multiply = {x=160, y=128} end --players 9-16 are drawn on the second column
+			if (i > 8) shift = {x=160, y=128} end --players 9-16 are drawn on the second column
 
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name.x + multiply.x - 20) << FRACBITS, ((MM.hud.intermission.pos.players.y - 4) + (i << 4) - multiply.y) << FRACBITS, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
+			v.drawScaled((MM.hud.intermission.pos.name.x + shift.x - 20) << FRACBITS, ((MM.hud.intermission.pos.players.y - 4) + (i << 4) - shift.y) << FRACBITS, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) - multiply.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) - multiply.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills2.x + multiply.x), (MM.hud.intermission.pos.players.y + (i << 4) - multiply.y), plrs[i].mm.kills)
+			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), plrs[i].mm.kills)
 		else --"Double column compact" mode
-			if (i > 16) then multiply = {x=160, y=128} end --players 17-32 are drawn on the second column
+			if (i > 16) then shift = {x=160, y=128} end --players 17-32 are drawn on the second column
 
 			--back to the rows
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name2.x + multiply.x - 10) << FRACBITS, ((MM.hud.intermission.pos.players2.y - 1) + (i << 3) - multiply.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
+			v.drawScaled((MM.hud.intermission.pos.name2.x + shift.x - 10) << FRACBITS, ((MM.hud.intermission.pos.players2.y - 1) + (i << 3) - shift.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) - multiply.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) - multiply.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills2.x + multiply.x), (MM.hud.intermission.pos.players2.y + (i << 3) - multiply.y), plrs[i].mm.kills, 0, "thin")
+			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), plrs[i].mm.kills, 0, "thin")
 		end
 	end
 

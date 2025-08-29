@@ -10,7 +10,6 @@ local crypticCVAR = CV_FindVar("mm_cryptic")
 local shieldsCVAR = CV_FindVar("mm_allowshields")
 local invincCVAR = CV_FindVar("mm_allowinvinc")
 local shoesCVAR = CV_FindVar("mm_allowshoes")
-local killtrailCVAR = CV_FindVar("mm_killtrails")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest

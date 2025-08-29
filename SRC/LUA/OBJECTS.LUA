@@ -3,7 +3,7 @@
 --
 -- Logic script for various objects and mapthings
 
-
+local killtrailCVAR = CV_FindVar("mm_killtrails")
 
 -- Dead player body MapThing spawner (Map thing type 2023)
 addHook("MapThingSpawn", function(mo, mapthing)
