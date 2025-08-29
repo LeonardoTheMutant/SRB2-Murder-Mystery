@@ -122,7 +122,9 @@ mobjinfo[MT_EVILKNUXSPAWN] = {
 	--$Title Evil Knuckles Plush spawn point
 	--$Sprite KNUXA0
 	--$NotAngled
-	doomednum = 2025
+	doomednum = 2025,
+	radius = 1048576, --16*FU
+	height = 1572864  --24*FU
 }
 
 states[S_EVILKNUX] = {
