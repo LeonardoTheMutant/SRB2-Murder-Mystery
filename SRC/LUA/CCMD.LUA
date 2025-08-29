@@ -37,31 +37,29 @@ end
 local wepcfg_option = {[0] = "All weapons", [1] = "Only Red Rings & Knife", [2] = "All weapons without Red Rings", [3] = "Knife only"}
 local NoYes_option = {[0] = "No", [1] = "Yes"}
 local DisableEnable_option = {[0] = "Disable", [1] = "Enable"}
-local mmsetup = {
-	entries = {
-		{cvar = CV_FindVar("mm_abilities"), min = 0, max = 1, values = {[0] = "MM", [1] = "SRB2"}, name = "Player abilities", description = "Switch between differemt player abilities:\nMM - Slow walk speed, no skin abilities except sneaking ability\nSRB2 - use Vanilla behaviour"},
-		{cvar = CV_FindVar("mm_allowinvinc"), min = 0, max = 1, values = NoYes_option, name = "Allow Invincibility powerup", description = "Allow the usage of the Invincibility powerup during the MM game."},
-		{cvar = CV_FindVar("mm_allowshields"), min = 0, max = 1, values = NoYes_option, name = "Allow any Shield powerups", description = "Allow the usage of any Shield powerups during the MM game."},
-		{cvar = CV_FindVar("mm_allowshoes"), min = 0, max = 1, values = NoYes_option, name = "Allow Speed Shoes powerup", description = "Allow the usage of the Speed Shoes powerup during the MM game."},
-		{cvar = CV_FindVar("mm_customskins"), min = 0, max = 1, values = NoYes_option, name = "Allow custom skins", description = "Allow players to use Custom Skins from external add-ons during\nthe MM game."},
-		{cvar = CV_FindVar("mm_autofire"), min = 0, max = 1, values = {[0] = "Automatic Ring only", [1] = "All weapons"}, name = "Weapons autofire", description = "Set the autofire behaviour for all weapons in the game for every player\nAutomatic Ring only - Vanilla SRB2 bahaviour\nAll weapons - Enable autofire for all weapons."},
-		{cvar = CV_FindVar("mm_cryptic"), min = 0, max = 1, values = DisableEnable_option, name = "Cryptic game", description = "Make the game more cryptic by disabling the player & teammate lists,\nplayer nametags and most of the player counters."},
-		{cvar = CV_FindVar("mm_footmarks"), min = 0, max = 1, values = DisableEnable_option, name = "Player footmarks", description = "Enable/Disable the Footmarks that players leave on flat surfaces\nafter each step."},
-		{cvar = CV_FindVar("mm_killtrails"), min = 0, max = 1, values = DisableEnable_option, name = "Kill trails", description = "Enable/Disable the red recolor of the footsteps after player kills\nanother player with a knife or steps on the dead body.\nPlayer footmarks must be enabled for this to work."},
-		{cvar = CV_FindVar("mm_nocamping"), min = 0, max = 1, values = DisableEnable_option, name = "Anti-camp system for Murderers", description = "Murderer players being near the emerald for longer than 20 seconds\nare kicked from the game."},
-		{cvar = CV_FindVar("mm_speed_sneak"), min = 1, max = 5, name = "Sneaking speed", description = "Sneaking speed."},
-		{cvar = CV_FindVar("mm_speed_walk"), min = 6, max = 40, name = "Walking speed", description = "Walking speed."},
-		{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Murderer", description = "Set weapons for the Murderer role during the normal gameplay.", valueMask = 0x3},
-		{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Sheriff", description = "Set weapons for the Sheriff role during the normal gameplay.", valueMask = 0x3},
-		{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 3, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Normal gameplay weapons - Civilian", description = "Set weapons for the Civilian role during the normal gameplay."},
-		{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Hero", description = "Set weapons for the Hero role during the normal gameplay.", valueMask = 0x3},
-		{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Murderer", description = "Set weapons for the Murderer role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
-		{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Sheriff", description = "Set weapons for the Sheriff role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
-		{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Hero", description = "Set weapons for the Hero role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
-		{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit", description = "Time limit for the round in minutes. With the \"Let MM decide\" option\nthe game will automatically choose the time limit for each round.\nChanging this value will require a level restart in order for the\nchanges to fully apply"},
-		{cvar = CV_FindVar("maxplayers"), min = 2, max = 32, name = "Maximum players", description = "The maximum amount of players allowed to be in the MM game.\nJoining players who do not fit into this limit will be rejected."},
-		{cvar = CV_FindVar("allowjoin"), min = 0, max = 1, values = NoYes_option, name = "Allow joining", description = "Allow players to connect to the server."},
-	}
+local mmsetup_entries = {
+	{cvar = CV_FindVar("mm_abilities"), min = 0, max = 1, values = {[0] = "MM", [1] = "SRB2"}, name = "Player abilities", description = "Switch between differemt player abilities:\nMM - Slow walk speed, no skin abilities except sneaking ability\nSRB2 - use Vanilla behaviour"},
+	{cvar = CV_FindVar("mm_allowinvinc"), min = 0, max = 1, values = NoYes_option, name = "Allow Invincibility powerup", description = "Allow the usage of the Invincibility powerup during the MM game."},
+	{cvar = CV_FindVar("mm_allowshields"), min = 0, max = 1, values = NoYes_option, name = "Allow any Shield powerups", description = "Allow the usage of any Shield powerups during the MM game."},
+	{cvar = CV_FindVar("mm_allowshoes"), min = 0, max = 1, values = NoYes_option, name = "Allow Speed Shoes powerup", description = "Allow the usage of the Speed Shoes powerup during the MM game."},
+	{cvar = CV_FindVar("mm_customskins"), min = 0, max = 1, values = NoYes_option, name = "Allow custom skins", description = "Allow players to use Custom Skins from external add-ons during\nthe MM game."},
+	{cvar = CV_FindVar("mm_autofire"), min = 0, max = 1, values = {[0] = "Automatic Ring only", [1] = "All weapons"}, name = "Weapons autofire", description = "Set the autofire behaviour for all weapons in the game for every player\nAutomatic Ring only - Vanilla SRB2 bahaviour\nAll weapons - Enable autofire for all weapons."},
+	{cvar = CV_FindVar("mm_cryptic"), min = 0, max = 1, values = DisableEnable_option, name = "Cryptic game", description = "Make the game more cryptic by disabling the player & teammate lists,\nplayer nametags and most of the player counters."},
+	{cvar = CV_FindVar("mm_footmarks"), min = 0, max = 1, values = DisableEnable_option, name = "Player footmarks", description = "Enable/Disable the Footmarks that players leave on flat surfaces\nafter each step."},
+	{cvar = CV_FindVar("mm_killtrails"), min = 0, max = 1, values = DisableEnable_option, name = "Kill trails", description = "Enable/Disable the red recolor of the footsteps after player kills\nanother player with a knife or steps on the dead body.\nPlayer footmarks must be enabled for this to work."},
+	{cvar = CV_FindVar("mm_nocamping"), min = 0, max = 1, values = DisableEnable_option, name = "Anti-camp system for Murderers", description = "Murderer players being near the emerald for longer than 20 seconds\nare kicked from the game."},
+	{cvar = CV_FindVar("mm_speed_sneak"), min = 1, max = 5, name = "Sneaking speed", description = "Sneaking speed."},
+	{cvar = CV_FindVar("mm_speed_walk"), min = 6, max = 40, name = "Walking speed", description = "Walking speed."},
+	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Murderer", description = "Set weapons for the Murderer role during the normal gameplay.", valueMask = 0x3},
+	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Sheriff", description = "Set weapons for the Sheriff role during the normal gameplay.", valueMask = 0x3},
+	{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 3, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Normal gameplay weapons - Civilian", description = "Set weapons for the Civilian role during the normal gameplay."},
+	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Hero", description = "Set weapons for the Hero role during the normal gameplay.", valueMask = 0x3},
+	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Murderer", description = "Set weapons for the Murderer role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
+	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Sheriff", description = "Set weapons for the Sheriff role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
+	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Hero", description = "Set weapons for the Hero role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
+	{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit", description = "Time limit for the round in minutes. With the \"Let MM decide\" option\nthe game will automatically choose the time limit for each round.\nChanging this value will require a level restart in order for the\nchanges to fully apply"},
+	{cvar = CV_FindVar("maxplayers"), min = 2, max = 32, name = "Maximum players", description = "The maximum amount of players allowed to be in the MM game.\nJoining players who do not fit into this limit will be rejected."},
+	{cvar = CV_FindVar("allowjoin"), min = 0, max = 1, values = NoYes_option, name = "Allow joining", description = "Allow players to connect to the server."},
 }
 COM_AddCommand("mmsetup", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY)
@@ -79,46 +77,46 @@ COM_AddCommand("mmsetup", function(p)
 		return
 	end
 
-	MM.hud.game.active = false
-	mmsetup.active = true
-	mmsetup.cursor = 1
-	for i = 1, #mmsetup.entries do --Update the values so they represent real (current) CVAR values
-		if (mmsetup.entries[i].valueMask)
-			mmsetup.entries[i].value = mmsetup.entries[i].cvar.value & mmsetup.entries[i].valueMask
-			if (mmsetup.entries[i].bitshift) then mmsetup.entries[i].value = $ >> mmsetup.entries[i].bitshift end
-		else mmsetup.entries[i].value = mmsetup.entries[i].cvar.value end
+	p.mmsetupcursor = 1
+	for i = 1, #mmsetup_entries do --Update the values so they represent real (current) CVAR values
+		if (mmsetup_entries[i].valueMask)
+			mmsetup_entries[i].value = mmsetup_entries[i].cvar.value & mmsetup_entries[i].valueMask
+			if (mmsetup_entries[i].bitshift) then mmsetup_entries[i].value = $ >> mmsetup_entries[i].bitshift end
+		else mmsetup_entries[i].value = mmsetup_entries[i].cvar.value end
 	end
 end, COM_ADMIN)
 
 -- MMSETUP's core
 local mmsetupIncrement = do
-	mmsetup.entries[mmsetup.cursor].value = $ + 1
-	if (mmsetup.entries[mmsetup.cursor].value > mmsetup.entries[mmsetup.cursor].max) then mmsetup.entries[mmsetup.cursor].value = mmsetup.entries[mmsetup.cursor].min end
+	mmsetup_entries[consoleplayer.mmsetupcursor].value = $ + 1
+	if (mmsetup_entries[consoleplayer.mmsetupcursor].value > mmsetup_entries[consoleplayer.mmsetupcursor].max) then mmsetup_entries[consoleplayer.mmsetupcursor].value = mmsetup_entries[consoleplayer.mmsetupcursor].min end
 	S_StartSound(nil, sfx_menu1, consoleplayer)
 end
 local mmsetupExitNoSave = do
-	for k = 1, #mmsetup.entries do
-		mmsetup.entries[k].value = mmsetup.entries[k].cvar.value
+	for k = 1, #mmsetup_entries do
+		mmsetup_entries[k].value = mmsetup_entries[k].cvar.value
 	end
-	mmsetup.active = false
+	consoleplayer.mmsetupcursor = nil
 	MM.hud.game.active = true
 
 end
 addHook("KeyDown", function(keyevent)
 	local ignore = true
-	if not ((gametype == GT_LTMMURDERMYSTERY) and mmsetup.active) then return end
+	if not ((gametype == GT_LTMMURDERMYSTERY) and consoleplayer.mmsetupcursor) then return end
+	MM.hud.game.active = false
 	switch(keyevent.num, {
 		[13] = do --ENTER/RETURN
-			switch(mmsetup.cursor, {
-				[#mmsetup.entries + 1] = do --Save & Exit
-					for k = 1, #mmsetup.entries do
-						if (mmsetup.entries[k].bitshift) then CV_StealthSet(mmsetup.entries[k].cvar, (mmsetup.entries[k].cvar.value | (mmsetup.entries[k].value << mmsetup.entries[k].bitshift)))
-						else CV_StealthSet(mmsetup.entries[k].cvar, mmsetup.entries[k].value) end
+			switch(consoleplayer.mmsetupcursor, {
+				[#mmsetup_entries + 1] = do --Save & Exit
+					for k = 1, #mmsetup_entries do
+						if (mmsetup_entries[k].bitshift) then CV_StealthSet(mmsetup_entries[k].cvar, (mmsetup_entries[k].cvar.value | (mmsetup_entries[k].value << mmsetup_entries[k].bitshift)))
+						else CV_StealthSet(mmsetup_entries[k].cvar, mmsetup_entries[k].value) end
 					end
-					mmsetup.active = false
-					print("\x87Murder Mystery\x80: Administrator has updated the game settings")
+					consoleplayer.mmsetupcursor = nil
+					MM.hud.game.active = true
+					print("\x87Murder Mystery\x80: Saved the new game settings")
 				end,
-				[#mmsetup.entries + 2] = mmsetupExitNoSave, --Exit without save
+				[#mmsetup_entries + 2] = mmsetupExitNoSave, --Exit without save
 				['default'] = mmsetupIncrement --ENTER works as RIGHT and increments the value
 			})
 		end,
@@ -126,20 +124,24 @@ addHook("KeyDown", function(keyevent)
 		[96] = do --TILDE '~'
 			ignore = false
 		end,
+		[189] = do --F3
+			local cvar = CV_FindVar("showhud")
+			if (not cvar.value) then CV_Set(cvar, 1) end
+		end,
 		[230] = do --UP
-			mmsetup.cursor = $ - 1
-			if (not mmsetup.cursor) then mmsetup.cursor = #mmsetup.entries + 2 end
+			consoleplayer.mmsetupcursor = $ - 1
+			if (not consoleplayer.mmsetupcursor) then consoleplayer.mmsetupcursor = #mmsetup_entries + 2 end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
 		end,
 		[233] = do --LEFT
-			mmsetup.entries[mmsetup.cursor].value = $ - 1
-			if (mmsetup.entries[mmsetup.cursor].value < mmsetup.entries[mmsetup.cursor].min) then mmsetup.entries[mmsetup.cursor].value = mmsetup.entries[mmsetup.cursor].max end
+			mmsetup_entries[consoleplayer.mmsetupcursor].value = $ - 1
+			if (mmsetup_entries[consoleplayer.mmsetupcursor].value < mmsetup_entries[consoleplayer.mmsetupcursor].min) then mmsetup_entries[consoleplayer.mmsetupcursor].value = mmsetup_entries[consoleplayer.mmsetupcursor].max end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
 		end,
 		[235] = mmsetupIncrement, --RIGHT
 		[238] = do --DOWN
-			mmsetup.cursor = $ + 1
-			if (mmsetup.cursor == (#mmsetup.entries + 3)) then mmsetup.cursor = 1 end
+			consoleplayer.mmsetupcursor = $ + 1
+			if (consoleplayer.mmsetupcursor == (#mmsetup_entries + 3)) then consoleplayer.mmsetupcursor = 1 end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
 		end,
 	})
@@ -148,8 +150,8 @@ end)
 
 -- MMSETUP UI's renderer
 local textcolor, yPos, cursorVFlag
-hud.add(function(v)
-	if not mmsetup.active or (gametype != GT_LTMMURDERMYSTERY) return end
+hud.add(function(v, p)
+	if (not p.mmsetupcursor) or (gametype != GT_LTMMURDERMYSTERY) return end
 
 	v.fadeScreen(16, 10) --gray background
 
@@ -158,39 +160,41 @@ hud.add(function(v)
 	v.drawString(160, 0, "MM setup utility", V_SNAPTOTOP|V_MONOSPACE|V_ALLOWLOWERCASE, "center")
 
 	--Entries list
-	for k = 1, #mmsetup.entries do
+	for k = 1, #mmsetup_entries do
 		yPos = 24 + (k << 2) + k
-		if (mmsetup.cursor == k) then textcolor = "\x82" else textcolor = "" end
-		v.drawString(32, yPos, textcolor..mmsetup.entries[k].name, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_MONOSPACE, "small")
-		if (mmsetup.entries[k].values and mmsetup.entries[k].values[mmsetup.entries[k].value])
-			v.drawString(288, yPos, textcolor..mmsetup.entries[k].values[mmsetup.entries[k].value], V_SNAPTOTOP|V_ALLOWLOWERCASE|V_MONOSPACE, "small-right")
+		if (p.mmsetupcursor == k) then textcolor = "\x82" else textcolor = "" end
+		v.drawString(32, yPos, textcolor..mmsetup_entries[k].name, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_MONOSPACE, "small")
+		if (mmsetup_entries[k].values and mmsetup_entries[k].values[mmsetup_entries[k].value])
+			v.drawString(288, yPos, textcolor..mmsetup_entries[k].values[mmsetup_entries[k].value], V_SNAPTOTOP|V_ALLOWLOWERCASE|V_MONOSPACE, "small-right")
 		else
-			v.drawString(288, yPos, textcolor..mmsetup.entries[k].value, V_SNAPTOTOP|V_ALLOWLOWERCASE|V_MONOSPACE, "small-right")
+			v.drawString(288, yPos, textcolor..mmsetup_entries[k].value, V_SNAPTOTOP|V_ALLOWLOWERCASE|V_MONOSPACE, "small-right")
 		end
 	end
 
 	--Entries description
-	if ((mmsetup.cursor <= #mmsetup.entries) and mmsetup.entries[mmsetup.cursor].description) then v.drawString(32, 152, mmsetup.entries[mmsetup.cursor].description, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_GRAYMAP|V_ALLOWLOWERCASE|V_MONOSPACE|V_RETURN8, "small") end
+	if ((p.mmsetupcursor <= #mmsetup_entries) and mmsetup_entries[p.mmsetupcursor].description) then
+		v.drawString(32, 152, mmsetup_entries[p.mmsetupcursor].description, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_GRAYMAP|V_ALLOWLOWERCASE|V_MONOSPACE|V_RETURN8, "small")
+	end
 
 	--"Save & Exit"
-	if (mmsetup.cursor == (#mmsetup.entries + 1)) then textcolor = "\x82" else textcolor = "" end
+	if (p.mmsetupcursor == (#mmsetup_entries + 1)) then textcolor = "\x82" else textcolor = "" end
 	v.drawString(32, 176, textcolor.."SAVE & EXIT", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 	--"Exit without save"
-	if (mmsetup.cursor == (#mmsetup.entries + 2)) then textcolor = "\x82" else textcolor = "" end
+	if (p.mmsetupcursor == (#mmsetup_entries + 2)) then textcolor = "\x82" else textcolor = "" end
 	v.drawString(32, 184, textcolor.."EXIT WITHOUT SAVING", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 
 	--Cursor
-	switch(mmsetup.cursor, {
-		[#mmsetup.entries + 1] = do
+	switch(p.mmsetupcursor, {
+		[#mmsetup_entries + 1] = do
 			yPos = 176
 			cursorVFlag = V_SNAPTOBOTTOM
 		end,
-		[#mmsetup.entries + 2] = do
+		[#mmsetup_entries + 2] = do
 			yPos = 184
 			cursorVFlag = V_SNAPTOBOTTOM
 		end,
 		['default'] = do
-			yPos = 24 + (mmsetup.cursor << 2) + mmsetup.cursor
+			yPos = 24 + (p.mmsetupcursor << 2) + p.mmsetupcursor
 			cursorVFlag = V_SNAPTOTOP
 		end
 	})
@@ -244,7 +248,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
-		CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
+		 CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
 		if (MM.text[l])
@@ -295,7 +299,7 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	if (isdedicatedserver) return end
 
-	if (p.mm.minigame or mmsetup.active)
+	if (p.mm.minigame or p.mmsetupcursor)
 		CONS_Printf(p, "Unable to open MMHELP UI right now")
 		return
 	end
