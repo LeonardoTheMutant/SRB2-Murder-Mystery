@@ -13,6 +13,7 @@ https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 = MAPS =
 ========
 
+ELEVTR - "Going Up" by Lee Jackson (Rise of the Triad)
 MAPK0 - "Balancing Act" by Andrew Bassett (Freedoom: Phase 2 (v0.12.1))
 MAPK1 - "Fear" by Discoholic (Freedoom: Phase 2 (v0.13.0))
 MAPK2 - "Syntax Error" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
@@ -27,7 +28,6 @@ MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
 MAPKE - "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
-MAPKH - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
 
 MAPKC: "Stauf's Mansion"
 ------------------------
@@ -66,6 +66,12 @@ MAPKDP (Past)        - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD J
 MAPKDB (Bad Future)  - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
 MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 
+MAPKH: "Temple"
+---------------------
+MAPKHI (Ice theme)    - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
+MAPKHF (Lava theme)   - "Cursed Cathedral Fire Remix" by MinusMario
+MAPKHM (Temple theme) - "Lava Reef Zone Remix" by Stephen Patterson
+
 
 ============
 = SUSPENSE =
@@ -75,6 +81,7 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 CIVINS - "Civilian's Instinct" by MinusMario
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 MMSUS1 - "HOLD ON" by Lamonite
+
 
 ============
 = SHOWDOWN =
@@ -88,7 +95,7 @@ MMSHD2 - "Pressing Pursuit ~ Caught" (Phoenix Wright: Trials and Tribulations) (
 MMSHD3 - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ShinkoNetCavy)
 MMSHD4 - "Boss Theme" (Sonic the Hedgehog 2 (Game Gear)) (MIDI by King Meteor)
 MMSHD5 - "Boss Theme" (Sonic the Hedgehog 2 (Master System)) (MIDI by SwordBolt)
-MMSHD6 - "Showdown" (Sonic Spinball (Genesis)) (MIDI by King Meteor)
+MMSHD6 - "Showdown" by Barry Blum (Sonic Spinball (Genesis)) (MIDI by King Meteor)
 MMSHD7 - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
 MMSHD8 - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by S_T_D)
 
