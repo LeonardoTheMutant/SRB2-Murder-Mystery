@@ -7,20 +7,18 @@
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 --Add language/translation to the game
-MM.AddLang = function(langID,langTbl)
+MM.AddLang = function(langID, langTbl)
 	assert(langID, "Invalid Language Index")
 	assert(langTbl, "Invalid Language Table.")
 	if (type(langID) ~= "string") error("Language ID should be string and contain 2-3 characters long") end
 	if (type(langTbl) ~= "table") error("Language Talbe shoulb be table.") end
-	for l in pairs(MM.text)
-		if (l == langID)
-			printf("\x82%s\x85 lang has already been added. Language was not added. Resart the SRB2 to clear the file from loaded mods", langID)
-			return
-		end
+	if (MM.text[langID])
+		MM.text[langID] = nil --Empty the table so that the language can be updated
+		printf("\x82WARNING\x80: Updating the \x81%s\x80 language...", langID)
 	end
 	MM.text[langID:upper()] = langTbl
-	print("\x87Murder Mystery\x80: Added \x82\""..langID.."\"\x80 language by "..tostring(MM.text[langID:upper()]["AUTHOR"]))
-	if (MM.text[langID:upper()]["VERSION"] ~= MM.version) printf("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84%s\x80 to update it for the \x87Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
+	printf("\x87Murder Mystery\x80: Added the \x81%s\x80 language by %s", langID, MM.text[langID]["AUTHOR"])
+	if (MM.text[langID]["VERSION"] ~= MM.version) printf("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84%s\x80 to update it for the \x87Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
 end
 
 --(Re)Load a list of available Suspense music
@@ -31,7 +29,7 @@ MM.LoadSuspenseTracks = do
 		lumpname = string.format("MMSUS%X", i)
 		if (S_MusicExists(lumpname))
 			table.insert(MM.susnse_music, lumpname)
-			if (MM.debug) printf("Loaded Suspense Track \x81%s", lumpname) end
+			if (MM.debug) printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
 		end
 	end
 end
@@ -44,7 +42,7 @@ MM.LoadShowdownTracks = do
 		lumpname = string.format("MMSHD%X", i)
 		if (S_MusicExists(lumpname))
 			table.insert(MM.shwdwn_music, lumpname)
-			if (MM.debug) printf("Loaded Showdown Track \x81%s", lumpname) end
+			if (MM.debug) printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
 		end
 	end
 end

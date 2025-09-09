@@ -239,33 +239,38 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			local arg1 = ""
 			local arg2 = ""
 
-			if (p.mm.lang == lang) then arg1 = "\x82 [current lang]" end
+			if (p.mm.lang == lang) then arg1 = "\x82[current lang]" end
 			if (MM.GetText(lang, "VERSION") != MM.version) then 
 				langIncomp = $ + 1
-				arg2 = "\x85 {INCOMPATIBLE}"
+				arg2 = "\x85{INCOMPATIBLE}"
 			end
-			CONS_Printf(p, "\x88 "..lang..arg1..arg2)
+			CONS_Printf(p, string.format("\x88 %s %s %s",lang,arg1,arg2))
 		end
 		CONS_Printf(p, langCount.." languages in total")
-		if (langIncomp) then CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected") end
-		 CONS_Printf(p, "\nIf you cannot find your language here please ask the game administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
+		if (langIncomp) then
+			CONS_Printf(p, "\x85"..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
+		end
+		CONS_Printf(p, "\nIf you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV Team\x80 to help us add it to this gametype:\n\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE\x80\n\t\x83Matrix: https://matrix.to/#/#ltm_mm:matrix.org\x80\n\t\x86GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery")
 	else
 		l = $:upper()
 		if (MM.text[l])
 			p.mm.lang = l
 			p.mm.help.pos = 1
 
-			CONS_Printf(p, "\x82"..p.mm.lang.."\x80 translation made by \x88"..MM.GetText(p.mm.lang, "AUTHOR"))
+			CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", p.mm.lang, MM.GetText(p.mm.lang, "AUTHOR")))
 			CONS_Printf(p, MM.GetText(p.mm.lang, "CHAT_MMLANG", 2))
-			if (MM.GetText(l, "VERSION") != MM.version) then CONS_Printf(p,"\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version) end
-			CONS_Printf(p, "\x81WARNING\x80: Unicode (UTF-8) text rendering is experimental, some text may dissapear entirely or appear corrupted. Please report all problems you encounter at \x86https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/issues")
+			if (MM.GetText(l, "VERSION") != MM.version) then
+				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
+			end
 			local f = io.openlocal("client/MM.DAT", 'w')
 			if f
 				f:write(l)
 				f:close()
 				--CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
-			else CONS_Printf(p, "\x85Failed to save\x80 Language preferences to \x81/luafiles/client/MM.DAT\x80. Does your folder lack read+write privileges?") end
-		else CONS_Printf(p, "'\x82"..l.."\x80' language is not present/loaded into the game\nPlease ask your game Administrator to add the required MM language file or contact our SRB2MM_DEV Team for help.") end
+			else CONS_Printf(p, "\x85".."ERROR:\x80 Failed to save personal language preference to \x81/luafiles/client/MM.DAT\x80") end
+		else
+			CONS_Printf(p, "'\x82"..l.."\x80' language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our SRB2MM_DEV Team for help.")
+		end
 	end
 end, COM_LOCAL)
 

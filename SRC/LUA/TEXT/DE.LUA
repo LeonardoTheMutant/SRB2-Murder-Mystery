@@ -13,7 +13,7 @@ MM.AddLang("DE", {
 	["AUTHOR"] = "LeonardoTheMutant",
 	["CHAT_MMLANG"] = {
 		"Deine aktuell verwendete Sprache ist\x82 Deutsch\x80.\nDu kannst es mit dem Befehl \x87MMLANG [sprache]\x80 andern.",
-		"Die Sprache fur Murder Mystery ist auf Englisch eingestellt."
+		"Die Sprache fur Murder Mystery ist auf Deutsch eingestellt."
 	},
 	["CHAT_ROLEGET_PM"] = {
 		"Du bist der \x85Morder\x80. \x85Tote sie alle.",
@@ -78,10 +78,6 @@ MM.AddLang("DE", {
 		"Die \x85Morder\x80 gewinnen, weil der \x82Held\x80 sich entschieden hat, den letzten Zivilisten zu toten. Schande uber einen solchen \x82Helden\x80...",
 		"Die Verteidiger der \x83Zivilisten\x80 sind tot. Die \x85Morder\x80 gewinnen!"
 	},
-	["BMP_VICTIMS_INFO"] = {
-		xoff = 0,
-		yoff = 0
-	},
 	["BMP_VICTIMS"] = {
 		"\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIII\31",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
@@ -95,10 +91,7 @@ MM.AddLang("DE", {
 		"\xFFIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFII\x1FFFII\31",
 		"\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\31"
 	},
-	["BMP_SUSPECTS_INFO"] = {
-		xoff = 0,
-		yoff = 2
-	},
+	["BMP_SUSPECTS_INFO"] = {yoff = 2},
 	["BMP_SUSPECTS"] = {
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFII\x1FFFII\31",
 		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F",
@@ -114,10 +107,6 @@ MM.AddLang("DE", {
 		"\xFF1FII\x1FFF\xFFFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIII\x1FFF\xFFII\x1FFFII\x1FFF\x1FIIII\x1F1F\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\x1FIIII\x1F1F\xFFIIIIII\31",
 		"\xFFFF\x1F1F\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1F1F\xFFFF\x1F1F\x1F1F\x1F1F\31"
 	},
-	["BMP_TIME_INFO"] = {
-		xoff = 0,
-		yoff = 0
-	},
 	["BMP_TIME"] = {
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIIII\31",
 		"\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIIII\31",
@@ -130,10 +119,6 @@ MM.AddLang("DE", {
 		"IIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFFII\31",
 		"IIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFFII\31",
 		"\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\x1F1F\31"
-	},
-	["BMP_RINGS_INFO"] = {
-		xoff = 0,
-		yoff = 0
 	},
 	["BMP_RINGS"] = {
 		"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\31",

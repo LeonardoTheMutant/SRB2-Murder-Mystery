@@ -432,15 +432,18 @@ local language_data = { --Language must be a table variable, you can name the va
 }
 
 --finally import your language to the MM
--- There is already a function to add the language in the game
--- It has 2 arguments to pass
--- First argument is the language index string, it is usually 2 or 3 letters long and ALWAYS UPPERCASE
---  Do not make it like "MyLanguage" - use "MYLANG" or "ML" instead (or the official international index of your language)
+--There is already a function to add the language in the game
+--It has 2 arguments to pass:
+-- First argument is the language index string, it is usually 2 or 3 characters long
+-- Do not make it like "MyLanguage" - use "MYLANG" or "ML" instead (or the official international index of your language) for the simplicity
 -- Second argument is the Table Variable of the language itself
 MM.AddLang("EN", language_data)
 --if everything is done correctly you will receive no errors when loading this file and in the gameplay process
 --
---If this language is going to be posted on the SRB2 Message Board please rename this file to something like:
--- MM_LANG_[full_lang_name]_v[MM_version].lua
+--If this language is going to be posted on the SRB2 Message Board or any other public media please rename this file to something like:
+-- MM_LANG_[full_lang_name]_[lang_index]_v[MM_version]_r[this_file_revision].lua
+--
+--e.g. "MM_LANG_English_EN_v1.3_r0.lua"
+--You can ommit the revision number if it is the initial upload of the file
 
 --Thank you for your efforts to make the game more accessible!
