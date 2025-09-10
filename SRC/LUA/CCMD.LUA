@@ -24,8 +24,8 @@ local adminCVARinfo = {
 }
 
 local function sortOfSine(a, base)
-	local b = a % (base << 1)
-	if (b > (base - 1)) then return (base << 1) - b - 1
+	local b = a % (base * 2)
+	if (b > (base - 1)) then return (base * 2) - b - 1
 	else return b end
 end
 
@@ -54,9 +54,9 @@ local mmsetup_entries = {
 	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Sheriff", description = "Set weapons for the Sheriff role during the normal gameplay.", valueMask = 0x3},
 	{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 3, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Normal gameplay weapons - Civilian", description = "Set weapons for the Civilian role during the normal gameplay."},
 	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Hero", description = "Set weapons for the Hero role during the normal gameplay.", valueMask = 0x3},
-	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Murderer", description = "Set weapons for the Murderer role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
-	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Sheriff", description = "Set weapons for the Sheriff role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
-	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Hero", description = "Set weapons for the Hero role during the Showdown Duel.", valueMask = 0xC, bitshift = 2},
+	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Murderer", description = "Set weapons for the Murderer role during the Showdown Duel.", valueMask = 0xC, shift = 4},
+	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Sheriff", description = "Set weapons for the Sheriff role during the Showdown Duel.", valueMask = 0xC, shift = 4},
+	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Hero", description = "Set weapons for the Hero role during the Showdown Duel.", valueMask = 0xC, shift = 4},
 	{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit", description = "Time limit for the round in minutes. With the \"Let MM decide\" option\nthe game will automatically choose the time limit for each round.\nChanging this value will require a level restart in order for the\nchanges to fully apply"},
 	{cvar = CV_FindVar("maxplayers"), min = 2, max = 32, name = "Maximum players", description = "The maximum amount of players allowed to be in the MM game.\nJoining players who do not fit into this limit will be rejected."},
 	{cvar = CV_FindVar("allowjoin"), min = 0, max = 1, values = NoYes_option, name = "Allow joining", description = "Allow players to connect to the server."},
@@ -81,7 +81,7 @@ COM_AddCommand("mmsetup", function(p)
 	for i = 1, #mmsetup_entries do --Update the values so they represent real (current) CVAR values
 		if (mmsetup_entries[i].valueMask)
 			mmsetup_entries[i].value = mmsetup_entries[i].cvar.value & mmsetup_entries[i].valueMask
-			if (mmsetup_entries[i].bitshift) then mmsetup_entries[i].value = $ >> mmsetup_entries[i].bitshift end
+			if (mmsetup_entries[i].shift) then mmsetup_entries[i].value = $ / mmsetup_entries[i].shift end
 		else mmsetup_entries[i].value = mmsetup_entries[i].cvar.value end
 	end
 end, COM_ADMIN)
@@ -109,7 +109,7 @@ addHook("KeyDown", function(keyevent)
 			switch(consoleplayer.mmsetupcursor, {
 				[#mmsetup_entries + 1] = do --Save & Exit
 					for k = 1, #mmsetup_entries do
-						if (mmsetup_entries[k].bitshift) then CV_StealthSet(mmsetup_entries[k].cvar, (mmsetup_entries[k].cvar.value | (mmsetup_entries[k].value << mmsetup_entries[k].bitshift)))
+						if (mmsetup_entries[k].shift) then CV_StealthSet(mmsetup_entries[k].cvar, (mmsetup_entries[k].cvar.value | (mmsetup_entries[k].value * mmsetup_entries[k].shift)))
 						else CV_StealthSet(mmsetup_entries[k].cvar, mmsetup_entries[k].value) end
 					end
 					consoleplayer.mmsetupcursor = nil
@@ -156,12 +156,12 @@ hud.add(function(v, p)
 	v.fadeScreen(16, 10) --gray background
 
 	--Top blue wave bar
-	for x = 0, (v.width() >> 3) do v.drawFill((x << 3), 0, 8, 8, (144 + sortOfSine((leveltime >> 2) + x, 16))|V_SNAPTOTOP|V_SNAPTOLEFT) end
+	for x = 0, (v.width() / 8) do v.drawFill((x * 8), 0, 8, 8, (144 + sortOfSine((leveltime / 4) + x, 16))|V_SNAPTOTOP|V_SNAPTOLEFT) end
 	v.drawString(160, 0, "MM setup utility", V_SNAPTOTOP|V_MONOSPACE|V_ALLOWLOWERCASE, "center")
 
 	--Entries list
 	for k = 1, #mmsetup_entries do
-		yPos = 24 + (k << 2) + k
+		yPos = 24 + (k * 4) + k
 		if (p.mmsetupcursor == k) then textcolor = "\x82" else textcolor = "" end
 		v.drawString(32, yPos, textcolor..mmsetup_entries[k].name, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_MONOSPACE, "small")
 		if (mmsetup_entries[k].values and mmsetup_entries[k].values[mmsetup_entries[k].value])
@@ -194,7 +194,7 @@ hud.add(function(v, p)
 			cursorVFlag = V_SNAPTOBOTTOM
 		end,
 		['default'] = do
-			yPos = 24 + (p.mmsetupcursor << 2) + p.mmsetupcursor
+			yPos = 24 + (p.mmsetupcursor * 4) + p.mmsetupcursor
 			cursorVFlag = V_SNAPTOTOP
 		end
 	})
@@ -440,8 +440,8 @@ hud.add(function(v, p)
 	if not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Update the Canvas resolution
-	scrnColumns = ((v.width()/v.dupx()) >> 3)-- - 2
-	scrnRows = ((v.height()/v.dupy()) >> 3) - 2
+	scrnColumns = ((v.width()/v.dupx()) / 8)-- - 2
+	scrnRows = ((v.height()/v.dupy()) / 8) - 2
 
 	local y = 0
 
@@ -458,7 +458,7 @@ hud.add(function(v, p)
 		HIDEO.DrawStrUnicode(v, 0, y, renderBuffer[lineID], V_SNAPTOTOP|V_SNAPTOLEFT)
 
 		y = $ + 8 --line is drawn, move one row down for the next one
-		if (y >= (scrnRows << 3)) then break end --Trying to draw out of canvas bounds, stop rendering here
+		if (y >= (scrnRows * 8)) then break end --Trying to draw out of canvas bounds, stop rendering here
 	end
 
 	--scroll bar

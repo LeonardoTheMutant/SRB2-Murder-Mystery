@@ -61,7 +61,7 @@ addHook("MapLoad", do
 	end
 	if (#s) --if there are spawnpoints available, spawn the plushie at a random spawn
 		local i = P_RandomKey(#s) + 1
-		P_SpawnMobj((s[i].x << FRACBITS), (s[i].y << FRACBITS), (s[i].z << FRACBITS), MT_EVILKNUX)
+		P_SpawnMobj((s[i].x * FU), (s[i].y * FU), (s[i].z * FU), MT_EVILKNUX)
 		MM.DebugPrint(string.format("Spawned Evil Knux Plush at %d, %d, %d out of %d possible spawnpoint choices", s[i].x, s[i].y, s[i].z, #s))
 	end
 end)
@@ -72,13 +72,13 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 		S_StartSound(nil, sfx_squeak)
 		s.alpha = $ - 1024
 		t.player.rings = $ + 500 
-		t.player.powers[pw_infinityring] = $ + (MM.weapons[0][5] >> 3)
-		t.player.powers[pw_automaticring] = $ + (MM.weapons[1][5] >> 1)
-		t.player.powers[pw_bouncering] = $ + (MM.weapons[2][5] >> 1)
-		t.player.powers[pw_scatterring] = $ + (MM.weapons[3][5] >> 1)
-		t.player.powers[pw_grenadering] = $ + (MM.weapons[4][5] >> 1)
-		t.player.powers[pw_explosionring] = $ + (MM.weapons[5][5] >> 1)
-		t.player.powers[pw_railring] = $ + (MM.weapons[6][5] >> 1)
+		t.player.powers[pw_infinityring] = $ + (MM.weapons[0][5] / 8)
+		t.player.powers[pw_automaticring] = $ + (MM.weapons[1][5] / 2)
+		t.player.powers[pw_bouncering] = $ + (MM.weapons[2][5] / 2)
+		t.player.powers[pw_scatterring] = $ + (MM.weapons[3][5] / 2)
+		t.player.powers[pw_grenadering] = $ + (MM.weapons[4][5] / 2)
+		t.player.powers[pw_explosionring] = $ + (MM.weapons[5][5] / 2)
+		t.player.powers[pw_railring] = $ + (MM.weapons[6][5] / 2)
 		MM.DebugPrint(string.format("\x8A%s\x80 touched the Evil Knux Plush", t.player.name))
 	end
 	return true

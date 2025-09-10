@@ -187,7 +187,7 @@ hud.add(function(v, p)
 	end
 	
 	--Time Warp Sign ("Warp ticket")
-	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer & 1))))
+	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer % 2))))
 		switch(p.mm.timetravel.timesign, {
 			--Past
 			[1] = do v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_PAST"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag()) end,
@@ -197,11 +197,11 @@ hud.add(function(v, p)
 	end
 
 	--Life icon, player name and role
-	v.drawScaled((hudinfo[HUD_LIVES].x << FRACBITS), (hudinfo[HUD_LIVES].y << FRACBITS), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+	v.drawScaled((hudinfo[HUD_LIVES].x * FU), (hudinfo[HUD_LIVES].y * FU), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|V_PERPLAYER|v.localTransFlag())
 
 	--Show your role
-	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (not (p.mm.hud.roleflicker & 3)))
+	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and not (p.mm.hud.roleflicker & 3))
 		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 	end
 	
@@ -220,7 +220,7 @@ hud.add(function(v, p)
 		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
 		if (MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
 			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
-				HIDEO.DrawStrUnicode_Center(v, 160, (112 + (y << 3)), i, v.localTransFlag())
+				HIDEO.DrawStrUnicode_Center(v, 160, (112 + (y * 8)), i, v.localTransFlag())
 			end
 		else
 			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
@@ -230,7 +230,7 @@ hud.add(function(v, p)
 		if (p.mm.role == nil)
 			if (MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
 				for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
-					HIDEO.DrawStrUnicode_Center(v, 160, (152 + (y << 2)), i, v.localTransFlag(), true)
+					HIDEO.DrawStrUnicode_Center(v, 160, (152 + (y * 4)), i, v.localTransFlag(), true)
 				end
 			else
 				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
@@ -274,7 +274,7 @@ hud.add(function(v, p)
 				if (not p.mm.minigame.timeout)
 					HIDEO.DrawStrUnicode_Right(v, 320, 4, (MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS").." "..MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 				end
-			elseif ((not p.mm.minigame) and (rival.mm.minigame) and (leveltime & 1))
+			elseif ((not p.mm.minigame) and (rival.mm.minigame) and (leveltime % 2))
 				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 				HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
 			end
@@ -292,8 +292,8 @@ hud.add(function(v, p)
 		if (q > pv)
 			del = $ + pv
 			q = $ - pv
-			q = $ >> 1
-			if (pv > 1) pv = $ >> 1 end
+			q = $ / 2
+			if (pv > 1) pv = $ / 2 end
 		else
 			del = $ + q
 			break
@@ -341,7 +341,7 @@ hud.add(function(v, p)
 			end
 
 			--Selector
-			v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
+			v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 
 		--Draw all weapons
 		else
@@ -385,7 +385,7 @@ hud.add(function(v, p)
 			end
 
 			--Selector
-			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
+			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (del / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 		end
 	
 	--Civilian weapon logic
@@ -405,7 +405,7 @@ hud.add(function(v, p)
 		end
 		
 		--Selector
-		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del >> 1)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
+		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (del / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end
 
 	--Sheriff Emerald Radar for Innocents
@@ -417,7 +417,7 @@ hud.add(function(v, p)
 	if (MM.PlayerCount() == 1)
 		if (MM.text[consoleplayer.mm.lang]["HUD_ALONE"])
 			--Draw the text
-			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_ALONE"]) do HIDEO.DrawStrUnicode_Center(v, 160, (128 + (y << 3)), i, v.localTransFlag()) end
+			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_ALONE"]) do HIDEO.DrawStrUnicode_Center(v, 160, (128 + (y * 8)), i, v.localTransFlag()) end
 		else
 			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
 		end
@@ -464,7 +464,7 @@ hud.add(function(v)
 		--Draw some text to replace the list
 		if (MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
 			for y,i in ipairs(MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
-				HIDEO.DrawStrUnicode(v, 16, (16 + (y << 3)), i, v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, 16, (16 + (y * 8)), i, v.localTransFlag())
 			end
 		else
 			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_SCORESTAB\"\x87]\x82 that does not exist!\x80") end
@@ -487,11 +487,11 @@ hud.add(function(v)
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
 				if (i > 10) then shift = {x=140, y=80} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i << 3)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE|v.localTransFlag())
+				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE|v.localTransFlag())
 			else --Compact ("Tripple column") mode
 				if (i > 11) then shift = {x=94, y=88}
 				elseif (i > 22) then shift = {x=188, y=88} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i << 3)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
+				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
 			end
 		end
 
@@ -502,17 +502,17 @@ hud.add(function(v)
 			for p in players.iterate
 				if (MM.AreTeammates(consoleplayer, p) and (consoleplayer != p))
 					--character icon
-					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136 * (teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo & 1) << 4)) << FRACBITS, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 					--player name (colored as role)
-					v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136 * (teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo & 1) << 4)), MM.RoleColor[p.mm.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
+					v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136 * (teammateNo / 2))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16)), MM.RoleColor[p.mm.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
 					--icon of the currently held weapon
-					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136 * (teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
+					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
 					--amount of currently held weapon ammo
-					v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136 * (teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)), p.powers[pw_infinityring + p.currentweapon], v.localTransFlag(), "thin")
+					v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + 18 + (136 * (teammateNo / 2))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) * 16)), p.powers[pw_infinityring + p.currentweapon], v.localTransFlag(), "thin")
 					--red ring icon
-					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136 * (teammateNo >> 1))) << FRACBITS, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)) << FRACBITS, 32768, MM.graphics[MM.weapons[-1][1]], v.localTransFlag()) --FU/2
+					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, MM.graphics[MM.weapons[-1][1]], v.localTransFlag()) --FU/2
 					--amount of [red] rings
-					v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136 * (teammateNo >> 1))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo & 1) << 4)), p.rings, v.localTransFlag(), "thin")
+					v.drawString((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + MM.hud.scores.pos.teammateInfoOffset2.x + 18 + (136 * (teammateNo / 2))), (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) * 16)), p.rings, v.localTransFlag(), "thin")
 					teammateNo = $ + 1
 				end
 			end
@@ -535,7 +535,7 @@ hud.add(function(v)
 		if (MM.PlayerCount(ROLE_CIVILIAN)) HIDEO.DrawStrUnicode(v, 20, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag()) end
 
 		--"Sheriff's Emerald is available!"
-		if ((#MM.shremds) and (leveltime & 1))
+		if ((#MM.shremds) and (leveltime % 2))
 			v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
 		end
 	end
@@ -625,45 +625,45 @@ hud.add(function(v)
 	for i = 1, #plrs
 		if (MM.PlayerCount() <= 8) --Regular mode
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name.x - 20) << FRACBITS, (((MM.hud.intermission.pos.players.y - 4) + (i << 4)) << FRACBITS), 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
+			v.drawScaled((MM.hud.intermission.pos.name.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16))*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i << 4)), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i << 4)), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE)
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills.x), (MM.hud.intermission.pos.players.y + (i << 4)), plrs[i].mm.kills)
+			v.drawString((MM.hud.intermission.pos.kills.x), (MM.hud.intermission.pos.players.y + (i * 16)), plrs[i].mm.kills)
 		elseif ((MM.PlayerCount() > 8) and (MM.PlayerCount() <= 16)) --"Double column" mode
 			if (i > 8) shift = {x=160, y=128} end --players 9-16 are drawn on the second column
 
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name.x + shift.x - 20) << FRACBITS, ((MM.hud.intermission.pos.players.y - 4) + (i << 4) - shift.y) << FRACBITS, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
+			v.drawScaled((MM.hud.intermission.pos.name.x + shift.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16) - shift.y)*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players.y + (i << 4) - shift.y), plrs[i].mm.kills)
+			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), plrs[i].mm.kills)
 		else --"Double column compact" mode
 			if (i > 16) then shift = {x=160, y=128} end --players 17-32 are drawn on the second column
 
 			--back to the rows
 			--Character icon
-			v.drawScaled((MM.hud.intermission.pos.name2.x + shift.x - 10) << FRACBITS, ((MM.hud.intermission.pos.players2.y - 1) + (i << 3) - shift.y) << FRACBITS, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
+			v.drawScaled((MM.hud.intermission.pos.name2.x + shift.x - 10)*FU, ((MM.hud.intermission.pos.players2.y - 1) + (i * 8) - shift.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			end
 			--Kills counter
-			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i << 3) - shift.y), plrs[i].mm.kills, 0, "thin")
+			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), plrs[i].mm.kills, 0, "thin")
 		end
 	end
 

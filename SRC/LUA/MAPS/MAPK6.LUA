@@ -10,10 +10,11 @@ addHook("MapLoad", function(map)
     if (MM.debug)
         printf("\x82Seed: %d", random)
         for i=0,7 do
-            if (random & (2^i))
-                printf("\x85%d %d", (i+1), (random & (2^i)))
+            local rand = random & (2^i)
+            if (rand)
+                printf("\x85%d %d", (i+1), rand)
             else
-                printf("\x83%d %d", (i+1), (random & (2^i)))
+                printf("\x83%d %d", (i+1), rand)
             end
         end
     end

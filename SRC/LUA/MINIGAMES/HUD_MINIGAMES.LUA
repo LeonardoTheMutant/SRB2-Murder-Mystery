@@ -17,7 +17,7 @@ local function V_DrawMinigameTime(v)
 	else
 		timeLabelWidth = 96
 	end
-	local timeLabelX = (169 - (timeLabelWidth >> 1)) --[value]/2
+	local timeLabelX = (169 - (timeLabelWidth / 2))
 
     --timer calculation
 	local timertime = (MM.timelimit * 2100) - leveltime
@@ -87,8 +87,8 @@ hud.add(function(v, p)
 		--Draw scrolling background
 		--Despite checking for the patch width, it can currently work only with 200x80 images
 		local scroll = p.SonicRun.score % SonicRunBG[p.SonicRun.background].width
-		v.drawCropped((coords.sonicRun.x << FRACBITS), (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, (scroll << FRACBITS), 0, (SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, 5242880) --80*FU
-		v.drawCropped((coords.sonicRun.x + SonicRunBG[p.SonicRun.background].width - scroll) << FRACBITS, (coords.sonicRun.y << FRACBITS), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, 0, 0, (scroll << FRACBITS), 5242880) --80*FU
+		v.drawCropped((coords.sonicRun.x * FU), (coords.sonicRun.y * FU), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, (scroll * FU), 0, (SonicRunBG[p.SonicRun.background].width - scroll)*FU, 5242880) --80*FU
+		v.drawCropped((coords.sonicRun.x + SonicRunBG[p.SonicRun.background].width - scroll)*FU, (coords.sonicRun.y * FU), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, 0, 0, (scroll * FU), 5242880) --80*FU
 
 
 		--Sonic
@@ -98,18 +98,26 @@ hud.add(function(v, p)
 				sonicSprite = "SNC_STND"
 			end,
 			[1] = do --Running
-				sonicSprite = "SNC_RUN"..((leveltime & 1) + 1)
+				sonicSprite = "SNC_RUN"..((leveltime % 2) + 1)
 			end,
 			[2] = do --Spinning/Jumping
-				if (leveltime & 3 == 0) or (leveltime & 3 == 2) then sonicSprite = "SNC_SPN1"
-				elseif (leveltime & 3 == 1) then sonicSprite = "SNC_SPN2"
-				elseif (leveltime & 3 == 3) then sonicSprite = "SNC_SPN3" end
+				switch(leveltime % 4, {
+					[1] = do
+						sonicSprite = "SNC_SPN2"
+					end,
+					[3] = do
+						sonicSprite = "SNC_SPN3"
+					end,
+					['default'] = do
+						sonicSprite = "SNC_SPN1"
+					end
+				})
 			end
 		})
 		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite], v.localTransFlag())
 
 		--hazards
-		local hazardSprite = "SPIK"..string.char(65 + ((leveltime & 15) >> 1)).."0"
+		local hazardSprite = "SPIK"..string.char(65 + ((leveltime % 16) / 2)).."0"
 		for id, hazard in pairs(p.SonicRun.hazards)
 			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
 		end
@@ -145,7 +153,7 @@ hud.add(function(v, p)
 
 		--player side information
 		--character icon
-		v.drawScaled((hudinfo[HUD_LIVES].x << FRACBITS), (hudinfo[HUD_LIVES].y << FRACBITS), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+		v.drawScaled((hudinfo[HUD_LIVES].x * FU), (hudinfo[HUD_LIVES].y * FU), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role

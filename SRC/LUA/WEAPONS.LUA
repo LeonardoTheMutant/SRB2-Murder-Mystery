@@ -101,7 +101,7 @@ local function P_SetWeaponDelay(p, delay)
 	if ((p.skin == 2) and (not autofireCVAR.value))
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
-		p.mm.weapondelay = ($ << 1)/3
+		p.mm.weapondelay = ($ * 2)/3
 	end
 end
 
@@ -268,7 +268,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 				mo.flags = $|MF_NOBLOCKMAP
 				--P_SetThingPosition(mo)
 			end
-			if (i & 1) P_SpawnMobj(mo.x, mo.y, mo.z, MT_SPARK) end
+			if (i % 2) P_SpawnMobj(mo.x, mo.y, mo.z, MT_SPARK) end
 			if (P_RailThinker(mo)) break end -- mobj was removed (missile hit a wall) or couldn't move
 		end
 		-- Other rail sound plays at contact point.
@@ -280,9 +280,9 @@ end)
 -- Works only when Weapon Configuration has "Red only" flag set everywhere
 
 local function IsRedOnlyEverywhere()
-	return (wepcfgCVARs[ROLE_MURDERER].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_MURDERER].value >> 2) & WEPCFG_REDONLY)
-			and (wepcfgCVARs[ROLE_SHERIFF].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_SHERIFF].value >> 2) & WEPCFG_REDONLY)
-			and (wepcfgCVARs[ROLE_HERO].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_HERO].value >> 2) & WEPCFG_REDONLY)
+	return (wepcfgCVARs[ROLE_MURDERER].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_MURDERER].value / 4) & WEPCFG_REDONLY)
+			and (wepcfgCVARs[ROLE_SHERIFF].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_SHERIFF].value / 4) & WEPCFG_REDONLY)
+			and (wepcfgCVARs[ROLE_HERO].value & WEPCFG_REDONLY) and ((wepcfgCVARs[ROLE_HERO].value / 4) & WEPCFG_REDONLY)
 end
 
 local weaponPanelMobjs = {

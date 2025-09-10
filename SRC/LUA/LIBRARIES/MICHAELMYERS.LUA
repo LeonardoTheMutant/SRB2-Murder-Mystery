@@ -512,9 +512,9 @@ end
 MM.GetWepCfgFlags = function(role)
 	if (not role) or (role < ROLE_MURDERER) or (role > ROLE_HERO) or (role == ROLE_CIVILIAN) then return 0 end
 	if (MM.PlayerCount(ROLE_CIVILIAN)) --Normal gameplay
-		return wepcfgCVARs[role].value & 3
+		return wepcfgCVARs[role].value % 4
 	else --Showdown Duel
-		return (wepcfgCVARs[role].value >> 2) & 3
+		return (wepcfgCVARs[role].value / 4) % 4
 	end
 end
 

@@ -180,13 +180,13 @@ local function VarChange(v)
 			else print("\x87Murder Mystery\x80: Nametags and player counters are now enabled") end
 		end,
 		["mm_wepcfg_murd"] = do
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_MURDERER], "Murderer\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value & 3], "Showdown Duel", sentences[(v.value >> 2) & 3])
+			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_MURDERER], "Murderer\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end,
 		["mm_wepcfg_sheri"] = do
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_SHERIFF], "Sheriff\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value & 3], "Showdown Duel", sentences[(v.value >> 2) & 3])
+			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_SHERIFF], "Sheriff\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end,
 		["mm_wepcfg_hero"] = do
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_HERO], "Hero\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value & 3], "Showdown Duel", sentences[(v.value >> 2) & 3])
+			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_HERO], "Hero\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end
 	})
 end
@@ -207,8 +207,6 @@ CV_RegisterVar({name = "mm_allowshoes", defaultvalue = "No", PossibleValue = CV_
 CV_RegisterVar({name = "mm_allowshields", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_allowinvinc", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
-
-
 
 --
 -- BOOT SEQUENCE

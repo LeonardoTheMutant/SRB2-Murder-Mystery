@@ -175,7 +175,7 @@ local function SONIC_Thinker(p)
 				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
 			end
 		})
-		p.SonicRun.hazardsTimeout = (P_RandomKey(2) << 4) + 18
+		p.SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 18
 	end
 
 	--hazards thinker and collision

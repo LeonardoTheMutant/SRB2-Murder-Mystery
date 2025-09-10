@@ -25,11 +25,11 @@ addHook("PlayerThink", function(p)
 		p.charability2 = 0
 		p.charflags = 0
 		if ((p.cmd.buttons & BT_SPIN)) --sneaking
-			p.normalspeed = speedsneakCVAR.value << FRACBITS
+			p.normalspeed = speedsneakCVAR.value * FU
 			p.mm.sneak = true
 		else
-			if (SOC_IsTrue(mapheaderinfo[gamemap].mm_slowwalkspeed)) then p.normalspeed = (speedwalkCVAR.value - (speedwalkCVAR.value >> 2) - (speedwalkCVAR.value >> 3)) << FRACBITS --x0.625 of the normal speed
-			else p.normalspeed = speedwalkCVAR.value << FRACBITS end
+			if (SOC_IsTrue(mapheaderinfo[gamemap].mm_slowwalkspeed)) then p.normalspeed = (speedwalkCVAR.value - (speedwalkCVAR.value / 4) - (speedwalkCVAR.value / 8))*FU --x0.625 of the normal speed
+			else p.normalspeed = speedwalkCVAR.value * FU end
 			p.mm.sneak = false
 		end
 	end

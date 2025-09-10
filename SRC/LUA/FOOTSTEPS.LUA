@@ -2435,7 +2435,7 @@ addHook("PlayerThink", function(player)
 								mobjstep.eflags = pmo.eflags
 								--Kill trail steps
 								if (player.mm.killtrailsteps and killtrailCVAR.value)
-									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|min((player.mm.killtrailsteps >> 1), 9)
+									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|min((player.mm.killtrailsteps / 2), 9)
 									player.mm.killtrailsteps= $ - 1
 								else
 									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE --reset to black
