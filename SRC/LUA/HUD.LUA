@@ -105,31 +105,27 @@ hud.add(function(v, p)
 	if ((p.mm.role == ROLE_MURDERER) or (p.mm.finished)) then scorePatchName = "BMP_VICTIMS"
 	else scorePatchName = "BMP_SUSPECTS" end
 
-	if (MM.text[consoleplayer.mm.lang][scorePatchName]) then HudInfoSize[1] = HIDEO.TextPatchWidth(MM.text[consoleplayer.mm.lang][scorePatchName]) + 40
+	if (MM.text[consoleplayer.mm.lang][scorePatchName]) then HudInfoSize[1] = HIDEO.GetTextPatchWidth(MM.text[consoleplayer.mm.lang][scorePatchName]) + 40
 	else HudInfoSize[1] = 96 end
 
 	--TIME
-	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"]) then HudInfoSize[2] = HIDEO.TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_TIME"]) + 64
+	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"]) then HudInfoSize[2] = HIDEO.GetTextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_TIME"]) + 64
 	else HudInfoSize[2] = 96 end
 
 	--RINGS
-	if (MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) then HudInfoSize[3] = HIDEO.TextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) + 52
+	if (MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) then HudInfoSize[3] = HIDEO.GetTextPatchWidth(MM.text[consoleplayer.mm.lang]["BMP_RINGS"]) + 52
 	else HudInfoSize[3] = 92 end
 
 	--find the longest element
 	maxHudIfnfoSize = HudInfoSize[1]
 	for element = 2, 3 do if (HudInfoSize[element] > maxHudIfnfoSize) then maxHudIfnfoSize = HudInfoSize[element] end end
 
-	local xoff, yoff --X and Y offsets for Text Patches
-
 	--now we can draw
 
 	--SUSPECTS/VICTIMS
 	--Draw the Text Label
 	if (MM.text[consoleplayer.mm.lang][scorePatchName])
-		xoff = MM.GetTextPatchOffsetX(consoleplayer.mm.lang, scorePatchName)
-		yoff = MM.GetTextPatchOffsetY(consoleplayer.mm.lang, scorePatchName)
-		HIDEO.DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, xoff, yoff, MM.text[consoleplayer.mm.lang][scorePatchName], hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
+		HIDEO.DrawTextPatch(v, hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, MM.text[consoleplayer.mm.lang][scorePatchName], hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
 	else --in case Text Patch was not found
 		switch(scorePatchName, {
 			["BMP_VICTIMS"] = do v.drawString(hudinfo[HUD_SCORE].x, hudinfo[HUD_SCORE].y, "VICTIMS", hudinfo[HUD_SCORE].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag()) end,
@@ -152,15 +148,13 @@ hud.add(function(v, p)
 
 	if (timertime < 0) timertime = 0 end
 	if (MM.text[consoleplayer.mm.lang]["BMP_TIME"])
-		xoff = MM.GetTextPatchOffsetX(consoleplayer.mm.lang, "BMP_TIME")
-		yoff = MM.GetTextPatchOffsetY(consoleplayer.mm.lang, "BMP_TIME")
 		--Draw the Text Label
 		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4))
 			--Swap the colors in the label for flashing effect
 			--0x49 in SRB2's palette is Yellow, 0x25 is Red
-			HIDEO.DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, HIDEO.TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, HIDEO.TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_TIME"], 0x49, 0x25), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
 		else
-			HIDEO.DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, xoff, yoff, MM.text[consoleplayer.mm.lang]["BMP_TIME"], hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawTextPatch(v, hudinfo[HUD_TIME].x, hudinfo[HUD_TIME].y, MM.text[consoleplayer.mm.lang]["BMP_TIME"], hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
 		end
 	else --in case Text Patch was not found
 		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4))
@@ -177,12 +171,10 @@ hud.add(function(v, p)
 	--RINGS
 	if (not p.spectator)
 		if (MM.text[consoleplayer.mm.lang]["BMP_RINGS"])
-			xoff = MM.GetTextPatchOffsetX(consoleplayer.mm.lang, "BMP_RINGS")
-			yoff = MM.GetTextPatchOffsetY(consoleplayer.mm.lang, "BMP_RINGS")
 			if (not p.rings) and (leveltime & 4)
-				HIDEO.DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, HIDEO.TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, HIDEO.TextPatch_SwapColor(MM.text[consoleplayer.mm.lang]["BMP_RINGS"], 0x49, 0x25), hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag())
 			else
-				HIDEO.DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, xoff, yoff, MM.text[consoleplayer.mm.lang]["BMP_RINGS"], hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawTextPatch(v, hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, MM.text[consoleplayer.mm.lang]["BMP_RINGS"], hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag())
 			end
 		else --in case Text Patch was not found or the game is splitscreen
 			if (not p.rings) and (leveltime & 4)
@@ -195,12 +187,13 @@ hud.add(function(v, p)
 	end
 	
 	--Time Warp Sign ("Warp ticket")
-	if (p.mm.timetravel) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer & 1))))
-		if (p.mm.timetravel.timesign and (p.mm.timetravel.timesign == 1)) --Past
-			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_PAST"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
-		elseif (p.mm.timetravel.timesign and (p.mm.timetravel.timesign == 2)) --Future
-			v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_FUTR"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
-		end
+	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer & 1))))
+		switch(p.mm.timetravel.timesign, {
+			--Past
+			[1] = do v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_PAST"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag()) end,
+			--Future
+			[2] = do v.draw(hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y - 18), MM.graphics["TWS_FUTR"], hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag()) end
+		})
 	end
 
 	--Life icon, player name and role

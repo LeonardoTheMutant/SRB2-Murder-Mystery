@@ -144,17 +144,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	//Bitmap info table
-	fprintf(outputfile, "local OUTPUT_BITMAP_INFO = {\n"); //Table declaration
-	fprintf(outputfile, "\txoff = %hd,\n", patchOffsetX);  //X offset
-	fprintf(outputfile, "\tyoff = %hd\n", patchOffsetY);   //Y offset
-	fprintf(outputfile, "}\n");                            //end of the table
-
-	//Bitmap table
-	fprintf(outputfile, "local OUTPUT_BITMAP = {\n"); //Table declaration
+	fprintf(outputfile, "local OUTPUT_TEXTPATCH = {\n\txoff = %hd,\n\tyoff = %hd,\n\tdata = {\n", patchOffsetX, patchOffsetY); //Table declaration, X offset, Y offset and the beginning of the data table
+	//Bitmap data table
 	for (uint32_t row = 0; row < patchHeight; row++)
 	{
-		fprintf(outputfile, "\t\""); //start of the row line
+		fprintf(outputfile, "\t\t\""); //start of the row line
 		hexWritten = 0;
 		for (uint32_t column = 0; column < patchWidth; column++)
 		{
@@ -182,9 +176,10 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
-		fprintf(outputfile, "\",\n"); //end of the row line
+		if (row == (patchHeight - 1)) fprintf(outputfile, "\"\n"); //last row in the table
+		else fprintf(outputfile, "\",\n"); //end of the row line
 	}
-	fprintf(outputfile, "}\n"); //end of the table
+	fprintf(outputfile, "\t}\n}\n"); //end of the data table and the entire Text Patch table
 
 	fclose(outputfile); //output file close
 

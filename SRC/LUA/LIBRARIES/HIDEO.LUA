@@ -153,7 +153,7 @@ utf8.bytes = function(str)
 		elseif (b1 >= 0xC2) and (b1 <= 0xDF) then
 			local b2 = str:byte(pos + 1)
 			if (b2 and (b2 >= 0x80) and (b2 <= 0xBF)) then
-				codepoint = ((b1 & 0x1F) << 6) | (b2 & 0x3F)
+				codepoint = ((b1 % 32) * 64) | (b2 % 64)
 				bytes = 2
 			else
 				codepoint = 0xFFFD
@@ -165,7 +165,7 @@ utf8.bytes = function(str)
 			local b2 = str:byte(pos + 1)
 			local b3 = str:byte(pos + 2)
 			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
-				codepoint = ((b1 & 0x0F) << 12) | ((b2 & 0x3F) << 6) | (b3 & 0x3F)
+				codepoint = ((b1 % 16) * 4096) | ((b2 % 64) * 64) | (b3 % 64)
 				bytes = 3
 
 				-- Reject UTF-16 surrogate pairs (U+D800–DFFF)
@@ -222,7 +222,7 @@ HIDEO.GetUnicodeFont = function(v, chr)
 	assert(v, "HIDEO.GetUnicodeFont() argument #1: Video drawer object expected")
 	if (chr and type(chr) != "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
 
-	chr = chr or 0xFFFD 
+	chr = chr or 0xFFFD
 
 	if (HIDEO.font[chr]) return HIDEO.font[chr]
 	else
@@ -241,8 +241,8 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
 	if (not str) or (type(str) != "string") error("HIDEO.DrawStrUnicode() argument #5: string expected") end
 
-	if (small) small = 1
-	else small = 0 end
+	if (small) small = 2
+	else small = 1 end
 
 	local x = x or 0
 	local y = y or 0
@@ -254,7 +254,7 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 	elseif (flg & V_6WIDTHSPACE) spaceSize = 6 end
 
 	--scale down if we want x0.5 font
-	spaceSize = $ >> small
+	spaceSize = $ / small
 
 	--character position
 	local cx = x
@@ -286,26 +286,26 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 		--newline
 		if (chr == 0x0A)
 			cx = x --carriage return
-			cy = $ + (8 >> small)
+			cy = $ + (8 / small)
 		end
 
 		--characters from 0x80 to 0xFF (128 - 255 in decimal) set the color AND translucency
 		if ((chr >= 0x80) and (chr <= 0xFF) and isTextCode) then
-			color = v.getStringColormap((chr & 0x7F & 0x0F) << 12)
-			translucency = ((chr - 0x80) >> 4) << 16
+			color = v.getStringColormap((chr % 128 % 16) * 4096)
+			translucency = ((chr - 0x80) / 16) * 65536
 			isTextCode = false
 			continue
 		end
 
 		--draw the character
 		if ((chr > 0x0F) and (chr != 0x20))
-			v.drawScaled((cx << FRACBITS), (cy << FRACBITS), (FU >> small), HIDEO.GetUnicodeFont(v, chr), flg|translucency, color)
+			v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, chr), flg|translucency, color)
 		end
 
 		--shift position for the next character
 		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
 		else
-			if (chr > 0x0F) then cx = $ + (HIDEO.GetUnicodeFont(v, chr).width >> small) end --it's a regular character
+			if (chr > 0x0F) then cx = $ + (HIDEO.GetUnicodeFont(v, chr).width / small) end --it's a regular character
 		end
 	end
 end
@@ -314,8 +314,8 @@ end
 HIDEO.StrWidthUnicode = function(str, flags, small)
 	if (not str) or (str == "") return 0 end
 
-	if (small) small = 1
-	else small = 0 end
+	if (small) small = 2
+	else small = 1 end
 
 	--symbol width
 	local flg = flags or 0
@@ -327,21 +327,21 @@ HIDEO.StrWidthUnicode = function(str, flags, small)
 	elseif (flg & V_6WIDTHSPACE) then spaceSize = 6 end
 
 	--scale down for x0.5 (if needed)
-	spaceSize = $ >> small
+	spaceSize = $ / small
 
 	local char
 
 	for char in utf8.bytes(str)
 		if (char == 0x20) then pixelLen = $ + spaceSize --space
 		elseif ((char > 0x20) and HIDEO.font[char]) then --we count only visible charactrers
-			pixelLen = $ + (HIDEO.font[char].width >> small)
+			pixelLen = $ + (HIDEO.font[char].width / small)
 		end
 	end
 	return pixelLen
 end
 
 HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, small)
-	HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(str, flags, small) >> 1)), y, str, flags, small)
+	HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(str, flags, small) / 2)), y, str, flags, small)
 end
 
 HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, small)
@@ -354,71 +354,129 @@ end
 --TEXT PATCH RENDERING & MANIPULATION
 --
 
+--Text Patch struct definition (in C):
+--[[
+
+typedef struct {
+	int xoff; //Patch X offset
+	int yoff; //Patch Y offset
+
+	//2D table of rows & columns where each byte is a pointer to the SRB2 palette color,
+	//in LUA this is simply a table of strings where each character gets converted into a byte value
+	char** data;
+} textpatch_t
+
+]]
+
 --Draw an image from the Text Patch, similar to v.draw()
---The Text Patch itself is a table of strings where each byte in the string is the SRB2 color index
-HIDEO.DrawTextPatch = function(v, x, y, xoff, yoff, patch, flags)
+HIDEO.DrawTextPatch = function(v, x, y, patch, flags)
 	assert(v, "HIDEO.DrawTextPatch() argument #1: Video drawer object expected")
 	local x = x or 0
 	local y = y or 0
-	local xoff = xoff or 0 --X offset
-	local yoff = yoff or 0 --Y offset
+	assert(patch, "HIDEO.DrawTextPatch() argument #4: textpatch_t expected")
+	assert(patch.data, "HIDEO.DrawTextPatch() argument #4: given textpatch_t lacks the data table")
+	local xoff = patch.xoff or 0 --X offset
+	local yoff = patch.yoff or 0 --Y offset
 	local flags = flags or 0
-	assert(patch, "HIDEO.DrawTextPatch() argument #4: patch text data expected")
 
-	local pixelColor
+	local color, startX, runColor
+	local xo = x - xoff - 1
+	local yo = y - yoff - 1
 
-	for row = 1, #patch do
-		for column = 1, #patch[row] do
-			pixelColor = patch[row]:byte(column, column) --get the pixel color value
-			if (pixelColor != 0xFF) --pixel is not transparent
-				v.drawFill((x - xoff + (column - 1)), (y - yoff + (row - 1)), 1, 1, pixelColor|flags) --draw it
+	for row = 1, #patch.data do
+		if (patch.data[row])
+			startX = 0
+			runColor = nil
+			for column = 1, #patch.data[row] do
+				local pixel = patch.data[row]:byte(column)
+				if (pixel == 0xFF) --Is transparent pixel?
+					--Flush the loaded pixels onto screen
+					if (runColor)
+						v.drawFill((xo + startX), (yo + row), (column - startX), 1, runColor)
+						runColor = nil
+					end
+				else
+					color = pixel | flags
+					if (runColor != color)
+						--Flush the loaded pixels onto screen if met a different colored pixel in Text Patch
+						if (runColor) then v.drawFill((xo + startX), (yo + row), (column - startX), 1, runColor) end
+						--Start new run
+						runColor = color
+						startX = column
+					end
+				end
+			end
+			--Flush run if row ended
+			if (runColor) then v.drawFill((xo + startX), (yo + row), (#patch.data[row] - startX + 1), 1, runColor)
 			end
 		end
 	end
 end
 
+--Get the Width of the Text Patch
+HIDEO.GetTextPatchWidth = function(patch)
+	assert(patch, "HIDEO.GetTextPatchWidth() argument #1: textpatch_t expected")
+	local width = 0
+
+	if (patch.data)
+		for row = 1, #patch.data do
+			if (patch.data[row] and (#patch.data[row] > width)) then width = #patch.data[row] end
+		end
+	end
+
+	return width
+end
+
+--Get the Height of the Text Patch
+HIDEO.GetTextPatchHeight = function(patch)
+	assert(patch, "HIDEO.GetTextPatchHeight() argument #1: textpatch_t expected")
+	if (patch.data) then return #patch.data
+	else return 0 end
+end
+
 --Swap colors in the Text Patch
 --Each pixel of the color1 will be replaced by color2
 HIDEO.TextPatch_SwapColor = function(patch, color1, color2)
-	assert(patch, "HIDEO.TextPatch_SwapColor() argument #1: patch text data expected")
-	local color1 = color1
-	if (type(color1) == "string") color1 = color1:byte() end
-	local color2 = color2
-	if (type(color2) == "string") color2 = color2:byte() end
+	assert(patch, "HIDEO.TextPatch_SwapColor() argument #1: textpatch_t expected")
+	assert(patch.data, "HIDEO.TextPatch_SwapColor() argument #1: given textpatch_t lacks the data table")
+	local c1 = color1
+	if (type(color1) == "string") c1 = color1:byte() end
+	local c2 = color2
+	if (type(color2) == "string") c2 = color2:byte() end
 
-	local ptch = {} --the returned copy
-	local pixelColor
+	local ptch = { --the returned copy
+		xoff = patch.xoff or 0,
+		yoff = patch.yoff or 0,
+		data = {}
+	}
 
-	for row = 1, #patch do
-		ptch[row] = patch[row] --copy line from original to copy
-		for column = 1, #patch[row] do
-			pixelColor = patch[row]:byte(column, column) --get the pixel color value
-			if (pixelColor == color1) --is this the pixel we want to replace?
-				ptch[row] = $:sub(1, column - 1) .. string.char(color2) .. $:sub(column + 1) --swap the color
+	local pixel
+
+	for row = 1, #patch.data do
+		if (patch.data[row])
+			local str = {}
+			for column = 1, #patch.data[row] do
+				pixel = patch.data[row]:byte(column, column)
+				if (pixel == c1) --is this the pixel we want to replace?
+					str[#str + 1] = string.char(c2) --Yes, place a replacement pixel
+				else
+					str[#str + 1] = string.char(pixel) --No, leave the pixel as is
+				end
 			end
+			ptch.data[row] = table.concat(str)
 		end
 	end
 
 	return ptch
 end
 
---Calculate the horizontal width of the Text Patch
-HIDEO.TextPatchWidth = function(patch)
-	assert(patch, "HIDEO.TextPatchWidth() argument #1: patch text data expected")
-	local width = 0
 
-	for row = 1, #patch do
-		if (#patch[row] > width) then width = #patch[row] end
-	end
-
-	return width
-end
-
+--[[
 --Scroll the Text Patch by n pixels
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
 HIDEO.ScrollTextPatch_Vertical = function(patch, offset, side)
-	assert(patch, "V_ShiftTextPatch() argument #1: patch text data expected")
+	assert(patch, "V_ShiftTextPatch() argument #1: textpatch_t expected")
 	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
 
 	local buffer = {}
@@ -455,7 +513,7 @@ end
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
 HIDEO.CropTextPatch = function(patch, startColumn, endColumn, startLine, endLine)
-	assert(patch, "HIDEO.CropTextPatch() argument #1: patch text data expected")
+	assert(patch, "HIDEO.CropTextPatch() argument #1: textpatch_t expected")
 	if (startColumn < 0) then error("HIDEO.CropTextPatch() argument #2: positive starting column position value expected") end
 	if (endColumn < 0) then error("HIDEO.CropTextPatch() argument #3: positive ending column position value expected") end
 	if (startLine < 0) then error("HIDEO.CropTextPatch() argument #4: positive starting line position value expected") end
@@ -491,9 +549,9 @@ end
 --Perfomance heavy Text Patch manipulation function!
 --Useful only for the static images!
 HIDEO.CropTextPatch_Relative = function(patch, startColumn, width, startLine, height)
-	assert(patch, "HIDEO.CropTextPatch_Relative() argument #1: patch text data expected")
+	assert(patch, "HIDEO.CropTextPatch_Relative() argument #1: textpatch_t expected")
 	if (not startColumn) then startColumn = 1 end
-	if (not width) then width = HIDEO.TextPatchWidth(patch) end
+	if (not width) then width = HIDEO.GetTextPatchWidth(patch) end
 	if (not startLine) then startLine = 1 end
 	if (not height) then height = #patch end
 
@@ -521,6 +579,7 @@ HIDEO.CropTextPatch_Relative = function(patch, startColumn, width, startLine, he
 
 	return buffer
 end
+]]
 
 --Word wrapper, assisted with ChatGPT
 --Although he gave a direction, I had to spend a lot of time fixing the crap code he suggested
@@ -594,7 +653,7 @@ HIDEO.WordWrapString = function(s, max_width)
 		elseif ((b1 >= 0xC2) and (b1 <= 0xDF) and ((i + 1) <= #s)) then
 			local b2 = s:byte(i + 1)
 			if b2 and b2 >= 0x80 and b2 <= 0xBF then
-				local cp = ((b1 & 0x1F) << 6) | (b2 & 0x3F)
+				local cp = ((b1 % 32) * 64) | (b2 % 64)
 				if (cp <= 0xFFFF) then
 					current_word = current_word .. s:sub(i, i + 1)
 					word_len = $ + 1
@@ -613,7 +672,7 @@ HIDEO.WordWrapString = function(s, max_width)
 			local b2 = s:byte(i + 1)
 			local b3 = s:byte(i + 2)
 			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
-				local cp = ((b1 & 0x0F) << 12) | ((b2 & 0x3F) << 6) | (b3 & 0x3F)
+				local cp = ((b1 % 16) * 4096) | ((b2 % 64) * 64) | (b3 % 64)
 				if (cp <= 0xFFFF) then
 					current_word = $ .. s:sub(i, i + 2)
 					word_len = $ + 1

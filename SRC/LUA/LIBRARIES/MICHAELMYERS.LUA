@@ -593,24 +593,6 @@ MM.UnloadPatch = function(patchname)
 	end
 end
 
---Retrieve the X Offset of the Text Patch
-MM.GetTextPatchOffsetX = function(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].xoff)
-		return MM.text[lang][patchname.."_INFO"].xoff
-	else
-		return 0
-	end
-end
-
---Retrieve the Y Offset of the Text Patch
-MM.GetTextPatchOffsetY = function(lang, patchname)
-	if (MM.text[lang][patchname.."_INFO"]) and (MM.text[lang][patchname.."_INFO"].yoff)
-		return MM.text[lang][patchname.."_INFO"].yoff
-	else
-		return 0
-	end
-end
-
 --
 -- MISCELANEOUS
 --
