@@ -102,6 +102,30 @@ utf8.sub = function(s, i, j)
 	return string.sub(s, i, b + c - 1)
 end
 
+utf8.decode = function(str, i)
+    local c = str:byte(i)
+    if not c then return nil, 0 end
+    if c < 0x80 then
+        return c, 1
+    elseif c < 0xE0 then
+        local c2 = str:byte(i+1)
+        if not c2 then return nil, 1 end
+        return ((c % 0x20) * 0x40) + (c2 % 0x40), 2
+    elseif c < 0xF0 then
+        local c2 = str:byte(i+1)
+        local c3 = str:byte(i+2)
+        if not c2 or not c3 then return nil, 1 end
+        return ((c % 0x10) * 0x1000) + ((c2 % 0x40) * 0x40) + (c3 % 0x40), 3
+    elseif c < 0xF8 then
+        local c2 = str:byte(i+1)
+        local c3 = str:byte(i+2)
+        local c4 = str:byte(i+3)
+        if not c2 or not c3 or not c4 then return nil, 1 end
+        return ((c % 0x08) * 0x40000) + ((c2 % 0x40) * 0x1000) + ((c3 % 0x40) * 0x40) + (c4 % 0x40), 4
+    end
+    return nil, 1
+end
+
 --https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
 --Return an integer value of a single Unicode symbol
 utf8.byte = function(c)
@@ -124,7 +148,7 @@ utf8.bytes = function(str)
     return do
         if (pos > #str) then return nil end
 
-        local b1 = string.byte(str, pos)
+        local b1 = str:byte(pos)
 		local bytes = 0
 		local codepoint
 

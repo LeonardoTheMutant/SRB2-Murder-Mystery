@@ -4,6 +4,8 @@
 -- Function definitions for the core MM functionality, PONG minigame and some global functions
 -- Named after Michael Myers - one of the fictional serial murderers from the horror films (nah it's just because his initials are "MM")
 
+-- DEPENDENCIES: Caroline, Maya
+
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 --Add language/translation to the game
@@ -163,7 +165,7 @@ MM.AssignRoles = do
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
-		chatprintf(p, MM.GetText(p.mm.lang, "CHAT_ROLEGET_PM", p.mm.role))
+		MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_ROLEGET_PM", p.mm.role))
 		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
 	end
 end
@@ -175,46 +177,46 @@ MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
 			["CHAT_MURDKILLED"] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
 			end,
 			['CHAT_SHERIKILLED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
 			end,
 			["CHAT_HEROKILLED"] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
 			end,
 			['SHERIKILLED_DROP'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
 			['MURD_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['HERO_DIED'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED_DROP'] = do
-				chatprintf(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
 			['CHAT_LASTQUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', 3)) end --for Hero	
 			end,
 			['CHAT_ONEQUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', 3)) end --for Hero	
 			end,
 			['CHAT_REPLACEQUIT'] = do
-				if (var != ROLE_HERO) then chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', var)) --for Murd and Sheri
-				else chatprintf(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', 3)) end --for Hero	
 			end,
 			['WIN'] = do
-				chatprintf(p, MM.GetText(p.mm.lang, "CHAT_ENDROUND", var))	
+				MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_ENDROUND", var))	
 			end,
 			['default'] = do
-				chatprintf(p, MM.GetText(p.mm.lang, msg, var))
+				MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, msg, var))
 			end
 		})
 	end
@@ -355,8 +357,8 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	chatprintf(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
-	chatprintf(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
+	MAYA.ChatprintPM(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
+	MAYA.ChatprintPM(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
@@ -495,7 +497,7 @@ MM.SetRandomInnoAs = function(role, message)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
 	p.mm.hud.roleflicker = 70
-	chatprintf(p, MM.GetText(p.mm.lang, "CHAT_NEWROLEGET_PM", message))
+	MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_NEWROLEGET_PM", message))
 	return
 end
 

@@ -105,7 +105,7 @@ addHook("KeyDown", function(keyevent)
 	if not ((gametype == GT_LTMMURDERMYSTERY) and consoleplayer.mmsetupcursor) then return end
 	MM.hud.game.active = false
 	switch(keyevent.num, {
-		[13] = do --ENTER/RETURN
+		[KEY_ENTER] = do --ENTER/RETURN
 			switch(consoleplayer.mmsetupcursor, {
 				[#mmsetup_entries + 1] = do --Save & Exit
 					for k = 1, #mmsetup_entries do
@@ -120,26 +120,26 @@ addHook("KeyDown", function(keyevent)
 				['default'] = mmsetupIncrement --ENTER works as RIGHT and increments the value
 			})
 		end,
-		[27] = mmsetupExitNoSave, --ESCAPE
-		[96] = do --TILDE '~'
+		[KEY_ESCAPE] = mmsetupExitNoSave, --ESCAPE
+		[KEY_CONSOLE] = do --TILDE '~'
 			ignore = false
 		end,
-		[189] = do --F3
+		[KEY_F3] = do --F3
 			local cvar = CV_FindVar("showhud")
 			if (not cvar.value) then CV_Set(cvar, 1) end
 		end,
-		[230] = do --UP
+		[KEY_UPARROW] = do --UP
 			consoleplayer.mmsetupcursor = $ - 1
 			if (not consoleplayer.mmsetupcursor) then consoleplayer.mmsetupcursor = #mmsetup_entries + 2 end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
 		end,
-		[233] = do --LEFT
+		[KEY_LEFTARROW] = do --LEFT
 			mmsetup_entries[consoleplayer.mmsetupcursor].value = $ - 1
 			if (mmsetup_entries[consoleplayer.mmsetupcursor].value < mmsetup_entries[consoleplayer.mmsetupcursor].min) then mmsetup_entries[consoleplayer.mmsetupcursor].value = mmsetup_entries[consoleplayer.mmsetupcursor].max end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
 		end,
-		[235] = mmsetupIncrement, --RIGHT
-		[238] = do --DOWN
+		[KEY_RIGHTARROW] = mmsetupIncrement, --RIGHT
+		[KEY_DOWNARROW] = do --DOWN
 			consoleplayer.mmsetupcursor = $ + 1
 			if (consoleplayer.mmsetupcursor == (#mmsetup_entries + 3)) then consoleplayer.mmsetupcursor = 1 end
 			S_StartSound(nil, sfx_menu1, consoleplayer)
@@ -224,7 +224,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM.GetText(p.mm.lang, "CHAT_MMLANG", 1))
+		CONS_Printf(p, MM.GetText(p.mm.lang, "CON_MMLANG", 1))
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -258,7 +258,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			p.mm.help.pos = 1
 
 			CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", p.mm.lang, MM.GetText(p.mm.lang, "AUTHOR")))
-			CONS_Printf(p, MM.GetText(p.mm.lang, "CHAT_MMLANG", 2))
+			CONS_Printf(p, MM.GetText(p.mm.lang, "CON_MMLANG", 2))
 			if (MM.GetText(l, "VERSION") != MM.version) then
 				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
 			end
@@ -437,7 +437,7 @@ end)
 
 --renderer, frontend
 hud.add(function(v, p)
-	if not ((p.mm.help) and (p.mm.help.active)) or (not MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
+	if not (p.mm and p.mm.help and p.mm.help.active) or (not MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Update the Canvas resolution
 	scrnColumns = ((v.width()/v.dupx()) / 8)-- - 2

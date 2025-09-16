@@ -7,126 +7,173 @@
 MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CHAT_MMLANG"]={
+	["KEYBOARD"] = {
+		[1] = { --No modifier buttons
+			[39] = "є",
+			[44] = "б",
+			[45] = "-",
+			[46] = "ю",
+			[47] = ".",
+			[48] = "0",
+			[49] = "1",
+			[50] = "2",
+			[51] = "3",
+			[52] = "4",
+			[53] = "5",
+			[54] = "6",
+			[55] = "7",
+			[56] = "8",
+			[57] = "9",
+			[59] = "ж",
+			[61] = "=",
+			[91] = "х",
+			[92] = "ґ",
+			[93] = "ї",
+			[96] = "'",
+			[97] = "ф",
+			[98] = "и",
+			[99] = "с",
+			[100] = "в",
+			[101] = "у",
+			[102] = "а",
+			[103] = "п",
+			[104] = "р",
+			[105] = "ш",
+			[106] = "о",
+			[107] = "л",
+			[108] = "д",
+			[109] = "ь",
+			[110] = "т",
+			[111] = "щ",
+			[112] = "з",
+			[113] = "й",
+			[114] = "к",
+			[115] = "і",
+			[116] = "е",
+			[117] = "г",
+			[118] = "м",
+			[119] = "ц",
+			[120] = "ч",
+			[121] = "н",
+			[122] = "я"
+		},
+		[2] = { --SHIFT
+			[39] = "Є",
+			[44] = "Б",
+			[45] = "_",
+			[46] = "Ю",
+			[47] = ",",
+			[48] = ")",
+			[49] = "!",
+			[50] = "\"",
+			[51] = "№",
+			[52] = ";",
+			[53] = "%",
+			[54] = ":",
+			[55] = "?",
+			[56] = "*",
+			[57] = "(",
+			[59] = "Ж",
+			[61] = "+",
+			[91] = "Х",
+			[92] = "/",
+			[93] = "Ї",
+			[96] = "~",
+			[97] = "Ф",
+			[98] = "И",
+			[99] = "С",
+			[100] = "В",
+			[101] = "У",
+			[102] = "А",
+			[103] = "П",
+			[104] = "Р",
+			[105] = "Ш",
+			[106] = "О",
+			[107] = "Л",
+			[108] = "Д",
+			[109] = "Ь",
+			[110] = "Т",
+			[111] = "Щ",
+			[112] = "З",
+			[113] = "Й",
+			[114] = "К",
+			[115] = "І",
+			[116] = "Е",
+			[117] = "Г",
+			[118] = "М",
+			[119] = "Ц",
+			[120] = "Ч",
+			[121] = "Н",
+			[122] = "Я"
+		}
+	},
+	["CON_MMLANG"]={
 		"Potochna mowa w TW wstanowlena na \x82Ukrains'ku\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [mowa]",
 		"\x82Ukrains'ka\x80 wstanowlena jak washa personal'na mowa w TW"
 	},
 	["CHAT_ROLEGET_PM"]={
-		"Wy \x85Wbywcia\x80! \x85Wbyjte usih.",
-		"Wy \x84Sheryf\x80!\x84 Eliminujte usih Wbywc'\x80. Dumajte kogo wbywajete, bo ryzykujete swojeju rolliu.",
-		"Wy\x83 Cywilnyj\x80! Zachowajtesia i dopomozhit' Sheryfu znajty Wbywc'."
+		"Wy \1\x85Wbywcia\4! \1\x85Wbyjte usih.",
+		"Wy \1\x84Sheryf\4!\1\x84 Eliminujte usih Wbywc'\4. Dumajte kogo wbywajete, bo ryzykujete swojeju rolliu.",
+		"Wy\1\x83 Cywilnyj\4! Zachowajtesia i dopomozhit' Sheryfu znajty Wbywc'."
 	},
 	["CHAT_NEWROLEGET_PM"]={
-		"\x87Zhytia zrobylo was \x85Wbywceju\x87, \x85teper idit' i wbyjte usih.",
-		"\x87Wseswit zrobyw was nowym \x84Sheryfem\x87! Wam potribno \x84 eliminuwaty wsih Wbywc'\x87!",
-		"\x87Usi zahystnyky pokynuly nas, ale Wseswit wybraw was nowym \x82Gerojem\x87! Ce wash shans wriatuwaty den'!",
-		"\x87Wy wbyly odnogo z \x85Wbywc'\x87! Was pidwyshyly do \x82Geroja\x87!"
+		"\1\x87Zhytia zrobylo was \1\x85Wbywceju\1\x87, \1\x85teper idit' i wbyjte usih.",
+		"\1\x87Wseswit zrobyw was nowym \1\x84Sheryfem\1\x87! Wam potribno \1\x84 eliminuwaty wsih Wbywc'\1\x87!",
+		"\1\x87Usi zahystnyky pokynuly nas, ale Wseswit wybraw was nowym \1\x82Gerojem\1\x87! Ce wash shans wriatuwaty den'!",
+		"\1\x87Wy wbyly odnogo z \1\x85Wbywc'\1\x87! Was pidwyshyly do \1\x82Geroja\1\x87!"
 	},
 	["CHAT_TEAMMATEHIT_PM"]={
 		"Wy zachepyly osobu z washoji komandy, ne namagajtesia wbyty jiji znow.",
 		"Was zachepyla osoba z washoji komandy. Ne robit' pomsty dla neji."
 	},
 	["CHAT_MURDKILLED"]={
-		"\x85Wbywcia",
+		"\1\x85Wbywcia",
 		"eliminowanyj!"
 	},
 	["CHAT_SHERIKILLED"]={
-		"\x84Sheryf",
+		"\1\x84Sheryf",
 		"wbytyj!",
-		"Znajdit' zagublenyj \x84Smaragd Sheryfa\x80!"
+		"Znajdit' zagublenyj \1\x84Smaragd Sheryfa\4!"
 	},
 	["CHAT_HEROKILLED"]={
-		"\x82Geroj",
+		"\1\x82Geroj",
 		"wbytyj!"
 	},
 	["CHAT_DIEDHAZARD"]="zagynuw(la) u neschasnomu wypadku.",
-	["CHAT_SHREMDPICKUP"]="Htos' uziaw \x84Smaragd Sheryfa\x80...",
+	["CHAT_SHREMDPICKUP"]="Htos' uziaw \1\x84Smaragd Sheryfa\4...",
 	["CHAT_KILLPUNISHMENT_PM"]={
-		"\x87Wy wbyly\x83 Cywilnogo\x87! Was zwil'neno! (Ty bil'she ne Sheryf)",
-		"\x82Geroji\x87 ne majut' prawa wbywaty\x83 Cywilnych\x87! Was zasudzheno na smert' za wash zlochyn!",
-		"\x87O ni! Wy wbyly \x84Sheryfa\x87! Was zasudzheno na smert' za wash zlochyn!",
-		"\x87Wy wbyly takuzh\x83 Cywilnu\x87 osobu jak i Wy sami! Was zasudzheno na smert' za wash zlochyn!",
-		"\x87O ni! Wy wbyly \82Geroja\x87! Was zasudzheno na smert' za wash zlochyn!"
+		"\1\x87Wy wbyly\1\x83 Cywilnogo\1\x87! Was zwil'neno! (Ty bil'she ne Sheryf)",
+		"\1\x82Geroji\1\x87 ne majut' prawa wbywaty\1\x83 Cywilnych\1\x87! Was zasudzheno na smert' za wash zlochyn!",
+		"\1\x87O ni! Wy wbyly \1\x84Sheryfa\1\x87! Was zasudzheno na smert' za wash zlochyn!",
+		"\1\x87Wy wbyly takuzh\1\x83 Cywilnu\1\x87 osobu jak i Wy sami! Was zasudzheno na smert' za wash zlochyn!",
+		"\1\x87O ni! Wy wbyly \82Geroja\1\x87! Was zasudzheno na smert' za wash zlochyn!"
 	},
 	["CHAT_INNOHURT"]={
-		"\x84Sheryf\x80 wbyw Newynnu osobu! Komus' z\x83 Cywil'nych\x80 dowedet'sia zakinchyty jogo robotu!",
-		"\x82Geroj\x80 wbyw myrnu\x83 Cywilnu\x80. Teper dwoje lezhat' mertwi. Sorom geroju"
+		"\1\x84Sheryf\4 wbyw Newynnu osobu! Komus' z\1\x83 Cywil'nych\4 dowedet'sia zakinchyty jogo robotu!",
+		"\1\x82Geroj\4 wbyw myrnu\1\x83 Cywilnu\4. Teper dwoje lezhat' mertwi. Sorom geroju"
 	},
 	["CHAT_ONEQUIT"]={
-		"Odyn z \x85Wbywc'\x80 pokynuw gru!",
-		"Odyn z \x84Sheryfiw\x80 pokynuw gru!",
-		"Odyn z \x82Gerojiw\x80 pokynuw nas!"
+		"Odyn z \1\x85Wbywc'\4 pokynuw gru!",
+		"Odyn z \1\x84Sheryfiw\4 pokynuw gru!",
+		"Odyn z \1\x82Gerojiw\4 pokynuw nas!"
 	},
 	["CHAT_LASTQUIT"]={
-		"Ostannij \x85Wbywcia\x80 pokynuw gru!",
-		"Ostannij \x84Sheryf\x80 pokynuw gru!",
-		"Ostannij \x82Geroj\x80 pokynuw gru!"
+		"Ostannij \1\x85Wbywcia\4 pokynuw gru!",
+		"Ostannij \1\x84Sheryf\4 pokynuw gru!",
+		"Ostannij \1\x82Geroj\4 pokynuw gru!"
 	},
 	["CHAT_REPLACEQUIT"]={
-		"\x85Wbywcia\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!",
-		"\x84Sheryf\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!",
-		"\x82Geroj\x80 pokynuw gru! Htos' z\x83 Cywilnych\x80 uziaw jogo rol'!"
+		"\1\x85Wbywcia\4 pokynuw gru! Htos' z\1\x83 Cywilnych\4 uziaw jogo rol'!",
+		"\1\x84Sheryf\4 pokynuw gru! Htos' z\1\x83 Cywilnych\4 uziaw jogo rol'!",
+		"\1\x82Geroj\4 pokynuw gru! Htos' z\1\x83 Cywilnych\4 uziaw jogo rol'!"
 	},
 	["CHAT_ENDROUND"]={
-		"Wsi mertwi, \x85Wbywci\x80 wygraly!",
-		"Wsi Wbywci eliminowani,\x83 Cywil'ni\x80 wygraly!",
-		"\x85Wbywci\x80 wygraly bo \x84Sheryf\x80 wbyw ostanniogo Newynnogo!",
-		"\x82Geroj\x80 wbyw ostanniogo Newynnogo. \x85Wbywci\x80 wygraly!",
-		"Wsi Sheryfy ta Geroji mertwi, \x85Wbywci\x80 wygraly!"
+		"Wsi mertwi, \1\x85Wbywci\4 wygraly!",
+		"Wsi Wbywci eliminowani,\1\x83 Cywil'ni\4 wygraly!",
+		"\1\x85Wbywci\4 wygraly bo \1\x84Sheryf\4 wbyw ostanniogo Newynnogo!",
+		"\1\x82Geroj\4 wbyw ostanniogo Newynnogo. \1\x85Wbywci\4 wygraly!",
+		"Wsi Sheryfy ta Geroji mertwi, \1\x85Wbywci\4 wygraly!"
 	},
-	["BMP_VICTIMS"]={data={
-		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIII\31",
-		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
-		"\xFFII\x1FII\x1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\xFFFFII\x1F1F\x1FFFII\x1F1FII\31",
-		"\xFF1FIIIIII\x1F1F\xFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
-		"\xFFFF\x1FIIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIII\31",
-		"\xFFFFIIII\x1FFF\xFFFFIIIIII\x1FFFIIIII\x1F1F\xFFFF\xFFII\x1FFF\xFFFFIIIII\x1FFF",
-		"\xFFIIIIII\x1FFF\xFFII\x1F1F\x1F1F\x1FFFII\x1F1F\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1F1FII\31",
-		"II\x1FII\x1FII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
-		"II\x1FII\x1FII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
-		"II\x1FII\x1FII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFIIIII\31",
-		"\x1F1F\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\31"
-	}},
-	["BMP_SUSPECTS"]={data={
-		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
-		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
-		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFIII\x1FFFIII\xFFFFIII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\x1F1F\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIII\x1FFF\xFFIIIIII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FIIIII\x1FFF\xFFFFIIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIIIII\x1FFF\xFFFFIIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\x1F1FII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1FII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFIIIII\x1FII\x1FFF\xFFIIIIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFF\xFFII\x1FFFII\x1FFFII\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIII\x1FFFII\x1FFFIII\x1F1FIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFFIIIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFF1FII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFFII\x1F1F\x1F1FII\x1FFF\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFII\x1FFF\x1FIIII\x1FFF\xFFIIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
-		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F\xFFFF\xFFFF\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F"
-	}},
-	["BMP_TIME"]={data={
-		"II\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
-		"II\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\31",
-		"II\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
-		"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
-		"IIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\31",
-		"\x1FIIII\x1FFFIIIIII\x1FFFII\31",
-		"\xFF1F\x1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\31",
-		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
-		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFFIIIIII\31",
-		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFF\x1FIIII\31",
-		"\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F"
-	}},
-	["BMP_RINGS"]={data={
-		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
-		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFIIIIII\31",
-		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1F1FII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFII\x1F1FII\31",
-		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFII\x1FFFII\31",
-		"\xFFIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFFIIII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
-		"IIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFFIIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
-		"II\x1F1FII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFF\xFFII\x1F1FII\31",
-		"II\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\31",
-		"II\x1FFFII\x1FFFII\x1FFFIII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFF\xFFII\x1FFFII\31",
-		"II\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFIIIII\x1FFF\xFFIIIIIII\x1FFFII\x1FFFII\31",
-		"\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\x1F1FII\x1FFF\x1F1F\x1FFF\x1F1F\31",
-		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\31"
-	}},
 	["HUD_MM"]="Таємниця Вбивства",
 	["HUD_ROLES"]={
 		"ВБИВЦЯ",
@@ -249,5 +296,58 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 			"\n* Якщо вас викрили ви завжди можете змінити колір свого персонажу аби вас важче було впізнати;",
 			"\n* Клавіша\1\x87 FIRENORMAL\4 активує \1\x86ніж\4 коли ви маєте для нього кільця. Якщо ви підкрадаєтесь то \1\x86ніж\4 не робить звуків атаки узагалі."
 		}
-	}
+	},
+	["BMP_VICTIMS"]={data={
+		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIII\31",
+		"\xFFII\x1FII\x1FII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
+		"\xFFII\x1FII\x1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\xFFFFII\x1F1F\x1FFFII\x1F1FII\31",
+		"\xFF1FIIIIII\x1F1F\xFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
+		"\xFFFF\x1FIIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIII\31",
+		"\xFFFFIIII\x1FFF\xFFFFIIIIII\x1FFFIIIII\x1F1F\xFFFF\xFFII\x1FFF\xFFFFIIIII\x1FFF",
+		"\xFFIIIIII\x1FFF\xFFII\x1F1F\x1F1F\x1FFFII\x1F1F\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1F1FII\31",
+		"II\x1FII\x1FII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
+		"II\x1FII\x1FII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
+		"II\x1FII\x1FII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFIIIII\31",
+		"\x1F1F\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1F1F\x1F1F\x1FFF\x1F1F\x1FFF\xFFFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1F1F\31"
+	}},
+	["BMP_SUSPECTS"]={data={
+		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFFFIIII\x1FFF\xFFIIIII\x1FFF\xFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
+		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
+		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\xFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFIII\x1FFFIII\xFFFFIII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\x1F1F\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIII\x1FFF\xFFIIIIII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FIIIII\x1FFF\xFFFFIIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFFIIIII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFIIIIIIII\x1FFF\xFFFFIIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFF\x1F1FII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1FII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFIIIII\x1FII\x1FFF\xFFIIIIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFF\xFFII\x1FFFII\x1FFFII\xFFFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIIII\x1FFFII\x1FFFIII\x1F1FIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFFIIIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFF1FII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFFII\x1F1F\x1F1FII\x1FFF\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFII\x1FFF\x1FIIII\x1FFF\xFFIIIII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\31",
+		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F\xFFFF\xFFFF\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F"
+	}},
+	["BMP_TIME"]={data={
+		"II\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
+		"II\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\31",
+		"II\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
+		"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
+		"IIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\31",
+		"\x1FIIII\x1FFFIIIIII\x1FFFII\31",
+		"\xFF1F\x1FII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\31",
+		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
+		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFFIIIIII\31",
+		"\xFFFF\xFFII\x1FFFII\x1FFFII\x1FFF\x1FIIII\31",
+		"\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\xFF1F\x1F1F\xFFFF\x1F1F\x1F1F"
+	}},
+	["BMP_RINGS"]={data={
+		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
+		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFIIIIII\31",
+		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1F1FII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFII\x1F1FII\31",
+		"\xFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFII\x1FFFII\31",
+		"\xFFIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFFIIII\x1FFF\xFFFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
+		"IIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFFIIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIIIII\31",
+		"II\x1F1FII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1FFFII\x1FFF\xFFII\x1F1FII\31",
+		"II\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFII\31",
+		"II\x1FFFII\x1FFFII\x1FFFIII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFF\xFFII\x1FFFII\31",
+		"II\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFII\x1FFFIIIII\x1FFF\xFFIIIIIII\x1FFFII\x1FFFII\31",
+		"\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\x1FFF\x1F1F\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\xFFFF\xFF1F\x1F1F\x1F1FII\x1FFF\x1F1F\x1FFF\x1F1F\31",
+		"\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\xFFFF\x1F1F\31"
+	}},
 })

@@ -7,7 +7,7 @@
 MM.AddLang("ES", {
 	["VERSION"] = "1.3",
 	["AUTHOR"] = "Jesus.B",
-	["CHAT_MMLANG"] = {
+	["CON_MMLANG"] = {
 		"Tu idioma actual es\x82 Espanol\x80\nPuedes cambiarlo con el comando \x87MMLANG [idioma].",
 		"Tu idioma personal para Murder Mystery cambio al\x82 Espanol."
 	},

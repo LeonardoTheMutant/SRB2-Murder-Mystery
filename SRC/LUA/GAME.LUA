@@ -5,11 +5,11 @@
 -- The main logic script of the LTM's Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, and round endings
 
-local rejointimeoutCVAR = CV_FindVar("rejointimeout")
-local crypticCVAR = CV_FindVar("mm_cryptic")
-local shieldsCVAR = CV_FindVar("mm_allowshields")
-local invincCVAR = CV_FindVar("mm_allowinvinc")
-local shoesCVAR = CV_FindVar("mm_allowshoes")
+local cv_rejointimeout = CV_FindVar("rejointimeout")
+local cv_cryptic = CV_FindVar("mm_cryptic")
+local cv_shields = CV_FindVar("mm_allowshields")
+local cv_invinc = CV_FindVar("mm_allowinvinc")
+local cv_shoes = CV_FindVar("mm_allowshoes")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -79,11 +79,18 @@ addHook("PlayerSpawn", function(p)
 		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
 		if f
 			local l = f:read() --read data
-			if (MM.text[l]) p.mm.lang = l --is such language imported into the game?
-			else p.mm.lang = "EN" end --no
+			if (MM.text[l]) --is such language imported into the game?
+				p.mm.lang = l
+			else --no
+				p.mm.lang = "EN"
+			end
 			f:close() --file close
-		else p.mm.lang = "EN" end --failed to open the file
+		else --failed to open the file
+			p.mm.lang = "EN"
+		end
 	end
+
+	if (not p.keyboardLayout) then p.keyboardLayout = "EN" end
 
 	if (not p.mm.help) then p.mm.help = {page = 1, pos = 1, active = false} end --MMHELP UI init
 
@@ -108,7 +115,6 @@ addHook("PlayerSpawn", function(p)
 			p.spectator = true
 		end
 	end
-	p.oldname = p.name
 end)
 
 --
@@ -117,9 +123,9 @@ end)
 addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	if (not shieldsCVAR.value) then p.powers[pw_shield] = 0 end --Disable player shields
-	if (not invincCVAR.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
-	if (not shoesCVAR.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
+	if (not cv_shields.value) then p.powers[pw_shield] = 0 end --Disable player shields
+	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
+	if (not cv_shoes.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
 
 	--for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
 	if (not p.spectator) then p.mo.flags = $ & ~MF_NOGRAVITY end
@@ -165,11 +171,7 @@ addHook("PlayerThink", function(p)
 		end
 	end
 
-	if ((rejointimeoutCVAR.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
-
-	--Rename anti-cheat
-	if ((p.name != p.oldname) and (p.spectator)) then MM.PunishPlayer(p, "Do not rename when dead!") end
-	p.oldname = p.name
+	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
 end)
 
 --
@@ -243,7 +245,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 						-- otherwise Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
-							chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+							MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 							MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 							ap.mm.role = ROLE_CIVILIAN
@@ -258,7 +260,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 							MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 						else
-							chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+							MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
 							MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 						end
 					end
@@ -299,7 +301,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 				if (ap.mm.role == ROLE_CIVILIAN)
 					ap.mm.role = ROLE_HERO
-					chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_NEWROLEGET_PM", 4))
+					MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_NEWROLEGET_PM", 4))
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -310,7 +312,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 3))
+				MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
@@ -328,7 +330,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 5))
+				MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
 
@@ -348,7 +350,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
-						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 						MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 						ap.mm.role = ROLE_CIVILIAN
@@ -363,7 +365,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 					else
-						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 					end
 				end,
@@ -372,7 +374,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 					else
-						chatprintf(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 4))
+						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 4))
 					end
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
 				end
@@ -473,6 +475,6 @@ end)
 addHook("SeenPlayer", function(p, sp) --player, seenplayer
 	if (gametype != GT_LTMMURDERMYSTERY) then return --use game's default behavior
 	else
-		if (crypticCVAR.value) then return false end --do not show
+		if (cv_cryptic.value) then return false end --do not show
 	end
 end)

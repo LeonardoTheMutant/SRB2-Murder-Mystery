@@ -8,7 +8,7 @@
 --Constants
 local HudInfoSize = {0,0,0}
 local maxHudIfnfoSize = 0
-local crypticCVAR = CV_FindVar("mm_cryptic")
+local cv_cryptic = CV_FindVar("mm_cryptic")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 local scorePatchName, plrsAlive, rival
 
@@ -460,7 +460,7 @@ hud.add(function(v)
 	HIDEO.DrawStrUnicode_Center(v, 160, 12, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"), v.localTransFlag())
 
 	--Player list
-	if ((crypticCVAR.value) or (MM.PlayerCount() == 1))
+	if ((cv_cryptic.value) or (MM.PlayerCount() == 1))
 		--Draw some text to replace the list
 		if (MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
 			for y,i in ipairs(MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
@@ -522,7 +522,7 @@ hud.add(function(v)
 	v.drawFill(0, 172, 320, 2, v.localTransFlag()) --horizontal line
 
 	--Roles counter
-	if (not crypticCVAR.value)
+	if (not cv_cryptic.value)
 		--Murderer
 		HIDEO.DrawStrUnicode(v, 20, 176, MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag())
 		--Sheriff (and Hero)

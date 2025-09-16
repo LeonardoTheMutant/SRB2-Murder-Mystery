@@ -62,7 +62,7 @@ MM.AddLang("RU", {
 			"\n* Нож не будет издавать звука атаки, если Вы крадётесь. Также, кнопка\1\x87 FIRENORMAL\4 позволяет везде использовать Нож, пока Ваши кольца не закончатся."
 		}
 	},
-	["CHAT_MMLANG"]={
+	["CON_MMLANG"]={
 		"Seychas u Vas stoit\x82 russkiy\x80 yazyk.\nVy mozhete smenit' yazyk, propisav v konsol' \x87MMLANG [yazyk]",
 		"Vash personalniy yazyk etogo moda izmenyon na\x82 russkiy"
 	},

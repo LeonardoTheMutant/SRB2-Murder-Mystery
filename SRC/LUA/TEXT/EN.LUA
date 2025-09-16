@@ -30,14 +30,14 @@
 --   A string
 --   of text
 --
--- Several words about HUD strings:
--- All strings which have the "HUD_" prefix are UTF-8 compatible. This means you can directly type the text in them and
--- the custom Unicode renderer in MM will render those strings. There is a slight difference on how you should apply
--- the color codes to these strings - before placing the code you have to place \1 before it. This symbol tells
--- the renderer to interpret the next byte as the color code. Place the symbol \4 anywhere to clear/reset the text
+-- Several words about HUD and CHAT strings:
+-- All strings which have the "HUD_" or "CHAT_" prefix are UTF-8 compatible. This means you can directly type the text
+-- in them and the custom Unicode renderer in MM will render those strings. There is a slight difference on how you
+-- should apply the color codes to these strings - before placing the code you have to place \1 before it. This symbol
+-- tells the renderer to interpret the next byte as the color code. Place the symbol \4 anywhere to clear/reset the text
 -- formatting. Here is the example of the HUD string:
 --
---   "\1\x85This part of the HUD string will appear in RED \1\x83and this one in Green! \4This text will appear white"
+--   "\1\x85This part of the HUD/CHAT string will appear in RED \1\x83and this one in Green! \4This text will appear white"
 --
 -- Get it? That's great, now you can begin translating!
 --
@@ -73,33 +73,244 @@
 local language_data = { --Language must be a table variable, you can name the variable as you like.
 	["VERSION"] = "1.3", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
 	["AUTHOR"] = "SRB2MM community", --who made this language file
-
+	["KEYBOARD"] = {
+		[1] = { --No modifier buttons
+			[39] = "'",
+			[44] = ",",
+			[45] = "-",
+			[46] = ".",
+			[47] = "/",
+			[48] = "0",
+			[49] = "1",
+			[50] = "2",
+			[51] = "3",
+			[52] = "4",
+			[53] = "5",
+			[54] = "6",
+			[55] = "7",
+			[56] = "8",
+			[57] = "9",
+			[59] = ";",
+			[61] = "=",
+			[91] = "[",
+			[92] = "\\",
+			[93] = "]",
+			[96] = "`",
+			[97] = "a",
+			[98] = "b",
+			[99] = "c",
+			[100] = "d",
+			[101] = "e",
+			[102] = "f",
+			[103] = "g",
+			[104] = "h",
+			[105] = "i",
+			[106] = "j",
+			[107] = "k",
+			[108] = "l",
+			[109] = "m",
+			[110] = "n",
+			[111] = "o",
+			[112] = "p",
+			[113] = "q",
+			[114] = "r",
+			[115] = "s",
+			[116] = "t",
+			[117] = "u",
+			[118] = "v",
+			[119] = "w",
+			[120] = "x",
+			[121] = "y",
+			[122] = "z"
+		},
+		[2] = { --SHIFT
+			[39] = "\"",
+			[44] = "<",
+			[45] = "_",
+			[46] = ">",
+			[47] = "?",
+			[48] = ")",
+			[49] = "!",
+			[50] = "@",
+			[51] = "#",
+			[52] = "$",
+			[53] = "%",
+			[54] = "^",
+			[55] = "&",
+			[56] = "*",
+			[57] = "(",
+			[59] = ";",
+			[61] = "+",
+			[91] = "{",
+			[92] = "|",
+			[93] = "}",
+			[96] = "~",
+			[97] = "A",
+			[98] = "B",
+			[99] = "C",
+			[100] = "D",
+			[101] = "E",
+			[102] = "F",
+			[103] = "G",
+			[104] = "H",
+			[105] = "I",
+			[106] = "J",
+			[107] = "K",
+			[108] = "L",
+			[109] = "M",
+			[110] = "N",
+			[111] = "O",
+			[112] = "P",
+			[113] = "Q",
+			[114] = "R",
+			[115] = "S",
+			[116] = "T",
+			[117] = "U",
+			[118] = "V",
+			[119] = "W",
+			[120] = "X",
+			[121] = "Y",
+			[122] = "Z"
+		},
+		[3] = { --ALT
+			[39] = "'",
+			[44] = ",",
+			[45] = "-",
+			[46] = ".",
+			[47] = "/",
+			[48] = "0",
+			[49] = "1",
+			[50] = "2",
+			[51] = "3",
+			[52] = "4",
+			[53] = "5",
+			[54] = "6",
+			[55] = "7",
+			[56] = "8",
+			[57] = "9",
+			[59] = ";",
+			[61] = "=",
+			[91] = "[",
+			[92] = "\\",
+			[93] = "]",
+			[96] = "`",
+			[97] = "a",
+			[98] = "b",
+			[99] = "c",
+			[100] = "d",
+			[101] = "e",
+			[102] = "f",
+			[103] = "g",
+			[104] = "h",
+			[105] = "i",
+			[106] = "j",
+			[107] = "k",
+			[108] = "l",
+			[109] = "m",
+			[110] = "n",
+			[111] = "o",
+			[112] = "p",
+			[113] = "q",
+			[114] = "r",
+			[115] = "s",
+			[116] = "t",
+			[117] = "u",
+			[118] = "v",
+			[119] = "w",
+			[120] = "x",
+			[121] = "y",
+			[122] = "z"
+		},
+		[4] = { --SHIFT + ALT
+			[39] = "\"",
+			[44] = "<",
+			[45] = "_",
+			[46] = ">",
+			[47] = "?",
+			[48] = ")",
+			[49] = "!",
+			[50] = "@",
+			[51] = "#",
+			[52] = "$",
+			[53] = "%",
+			[54] = "^",
+			[55] = "&",
+			[56] = "*",
+			[57] = "(",
+			[59] = ";",
+			[61] = "+",
+			[91] = "{",
+			[92] = "|",
+			[93] = "}",
+			[96] = "~",
+			[97] = "A",
+			[98] = "B",
+			[99] = "C",
+			[100] = "D",
+			[101] = "E",
+			[102] = "F",
+			[103] = "G",
+			[104] = "H",
+			[105] = "I",
+			[106] = "J",
+			[107] = "K",
+			[108] = "L",
+			[109] = "M",
+			[110] = "N",
+			[111] = "O",
+			[112] = "P",
+			[113] = "Q",
+			[114] = "R",
+			[115] = "S",
+			[116] = "T",
+			[117] = "U",
+			[118] = "V",
+			[119] = "W",
+			[120] = "X",
+			[121] = "Y",
+			[122] = "Z"
+		}
+	},
+	
 
 
 	--
-	-- CONSOLE/CHAT SECTION
+	-- CONSOLE SECTION
 	--
 	-- These messages can support only ASCII (English-only) characters, color is made with Vanilla Color Escape Codes!
 
 	-- MMLANG command
-	["CHAT_MMLANG"] = {
+	["CON_MMLANG"] = {
 		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command.", --when typed MMHELP with no argument
 		"Personal language for Murder Mystery is set to\x82 English." --when typed MMHELP with language argument (it sets the new language)
 	},
 
+
+
+	--
+	-- CHAT SECTION
+	--
+	-- These messages are UTF-8 compatible, meaning you can insert non-English characters in those strings and MM will display them
+	-- Note that only characters from U+0016 to U+FFFF will work in MM
+	-- Please also note that some characters from this range may not be implemented in MM and lack font graphics (you should contact our team for help with this)
+	--
+	-- Text color codes are little different here than vanilla ones and work as following:
+	--  \1\x[hexcode] - Set color & translucency of the text, where [hexcode] is the vanilla color code
+	--  \4"           - Clear color & translucency effect (shortcut to "\1\x80")
+
 	-- "You got the role" personal messages
 	["CHAT_ROLEGET_PM"] = {
-		"You are the \x85Murderer. Murder them all.", --Murderer 
-		"You are the \x84Sheriff\x80!\x84 Eliminate all the Murderers\x80. Kill the \x83wrong person\x80, and the role no longer belongs to you.", --Sheriff
-		"You are a\x83 Civilian\x80! Hide and help with the investigation." --Civilian
+		"You are the \1\x85Murderer\4. \1\x85Murder them all.", --Murderer 
+		"You are the \1\x84Sheriff\4!\1\x84 Eliminate all the Murderers\4. Kill the \1\x83wrong person\4, and the role no longer belongs to you.", --Sheriff
+		"You are a\1\x83 Civilian\4! Hide and help with the investigation." --Civilian
 	},
 
 	-- Randomly selected civilian has a new role
 	["CHAT_NEWROLEGET_PM"] = {
-		"\x87Life randomly decided you will be a \x85Murderer\x87.\x85 Now go kill everyone!",
-		"\x87The Universe has made you a \x84Sheriff\x87! Go and\x84 eliminate all Murderers\x87!",
-		"\x87It was decided that you will be a \x82Hero\x87. Save everyone from the Murderers!",
-		"\x87You've eliminated one of the \x85Murderers\x87! You've earned the honor of \x82Hero\x87!"
+		"\1\x87Life randomly decided you will be a \1\x85Murderer\1\x87.\1\x85 Now go kill everyone!",
+		"\1\x87The Universe has made you a \1\x84Sheriff\1\x87! Go and\1\x84 eliminate all Murderers\1\x87!",
+		"\1\x87It was decided that you will be a \1\x82Hero\1\x87. Save everyone from the Murderers!",
+		"\1\x87You've eliminated one of the \1\x85Murderers\1\x87! You've earned the honor of \1\x82Hero\1\x87!"
 	},
 
 	-- Teammate hit
@@ -110,20 +321,20 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Murderer killed
 	["CHAT_MURDKILLED"] = {
-		"\x85Murderer", --beginning of the string
+		"\1\x85Murderer", --beginning of the string
 		"got eliminated!", --ending
 	},
 
 	-- Sheriff killed
 	["CHAT_SHERIKILLED"] = {
-		"\x84Sheriff", --beginning
+		"\1\x84Sheriff", --beginning
 		"got murdered!", --ending
-		"Find their\x84 Emerald\x80!" --additional ending if Sheriff's Emerald is dropped
+		"Find their\1\x84 Emerald\4!" --additional ending if Sheriff's Emerald is dropped
 	},
 
 	-- Hero killed
 	["CHAT_HEROKILLED"] = {
-		"\x82Hero",
+		"\1\x82Hero",
 		"got murdered!",
 	},
 
@@ -131,135 +342,59 @@ local language_data = { --Language must be a table variable, you can name the va
 	["CHAT_DIEDHAZARD"] = "died accidentally. Unfortunate.",
 
 	-- Sheriff's Emerald pickup global notification
-	["CHAT_SHREMDPICKUP"] = "Someone picked up the \x84Sheriff's Emerald\x80...",
+	["CHAT_SHREMDPICKUP"] = "Someone picked up the \1\x84Sheriff's Emerald\4...",
 
 	-- Player has killed someone it did not have to
 	["CHAT_KILLPUNISHMENT_PM"] = {
-		"\x87You murdered a\x83 Civilian\x87! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
-		"\x82Heroes\x87 are not meant to kill\x83 Civilians\x87! You were\x85 executed\x87 for your war crime.", --Hero killed Civilian
-		"\x87Oh no! You murdered a \x84Sheriff\x87!!! You were\x85 executed\x87 for that.", --Civilian killed Sheriff
-		"\x87You murdered a\x83 Civilian\x87 player just like you! You were\x85 executed\x87 for your crime.", --Civilian killed Civilian
-		"\x87Oh no! You murdered a \x82Hero\x87! You were\x85 executed\x87 for that." --Civilian killed Hero
+		"\1\x87You murdered a\1\x83 Civilian\1\x87! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
+		"\1\x82Heroes\1\x87 are not meant to kill\1\x83 Civilians\1\x87! You were\1\x85 executed\1\x87 for your war crime.", --Hero killed Civilian
+		"\1\x87Oh no! You murdered a \1\x84Sheriff\1\x87!!! You were\1\x85 executed\1\x87 for that.", --Civilian killed Sheriff
+		"\1\x87You murdered a\1\x83 Civilian\1\x87 player just like you! You were\1\x85 executed\1\x87 for your crime.", --Civilian killed Civilian
+		"\1\x87Oh no! You murdered a \1\x82Hero\1\x87! You were\1\x85 executed\1\x87 for that." --Civilian killed Hero
 	},
 
 	-- Civilian hurt by Sheriff/Hero personal messages
 	["CHAT_INNOHURT"] = {
-		"The \x84Sheriff\x80 murdered a\x83 Civilian\x80! Someone else should finish the job!", --Sheriff
-		"By killing the\x83 Civilian\x80, the \x82Hero\x80 became the \x85villain\x80 and paid the price." --Hero
+		"The \1\x84Sheriff\4 murdered a\1\x83 Civilian\4! Someone else should finish the job!", --Sheriff
+		"By killing the\1\x83 Civilian\4, the \1\x82Hero\4 became the \1\x85villain\4 and paid the price." --Hero
 	},
 
 	-- "One of the players with role left!"
 	["CHAT_ONEQUIT"] = {
-		"One of the \x85Murderers\x80 left!", --Murderer
-		"One of the \x84Sheriffs\x80 left!!!", --Sheriff
-		"One of the \x82Heroes\x80 has left!" --Hero
+		"One of the \1\x85Murderers\4 left!", --Murderer
+		"One of the \1\x84Sheriffs\4 left!!!", --Sheriff
+		"One of the \1\x82Heroes\4 has left!" --Hero
 	},
 
 	-- "Last player with role left!"
 	["CHAT_LASTQUIT"] = {
-		"The last \x85Murderer\x80 has left!", --Murderer
-		"The last \x84Sheriff\x80 has left!", --Sheriff
-		"The last \x82Hero\x80 has abandoned everyone!" --Hero
+		"The last \1\x85Murderer\4 has left!", --Murderer
+		"The last \1\x84Sheriff\4 has left!", --Sheriff
+		"The last \1\x82Hero\4 has abandoned everyone!" --Hero
 	},
 
 	-- "Player with role left, replaced him"
 	["CHAT_REPLACEQUIT"] = {
-		"The \x85Murderer\x80 left! Some random\x83 Civilian\x80 will take their role!", --Murderer
-		"The \x84Sheriff\x80 left! Some random\x83 Civilian\x80 will take their role!", --Sheriff
-		"A \x82Hero\x80 left! Some random\x83 Civilian\x80 will take their role!" --Hero
+		"The \1\x85Murderer\4 left! Some random\1\x83 Civilian\4 will take their role!", --Murderer
+		"The \1\x84Sheriff\4 left! Some random\1\x83 Civilian\4 will take their role!", --Sheriff
+		"A \1\x82Hero\4 left! Some random\1\x83 Civilian\4 will take their role!" --Hero
 	},
 
 	-- Win texts
 	["CHAT_ENDROUND"] = {
-		"Everyone is dead. The \x85Murderers\x80 win!", --Murderers win
-		"All of the \x85Murderers\x80 were killed! The\x83 Civilians\x80 win!", --Sheriffs / Heros win
-		"The \x85Murderers\x80 win because \x84Sheriff\x80 murdered the last Civilian! Shame on the \x84Sheriff\x80...", --Sheriff killed the last Civilian
-		"The \x85Murderers\x80 win because the \x82Hero\x80 chose to kill the last Civilian. Shame on such \x82Hero\x80...", --Hero killed the last Civilian
-		"The Defenders of the\x83 Civilians\x80 are dead. The \x85Murderers\x80 win!" --All sheriffs and Heroes are dead
+		"Everyone is dead. The \1\x85Murderers\4 win!", --Murderers win
+		"All of the \1\x85Murderers\4 were killed! The\1\x83 Civilians\4 win!", --Sheriffs / Heros win
+		"The \1\x85Murderers\4 win because \1\x84Sheriff\4 murdered the last Civilian! Shame on the \1\x84Sheriff\4...", --Sheriff killed the last Civilian
+		"The \1\x85Murderers\4 win because the \1\x82Hero\4 chose to kill the last Civilian. Shame on such \1\x82Hero\4...", --Hero killed the last Civilian
+		"The Defenders of the\1\x83 Civilians\4 are dead. The \1\x85Murderers\4 win!" --All sheriffs and Heroes are dead
 	},
 
-
-	--
-	--BITMAP PATCHES
-	--
-	--DO NOT EDIT THESE UNLESS YOU UNDERSTAND WHAT YOU ARE DOING
-	["BMP_VICTIMS"] = {
-		xoff = 0, --X offset
-		yoff = 0, --Y offset
-		data = {
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\31",
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\31",
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\31\xFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFIII\x1F1F\x1F1F",
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFF\xFFIII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFF\xFFFFIII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFF\xFFFF\xFFIII\31",
-			"IIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\x1FFFII\31",
-			"\x1FIIII\x1FFF\xFFFFII\x1FFF\xFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"\xFF1FII\x1FFF\xFFFF\xFFII\x1FFF\xFF1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\x1FIIII\31",
-			"\xFFFF\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\31"
-		}
-	},
-	["BMP_SUSPECTS"] = {
-		xoff = 0, --X offset
-		yoff = 0, --Y offset
-		data = {
-			"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\31",
-			"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
-			"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1F1FII\31",
-			"\xFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFIII\x1F1F\31",
-			"\xFF1FIII\x1FFF\xFFFFII\x1FFFII\x1FFF\x1FIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFF\x1FIII\31",
-			"\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1F1F\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFF\xFFII\x1FFF\xFFFF\xFFFFIII\31",
-			"\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFIII\31",
-			"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
-			"IIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
-			"\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\x1FIIII\31",
-			"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
-		}
-	},
-	["BMP_TIME"] = {
-		xoff = 0,
-		yoff = 0,
-		data = {
-			"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"\xFFFFII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\31",
-			"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFII\31",
-			"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFFIIIII\31",
-			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFFIIIII\31",
-			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFFII\x1F1F\x1F1F",
-			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\31",
-			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-			"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F"
-		}
-	},
-	["BMP_RINGS"] = {
-		xoff = 0,
-		yoff = 0,
-		data = {
-			"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
-			"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\31",
-			"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
-			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIII\xFFFFII\x1FFFII\x1FFFII\x1FFFIII\x1F1F\31",
-			"\xFFIIIII\x1F1F\xFFFFII\x1FFF\xFFIIIII\xFFII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFIII\31",
-			"IIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIIIII\x1FFFII\x1FIII\x1FFF\xFFFFIII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FIIII\x1FFFII\x1FIII\x1FFF\xFFFF\xFFIII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1FIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFF1FII\x1FFFIIIIII\x1FFFIIIIII\31",
-			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
-			"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
-		}
-	},
 
 
 	--
 	--HUD SECTION
 	--
-	--The following section contains strings that allow your language's native letters to display (UTF-8 compatible).
-	--Text color codes are little different here than vanilla ones and work as following:
-	--  \1\x[hexcode] - Set color & translucency of the text, where [hexcode] is the vanilla color code
-	--  \4"           - Clear color & translucency effect (shortcut to "\1\x80")
+	--This section is also UTF-8 compatible
 
 	-- Name of the gametype
 	["HUD_MM"] = "Murder Mystery",
@@ -427,6 +562,81 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\n* If your role is leaked, rename yourself and/or change your skin color. \1\x82Keep in mind that your rename will appear in chat.\4",
 			"\n* Use the\1\x87 FIRENORMAL\4 button to wield the \1\x86Knife\4 anywhere, as long as you have rings. Sneaking while using a \1\x86Knife\4 ensures your attack is silent.",
 			"\n* Use the \1\x87MMLANG\4 command to change the language of the HUD interface to your preferred language."
+		}
+	},
+
+
+
+	--
+	--BITMAP PATCHES
+	--
+	--DO NOT EDIT THESE UNLESS YOU UNDERSTAND WHAT YOU ARE DOING
+	["BMP_VICTIMS"] = {
+		xoff = 0, --X offset
+		yoff = 0, --Y offset
+		data = {
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\31",
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\31",
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\31\xFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFIII\x1F1F\x1F1F",
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFF\xFFIII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFF\xFFFFIII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFF\xFFFF\xFFIII\31",
+			"IIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\x1FFFII\31",
+			"\x1FIIII\x1FFF\xFFFFII\x1FFF\xFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"\xFF1FII\x1FFF\xFFFF\xFFII\x1FFF\xFF1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\x1FIIII\31",
+			"\xFFFF\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\31"
+		}
+	},
+	["BMP_SUSPECTS"] = {
+		xoff = 0, --X offset
+		yoff = 0, --Y offset
+		data = {
+			"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\31",
+			"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
+			"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1F1FII\31",
+			"\xFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFIII\x1F1F\31",
+			"\xFF1FIII\x1FFF\xFFFFII\x1FFFII\x1FFF\x1FIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFF\x1FIII\31",
+			"\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1F1F\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFF\xFFII\x1FFF\xFFFF\xFFFFIII\31",
+			"\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFIII\31",
+			"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
+			"IIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
+			"\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\x1FIIII\31",
+			"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
+		}
+	},
+	["BMP_TIME"] = {
+		xoff = 0,
+		yoff = 0,
+		data = {
+			"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"\xFFFFII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\31",
+			"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFII\31",
+			"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFFIIIII\31",
+			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFFIIIII\31",
+			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFFII\x1F1F\x1F1F",
+			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\31",
+			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+			"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F"
+		}
+	},
+	["BMP_RINGS"] = {
+		xoff = 0,
+		yoff = 0,
+		data = {
+			"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
+			"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\31",
+			"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
+			"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIII\xFFFFII\x1FFFII\x1FFFII\x1FFFIII\x1F1F\31",
+			"\xFFIIIII\x1F1F\xFFFFII\x1FFF\xFFIIIII\xFFII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFIII\31",
+			"IIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIIIII\x1FFFII\x1FIII\x1FFF\xFFFFIII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FIIII\x1FFFII\x1FIII\x1FFF\xFFFF\xFFIII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1FIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFF1FII\x1FFFIIIIII\x1FFFIIIIII\31",
+			"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
+			"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
 		}
 	}
 }

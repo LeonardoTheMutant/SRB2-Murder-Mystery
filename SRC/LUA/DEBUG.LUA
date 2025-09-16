@@ -68,7 +68,7 @@ hud.add(function(v, p) --MMCHARSET render
 	for row=-1, 20
 		for column=-1,15
 			if ((row==-1) and (column>-1)) v.drawString(24+(column*8),0,string.format("%X",column))
-			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*8),string.format("%02X",row))
+			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*8),HEX[row])
 			elseif (column>-1) and (row>-1)
 				patchNum=mmcharset[3]+((row)*16)+column
 				if (HIDEO.font[patchNum]) v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
@@ -78,7 +78,7 @@ hud.add(function(v, p) --MMCHARSET render
 	for row=20, 41
 		for column=-1,15
 			if ((row==20) and (column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
-			elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row*8),string.format("%02X",row))
+			elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row*8),HEX[row])
 			elseif (column>-1) and (row>20)
 				patchNum=mmcharset[3]+((row)*16)+column
 				if (HIDEO.font[patchNum]) v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end

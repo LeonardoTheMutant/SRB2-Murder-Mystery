@@ -11,7 +11,7 @@
 MM.AddLang("DE", {
 	["VERSION"] = "1.3",
 	["AUTHOR"] = "LeonardoTheMutant",
-	["CHAT_MMLANG"] = {
+	["CON_MMLANG"] = {
 		"Deine aktuell verwendete Sprache ist\x82 Deutsch\x80.\nDu kannst es mit dem Befehl \x87MMLANG [sprache]\x80 andern.",
 		"Die Sprache fur Murder Mystery ist auf Deutsch eingestellt."
 	},

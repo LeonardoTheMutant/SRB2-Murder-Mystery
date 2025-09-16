@@ -7,7 +7,7 @@
 MM.AddLang("PL", {
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CHAT_MMLANG"]={
+	["CON_MMLANG"]={
 		"Twoj aktualnie uzywany jezyk to\x82 Polski\x80\nMozesz go zmienic za pomoca \x87MMLANG [jezyk]",
 		"Personalny jezyk zostal ustawiony na\x82 Polski"
 	},

@@ -7,7 +7,7 @@
 MM.AddLang("TR", {
 	["VERSION"]="1.3",
 	["AUTHOR"]="Mobillia",
-	["CHAT_MMLANG"]={
+	["CON_MMLANG"]={
 		"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola \x87MMLANG [dil] \x80komutunu yazarak degistirebilirsiniz", -- cCc
 		"Murder Mystery icin kisisel dil \x82Turkce\x80 olarak ayarlanmistir" -- cCc
 	},
