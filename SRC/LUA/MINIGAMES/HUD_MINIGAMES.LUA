@@ -166,9 +166,9 @@ hud.add(function(v, p)
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 		if (p.mm.timetravel and p.mm.timetravel.timezone)
 			if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "\1\x86"..MM.GetText(consoleplayer.mm.lang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText(consoleplayer.mm.lang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "\1\x86"..MM.GetText(consoleplayer.mm.lang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText(consoleplayer.mm.lang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 			end
 		end
 
@@ -198,7 +198,7 @@ hud.add(function(v, p)
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				HIDEO.DrawStrUnicode_Center(v, youX, 48, "\1\x82"..MM.GetText(consoleplayer.mm.lang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
+				HIDEO.DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText(consoleplayer.mm.lang, "HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
 			end
 		else
 			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText(consoleplayer.mm.lang, "HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)

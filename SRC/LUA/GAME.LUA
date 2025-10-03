@@ -92,8 +92,6 @@ addHook("PlayerSpawn", function(p)
 
 	if (not p.keyboardLayout) then p.keyboardLayout = "EN" end
 
-	if (not p.mm.help) then p.mm.help = {page = 1, pos = 1, active = false} end --MMHELP UI init
-
 	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
 	if (p.mm.finished) then
 		p.spectator = true

@@ -95,6 +95,8 @@ hud.add(function(v, p)
 	hud.disable("time")
 	hud.disable("rings")
 	hud.disable("weaponrings")
+
+	--HIDEO.DrawStrUnicode(v, 0, 100, HIDEO.WordWrap(0, 320, V_MONOSPACE, FU, "\nDiscord: ^4https://www.discord.com/invite/UgG8h2djFE^0"), V_MONOSPACE)
 	
 	--
 	-- SUSPECTS - TIME - RINGS
@@ -208,9 +210,9 @@ hud.add(function(v, p)
 	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 	if (p.mm.timetravel and p.mm.timetravel.timezone) and (not p.spectator)
 		if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "\1\x86"..MM.GetText(consoleplayer.mm.lang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText(consoleplayer.mm.lang, "HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "\1\x86"..MM.GetText(consoleplayer.mm.lang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText(consoleplayer.mm.lang, "HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
 		end
 	end
 
@@ -218,33 +220,21 @@ hud.add(function(v, p)
 	if (p.mm.finished)
 		--DEAD role label
 		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
-		if (MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
-			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_DEAD"])
-				HIDEO.DrawStrUnicode_Center(v, 160, (112 + (y * 8)), i, v.localTransFlag())
-			end
-		else
-			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_DEAD\"\x87]\x82 that does not exist!\x80") end
-		end
+		HIDEO.DrawStrUnicode_Center(v, 160, 120, MM.GetText(consoleplayer.mm.lang, "HUD_DEAD"), v.localTransFlag())
 
 		--"You joined mid-game"
 		if (p.mm.role == nil)
-			if (MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
-				for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_MIDJOIN"])
-					HIDEO.DrawStrUnicode_Center(v, 160, (152 + (y * 4)), i, v.localTransFlag(), true)
-				end
-			else
-				if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_MIDJOIN\"\x87]\x82 that does not exist!\x80") end
-			end
+			HIDEO.DrawStrUnicode_Center(v, 160, 156, MM.GetText(consoleplayer.mm.lang, "HUD_MIDJOIN"), v.localTransFlag(), true)
 		end
 
 		--"Killed by"
 		if (p.mm.killreason)
 			switch(p.mm.killreason, {
 				[KILLBY_PLR] = do
-					if (p.mm.killername) then HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."\4 "..p.mm.killername, hudinfo[HUD_RINGS].f) end
+					if (p.mm.killername) then HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "^5"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo[HUD_RINGS].f) end
 				end,
 				['default'] = do
-					HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "\1\x85"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."\4 "..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
+					HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y), "^5"..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", 1).."^0 "..MM.GetText(consoleplayer.mm.lang, "HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
 				end
 			})
 		end
@@ -415,12 +405,7 @@ hud.add(function(v, p)
 
 	--Are you alone?
 	if (MM.PlayerCount() == 1)
-		if (MM.text[consoleplayer.mm.lang]["HUD_ALONE"])
-			--Draw the text
-			for y,i in pairs(MM.text[consoleplayer.mm.lang]["HUD_ALONE"]) do HIDEO.DrawStrUnicode_Center(v, 160, (128 + (y * 8)), i, v.localTransFlag()) end
-		else
-			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_ALONE\"\x87]\x82 that does not exist!\x80") end
-		end
+		HIDEO.DrawStrUnicode_Center(v, 160, 136, MM.GetText(consoleplayer.mm.lang, "HUD_ALONE"), v.localTransFlag())
 	end
 
 	--suggest a minigame
@@ -432,7 +417,7 @@ hud.add(function(v, p)
 
 	--"Showdown duel!"
 	if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame) and (MM.PlayerCount() > 1))
-		HIDEO.DrawStrUnicode_Center(v, 160, 192, "\1\x88"..MM.GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"), V_SNAPTOBOTTOM)
+		HIDEO.DrawStrUnicode_Center(v, 160, 192, "^8"..MM.GetText(consoleplayer.mm.lang, "HUD_SHOWDOWN"), V_SNAPTOBOTTOM)
 	end
 
 	--Sneaking
@@ -457,25 +442,18 @@ hud.add(function(v)
 
 	hud.disable("rankings")
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 12, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"), v.localTransFlag())
+	HIDEO.DrawStrUnicode_Center(v, 160, 12, "^7"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"), v.localTransFlag())
 
 	--Player list
 	if ((cv_cryptic.value) or (MM.PlayerCount() == 1))
-		--Draw some text to replace the list
-		if (MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
-			for y,i in ipairs(MM.text[consoleplayer.mm.lang]["HUD_SCORESTAB"])
-				HIDEO.DrawStrUnicode(v, 16, (16 + (y * 8)), i, v.localTransFlag())
-			end
-		else
-			if (MM.debug) error("\x82Tried to access \x87MM.text[\x80\""..consoleplayer.mm.lang.."\"\x87][\x80\"HUD_SCORESTAB\"\x87]\x82 that does not exist!\x80") end
-		end
+		HIDEO.DrawStrUnicode(v, 16, 24, HIDEO.WordWrap(16, 304, 0, FU, MM.GetText(consoleplayer.mm.lang, "HUD_SCORESTAB")), v.localTransFlag())
 	else
 		--Draw the player list
 		--Suspects/Victims label
 		if (consoleplayer.mm.role and (consoleplayer.mm.role == ROLE_MURDERER))
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "\1\x82"..MM.GetText(consoleplayer.mm.lang, "HUD_VICTIMS")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText(consoleplayer.mm.lang, "HUD_VICTIMS")..":", v.localTransFlag())
 		else
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "\1\x82"..MM.GetText(consoleplayer.mm.lang, "HUD_SUSPECTS")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText(consoleplayer.mm.lang, "HUD_SUSPECTS")..":", v.localTransFlag())
 		end
 
 		--The list itself
@@ -491,7 +469,7 @@ hud.add(function(v)
 			else --Compact ("Tripple column") mode
 				if (i > 11) then shift = {x=94, y=88}
 				elseif (i > 22) then shift = {x=188, y=88} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "\45 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
+				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "^05 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
 			end
 		end
 
@@ -578,7 +556,7 @@ hud.add(function(v)
 	local plrs = {}
 	local shift = {x=0, y=0}
 	
-	HIDEO.DrawStrUnicode_Center(v, 160, 4, "\1\x87"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"))
+	HIDEO.DrawStrUnicode_Center(v, 160, 4, "^7"..MM.GetText(consoleplayer.mm.lang, "HUD_MM"))
 
 	--Map name drawer
 	if (mapheaderinfo[gamemap].actnum == 0)

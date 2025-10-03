@@ -103,6 +103,67 @@ end)
 
 
 --
+-- ctype.h
+--
+-- WORKS ONLY ON ASCII
+
+--Is uppercase character
+rawset(_G, "isupper", function(c)
+	return (c:byte() >= 65) and (c:byte() <= 90)
+end)
+
+--Is lowercase character
+rawset(_G, "islower", function(c)
+	return (c:byte() >= 97) and (c:byte() <= 122)
+end)
+
+--Is alphabetic character
+rawset(_G, "isaplha", function(c)
+	return isupper(c) or islower(c)
+end)
+
+--Is decimal digit
+rawset(_G, "isdigit", function(c)
+	return (c:byte() >= 48) and (c:byte() <= 57)
+end)
+
+--Is hexadecimal digit
+rawset(_G, "isxdigit", function(c)
+	return ((c:byte() >= 48) and (c:byte() <= 57)) or ((c:byte() >= 65) and (c:byte() <= 70)) or (c:byte() >= 97) and (c:byte() <= 102)
+end)
+
+--Is alphanumeric character
+rawset(_G, "isalnum", function(c)
+	return isaplha(c) or isdigit(c)
+end)
+
+--Is blank character (Space or Tab)
+rawset(_G, "isspace", function(c)
+	return ((c:byte() >= 9) and (c:byte() <= 13)) or (c:byte() == 32)
+end)
+
+--Is control character
+rawset(_G, "iscntrl", function(c)
+	return ((c:byte() >= 0) and (c:byte() < 32)) or (c:byte() == 127)
+end)
+
+--Is printable character
+rawset(_G, "isprint", function(c)
+	return (c:byte() >= 32) and (c:byte() < 127)
+end)
+
+--Does character have a graphical representation
+rawset(_G, "isgraph", function(c)
+	return isprint(c) and not isspace(c)
+end)
+
+--Is punctuation character
+rawset(_G, "ispunct", function(c)
+	return isgraph(c) and not isalnum(c)
+end)
+
+
+--
 -- Table library expansions
 --
 

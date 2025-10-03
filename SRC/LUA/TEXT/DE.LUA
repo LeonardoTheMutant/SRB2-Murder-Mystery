@@ -150,11 +150,11 @@ MM.AddLang("DE", {
 	},
 	["HUD_SCORESTAB"] = {
 		"Wenn du neu in diesem Spielmodus bist,",
-		"verwende den Befehl \1\x87MMHELP\4 in der Konsole,",
+		"verwende den Befehl ^7MMHELP^0 in der Konsole,",
 		"um Hilfe zu erhalten.",
 		"",
 		"",
-		"\1\x82Viel Spaß!"
+		"^2Viel Spaß!"
 	},
 	["HUD_ROLETARGET"] = {
 		"Sich einfügen, Vertrauen aufbauen,\ndann zuschlagen.",
@@ -168,31 +168,31 @@ MM.AddLang("DE", {
 		"Zivilisten"
 	},
 	["HUD_DEAD"] = {
-		"Du bist \1\x8Ftot\4.",
+		"Du bist ^Ftot^0.",
 		"Du kannst nicht wiederbelebt",
 		"werden oder mit Personen sprechen",
 		"die noch am Leben sind."
 	},
 	["HUD_MIDJOIN"] = {
-		"Du bist \1\x84mitten im Spiel\4 eingestiegen, bitte warte bis zum Ende dieser Runde.",
-		"Während du wartest, lies bitte die Spielregeln im \1\x87MMHELP\4-Konsolenbefehl!"
+		"Du bist ^4mitten im Spiel^0 eingestiegen, bitte warte bis zum Ende dieser Runde.",
+		"Während du wartest, lies bitte die Spielregeln im ^7MMHELP^0-Konsolenbefehl!"
 	},
 	["HUD_ALONE"] = {
-		"\1\x84".."2 Spieler\4 sind für das Spiel erforderlich,",
-		"Bitte warten Sie, bis\1\x84 ein weiterer Spieler\4",
+		"^4".."2 Spieler^0 sind für das Spiel erforderlich,",
+		"Bitte warten Sie, bis^4 ein weiterer Spieler^0",
 		"das Spiel startet."
 	},
 	["HUD_SNEAKING"] = "Schleichen...",
 	["HUD_SHOWDOWN"] = "Showdown Duell!",
 	["HUD_MINIGAME"] = {
-		["PRESS"] = "Drücke\1\x82 CUSTOM3\4 zum",
+		["PRESS"] = "Drücke^2 CUSTOM3^0 zum",
 		["LEAVE"] = "verlassen",
 		["CANCEL"] = "abzubrechen",
 		["SPECTATE"] = "zuschauen",
 		["DUEL"] = "ein Minispiel-Duell",
-		["REQUEST"] = "ein \1\x87PONG-Minispiel\4 anfordern!",
-		["START"] = "ein \1\x87\"SONIC RUN\"\4 Minispiel starten!",
-		["ACCEPT"] = "die \1\x87PONG\4 Herausforderung annehmen!",
+		["REQUEST"] = "ein ^7PONG-Minispiel^0 anfordern!",
+		["START"] = "ein ^7\"SONIC RUN\"^0 Minispiel starten!",
+		["ACCEPT"] = "die ^7PONG^0 Herausforderung annehmen!",
 		["WAIT"] = "Warten darauf, dass der Rivale akzeptiert...",
 		["SPECTATING"] = "Ein Duell beobachten...",
 		["BORED"] = "Langweilst du dich?",
@@ -202,64 +202,64 @@ MM.AddLang("DE", {
 	["HUD_WINNERS"] = "Gewinner:",
 	["HUD_WIN"] = {
 		"UNENTSCHIEDEN!",
-		"\1\x85MÖRDER",
-		"\1\x83ZIVILISTEN"
+		"^5MÖRDER",
+		"^3ZIVILISTEN"
 	},
 	["HUD_PAST"] = "VERGANGEN",
 	["HUD_FUTURE"] = "ZUKUNFT",
 	["HUD_MMHELP_UI"] = {
-		"Verwenden Sie \1\x87JUMP\4/\1\x87SPIN\4 zum Scrollen und \1\x87Next\4/\1\x87Prev Weapon\4 zum Wechseln der Seiten",
-		"Drücke\1\x87 CUSTOM1\4, um die Hilfe zu verlassen"
+		"Verwenden Sie ^7JUMP^0/^7SPIN^0 zum Scrollen und ^7Next^0/^7Prev Weapon^0 zum Wechseln der Seiten",
+		"Drücke^7 CUSTOM1^0, um die Hilfe zu verlassen"
 	}, 
 	["HUD_MMHELP"] = {
 		{
-			"\1\x87Willkommen bei \1\x85Murder Mystery\1\x87!",
-			"\1\x87".."Eine SRB2-interpretation des beliebten mehrspieler spiel!\n",
-			"Das Ziel des Spiels ist es, alle \1\x85Mörder\4 zu finden und zu eliminieren, bevor sie\1\x83 alle anderen\4 töten können. Dieser Spielmodus ähnelt dem MATCH-Modus, daher benötigen Sie präzise Ziel- und Schießfähigkeiten, um zu gewinnen!",
+			"^7Willkommen bei ^5Murder Mystery^7!",
+			"^7".."Eine SRB2-interpretation des beliebten mehrspieler spiel!\n",
+			"Das Ziel des Spiels ist es, alle ^5Mörder^0 zu finden und zu eliminieren, bevor sie^3 alle anderen^0 töten können. Dieser Spielmodus ähnelt dem MATCH-Modus, daher benötigen Sie präzise Ziel- und Schießfähigkeiten, um zu gewinnen!",
 			"\nZunächst gehen wir die Grundlagen durch, damit Sie sofort loslegen und spielen können...",
-			"\nHier sind die möglichen \1\x8BRollen\4, die du übernehmen könntest:",
-			" * \1\x85Mörder\4 - Ein tödlicher Verbrecher. Seine Aufgabe ist es, alle zu eliminieren.",
-			" * \1\x84Sheriff\4 - mit der Aufgabe betraut, die \1\x85Mörder\4 zu finden und zu eliminieren",
-			" * \1\x83Zivilist\4 - Muss vermeiden, getötet zu werden, und bei der Identifizierung des \1\x85Mörders\4 helfen. Je nach Spielkonfiguration können sie einen \1\x85Roten Ring\4 erhalten, um sich zu verteidigen, indem sie 100 Ringe (oder 50 Ringe für bestimmte Skins) sammeln.",
+			"\nHier sind die möglichen ^BRollen^0, die du übernehmen könntest:",
+			" * ^5Mörder^0 - Ein tödlicher Verbrecher. Seine Aufgabe ist es, alle zu eliminieren.",
+			" * ^4Sheriff^0 - mit der Aufgabe betraut, die ^5Mörder^0 zu finden und zu eliminieren",
+			" * ^3Zivilist^0 - Muss vermeiden, getötet zu werden, und bei der Identifizierung des ^5Mörders^0 helfen. Je nach Spielkonfiguration können sie einen ^5Roten Ring^0 erhalten, um sich zu verteidigen, indem sie 100 Ringe (oder 50 Ringe für bestimmte Skins) sammeln.",
 			"\nDas sind die wichtigsten Informationen, die du brauchst, um mit dem Spielen zu beginnen. Für weitere Details lies bitte dieses Handbuch bis zum Ende durch."
 		},
 		{
-			"\1\x87Über die Spielsituationen\4\n",
-			"Wie in den Grundlagen erwähnt, besteht das Ziel des Spiels darin, alle \1\x85Mörder\4 zu eliminieren, aber während des Spiels können verschiedene Szenarien auftreten:",
-			"\n* Wenn du stirbst, gelangst du in den Zustand \1\x8FTot\4. Spieler in diesem Zustand können nicht wiederbelebt werden und nicht global mit Spielern kommunizieren, die noch am Leben sind. Ihre Nachrichten sind nur für andere \1\x8FTote\4 Spieler sichtbar.",
-			"Du kannst nicht mit noch lebenden Spielern chatten oder ihnen persönliche Nachrichten senden, während du \1\x8Ftot\4 bist.",
-			"Wenn Sie durch Gefahren auf der Karte wie Brecher, Stürze in Gruben oder Ertrinken im Wasser sterben, sind Sie für den Rest der Runde ebenfalls \1\x8Ftot\4.",
-			"\1\x82Versuchen Sie außerdem NICHT, sich selbst umzubenennen, während Sie tot sind\4. Weitere Details hierzu finden Sie auf der nächsten Seite.",
-			"\n* Die Aufgabe des \1\x84Sheriffs\4 besteht darin, die \1\x85Mörder\4 zu eliminieren, aber achten Sie darauf, nicht versehentlich einen \1\x85Zivilisten\4 zu erschießen.",
-			"Wenn ein \1\x84Sheriff\4 einen \1\x83Zivilisten\4 erschießt, verliert er seine \1\x8BRolle\4 und wird selbst zum \1\x83Zivilisten\4. Ein \1\x83zufällig ausgewählter Zivilist\4 übernimmt dann stillschweigend die \1\x8BRolle\4 des \1\x84Sheriffs\4. Überleg dir gut, bevor du den Abzug drückst!",
-			"\n* Wenn ein \1\x85Mörder\4 einen \1\x84Sheriff\4 tötet, während noch \1\x85Zivilisten\4 am Leben sind, fällt der \1\x84Smaragd des Sheriffs\4 in der Nähe der Leiche zu Boden.",
-			"Wenn ein \1\x83Zivilist\4 den \1\x84Smaragd des Sheriffs\4 aufhebt, wird er zum \1\x82Helden\4. \1\x82Helden\4 sind ähnlich wie \1\x84Sheriffs\4, weisen jedoch einige Unterschiede auf:",
-			"  - Wenn ein \1\x82Held\4 einen\1\x83 Zivilisten\4 tötet, sterben beide, und ihre \1\x8Brolle\4 wird nicht neu zugewiesen;",
-			"  - \1\x82Helden\4 lassen beim Tod nicht den \1\x84Smaragd des Sheriffs\4 fallen.",
-			"\n* In Runden mit einer höheren Anzahl von Spielern kann es mehrere \1\x85Mörder\4 und \1\x84Sheriffs\4 geben. Für diese Runden werden \1\x8ATeams\4 aus \1\x85Mördern\4 und \1\x84Sheriffs\4 gebildet.",
-			"Teammitglieder können über den Befehl \1\x87SAYTEAM\4 in der Konsole kommunizieren (die Schaltfläche SAYTEAM funktioniert genauso wie die normale Chat-Schaltfläche) oder indem sie eine Nachricht mit dem Symbol \1\x88%\4 beginnen, wodurch die Nachricht automatisch an die Teammitglieder gesendet wird.",
-			"Wenn du versehentlich einen \1\x8Ateamkollegen\4 angreifst, erhalten beide Spieler eine personalisierte Warnung. Sei vorsichtig - solche Teaminteraktionen können deine \1\x8Brolle\4 anderen offenbaren!"
+			"^7Über die Spielsituationen^0\n",
+			"Wie in den Grundlagen erwähnt, besteht das Ziel des Spiels darin, alle ^5Mörder^0 zu eliminieren, aber während des Spiels können verschiedene Szenarien auftreten:",
+			"\n* Wenn du stirbst, gelangst du in den Zustand ^FTot^0. Spieler in diesem Zustand können nicht wiederbelebt werden und nicht global mit Spielern kommunizieren, die noch am Leben sind. Ihre Nachrichten sind nur für andere ^FTote^0 Spieler sichtbar.",
+			"Du kannst nicht mit noch lebenden Spielern chatten oder ihnen persönliche Nachrichten senden, während du ^Ftot^0 bist.",
+			"Wenn Sie durch Gefahren auf der Karte wie Brecher, Stürze in Gruben oder Ertrinken im Wasser sterben, sind Sie für den Rest der Runde ebenfalls ^Ftot^0.",
+			"^2Versuchen Sie außerdem NICHT, sich selbst umzubenennen, während Sie tot sind^0. Weitere Details hierzu finden Sie auf der nächsten Seite.",
+			"\n* Die Aufgabe des ^4Sheriffs^0 besteht darin, die ^5Mörder^0 zu eliminieren, aber achten Sie darauf, nicht versehentlich einen ^5Zivilisten^0 zu erschießen.",
+			"Wenn ein ^4Sheriff^0 einen ^3Zivilisten^0 erschießt, verliert er seine ^BRolle^0 und wird selbst zum ^3Zivilisten^0. Ein ^3zufällig ausgewählter Zivilist^0 übernimmt dann stillschweigend die ^BRolle^0 des ^4Sheriffs^0. Überleg dir gut, bevor du den Abzug drückst!",
+			"\n* Wenn ein ^5Mörder^0 einen ^4Sheriff^0 tötet, während noch ^5Zivilisten^0 am Leben sind, fällt der ^4Smaragd des Sheriffs^0 in der Nähe der Leiche zu Boden.",
+			"Wenn ein ^3Zivilist^0 den ^4Smaragd des Sheriffs^0 aufhebt, wird er zum ^2Helden^0. ^2Helden^0 sind ähnlich wie ^4Sheriffs^0, weisen jedoch einige Unterschiede auf:",
+			"  - Wenn ein ^2Held^0 einen^3 Zivilisten^0 tötet, sterben beide, und ihre ^Brolle^0 wird nicht neu zugewiesen;",
+			"  - ^2Helden^0 lassen beim Tod nicht den ^4Smaragd des Sheriffs^0 fallen.",
+			"\n* In Runden mit einer höheren Anzahl von Spielern kann es mehrere ^5Mörder^0 und ^4Sheriffs^0 geben. Für diese Runden werden ^ATeams^0 aus ^5Mördern^0 und ^4Sheriffs^0 gebildet.",
+			"Teammitglieder können über den Befehl ^7SAYTEAM^0 in der Konsole kommunizieren (die Schaltfläche SAYTEAM funktioniert genauso wie die normale Chat-Schaltfläche) oder indem sie eine Nachricht mit dem Symbol ^8%^0 beginnen, wodurch die Nachricht automatisch an die Teammitglieder gesendet wird.",
+			"Wenn du versehentlich einen ^Ateamkollegen^0 angreifst, erhalten beide Spieler eine personalisierte Warnung. Sei vorsichtig - solche Teaminteraktionen können deine ^Brolle^0 anderen offenbaren!"
 		},
 		{
-			"\1\x87".."Dinge, die man vermeiden sollte in \1\x85Murder Mystery\4\n",
-			"Regel Nr. 1: \1\x82Sei freundlich und hab Spaß!\4 Hier sind einige zusätzliche Richtlinien:",
-			"\n* Verrate niemals deine \1\x8BRolle\4, auch nicht im Scherz. Du kannst zwar die \1\x8Brolle\4 eines anderen verraten, wenn du dir sicher bist, aber gib niemals deine eigene preis.",
+			"^7".."Dinge, die man vermeiden sollte in ^5Murder Mystery^0\n",
+			"Regel Nr. 1: ^2Sei freundlich und hab Spaß!^0 Hier sind einige zusätzliche Richtlinien:",
+			"\n* Verrate niemals deine ^BRolle^0, auch nicht im Scherz. Du kannst zwar die ^Brolle^0 eines anderen verraten, wenn du dir sicher bist, aber gib niemals deine eigene preis.",
 			"\n* Vermeide es, andere Spieler zu beleidigen. Freundschaftliches Geplänkel ist in Ordnung, aber ständige Anschuldigungen oder feindseliges Verhalten führen dazu, dass andere dir misstrauen.",
 			"\n* Geh nicht AFK (Away From Keyboard). Wenn du zu lange stillstehst, wirst du aus dem Spiel entfernt.",
-			"\n* Benennt euch während einer Runde nicht um, wenn ihr \1\x8Ftot\4 seid. Andernfalls werdet ihr vom Server gekickt. Wenn ihr \1\x8Ftot\4 seid, wartet bis zum Ende der Runde, um euch sicher umzubenennen.",
-			"\n* Vermeide es, in der Nähe des \1\x84Smaragds des Sheriffs\4 zu campen, wenn du ein \1\x85Mörder\4 bist. Wenn du dich 30 Sekunden lang in der Nähe des Smaragds aufhältst, wirst du aus dem Spiel geworfen.",
+			"\n* Benennt euch während einer Runde nicht um, wenn ihr ^Ftot^0 seid. Andernfalls werdet ihr vom Server gekickt. Wenn ihr ^Ftot^0 seid, wartet bis zum Ende der Runde, um euch sicher umzubenennen.",
+			"\n* Vermeide es, in der Nähe des ^4Smaragds des Sheriffs^0 zu campen, wenn du ein ^5Mörder^0 bist. Wenn du dich 30 Sekunden lang in der Nähe des Smaragds aufhältst, wirst du aus dem Spiel geworfen.",
 			"\nEin Verstoß gegen diese Regeln kann zu einem Ausschluss oder in schweren Fällen zu einer Sperre durch den Administrator führen. Spiel fair und hab Spaß!"
 		},
 		{
-			"\1\x87Nützliche Tipps\4\n",
-			"Hier sind einige Tipps, die Ihnen helfen, bei \1\x87Murder Mystery\4 erfolgreich zu sein:",
-			"\n* Wenn die Charakterfähigkeiten vom Administrator deaktiviert wurden, drücke \1\x87SPIN\4, um dich lautlos und spurlos zu bewegen.",
-			"\n* Wenn du den \1\x84Smaragd des Sheriffs\4 aufhebst, erhältst du Zugriff auf alle Waffen und Ringe, die du zuvor gesammelt hast.",
-			"\n* Verwende den Befehl \1\x87SAYTEAM\4, um dich mit deinen \1\x8ATeamkollegen\4 abzustimmen und Friendly Fire zu vermeiden. Wenn du eine Nachricht mit \1\x88%\4 beginnst, wird sie automatisch an deine Teammitglieder gesendet.",
+			"^7Nützliche Tipps^0\n",
+			"Hier sind einige Tipps, die Ihnen helfen, bei ^7Murder Mystery^0 erfolgreich zu sein:",
+			"\n* Wenn die Charakterfähigkeiten vom Administrator deaktiviert wurden, drücke ^7SPIN^0, um dich lautlos und spurlos zu bewegen.",
+			"\n* Wenn du den ^4Smaragd des Sheriffs^0 aufhebst, erhältst du Zugriff auf alle Waffen und Ringe, die du zuvor gesammelt hast.",
+			"\n* Verwende den Befehl ^7SAYTEAM^0, um dich mit deinen ^ATeamkollegen^0 abzustimmen und Friendly Fire zu vermeiden. Wenn du eine Nachricht mit ^8%^0 beginnst, wird sie automatisch an deine Teammitglieder gesendet.",
 			"\n* Erleide Schaden durch Hindernisse wie Lava, Stacheln oder Feuer, um für kurze Zeit (3 Sekunden) unbesiegbar zu werden.",
 			"\n* Finde Verstecke auf der Karte, um nicht entdeckt zu werden. Manchmal ist es besser, sich außer Sichtweite aufzuhalten.",
-			"\n* Wenn deine Rolle bekannt wird, ändere deinen Namen und/oder deine Hautfarbe.\1\x82 Beachte, dass dein neuer Name im Chat angezeigt wird.\4",
-			"\n* Verwende die Taste\1\x87 FIRENORMAL\4, um das \1\x86Messer\4 überall einzusetzen, solange du Ringe hast. Wenn du dich mit einem \1\x86Messer\4 anschleichst, ist dein Angriff geräuschlos."
+			"\n* Wenn deine Rolle bekannt wird, ändere deinen Namen und/oder deine Hautfarbe.^2 Beachte, dass dein neuer Name im Chat angezeigt wird.^0",
+			"\n* Verwende die Taste^7 FIRENORMAL^0, um das ^6Messer^0 überall einzusetzen, solange du Ringe hast. Wenn du dich mit einem ^6Messer^0 anschleichst, ist dein Angriff geräuschlos."
 		}
 	}
 })

@@ -100,11 +100,11 @@ local mmsetupExitNoSave = do
 	MM.hud.game.active = true
 
 end
-addHook("KeyDown", function(keyevent)
+addHook("KeyDown", function(ev)
 	local ignore = true
 	if not ((gametype == GT_LTMMURDERMYSTERY) and consoleplayer.mmsetupcursor) then return end
 	MM.hud.game.active = false
-	switch(keyevent.num, {
+	switch(ev.num, {
 		[KEY_ENTER] = do --ENTER/RETURN
 			switch(consoleplayer.mmsetupcursor, {
 				[#mmsetup_entries + 1] = do --Save & Exit
@@ -211,6 +211,252 @@ end)
 
 
 --
+-- MMHELP
+--
+
+local help_page = 1
+local help_scroll = 1
+
+COM_AddCommand("mmhelp", function(p, page)
+	if (gametype != GT_LTMMURDERMYSTERY)
+		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command")
+		return
+	end
+
+	if ((p == server) or (IsPlayerAdmin(p)))
+		CONS_Printf(p, "\x82".."ADMIN ZONE")
+		for line = 1, #adminCVARinfo do CONS_Printf(p, adminCVARinfo[line]) end
+	end
+	if (MM.debug)
+		CONS_Printf(p, "\x82".."DEBUG COMMANDS")
+		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
+		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
+		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
+		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
+		CONS_Printf(p, "\x87MMSUSNSE\x80    - Start the Suspense music")
+		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
+		CONS_Printf(p, "\x87MMLOADMUS\x80   - (Re)load the Suspense and Showdown music tracklists")
+		CONS_Printf(p, "\x87MMCHARSET\x80   - Display the loaded symbols in the Character Video Memory\n")
+	end
+
+	if (isdedicatedserver) return end
+
+	if (p.mm.minigame or p.mmsetupcursor)
+		CONS_Printf(p, "Unable to open MMHELP UI right now")
+		return
+	end
+
+	--MMHELP GUI
+	--load HELP page
+	local pageInt = tonumber(page)
+	if (pageInt)
+		if (pageInt <= (#MM.text[p.mm.lang]["HUD_MMHELP"] + 1))
+			help_page = pageInt
+			help_scroll = 1
+		else help_page = 1 end
+	end
+
+	--enable the UI
+	MM.hud.help.active = true
+	MM.hud.game.active = false
+end, COM_LOCAL)
+
+--
+-- MMHELP UI's core
+--
+local tech_info = {
+	"^4LTM's ^7Murder Mystery^0",
+	"Version ^1"..MM.version.."^0",
+	"by ^2\"SRB2MM_DEV team\"^0",
+	"Full credits are in the ^6README.TXT^0 inside this .PK3 file",
+	"\n\nThe developer team can be reached out by using one of the following links:\n",
+	"\nDiscord: ^4https://www.discord.com/invite/UgG8h2djFE^0",
+	"\nMatrix: ^3https://matrix.to/#/#ltm_mm:matrix.org^0",
+	"\nGitHub: ^6https://www.github.com/LeonardoTheMutant/SRB2-Murder-Mystery^0",
+	"\nWebsite: ^Bhttps:/leonardothemutant.github.io/SRB2-Murder-Mystery^0"
+}
+
+--Default canvas resolution for 16:10 screen ratio resolutions
+local canvasWidth = 320
+local canvasHeight = 200
+
+local renderBuffer = {}
+local pageLength = 0
+--local scrollBarHeight
+--local scrollstep
+
+local oldCanvasWidth = 0
+local oldCanvasHeight = 0
+local oldPage = 0
+local oldLang = ""
+
+--Backend
+addHook("PlayerThink", function(p)
+	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (MM.hud.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+
+		--Update render buffer only when neccesary
+		if ((oldCanvasWidth != canvasWidth) or (oldCanvasWidth != canvasWidth) or (oldPage != help_page) or (oldLang != p.mm.lang))
+			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvasWidth, canvasHeight, p.mm.lang, help_page))
+			renderBuffer = {}
+			pageLength = 0
+			oldCanvasWidth = canvasWidth
+			oldCanvasHeight = canvasHeight
+			oldPage = help_page
+			oldLang = p.mm.lang
+
+			--Insert data into the render buffer
+			if (help_page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+				renderBuffer = MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP", help_page)
+			elseif (help_page == (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) --last page is always a technical info page
+				renderBuffer = tech_info
+			end
+		end
+	end
+end)
+
+--Inputs
+addHook("KeyDown", function(ev)
+	local ignore = true
+	if not ((gametype == GT_LTMMURDERMYSTERY) and (MM.hud.help.active)) then return end
+	local c = ev.num
+	if ((c == KEY_ESCAPE) or (c == input.gameControlToKeyNum(GC_CUSTOM1)) or (c == input.gameControlToKeyNum(GC_CUSTOM2)) or (c == input.gameControlToKeyNum(GC_CUSTOM3)))
+		MM.hud.game.active = true
+		MM.hud.help.active = false
+	elseif (c == KEY_CONSOLE)
+		ignore = false
+	elseif (c == KEY_F3)
+		local cvar = CV_FindVar("showhud")
+		if (not cvar.value) then CV_Set(cvar, 1) end
+	elseif ((c == KEY_UPARROW or c == KEY_MOUSEWHEELUP or c == input.gameControlToKeyNum(GC_FORWARD)) and help_scroll > 1)
+		help_scroll = $ - 1
+	elseif ((c == KEY_DOWNARROW or c == KEY_MOUSEWHEELDOWN or c == input.gameControlToKeyNum(GC_BACKWARD)) and (help_scroll < pageLength))
+		help_scroll = $ + 1
+	elseif ((c == KEY_LEFTARROW or c == input.gameControlToKeyNum(GC_STRAFELEFT)) and help_page ~= 1)
+		help_page = $ - 1
+		help_scroll = 1
+	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and help_page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+		help_page = $ + 1
+		help_scroll = 1
+	end
+	return ignore
+end)
+
+--Renderer, Frontend
+hud.add(function(v, p)
+	if not ((MM.hud.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) and (MM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
+
+	--Update the Canvas resolution
+	canvasWidth = v.width() / v.dupx()
+	canvasHeight = v.height() / v.dupy()
+
+	
+	--
+	-- Text renderer
+	--
+	local x = 0
+	local y = 8 - help_scroll * 8
+	local str, prev_linereturn, isTextCode
+	local colormap = v.getStringColormap(0)
+	pageLength = 0
+
+	v.fadeScreen(16, 5) --gray background
+
+	--Foreground scrolling blue triangle thingies
+	for i = -3, 3
+		v.draw(((i * MM.graphics["NTSATKT2"].width) - (leveltime % MM.graphics["NTSATKT2"].width)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
+		v.draw(((i * MM.graphics["NTSATKB1"].width) + (leveltime % MM.graphics["NTSATKB1"].width)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
+	end
+
+	--draw text from the render buffer
+	for i = 1, #renderBuffer do
+		str = HIDEO.WordWrap(0, canvasWidth, V_MONOSPACE, FU, renderBuffer[i], v)
+
+		local j = 1
+		for b, c, j in unicode.chars(str) do
+			local code = unicode.code(c)
+			
+			if (code == 10) --newline
+				if (not prev_linereturn) then
+					y = $ + 8
+					x = 0
+					pageLength = $ + 1
+				end
+				prev_linereturn = true
+				continue
+			end
+
+			if (code == 94) --'^'
+				isTextCode = not $
+				if (isTextCode) then continue end
+			end
+
+			if (isTextCode)
+				colormap = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(code))
+				isTextCode = false
+				continue
+			else
+				prev_linereturn = false
+				if (((y >= 0) and (y < (canvasHeight - 16))) and (code >= 22) and (code ~= 32))
+					v.draw(x, y, HIDEO.GetUnicodeFont(v, code), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
+				end
+
+				x = $ + 8 --V_MONOSPACE
+
+				if ((x >= canvasWidth) and (i <= #renderBuffer))
+					x = 0
+					y = $ + 8
+					pageLength = $ + 1
+					prev_linereturn = true
+				end
+			end
+		end
+
+		x = 0
+		y = $ + 8
+		pageLength = $ + 1
+	end
+
+	pageLength = $ - (canvasHeight / 8) + 3
+	pageLength = max($, 1) --for short pages
+
+
+	--
+	-- Scroll Bar
+	-- (Unfinished)
+	--
+
+	--local thumbH
+	--if (pageLength*8 <= canvasHeight-16) then thumbH = canvasHeight-16
+	--else thumbH = max(8, (canvasHeight-16 / pageLength*8) * canvasHeight-16)
+	--
+	--local contentRange = pageLength*8 - canvasHeight-16
+	--local thumbRange = canvasHeight-16 - thumbH
+	--local thumbPos = (help_scroll / contentRange) * thumbRange
+	--
+	--
+	--local scrollBarHeight = canvasHeight - 16
+	--v.drawFill(canvasWidth - 8, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTOLEFT) --scroll bar
+	--
+	--scrollstep = #renderBuffer/scrnRows * scrollBarHeight
+	--v.drawFill(312, ((help_scroll - 1)*scrollstep), 8, (scrollBarHeight/#renderBuffer), V_SNAPTOTOP|V_SNAPTOLEFT) --scroll slider
+
+
+	--
+	-- Footer
+	--
+	v.drawFill(0, 184, canvasWidth, 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+
+	v.drawString(0, 186, ("\x89Scroll: "..help_scroll.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
+	v.drawString(80, 186, ("\x88Page: "..help_page.."/"..(#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
+
+	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Arrow keys to scroll and change page"
+	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"ESC to leave"
+end, "game")
+
+
+
+--
 -- MMLANG
 --
 
@@ -255,7 +501,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		l = $:upper()
 		if (MM.text[l])
 			p.mm.lang = l
-			p.mm.help.pos = 1
+			help_scroll = 1
 
 			CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", p.mm.lang, MM.GetText(p.mm.lang, "AUTHOR")))
 			CONS_Printf(p, MM.GetText(p.mm.lang, "CON_MMLANG", 2))
@@ -273,209 +519,3 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		end
 	end
 end, COM_LOCAL)
-
-
-
---
--- MMHELP
---
-
-COM_AddCommand("mmhelp", function(p, page)
-	if (gametype != GT_LTMMURDERMYSTERY)
-		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command")
-		return
-	end
-
-	if ((p == server) or (IsPlayerAdmin(p)))
-		CONS_Printf(p, "\x82".."ADMIN ZONE")
-		for line = 1, #adminCVARinfo do CONS_Printf(p, adminCVARinfo[line]) end
-	end
-	if (MM.debug)
-		CONS_Printf(p, "\x82".."DEBUG COMMANDS")
-		CONS_Printf(p, "\x87MMPLAYER\x80    - Change player state/role")
-		CONS_Printf(p, "\x87MMEXITLEVEL\x80 - Force round end with the winner")
-		CONS_Printf(p, "\x87MMSHREMD\x80    - Spawn Sheriff's Emerald at player's position")
-		CONS_Printf(p, "\x87MMTIMEWARP\x80  - Travel between different time zones (if map supports them)")
-		CONS_Printf(p, "\x87MMSUSNSE\x80    - Start the Suspense music")
-		CONS_Printf(p, "\x87MMDUEL\x80      - Start the Showdown Duel music")
-		CONS_Printf(p, "\x87MMLOADMUS\x80   - (Re)load the Suspense and Showdown music tracklists")
-		CONS_Printf(p, "\x87MMCHARSET\x80   - Display the loaded symbols in the Character Video Memory\n")
-	end
-
-	if (isdedicatedserver) return end
-
-	if (p.mm.minigame or p.mmsetupcursor)
-		CONS_Printf(p, "Unable to open MMHELP UI right now")
-		return
-	end
-
-	--MMHELP GUI
-	--load HELP page
-	local pageInt = tonumber(page)
-	if (pageInt)
-		if (pageInt <= (#MM.text[p.mm.lang]["HUD_MMHELP"] + 1))
-			p.mm.help.page = pageInt
-			p.mm.help.pos = 1
-		else p.mm.help.page = 1 end
-	end
-
-	--enable the UI
-	p.mm.help.active = true
-	MM.hud.game.active = false
-end, COM_LOCAL)
-
---
--- MMHELP UI's core
---
-local tech_info = {
-	"\1\x84LTM's \1\x87Murder Mystery\4",
-	"Version\1\x81 "..MM.version.."\4",
-	"by \1\x82\"SRB2MM_DEV team\"\4",
-	"Full credits are in the \1\x86README.TXT\4 inside this .PK3 file",
-	"\n\nThe developer team can be reached out by using one of the following links:\n",
-	"Discord:\n\1\x84https://www.discord.com/invite/\nUgG8h2djFE\n",
-	"Matrix:\n\1\x83https://matrix.to/#/#ltm_mm:matrix.org\n",
-	"GitHub:\n\1\x86https://www.github.com/\nLeonardoTheMutant/SRB2-Murder-Mystery\n",
-	"Website:\n\1\x8Bhttps:/leonardothemutant.github.io/\nSRB2-Murder-Mystery"
-}
-
---Default canvas resolution for 16:10 screen ratio resolutions (values in characters, character is 8x8 pixels)
-local scrnRows = 23
-local scrnColumns = 40
-
-local renderBuffer = {}
-local pageLength = 0
---local scrollBarHeight
---local scrollstep
-
-local oldScrnRows = 0
-local oldScrnColumns = 0
-local oldPage = 0
-local oldLang = ""
-
---Insert an array of data to the render buffer
-local function V_InsertToBuffer(array)
-	for i, line in ipairs(array) do
-		local wordWrapTemp = HIDEO.WordWrapString(line, scrnColumns)
-		for lineWrap = 1, #wordWrapTemp do table.insert(renderBuffer, wordWrapTemp[lineWrap]) end
-	end
-end
-
---Backend
---I was unable to lock player controls here because clients would desynchronise each time they press something
---Enjoy what you already have
-addHook("PlayerThink", function(p)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
-	if (p.mm.help and p.mm.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
-
-		--
-		-- UI LOGIC
-		--
-
-		--Update render buffer only when neccesary
-		if ((oldScrnColumns != scrnColumns) or (oldScrnRows != scrnRows) or (oldPage != p.mm.help.page) or (oldLang != p.mm.lang))
-			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (Columns: %d; Rows: %d; Language %s; Page: %d)", scrnColumns, scrnRows, p.mm.lang, p.mm.help.page))
-			renderBuffer = {}
-			pageLength = 0
-			oldScrnColumns = scrnColumns
-			oldScrnRows = scrnRows
-			oldPage = p.mm.help.page
-			oldLang = p.mm.lang
-
-			--Insert data into the render buffer
-			if (p.mm.help.page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
-				V_InsertToBuffer(MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP", p.mm.help.page))
-			elseif (p.mm.help.page == (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) --last page is always a technical info page
-				V_InsertToBuffer(tech_info)
-			end
-
-			--calculate the page length
-			if (scrnRows > (#renderBuffer + 1)) pageLength = 1
-			else pageLength = #renderBuffer + 1 - scrnRows end
-		end
-
-		--
-		-- INPUTS
-		--
-
-		--p.powers[pw_nocontrol] = 1 --this completely destroys the game for clients
-
-		if (p.cmd.buttons & BT_CUSTOM1) --CUSTOM1, leave HELP
-			p.mm.help.active = false
-			MM.hud.game.active = true
-		end
-
-		if (p.cmd.buttons & BT_JUMP) --JUMP, scroll up
-			if (not (p.lastbuttons & BT_JUMP) and (p.mm.help.pos > 1))
-				p.mm.help.pos = $ - 1
-			end
-		end
-
-		if (p.cmd.buttons & BT_SPIN) --SPIN, scroll down
-			if (not (p.lastbuttons & BT_SPIN) and (p.mm.help.pos < pageLength))
-				p.mm.help.pos = $ + 1
-			end
-		end
-
-		if (p.cmd.buttons & BT_WEAPONNEXT) --NextWeapon, next page
-			if (not (p.lastbuttons & BT_WEAPONNEXT))
-				p.mm.help.page = $ + 1
-				p.mm.help.pos = 1
-				if (p.mm.help.page >= (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) p.mm.help.page = (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1) end
-			end
-		end
-
-		if (p.cmd.buttons & BT_WEAPONPREV) --PrevWeapon, previous page
-			if (not (p.lastbuttons & BT_WEAPONPREV))
-				p.mm.help.page = $ - 1
-				p.mm.help.pos = 1
-				if (p.mm.help.page <= 1) p.mm.help.page = 1 end
-			end
-		end
-	end
-end)
-
---renderer, frontend
-hud.add(function(v, p)
-	if not (p.mm and p.mm.help and p.mm.help.active) or (not MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) or (not MM.graphics) or (gametype != GT_LTMMURDERMYSTERY) return end
-
-	--Update the Canvas resolution
-	scrnColumns = ((v.width()/v.dupx()) / 8)-- - 2
-	scrnRows = ((v.height()/v.dupy()) / 8) - 2
-
-	local y = 0
-
-	v.fadeScreen(16, 5) --gray background
-
-	--Foreground scrolling blue triangle thingies
-	for i = -3, 3
-		v.draw(((i * MM.graphics["NTSATKT2"].width) - (leveltime % MM.graphics["NTSATKT2"].width)), -102, MM.graphics["NTSATKT2"], V_SNAPTOTOP)
-		v.draw(((i * MM.graphics["NTSATKB1"].width) + (leveltime % MM.graphics["NTSATKB1"].width)), 180, MM.graphics["NTSATKB1"], V_SNAPTOBOTTOM)
-	end
-
-	--draw text from the render buffer
-	for lineID = p.mm.help.pos, #renderBuffer do
-		HIDEO.DrawStrUnicode(v, 0, y, renderBuffer[lineID], V_SNAPTOTOP|V_SNAPTOLEFT)
-
-		y = $ + 8 --line is drawn, move one row down for the next one
-		if (y >= (scrnRows * 8)) then break end --Trying to draw out of canvas bounds, stop rendering here
-	end
-
-	--scroll bar
-	--quite unfinished
-
-	--scrollBarHeight = v.height()/v.dupy() - 16
-	--v.drawFill(312, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTORIGHT) --scroll bar
-
-	--scrollstep = #renderBuffer/scrnRows * scrollBarHeight
-	--v.drawFill(312, ((p.mm.help.pos - 1)*scrollstep), 8, (scrollBarHeight/#renderBuffer), V_SNAPTOTOP|V_SNAPTORIGHT) --scroll slider
-
-	v.drawFill(0, 184, (v.width()/v.dupx()), 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
-
-	--bottom text
-	v.drawString(0, 186, ("\x89Scroll: "..p.mm.help.pos.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
-	v.drawString(80, 186, ("\x88Page: "..p.mm.help.page.."/"..(#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
-
-	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press SPIN/JUMP to scroll, NextWep/PrevWep to switch page"
-	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Press CUSTOM1 to leave"
-end, "game")

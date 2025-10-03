@@ -143,11 +143,11 @@ MM.AddLang("FR", {
 	},
 	["HUD_SCORESTAB"]={
 		"Si vous êtes nouveau au mode utiliser ",
-		"la commande \1\x87MMHELP\4 dans la Console et",
-		"\1\x87MMLANG\4 pour changer la langue ici",
+		"la commande ^7MMHELP^0 dans la Console et",
+		"^7MMLANG^0 pour changer la langue ici",
 		"",
 		"",
-		"\1\x82".."Amusez-Vous!!"
+		"^2".."Amusez-Vous!!"
 	},
 	["HUD_ROLETARGET"] = {
 		"",
@@ -161,29 +161,29 @@ MM.AddLang("FR", {
 		"Civils"
 	},
 	["HUD_DEAD"]={
-		"Vous êtes\1\x8F mort",
+		"Vous êtes^F mort",
 		"Vous ne pouvez ni réapparaitre, ni parler",
 		"au personnes en vie."
 	},
 	["HUD_MIDJOIN"]={
-		"Vous avez rejoins en \1\x84pleine partie\4, attendez que le round ce finisse..."
+		"Vous avez rejoins en ^4pleine partie^0, attendez que le round ce finisse..."
 	},
 	["HUD_ALONE"]={
-		"\1\x84".."2 joueurs\4 sont requis pour commencer,",
-		"attendez pour \1\x84Un\4 joueur de plus",
+		"^4".."2 joueurs^0 sont requis pour commencer,",
+		"attendez pour ^4Un^0 joueur de plus",
 		"pour commencer"
 	},
 	["HUD_SNEAKING"]="En Discret...",
 	["HUD_SHOWDOWN"]="Duel Final!",
 	["HUD_MINIGAME"]={
-		["PRESS"]="Appuyer sur\1\x82 CUSTOM3\4 pour",
+		["PRESS"]="Appuyer sur^2 CUSTOM3^0 pour",
 		["LEAVE"]="quitter",
 		["CANCEL"]="annulez",
 		["SPECTATE"]="Regarder",
 		["DUEL"]="un minijeux duel",
-		["REQUEST"]="demander une partie de \1\x87PONG\4",
-		["START"]="démarrer une partie de \1\x87\"SONIC RUN\"\4",
-		["ACCEPT"]="accepter le duel de \1\x87PONG\4!",
+		["REQUEST"]="demander une partie de ^7PONG^0",
+		["START"]="démarrer une partie de ^7\"SONIC RUN\"^0",
+		["ACCEPT"]="accepter le duel de ^7PONG^0!",
 		["WAIT"]="En attente que le rival accepte...",
 		["SPECTATING"]="En train de regarder un duel...",
 		["BORED"]="Ennuyez?",
@@ -193,61 +193,61 @@ MM.AddLang("FR", {
 	["HUD_WINNERS"]="Gagnants:",
 	["HUD_WIN"]={
 		"MATCH NUL!",
-		"\1\x85MEURTRIERS",
-		"\1\x83".."CIVILS"
+		"^5MEURTRIERS",
+		"^3".."CIVILS"
 	},
 	["HUD_PAST"]="PASSÉ",
 	["HUD_FUTURE"]="AVENIR",
 	["HUD_MMHELP_UI"]={
-		"Utiliser \1\x87JUMP\4/\1\x87SPIN\4 pour faire défiler, \1\x87Next\4/\1\x87Prev Weapon\4 pour changer de pages",
-		"Appuyer sur\1\x87 CUSTOM1\4 pour quitter l'aide"
+		"Utiliser ^7JUMP^0/^7SPIN^0 pour faire défiler, ^7Next^0/^7Prev Weapon^0 pour changer de pages",
+		"Appuyer sur^7 CUSTOM1^0 pour quitter l'aide"
 	},
 	["HUD_MMHELP"]={
 		{
-			"\1\x87".."Bienvenue dans Murder Mystery!",
-			"\1\x87L'interprétation de SRB2 du jeu multijoueur populaire!\4\n",
-			"Le but du jeu est de trouver et éliminer tout les \1\x85Meurtriers\4 avant qu'ils tue\1\x83 tout les autres \4. Ce mode de jeux est similaire à MATCH donc vous aurez besoins de vos talents de tirs et précision.",
+			"^7".."Bienvenue dans Murder Mystery!",
+			"^7L'interprétation de SRB2 du jeu multijoueur populaire!^0\n",
+			"Le but du jeu est de trouver et éliminer tout les ^5Meurtriers^0 avant qu'ils tue^3 tout les autres ^0. Ce mode de jeux est similaire à MATCH donc vous aurez besoins de vos talents de tirs et précision.",
 			"Vous devez apprendres quelques bases avant de jouer...",
-			"\nAu début de chaque round cous recevrez un \1\x8BRole\4 qui définira votre tâche dans cette partie . Voici les tout 3 \1\x8BRoles\4 que vous pouvez avoir:",
-			" * \1\x85Meurtrier \4 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
-			" * \1\x84Sheriff\4  - leur tâche est de trouver et tuer le/les \1\x85Meurtrier(s)\4. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
-			" * \1\x83Innocent\4 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le \1\x85Meurtrier\4.",
+			"\nAu début de chaque round cous recevrez un ^BRole^0 qui définira votre tâche dans cette partie . Voici les tout 3 ^BRoles^0 que vous pouvez avoir:",
+			" * ^5Meurtrier ^0 - Un vrai criminel. Ils doivent tuer tout le mondes, mais ont seulements des couteaux et des Red Rings;",
+			" * ^4Sheriff^0  - leur tâche est de trouver et tuer le/les ^5Meurtrier(s)^0. les Sheriffs peuvent utiliser toutes les armes disponibles sur la carte;",
+			" * ^3Innocent^0 - Complètement sans armes, ils doivent éviter de mourir mais peuvent aider a trouver le ^5Meurtrier^0.",
 			"\nCela conclut les informations basique de ce jeu, si vous voulez and savoir plus continuer de lire ce manuel."
 		},
 		{
-			"\1\x87Par-apport aux gameplay\4\n",
-			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les \1\x85Meurtriers\4, mais des situations de gameplay differentes peuvent arrivé:",
-			"\n* Si vous mourez, vous entrerez l'état \1\x8FMort\4 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
-			"Vous pouvez pas parler via /PM avec les \1\x8FMort\4.",
-			"aussi \1\x82N'ESSAYER PAS DE CHANGER DE NOM\4, plus de détails sur la prochaine page.",
-			"\n* la tâche du \1\x84Sheriff\4 est d'éliminer tout les \1\x85Meurtriers \4 alentours, mais ils peuvent accidentellement tirer sur un \1\x83Innocent\4.",
-			"Si cela arrive, le \1\x84Sheriff\4 deviendra \1\x83Innocent\4 et un \1\x83Innocent\4 aléatoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que \1\x84Sheriff\4 rfléchissez deux fois avant de tirer!",
-			"\n* Quand un \1\x85Meurtrier \4 tue un \1\x84Sheriff\4 et qu'il restent des \1\x83Innocents\4 en vie, le Sheriff va lâcher là \1\x84Sheriff's Emerald\4 vers leur corps.",
-			"contraire aux 7 Chaos Emeralds, cette émeraude va donner le rôle \1\x82Héro\4 à  \1\x83l'Innocent\4 qui là ramasse. Si vous êtes un \1\x83l'Innocent\4, c'est votre chance d'être un Héro et de sauver les gens des \1\x85Meurtriers\4!",
-			"Le rôle du \1\x82Héro\4 rôle ne change pas du \1\x84Sheriff\4 excepté quelques détails tel que quand le \1\x82Héro\4 tue un \1\x83Innocent\4 sont rôle ne se partagera pas et les deux mourront. un Héro ne lâchera pas une \1\x84Sheriff's Emerald\4 à sa mort.",
-			"\n* Basé sur le nombre de joueurs, il-est possible d'avoir plus d'un \1\x85Meurtrier\4 et \1\x84Sheriff\4 parmis les joueurs dans le round. par exemple, à partir de 7 joueurs ou plus,\1\x8B Des équipes\4 de \1\x85Meurtriers\4 et \1\x84Sheriffs\4 seront faites.",
-			"\1\x8BLes alliés\4 peuvent parler en utilisant la commande de console \1\x87SAYTEAM\4 (A noté que la touche sayteam fonctionne comme la touche say).",
-			"Si un\1\x8B Allié\4 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
+			"^7Par-apport aux gameplay^0\n",
+			"Expliquer plus-tôt dans les bases, le but des Sheriffs est d'éliminer tout les ^5Meurtriers^0, mais des situations de gameplay differentes peuvent arrivé:",
+			"\n* Si vous mourez, vous entrerez l'état ^FMort^0 , Les joueurs dans cet état ne peuvent pas réapparaître ni parler aux joueurs en vie, uniquement pas les autres joueurs Mort.",
+			"Vous pouvez pas parler via /PM avec les ^FMort^0.",
+			"aussi ^2N'ESSAYER PAS DE CHANGER DE NOM^0, plus de détails sur la prochaine page.",
+			"\n* la tâche du ^4Sheriff^0 est d'éliminer tout les ^5Meurtriers ^0 alentours, mais ils peuvent accidentellement tirer sur un ^3Innocent^0.",
+			"Si cela arrive, le ^4Sheriff^0 deviendra ^3Innocent^0 et un ^3Innocent^0 aléatoire va prendre sa place . La prochaine fois que vous vouler tirer sur quelqu'un en tant que ^4Sheriff^0 rfléchissez deux fois avant de tirer!",
+			"\n* Quand un ^5Meurtrier ^0 tue un ^4Sheriff^0 et qu'il restent des ^3Innocents^0 en vie, le Sheriff va lâcher là ^4Sheriff's Emerald^0 vers leur corps.",
+			"contraire aux 7 Chaos Emeralds, cette émeraude va donner le rôle ^2Héro^0 à  ^3l'Innocent^0 qui là ramasse. Si vous êtes un ^3l'Innocent^0, c'est votre chance d'être un Héro et de sauver les gens des ^5Meurtriers^0!",
+			"Le rôle du ^2Héro^0 rôle ne change pas du ^4Sheriff^0 excepté quelques détails tel que quand le ^2Héro^0 tue un ^3Innocent^0 sont rôle ne se partagera pas et les deux mourront. un Héro ne lâchera pas une ^4Sheriff's Emerald^0 à sa mort.",
+			"\n* Basé sur le nombre de joueurs, il-est possible d'avoir plus d'un ^5Meurtrier^0 et ^4Sheriff^0 parmis les joueurs dans le round. par exemple, à partir de 7 joueurs ou plus,^B Des équipes^0 de ^5Meurtriers^0 et ^4Sheriffs^0 seront faites.",
+			"^BLes alliés^0 peuvent parler en utilisant la commande de console ^7SAYTEAM^0 (A noté que la touche sayteam fonctionne comme la touche say).",
+			"Si un^B Allié^0 en attaque un autre, les deux recevron un message personnel qui sert de rappel. N'oublier pas que votre interaction \"amicale\" peut révéler quit vous êtes!"
 		},
 		{
-			"\1\x87".."Chosesà pas faire dans Murder Mystery\4\n",
-			"Règle No.1 pour tout les jeux: \1\x81Soyer gentil et amusez-vous!\4 A-part ça...",
-			"\n* Révéler son \1\x8BRole\4 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
+			"^7".."Chosesà pas faire dans Murder Mystery^0\n",
+			"Règle No.1 pour tout les jeux: ^1Soyer gentil et amusez-vous!^0 A-part ça...",
+			"\n* Révéler son ^BRole^0 ruine le \'Mystère\' (même en blague), Vous pouvez révéler le role d'une personne mais pas le votre.",
 			"\n* n'insulter pas les autres joueurs, Les blagues sont autoriser mais seulement amicalement. Personne va vous croîre si vous accuser a tord constamment.",
 			"\n* Rester \"AFK\" pendant trop de temps est un crime de guerre. Des bombes vont vous prendre par surprise si vous rester sans bouger trop longtemps.",
 			"\n* Ne changer pas de nom quand vous êtes mort, vous allez vous faire kick automatiquement du server. Changer de nom est acceptable si vous êtes en vie. Attender juste que la partie se finisse pour être sûr.",
 			"\nNe pas respecter ces règle peut vous faire recevoir un Kick automatique ou un bannissement venant d'un administrateur. Jouer fun mais avec respect!"
 		},
 		{
-			"\1\x87".."Conseils\4\n",
+			"^7".."Conseils^0\n",
 			"Voici des conseils collecter pour MM:",
-			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur \1\x82SPIN\4 pour vous déplacer de façon silencieuse;",
-			"\n* Quand vous ramasser une \1\x84Sherrif Emerald\4, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
-			"\n* Trouver vos\1\x8B alliés\4 avec la commande \1\x87SAYTEAM\4 permettera de savoir qui est dans votre équipe sans prendre de risque;",
-			"\n* Prendres des dégats de tout sauf un \1\x84Sherrif\4 ou un \1\x85Meurtrier\4 vous donne 3 secondes d'invincibilité;",
+			"\n* Si les capacitées des personnages est désactiver par les administrateurs, appuyer sur ^2SPIN^0 pour vous déplacer de façon silencieuse;",
+			"\n* Quand vous ramasser une ^4Sherrif Emerald^0, vous pourrez utiliser toutes les armes et rings que vous avez pris avant;",
+			"\n* Trouver vos^B alliés^0 avec la commande ^7SAYTEAM^0 permettera de savoir qui est dans votre équipe sans prendre de risque;",
+			"\n* Prendres des dégats de tout sauf un ^4Sherrif^0 ou un ^5Meurtrier^0 vous donne 3 secondes d'invincibilité;",
 			"\n* Chercher des zones pour vous cacher dans les cartes. Cela permet de la publicités pas voulu en moins;",
-			"\n* Si votres role est révéler, Vous pouvez changer de nom/couleur. \1\x81Les changement de nom sont exposé\4;",
-			"\n*La touche\1\x82 FIRENORMAL\4 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
+			"\n* Si votres role est révéler, Vous pouvez changer de nom/couleur. ^1Les changement de nom sont exposé^0;",
+			"\n*La touche^2 FIRENORMAL^0 Vous permets de mettre un coup de couteaux tant que vous avez des rings, les innocents en n'on pas."
 		}
 	}
 })

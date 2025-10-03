@@ -230,7 +230,7 @@ addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
 	--Player's minigame toggle
-	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and not ((p.mm.help) and (p.mm.help.active))
+	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and (not MM.hud.help.active)
 		if (not (p.lastbuttons & BT_CUSTOM3))
 			if (p.mm.minigame) --Disable minigame
 				if (not p.mm.minigame.timeout) p.mm.minigame = nil end --Disable only when the timeout timer is out

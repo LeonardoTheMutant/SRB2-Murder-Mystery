@@ -13,22 +13,22 @@ local cv_mute = CV_FindVar("mute")
 local function chatcolor2hudcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return "\x80" end
 	switch(c, {
-		[V_MAGENTAMAP] = do c = "\1\x81" end,
-		[V_YELLOWMAP] = do c = "\1\x82" end,
-		[V_GREENMAP] = do c = "\1\x83" end,
-		[V_BLUEMAP] = do c = "\1\x84" end,
-		[V_REDMAP] = do c = "\1\x85" end,
-		[V_GRAYMAP] = do c = "\1\x86" end,
-		[V_ORANGEMAP] = do c = "\1\x87" end,
-		[V_SKYMAP] = do c = "\1\x88" end,
-		[V_PURPLEMAP] = do c = "\1\x89" end,
-		[V_AQUAMAP] = do c = "\1\x8a" end,
-		[V_PERIDOTMAP] = do c = "\1\x8b" end,
-		[V_AZUREMAP] = do c = "\1\x8c" end,
-		[V_BROWNMAP] = do c = "\1\x8d" end,
-		[V_ROSYMAP] = do c = "\1\x8e" end,
-		[V_INVERTMAP] = do c = "\1\x8f" end,
-		['default'] = do c = "\1\x80" end
+		[V_MAGENTAMAP] = do c = "^1" end,
+		[V_YELLOWMAP] = do c = "^2" end,
+		[V_GREENMAP] = do c = "^3" end,
+		[V_BLUEMAP] = do c = "^4" end,
+		[V_REDMAP] = do c = "^5" end,
+		[V_GRAYMAP] = do c = "^6" end,
+		[V_ORANGEMAP] = do c = "^7" end,
+		[V_SKYMAP] = do c = "^8" end,
+		[V_PURPLEMAP] = do c = "^9" end,
+		[V_AQUAMAP] = do c = "^a" end,
+		[V_PERIDOTMAP] = do c = "^b" end,
+		[V_AZUREMAP] = do c = "^c" end,
+		[V_BROWNMAP] = do c = "^d" end,
+		[V_ROSYMAP] = do c = "^e" end,
+		[V_INVERTMAP] = do c = "^f" end,
+		['default'] = do c = "^0" end
 	})
 	return c
 end
@@ -148,8 +148,6 @@ end)
 --
 -- UTF-8 CHAT
 --
-
-local chat_on
 
 local HU_MAXMSGLEN = 223
 
@@ -294,16 +292,16 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 		local prefix = ""
 		local cstart = ""
 		local cend = ""
-		local adminchar = "\1\x82~\1\x83"
-		local remotechar = "\1\x82@\1\x83"
+		local adminchar = "^2~^3"
+		local remotechar = "^2@^3"
 		local fmt2
-		local textcolor = "\1\x80"
+		local textcolor = "^0"
 		local tempchar
 
 		--Is player dead?
 		if (s.spectator)
-			cstart = "\1\x86"
-			textcolor = "\1\x86"
+			cstart = "^6"
+			textcolor = "^6"
 		elseif (target == -1) --say team
 			cstart = MM.RoleColorHUD[s.mm.role]
 			textcolor = cstart
@@ -325,23 +323,23 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 		end
 
 		if (action)
-			fmt2 = "* %s%s%s%s \1\x82%s%s"
+			fmt2 = "* %s%s%s%s ^2%s%s"
 		elseif (target - 1 == pn) --To you
-			prefix = "\1\x82[PM]"
-			cstart = "\1\x82"
-			textcolor = "\1\x82"
-			fmt2 = "%s<%s%s>%s\1\x80 %s%s"
+			prefix = "^2[PM]"
+			cstart = "^2"
+			textcolor = "^2"
+			fmt2 = "%s<%s%s>%s^0 %s%s"
 		elseif (target > 0) --By you, to another player
 			dispname = players[target - 1].name or "MissingNo."
-			prefix = "\1\x82[TO]"
-			cstart = "\1\x82"
-			fmt2 = "%s<%s%s>%s\1\x80 %s%s"
+			prefix = "^2[TO]"
+			cstart = "^2"
+			fmt2 = "%s<%s%s>%s^0 %s%s"
 		elseif (target == 0) --To everyone
-			if (s.spectator) fmt2 = "%s{%s%s%s}\1\x86 %s%s"
-			else fmt2 = "%s<%s%s%s>\1\x80 %s%s" end
+			if (s.spectator) fmt2 = "%s{%s%s%s}^6 %s%s"
+			else fmt2 = "%s<%s%s%s>^0 %s%s" end
 		else --To your team
-			prefix = (MM.RoleColorHUD[s.mm.role] or "\1\x83").."[TEAM]"
-			fmt2 = "%s<%s%s>\1\x80%s %s%s"
+			prefix = (MM.RoleColorHUD[s.mm.role] or "^3").."[TEAM]"
+			fmt2 = "%s<%s%s>^0%s %s%s"
 		end
 		if (isdedicatedserver)
 			MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, origmsg))
@@ -376,7 +374,7 @@ local function CHAT_Ticker()
 			if valid(p)
 				--Player joined
 				if (not last_valid[i])
-					MAYA.SystemChatprint(string.format("\1\x82*%s has joined the game (player %d)", p.name, i))
+					MAYA.SystemChatprint(string.format("^2*%s has joined the game (player %d)", p.name, i))
 					last_valid[i] = true
 					last_name[i] = p.name
 				end
@@ -385,14 +383,14 @@ local function CHAT_Ticker()
 				if (last_name[i] and last_name[i] ~= p.name)
 					if (gamestate == GS_LEVEL and p.spectator) then MM.PunishPlayer(p, "Do not rename when dead!")
 					else
-						MAYA.SystemChatprint(string.format("\1\x82*%s renamed", last_name[i]))
+						MAYA.SystemChatprint(string.format("^2*%s renamed", last_name[i]))
 						last_name[i] = p.name
 					end
 				end
 			else
 				--Player left
 				if (last_valid[i])
-					MAYA.SystemChatprint(string.format("\1\x82*%s left the game", last_name[i] or "Player"))
+					MAYA.SystemChatprint(string.format("^2*%s left the game", last_name[i] or "Player"))
 					last_valid[i] = false
 					last_name[i] = nil
 				end
@@ -410,7 +408,7 @@ local function CHAT_Ticker()
 		MAYA.tick = $ + 1
 		MAYA.tick = $ & 7
 
-		if (chat_on)
+		if (MM.hud.chat.active)
 			--Count down the scroll timer
 			if (MAYA.chat_scrolltime > 0) then MAYA.chat_scrolltime = $ - 1 end
 		end
@@ -476,22 +474,19 @@ addHook("KeyDown", function(key)
 	--print(key.num)
 	shiftdown = leftshiftdown or rightshiftdown
 	ctrldown = leftctrldown or rightctrldown
-	altdown = leftaltdown or rightaltdownaltdown
+	altdown = leftaltdown or rightaltdown
 
 	local w_chat_table = {}
-	for i = 1, utf8.len(MAYA.w_chat) do w_chat_table[i] = utf8.sub(MAYA.w_chat, i, i) end
+	for i = 1, unicode.len(MAYA.w_chat) do w_chat_table[i] = unicode.sub(MAYA.w_chat, i, i) end
 
 	local c = key.num
 
-	if (chat_on)
+	if (MM.hud.chat.active)
 		if (c > 21) and (c < 127) and not (ctrldown and c == KEY_SPACE)
-			if ((MAYA.CHAT_MUTE or utf8.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
+			if ((MAYA.CHAT_MUTE or unicode.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
 
 			local chr
-			--if (c == KEY_SPACE)
-			--	chr = " "
-			--else
-			local modifiers = bool2int(shiftdown) + bool2int(altdown)*2 + 1 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
+			local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
 
 			if (MM.text[consoleplayer.keyboardLayout]["KEYBOARD"] and MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers][c])
 			chr = MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers][c]
@@ -530,13 +525,13 @@ addHook("KeyDown", function(key)
 				MAYA.SendChatMessage();
 			end
 
-			chat_on = false
+			MM.hud.chat.active = false
 			MAYA.c_input = 1
 			MAYA.chat_scrollmedown = true -- you hit enter, so you might wanna autoscroll to see what you just sent. :)
 			input.setMouseGrab(true)
 		elseif (c == KEY_ESCAPE or ((c == input.gameControlToKeyNum(GC_TALKKEY) or c == input.gameControlToKeyNum(GC_TEAMKEY)) and c >= KEY_MOUSE1))
 			input.setMouseGrab(true)
-			chat_on = false
+			MM.hud.chat.active = false
 			MAYA.c_input = 1
 		elseif ((c == KEY_UPARROW or c == KEY_MOUSEWHEELUP) and MAYA.chat_scroll > 0)
 			MAYA.chat_scroll = $ - 1
@@ -549,7 +544,7 @@ addHook("KeyDown", function(key)
 		elseif (c == KEY_LEFTARROW and MAYA.c_input != 1)
 			if (ctrldown) MAYA.c_input = M_JumpWordReverse(MAYA.w_chat, MAYA.c_input)
 			else MAYA.c_input = $ - 1 end
-		elseif (c == KEY_RIGHTARROW and MAYA.c_input <= utf8.len(MAYA.w_chat))
+		elseif (c == KEY_RIGHTARROW and MAYA.c_input <= unicode.len(MAYA.w_chat))
 			if (ctrldown) MAYA.c_input = $ + M_JumpWord(w_chat_table[MAYA.c_input + 1])
 			else MAYA.c_input = $ + 1 end
 		elseif (c == KEY_BACKSPACE)
@@ -559,7 +554,7 @@ addHook("KeyDown", function(key)
 			MAYA.c_input = $ - 1
 			MAYA.w_chat = table.concat(w_chat_table)
 		elseif (c == KEY_DEL)
-			if (MAYA.CHAT_MUTE or MAYA.c_input > utf8.len(MAYA.w_chat)) return true end
+			if (MAYA.CHAT_MUTE or MAYA.c_input > unicode.len(MAYA.w_chat)) return true end
 
 			table.remove(w_chat_table, MAYA.c_input)
 			MAYA.w_chat = table.concat(w_chat_table)
@@ -569,7 +564,7 @@ addHook("KeyDown", function(key)
 	else
 		if (c == input.gameControlToKeyNum(GC_TALKKEY) and not MAYA.OLD_MUTE)
 			input.setMouseGrab(false)
-			chat_on = true
+			MM.hud.chat.active = true
 			MAYA.w_chat = ""
 			MAYA.teamtalk = false
 			MAYA.chat_scrollmedown = true
@@ -578,7 +573,7 @@ addHook("KeyDown", function(key)
 		end
 		if (c == input.gameControlToKeyNum(GC_TEAMKEY) and not MAYA.OLD_MUTE)
 			input.setMouseGrab(false)
-			chat_on = true
+			MM.hud.chat.active = true
 			MAYA.w_chat = ""
 			MAYA.teamtalk = true
 			MAYA.chat_scrollmedown = true
@@ -596,7 +591,7 @@ hud.add(function(v)
 	MAYA.CHAT_MUTE = (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
 	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))
 
-	if (chat_on)
+	if (MM.hud.chat.active)
 		MAYA.DrawChat(v)
 
 		if (MM.debug)
@@ -622,7 +617,7 @@ hud.add(function(v)
 	MAYA.CHAT_MUTE = (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
 	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))
 
-	if (chat_on)
+	if (MM.hud.chat.active)
 		MAYA.DrawChat(v)
 
 		if (MM.debug)

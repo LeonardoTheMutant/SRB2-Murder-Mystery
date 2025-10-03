@@ -1,5 +1,5 @@
 if (MM)
-	error("LTM's Murder Mystery v"..MM.version.." is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 
@@ -11,14 +11,14 @@ rawset(_G, "MM", {
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
-		"\x8F" --Dead
+		"\x8F"  --Dead
 	},
 	RoleColorHUD = { --Text Color codes for HUD text
-		"\1\x85", --Murderer
-		"\1\x84", --Sheriff
-		"\1\x83", --Innocent
-		"\1\x82", --Hero
-		"\1\x8F" --Dead
+		"^5", --Murderer
+		"^4", --Sheriff
+		"^3", --Innocent
+		"^2", --Hero
+		"^F"  --Dead
 	},
 	hud = { --variables that control the HUD renderer
 		game = { --Main Game HUD
@@ -49,8 +49,14 @@ rawset(_G, "MM", {
 				kills2 = {x=132},
 			}
 		},
+		chat = {
+			active = false
+		},
+		help = { --MMHELP UI
+			active = false
+		},
 		minigames = {
-			active = false,
+			active = false
 		}
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
@@ -307,6 +313,7 @@ CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_
 --
 
 --Load libraries
+dofile("LIBRARIES/UNICODE.LUA")
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
 dofile("LIBRARIES/DOMINICA.LUA")
@@ -355,4 +362,4 @@ dofile("MAPS/MAPKE.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
 
-if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery\x80 was designed for SRB2 v2.2.15 only. You can ignore this warning, but incompatibilities may occur", 0) end
+if (MODVERSION != 56) error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 was designed for \x84SRB2 v2.2.15\x80 only. You can ignore this warning, but incompatibilities may occur", 0) end

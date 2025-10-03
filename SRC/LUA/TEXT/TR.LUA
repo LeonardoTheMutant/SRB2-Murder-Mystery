@@ -149,12 +149,12 @@ MM.AddLang("TR", {
 	},
 	["HUD_SCORESTAB"]={
 		"Oyun türünde yeniyseniz konsola",
-		"\1\x87MMHELP\4 yazın.",
+		"^7MMHELP^0 yazın.",
 		"Buradaki dili değiştirmek için",
-		"\1\x87MMLANG\4 komutunu kullanın",
+		"^7MMLANG^0 komutunu kullanın",
 		"",
 		"",
-		"\1\x82İyi eğlenceler!"
+		"^2İyi eğlenceler!"
 	},
 	["HUD_ROLETARGET"] = {
 		"",
@@ -168,30 +168,30 @@ MM.AddLang("TR", {
 		"Masumlar"
 	},
 	["HUD_DEAD"]={
-		"\1\x8FÖldün",
+		"^FÖldün",
 		"Yeninden doğamaz veya",
 		"ölmemiş insanlar ile konuşamazsın"
 	},
 	["HUD_MIDJOIN"]={
-		"\1\x84Tur ortasında\4 katıldınız, lütşn bu turun bitmesini bekleyin.",
-		"Beklerken lütşn \1\x87MMHELP\4 konsol komutundaki oyun kurallarını okuyunuz."
+		"^4Tur ortasında^0 katıldınız, lütşn bu turun bitmesini bekleyin.",
+		"Beklerken lütşn ^7MMHELP^0 konsol komutundaki oyun kurallarını okuyunuz."
 	},
 	["HUD_ALONE"]={
-		"Oyunun başlaması için en az \1\x84".."2 oyuncu\4",
-		"gereklidir, Lütşn\1\x84 bir oyuncunun\4 daha",
+		"Oyunun başlaması için en az ^4".."2 oyuncu^0",
+		"gereklidir, Lütşn^4 bir oyuncunun^0 daha",
 		"gelmesini bekleyin"
 	},
 	["HUD_SNEAKING"]="Sinsice...",
 	["HUD_SHOWDOWN"]="Hesaplaşma düellosu!",
 	["HUD_MINIGAME"]={
-		["PRESS"]="\1\x82 CUSTOM3\4'e bas ve",
+		["PRESS"]="^2 CUSTOM3^0'e bas ve",
 		["LEAVE"]="ayrıl",
 		["CANCEL"]="iptal",
 		["SPECTATE"]="seyret",
 		["DUEL"]="bir mini oyun düellosu",
-		["REQUEST"]="bir \1\x87PONG\4 oyunu talep edin",
-		["START"]="bir \1\x87\"SONIC RUN\"\4 oyunu başlat",
-		["ACCEPT"]="\1\x87PONG\4 meydan okumasını kabul et!",
+		["REQUEST"]="bir ^7PONG^0 oyunu talep edin",
+		["START"]="bir ^7\"SONIC RUN\"^0 oyunu başlat",
+		["ACCEPT"]="^7PONG^0 meydan okumasını kabul et!",
 		["WAIT"]="Rakibin kabul etmesi bekleniyor...",
 		["SPECTATING"]="Bir düello izleniyor...",
 		["BORED"]="Sıklındın mı?",
@@ -201,66 +201,66 @@ MM.AddLang("TR", {
 	["HUD_WINNERS"]="Kazananlar:",
 	["HUD_WIN"]={
 		"BERABERE!",
-		"\1\x85KATİLLER",
-		"\1\x83MASUMLAR"
+		"^5KATİLLER",
+		"^3MASUMLAR"
 	},
 	["HUD_PAST"]="GEÇMİŞ",
 	["HUD_FUTURE"]="GELECEK",
 	["HUD_MMHELP_UI"]={
-		"Kaydırmak ıçın \1\x87JUMP\4/\1\x87SPIN\4 kullanın, sayfalar arası geçiş yapmak ıçın \1\x87Next\4/\1\x87Prev Weapon\4 kullanın",
-		"HELP'den ayrılmak için\1\x87 CUSTOM1\4'a basın"
+		"Kaydırmak ıçın ^7JUMP^0/^7SPIN^0 kullanın, sayfalar arası geçiş yapmak ıçın ^7Next^0/^7Prev Weapon^0 kullanın",
+		"HELP'den ayrılmak için^7 CUSTOM1^0'a basın"
 	},
 	["HUD_MMHELP"]={
 		{
-			"\1\x87Murder Mystery'e hoşgeldiniz!",
-			"\1\x87Popüler \1\x87çok oyunculu oyunun \1\x87SRB2 yorumu!\4\n",
-			"Oyunun amacı, diğer herkes\4 ölmeden\1\x83 önce tüm \1\x85Katiller\4'i bulup ortadan kaldırmaktır. Bu oyun türü daha çok MATCH'a benzer, bu yüzden bu oyun türü için nişan alma ve atış becerilerinize ihtiyacınız olacak.",
+			"^7Murder Mystery'e hoşgeldiniz!",
+			"^7Popüler ^7çok oyunculu oyunun ^7SRB2 yorumu!^0\n",
+			"Oyunun amacı, diğer herkes^0 ölmeden^3 önce tüm ^5Katiller^0'i bulup ortadan kaldırmaktır. Bu oyun türü daha çok MATCH'a benzer, bu yüzden bu oyun türü için nişan alma ve atış becerilerinize ihtiyacınız olacak.",
 			"Oynamaya başlamadan önce bazı temel bilgileri öğrenmeniz gerekiyor...",
 			"\nHer turun başında, oyun sırasındaki görevinizi belirleyen bir rol atanacaktır. Alabileceğiniz olası roller şunlardır:",
-			" * \1\x85Katil\4 - Ölümcül bir suçlu. Onların görevi herkesi ortadan kaldırmaktır.",
-			" * \1\x84Şerif\4  - \1\x85Katil(ler)\4i bulmak ve ortadan kaldırmakla görevlidir.",
-			" * \1\x83Masum\4 - Öldürülmekten kaçınmalı ve \1\x85Katilin\4 kimliğinin belirlenmesine yardımcı olmalıdır. Oyun kurulumuna bağlı olarak, 100 yüzük (veya belirli karakterler için 50 yüzük) toplayarak kendilerini savunmak için bir \1\x85Kırmızı Yüzük\4 elde edebilirler.",
+			" * ^5Katil^0 - Ölümcül bir suçlu. Onların görevi herkesi ortadan kaldırmaktır.",
+			" * ^4Şerif^0  - ^5Katil(ler)^0i bulmak ve ortadan kaldırmakla görevlidir.",
+			" * ^3Masum^0 - Öldürülmekten kaçınmalı ve ^5Katilin^0 kimliğinin belirlenmesine yardımcı olmalıdır. Oyun kurulumuna bağlı olarak, 100 yüzük (veya belirli karakterler için 50 yüzük) toplayarak kendilerini savunmak için bir ^5Kırmızı Yüzük^0 elde edebilirler.",
 			"\nOynamaya başlamak için gereken tüm temel bilgiler budur, daha fazla bilgi için bu kılavuzu sonuna kadar okuyun",
-			"\nHUD arayüzünün dilini ve bu kılavuzu tercih ettiğiniz dile değiştirmek için \1\x87MMLANG\4 komutunu kullanın."
+			"\nHUD arayüzünün dilini ve bu kılavuzu tercih ettiğiniz dile değiştirmek için ^7MMLANG^0 komutunu kullanın."
 		},
 		{
-			"\1\x87Oynanış durumları hakkında\4\n",
-			"Temel bilgilerde daha önce açıklandığı gibi, Şeriflerin amacı tüm \1\x85Katil(ler)\4'i ortadan kaldırmaktır, ancak farklı oyun durumları ortaya çıkabilir:",
-			"\n* Eğer Ölürseniz,\1\x8F Ölü\4 durumuna girersiniz. Bu durumdaki oyuncular yeniden doğamaz veya hala hayatta olan oyuncularla küresel olarak konuşamaz, mesajları yalnızca diğer\1\x8F ölü\4 oyuncular tarafından görülebilir.",
-			"\1\x8F Ölü\4 iken hala hayatta olan oyuncularla konuşamazsın ve /PM yapamazsınız.",
-			"Kırıcılar, çukurlara düşme veya suda boğulma gibi harita tehlikelerinden ölmek de sizi turun geri kalanında \1\x8FÖlü\4 yapacaktır.",
-			"Ayrıca\1\x82KENDİNİZİ YENİDEN ADLANDIRMAYA ÇALIŞMAYIN\4, bununla ilgili daha fazla ayrıntı diğer sayfada.",
-			"\n* \1\x84Şerif'in\4 görevi, etraftaki tüm \1\x85Katiller\4'i ortadan kaldırmaktır, ancak kazara bir \1\x83Masum\4'u vurmaları mümkündür.",
-			"Eğer bir \1\x84Şerif\4 \1\x83Masum\4u vurursa , rollerini kaybedecekler ve \1\x83Masum\4 olacaklar: Rastgele bir \1\x83Masum\4 daha sonra sessizce \1\x84Şerif\4'in rolünü üstlenecektir. Tetiği çekmeden önce iki kez düşünün!",
-			"\n* Bir \1\x85Katil\4, hala hayatta olan \1\x83Masum\4lar varken bir \1\x84Şerif\4'i öldürürse, \1\x84Şerif'in Zümrütü\4 cesedinin yanına düşecektir.",
-			"Bir \1\x83Masum\4, \1\x84Şerif'in Zümrütü\4'nü aldığında, bir \1\x82Kahraman\4 olurlar. \1\x82Kahraman\4lar \1\x84Şerif\4lere benzer, ancak bazı farklılıklarla birlikte gelir:",
-			"  - Bir \1\x82Kahraman\4 bir \1\x83Masum\4u öldürürse, her ikisi de ölür ve rolleri yeniden atanmaz;",
-			"  - \1\x82Kahramanlar\4 öldükten sonra \1\x84Şerif'in Zümrütü\4'nü düşrmezler.",
-			"Oyuncu sayısının daha yüksek olduğu turlarda birden fazla \1\x85Katil\4ler ve \1\x84Şerif\4ler olabilir. Bu turlar için \1\x85Katil\4ler ve \1\x84Şerif\4'den oluşan \1\x8ATakım\4lar oluşturulur.",
-			"\1\x8ATakım arkadaşları\4, konsoldaki \1\x87SAYTEAM\4 komutunu kullanarak (SAYTEAM düğmesi normal sohbet düğmesiyle aynı şekilde çalışır) veya mesajı otomatik olarak ekip üyelerine gönderen \1\x88%\4 simgesiyle bir mesaj başlatarak birbirleriyle sohbet edebilirler.",
-			"Yanlışlıkla bir \1\x8ATakım arkadaşı\4 saldırırsanız, her iki oyuncu da kişisellştirilmiş bir uyarı alır. Dikkatli olun - bu tür ekip etkileşimleri başkalarına \1\x8Brol\4'lerinizi ifşa edebilir!"
+			"^7Oynanış durumları hakkında^0\n",
+			"Temel bilgilerde daha önce açıklandığı gibi, Şeriflerin amacı tüm ^5Katil(ler)^0'i ortadan kaldırmaktır, ancak farklı oyun durumları ortaya çıkabilir:",
+			"\n* Eğer Ölürseniz,^F Ölü^0 durumuna girersiniz. Bu durumdaki oyuncular yeniden doğamaz veya hala hayatta olan oyuncularla küresel olarak konuşamaz, mesajları yalnızca diğer^F ölü^0 oyuncular tarafından görülebilir.",
+			"^F Ölü^0 iken hala hayatta olan oyuncularla konuşamazsın ve /PM yapamazsınız.",
+			"Kırıcılar, çukurlara düşme veya suda boğulma gibi harita tehlikelerinden ölmek de sizi turun geri kalanında ^FÖlü^0 yapacaktır.",
+			"Ayrıca^2KENDİNİZİ YENİDEN ADLANDIRMAYA ÇALIŞMAYIN^0, bununla ilgili daha fazla ayrıntı diğer sayfada.",
+			"\n* ^4Şerif'in^0 görevi, etraftaki tüm ^5Katiller^0'i ortadan kaldırmaktır, ancak kazara bir ^3Masum^0'u vurmaları mümkündür.",
+			"Eğer bir ^4Şerif^0 ^3Masum^0u vurursa , rollerini kaybedecekler ve ^3Masum^0 olacaklar: Rastgele bir ^3Masum^0 daha sonra sessizce ^4Şerif^0'in rolünü üstlenecektir. Tetiği çekmeden önce iki kez düşünün!",
+			"\n* Bir ^5Katil^0, hala hayatta olan ^3Masum^0lar varken bir ^4Şerif^0'i öldürürse, ^4Şerif'in Zümrütü^0 cesedinin yanına düşecektir.",
+			"Bir ^3Masum^0, ^4Şerif'in Zümrütü^0'nü aldığında, bir ^2Kahraman^0 olurlar. ^2Kahraman^0lar ^4Şerif^0lere benzer, ancak bazı farklılıklarla birlikte gelir:",
+			"  - Bir ^2Kahraman^0 bir ^3Masum^0u öldürürse, her ikisi de ölür ve rolleri yeniden atanmaz;",
+			"  - ^2Kahramanlar^0 öldükten sonra ^4Şerif'in Zümrütü^0'nü düşrmezler.",
+			"Oyuncu sayısının daha yüksek olduğu turlarda birden fazla ^5Katil^0ler ve ^4Şerif^0ler olabilir. Bu turlar için ^5Katil^0ler ve ^4Şerif^0'den oluşan ^ATakım^0lar oluşturulur.",
+			"^ATakım arkadaşları^0, konsoldaki ^7SAYTEAM^0 komutunu kullanarak (SAYTEAM düğmesi normal sohbet düğmesiyle aynı şekilde çalışır) veya mesajı otomatik olarak ekip üyelerine gönderen ^8%^0 simgesiyle bir mesaj başlatarak birbirleriyle sohbet edebilirler.",
+			"Yanlışlıkla bir ^ATakım arkadaşı^0 saldırırsanız, her iki oyuncu da kişisellştirilmiş bir uyarı alır. Dikkatli olun - bu tür ekip etkileşimleri başkalarına ^Brol^0'lerinizi ifşa edebilir!"
 		},
 		{
-			"Murder \1\x87Mystery\4'de yapılması kötü olan \1\x87şeyler\4\n",
-			"Kural 1: \1\x82Nazik olun ve\1\x82 eğlenin!\4 İşte bazı ek yönergeler:",
-			"\n* \1\x8ARol\4'ün kendini şımartması oyunu bir 'gizem' yapmaz, eğer eminseniz başkasının rolünü söyleyebilirsiniz, ancak kendinizinkini asla söylemeyin.",
+			"Murder ^7Mystery^0'de yapılması kötü olan ^7şeyler^0\n",
+			"Kural 1: ^2Nazik olun ve^2 eğlenin!^0 İşte bazı ek yönergeler:",
+			"\n* ^ARol^0'ün kendini şımartması oyunu bir 'gizem' yapmaz, eğer eminseniz başkasının rolünü söyleyebilirsiniz, ancak kendinizinkini asla söylemeyin.",
 			"\n* Diğer oyunculara hakaret etmekten kaçının. Arkadaşça şakalar iyidir, ancak sürekli suçlamalar veya düşmanca davranışlar başkalarının size güvenmemesine neden olur.",
 			"\n* AFK olmayın. Çok uzun süre hareketsiz kalırsanız, üzerinize bir bomba atılacak ve oyundan çıkarılacaksınız.",
 			"\n* Ölüyken bir tur sırasında kendinizi yeniden adlandırmayın, bunu yapmak sizi sunucudan atacaktır. Hayattaysanız yeniden adlandırabilirsiniz. Aranın güvenli bir şekilde yeniden adlandırılmasını bekleyin.",
-			"Eğer bir \1\x85Katil\4 iseniz \1\x84Şerif'in Zümrütü\4 çevresinde kamp yapmaktan kaçının. Zümrütün yanında 30 saniye durmak, oyundan atılmanıza neden olacaktır.",
+			"Eğer bir ^5Katil^0 iseniz ^4Şerif'in Zümrütü^0 çevresinde kamp yapmaktan kaçının. Zümrütün yanında 30 saniye durmak, oyundan atılmanıza neden olacaktır.",
 			"\nBu kurallardan birini ihlal etmek, oyundan atılma veya bazı durumlarda Yönetici tarafından yasaklanma ile sonuçlanabilir. Adil oynayın ve eğlenin!"
 		},
 		{
-			"\1\x87Faydalı ipuçları\4\n",
+			"^7Faydalı ipuçları^0\n",
 			"Murder Mystery'deki oyununuz sırasında size yardımcı olabilecek bazı ipuçları topladık:",
-			"\n* Karakter yetenekleri yönetici tarafından devre dışı bırakılırsa, iz birakmadan veya gürültü yapmadan gizlice dolaşmak için \1\x87SPIN\4 tuşuna basın;",
-			"\n* \1\x84Şerif'in Zümrütü\4'nü aldığınızda, önceden topladığınız tüm silahlara ve yüzüklere erişebileceksiniz;",
-			"\n* \1\x87SAYTEAM\4 komutunu kullanarak \1\x8Atakım arkadaşı\4'ınızın kim olduğunu bulmak, onları vurmaktan kaçınmanızı ve yanlışlıkla rolünüzü ortaya çıkarmanızı sağlayacağı için yardımcı olacaktır;",
+			"\n* Karakter yetenekleri yönetici tarafından devre dışı bırakılırsa, iz birakmadan veya gürültü yapmadan gizlice dolaşmak için ^7SPIN^0 tuşuna basın;",
+			"\n* ^4Şerif'in Zümrütü^0'nü aldığınızda, önceden topladığınız tüm silahlara ve yüzüklere erişebileceksiniz;",
+			"\n* ^7SAYTEAM^0 komutunu kullanarak ^Atakım arkadaşı^0'ınızın kim olduğunu bulmak, onları vurmaktan kaçınmanızı ve yanlışlıkla rolünüzü ortaya çıkarmanızı sağlayacağı için yardımcı olacaktır;",
 			"\n* 3 saniyeliğine ölümsüzlük kazanmak için lav, dikenler ve ateş gibi engellerden zarar alabilirsiniz;",
 			"\n* Haritada saklanacak bir yer aramaya çalışın. Bazen istenmeyen tanıtımlardan kurtulmaya yardımcı olur;",
-			"\n* Rolünüz sızdırılırsa, kendinizi yeniden adlandırabilir ve/veya ten rengini değiştirebilirsiniz. \1\x82Yeniden adlandırmanızın sohbette gösterileceğini unutmayın\4;",
-			"\n* Yüzükleriniz olduğu sürece\1\x86 Bıçak\4'ı her yerde kullanmak için\1\x87 FIRENORMAL\4 düğmesini kullanın.\1\x86 Bıçak\4 kullanırken gizlice girmek, saldırınızın sessiz olmasını sağlar.",
-			"\n* HUD arayüzünün dilini tercih ettiğiniz dile değiştirmek için \1\x87MMLANG\4 komutunu kullanın."
+			"\n* Rolünüz sızdırılırsa, kendinizi yeniden adlandırabilir ve/veya ten rengini değiştirebilirsiniz. ^2Yeniden adlandırmanızın sohbette gösterileceğini unutmayın^0;",
+			"\n* Yüzükleriniz olduğu sürece^6 Bıçak^0'ı her yerde kullanmak için^7 FIRENORMAL^0 düğmesini kullanın.^6 Bıçak^0 kullanırken gizlice girmek, saldırınızın sessiz olmasını sağlar.",
+			"\n* HUD arayüzünün dilini tercih ettiğiniz dile değiştirmek için ^7MMLANG^0 komutunu kullanın."
 		}
 	}
 })

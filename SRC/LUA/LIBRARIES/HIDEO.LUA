@@ -3,225 +3,26 @@
 --
 -- A HUD/Video library
 -- Yeah, "H" in "Hideo" stands for HUD and the rest 4 letters are from "Video" (nah, that's just a big Hideo Kojima refference)
-
-
-
--- UTF-8 HELPER LIBRARY
 --
--- https://github.com/blitmap/lua-utf8-simple
-
-rawset(_G, "utf8", {})
-local pattern = '[%z\1-\127\194-\244][\128-\191]*'
-
--- helper function
-local posrelat = function (pos, len)
-	if (pos < 0) then pos = len + pos + 1 end
-	return pos
-end
-
--- maps f over s's utf8 characters f can accept args: (visual_index, utf8_character, byte_index)
-utf8.map = function(s, f, no_subs)
-	local i = 0
-
-	if no_subs then
-		for b, e in s:gmatch('()' .. pattern .. '()') do
-			i = i + 1
-			local c = e - b
-			f(i, c, b)
-		end
-	else
-		for b, c in s:gmatch('()(' .. pattern .. ')') do
-			i = i + 1
-			f(i, c, b)
-		end
-	end
-end
-
--- generator for the above -- to iterate over all utf8 chars
-utf8.chars = function(s, no_subs)
-	return coroutine.wrap(function () return utf8.map(s, coroutine.yield, no_subs) end)
-end
-
--- returns the number of characters in a UTF-8 string
-utf8.len = function(s)
-	-- count the number of non-continuing bytes
-	return select(2, s:gsub('[^\128-\193]', ''))
-end
-
--- replace all utf8 chars with mapping
-utf8.replace = function(s, map)
-	return s:gsub(pattern, map)
-end
-
--- reverse a utf8 string
-utf8.reverse = function(s)
-	-- reverse the individual greater-than-single-byte characters
-	s = s:gsub(pattern, function (c) return #c > 1 and c:reverse() end)
-
-	return s:reverse()
-end
-
--- strip non-ascii characters from a utf8 string
-utf8.strip = function(s)
-	return s:gsub(pattern, function (c) return #c > 1 and '' end)
-end
-
--- like string.sub() but i, j are utf8 strings
--- a utf8-safe string.sub()
-utf8.sub = function(s, i, j)
-	local l = utf8.len(s)
-
-	i =       posrelat(i, l)
-	j = j and posrelat(j, l) or l
-
-	if (i < 1) then i = 1 end
-	if (j > l) then j = l end
-
-	if (i > j) then return '' end
-
-	local diff = j - i
-	local iter = utf8.chars(s, true)
-
-	-- advance up to i
-	for _ = 1, i - 1 do iter() end
-
-	local c, b = select(2, iter())
-
-	-- i and j are the same, single-charaacter sub
-	if (not diff) then
-		return string.sub(s, b, b + c - 1)
-	end
-
-	i = b
-
-	-- advance up to j
-	for _ = 1, diff - 1 do iter() end
-
-	c, b = select(2, iter())
-
-	return string.sub(s, i, b + c - 1)
-end
-
-utf8.decode = function(str, i)
-    local c = str:byte(i)
-    if not c then return nil, 0 end
-    if c < 0x80 then
-        return c, 1
-    elseif c < 0xE0 then
-        local c2 = str:byte(i+1)
-        if not c2 then return nil, 1 end
-        return ((c % 0x20) * 0x40) + (c2 % 0x40), 2
-    elseif c < 0xF0 then
-        local c2 = str:byte(i+1)
-        local c3 = str:byte(i+2)
-        if not c2 or not c3 then return nil, 1 end
-        return ((c % 0x10) * 0x1000) + ((c2 % 0x40) * 0x40) + (c3 % 0x40), 3
-    elseif c < 0xF8 then
-        local c2 = str:byte(i+1)
-        local c3 = str:byte(i+2)
-        local c4 = str:byte(i+3)
-        if not c2 or not c3 or not c4 then return nil, 1 end
-        return ((c % 0x08) * 0x40000) + ((c2 % 0x40) * 0x1000) + ((c3 % 0x40) * 0x40) + (c4 % 0x40), 4
-    end
-    return nil, 1
-end
-
---https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
---Return an integer value of a single Unicode symbol
-utf8.byte = function(c)
-    local b1, b2 = c:byte(1, 2)
-    local b3, b4 = c:byte(3, 4)
-    if (b1 < 128) then return b1 --b1 is less than 128, it's a single-byte character
-    elseif (b1 < 194) then return nil
-    elseif (b1 < 224) then return (b1 - 192) * 64 + (b2 - 128)
-    elseif (b1 < 240) then return (b1 - 192) * 64 + (b2 - 128)
-    elseif (b1 < 245) then return (b1 - 240) * 262144 + (b2 - 128) * 4096 + (b3 - 128) * 64 + (b4 - 128)
-	else return nil end
-end
-
---Iterator function that returns integer values of all symbols in the string
---ChatGPT helped with this one
-utf8.bytes = function(str)
-	local pos = 1
-	local isTextCode = false
-
-    return do
-        if (pos > #str) then return nil end
-
-        local b1 = str:byte(pos)
-		local bytes = 0
-		local codepoint
-
-        --"Next byte is an SRB2 text code" (Start of Header)
-        if (b1 == 0x01) then
-			pos = $ + 1
-			if (pos <= #str) then
-				isTextCode = true
-                return b1 --return 1
-            else
-                error("Encountered SOH (\"Start of Header\", 0x01) character at the very end of the string")
-            end
-		elseif (isTextCode) then --Text color code
-			pos = $ + 1
-			isTextCode = false
-			return b1
-		elseif (b1 == 0x04) then --Text Formatting reset (End of Transmission)
-            pos = pos + 1
-            return b1 --return 4
-		elseif (b1 < 0x80) then
-            -- 1-byte ASCII (U+0000 - U+007F)
-            codepoint = b1
-            bytes = 1
-
-        -- 2-byte UTF-8
-		elseif (b1 >= 0xC2) and (b1 <= 0xDF) then
-			local b2 = str:byte(pos + 1)
-			if (b2 and (b2 >= 0x80) and (b2 <= 0xBF)) then
-				codepoint = ((b1 % 32) * 64) | (b2 % 64)
-				bytes = 2
-			else
-				codepoint = 0xFFFD
-				bytes = 1
-			end
-
-		-- 3-byte UTF-8
-		elseif (b1 >= 0xE0) and (b1 <= 0xEF) then
-			local b2 = str:byte(pos + 1)
-			local b3 = str:byte(pos + 2)
-			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
-				codepoint = ((b1 % 16) * 4096) | ((b2 % 64) * 64) | (b3 % 64)
-				bytes = 3
-
-				-- Reject UTF-16 surrogate pairs (U+D800–DFFF)
-				if ((codepoint >= 0xD800) and (codepoint <= 0xDFFF)) then
-					codepoint = 0xFFFD
-					bytes = 3
-				end
-			else
-				codepoint = 0xFFFD
-				bytes = 1
-			end
-        else --Malformed sequence
-            codepoint = 0xFFFD
-            bytes = 1
-        end
-
-        pos = $ + bytes
-        return codepoint
-    end
-end
+-- DEPENDENCIES: Unicode
 
 
 
---
--- HIDEO LIBRARY
---
+assert(unicode, "\x88HIDEO\x80: Unicode library is not loaded! Cannot work without it!")
 rawset(_G, "HIDEO", {font = {}})
 
 HIDEO.debug = true
 
 HIDEO.DebugPrint = function(str)
 	if (HIDEO.debug) print("\x88HIDEO\x80: "..str) end
+end
+
+HIDEO.GetColorFlagFromHexDigit = function(c)
+	if (type(c) == "string") then c = c:byte() end
+	if (c >= 48 and c <= 57) then return (c - 48) * 4096 end --'0' - '9'
+	if ((c >= 65 and c <= 70)) then return (c - 55) * 4096 end --'A' - 'F'
+	if ((c >= 97 and c <= 102)) then return (c - 87) * 4096 end --'a' - 'f'
+	return 0
 end
 
 --
@@ -238,6 +39,7 @@ HIDEO.LoadUnicodeFont = function(v, a)
 	if (v.patchExists(patchname))
 		HIDEO.font[a] = v.cachePatch(patchname)
 		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", a).."\x80 into the Unicode Font Table")
+		return HIDEO.font[a]
 	end
 end
 
@@ -250,7 +52,7 @@ HIDEO.GetUnicodeFont = function(v, chr)
 
 	if (HIDEO.font[chr]) return HIDEO.font[chr]
 	else
-		HIDEO.LoadUnicodeFont(v, chr, chr) --try to load the character if the slot is empty
+		HIDEO.LoadUnicodeFont(v, chr) --try to load the character if the slot is empty
 		if (HIDEO.font[chr]) then return HIDEO.font[chr]
 		else return HIDEO.font[0xFFFD] end --if character is still not found in the font table, replace the character with the "Replacement Character" (U+FFFD)
 	end
@@ -258,9 +60,6 @@ end
 
 --Draw strings encoded in UTF-8 formatting
 --The function mostly assumes you have font with 8x8 pixel characters
---Special escape codes:
---	\1 - Interpret the following byte as the SRB2 color & translucency code instead of the Unicode character
---	\4 - Clear the Color & Translucency effects (shortcut to the "\1\x80" text code sequence)
 HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
 	if (not str) or (type(str) != "string") error("HIDEO.DrawStrUnicode() argument #5: string expected") end
@@ -285,45 +84,35 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 	local cy = y --leftover from the older code, used as an alias
 
 	--init variables
-	local chr
-	local isTextCode = false
+	local chr, isTextCode
 	local color = v.getStringColormap(0) --default to white color
-	local translucency = 0
 	
 	--draw the string
-	for chr in utf8.bytes(str) do
-
-		--SOH (Start of Header)
-		--Tell the interpreter "Hey, the next character is not a unicode symbol but a text code to change the color & translucency!"
-		if (chr == 0x01)
-			isTextCode = true
-			continue
-		end
-
-		--EOH (End of Transmission), clear the text formating
-		if (chr == 0x04)
-			color = v.getStringColormap(0)
-			translucency = 0
-			continue
-		end
-
+	for i, c, b in unicode.chars(str) do
+		local chr = unicode.code(c)
 		--newline
 		if (chr == 0x0A)
 			cx = x --carriage return
 			cy = $ + (8 / small)
 		end
 
-		--characters from 0x80 to 0xFF (128 - 255 in decimal) set the color AND translucency
-		if ((chr >= 0x80) and (chr <= 0xFF) and isTextCode) then
-			color = v.getStringColormap((chr % 128 % 16) * 4096)
-			translucency = ((chr - 0x80) / 16) * 65536
+		--'^' - the beginning of the  color sequence
+		--If we meet that symbol twice in a row it means that this is a symbol, not a color code
+		if (chr == 0x5E)
+			isTextCode = not $
+			if (isTextCode) then continue end
+		end
+
+		--Read the color value once in a caret sequence
+		if (isTextCode)
+			color = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(chr))
 			isTextCode = false
 			continue
 		end
 
 		--draw the character
 		if ((chr > 0x0F) and (chr != 0x20))
-			v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, chr), flg|translucency, color)
+			v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, chr), flg, color)
 		end
 
 		--shift position for the next character
@@ -354,22 +143,67 @@ HIDEO.StrWidthUnicode = function(str, flags, small)
 	spaceSize = $ / small
 
 	local char
+	local isTextCode
 
-	for char in utf8.bytes(str)
-		if (char == 0x20) then pixelLen = $ + spaceSize --space
-		elseif ((char > 0x20) and HIDEO.font[char]) then --we count only visible charactrers
+	for i, c, b in unicode.chars(str) do
+		local char = unicode.code(c)
+		--'^' - Caret code
+		if (char == 0x5E)
+			isTextCode = not $
+			if (isTextCode) then continue end --If it is not '^^' sequence ignore the symbol
+		end
+
+		--Ignore the caret code digit
+		if (isTextCode) then isTextCode = false; continue end
+
+		if (char == 0x20) then pixelLen = $ + spaceSize end --space
+
+		if ((char > 0x20) and HIDEO.font[char]) then --we count only visible charactrers
 			pixelLen = $ + (HIDEO.font[char].width / small)
 		end
 	end
 	return pixelLen
 end
 
+local function splitLine(str)
+	local out = {}
+	local i = 1
+	while true do
+		local pos = str:find("\n", i, true)
+		if (not pos)
+			table.insert(out, str:sub(i))
+			break
+		end
+		table.insert(out, str:sub(i, pos - 1))
+		i = pos + 1
+	end
+	return out
+end
+
 HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, small)
-	HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(str, flags, small) / 2)), y, str, flags, small)
+	local scale
+	if (small) scale = 2
+	else scale = 1 end
+
+	local lineheight = 8 / scale
+
+	local strs = splitLine(str)
+	for i = 1, #strs do
+		HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(strs[i], flags, small) / 2)), y + (i * lineheight) - lineheight, strs[i], flags, small)
+	end
 end
 
 HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, small)
-	HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, small)), y, str, flags, small)
+	local scale
+	if (small) scale = 2
+	else scale = 1 end
+
+	local lineheight = 8 / scale
+
+	local strs = splitLine(str)
+	for i = 1, #strs do
+		HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, small)), y + (i * lineheight) - lineheight, str, flags, small)
+	end
 end
 
 
@@ -605,132 +439,100 @@ HIDEO.CropTextPatch_Relative = function(patch, startColumn, width, startLine, he
 end
 ]]
 
---Word wrapper, assisted with ChatGPT
---Although he gave a direction, I had to spend a lot of time fixing the crap code he suggested
---I know there are still bugs in this code, with color code wrapping to be precise, but I really could not figure them out
---The function returns a table with the word-wrapped string
-HIDEO.WordWrapString = function(s, max_width)
-	local lines = {}
-	local current_line = ""
-	local current_word = ""
-	local visible_len = 0
-	local word_len = 0
+--Helper functions for below
+local function isxdigit(c)
+	return ((c:byte() >= 48) and (c:byte() <= 57)) or ((c:byte() >= 65) and (c:byte() <= 70)) or (c:byte() >= 97) and (c:byte() <= 102)
+end
+local function isspace(c)
+	return ((c:byte() >= 9) and (c:byte() <= 13)) or (c:byte() == 32)
+end
 
-	local textcodes = ""
 
-	local i = 1 --iterator
+--Word wrapper
+--Ported from SRB2's Source Code (v_video.c)
+--I HATE DEBUGGING THIS SHIT SO MUCH
+--
+--Arguments:
+--	x		- canvas X position the string is drawn from;
+--	w		- maximum string width in pixels, if string is too long it becomes wrapped;
+--	option	- video flags to set the spacing between characters;
+--	scale	- The scaling of the text (fixed_t value)
+--	str		- string to word wrap
+--	v		- (optional argument) drawer object, used to load missing font graphics for correct calculations
+HIDEO.WordWrap = function(x, w, option, scale, str, v)
+	local chars = {}
+	local c
+	local chw = 0
+	local lastusablespace = 1
+	local spacewidth = 4
+	local charwidth = 0
 
-	while (i <= #s)
-		local b1 = s:byte(i)
+	if (not w or w == 0) then w = 320 end
+	w = $ - x
+	x = 0
 
-		-- Set formatting (SOH, Start of Header)
-		if ((b1 == 0x01) and (i < #s)) then
-			i = $ + 1 --skip a byte
-			textcodes = "\1" .. s:sub(i, i)
-			current_line = $ .. current_word .. textcodes
-			visible_len = $ + word_len
-			current_word = ""
-			word_len = 0
+	scale = $ or FU
 
-		-- Reset formatting (EOT, End of Text)
-		elseif (b1 == 0x04) then
-			current_word = $ .. string.char(0x04)
-			textcodes = ""
+	switch(option & V_SPACINGMASK, {
+		[V_MONOSPACE] = do
+			spacewidth = 8
+			charwidth = 8
+		end,
+		[V_OLDSPACING] = do
+			charwidth = 8
+		end,
+		[V_6WIDTHSPACE] = do
+			spacewidth = 6
+		end
+	})
 
-		-- Newline ('\n')
-		elseif (b1 == 0x0A) then
-			current_line = $ .. current_word --finish the current line we were doing
-			table.insert(lines, current_line) --send to the buffer
+	-- split string into UTF-8 characters so we can modify it
+	for _, char, b in unicode.chars(str) do table.insert(chars, char) end
 
-			--create a new line with the currently applied text formatting
-			current_line = textcodes
-			current_word = ""
-			visible_len = 0
-			word_len = 0
-			
-			--Newline at the very end of the string
-			if (i == #s) then table.insert(lines, "") end
+	local i = 1
+	while (i <= #chars) do repeat
+		c = unicode.code(chars[i])
+		if (not c)
+			i = i + 1
+			break --continue
+		end
 
-		-- Space: word delimiter
-		elseif (b1 == 0x20) then
-			if (visible_len + word_len) > max_width then
-				--reached max string length
-				table.insert(lines, current_line)
-				if (word_len) then current_line = textcodes .. current_word .. " "
-				else current_line = textcodes end
-				visible_len = word_len + 1
-			else
-				--continue the current line
-				current_line = $ .. current_word .. " "
-				visible_len = $ + word_len + 1
-			end
-			current_word = ""
-			word_len = 0
+		if (c == 10) --newline
+			x = 0
+			lastusablespace = 1
+			i = i + 1
+			break --continue
+		end
 
-		--Interpreting bytes as Unicode symbols
-		--1-byte ASCII
-		elseif (b1 < 0x80) then
-			current_word = current_word .. s:sub(i, i)
-			word_len = word_len + 1
+		if (c == 94) and (isxdigit(chars[i + 1])) --Caret Code
+			i = $ + 2
+			break --continue
+		end
 
-		-- 2-byte UTF-8
-		elseif ((b1 >= 0xC2) and (b1 <= 0xDF) and ((i + 1) <= #s)) then
-			local b2 = s:byte(i + 1)
-			if b2 and b2 >= 0x80 and b2 <= 0xBF then
-				local cp = ((b1 % 32) * 64) | (b2 % 64)
-				if (cp <= 0xFFFF) then
-					current_word = current_word .. s:sub(i, i + 1)
-					word_len = $ + 1
-				else
-					current_word = $ .. "�"
-					word_len = $ + 1
-				end
-				i = i + 1
-			else
-				current_word = $ .. "�"
-				word_len = $ + 1
-			end
-
-		-- 3-byte UTF-8
-		elseif ((b1 >= 0xE0) and (b1 <= 0xEF) and ((i + 2) <= #s)) then
-			local b2 = s:byte(i + 1)
-			local b3 = s:byte(i + 2)
-			if (b2 and b3 and ((b2 >= 0x80) and (b2 <= 0xBF)) and ((b3 >= 0x80) and (b3 <= 0xBF))) then
-				local cp = ((b1 % 16) * 4096) | ((b2 % 64) * 64) | (b3 % 64)
-				if (cp <= 0xFFFF) then
-					current_word = $ .. s:sub(i, i + 2)
-					word_len = $ + 1
-				else
-					current_word = $ .. "�"
-					word_len = $ + 1
-				end
-				i = i + 2
-			else
-				current_word = $ .. "�"
-				word_len = $ + 1
-			end
-
+		local patch
+		if (v) then patch = HIDEO.GetUnicodeFont(v, c)
+		else patch = HIDEO.font[c] end
+		if (isspace(chars[i]) or not patch)
+			--unprintable character
+			chw = spacewidth
+			lastusablespace = i
 		else
-			-- invalid byte or higher multibyte char: replace with "?"
-			current_word = $ .. "�"
-			word_len = $ + 1
+			--regular, printable character
+			if (charwidth == 0) then chw = patch.width
+			else chw = charwidth end
+		end
+
+		x = $ + FixedMul(chw, scale)
+
+		if (lastusablespace ~= 1 and x > w)
+			--reached the width limit, add newline to wrap the string
+			chars[lastusablespace] = '\n'
+			i = lastusablespace
+			lastusablespace = 1
+			x = 0
 		end
 
 		i = $ + 1
-	end
-
-	-- Handle last word
-	if (#current_word) then
-		if (visible_len + word_len) > max_width then
-			table.insert(lines, current_line)
-			current_line = textcodes .. current_word
-		else
-			current_line = $ .. current_word
-		end
-	end
-
-	-- Add final line
-	if (#current_line) then table.insert(lines, current_line) end
-
-	return lines
+	until true end
+	return table.concat(chars)
 end
