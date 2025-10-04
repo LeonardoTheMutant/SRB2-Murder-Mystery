@@ -482,7 +482,7 @@ addHook("KeyDown", function(key)
 	local c = key.num
 
 	if (MM.hud.chat.active)
-		if (c > 21) and (c < 127) and not (ctrldown and c == KEY_SPACE)
+		if (((c > 21) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
 			if ((MAYA.CHAT_MUTE or unicode.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
 
 			local chr
@@ -558,6 +558,10 @@ addHook("KeyDown", function(key)
 
 			table.remove(w_chat_table, MAYA.c_input)
 			MAYA.w_chat = table.concat(w_chat_table)
+		elseif (c == KEY_HOME)
+			MAYA.c_input = 1
+		elseif (c == KEY_END)
+			MAYA.c_input = unicode.len(MAYA.w_chat) + 1
 		end
 
 		return true

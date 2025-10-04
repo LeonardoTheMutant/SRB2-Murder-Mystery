@@ -177,28 +177,28 @@ MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
 			["CHAT_MURDKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
 			end,
 			['CHAT_SHERIKILLED'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
 			end,
 			["CHAT_HEROKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
 			end,
 			['SHERIKILLED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
 			['MURD_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['HERO_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("%s \x87%s\x80 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
 			end,
 			['CHAT_LASTQUIT'] = do
 				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', var)) --for Murd and Sheri
@@ -357,8 +357,8 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	MAYA.ChatprintPM(a, MM.RoleColor[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
-	MAYA.ChatprintPM(v, MM.RoleColor[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
+	MAYA.ChatprintPM(a, MM.RoleColorHUD[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
+	MAYA.ChatprintPM(v, MM.RoleColorHUD[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds

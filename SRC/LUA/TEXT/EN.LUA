@@ -323,20 +323,20 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Murderer killed
 	["CHAT_MURDKILLED"] = {
-		"^5Murderer", --beginning of the string
+		"Murderer", --beginning of the string
 		"got eliminated!", --ending
 	},
 
 	-- Sheriff killed
 	["CHAT_SHERIKILLED"] = {
-		"^4Sheriff", --beginning
+		"Sheriff", --beginning
 		"got murdered!", --ending
 		"Find their ^4Emerald^0!" --additional ending if Sheriff's Emerald is dropped
 	},
 
 	-- Hero killed
 	["CHAT_HEROKILLED"] = {
-		"^2Hero",
+		"Hero",
 		"got murdered!",
 	},
 
@@ -427,9 +427,9 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Role target/goal (a short description of the role) on TAB screen
 	["HUD_ROLETARGET"] = {
 		"Blend in, build trust, then strike.", --Murderer
-		"Find and eliminate all Murderers.\nDo not kill the Civilians!", --Sheriff
-		"Hide and protect yourself. Help with\nthe investigation when possible.", --Civilian
-		"You got a chance to stop all Murderers.\nGo and save the day, but be careful!" --Hero
+		"Find and eliminate all Murderers. Do not kill the Civilians!", --Sheriff
+		"Hide and protect yourself. Help with the investigation when possible.", --Civilian
+		"You got a chance to stop all Murderers. Go and save the day, but be careful!" --Hero
 	},
 
 	-- Scores TAB screen role counters
@@ -440,10 +440,10 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	-- Centered text when you're dead
-	["HUD_DEAD"] = "You are ^Fdead^0.\nYou can't respawn or talk to\npeople who are still alive.",
+	["HUD_DEAD"] = "You are ^Fdead^0.\nYou can't respawn or talk to people who are still alive.",
 
 	-- Centered text when you joined in the middle of the game
-	["HUD_MIDJOIN"] = "You joined ^4mid-game^0, please wait for this round to finish.\nWhile you are waiting, please read the game rules in the ^7MMHELP^0 console command!",
+	["HUD_MIDJOIN"] = "You joined ^4mid-game^0, please wait for this round to finish.\nWhile you are waiting, you can read the game rules in the ^7MMHELP^0 console command",
 
 	-- Centered text when you are alone
 	["HUD_ALONE"] = "^42 players^0 are required for the game,\nPlease wait for ^4one more^0 player to start.",
@@ -522,7 +522,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			"  - If a ^2Hero^0 kills a ^3Civilian^0, both die, and their ^Brole^0 is not reassigned;",
 			"  - ^2Heroes^0 do not drop the ^4Sheriff's Emerald^0 upon death.",
 			"\n* In rounds with higher amount of players, there may be multiple ^5Murderers^0 and ^4Sheriffs^0. ^ATeams^0 of ^5Murderers^0 and ^4Sheriffs^0 are formed for these rounds.",
-			"^ATeammates^0 can communicate using the ^7SAYTEAM^0 command in the console (SAYTEAM button works as same as the regular chat button) or by starting a message with the ^8%^0 symbol, which automatically sends the message to team members.",
+			"^ATeammates^0 can communicate using the ^7SAYTEAM^0 command in the console or by using the Team Chat (keyboard ^8'y'^0 button).",
 			"If you accidentally attack a ^Ateammate^0, both players will receive a personalized warning. Be careful - such team interactions may reveal your ^Brole^0 to others!"
 		},
 		{
@@ -540,7 +540,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			"Here are some tips to help you succeed in ^7Murder Mystery^0:",
 			"\n* If character abilities are disabled by the admin, press ^7SPIN^0 to sneak silently without leaving traces or making noise.",
 			"\n* Picking up the ^4Sheriff's Emerald^0 grants you access to all the weapons and rings you previously collected.",
-			"\n* Use the ^7SAYTEAM^0 command to coordinate with your ^Ateammates^0 and avoid friendly fire. Starting a message with ^8%^0 will automatically send it to your team members.",
+			"\n* Use the Team Chat to coordinate actions with your ^Ateammates^0 and avoid friendly fire.",
 			"\n* Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.",
 			"\n* Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.",
 			"\n* If your role is leaked, rename yourself and/or change your skin color. ^2Keep in mind that your rename will appear in chat.^0",

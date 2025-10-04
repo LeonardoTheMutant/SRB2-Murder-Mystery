@@ -25,6 +25,9 @@ local function V_GetSHREMDiconID(dist)
 	else return 1 end
 end
 
+local canvasWidth
+local canvasHeight
+
 --
 -- Main game HUD
 --
@@ -38,6 +41,10 @@ hud.add(function(v, p)
 		hud.enable("weaponrings")
 		return
 	end
+
+	--Calculate the canvas size
+	canvasWidth = v.width()/v.dupx()
+	canvasHeight = v.height()/v.dupy()
 
 	--Patch Graphics loading
 	if (not MM.graphics)
@@ -220,11 +227,11 @@ hud.add(function(v, p)
 	if (p.mm.finished)
 		--DEAD role label
 		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
-		HIDEO.DrawStrUnicode_Center(v, 160, 120, MM.GetText(consoleplayer.mm.lang, "HUD_DEAD"), v.localTransFlag())
+		HIDEO.DrawStrUnicode_Center(v, 160, 120, HIDEO.WordWrap(0, canvasWidth, 0, FU, MM.GetText(consoleplayer.mm.lang, "HUD_DEAD")), v.localTransFlag())
 
 		--"You joined mid-game"
 		if (p.mm.role == nil)
-			HIDEO.DrawStrUnicode_Center(v, 160, 156, MM.GetText(consoleplayer.mm.lang, "HUD_MIDJOIN"), v.localTransFlag(), true)
+			HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvasWidth, 0, 32768, MM.GetText(consoleplayer.mm.lang, "HUD_MIDJOIN")), v.localTransFlag(), true)
 		end
 
 		--"Killed by"
@@ -405,7 +412,7 @@ hud.add(function(v, p)
 
 	--Are you alone?
 	if (MM.PlayerCount() == 1)
-		HIDEO.DrawStrUnicode_Center(v, 160, 136, MM.GetText(consoleplayer.mm.lang, "HUD_ALONE"), v.localTransFlag())
+		HIDEO.DrawStrUnicode_Center(v, 160, 136, HIDEO.WordWrap(0, canvasWidth, 0, FU, MM.GetText(consoleplayer.mm.lang, "HUD_ALONE")), v.localTransFlag())
 	end
 
 	--suggest a minigame
@@ -476,7 +483,7 @@ hud.add(function(v)
 		--Teammates tracker
 		if (MM.TeammatesCount(consoleplayer))
 			local teammateNo = 0
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), MM.RoleColorHUD[consoleplayer.mm.role]..MM.GetText(consoleplayer.mm.lang, "HUD_TEAMMATES")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), "^A"..MM.GetText(consoleplayer.mm.lang, "HUD_TEAMMATES")..":", v.localTransFlag())
 			for p in players.iterate
 				if (MM.AreTeammates(consoleplayer, p) and (consoleplayer != p))
 					--character icon
@@ -502,19 +509,19 @@ hud.add(function(v)
 	--Roles counter
 	if (not cv_cryptic.value)
 		--Murderer
-		HIDEO.DrawStrUnicode(v, 20, 176, MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, 16, 176, MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag())
 		--Sheriff (and Hero)
 		if (MM.PlayerCount(ROLE_HERO))
-			HIDEO.DrawStrUnicode(v, 20, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..MM.PlayerCount(ROLE_HERO)), v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..MM.PlayerCount(ROLE_HERO)), v.localTransFlag())
 		else
-			HIDEO.DrawStrUnicode(v, 20, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
 		end
-		--Innocent
-		if (MM.PlayerCount(ROLE_CIVILIAN)) HIDEO.DrawStrUnicode(v, 20, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag()) end
+		--Civilian
+		if (MM.PlayerCount(ROLE_CIVILIAN)) HIDEO.DrawStrUnicode(v, 16, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag()) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#MM.shremds) and (leveltime % 2))
-			v.drawScaled(524280, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --8*FU, 184*FU, FU/2
+			v.drawScaled(262144, 12058440, 32768, MM.graphics["CHAOS3"], v.localTransFlag()) --4*FU, 184*FU, FU/2
 		end
 	end
 
@@ -522,7 +529,7 @@ hud.add(function(v)
 	v.drawString(160, 176, "ONLINE: "..MM.PlayerCount(), v.localTransFlag())
 
 	--Role target
-	if (consoleplayer.mm.role) then HIDEO.DrawStrUnicode(v, 160, 184, MM.RoleColorHUD[consoleplayer.mm.role]..MM.GetText(consoleplayer.mm.lang, "HUD_ROLETARGET", consoleplayer.mm.role), v.localTransFlag(), true) end
+	if (consoleplayer.mm.role) then HIDEO.DrawStrUnicode(v, 160, 184, MM.RoleColorHUD[consoleplayer.mm.role]..HIDEO.WordWrap(160, 304, 0, 32768, MM.GetText(consoleplayer.mm.lang, "HUD_ROLETARGET", consoleplayer.mm.role)), v.localTransFlag(), true) end --FU
 
 	--HUD frontend for the flash/spark effects
 	if (consoleplayer.mm.hud.fx_translucency) then v.fadeScreen(consoleplayer.mm.hud.fx_color, consoleplayer.mm.hud.fx_translucency) end

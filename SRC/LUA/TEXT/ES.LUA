@@ -5,205 +5,136 @@
 -- Made by Jesus.B
 
 MM.AddLang("ES", {
-	["VERSION"] = "1.3",
-	["AUTHOR"] = "Jesus.B",
-	["CON_MMLANG"] = {
-		"Tu idioma actual es\x82 Espanol\x80\nPuedes cambiarlo con el comando \x87MMLANG [idioma].",
+	["VERSION"]="1.3",
+	["AUTHOR"]="Jesus.B",
+	["CON_MMLANG"]={
+		"Tu idioma actual esx\x82 Espanol\x80\nPuedes cambiarlo con el comando \x87MMLANG [idioma].",
 		"Tu idioma personal para Murder Mystery cambio al\x82 Espanol."
 	},
-	["CHAT_ROLEGET_PM"] = {
-		"Eres el\x85 Asesino. Acaba con todos.",
-		"Eres el\x84 Comisario\x80!\x84 Elimina a todos los Asesinos\x80. Mata a la \x83persona equivocada\x80, y perderas tu rol.",
-		"Eres un\x83 Civil\x80! Escondete y ayuda con la investigacion."
+	["CHAT_ROLEGET_PM"]={
+		"Eres el ^5Asesino. Acaba con todos.",
+		"Eres el ^4Comisario^0! ^4Elimina a todos los Asesinos^0. Mata a la ^3persona equivocada^0, y perderas tu rol.",
+		"Eres un ^3Civil^0! Escondete y ayuda con la investigacion."
 	},
-	["CHAT_NEWROLEGET_PM"] = {
-		"\x87La vida decidio de la nada que seras un\x85 Asesino\x87.\x85 Ahora ve y mata a todos!",
-		"\x87".."El Universo te hizo un\x84 Comisario\x87! Ve y\x84 elimina a todos los Asesinos\x87!",
-		"\x87Se decidio que seras un \x82Heroe\x87. Salva a todos de los Asesinos!",
-		"\x87".."Eliminaste uno de los\x85 Asesinos\x87! Te ganaste el honor de un \x82Heroe\x87!"
+	["CHAT_NEWROLEGET_PM"]={
+		"^7La vida decidio de la nada que seras un ^5Asesino^7. ^5Ahora ve y mata a todos!",
+		"^7El Universo te hizo un ^4Comisario^7! Ve y ^4elimina a todos los Asesinos^7!",
+		"^7Se decidio que seras un ^2Heroe^7. Salva a todos de los Asesinos!",
+		"^7Eliminaste uno de los ^5Asesinos^7! Te ganaste el honor de un ^2Heroe^7!"
 	},
-	["CHAT_TEAMMATEHIT_PM"] = {
+	["CHAT_TEAMMATEHIT_PM"]={
 		"Ten cuidado! Ese es tu aliado. Evita el fuego aliado la proxima!",
 		"Tu aliado te ha golpeado accidentalmente. NO se recomienda Vengarse!"
 	},
-	["CHAT_MURDKILLED"] = {
-		"El\x85 Asesino",
+	["CHAT_MURDKILLED"]={
+		"El Asesino",
 		"fue eliminado!",
 	},
-	["CHAT_SHERIKILLED"] = {
-		"El\x84 Comisario",
+	["CHAT_SHERIKILLED"]={
+		"El Comisario",
 		"fue eliminado!",
-		"Encuentra su\x84 Esmeralda\x80!"
+		"Encuentra su ^4Esmeralda^0!"
 	},
-	["CHAT_HEROKILLED"] = {
-		"El \x82Heroe",
+	["CHAT_HEROKILLED"]={
+		"El Heroe",
 		"fue asesinado!",
 	},
-	["CHAT_DIEDHAZARD"] = "Moriste accidentalmente. Que desafortunado.",
-	["CHAT_SHREMDPICKUP"] = "Alguien ha tomado la\x84 Esmeralda del Comisario\x80...",
-	["CHAT_KILLPUNISHMENT_PM"] = {
-		"\x87Mataste a un\x83 Civil\x87! Has sido despedido. (Ya no eres Comisario)",
-		"\x82Los Heroes\x87 no deberian matar\x83 Civiles\x87! Has sido\x85 ejecutado\x87 por tu crimen de guerra.",
-		"\x87Oh no! Mataste a un\x84 Comisario\x87!!! Has sido\x85 ejecutado\x87 por eso.",
-		"\x87Mataste a un jugador\x83 Civil\x87 como tu! Has sido\x85 ejecutado\x87 por tu crimen.",
-		"\x87Oh no! Mataste a un \x82Heroe\x87! Has sido\x85 ejecutado\x87 por eso."
+	["CHAT_DIEDHAZARD"]="Moriste accidentalmente. Que desafortunado.",
+	["CHAT_SHREMDPICKUP"]="Alguien ha tomado la ^4Esmeralda del Comisario^0...",
+	["CHAT_KILLPUNISHMENT_PM"]={
+		"^7Mataste a un ^3Civil^7! Has sido despedido. (Ya no eres Comisario)",
+		"^2Los Heroes^7 no deberian matar ^3Civiles^7! Has sido ^5ejecutado^7 por tu crimen de guerra.",
+		"^7Oh no! Mataste a un ^4Comisario^7!!! Has sido ^5ejecutado^7 por eso.",
+		"^7Mataste a un jugador ^3Civil^7 como tu! Has sido ^5ejecutado^7 por tu crimen.",
+		"^7Oh no! Mataste a un ^2Heroe^7! Has sido ^5ejecutado^7 por eso."
 	},
-	["CHAT_INNOHURT"] = {
-		"El\x84 Comisario\x80 mato un\x83 Civil\x80! Alguien mas deberia terminar el trabajo!",
-		"Por matar al\x83 Civil\x80, el \x82Heroe\x80 se volvio el \x85villano\x80 y pago el precio."
+	["CHAT_INNOHURT"]={
+		"El ^4Comisario^0 mato un ^3Civil^0! Alguien mas deberia terminar el trabajo!",
+		"Por matar al ^3Civil^0, el ^2Heroe^0 se volvio el ^5villano^0 y pago el precio."
 	},
-	["CHAT_ONEQUIT"] = {
-		"Uno de los\x85 Asesinos\x80 se fue!",
-		"Uno de los\x84 Comisarios\x80 se fue!!!",
-		"Uno de los \x82Heroes\x80 se fue!"
+	["CHAT_ONEQUIT"]={
+		"Uno de los ^5Asesinos^0 se fue!",
+		"Uno de los ^4Comisarios^0 se fue!!!",
+		"Uno de los ^2Heroes^0 se fue!"
 	},
-	["CHAT_LASTQUIT"] = {
-		"El ultimo\x85 Asesino\x80 se fue!",
-		"El ultimo\x84 Comisario\x80 se fue!",
-		"El ultimo \x82Heroe\x80 abandono a todos!"
+	["CHAT_LASTQUIT"]={
+		"El ultimo ^5Asesino^0 se fue!",
+		"El ultimo ^4Comisario^0 se fue!",
+		"El ultimo ^2Heroe^0 abandono a todos!"
 	},
-	["CHAT_REPLACEQUIT"] = {
-		"El\x85 Asesino\x80 se fue! Un\x83 Civil\x80 al azar tomara su rol!",
-		"El\x84 Comisario\x80 se fue! Un\x83 Civil\x80 al azar tomara su rol!",
-		"Un \x82Heroe\x80 se fue! Un\x83 Civil\x80 al azar tomara su rol!"
+	["CHAT_REPLACEQUIT"]={
+		"El ^5Asesino^0 se fue! Un ^3Civil^0 al azar tomara su rol!",
+		"El ^4Comisario^0 se fue! Un ^3Civil^0 al azar tomara su rol!",
+		"Un ^2Heroe^0 se fue! Un ^3Civil^0 al azar tomara su rol!"
 	},
-	["CHAT_ENDROUND"] = {
-		"Todos murieron. Los\x85 Asesinos\x80 ganan!",
-		"Todos los\x85 Asesinos\x80 fueron asesinados! Los\x83 Civiles\x80 ganan!",
-		"Los\x85 Asesinos\x80 ganan porque el\x84 Comisario\x80 asesino al ultimo Civil! Que verguenza de\x84 Comisario\x80...",
-		"Los\x85 Asesinos\x80 ganan porque el \x82Heroe\x80 decidio matar al ultimo Civil. Que \x82Heroe\x80 mas vergonzoso...",
-		"Los defensores de los\x83 Civiles\x80 murieron. Los\x85 Asesinos\x80 ganan!"
+	["CHAT_ENDROUND"]={
+		"Todos murieron. Los ^5Asesinos^0 ganan!",
+		"Todos los ^5Asesinos^0 fueron asesinados! Los ^3Civiles^0 ganan!",
+		"Los ^5Asesinos^0 ganan porque el ^4Comisario^0 asesino al ultimo Civil! Que verguenza de ^4Comisario^0...",
+		"Los ^5Asesinos^0 ganan porque el ^2Heroe^0 decidio matar al ultimo Civil. Que ^2Heroe^0 mas vergonzoso...",
+		"Los defensores de los ^3Civiles^0 murieron. Los ^5Asesinos^0 ganan!"
 	},
-	["BMP_VICTIMS"] = {data={
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\31\xFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFIII\x1F1F\x1F1F",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFF\xFFIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFF\xFFFFIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFF\xFFFF\xFFIII\31",
-		"IIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\x1FFFII\31",
-		"\x1FIIII\x1FFF\xFFFFII\x1FFF\xFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"\xFF1FII\x1FFF\xFFFF\xFFII\x1FFF\xFF1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\x1FIIII\31",
-		"\xFFFF\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\31",
-	}},
-	["BMP_SUSPECTS"] = {data={
-		"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\31",
-		"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
-		"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1F1FII\31",
-		"\xFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFIII\x1F1F\31",
-		"\xFF1FIII\x1FFF\xFFFFII\x1FFFII\x1FFF\x1FIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFF\x1FIII\31",
-		"\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1F1F\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFF\xFFII\x1FFF\xFFFF\xFFFFIII\31",
-		"\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFIII\31",
-		"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
-		"IIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
-		"\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\x1FIIII\31",
-		"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31",
-	}},
-	["BMP_TIME"] = {data={
-		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"\xFFFFII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\31",
-		"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFII\31",
-		"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFFIIIII\31",
-		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFFIIIII\31",
-		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFFII\x1F1F\x1F1F",
-		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\31",
-		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
-		"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F"
-	}},
-	["BMP_RINGS"] = {data={
-		"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
-		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\31",
-		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
-		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIII\xFFFFII\x1FFFII\x1FFFII\x1FFFIII\x1F1F\31",
-		"\xFFIIIII\x1F1F\xFFFFII\x1FFF\xFFIIIII\xFFII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFIII\31",
-		"IIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIIIII\x1FFFII\x1FIII\x1FFF\xFFFFIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FIIII\x1FFFII\x1FIII\x1FFF\xFFFF\xFFIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1FIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFF1FII\x1FFFIIIIII\x1FFFIIIIII\31",
-		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
-		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
-	}},
-	["HUD_MM"] = "Murder Mystery",
-	["HUD_SUSPECTS"] = "Sospechosos",
-	["HUD_VICTIMS"] = "Victimas",
-	["HUD_TEAMMATES"] = "Aliados",
-	["HUD_ROLES"] = {
+	["HUD_MM"]="Murder Mystery",
+	["HUD_SUSPECTS"]="Sospechosos",
+	["HUD_VICTIMS"]="Victimas",
+	["HUD_TEAMMATES"]="Aliados",
+	["HUD_ROLES"]={
 		"ASESINO",
 		"COMISARIO",
 		"CIVIL",
 		"HEROE",
 		"MUERTO"
 	},
-	["HUD_KILLEDBY"] = {
+	["HUD_KILLEDBY"]={
 		"Asesinado por",
 		"la justicia",
 		"el diseño del mapa"
 	},
-	["HUD_SCORESTAB"] = {
-		"Si eres nuevo en esto, usa el comando",
-		"^7MMHELP^0 en la consola para tener ayuda y",
-		"^7MMLANG^0 para cambiar tu idioma.",
-		"",
-		"",
-		"^2".."Diviertete!"
+	["HUD_SCORESTAB"]="Si eres nuevo en esto, usa el comando ^7MMHELP^0 en la consola para tener ayuda y ^7MMLANG^0 para cambiar tu idioma.\n\n^2Diviertete!",
+	["HUD_ROLETARGET"]={
+		"Mezclate con los demas, ganate su confianza, y ataca.",
+		"Encuentra y elimina a los Asesinos. No mates a los civiles!",
+		"Escondete y protegete. Ayuda con la investigacion si puedes.",
+		"Tienes una oportunidad de detener a los Asesinos. Ve y salva el dia, pero ten cuidado!"
 	},
-	["HUD_ROLETARGET"] = {
-		"Mezclate con los demas, ganate su\nconfianza, y ataca.",
-		"Encuentra y elimina a los Asesinos.\nNo mates a los civiles!",
-		"Escondete y protegete. Ayuda con \nla investigacion si puedes.",
-		"Tienes una oportunidad de detener a los\nAsesinos. Ve y salva el dia, pero ten cuidado!"
-	},
-	["HUD_ROLESALIVE"] = {
+	["HUD_ROLESALIVE"]={
 		"Asesinos",
 		"Comisarios",
 		"Civiles"
 	},
-	["HUD_DEAD"] = {
-		"Estas ^Fmuerto.",
-		"No puedes reaparecer o",
-		"hablarle a los vivos."
-	},
-	["HUD_MIDJOIN"] = {
-		"Te uniste en ^7plena partida^0, por favor, espera a que esta ronda termine.",
-		"Mientras esperas, por favor lee las reglas del juego con el comando ^7MMHELP^0 en la consola!"
-	},
-	["HUD_ALONE"] = {
-		"^4".."2 jugadores^0 son requeridos para jugar,",
-		"Por favor espera a ^4uno mas^0 para iniciar."
-	},
-	["HUD_SNEAKING"] = "Agachado...",
-	["HUD_SHOWDOWN"] = "Duelo de Enfrentamiento!",
-	["HUD_MINIGAME"] = {
-		["PRESS"] = "Presiona^2 CUSTOM3^0 para",
-		["LEAVE"] = "abandonar",
-		["CANCEL"] = "cancelar",
-		["SPECTATE"] = "espectar",
-		["DUEL"] = "un minjuego de duelo",
-		["REQUEST"] = "solicita un minijuego de ^7PONG^0 !",
-		["START"] = "inicia un minijuego de ^7\"SONIC RUN\"^0 !",
-		["ACCEPT"] = "aceptar el reto de ^7PONG^0!",
-		["WAIT"] = "Esperando a que el rival acepte...",
-		["SPECTATING"] = "Espectando un duelo...",
-		["BORED"] = "Estas aburrido?",
+	["HUD_DEAD"]="Estas ^Fmuerto.\nNo puedes reaparecer o hablarle a los vivos.",
+	["HUD_MIDJOIN"]="Te uniste en ^7plena partida^0, por favor, espera a que esta ronda termine.\nMientras esperas, por favor lee las reglas del juego con el comando ^7MMHELP^0 en la consola!",
+	["HUD_ALONE"]="^42 jugadores^0 son requeridos para jugar,\nPor favor espera a ^4uno mas^0 para iniciar.",
+	["HUD_SNEAKING"]="Agachado...",
+	["HUD_SHOWDOWN"]="Duelo de Enfrentamiento!",
+	["HUD_MINIGAME"]={
+		["PRESS"]="Presiona^2 CUSTOM3^0 para",
+		["LEAVE"]="abandonar",
+		["CANCEL"]="cancelar",
+		["SPECTATE"]="espectar",
+		["DUEL"]="un minjuego de duelo",
+		["REQUEST"]="solicita un minijuego de ^7PONG^0 !",
+		["START"]="inicia un minijuego de ^7\"SONIC RUN\"^0 !",
+		["ACCEPT"]="aceptar el reto de ^7PONG^0!",
+		["WAIT"]="Esperando a que el rival acepte...",
+		["SPECTATING"]="Espectando un duelo...",
+		["BORED"]="Estas aburrido?",
 		["GOAL"]="Ganaste!"
 	},
-	["HUD_YOU"] = "TU",
-	["HUD_WINNERS"] = "Ganadores:",
-	["HUD_WIN"] = {
+	["HUD_YOU"]="TU",
+	["HUD_WINNERS"]="Ganadores:",
+	["HUD_WIN"]={
 		"EMPATE!",
-		"^5".."ASESINOS",
-		"^3".."CIVILES"
+		"^5ASESINOS",
+		"^3CIVILES"
 	},
-	["HUD_PAST"] = "PASADO",
-	["HUD_FUTURE"] = "FUTURO",
-	["HUD_MMHELP_UI"] = {
+	["HUD_PAST"]="PASADO",
+	["HUD_FUTURE"]="FUTURO",
+	["HUD_MMHELP_UI"]={
 		"Usa ^7JUMP^0/^7SPIN^0 para desplazarte, ^7Next^0/^7Prev Weapon^0 para pasar de pagina",
 		"Presiona^7 CUSTOM1^0 para salir del menu de AYUDA"
 	},
-	["HUD_MMHELP"] = {
+	["HUD_MMHELP"]={
 		{
 			"^7".."Bienvenido a ^5Murder Mystery^7!",
 			"^7La interpretacion en SRB2 del juego multijugador popular!\n",
@@ -255,5 +186,57 @@ MM.AddLang("ES", {
 			"\n* Usa el boton^7 FIRENORMAL^0 para sacar tu^6 Cuchillo^0 donde sea, mientras tengas anillos. Usar un^6 Cuchillo^0 mientras estas agachado asegura que tu ataque sea silencioso.",
 			"\n* Usa el comando ^7MMLANG^0 para cambiar el idioma de tu interfaz a tu idioma preferido."
 		}
-	}
+	},
+	["BMP_VICTIMS"]={data={
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFFIIII\x1FFF\xFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\xFFIIII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1FII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\31\xFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFIII\x1F1F\x1F1F",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFF\xFFIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFF\xFFFFIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFF\xFFFF\xFFIII\31",
+		"IIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\x1FFFII\31",
+		"\x1FIIII\x1FFF\xFFFFII\x1FFF\xFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"\xFF1FII\x1FFF\xFFFF\xFFII\x1FFF\xFF1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFF\x1FIIII\31",
+		"\xFFFF\x1F1F\xFFFF\xFFFF\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\31",
+	}},
+	["BMP_SUSPECTS"]={data={
+		"\xFFFFIIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFIIII\x1FFF\xFFIIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\x1FFF\xFFIIIIII\x1FFF\xFFIIII\31",
+		"\xFFIIIIII\x1FFFII\x1FFFII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFIIIIII\31",
+		"\xFFII\x1F1FII\x1FFFII\x1FFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\x1FFFII\x1F1F\x1F1F\x1FFFII\x1F1FII\x1FFF\x1F1FII\x1F1F\x1FFFII\x1F1FII\31",
+		"\xFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFIII\x1F1F\x1FFF\xFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFIII\x1F1F\31",
+		"\xFF1FIII\x1FFF\xFFFFII\x1FFFII\x1FFF\x1FIII\x1FFF\xFFFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFFFII\x1FFF\xFFFF\x1FIII\31",
+		"\xFFFFIII\x1FFF\xFFII\x1FFFII\x1FFF\xFFFFIII\x1FFF\xFFIIIII\x1F1F\xFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFF\xFF\xFFII\x1FFF\xFFFF\xFFFFIII\31",
+		"\xFFFF\xFFIII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFIII\x1FFFII\x1F1F\x1FFF\xFFFFII\x1F1F\x1F1F\x1FFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFF\xFFFF\xFFIII\31",
+		"II\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\x1FFF\xFFFF\xFFFFII\x1FFF\xFFFF\xFFFFII\x1FFFII\x1FFF\xFFFFII\x1FFF\xFFFFII\x1FFFII\31",
+		"IIIIII\x1FFFIIIIII\x1FFFIIIIII\x1FFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFFIIIIII\x1FFF\xFFFFII\x1FFF\xFFFFIIIIII\31",
+		"\x1FIIII\x1FFF\xFF1FIIII\x1FFF\xFF1FIIII\x1FFF\xFFII\x1FFF\xFFFF\xFFFFIIIIII\x1FFF\x1FIIII\x1FFF\xFFFF\xFFII\x1FFF\xFFFF\x1FIIII\31",
+		"\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1F1F\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31",
+	}},
+	["BMP_TIME"]={data={
+		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"IIIIII\x1FFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"\xFFFFII\x1F1F\x1FFFII\x1FFF\xFFIII\xFFFF\xFFIII\x1FFFII\x1F1F\x1F1F\31",
+		"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\xFFIIII\x1FFFII\31",
+		"\xFFFFII\x1FFF\xFFFFII\x1FFF\xFFIIIIIIIII\x1FFFIIIII\31",
+		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIII\x1FII\x1FFFIIIII\31",
+		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1F1FI\x1FFFII\x1FFFII\x1F1F\x1F1F",
+		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\x1FFF\xFFII\x1FFFII\31",
+		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"\xFFII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFF\xFFII\x1FFFIIIIII\31",
+		"\xFF1F\x1F1F\xFFFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\xFF1F\x1F1F\x1F1F\x1F1F"
+	}},
+	["BMP_RINGS"]={data={
+		"\xFFIIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\31",
+		"\xFFIIIIII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFFIIIIII\x1FFFIIIIII\31",
+		"\xFFII\x1F1FII\x1FFF\xFFII\x1FFF\xFFIII\xFFFF\xFFII\x1FFFII\x1F1FII\x1FFFII\x1F1FII\31",
+		"\xFFII\x1FFFII\x1FFF\xFFII\x1FFF\xFFIIII\xFFFFII\x1FFFII\x1FFFII\x1FFFIII\x1F1F\31",
+		"\xFFIIIII\x1F1F\xFFFFII\x1FFF\xFFIIIII\xFFII\x1FFFII\x1FFF\x1F1F\x1FFF\xFFIII\31",
+		"IIIII\x1FFF\xFFFFII\x1FFF\xFFII\x1FIIIII\x1FFFII\x1FIII\x1FFF\xFFFFIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1F1FIIII\x1FFFII\x1FIII\x1FFF\xFFFF\xFFIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\x1FIII\x1FFFII\x1FFFII\x1FFFII\x1FFFII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFF1FII\x1FFFIIIIII\x1FFFIIIIII\31",
+		"II\x1FFFII\x1FFF\xFFII\x1FFF\xFFII\x1FFF\xFFFFII\x1FFF\xFFIIII\x1FFF\xFFFFIIII\x1F1F",
+		"\x1F1F\x1FFF\x1F1F\x1FFF\xFF1F\x1F1F\xFFFF\x1F1F\x1FFF\xFFFF\x1F1F\x1FFF\xFF1F\x1F1F\x1FFF\xFFFF\xFF1F\x1F1F\31"
+	}}
 })

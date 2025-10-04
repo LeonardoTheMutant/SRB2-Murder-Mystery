@@ -46,46 +46,26 @@ COM_AddCommand("mmduel",do
 	if (MM.shwdwn and S_MusicExists(MM.shwdwn)) S_ChangeMusic(MM.shwdwn, true) end
 end)
 COM_AddCommand("mmloadmus",do
-	MM.LoadSuspenseTracks()
-	printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")
-	MM.LoadShowdownTracks()
-	printf("\x82%d %s",#MM.shwdwn_music,"Showdown Tracks")
+	MM.LoadSuspenseTracks(); printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")
+	MM.LoadShowdownTracks(); printf("\x82%d %s",#MM.shwdwn_music,"Showdown Tracks")
 end)
---MMCHARSET: Draw Unicode characters
 local mmcharset={0,0,0}
 COM_AddCommand("mmcharset",function(p, r)
-	mmcharset[1]=1; mmcharset[2]=0
+	mmcharset[1]=1;mmcharset[2]=0
 	if tonumber(r) mmcharset[3]=tonumber(r) end
 	MM.hud.game.active=false
 end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
 	if not p.mm or not mmcharset[1] return end
-	if (p.cmd.buttons&BT_SPIN) mmcharset[1]=0; mmcharset[2]=0; MM.hud.game.active=true end
+	if (p.cmd.buttons&BT_SPIN) mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.active=true end
 	if (p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP)) mmcharset[2]=$+1; if (mmcharset[2]>15) mmcharset[2]=0 end end
 end)
-hud.add(function(v, p) --MMCHARSET render
-	if (not p.mm or not mmcharset[1]) return end
-	for row=-1, 20
-		for column=-1,15
-			if ((row==-1) and (column>-1)) v.drawString(24+(column*8),0,string.format("%X",column))
-			elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*8),HEX[row])
-			elseif (column>-1) and (row>-1)
-				patchNum=mmcharset[3]+((row)*16)+column
-				if (HIDEO.font[patchNum]) v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
-			end
-		end
-	end
-	for row=20, 41
-		for column=-1,15
-			if ((row==20) and (column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
-			elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row*8),HEX[row])
-			elseif (column>-1) and (row>20)
-				patchNum=mmcharset[3]+((row)*16)+column
-				if (HIDEO.font[patchNum]) v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
-			end
-		end
-	end
-	v.drawString(0,184,"Color: "..mmcharset[2]); v.drawString(0,192,"JUMP - next color, SPIN - exit")
+local mmlayout={0,0}
+COM_AddCommand("mmlayout",function(p) mmlayout[1]=true;MM.hud.game.active=false end)
+addHook("KeyDown",function(e)
+	if not mmlayout[1] return end
+	if e.num==KEY_ESCAPE mmlayout[1]=false;MM.hud.game.active=true;return end
+	mmlayout[2]=e.num;return true
 end)
 hud.add(function(v, p)
 	v.drawString(0,0,"Developer build. Hold TOSSFLAG for debug info",45056,"small-thin")
@@ -108,5 +88,31 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+112,"\x82".."MM.TWOPGAME: \x80"..tostring(MM.twopgame),V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+120,"\x82".."MM.SHWDWN: \x80"..tostring(MM.shwdwn),V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+128,"\x82".."MM.SUSNSE: \x80"..tostring(MM.susnse),V_PERPLAYER,"thin")
+	end
+	if (p.mm and mmcharset[1])
+		for row=-1, 20
+			for column=-1,15
+				if ((row==-1) and (column>-1)) v.drawString(24+(column*8),0,string.format("%X",column))
+				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*8),HEX[row])
+				elseif (column>-1) and (row>-1)
+					patchNum=mmcharset[3]+((row)*16)+column
+					if (HIDEO.font[patchNum]) v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
+				end
+			end
+		end
+		for row=20, 41
+			for column=-1,15
+				if ((row==20) and (column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
+				elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row*8),HEX[row])
+				elseif (column>-1) and (row>20)
+					patchNum=mmcharset[3]+((row)*16)+column
+					if (HIDEO.font[patchNum]) v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
+				end
+			end
+		end
+		v.drawString(0,184,"Color: "..mmcharset[2]); v.drawString(0,192,"JUMP - next color, SPIN - exit")
+	end
+	if (mmlayout[1])
+		v.drawNum(160,100,mmlayout[2])
 	end
 end)
