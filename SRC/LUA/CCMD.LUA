@@ -372,11 +372,8 @@ hud.add(function(v, p)
 	for i = 1, #renderBuffer do
 		str = HIDEO.WordWrap(0, canvasWidth, V_MONOSPACE, FU, renderBuffer[i], v)
 
-		local j = 1
 		for b, c, j in unicode.chars(str) do
-			local code = unicode.code(c)
-			
-			if (code == 10) --newline
+			if (c == '\n') --newline
 				if (not prev_linereturn) then
 					y = $ + 8
 					x = 0
@@ -386,7 +383,7 @@ hud.add(function(v, p)
 				continue
 			end
 
-			if (code == 94) --'^'
+			if (c == '^') --Caret Code
 				isTextCode = not $
 				if (isTextCode) then continue end
 			end
@@ -396,6 +393,7 @@ hud.add(function(v, p)
 				isTextCode = false
 				continue
 			else
+				local code = unicode.code(c)
 				prev_linereturn = false
 				if (((y >= 0) and (y < (canvasHeight - 16))) and (code >= 22) and (code ~= 32))
 					v.draw(x, y, HIDEO.GetUnicodeFont(v, code), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
