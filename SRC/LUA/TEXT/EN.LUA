@@ -73,6 +73,7 @@
 
 
 local language_data = { --Language must be a table variable, you can name the variable as you like.
+	["LANGUAGE"] = "English", --Full name of the language
 	["VERSION"] = "1.3", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
 	["AUTHOR"] = "SRB2MM community", --who made this language file
 	["KEYBOARD"] = {
@@ -272,19 +273,6 @@ local language_data = { --Language must be a table variable, you can name the va
 			[121] = "Y",
 			[122] = "Z"
 		}
-	},
-	
-
-
-	--
-	-- CONSOLE SECTION
-	--
-	-- These messages can support only ASCII (English-only) characters, color is made with Vanilla Color Escape Codes!
-
-	-- MMLANG command
-	["CON_MMLANG"] = {
-		"Your current language in use is\x82 English\x80\nYou can change it with \x87MMLANG [language]\x80 command.", --when typed MMHELP with no argument
-		"Personal language for Murder Mystery is set to\x82 English." --when typed MMHELP with language argument (it sets the new language)
 	},
 
 

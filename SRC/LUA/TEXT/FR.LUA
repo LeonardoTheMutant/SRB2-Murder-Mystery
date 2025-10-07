@@ -5,6 +5,7 @@
 -- Made by Troplucky
 
 MM.AddLang("FR", {
+	["LANGUAGE"]="Francais",
 	["VERSION"]="1.3",
 	["AUTHOR"]="Troplucky",
 	["CON_MMLANG"]={

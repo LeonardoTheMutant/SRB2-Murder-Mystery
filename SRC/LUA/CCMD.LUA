@@ -468,7 +468,8 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM.GetText("CON_MMLANG", 1))
+		local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
+		CONS_Printf(p, "Your current language in use is \x82"..langname.."\x80\nYou can change it with \x87MMLANG [language]\x80 command.")
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -502,7 +503,8 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			help_scroll = 1
 
 			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", l, MM.text[l]["AUTHOR"])) end
-			CONS_Printf(p, MM.GetText("CON_MMLANG", 2))
+			local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
+			CONS_Printf(p, "Personal language for \x87Murder Mystery\x80 is set to \x82"..langname)
 			if (MM.text[l]["VERSION"] and (MM.text[l]["VERSION"] != MM.version))
 				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
 			end

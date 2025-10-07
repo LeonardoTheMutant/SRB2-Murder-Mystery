@@ -5,6 +5,7 @@
 -- Made by Arnie37, Sonic1983 and LeonardoTheMutant
 
 MM.AddLang("RU", {
+	["LANGUAGE"]="Russkiy",
 	["VERSION"]="1.3",
 	["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 	["KEYBOARD"] = {
@@ -106,10 +107,6 @@ MM.AddLang("RU", {
 			[121] = "Н",
 			[122] = "Я"
 		}
-	},
-	["CON_MMLANG"]={
-		"Seychas u Vas stoit\x82 russkiy\x80 yazyk.\nVy mozhete smenit' yazyk, propisav v konsol' \x87MMLANG [yazyk]",
-		"Vash personalniy yazyk etogo moda izmenyon na\x82 russkiy"
 	},
 	["CHAT_ROLEGET_PM"]={
 		"Вы ^5Убийца^0! ^5Убейте всех!",

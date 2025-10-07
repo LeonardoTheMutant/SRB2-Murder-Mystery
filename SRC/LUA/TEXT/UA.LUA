@@ -5,6 +5,7 @@
 -- Made by LeonardoTheMutant
 
 MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
+	["LANGUAGE"]="Ukrain'ska",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
 	["KEYBOARD"] = {
@@ -106,10 +107,6 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 			[121] = "Н",
 			[122] = "Я"
 		}
-	},
-	["CON_MMLANG"]={
-		"Potochna mowa w TW wstanowlena na \x82Ukrains'ku\x80\nWy mozhete zminyty jiji za dopomogoju komandy \x87MMLANG [mowa]",
-		"\x82Ukrains'ka\x80 wstanowlena jak washa personal'na mowa w TW"
 	},
 	["CHAT_ROLEGET_PM"]={
 		"Ви ^5Вбивця!^0! ^5Вбийте усіх.",

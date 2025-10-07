@@ -5,12 +5,9 @@
 -- Made by Jesus.B
 
 MM.AddLang("ES", {
+	["LANGUAGE"]="Espanol",
 	["VERSION"]="1.3",
 	["AUTHOR"]="Jesus.B",
-	["CON_MMLANG"]={
-		"Tu idioma actual esx\x82 Espanol\x80\nPuedes cambiarlo con el comando \x87MMLANG [idioma].",
-		"Tu idioma personal para Murder Mystery cambio al\x82 Espanol."
-	},
 	["CHAT_ROLEGET_PM"]={
 		"Eres el ^5Asesino. Acaba con todos.",
 		"Eres el ^4Comisario^0! ^4Elimina a todos los Asesinos^0. Mata a la ^3persona equivocada^0, y perderas tu rol.",

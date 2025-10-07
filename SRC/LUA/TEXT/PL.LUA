@@ -5,12 +5,9 @@
 -- Made by LeonardoTheMutant
 
 MM.AddLang("PL", {
+	["LANGUAGE"]="Polski",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CON_MMLANG"]={
-		"Twoj aktualnie uzywany jezyk to^2 Polski^0\nMozesz go zmienic za pomoca ^7MMLANG [jezyk]",
-		"Personalny jezyk zostal ustawiony na^2 Polski"
-	},
 	["CHAT_ROLEGET_PM"]={
 		"Jesteś ^5Mordercą^0! ^5Zamorduj wszystkich.",
 		"Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",

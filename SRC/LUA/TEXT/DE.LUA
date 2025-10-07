@@ -9,12 +9,9 @@
 -- Ich musste mich die meiste Zeit auf die Übersetzungstools verlassen, daher entschuldige ich mich für den schlechten Text.
 
 MM.AddLang("DE", {
+	["LANGUAGE"]="Deutsch",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CON_MMLANG"]={
-		"Deine aktuell verwendete Sprache ist\x82 Deutsch\x80.\nDu kannst es mit dem Befehl \x87MMLANG [sprache]\x80 andern.",
-		"Die Sprache fur Murder Mystery ist auf\x82 Deutsch eingestellt."
-	},
 	["CHAT_ROLEGET_PM"]={
 		"Du bist der ^5Morder^0. ^5Tote sie alle.",
 		"Du bist der ^4Sheriff^0!^4 Beseitige alle Morder^0. Tote die^3 falsche Person^0, und die Rolle gehort dir nicht mehr.",

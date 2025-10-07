@@ -5,12 +5,9 @@
 -- Made by Mobillia
 
 MM.AddLang("TR", {
+	["LANGUAGE"]="Turkish",
 	["VERSION"]="1.3",
 	["AUTHOR"]="Mobillia",
-	["CON_MMLANG"]={
-		"Kullanimda olan mevcut diliniz \x82Turkce\x80\nKonsola \x87MMLANG [dil] \x80komutunu yazarak degistirebilirsiniz", -- cCc
-		"Murder Mystery icin kisisel dil \x82Turkce\x80 olarak ayarlanmistir" -- cCc
-	},
 	["CHAT_ROLEGET_PM"]={
 		"Sen \x85Katil\x80'sin! \x85Herkesi oldur!", 
 		"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.", 
