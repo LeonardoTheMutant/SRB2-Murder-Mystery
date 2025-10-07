@@ -4,29 +4,35 @@ if (MM)
 end
 
 rawset(_G, "MM", {
-	version = "1.3", --string, VERSION NUMBER
-	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime
-	RoleColor = { --Text Color codes for Console/Chat text
+	version = "1.3", --string, VERSION NUMBER, threat this as constant!
+	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, threat this as constant!
+	RoleColor = { --Text Color codes for Console/Chat text, threat this as constant!
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
 		"\x8F"  --Dead
 	},
-	RoleColorHUD = { --Text Color codes for HUD text
+	RoleColorHUD = { --Text Color codes for HUD text, threat this as constant!
 		"^5", --Murderer
 		"^4", --Sheriff
 		"^3", --Innocent
 		"^2", --Hero
 		"^F"  --Dead
 	},
-	hud = { --variables that control the HUD renderer
+	hud = { --variables that control the HUD renderer, not synched
 		game = { --Main Game HUD
 			active = true,
 			pos = {
 				ringWepOnly = {x = 144}, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
 				debug = {x=8, y=48}, --Debug info
+			},
+			roleflicker = 0,
+			flash = {
+				color = 0,
+				duration = 0,
+				translucency = 0
 			}
 		},
 		scores = { --HUD for Scores Tab
@@ -65,6 +71,7 @@ rawset(_G, "MM", {
 	winreason = 0, --for intermission, netsynced
 	timelimit = 5, --for custom timelimit, netsynced
 	shremds = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
+	shremdDist = 0, --distance to the closest Sheriff's Emerald, not synched
 	pong = { --some of the variables for Pong minigame, netsynced
 		ball = {x=80, y=40},
 		velocity = {x=0, y=0},
@@ -73,8 +80,11 @@ rawset(_G, "MM", {
 		hits = 0,
 		padcolor = {37, 153} --player role colors
 	},
-	text = {}
+	text = {}, --text strings used in the game, not synched, see the /LUA/TEXT/ directory
+	keyboardLayout = "EN" --Currently selected keyboard layout, not synched
 })
+
+if (isdedicatedserver) then MM.lang = "EN" end
 
 --Synchronized Variables
 addHook("NetVars", function(net)

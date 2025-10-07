@@ -32,7 +32,9 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 		end
 		S_StartSound(t.player.mo, sfx_cgot, t.player)
 		t.player.mm.role = ROLE_HERO
-		t.player.mm.hud.roleflicker = 70 --2 secs
+		if (t.player == consoleplayer)
+			MM.hud.game.roleflicker = 105 --3 secs
+		end
 		MM.ChatprintGlobal("CHAT_SHREMDPICKUP")
 		MM.StartShowdownMusic()
 	end
@@ -69,7 +71,7 @@ end)
 -- Collision trigger
 addHook("TouchSpecial", function(s, t) --special, toucher
 	if (s.alpha == FU)
-		S_StartSound(nil, sfx_squeak)
+		S_StartSound(nil, sfx_squeak, t.player)
 		s.alpha = $ - 1024
 		t.player.rings = $ + 500 
 		t.player.powers[pw_infinityring] = $ + (MM.weapons[0][5] / 8)

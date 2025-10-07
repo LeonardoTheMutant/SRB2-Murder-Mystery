@@ -250,7 +250,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	--load HELP page
 	local pageInt = tonumber(page)
 	if (pageInt)
-		if (pageInt <= (#MM.text[p.mm.lang]["HUD_MMHELP"] + 1))
+		if (pageInt <= (#MM.text[MM.lang]["HUD_MMHELP"] + 1))
 			help_page = pageInt
 			help_scroll = 1
 		else help_page = 1 end
@@ -293,22 +293,22 @@ local oldLang = ""
 --Backend
 addHook("PlayerThink", function(p)
 	if (gametype != GT_LTMMURDERMYSTERY) return end
-	if (MM.hud.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+	if (MM.hud.help.active) and (MM.text[MM.lang]["HUD_MMHELP"])
 
 		--Update render buffer only when neccesary
-		if ((oldCanvasWidth != canvasWidth) or (oldCanvasWidth != canvasWidth) or (oldPage != help_page) or (oldLang != p.mm.lang))
-			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvasWidth, canvasHeight, p.mm.lang, help_page))
+		if ((oldCanvasWidth != canvasWidth) or (oldCanvasWidth != canvasWidth) or (oldPage != help_page) or (oldLang != MM.lang))
+			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvasWidth, canvasHeight, MM.lang, help_page))
 			renderBuffer = {}
 			pageLength = 0
 			oldCanvasWidth = canvasWidth
 			oldCanvasHeight = canvasHeight
 			oldPage = help_page
-			oldLang = p.mm.lang
+			oldLang = MM.lang
 
 			--Insert data into the render buffer
-			if (help_page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
-				renderBuffer = MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP", help_page)
-			elseif (help_page == (#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)) --last page is always a technical info page
+			if (help_page <= #MM.text[MM.lang]["HUD_MMHELP"])
+				renderBuffer = MM.GetText("HUD_MMHELP", help_page)
+			elseif (help_page == (#MM.text[MM.lang]["HUD_MMHELP"] + 1)) --last page is always a technical info page
 				renderBuffer = tech_info
 			end
 		end
@@ -335,7 +335,7 @@ addHook("KeyDown", function(ev)
 	elseif ((c == KEY_LEFTARROW or c == input.gameControlToKeyNum(GC_STRAFELEFT)) and help_page ~= 1)
 		help_page = $ - 1
 		help_scroll = 1
-	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and help_page <= #MM.text[consoleplayer.mm.lang]["HUD_MMHELP"])
+	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and help_page <= #MM.text[MM.lang]["HUD_MMHELP"])
 		help_page = $ + 1
 		help_scroll = 1
 	end
@@ -344,7 +344,7 @@ end)
 
 --Renderer, Frontend
 hud.add(function(v, p)
-	if not ((MM.hud.help.active) and (MM.text[consoleplayer.mm.lang]["HUD_MMHELP"]) and (MM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
+	if not ((MM.hud.help.active) and (MM.text[MM.lang]["HUD_MMHELP"]) and (MM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
 
 	--Update the Canvas resolution
 	canvasWidth = v.width() / v.dupx()
@@ -448,10 +448,10 @@ hud.add(function(v, p)
 	v.drawFill(0, 184, canvasWidth, 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
 
 	v.drawString(0, 186, ("\x89Scroll: "..help_scroll.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
-	v.drawString(80, 186, ("\x88Page: "..help_page.."/"..(#MM.text[consoleplayer.mm.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
+	v.drawString(80, 186, ("\x88Page: "..help_page.."/"..(#MM.text[MM.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
 
-	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Arrow keys to scroll and change page"
-	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText(consoleplayer.mm.lang, "HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"ESC to leave"
+	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText("HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Arrow keys to scroll and change page"
+	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText("HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"ESC to leave"
 end, "game")
 
 
@@ -470,7 +470,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		return
 	end
 	if (not l)
-		CONS_Printf(p, MM.GetText(p.mm.lang, "CON_MMLANG", 1))
+		CONS_Printf(p, MM.GetText("CON_MMLANG", 1))
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -485,8 +485,8 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			local arg1 = ""
 			local arg2 = ""
 
-			if (p.mm.lang == lang) then arg1 = "\x82[current lang]" end
-			if (MM.GetText(lang, "VERSION") != MM.version) then 
+			if (MM.lang == lang) then arg1 = "\x82[current lang]" end
+			if (MM.text[lang]["VERSION"] and (MM.text[lang]["VERSION"] != MM.version))
 				langIncomp = $ + 1
 				arg2 = "\x85{INCOMPATIBLE}"
 			end
@@ -500,12 +500,12 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 	else
 		l = $:upper()
 		if (MM.text[l])
-			p.mm.lang = l
+			MM.lang = l
 			help_scroll = 1
 
-			CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", p.mm.lang, MM.GetText(p.mm.lang, "AUTHOR")))
-			CONS_Printf(p, MM.GetText(p.mm.lang, "CON_MMLANG", 2))
-			if (MM.GetText(l, "VERSION") != MM.version) then
+			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", l, MM.text[l]["AUTHOR"])) end
+			CONS_Printf(p, MM.GetText("CON_MMLANG", 2))
+			if (MM.text[l]["VERSION"] and (MM.text[l]["VERSION"] != MM.version))
 				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
 			end
 			local f = io.openlocal("client/MM.DAT", 'w')

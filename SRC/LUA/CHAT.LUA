@@ -108,7 +108,7 @@ end, COM_ADMIN)
 
 /*
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mm) or (not s.mm.lang) then return end
+	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mm) or (not sMM.lang) then return end
 
 	if (s.spectator)
 		switch(type, {
@@ -217,7 +217,7 @@ local function GetNextLayout()
 	table.sort(langkeys)
 
 	for id, lang in ipairs(langkeys) do
-		if (lang == consoleplayer.keyboardLayout) then
+		if (lang == MM.keyboardLayout) then
 			if (id + 1 > #langkeys) then return langkeys[1]
 			else return langkeys[id + 1] end
 		end
@@ -230,7 +230,7 @@ local function GetPrevLayout()
 	table.sort(langkeys)
 
 	for id, lang in ipairs(langkeys) do
-		if (lang == consoleplayer.keyboardLayout) then
+		if (lang == MM.keyboardLayout) then
 			if (id - 1 < 1) then return langkeys[#langkeys]
 			else return langkeys[id - 1] end
 		end
@@ -488,8 +488,8 @@ addHook("KeyDown", function(key)
 			local chr
 			local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
 
-			if (MM.text[consoleplayer.keyboardLayout]["KEYBOARD"] and MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers][c])
-			chr = MM.text[consoleplayer.keyboardLayout]["KEYBOARD"][modifiers][c]
+			if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
+			chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
 			else chr = MAYA.defaultLayout[modifiers][c] end
 			--end
 
@@ -502,12 +502,12 @@ addHook("KeyDown", function(key)
 		--Switch the keyboard layout
 		--Left CTRL+SPACE, next layout
 		if (leftctrldown and c == KEY_SPACE)
-			consoleplayer.keyboardLayout = GetNextLayout()
+			MM.keyboardLayout = GetNextLayout()
 			return true
 		end
 		--Right CTRL+SPACE, previous lauout
 		if (rightctrldown and c == KEY_SPACE)
-			consoleplayer.keyboardLayout = GetPrevLayout()
+			MM.keyboardLayout = GetPrevLayout()
 			return true
 		end
 

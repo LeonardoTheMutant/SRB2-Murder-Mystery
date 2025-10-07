@@ -79,15 +79,8 @@ MM.InitPlayer = function(p)
 	p.mm.camping = 0
 	p.mm.kills = 0
 	p.mm.killtrailsteps = 0
-	p.mm.shremd_dist = 0
 	p.mm.sneak = false
 	p.mm.weapondelay = 0
-	p.mm.hud = {
-		fx_translucency = 0,
-		fx_duration = 0,
-		fx_color = 0,
-		roleflicker = 140
-	}
 	p.mm.timetravel = {
 		timezone = TIMEZONE_PRESENT,
 		timesign = TWS_NONE,
@@ -106,36 +99,30 @@ MM.GetRoleMultiplier = do
 end
 
 --Retrieve the text line from TEXT.LUA, if exists
-MM.GetText = function(lang, line, param)
-	if (lang)
-		if (MM.text[lang])
-			if (line)
-				if (MM.text[lang][line])
-					if (param)
-						if (MM.text[lang][line][param])
-							return MM.text[lang][line][param]
-						else
-							if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87][\x80\""..param.."\"\x87]\x82 that does not exist!\x80") end
-							return "MM.text["..lang.."]["..line.."]["..param.."]"
-						end
-					end
-					if (type(MM.text[lang][line]) == "string")
-						return MM.text[lang][line]
-					else
-						if (MM.debug) error("\x82Tried to access the table at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 without parameter!\x80") end
-						return "MM.text["..lang.."]["..line.."][nil]"
-					end
+MM.GetText = function(line, param)
+	if (line)
+		if (MM.text[MM.lang][line])
+			if (param)
+				if (MM.text[MM.lang][line][param])
+					return MM.text[MM.lang][line][param]
 				else
-					if (MM.debug) error("\x82Tried to access value at \x87MM.text[\x80\""..lang.."\"\x87][\x80\""..line.."\"\x87]\x82 that does not exist!\x80") end
-					return "MM.text["..lang.."]["..line.."]"
+					if (MM.debug) error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line, param)) end
+					return "MM.text["..MM.lang.."]["..line.."]["..param.."]"
 				end
 			end
+			if (type(MM.text[MM.lang][line]) == "string")
+				return MM.text[MM.lang][line]
+			else
+				if (MM.debug) error(string.format("\x82Tried to access the table at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 without parameter!\x80", MM.lang, line)) end
+				return "MM.text["..MM.lang.."]["..line.."][nil]"
+			end
 		else
-			if (MM.debug) error("\x82Tried to access the \x87MM.text\x82 table with \x80"..lang.."\x82 language that does not exist!\x80") end
-			return "MM.text["..lang.."]"
+			if (MM.debug) error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line)) end
+			return "MM.text["..MM.lang.."]["..line.."]"
 		end
+	else
+		return ""
 	end
-	return ""
 end
 
 -- RoleAssigner v5
@@ -165,8 +152,10 @@ MM.AssignRoles = do
 	--tell each player its role personally
 	for p in players.iterate
 		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
-		MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_ROLEGET_PM", p.mm.role))
-		p.mm.hud.roleflicker = 105 --timer for role name flickering on HUD
+		MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLEGET_PM", p.mm.role))
+		if (p == consoleplayer)
+			MM.hud.game.roleflicker = 140 --timer for role name flickering on HUD, 4 seconds
+		end
 	end
 end
 
@@ -177,46 +166,46 @@ MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
 			["CHAT_MURDKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText("CHAT_MURDKILLED", 1), var, MM.GetText("CHAT_MURDKILLED", 2)))
 			end,
 			['CHAT_SHERIKILLED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_SHERIKILLED", 2)))
 			end,
 			["CHAT_HEROKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 2)))
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText("CHAT_HEROKILLED", 1), var, MM.GetText("CHAT_HEROKILLED", 2)))
 			end,
 			['SHERIKILLED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 2), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_SHERIKILLED", 2), MM.GetText("CHAT_SHERIKILLED", 3)))
 			end,
 			['MURD_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_MURDKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText("CHAT_MURDKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
 			['HERO_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText(p.mm.lang, "CHAT_HEROKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD")))
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText("CHAT_HEROKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
 			['SHERI_DIED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 1), var, MM.GetText(p.mm.lang, "CHAT_DIEDHAZARD"), MM.GetText(p.mm.lang, "CHAT_SHERIKILLED", 3)))
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD"), MM.GetText("CHAT_SHERIKILLED", 3)))
 			end,
 			['CHAT_LASTQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_LASTQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_LASTQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText('CHAT_LASTQUIT', 3)) end --for Hero	
 			end,
 			['CHAT_ONEQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_ONEQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_ONEQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText('CHAT_ONEQUIT', 3)) end --for Hero	
 			end,
 			['CHAT_REPLACEQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, 'CHAT_REPLACEQUIT', 3)) end --for Hero	
+				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_REPLACEQUIT', var)) --for Murd and Sheri
+				else MAYA.ChatprintPM(p, MM.GetText('CHAT_REPLACEQUIT', 3)) end --for Hero	
 			end,
 			['WIN'] = do
-				MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_ENDROUND", var))	
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ENDROUND", var))	
 			end,
 			['default'] = do
-				MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, msg, var))
+				MAYA.ChatprintPM(p, MM.GetText(msg, var))
 			end
 		})
 	end
@@ -357,8 +346,8 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	MAYA.ChatprintPM(a, MM.RoleColorHUD[v.mm.role]..MM.GetText(a.mm.lang, "CHAT_TEAMMATEHIT_PM", 1))
-	MAYA.ChatprintPM(v, MM.RoleColorHUD[a.mm.role]..MM.GetText(v.mm.lang, "CHAT_TEAMMATEHIT_PM", 2))
+	MAYA.ChatprintPM(a, MM.RoleColorHUD[v.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
+	MAYA.ChatprintPM(v, MM.RoleColorHUD[a.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
@@ -426,17 +415,17 @@ end
 --color is the SRB2 palette color index
 MM.StartFlashFX = function(p, duration, color)
 	assert(p, "MM.StartFlashFX argument #1: player_t not given!")
-	assert(p.mm, "MM.StartFlashFX argument #1: player_t.mm table is not initialized!")
-	assert(p.mm.hud, "MM.StartFlashFX argument #1: player_t.mm.hud table is not initialized!")
 	assert(duration, "MM.StartFlashFX argument #2: Effect duration time is not specified")
 	if (type(duration) != "number") then error("MM.StartFlashFX argument #2: The value of the effect duration must be a number") end
 	if (color and (type(color) != "number")) then error("MM.StartFlashFX argument #3: The value of the effect's color must be a number") end
 
 	color = color or 0
 
-	p.mm.hud.fx_translucency = 10
-	p.mm.hud.fx_duration = duration
-	p.mm.hud.fx_color = color
+	if (p == consoleplayer)
+		MM.hud.game.flash.translucency = 10
+		MM.hud.game.flash.duration = duration
+		MM.hud.game.flash.color = color
+	end
 end
 
 --Function to end the round, arguments here:
@@ -451,8 +440,8 @@ MM.EndRound = function(winner, endtext, reason)
 	G_ExitLevel()
 	if (endtext) MM.ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("EN", "CHAT_ENDROUND", reason))
-		else CONS_Printf(server, "- "..MM.GetText("EN", endtext, reason)) end
+		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
+		else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
 	end
 end
 
@@ -496,8 +485,8 @@ MM.SetRandomInnoAs = function(role, message)
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
-	p.mm.hud.roleflicker = 70
-	MAYA.ChatprintPM(p, MM.GetText(p.mm.lang, "CHAT_NEWROLEGET_PM", message))
+	MM.hud.game.roleflicker = 105 --3 secs
+	MAYA.ChatprintPM(p, MM.GetText("CHAT_NEWROLEGET_PM", message))
 	return
 end
 

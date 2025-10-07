@@ -38,9 +38,11 @@ addHook("MapLoad", function(map)
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremds = {}
+	MM.shremdDist = 0
 	MM.susnse = false
 	MM.shwdwn = false
 	MM.minigame = false
+	MM.roleflicker = 140 --4 seconds
 
 	--Time limit
 	if (timelimit) then
@@ -75,22 +77,20 @@ addHook("PlayerSpawn", function(p)
 	MM.InitPlayer(p)
 
 	--Apply language
-	if (not p.mm.lang)
+	if (not MM.lang)
 		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
 		if f
 			local l = f:read() --read data
 			if (MM.text[l]) --is such language imported into the game?
-				p.mm.lang = l
+				MM.lang = l
 			else --no
-				p.mm.lang = "EN"
+				MM.lang = "EN"
 			end
 			f:close() --file close
 		else --failed to open the file
-			p.mm.lang = "EN"
+			MM.lang = "EN"
 		end
 	end
-
-	if (not p.keyboardLayout) then p.keyboardLayout = "EN" end
 
 	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
 	if (p.mm.finished) then
@@ -129,11 +129,11 @@ addHook("PlayerThink", function(p)
 	if (not p.spectator) then p.mo.flags = $ & ~MF_NOGRAVITY end
 
 	--role flickering timer
-	if (p.mm.hud.roleflicker) p.mm.hud.roleflicker = $ - 1 end
+	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = $ - 1 end
 
 	--HUD backend for fullscreen flash/spark effects
-	if (p.mm.hud.fx_translucency) and (p.mm.hud.fx_duration) and (not (leveltime % p.mm.hud.fx_duration))
-		p.mm.hud.fx_translucency = $ - 1
+	if (MM.hud.game.flash.translucency) and (MM.hud.game.flash.duration) and ((leveltime % MM.hud.game.flash.duration) == 0)
+		MM.hud.game.flash.translucency = $ - 1
 	end
 
 	--Sheriff Emerald Radar distance logic
@@ -150,19 +150,19 @@ addHook("PlayerThink", function(p)
 			if (shremd_distances[emeraldID] < shremd_closest) then shremd_closest = shremd_distances[emeraldID] end
 		end
 
-		p.mm.shremd_dist = shremd_closest
+		MM.shremdDist = shremd_closest
 
 		--play sound
-		if (p.mm.shremd_dist)
+		if (MM.shremdDist)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = do
-					if ((p.mm.shremd_dist < 25165824) and (CV_FindVar("mm_nocamping").value)) --384*FU
+					if ((MM.shremdDist < 25165824) and (CV_FindVar("mm_nocamping").value)) --384*FU
 						p.mm.camping = $ + 1
 						if (p.mm.camping == 700) then MM.PunishPlayer(p, "Emerald camping") end --kick player after 20 seconds of camping
 					else p.mm.camping = 0 end
 				end,
 				[ROLE_CIVILIAN] = do
-					shremd_interval = MM_GetSHREMDinterval(fixint(p.mm.shremd_dist))
+					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
 					if (shremd_interval and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
 				end
 			})
@@ -243,7 +243,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 						-- otherwise Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
-							MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 							MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 							ap.mm.role = ROLE_CIVILIAN
@@ -258,7 +258,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 							MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 						else
-							MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 							MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 						end
 					end
@@ -299,7 +299,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 				if (ap.mm.role == ROLE_CIVILIAN)
 					ap.mm.role = ROLE_HERO
-					MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_NEWROLEGET_PM", 4))
+					MAYA.ChatprintPM(ap, MM.GetText("CHAT_NEWROLEGET_PM", 4))
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -310,7 +310,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 3))
+				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
@@ -328,7 +328,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 5))
+				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
 
@@ -348,7 +348,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
-						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 1))
+						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_INNOHURT", 1)
 						MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
 						ap.mm.role = ROLE_CIVILIAN
@@ -363,7 +363,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_NODEFENDERS)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 2))
+						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_INNOHURT", 2)
 					end
 				end,
@@ -372,7 +372,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(ROLE_MURDERER, "WIN", WIN_MURD)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText(ap.mm.lang, "CHAT_KILLPUNISHMENT_PM", 4))
+						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
 					end
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
 				end

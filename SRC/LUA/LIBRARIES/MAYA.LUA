@@ -502,11 +502,11 @@ MAYA.DrawChat = function(v)
 		cflag = V_GRAYMAP; -- set text in gray if chat is muted.
 	end
 
-	local layoutwidth = #consoleplayer.keyboardLayout or 2
+	local layoutwidth = #MM.keyboardLayout or 2
 	layoutwidth = $ * charwidth + charwidth
 
 	v.drawFill(chatx, y - 1, layoutwidth, (MAYA.typelines*charheight), GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_20TRANS)
-	v.drawString(chatx + 2, y, consoleplayer.keyboardLayout or "EN", V_SNAPTOBOTTOM | V_SNAPTOLEFT, texttype)
+	v.drawString(chatx + 2, y, MM.keyboardLayout or "EN", V_SNAPTOBOTTOM | V_SNAPTOLEFT, texttype)
 	if (v.width() < 640) then v.drawString(chatx, chaty, "CTRL+SPACE", V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Low resolution
 	else v.drawString(chatx, chaty, "CTRL+SPACE", V_SNAPTOBOTTOM|V_SNAPTOLEFT, "small-thin") end
 
@@ -640,7 +640,7 @@ MAYA.DrawChatLog = function(v, offset)
 
 	v.drawFill(chatx, chat_topy, boxw, boxh*charheight + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS)
 
-	local layoutwidth = #consoleplayer.keyboardLayout or 2
+	local layoutwidth = #MM.keyboardLayout or 2
 	layoutwidth = $ * charwidth + charwidth
 
 	for i = 0, MAYA.chat_nummsg_log - 1 do
