@@ -486,14 +486,20 @@ addHook("KeyDown", function(key)
 			if ((MAYA.CHAT_MUTE or unicode.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
 
 			local chr
-			local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
 
-			if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
-			chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
-			else chr = MAYA.defaultLayout[modifiers][c] end
-			--end
+			if (c == 32)
+				chr = " "
+			else
+				local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
+				
+				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
+					chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
+				elseif (MAYA.defaultLayout[modifiers] and MAYA.defaultLayout[modifiers][c])
+					chr = MAYA.defaultLayout[modifiers][c]
+				end
+			end
 
-			table.insert(w_chat_table, MAYA.c_input, chr or " ") --Insert the character
+			table.insert(w_chat_table, MAYA.c_input, chr or "") --Insert the character
 			MAYA.w_chat = table.concat(w_chat_table)
 			MAYA.c_input = $ + 1
 		end

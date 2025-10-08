@@ -8,6 +8,30 @@ MM.AddLang("PL", {
 	["LANGUAGE"]="Polski",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
+	["KEYBOARD"]={
+		[3] = {
+			[97] = "ą",
+			[99] = "ć",
+			[101] = "ę",
+			[108] = "ł",
+			[110] = "ń",
+			[111] = "ó",
+			[115] = "ś",
+			[120] = "ź",
+			[122] = "ż"
+		},
+		[4] = {
+			[97] = "Ą",
+			[99] = "Ć",
+			[101] = "Ę",
+			[108] = "Ł",
+			[110] = "Ń",
+			[111] = "Ó",
+			[115] = "Ś",
+			[120] = "Ź",
+			[122] = "Ż"
+		}
+	},
 	["CHAT_ROLEGET_PM"]={
 		"Jesteś ^5Mordercą^0! ^5Zamorduj wszystkich.",
 		"Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
