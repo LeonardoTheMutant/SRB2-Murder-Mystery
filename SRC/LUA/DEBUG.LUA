@@ -64,7 +64,7 @@ local mmlayout={0,0}
 COM_AddCommand("mmlayout",function(p) mmlayout[1]=true;MM.hud.game.active=false end)
 addHook("KeyDown",function(e)
 	if not mmlayout[1] return end
-	if e.num==KEY_ESCAPE mmlayout[1]=false;MM.hud.game.active=true;return end
+	if e.num==KEY_ENTER mmlayout[1]=false;MM.hud.game.active=true;return end
 	mmlayout[2]=e.num;return true
 end)
 hud.add(function(v, p)
@@ -113,5 +113,6 @@ hud.add(function(v, p)
 	end
 	if (mmlayout[1])
 		v.drawNum(160,100,mmlayout[2])
+		v.drawString(0,0,"ENTER to exit")
 	end
 end)

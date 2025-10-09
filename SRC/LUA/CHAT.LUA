@@ -163,6 +163,8 @@ local altdown = false
 local leftaltdown = false
 local rightaltdown = false
 
+local deadkey = false
+
 --
 -- Get the modifier key state
 --
@@ -476,13 +478,13 @@ addHook("KeyDown", function(key)
 	ctrldown = leftctrldown or rightctrldown
 	altdown = leftaltdown or rightaltdown
 
-	local w_chat_table = {}
-	for i = 1, unicode.len(MAYA.w_chat) do w_chat_table[i] = unicode.sub(MAYA.w_chat, i, i) end
-
 	local c = key.num
 
+	local w_chat_table = {}
+	for i, c, b in unicode.chars(MAYA.w_chat) do w_chat_table[i] = c end
+
 	if (MM.hud.chat.active)
-		if (((c > 21) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
+		if (((c > 31) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
 			if ((MAYA.CHAT_MUTE or unicode.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
 
 			local chr
@@ -491,17 +493,45 @@ addHook("KeyDown", function(key)
 				chr = " "
 			else
 				local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
+				print(modifiers)
 				
 				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
 					chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
 				elseif (MAYA.defaultLayout[modifiers] and MAYA.defaultLayout[modifiers][c])
 					chr = MAYA.defaultLayout[modifiers][c]
 				end
+
+				--Register the dead key press
+				if ((type(chr) == "table") and (not deadkey))
+					deadkey = chr[1]
+					return true
+				end
 			end
 
-			table.insert(w_chat_table, MAYA.c_input, chr or "") --Insert the character
+			if (chr and type(chr) == "table") then chr = chr[1] end
+
+			if (deadkey) --Was dead key previously pressed?
+				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][deadkey..chr])
+					--Dead key + Valid combination key
+					table.insert(w_chat_table, MAYA.c_input, MM.text[MM.keyboardLayout]["KEYBOARD"][deadkey..chr])
+					MAYA.c_input = $ + 1
+				else
+					--Dead key + Invalid combination key, add two sepparate characters
+					table.insert(w_chat_table, MAYA.c_input, deadkey)
+					MAYA.c_input = $ + 1
+					table.insert(w_chat_table, MAYA.c_input, chr)
+					MAYA.c_input = $ + 1
+				end
+				deadkey = nil
+			else --Regular key
+				if (chr)
+					table.insert(w_chat_table, MAYA.c_input, chr) --Insert the character
+					MAYA.c_input = $ + 1
+				end
+			end
+
+			--"Compile" the string from table
 			MAYA.w_chat = table.concat(w_chat_table)
-			MAYA.c_input = $ + 1
 		end
 
 
