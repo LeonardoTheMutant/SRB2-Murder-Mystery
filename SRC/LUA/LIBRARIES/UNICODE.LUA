@@ -101,12 +101,12 @@ end
 --https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
 --Return an codepoint value of a single Unicode symbol
 unicode.code = function(c)
-    local b1, b2 = c:byte(1, 2)
-    local b3, b4 = c:byte(3, 4)
-    if (b1 < 128) then return b1 --b1 is less than 128, it's a single-byte character
-    elseif (b1 < 194) then return nil
-    elseif (b1 < 224) then return (b1 - 192) * 64 + (b2 - 128)
-    elseif (b1 < 240) then return (b1 - 192) * 64 + (b2 - 128)
-    elseif (b1 < 245) then return (b1 - 240) * 262144 + (b2 - 128) * 4096 + (b3 - 128) * 64 + (b4 - 128)
+    local b1, b2, b3, b4 = c:byte(1, 4)
+	if (not b1) then return nil end
+
+    if (b1 < 0x80) then return b1 --b1 is less than 128, it's a single-byte character
+    elseif (b1 < 0xE0) then return (b1 - 0xC0) * 0x40 + (b2 - 0x80) --2-byte char
+    elseif (b1 < 0xF0) then return (b1 - 0xE0) * 0x1000 + (b2 - 0x80) * 0x40 + (b3 - 0x80) --3-byte char
+    elseif (b1 < 0xF8) then return (b1 - 0xF0) * 0x40000 + (b2 - 0x80) * 0x1000 + (b3 - 0x80) * 0x40 + (b4 - 0x80) --4-byte char
 	else return nil end
 end

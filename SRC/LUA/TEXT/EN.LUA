@@ -492,7 +492,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\nAt the beginning of each round, you will be assigned a ^Brole^0, which determines your task during the game. Here are the possible ^Broles^0 you might receive:",
 			" * ^5Murderer^0 - A deadly criminal. Their job is to eliminate everyone.",
 			" * ^4Sheriff^0 - Tasked with finding and eliminating the ^5Murderer(s)^0.",
-			" * ^4Civilian^0 - Must avoid being killed and assist in identifying the ^5Murderer^0. Depending on the game setup, they can obtain a ^5Red Ring^0 to defend themselves by collecting 100 rings (or 50 rings for certain skins).",
+			" * ^3Civilian^0 - Must avoid being killed and assist in identifying the ^5Murderer^0. Depending on the game setup, they can obtain a ^5Red Ring^0 to defend themselves by collecting 100 rings (or 50 rings for certain skins).",
 			"\nThat is the essential information you need to start playing. For more details, read through this manual to the end",
 			"\nUse the ^7MMLANG^0 command to change the language of the HUD interface and this manual to your preferred language."
 		},

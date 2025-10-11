@@ -67,88 +67,87 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 	if (small) small = 2
 	else small = 1 end
 
-	local x = x or 0
-	local y = y or 0
-	local flg = flags or 0
+	x = $ or 0
+	y = $ or 0
+	flags = $ or 0
 
 	--set the space width
-	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg & V_MONOSPACE) spaceSize = 8
-	elseif (flg & V_6WIDTHSPACE) spaceSize = 6 end
+	local spaceWidth = 4 --default to V_OLDSPACING
+	if (flags & V_MONOSPACE) spaceWidth = 8
+	elseif (flags & V_6WIDTHSPACE) spaceWidth = 6 end
 
 	--scale down if we want x0.5 font
-	spaceSize = $ / small
+	spaceWidth = $ / small
+	local charWidth = 8 / small
 
 	--character position
 	local cx = x
-	local cy = y --leftover from the older code, used as an alias
+	local cy = y
 
 	--init variables
-	local chr, isTextCode
+	local isTextCode
 	local color = v.getStringColormap(0) --default to white color
 	
 	--draw the string
 	for i, c, b in unicode.chars(str) do
-		local chr = unicode.code(c)
-		--newline
-		if (chr == 0x0A)
-			cx = x --carriage return
-			cy = $ + (8 / small)
+		--space
+		if (c == ' ')
+			cx = $ + spaceWidth
+			continue
 		end
 
-		--'^' - the beginning of the  color sequence
+		--newline
+		if (c == '\n')
+			cx = x --carriage return
+			cy = $ + (8 / small)
+			continue
+		end
+
+		--Beginning of the color sequence
 		--If we meet that symbol twice in a row it means that this is a symbol, not a color code
-		if (chr == 0x5E)
+		if (c == '^')
 			isTextCode = not $
 			if (isTextCode) then continue end
 		end
 
 		--Read the color value once in a caret sequence
 		if (isTextCode)
-			color = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(chr))
+			color = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(c:byte()))
 			isTextCode = false
 			continue
 		end
 
 		--draw the character
-		if ((chr > 0x0F) and (chr != 0x20))
-			v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, chr), flg, color)
-		end
-
-		--shift position for the next character
-		if (chr == 0x20) then cx = $ + spaceSize --space has a different character width
-		else
-			if (chr > 0x0F) then cx = $ + (HIDEO.GetUnicodeFont(v, chr).width / small) end --it's a regular character
-		end
+		v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, unicode.code(c)), flags, color)
+		cx = $ + charWidth
 	end
 end
 
 --Get string width for the HIDEO.DrawStrUnicode() function
 HIDEO.StrWidthUnicode = function(str, flags, small)
 	if (not str) or (str == "") return 0 end
+	flags = $ or 0
 
 	if (small) small = 2
 	else small = 1 end
 
 	--symbol width
-	local flg = flags or 0
 	local pixelLen = 0
 
 	--set the space width
-	local spaceSize = 4 --default to V_OLDSPACING
-	if (flg & V_MONOSPACE) then spaceSize = 8
-	elseif (flg & V_6WIDTHSPACE) then spaceSize = 6 end
+	local spaceWidth = 4 --default to V_OLDSPACING
+	if (flags & V_MONOSPACE) then spaceWidth = 8
+	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
 	--scale down for x0.5 (if needed)
-	spaceSize = $ / small
+	spaceWidth = $ / small
+	local charWidth = 8 / small
 
-	local char
 	local isTextCode
 
 	for i, c, b in unicode.chars(str) do
-		local char = unicode.code(c)
-		--'^' - Caret code
-		if (char == 0x5E)
+		--Caret code
+		if (c == '^')
 			isTextCode = not $
 			if (isTextCode) then continue end --If it is not '^^' sequence ignore the symbol
 		end
@@ -156,10 +155,12 @@ HIDEO.StrWidthUnicode = function(str, flags, small)
 		--Ignore the caret code digit
 		if (isTextCode) then isTextCode = false; continue end
 
-		if (char == 0x20) then pixelLen = $ + spaceSize end --space
+		--Space
+		if (c == ' ') then pixelLen = $ + spaceWidth; continue end --space
 
-		if ((char > 0x20) and HIDEO.font[char]) then --we count only visible charactrers
-			pixelLen = $ + (HIDEO.font[char].width / small)
+		--Count only visible charactrers
+		if (HIDEO.font[unicode.code(c)]) then
+			pixelLen = $ + charWidth
 		end
 	end
 	return pixelLen
@@ -441,10 +442,8 @@ end
 
 --Helper functions for below
 local function isxdigit(c)
-	return ((c:byte() >= 48) and (c:byte() <= 57)) or ((c:byte() >= 65) and (c:byte() <= 70)) or (c:byte() >= 97) and (c:byte() <= 102)
-end
-local function isspace(c)
-	return ((c:byte() >= 9) and (c:byte() <= 13)) or (c:byte() == 32)
+	c = c:byte()
+	return ((c >= 48) and (c <= 57)) or ((c >= 65) and (c <= 70)) or (c >= 97) and (c <= 102)
 end
 
 
@@ -491,28 +490,28 @@ HIDEO.WordWrap = function(x, w, option, scale, str, v)
 
 	local i = 1
 	while (i <= #chars) do repeat
-		c = unicode.code(chars[i])
-		if (not c)
-			i = i + 1
-			break --continue
-		end
-
-		if (c == 10) --newline
+		if (chars[i] == '\n') --newline
 			x = 0
 			lastusablespace = 1
 			i = i + 1
 			break --continue
 		end
 
-		if (c == 94) and (isxdigit(chars[i + 1])) --Caret Code
+		if (chars[i] == '^') and (isxdigit(chars[i + 1])) --Caret Code
 			i = $ + 2
+			break --continue
+		end
+
+		c = unicode.code(chars[i])
+		if (not c)
+			i = i + 1
 			break --continue
 		end
 
 		local patch
 		if (v) then patch = HIDEO.GetUnicodeFont(v, c)
 		else patch = HIDEO.font[c] end
-		if (isspace(chars[i]) or not patch)
+		if (((c >= 9) and (c <= 13)) or (c == 32) or not patch)
 			--unprintable character
 			chw = spacewidth
 			lastusablespace = i

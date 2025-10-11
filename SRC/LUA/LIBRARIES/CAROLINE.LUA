@@ -109,12 +109,14 @@ end)
 
 --Is uppercase character
 rawset(_G, "isupper", function(c)
-	return (c:byte() >= 65) and (c:byte() <= 90)
+	c = c:byte()
+	return (c >= 65) and (c <= 90)
 end)
 
 --Is lowercase character
 rawset(_G, "islower", function(c)
-	return (c:byte() >= 97) and (c:byte() <= 122)
+	c = c:byte()
+	return (c >= 97) and (c <= 122)
 end)
 
 --Is alphabetic character
@@ -124,12 +126,14 @@ end)
 
 --Is decimal digit
 rawset(_G, "isdigit", function(c)
-	return (c:byte() >= 48) and (c:byte() <= 57)
+	c = c:byte()
+	return (c >= 48) and (c <= 57)
 end)
 
 --Is hexadecimal digit
 rawset(_G, "isxdigit", function(c)
-	return ((c:byte() >= 48) and (c:byte() <= 57)) or ((c:byte() >= 65) and (c:byte() <= 70)) or (c:byte() >= 97) and (c:byte() <= 102)
+	c = c:byte()
+	return ((c >= 48) and (c <= 57)) or ((c >= 65) and (c <= 70)) or (c >= 97) and (c <= 102)
 end)
 
 --Is alphanumeric character
@@ -139,17 +143,20 @@ end)
 
 --Is blank character (Space or Tab)
 rawset(_G, "isspace", function(c)
-	return ((c:byte() >= 9) and (c:byte() <= 13)) or (c:byte() == 32)
+	c = c:byte()
+	return ((c >= 9) and (c <= 13)) or (c == 32)
 end)
 
 --Is control character
 rawset(_G, "iscntrl", function(c)
-	return ((c:byte() >= 0) and (c:byte() < 32)) or (c:byte() == 127)
+	c = c:byte()
+	return ((c >= 0) and (c < 32)) or (c == 127)
 end)
 
 --Is printable character
 rawset(_G, "isprint", function(c)
-	return (c:byte() >= 32) and (c:byte() < 127)
+	c = c:byte()
+	return (c >= 32) and (c < 127)
 end)
 
 --Does character have a graphical representation

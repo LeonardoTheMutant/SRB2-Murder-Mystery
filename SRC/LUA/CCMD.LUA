@@ -323,7 +323,7 @@ addHook("KeyDown", function(ev)
 	if ((c == KEY_ESCAPE) or (c == input.gameControlToKeyNum(GC_CUSTOM1)) or (c == input.gameControlToKeyNum(GC_CUSTOM2)) or (c == input.gameControlToKeyNum(GC_CUSTOM3)))
 		MM.hud.game.active = true
 		MM.hud.help.active = false
-	elseif (c == KEY_CONSOLE)
+	elseif ((c == KEY_CONSOLE) or ((c >= KEY_F1) and (c <= KEY_F12)))
 		ignore = false
 	elseif (c == KEY_F3)
 		local cvar = CV_FindVar("showhud")
@@ -373,8 +373,15 @@ hud.add(function(v, p)
 		str = HIDEO.WordWrap(0, canvasWidth, V_MONOSPACE, FU, renderBuffer[i], v)
 
 		for b, c, j in unicode.chars(str) do
-			if (c == '\n') --newline
-				if (not prev_linereturn) then
+			--Space
+			if (c == ' ')
+				x = $ + 8 --V_MONOSPACE
+				continue
+			end
+
+			--Newline
+			if (c == '\n')
+				if (not prev_linereturn)
 					y = $ + 8
 					x = 0
 					pageLength = $ + 1
@@ -383,20 +390,20 @@ hud.add(function(v, p)
 				continue
 			end
 
-			if (c == '^') --Caret Code
+			--Caret Code
+			if (c == '^')
 				isTextCode = not $
 				if (isTextCode) then continue end
 			end
 
 			if (isTextCode)
-				colormap = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(code))
+				colormap = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(c:byte()))
 				isTextCode = false
 				continue
 			else
-				local code = unicode.code(c)
 				prev_linereturn = false
-				if (((y >= 0) and (y < (canvasHeight - 16))) and (code >= 22) and (code ~= 32))
-					v.draw(x, y, HIDEO.GetUnicodeFont(v, code), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
+				if (((y >= 0) and (y < (canvasHeight - 16))))
+					v.draw(x, y, HIDEO.GetUnicodeFont(v, unicode.code(c)), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
 				end
 
 				x = $ + 8 --V_MONOSPACE

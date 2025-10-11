@@ -239,6 +239,10 @@ local function GetPrevLayout()
 	end
 end
 
+local function fixString(s)
+	if (s:byte(#s, #s) >= 128) then return s:sub(1, #s-1) end
+end
+
 addHook("PlayerMsg", function(s, typ, t, msg)
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (typ == 3) then return end
 
@@ -251,12 +255,15 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 	local target
 	local origmsg = msg
 	if (msg:sub(1,2) == "$&") --Recieved a message from MAYA
+		target = tonumber(msg:sub(3,4)) or 0
+		msg = $:sub(5)
+		MAYA.DebugPrint("Recieved a "..#msg.." byte long message from \x81"..s.name)
 		if ((#msg % 2) == 1) then
 			MM.DebugPrint("Recieved an odd amount of bytes! (Message: \""..msg.."\")")
 			return true
 		end
-		target = tonumber(msg:sub(3,4)) or 0
-		msg = MAYA.Decode($:sub(5))
+		msg = MAYA.Decode($)
+		msg = fixString($) --Remove an unfinished Unicode code (that was cut by a sender) at the end of the message
 	else --Something else uses vanilla protocol
 		if (typ == 1) target = -1 --SayTeam
 		else 
@@ -493,7 +500,6 @@ addHook("KeyDown", function(key)
 				chr = " "
 			else
 				local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
-				print(modifiers)
 				
 				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
 					chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
@@ -602,23 +608,25 @@ addHook("KeyDown", function(key)
 
 		return true
 	else
-		if (c == input.gameControlToKeyNum(GC_TALKKEY) and not MAYA.OLD_MUTE)
-			input.setMouseGrab(false)
-			MM.hud.chat.active = true
-			MAYA.w_chat = ""
-			MAYA.teamtalk = false
-			MAYA.chat_scrollmedown = true
-			MAYA.typelines = 1
-			return true
-		end
-		if (c == input.gameControlToKeyNum(GC_TEAMKEY) and not MAYA.OLD_MUTE)
-			input.setMouseGrab(false)
-			MM.hud.chat.active = true
-			MAYA.w_chat = ""
-			MAYA.teamtalk = true
-			MAYA.chat_scrollmedown = true
-			MAYA.typelines = 1
-			return true
+		if not (MAYA.OLD_MUTE or MM.hud.help.active)
+			if (c == input.gameControlToKeyNum(GC_TALKKEY))
+				input.setMouseGrab(false)
+				MM.hud.chat.active = true
+				MAYA.w_chat = ""
+				MAYA.teamtalk = false
+				MAYA.chat_scrollmedown = true
+				MAYA.typelines = 1
+				return true
+			end
+			if (c == input.gameControlToKeyNum(GC_TEAMKEY))
+				input.setMouseGrab(false)
+				MM.hud.chat.active = true
+				MAYA.w_chat = ""
+				MAYA.teamtalk = true
+				MAYA.chat_scrollmedown = true
+				MAYA.typelines = 1
+				return true
+			end
 		end
 	end
 

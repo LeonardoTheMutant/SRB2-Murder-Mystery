@@ -67,7 +67,7 @@ MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 			[48] = ")",
 			[49] = "!",
 			[50] = "\"",
-			[51] = "#", --Should be № but algorithms fail to calculate that properly
+			[51] = "№",
 			[52] = ";",
 			[53] = "%",
 			[54] = ":",
