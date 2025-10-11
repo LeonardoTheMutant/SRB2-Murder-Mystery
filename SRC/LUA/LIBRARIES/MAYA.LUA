@@ -342,7 +342,12 @@ MAYA.SendChatMessage = do
 	--Send the message, note that we have to additionally put "$&" at the beginning of the message so that the reciever knows that we are using the "MAYA protocol"
 	--Yes I know that the "console command insertion" method may be unreliable and still not safe for private messages, but it is SRB2's problem
 	--STJr should provide a better way of sending or synchronizing custom data between clients
-	COM_BufInsertText(consoleplayer, table.concat(msg):sub(1, 226))
+	msg = table.concat($)
+	if (#msg > 223)
+		MAYA.DebugPrint("Trying to send too long message. To prevent the synch failure the message will not be sent. \x82Tell Leo to remove this stupid message in the future")
+		return
+	end
+	COM_BufInsertText(consoleplayer, msg)
 end
 
 --Main chat rendering routine

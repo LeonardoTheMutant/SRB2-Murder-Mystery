@@ -149,7 +149,7 @@ end)
 -- UTF-8 CHAT
 --
 
-local HU_MAXMSGLEN = 223
+local HU_MAXMSGLEN = 100
 
 local ctrldown = false
 local leftctrldown = false
@@ -239,10 +239,6 @@ local function GetPrevLayout()
 	end
 end
 
-local function fixString(s)
-	if (s:byte(#s, #s) >= 128) then return s:sub(1, #s-1) end
-end
-
 addHook("PlayerMsg", function(s, typ, t, msg)
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (typ == 3) then return end
 
@@ -263,7 +259,6 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 			return true
 		end
 		msg = MAYA.Decode($)
-		msg = fixString($) --Remove an unfinished Unicode code (that was cut by a sender) at the end of the message
 	else --Something else uses vanilla protocol
 		if (typ == 1) target = -1 --SayTeam
 		else 
