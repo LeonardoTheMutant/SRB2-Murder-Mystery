@@ -4,34 +4,10 @@
 -- Chat system
 
 local cv_chatmode = CV_FindVar("chatmode")
-local cv_chatnotifications = CV_FindVar("chatnotifications")
 local cv_chatspamspeed = CV_FindVar("chatspamspeed")
 local cv_chatspamburst = CV_FindVar("chatspamburst")
 local cv_chatspamprotection = CV_FindVar("chatspamprotection")
 local cv_mute = CV_FindVar("mute")
-
-local function chatcolor2hudcolor(c)
-	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return "\x80" end
-	switch(c, {
-		[V_MAGENTAMAP] = do c = "^1" end,
-		[V_YELLOWMAP] = do c = "^2" end,
-		[V_GREENMAP] = do c = "^3" end,
-		[V_BLUEMAP] = do c = "^4" end,
-		[V_REDMAP] = do c = "^5" end,
-		[V_GRAYMAP] = do c = "^6" end,
-		[V_ORANGEMAP] = do c = "^7" end,
-		[V_SKYMAP] = do c = "^8" end,
-		[V_PURPLEMAP] = do c = "^9" end,
-		[V_AQUAMAP] = do c = "^a" end,
-		[V_PERIDOTMAP] = do c = "^b" end,
-		[V_AZUREMAP] = do c = "^c" end,
-		[V_BROWNMAP] = do c = "^d" end,
-		[V_ROSYMAP] = do c = "^e" end,
-		[V_INVERTMAP] = do c = "^f" end,
-		['default'] = do c = "^0" end
-	})
-	return c
-end
 
 /*
 
@@ -149,7 +125,9 @@ end)
 -- UTF-8 CHAT
 --
 
-local HU_MAXMSGLEN = 100
+local packetNo, packetCount
+local recieverBuffer = {}
+for i = -1, 33 do recieverBuffer[i] = {} end
 
 local ctrldown = false
 local leftctrldown = false
@@ -249,16 +227,42 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 	end
 
 	local target
-	local origmsg = msg
 	if (msg:sub(1,2) == "$&") --Recieved a message from MAYA
 		target = tonumber(msg:sub(3,4)) or 0
-		msg = $:sub(5)
-		MAYA.DebugPrint("Recieved a "..#msg.." byte long message from \x81"..s.name)
+		packetNo = tonumber(msg:sub(5,5), 16)
+		packetCount = tonumber(msg:sub(6,6), 16)
+		MAYA.DebugPrint(string.format("Recieved a %d byte long message from \x81%s\x80. Target %d; Packet %d/%d; Message \x86%s", #msg, s.name, target, packetNo+1, packetCount+1, msg))
+		if (packetNo == packetCount) --if it is the last packet (that was sent first) write the number of packets we should recieve in total
+			recieverBuffer[target][0] = packetCount
+		else
+			if (packetCount ~= recieverBuffer[target][0]) then
+				MAYA.DebugPrint("The total amount of packets described in this packet is "..packetCount.." instead of "..recieverBuffer[target][0]..", the message is suspected to be corrupted! Terminated the recieve process.")
+				recieverBuffer[target] = {}
+				return true
+			end
+		end
+
+		msg = $:sub(7)
+		recieverBuffer[target][packetNo + 1] = msg
+
 		if ((#msg % 2) == 1) then
 			MM.DebugPrint("Recieved an odd amount of bytes! (Message: \""..msg.."\")")
 			return true
 		end
-		msg = MAYA.Decode($)
+
+		if (packetNo ~= 0) then return true end --Continue only if we recieve the first packet (which is sent last)
+
+		--Check if actually all packets were recieved
+		for i = 1, (recieverBuffer[target][0] + 1) do
+			if (not recieverBuffer[target][i]) then
+				MAYA.DebugPrint("Packet "..i.." is missing, cannot concantenate the message! Terminated the recieve process.")
+				recieverBuffer[target] = {}
+				return true
+			end
+		end
+
+		msg = MAYA.Decode(table.concat(recieverBuffer[target])) --convert HEX data we recieved to raw binary
+		recieverBuffer[target] = {} --clear the buffer
 	else --Something else uses vanilla protocol
 		if (typ == 1) target = -1 --SayTeam
 		else 
@@ -267,92 +271,20 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 		end
 	end
 
-	local spam_eatmsg = 0
+	local spam_eatmsg = false
 
 	if (MAYA.spam_tokens[#s] <= 0 and cv_chatspamprotection.value)
 		MM.DebugPrint("Received SAY cmd too quickly from Player "..(#s + 1).." ("..s.name.."), assuming as spam and blocking message.");
 		MAYA.spam_tics[#s] = 0
-		spam_eatmsg = 1
+		spam_eatmsg = true
 	else
 		MAYA.spam_tokens[#s] = $ - 1
 	end
 
 	if (spam_eatmsg) then return true end
 
-	local action
-	--Handle "/me" actions, but only in messages to everyone
-	if (target == 0) and (#msg > 4) and (string.sub(msg, 1, 4) == "/me ")
-		msg = $:sub(5)
-		action = true
-	end
+	MAYA.RecieveChatMessage(s, target, msg)
 
-	local dispname = s.name
-
-	local pn --player number
-	if (isdedicatedserver) then pn = 0 --#consoleplayer fails for dedicated hosts, we have to make the server's player number ourself
-	else pn = #consoleplayer end
-
-	if (s == consoleplayer) or (target == -1 and MM.AreTeammates(consoleplayer, s)) or (target == 0) or (pn == target - 1)
-		local prefix = ""
-		local cstart = ""
-		local cend = ""
-		local adminchar = "^2~^3"
-		local remotechar = "^2@^3"
-		local fmt2
-		local textcolor = "^0"
-		local tempchar
-
-		--Is player dead?
-		if (s.spectator)
-			cstart = "^6"
-			textcolor = "^6"
-		elseif (target == -1) --say team
-			cstart = MM.RoleColorHUD[s.mm.role]
-			textcolor = cstart
-		else
-			cstart = chatcolor2hudcolor(skincolors[s.skincolor or 1].chatcolor)
-		end
-		prefix = cstart
-
-		--Give admins and remote admins their symbols
-		if (s == server) or (IsPlayerAdmin(s)) then tempchar = "" end
-		if (tempchar)
-			if (s == server)
-				tempchar = $..adminchar
-			elseif (IsPlayerAdmin(s))
-				tempchar = $..remotechar
-			end
-			tempchar = $..cstart
-			cstart = tempchar
-		end
-
-		if (action)
-			fmt2 = "* %s%s%s%s ^2%s%s"
-		elseif (target - 1 == pn) --To you
-			prefix = "^2[PM]"
-			cstart = "^2"
-			textcolor = "^2"
-			fmt2 = "%s<%s%s>%s^0 %s%s"
-		elseif (target > 0) --By you, to another player
-			dispname = players[target - 1].name or "MissingNo."
-			prefix = "^2[TO]"
-			cstart = "^2"
-			fmt2 = "%s<%s%s>%s^0 %s%s"
-		elseif (target == 0) --To everyone
-			if (s.spectator) fmt2 = "%s{%s%s%s}^6 %s%s"
-			else fmt2 = "%s<%s%s%s>^0 %s%s" end
-		else --To your team
-			prefix = (MM.RoleColorHUD[s.mm.role] or "^3").."[TEAM]"
-			fmt2 = "%s<%s%s>^0%s %s%s"
-		end
-		if (isdedicatedserver)
-			MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, origmsg))
-		else
-			if (not s.spectator or (s.spectator and consoleplayer.spectator))
-				MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, msg), cv_chatnotifications.value)
-			end
-		end
-	end
 	return true
 end)
 
@@ -487,7 +419,7 @@ addHook("KeyDown", function(key)
 
 	if (MM.hud.chat.active)
 		if (((c > 31) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
-			if ((MAYA.CHAT_MUTE or unicode.len(MAYA.w_chat) >= HU_MAXMSGLEN)) then return true end
+			if (MAYA.CHAT_MUTE) then return true end
 
 			local chr
 

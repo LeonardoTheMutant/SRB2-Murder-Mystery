@@ -9,16 +9,41 @@
 rawset(_G, "MAYA", {debug = true})
 
 local cv_con_backcolor = CV_FindVar("con_backcolor")
+local cv_chatnotifications = CV_FindVar("chatnotifications")
 local cv_chatmode = CV_FindVar("chatmode")
 local cv_chatwidth = CV_FindVar("chatwidth")
 local cv_chatheight = CV_FindVar("chatheight")
 local cv_chattime = CV_FindVar("chattime")
 local cv_chatbacktint = CV_FindVar("chatbacktint")
 
+local PACKET_BUFSIZE = 216
 local CHAT_BUFSIZE = 64
 local FONTSTART = 22
 local FONTEND = 126
 local FONTSIZE = FONTEND - FONTSTART + 1
+
+local function chatcolor2hudcolor(c)
+	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return "\x80" end
+	switch(c, {
+		[V_MAGENTAMAP] = do c = "^1" end,
+		[V_YELLOWMAP] = do c = "^2" end,
+		[V_GREENMAP] = do c = "^3" end,
+		[V_BLUEMAP] = do c = "^4" end,
+		[V_REDMAP] = do c = "^5" end,
+		[V_GRAYMAP] = do c = "^6" end,
+		[V_ORANGEMAP] = do c = "^7" end,
+		[V_SKYMAP] = do c = "^8" end,
+		[V_PURPLEMAP] = do c = "^9" end,
+		[V_AQUAMAP] = do c = "^a" end,
+		[V_PERIDOTMAP] = do c = "^b" end,
+		[V_AZUREMAP] = do c = "^c" end,
+		[V_BROWNMAP] = do c = "^d" end,
+		[V_ROSYMAP] = do c = "^e" end,
+		[V_INVERTMAP] = do c = "^f" end,
+		['default'] = do c = "^0" end
+	})
+	return c
+end
 
 MAYA.CHAT_MUTE = false
 MAYA.OLD_MUTE = false
@@ -42,6 +67,9 @@ MAYA.chat_log = {}
 MAYA.chat_mini = {}
 MAYA.chat_timers = {}
 table.fill(MAYA.chat_timers, 0, 0, 7)
+
+MAYA.SendBuffer = {}
+for i = -1, 33 do MAYA.SendBuffer[i] = {} end
 
 MAYA.spam_tokens = {}
 for i = 0, 31 do MAYA.spam_tokens[i] = 1 end --fill the buffer with 1 so the motd can be sent.
@@ -271,6 +299,14 @@ MAYA.ChatprintPM = function(player, text)
 	MAYA.Chatprint(text)
 end
 
+MAYA.SplitMessage = function(str, size)
+    local s = {}
+    for i = 1, #str, size do
+        s[#s + 1] = text:sub(i, i + size - 1)
+    end
+    return s
+end
+
 --Send message typed by the user into the chat
 MAYA.SendChatMessage = do
 	local target = 0
@@ -297,7 +333,7 @@ MAYA.SendChatMessage = do
 		local spc = 1
 
 		if (MAYA.teamtalk)
-			MAYA.Chatprint("^5".."Cannot send sayto in Say-Team", false)
+			MAYA.Chatprint("^5Cannot send sayto in Say-Team", false)
 			return
 		end
 
@@ -333,21 +369,127 @@ MAYA.SendChatMessage = do
 
 	--Encode message into the hexadecimal form
 	--Sending the message in raw binary form would be more fitting, but in our case the SRB2 console itself is a bottleneck
-	local msg = {[1] = string.format("SAY $&%02d", target)}
+	local msg = {}
 	local len = #MAYA.w_chat
-	for i = 1, len do
-		msg[i + 1] = HEX[MAYA.w_chat:byte(i)]
-	end
-	
+	for i = 1, len do msg[i] = HEX[MAYA.w_chat:byte(i)] end --Turn each character into "HEX bytes"
+	msg = table.concat($) --Turn "HEX bytes" back to string
+
+	local numPackets = -1
+	for i = 1, #msg, PACKET_BUFSIZE do
+		--There should be a an IF statement that properly cuts the message when there are more than 16 packets but I do not know how to properly do it for Unicode
+		if (numPackets == 16) then
+			MAYA.Chatprint("^2WARNING: ^0Trying to send too long message (>3456 bytes)! Message not sent.")
+			MAYA.SendBuffer = {}
+			return
+		end
+
+		numPackets = $ + 1
+        MAYA.SendBuffer[target][numPackets + 1] = msg:sub(i, i + PACKET_BUFSIZE - 1)
+    end
+	MAYA.SendBuffer[target][0] = numPackets
+	--Alright, we made the packets, now we have to send them. Since we cannot send all of them in one tick, we need a ThinkFrame hook to send 1 packet per tic
+	--So in reality the bandwidth is 220 bytes per tic (226bytes/tic if we count with metadata)... yeah...
+end
+
+addHook("ThinkFrame", do
 	--Send the message, note that we have to additionally put "$&" at the beginning of the message so that the reciever knows that we are using the "MAYA protocol"
 	--Yes I know that the "console command insertion" method may be unreliable and still not safe for private messages, but it is SRB2's problem
 	--STJr should provide a better way of sending or synchronizing custom data between clients
-	msg = table.concat($)
-	if (#msg > 223)
-		MAYA.DebugPrint("Trying to send too long message. To prevent the synch failure the message will not be sent. \x82Tell Leo to remove this stupid message in the future")
-		return
+
+	for target = -1, 33 do --Check for all players, including Team Chat and Global Chat
+		--Funny enough we have to send the packets in descending order ("Last In First Out" stack model)
+		if (not MAYA.SendBuffer[target]) then continue end --ignore if the buffer is not initialized
+		local packetNo = #MAYA.SendBuffer[target] or 0
+		if (packetNo ~= 0) --We have packets to send
+			MAYA.DebugPrint("Sending packet "..(packetNo-1).."/"..MAYA.SendBuffer[target][0].." to "..target)
+			COM_BufInsertText(consoleplayer, string.format("SAY $&%02d%X%X%s", target, (packetNo-1), MAYA.SendBuffer[target][0], MAYA.SendBuffer[target][packetNo])) --Use SAY console command to send
+			MAYA.SendBuffer[target][packetNo] = nil --Remove the packet from the stack
+		else --Nothing to send
+			MAYA.SendBuffer[target] = {} --Clear the buffer
+		end
 	end
-	COM_BufInsertText(consoleplayer, msg)
+end)
+
+MAYA.RecieveChatMessage = function(sender, target, msg)
+	local action
+	--Handle "/me" actions, but only in messages to everyone
+	if (target == 0) and (#msg > 4) and (string.sub(msg, 1, 4) == "/me ")
+		msg = $:sub(5)
+		action = true
+	end
+
+	local dispname = sender.name
+
+	local pn --player number
+	if (isdedicatedserver) then pn = 0 --#consoleplayer fails for dedicated hosts, we have to make the server's player number ourself
+	else pn = #consoleplayer end
+
+	if (sender == consoleplayer) or (target == -1 and MM.AreTeammates(consoleplayer, sender)) or (target == 0) or (pn == target - 1)
+		local prefix = ""
+		local cstart = ""
+		local cend = ""
+		local adminchar = "^2~^3"
+		local remotechar = "^2@^3"
+		local fmt2
+		local textcolor = "^0"
+		local tempchar
+
+		--Is player dead?
+		if (sender.spectator)
+			cstart = "^6"
+			textcolor = "^6"
+		elseif (target == -1) --say team
+			cstart = MM.RoleColorHUD[sender.mm.role]
+			textcolor = cstart
+		else
+			cstart = chatcolor2hudcolor(skincolors[sender.skincolor or 1].chatcolor)
+		end
+		prefix = cstart
+
+		--Give admins and remote admins their symbols
+		if (sender == server) or (IsPlayerAdmin(sender)) then tempchar = "" end
+		if (tempchar)
+			if (sender == server)
+				tempchar = $..adminchar
+			elseif (IsPlayerAdmin(sender))
+				tempchar = $..remotechar
+			end
+			tempchar = $..cstart
+			cstart = tempchar
+		end
+
+		if (action)
+			fmt2 = "* %s%s%s%s ^2%s%s"
+		elseif (target - 1 == pn) --To you
+			prefix = "^2[PM]"
+			cstart = "^2"
+			textcolor = "^2"
+			fmt2 = "%s<%s%s>%s^0 %s%s"
+		elseif (target > 0) --By you, to another player
+			dispname = players[target - 1].name or "MissingNo."
+			prefix = "^2[TO]"
+			cstart = "^2"
+			fmt2 = "%s<%s%s>%s^0 %s%s"
+		elseif (target == 0) --To everyone
+			if (sender.spectator) fmt2 = "%s{%s%s%s}^6 %s%s"
+			else fmt2 = "%s<%s%s%s>^0 %s%s" end
+		else --To your team
+			prefix = (MM.RoleColorHUD[sender.mm.role] or "^3").."[TEAM]"
+			fmt2 = "%s<%s%s>^0%s %s%s"
+		end
+		if (isdedicatedserver)
+			--Dedicated server console cannot interpret UTF-8 correctly, we have to either hide the entire message or show raw HEX data
+			--Obviously I chose the second option. If hosters REALLY want to read the message, they can use "HEX to UTF-8" converter
+			local message = {}
+			local len = #msg
+			for i = 1, len do message[i] = HEX[msg:byte(i)] end --Turn each character into "HEX bytes"
+			MAYA.Chatprint(sender.name.." sent a global message, raw HEX data: "..table.concat(message))
+		else
+			if (not sender.spectator or (sender.spectator and consoleplayer.spectator))
+				MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, msg), cv_chatnotifications.value)
+			end
+		end
+	end
 end
 
 --Main chat rendering routine
