@@ -101,7 +101,8 @@ Lua.Author = SEGA, SandwichCinema, LeonardoTheMutant
 
 Level KB
 Levelname = Railway Station
-SkyNum = 300
+SkyNum = 302
+Weather = 1
 NoZone = True
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
