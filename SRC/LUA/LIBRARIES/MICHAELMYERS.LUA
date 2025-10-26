@@ -323,7 +323,7 @@ MM.TeammatesCount = function(p)
 
 	switch(p.mm.role, {
 		[ROLE_MURDERER] = do
-			teammates = MM.PlayerCount(ROLE_MURDERER) - 1 
+			teammates = MM.PlayerCount(ROLE_MURDERER) - 1
 		end,
 		[ROLE_SHERIFF] = do
 			teammates = (MM.PlayerCount(ROLE_SHERIFF) - 1) + MM.PlayerCount(ROLE_HERO)

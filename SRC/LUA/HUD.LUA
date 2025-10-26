@@ -90,7 +90,9 @@ hud.add(function(v, p)
 		MM.LoadPatch(v, "RACEGO")
 
 		--Intermission background
-		MM.LoadPatch(v, "INTERMBG")
+		for i = 0, 2 do
+			if v.patchExists("INTRMBG"..i) then MM.LoadPatch(v, "INTRMBG"..i) end
+		end
 	end
 
 	--Do not render the main HUD if it was disabled by another (MM) script
@@ -551,7 +553,7 @@ hud.add(function(v)
 	if ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) or (not MM.hud.intermission.active)) return end
 
 	--Background
-	local BGpatch = MM.graphics['INTERMBG']
+	local BGpatch = MM.graphics["INTRMBG"..MM.winner]
 	for x = 0, v.width(), BGpatch.width * v.dupx() do
 		for y = 0, v.height(), BGpatch.height * v.dupy() do
 			v.draw(x, y, BGpatch, V_NOSCALESTART)
@@ -562,8 +564,6 @@ hud.add(function(v)
 
 	local plrs = {}
 	local shift = {x=0, y=0}
-	
-	HIDEO.DrawStrUnicode_Center(v, 160, 4, "^7"..MM.GetText("HUD_MM"))
 
 	--Map name drawer
 	if (mapheaderinfo[gamemap].actnum == 0)

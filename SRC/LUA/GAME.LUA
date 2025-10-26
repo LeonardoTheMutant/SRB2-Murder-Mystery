@@ -43,6 +43,7 @@ addHook("MapLoad", function(map)
 	MM.shwdwn = false
 	MM.minigame = false
 	MM.roleflicker = 140 --4 seconds
+	MM.hud.game.flash.translucency = 0
 
 	--Time limit
 	if (timelimit) then
