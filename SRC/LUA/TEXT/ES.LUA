@@ -155,8 +155,8 @@ MM.AddLang("ES", {
 			"Si un jugador^4 Comisario^0 dispara a un^3 Civil^0, ese jugador perdera su ^Brol^0 y se volvera^3 Civil^0 como castigo. Otro^3 Civil^0 elegido al azar tomara el ^Brol^0 del^4 Comisario^0. Piensa antes de tirar del gatillo!",
 			"\n* Si un^5 Asesino^0 mata a un^4 Comisario^0 mientras todavia quedan^3 Civiles^0 vivos, la^4 Esmeralda del Comisario^0 caera cerca del cadaver.",
 			"Cuando un^3 Civil^0 toma la^4 Esmeralda del Comisario^0, se convertira en ^2Heroe^0. Los ^2Heroes^0 son similares a los^4 Comisarios^0 pero con algunas diferencias:",
-			"  - Si un ^2Heroe^0 mata a un^3 Civil^0, ambos moriran, y su ^Brol^0 no sera reasignado;",
-			"  - ^2Los Heroes^0 no sueltan la^4 Esmeralda del Comisario^0 al morir.",
+			" - Si un ^2Heroe^0 mata a un^3 Civil^0, ambos moriran, y su ^Brol^0 no sera reasignado;",
+			" - ^2Los Heroes^0 no sueltan la^4 Esmeralda del Comisario^0 al morir.",
 			"\n* En rondas con una cantidad de jugadores alta, pueden haber multiples^5 Asesinos^0 y^4 Comisarios^0.^A Equipos^0 de^5 Asesinos^0 y^4 Comisarios^0 se forman para aquellas rondas.",
 			"^ALos Aliados^0 se pueden comunicar usando el comando ^7SAYTEAM^0 en la consola (el boton de SAYTEAM funciona igual que el boton de chat normal) o iniciando un mensaje con el simbolo ^8%^0, que envia tu mensaje automaticamente a tu equipo.",
 			"Si atacas accidentalmente a tu^A aliado^0, ambos recibiran una alerta personalizada. Ten cuidado - estas interacciones pueden revelarle tu ^Brol\a los demas!"

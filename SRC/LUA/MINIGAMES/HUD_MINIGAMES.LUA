@@ -78,7 +78,7 @@ hud.add(function(v, p)
 
 		--CUSTOM3 related text
 		if (not p.mm.minigame.timeout)
-			HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 
 		--TIME
@@ -158,17 +158,17 @@ hud.add(function(v, p)
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role
 		if (p.mm.role)
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		elseif (p.spectator)
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 		if (p.mm.timetravel and p.mm.timetravel.timezone)
 			if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
@@ -192,18 +192,18 @@ hud.add(function(v, p)
 		--CUSTOM3 related text and show yourself
 		if (PONG_GetMySlot(p))
 			if (not p.mm.minigame.timeout) then
-				HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+				HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 			if (not splitscreen)
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				HIDEO.DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag())
+				HIDEO.DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		else
-			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			if (not p.mm.minigame.timeout) then
-				HIDEO.DrawStrUnicode_Right(v, 320, 4, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+				HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
@@ -223,9 +223,9 @@ hud.add(function(v, p)
 		--winner text
 		if (MM.pong.winner != nil)
 			if (not MM.pong.winner)
-				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag())
+				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
 			else
-				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag())
+				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 		
@@ -233,21 +233,21 @@ hud.add(function(v, p)
 		--player name
 		v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
 		--role
-		HIDEO.DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
 		--character picture
 		v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 		--win count
-		HIDEO.DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag())
+		HIDEO.DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		--player 2 side information
 		--name
 		v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
 		--role
-		HIDEO.DrawStrUnicode_Right(v, 304, 184, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag())
+		HIDEO.DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 		--charpic
 		v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 		--win
-		HIDEO.DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag())
+		HIDEO.DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		if (MM.debug)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
@@ -261,7 +261,7 @@ hud.add(function(v, p)
 		end
     elseif (MM.minigame) and (not p.mm.minigame)
         --Draw the invitation/suggestion text
-        HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
-        HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+        HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+        HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 end, "game")

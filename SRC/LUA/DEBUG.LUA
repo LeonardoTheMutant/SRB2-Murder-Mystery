@@ -58,7 +58,7 @@ end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
 	if not p.mm or not mmcharset[1] return end
 	if (p.cmd.buttons&BT_SPIN) mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.active=true end
-	if (p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP)) mmcharset[2]=$+1; if (mmcharset[2]>15) mmcharset[2]=0 end end
+	if (p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP)) mmcharset[2]=$+1; mmcharset[2]=$&15 end
 end)
 local mmlayout={0,0}
 COM_AddCommand("mmlayout",function(p) mmlayout[1]=true;MM.hud.game.active=false end)

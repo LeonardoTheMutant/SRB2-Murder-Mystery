@@ -25,9 +25,6 @@ local function V_GetSHREMDiconID(dist)
 	else return 1 end
 end
 
-local canvasWidth
-local canvasHeight
-
 --
 -- Main game HUD
 --
@@ -42,9 +39,18 @@ hud.add(function(v, p)
 		return
 	end
 
-	--Calculate the canvas size
-	canvasWidth = v.width()/v.dupx()
-	canvasHeight = v.height()/v.dupy()
+	--Calculate important canvas values which are going to be used in the entire UI of the add-on
+	MM.hud.canvas.width = v.width()/v.dupx()
+	MM.hud.canvas.height = v.height()/v.dupy()
+	MM.hud.canvas.font.scale = FU
+	MM.hud.canvas.font.charwidth = FixedMul(HIDEO.charwidth, MM.hud.canvas.font.scale)
+	MM.hud.canvas.font.charheight = FixedMul(HIDEO.charheight, MM.hud.canvas.font.scale)
+
+	--Canvas values for small font
+	if (v.width() < 640) then MM.hud.canvas.font.small.scale = MM.hud.canvas.font.scale
+	else MM.hud.canvas.font.small.scale = 32768 end --MM.hud.canvas.font.scale/2
+	MM.hud.canvas.font.small.charwidth = FixedMul(HIDEO.charwidth, MM.hud.canvas.font.small.scale)
+	MM.hud.canvas.font.small.charheight = FixedMul(HIDEO.charheight, MM.hud.canvas.font.small.scale)
 
 	--Patch Graphics loading
 	if (not MM.graphics)
@@ -105,6 +111,10 @@ hud.add(function(v, p)
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
+
+	--HIDEO.DrawStrUnicode(v, 0, 100, HIDEO.WordWrap(0, 320, V_MONOSPACE, FU, "\nDiscord: ^4https://www.discord.com/invite/UgG8h2djFE^0"), V_MONOSPACE)
+	
+	
 	--HIDEO.DrawStrUnicode(v, 0, 100, HIDEO.WordWrap(0, 320, V_MONOSPACE, FU, "\nDiscord: ^4https://www.discord.com/invite/UgG8h2djFE^0"), V_MONOSPACE)
 	
 	--
@@ -213,27 +223,27 @@ hud.add(function(v, p)
 
 	--Show your role
 	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (MM.hud.game.roleflicker % 2) == 0)
-		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 	end
 	
 	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 	if (p.mm.timetravel and p.mm.timetravel.timezone) and (not p.spectator)
 		if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 		elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 16), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 	end
 
 	--DEAD player exclusive HUD
 	if (p.mm.finished)
 		--DEAD role label
-		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag())
-		HIDEO.DrawStrUnicode_Center(v, 160, 120, HIDEO.WordWrap(0, canvasWidth, 0, FU, MM.GetText("HUD_DEAD")), v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+		HIDEO.DrawStrUnicode_Center(v, 160, 120, HIDEO.WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_DEAD")), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		--"You joined mid-game"
 		if (p.mm.role == nil)
-			HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvasWidth, 0, 32768, MM.GetText("HUD_MIDJOIN")), v.localTransFlag(), true)
+			HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_MIDJOIN")), v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 
 		--"Killed by"
@@ -249,9 +259,9 @@ hud.add(function(v, p)
 		end
 
 		if ((not p.mm.minigame) and (not MM.minigame))
-			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
-			HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
-			HIDEO.DrawStrUnicode_Right(v, 320, 8, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), true)
+			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+			HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+			HIDEO.DrawStrUnicode_Right(v, 320, 2*MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 	end
 
@@ -266,16 +276,16 @@ hud.add(function(v, p)
 
 		if (valid(rival))
 			if ((not p.mm.minigame) and (not rival.mm.minigame))
-				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText("HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+				HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 			elseif ((p.mm.minigame) and (not rival.mm.minigame))
-				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 				if (not p.mm.minigame.timeout)
-					HIDEO.DrawStrUnicode_Right(v, 320, 4, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+					HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 				end
 			elseif ((not p.mm.minigame) and (rival.mm.minigame) and (leveltime % 2))
-				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-				HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+				HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+				HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 			end
 		end
 	end
@@ -414,24 +424,24 @@ hud.add(function(v, p)
 
 	--Are you alone?
 	if (MM.PlayerCount() == 1)
-		HIDEO.DrawStrUnicode_Center(v, 160, 136, HIDEO.WordWrap(0, canvasWidth, 0, FU, MM.GetText("HUD_ALONE")), v.localTransFlag())
+		HIDEO.DrawStrUnicode_Center(v, 160, 136, HIDEO.WordWrap(0, canvasWidth, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_ALONE")), v.localTransFlag(), MM.hud.canvas.font.scale)
 	end
 
 	--suggest a minigame
 	if (MM.PlayerCount() == 1) or ((p.spectator) and (not MM.minigame) and (not p.mm.minigame) and (not MM.twopgame))
-		HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-		HIDEO.DrawStrUnicode_Right(v, 320, 4, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
-		HIDEO.DrawStrUnicode_Right(v, 320, 8, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), true)
+		HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+		HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+		HIDEO.DrawStrUnicode_Right(v, 320, 2*MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 
 	--"Showdown duel!"
 	if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame) and (MM.PlayerCount() > 1))
-		HIDEO.DrawStrUnicode_Center(v, 160, 192, "^8"..MM.GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM)
+		HIDEO.DrawStrUnicode_Center(v, 160, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), "^8"..MM.GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM, MM.hud.canvas.font.scale)
 	end
 
 	--Sneaking
 	if ((p.mm.sneak) and valid(p.mo) and P_IsObjectOnGround(p.mo))
-		HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), MM.GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), true)
+		HIDEO.DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), MM.GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 	
 	--HUD frontend for the flash/spark effects
@@ -451,18 +461,18 @@ hud.add(function(v)
 
 	hud.disable("rankings")
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 12, "^7"..MM.GetText("HUD_MM"), v.localTransFlag())
+	HIDEO.DrawStrUnicode_Center(v, 160, 8, "^7"..MM.GetText("HUD_MM"), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 	--Player list
 	if ((cv_cryptic.value) or (MM.PlayerCount() == 1))
-		HIDEO.DrawStrUnicode(v, 16, 24, HIDEO.WordWrap(16, 304, 0, FU, MM.GetText("HUD_SCORESTAB")), v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, 16, 24, HIDEO.WordWrap(16, 304, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_SCORESTAB")), v.localTransFlag(), MM.hud.canvas.font.scale)
 	else
 		--Draw the player list
 		--Suspects/Victims label
 		if (consoleplayer.mm.role and (consoleplayer.mm.role == ROLE_MURDERER))
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText("HUD_VICTIMS")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText("HUD_VICTIMS")..":", v.localTransFlag(), MM.hud.canvas.font.scale)
 		else
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText("HUD_SUSPECTS")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.playerInfo.x, (MM.hud.scores.pos.playerInfo.y - 4), "^2"..MM.GetText("HUD_SUSPECTS")..":", v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--The list itself
@@ -474,18 +484,18 @@ hud.add(function(v)
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
 				if (i > 10) then shift = {x=140, y=80} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "\30 "..string.sub(plrs[i].name, 1, 15), V_ALLOWLOWERCASE|v.localTransFlag())
+				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\xC2B7 "..string.sub(plrs[i].name, 1, 15), v.localTransFlag(), MM.hud.canvas.font.scale)
 			else --Compact ("Tripple column") mode
 				if (i > 11) then shift = {x=94, y=88}
 				elseif (i > 22) then shift = {x=188, y=88} end
-				v.drawString((MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * 8)), "^05 "..string.sub(plrs[i].name, 1, 16), V_ALLOWLOWERCASE|v.localTransFlag(), "thin")
+				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\xC2B7 "..string.sub(plrs[i].name, 1, 16), v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
 		--Teammates tracker
 		if (MM.TeammatesCount(consoleplayer))
 			local teammateNo = 0
-			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), "^A"..MM.GetText("HUD_TEAMMATES")..":", v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), "^A"..MM.GetText("HUD_TEAMMATES")..":", v.localTransFlag(), MM.hud.canvas.font.scale)
 			for p in players.iterate
 				if (MM.AreTeammates(consoleplayer, p) and (consoleplayer != p))
 					--character icon
@@ -511,15 +521,15 @@ hud.add(function(v)
 	--Roles counter
 	if (not cv_cryptic.value)
 		--Murderer
-		HIDEO.DrawStrUnicode(v, 16, 176, MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag())
+		HIDEO.DrawStrUnicode(v, 16, (MM.hud.canvas.height - 3*MM.hud.canvas.font.charheight), MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag(), MM.hud.canvas.font.scale)
 		--Sheriff (and Hero)
 		if (MM.PlayerCount(ROLE_HERO))
-			HIDEO.DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..MM.PlayerCount(ROLE_HERO)), v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..MM.PlayerCount(ROLE_HERO)), v.localTransFlag(), MM.hud.canvas.font.scale)
 		else
-			HIDEO.DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag())
+			HIDEO.DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 		--Civilian
-		if (MM.PlayerCount(ROLE_CIVILIAN)) HIDEO.DrawStrUnicode(v, 16, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag()) end
+		if (MM.PlayerCount(ROLE_CIVILIAN)) HIDEO.DrawStrUnicode(v, 16, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag(), MM.hud.canvas.font.scale) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#MM.shremds) and (leveltime % 2))
@@ -531,7 +541,9 @@ hud.add(function(v)
 	v.drawString(160, 176, "ONLINE: "..MM.PlayerCount(), v.localTransFlag())
 
 	--Role target
-	if (consoleplayer.mm.role) then HIDEO.DrawStrUnicode(v, 160, 184, MM.RoleColorHUD[consoleplayer.mm.role]..HIDEO.WordWrap(160, 304, 0, 32768, MM.GetText("HUD_ROLETARGET", consoleplayer.mm.role)), v.localTransFlag(), true) end --FU/2
+	if (consoleplayer.mm.role)
+		HIDEO.DrawStrUnicode(v, 160, (176 + MM.hud.canvas.font.charheight), MM.RoleColorHUD[consoleplayer.mm.role]..HIDEO.WordWrap(160, 304, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_ROLETARGET", consoleplayer.mm.role)), v.localTransFlag(), MM.hud.canvas.font.small.scale)
+	end
 
 	--HUD frontend for the flash/spark effects
 	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end

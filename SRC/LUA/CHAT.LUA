@@ -125,9 +125,7 @@ end)
 -- UTF-8 CHAT
 --
 
-local packetNo, packetCount
-local recieverBuffer = {}
-for i = -1, 33 do recieverBuffer[i] = {} end
+local HU_MAXMSGLEN = 222
 
 local ctrldown = false
 local leftctrldown = false
@@ -191,32 +189,6 @@ addHook("KeyUp", function(key)
 	})
 end)
 
-local function GetNextLayout()
-	local langkeys = {}
-	for langEntry in pairs(MM.text) do table.insert(langkeys, langEntry) end
-	table.sort(langkeys)
-
-	for id, lang in ipairs(langkeys) do
-		if (lang == MM.keyboardLayout) then
-			if (id + 1 > #langkeys) then return langkeys[1]
-			else return langkeys[id + 1] end
-		end
-	end
-end
-
-local function GetPrevLayout()
-	local langkeys = {}
-	for langEntry in pairs(MM.text) do table.insert(langkeys, langEntry) end
-	table.sort(langkeys)
-
-	for id, lang in ipairs(langkeys) do
-		if (lang == MM.keyboardLayout) then
-			if (id - 1 < 1) then return langkeys[#langkeys]
-			else return langkeys[id - 1] end
-		end
-	end
-end
-
 addHook("PlayerMsg", function(s, typ, t, msg)
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (typ == 3) then return end
 
@@ -227,49 +199,19 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 	end
 
 	local target
-	if (msg:sub(1,2) == "$&") --Recieved a message from MAYA
-		target = tonumber(msg:sub(3,4)) or 0
-		packetNo = tonumber(msg:sub(5,5), 16)
-		packetCount = tonumber(msg:sub(6,6), 16)
-		MAYA.DebugPrint(string.format("Recieved a %d byte long message from \x81%s\x80. Target %d; Packet %d/%d; Message \x86%s", #msg, s.name, target, packetNo+1, packetCount+1, msg))
-		if (packetNo == packetCount) --if it is the last packet (that was sent first) write the number of packets we should recieve in total
-			recieverBuffer[target][0] = packetCount
-		else
-			if (packetCount ~= recieverBuffer[target][0]) then
-				MAYA.DebugPrint("The total amount of packets described in this packet is "..packetCount.." instead of "..recieverBuffer[target][0]..", the message is suspected to be corrupted! Terminated the recieve process.")
-				recieverBuffer[target] = {}
-				return true
-			end
-		end
-
-		msg = $:sub(7)
-		recieverBuffer[target][packetNo + 1] = msg
-
-		if ((#msg % 2) == 1) then
-			MM.DebugPrint("Recieved an odd amount of bytes! (Message: \""..msg.."\")")
-			return true
-		end
-
-		if (packetNo ~= 0) then return true end --Continue only if we recieve the first packet (which is sent last)
-
-		--Check if actually all packets were recieved
-		for i = 1, (recieverBuffer[target][0] + 1) do
-			if (not recieverBuffer[target][i]) then
-				MAYA.DebugPrint("Packet "..i.." is missing, cannot concantenate the message! Terminated the recieve process.")
-				recieverBuffer[target] = {}
-				return true
-			end
-		end
-
-		msg = MAYA.Decode(table.concat(recieverBuffer[target])) --convert HEX data we recieved to raw binary
-		recieverBuffer[target] = {} --clear the buffer
-	else --Something else uses vanilla protocol
-		if (typ == 1) target = -1 --SayTeam
-		else 
-			if (t) then target = #t + 1 --SayTo
-			else target = 0 end --Say
-		end
+	if (typ == 1) target = -1 --SayTeam
+	else 
+		if (t) then target = #t + 1 --SayTo
+		else target = 0 end --Say
 	end
+
+	local pn --player number
+	if (isdedicatedserver) then pn = 0 --#consoleplayer fails for dedicated hosts, we have to make the server's player number ourself
+	else pn = #consoleplayer end
+
+	if (target == -1 and not MM.AreTeammates(consoleplayer, s)) then return true end --ignore team messages which are not meant for us
+
+	if (target == -1 and gamestate ~= GS_LEVEL) then target = 0 end --redirect team messages to global chat if outside the round
 
 	local spam_eatmsg = false
 
@@ -419,65 +361,18 @@ addHook("KeyDown", function(key)
 
 	if (MM.hud.chat.active)
 		if (((c > 31) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
-			if (MAYA.CHAT_MUTE) then return true end
+			if (MAYA.CHAT_MUTE or (#MAYA.w_chat >= HU_MAXMSGLEN)) then return true end
 
 			local chr
+			if (c == 32) then chr = " "
+			else chr = MAYA.KeyboardLayout[shiftdown][c] end
 
-			if (c == 32)
-				chr = " "
-			else
-				local modifiers = 1 + bool2int(shiftdown) + bool2int(altdown)*2 --0x1 -Shift, 0x2 - Alt (+1 for LUA's non-0-indexing)
-				
-				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers] and MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c])
-					chr = MM.text[MM.keyboardLayout]["KEYBOARD"][modifiers][c]
-				elseif (MAYA.defaultLayout[modifiers] and MAYA.defaultLayout[modifiers][c])
-					chr = MAYA.defaultLayout[modifiers][c]
-				end
-
-				--Register the dead key press
-				if ((type(chr) == "table") and (not deadkey))
-					deadkey = chr[1]
-					return true
-				end
-			end
-
-			if (chr and type(chr) == "table") then chr = chr[1] end
-
-			if (deadkey) --Was dead key previously pressed?
-				if (MM.text[MM.keyboardLayout]["KEYBOARD"] and MM.text[MM.keyboardLayout]["KEYBOARD"][deadkey..chr])
-					--Dead key + Valid combination key
-					table.insert(w_chat_table, MAYA.c_input, MM.text[MM.keyboardLayout]["KEYBOARD"][deadkey..chr])
-					MAYA.c_input = $ + 1
-				else
-					--Dead key + Invalid combination key, add two sepparate characters
-					table.insert(w_chat_table, MAYA.c_input, deadkey)
-					MAYA.c_input = $ + 1
-					table.insert(w_chat_table, MAYA.c_input, chr)
-					MAYA.c_input = $ + 1
-				end
-				deadkey = nil
-			else --Regular key
-				if (chr)
-					table.insert(w_chat_table, MAYA.c_input, chr) --Insert the character
-					MAYA.c_input = $ + 1
-				end
-			end
+			--insert the character
+			table.insert(w_chat_table, MAYA.c_input, chr) --Insert the character
+			MAYA.c_input = $ + 1
 
 			--"Compile" the string from table
 			MAYA.w_chat = table.concat(w_chat_table)
-		end
-
-
-		--Switch the keyboard layout
-		--Left CTRL+SPACE, next layout
-		if (leftctrldown and c == KEY_SPACE)
-			MM.keyboardLayout = GetNextLayout()
-			return true
-		end
-		--Right CTRL+SPACE, previous lauout
-		if (rightctrldown and c == KEY_SPACE)
-			MM.keyboardLayout = GetPrevLayout()
-			return true
 		end
 
 		--Ignore modifier keys
@@ -549,7 +444,8 @@ addHook("KeyDown", function(key)
 				input.setMouseGrab(false)
 				MM.hud.chat.active = true
 				MAYA.w_chat = ""
-				MAYA.teamtalk = true
+				if (consoleplayer.mm and consoleplayer.mm.role and not (consoleplayer.mm.role == ROLE_NONE or consoleplayer.mm.role == ROLE_CIVILIAN)) then MAYA.teamtalk = true
+				else MAYA.teamtalk = false end
 				MAYA.chat_scrollmedown = true
 				MAYA.typelines = 1
 				return true

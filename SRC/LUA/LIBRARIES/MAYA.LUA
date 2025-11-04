@@ -16,7 +16,6 @@ local cv_chatheight = CV_FindVar("chatheight")
 local cv_chattime = CV_FindVar("chattime")
 local cv_chatbacktint = CV_FindVar("chatbacktint")
 
-local PACKET_BUFSIZE = 216
 local CHAT_BUFSIZE = 64
 local FONTSTART = 22
 local FONTEND = 126
@@ -82,8 +81,8 @@ local chatx = 13
 local chaty = 169
 
 --Default keyboard layout
-MAYA.defaultLayout = {
-	[1] = { --No modifier buttons
+MAYA.KeyboardLayout = {
+	[false] = { --No modifier buttons
 		[39] = "'",
 		[42] = "*",
 		[44] = ",",
@@ -145,7 +144,7 @@ MAYA.defaultLayout = {
 		[209] = "3",
 		[228] = "/"
 	},
-	[2] = { --SHIFT
+	[true] = { --SHIFT
 		[39] = "\"",
 		[42] = "*",
 		[44] = "<",
@@ -162,7 +161,7 @@ MAYA.defaultLayout = {
 		[55] = "&",
 		[56] = "*",
 		[57] = "(",
-		[59] = ";",
+		[59] = ":",
 		[61] = "+",
 		[91] = "{",
 		[92] = "|",
@@ -239,16 +238,6 @@ MAYA.DebugPrint = function(str, ...)
 	if (MAYA.debug) printf("\x85MAYA\x80: %s", str, {...}) end
 end
 
---Decode the message sent by MAYA protocol
-MAYA.Decode = function(data)
-	local out = {}
-	local len = #data
-	for i = 1, len, 2 do
-		out[#out + 1] = HEX2CHAR[data:sub(i, i+1)]
-	end
-	return table.concat(out)
-end
-
 --Remove the latest message from chat log
 MAYA.RemoveChatText_Log = do
 	MAYA.DebugPrint("RemoveChatText_Log()")
@@ -299,23 +288,15 @@ MAYA.ChatprintPM = function(player, text)
 	MAYA.Chatprint(text)
 end
 
-MAYA.SplitMessage = function(str, size)
-    local s = {}
-    for i = 1, #str, size do
-        s[#s + 1] = text:sub(i, i + size - 1)
-    end
-    return s
-end
-
 --Send message typed by the user into the chat
 MAYA.SendChatMessage = do
 	local target = 0
 
 	--If our message was nothing but spaces, don't send it
-	for i = 1, unicode.len(MAYA.w_chat) do
-		if (unicode.code(unicode.sub(MAYA.w_chat, i, i)) == 32) target = $ + 1 end
+	for i = 1, #MAYA.w_chat do
+		if (MAYA.w_chat:byte(i) == 32) target = $ + 1 end
 	end
-	if (target == unicode.len(MAYA.w_chat)) then return end
+	if (target == #MAYA.w_chat) then return end
 	target = 0
 
 	MAYA.c_input = 1
@@ -329,11 +310,11 @@ MAYA.SendChatMessage = do
 		return
 	end
 
-	if (unicode.len(MAYA.w_chat) > 4 and string.sub(MAYA.w_chat, 1, 3) == "/pm") --used /pm
+	if (#MAYA.w_chat > 4 and string.sub(MAYA.w_chat, 1, 3) == "/pm") --used /pm
 		local spc = 1
 
 		if (MAYA.teamtalk)
-			MAYA.Chatprint("^5Cannot send sayto in Say-Team", false)
+			MAYA.Chatprint("^5Cannot send PM in Say-Team", false)
 			return
 		end
 
@@ -367,48 +348,18 @@ MAYA.SendChatMessage = do
 
 	if (MAYA.teamtalk) then target = -1 end
 
-	--Encode message into the hexadecimal form
-	--Sending the message in raw binary form would be more fitting, but in our case the SRB2 console itself is a bottleneck
-	local msg = {}
-	local len = #MAYA.w_chat
-	for i = 1, len do msg[i] = HEX[MAYA.w_chat:byte(i)] end --Turn each character into "HEX bytes"
-	msg = table.concat($) --Turn "HEX bytes" back to string
-
-	local numPackets = -1
-	for i = 1, #msg, PACKET_BUFSIZE do
-		--There should be a an IF statement that properly cuts the message when there are more than 16 packets but I do not know how to properly do it for Unicode
-		if (numPackets == 16) then
-			MAYA.Chatprint("^2WARNING: ^0Trying to send too long message (>3456 bytes)! Message not sent.")
-			MAYA.SendBuffer = {}
-			return
+	switch(target, {
+		[-1] = do
+			COM_BufInsertText(consoleplayer, "SAYTEAM \""..MAYA.w_chat.."\"")
+		end,
+		[0] = do
+			COM_BufInsertText(consoleplayer, "SAY \""..MAYA.w_chat.."\"")
+		end,
+		['default'] = do
+			COM_BufInsertText(consoleplayer, "SAYTO "..(target - 1).." \""..MAYA.w_chat.."\"")
 		end
-
-		numPackets = $ + 1
-        MAYA.SendBuffer[target][numPackets + 1] = msg:sub(i, i + PACKET_BUFSIZE - 1)
-    end
-	MAYA.SendBuffer[target][0] = numPackets
-	--Alright, we made the packets, now we have to send them. Since we cannot send all of them in one tick, we need a ThinkFrame hook to send 1 packet per tic
-	--So in reality the bandwidth is 220 bytes per tic (226bytes/tic if we count with metadata)... yeah...
+	})
 end
-
-addHook("ThinkFrame", do
-	--Send the message, note that we have to additionally put "$&" at the beginning of the message so that the reciever knows that we are using the "MAYA protocol"
-	--Yes I know that the "console command insertion" method may be unreliable and still not safe for private messages, but it is SRB2's problem
-	--STJr should provide a better way of sending or synchronizing custom data between clients
-
-	for target = -1, 33 do --Check for all players, including Team Chat and Global Chat
-		--Funny enough we have to send the packets in descending order ("Last In First Out" stack model)
-		if (not MAYA.SendBuffer[target]) then continue end --ignore if the buffer is not initialized
-		local packetNo = #MAYA.SendBuffer[target] or 0
-		if (packetNo ~= 0) --We have packets to send
-			MAYA.DebugPrint("Sending packet "..(packetNo-1).."/"..MAYA.SendBuffer[target][0].." to "..target)
-			COM_BufInsertText(consoleplayer, string.format("SAY $&%02d%X%X%s", target, (packetNo-1), MAYA.SendBuffer[target][0], MAYA.SendBuffer[target][packetNo])) --Use SAY console command to send
-			MAYA.SendBuffer[target][packetNo] = nil --Remove the packet from the stack
-		else --Nothing to send
-			MAYA.SendBuffer[target] = {} --Clear the buffer
-		end
-	end
-end)
 
 MAYA.RecieveChatMessage = function(sender, target, msg)
 	local action
@@ -439,7 +390,7 @@ MAYA.RecieveChatMessage = function(sender, target, msg)
 			cstart = "^6"
 			textcolor = "^6"
 		elseif (target == -1) --say team
-			cstart = MM.RoleColorHUD[sender.mm.role]
+			cstart = MM.RoleColorHUD[sender.mm.role] or ""
 			textcolor = cstart
 		else
 			cstart = chatcolor2hudcolor(skincolors[sender.skincolor or 1].chatcolor)
@@ -495,24 +446,11 @@ end
 --Main chat rendering routine
 --Draws the inputbox and calls MAYA.DrawChatLog() to draw the chat log
 MAYA.DrawChat = function(v)
-	local scale, charwidth, charheight, texttype
-	if (v.width() < 640)
-		scale = 65536
-		charwidth = 8
-		charheight = 8
-	else
-		scale = 32768
-		charwidth = 4
-		charheight = 6
-		texttype = "small"
-	end
-
 	local boxw = cv_chatwidth.value
-	local t = 0
 	local c = 0
-	local y = chaty - (MAYA.typelines*charheight)
+	local y = chaty - (MAYA.typelines * MM.hud.canvas.font.small.charheight)
 	local i = 0
-	local saylen = unicode.len(MAYA.w_chat) -- You learn new things everyday!
+	local saylen = #MAYA.w_chat
 	local cflag = 0;
 	local talk = "Say: "
 
@@ -525,18 +463,9 @@ MAYA.DrawChat = function(v)
 		cflag = V_GRAYMAP; -- set text in gray if chat is muted.
 	end
 
-	local layoutwidth = #MM.keyboardLayout or 2
-	layoutwidth = $ * charwidth + charwidth
-
-	v.drawFill(chatx, y - 1, layoutwidth, (MAYA.typelines*charheight), GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_20TRANS)
-	v.drawString(chatx + 2, y, MM.keyboardLayout or "EN", V_SNAPTOBOTTOM | V_SNAPTOLEFT, texttype)
-	if (v.width() < 640) then v.drawString(chatx, chaty, "CTRL+SPACE", V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Low resolution
-	else v.drawString(chatx, chaty, "CTRL+SPACE", V_SNAPTOBOTTOM|V_SNAPTOLEFT, "small-thin") end
-
-	v.drawFill(chatx + layoutwidth, y-1, boxw - layoutwidth, (MAYA.typelines*charheight), GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS);
-
-	v.drawString((chatx + layoutwidth + 2), y, talk, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE|cflag, texttype)
-	c = #talk * charwidth
+	v.drawFill(chatx, y-1, boxw, (MAYA.typelines * MM.hud.canvas.font.small.charheight) + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS);
+	HIDEO.DrawStrUnicode(v, (chatx + 2), y, talk, V_SNAPTOBOTTOM|V_SNAPTOLEFT|cflag, MM.hud.canvas.font.small.scale)
+	c = #talk * MM.hud.canvas.font.small.charwidth
 	-- if chat is muted, just draw the log and get it over with, no need to draw anything else.
 	if (MAYA.CHAT_MUTE)
 		MAYA.DrawChatLog(v, 0);
@@ -545,22 +474,22 @@ MAYA.DrawChat = function(v)
 
 	MAYA.typelines = 1;
 
-	if (((unicode.len(MAYA.w_chat) == 0) or (MAYA.c_input == 1)) and MAYA.tick < 4)
-		v.drawScaled((chatx + c + layoutwidth + 2)*FU, (y + 1)*FU, scale, HIDEO.GetUnicodeFont(v, 95), V_SNAPTOBOTTOM|V_SNAPTOLEFT|t)
+	if (((#MAYA.w_chat == 0) or (MAYA.c_input == 1)) and MAYA.tick < 4)
+		HIDEO.DrawCharUnicode(v, (chatx + c + 2), (y + 1), 95, V_SNAPTOBOTTOM|V_SNAPTOLEFT, nil, MM.hud.canvas.font.small.scale)
 	end
 
-	for i = 1, unicode.len(MAYA.w_chat) do
+	for i = 1, #MAYA.w_chat do
 		local skippedline = false;
 		if (MAYA.c_input == i + 1)
 			local cursorx
-			if (c + charwidth < boxw - charwidth - layoutwidth) then cursorx = chatx + 2 + c + charwidth
+			if (c + MM.hud.canvas.font.small.charwidth < boxw - MM.hud.canvas.font.small.charwidth) then cursorx = chatx + 2 + c + MM.hud.canvas.font.small.charwidth
 			else cursorx = chatx + 1 end
 
 			local cursory
 			if (cursorx != chatx + 1) then cursory = y
-			else cursory = y + charheight end
+			else cursory = y + MM.hud.canvas.font.small.charheight end
 
-			if (MAYA.tick < 4) then v.drawScaled((cursorx + layoutwidth)*FU, (cursory+1)*FU, scale, HIDEO.GetUnicodeFont(v, 95), V_SNAPTOBOTTOM|V_SNAPTOLEFT|t) end
+			if (MAYA.tick < 4) then HIDEO.DrawCharUnicode(v, cursorx, (cursory+1), 95, V_SNAPTOBOTTOM|V_SNAPTOLEFT, nil, MM.hud.canvas.font.small.scale) end
 
 			if (cursorx == chatx + 1 and saylen == i)
 				MAYA.typelines = $ + 1;
@@ -568,15 +497,13 @@ MAYA.DrawChat = function(v)
 			end
 		end
 
-		local chr = unicode.code(unicode.sub(MAYA.w_chat, i, i))
-		if (chr > FONTSTART and chr ~= 32) then
-			v.drawScaled((chatx + c + layoutwidth + 2)*FU, y*FU, scale, HIDEO.GetUnicodeFont(v, chr), V_SNAPTOBOTTOM|V_SNAPTOLEFT | t)
-		end
+		local chr = MAYA.w_chat:byte(i)
+		if (chr > FONTSTART and chr ~= 32) then HIDEO.DrawCharUnicode(v, (chatx + c + 2), y, chr, V_SNAPTOBOTTOM|V_SNAPTOLEFT, nil, MM.hud.canvas.font.small.scale) end
 
-		c = $ + charwidth;
-		if (c > boxw-charwidth*2-layoutwidth and not skippedline)
+		c = $ + MM.hud.canvas.font.small.charwidth;
+		if (c > boxw-MM.hud.canvas.font.small.charwidth*2 and not skippedline)
 			c = 0;
-			y = $ + charheight;
+			y = $ + MM.hud.canvas.font.small.charheight;
 			MAYA.typelines = $ + 1;
 		end
 	end
@@ -584,7 +511,7 @@ MAYA.DrawChat = function(v)
 	-- handle /pm list
 	if (string.sub(MAYA.w_chat, 1, 3) == "/pm" and not MAYA.teamtalk) -- 320x200 unsupported
 		local count = 0;
-		local p_dispy = chaty - charheight - 1;
+		local p_dispy = chaty - MM.hud.canvas.font.small.charheight - 1;
 
 		--"/pm" list
 		for player in players.iterate do
@@ -614,14 +541,14 @@ MAYA.DrawChat = function(v)
 		
 			if (valid(player)) then
 				local name = string.sub(player.name, 1, 7)
-				v.drawFill(chatx + boxw + 2, p_dispy - (6 * count), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
-				v.drawString(chatx + boxw + 4, (p_dispy - (6 * count) + 1), string.format("\x82%d\x80 - %s", #player, name), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE, texttype)
+				v.drawFill(chatx + boxw + 2, (p_dispy - (6 * count)), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
+				HIDEO.DrawStrUnicode(v, (chatx + boxw + 4), (p_dispy - (6 * count) + 1), string.format("\x82%d\x80 - %s", #player, name), V_SNAPTOBOTTOM|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
 				count = count + 1
 			end
 		end
 		if (count == 0) -- no results.
-			v.drawFill(chatx+boxw+2, p_dispy- (6*count), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS); -- fill it like the chat so the text doesn't become hard to read because of the hud.
-			v.drawString(chatx+boxw+4, p_dispy- (6*count) + 1, "NO RESULT.", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE, texttype);
+			v.drawFill((chatx + boxw + 2), (p_dispy - (6 * count)), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS); -- fill it like the chat so the text doesn't become hard to read because of the hud.
+			HIDEO.DrawStrUnicode(v, (chatx + boxw + 4), (p_dispy - (6 * count) + 1), "NO RESULT.", V_SNAPTOBOTTOM|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale);
 		end
 	end
 
@@ -630,19 +557,7 @@ end
 
 --Draw the chat log
 MAYA.DrawChatLog = function(v, offset)
-	local scale, charwidth, charheight, boxh
-	if (v.width() < 640)
-		scale = 65536
-		charwidth = 8
-		charheight = 8
-		boxh = min(cv_chatheight.value, 19)
-	else
-		scale = 32768
-		charwidth = 4
-		charheight = 6
-		boxh = cv_chatheight.value
-	end
-
+	local boxh = min(cv_chatheight.value, (chaty / MM.hud.canvas.font.small.charheight))
 	local boxw = cv_chatwidth.value
 	local x = chatx + 2
 	local y
@@ -656,18 +571,15 @@ MAYA.DrawChatLog = function(v, offset)
 	--make sure that out scroll position isn't "illegal"
 	if (MAYA.chat_scroll > MAYA.chat_maxscroll) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 
-	y = chaty - offset*charheight - MAYA.chat_scroll*charheight - boxh*charheight - 12
+	y = chaty - offset*MM.hud.canvas.font.small.charheight - (MAYA.chat_scroll * MM.hud.canvas.font.small.charheight) - boxh*MM.hud.canvas.font.small.charheight - 12
 
-	chat_topy = y + MAYA.chat_scroll*charheight
-	chat_bottomy = chat_topy + boxh*charheight
+	chat_topy = y + (MAYA.chat_scroll * MM.hud.canvas.font.small.charheight)
+	chat_bottomy = chat_topy + (boxh * MM.hud.canvas.font.small.charheight)
 
-	v.drawFill(chatx, chat_topy, boxw, boxh*charheight + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS)
-
-	local layoutwidth = #MM.keyboardLayout or 2
-	layoutwidth = $ * charwidth + charwidth
+	v.drawFill(chatx, chat_topy, boxw, boxh*MM.hud.canvas.font.small.charheight + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS)
 
 	for i = 0, MAYA.chat_nummsg_log - 1 do
-		local msg = HIDEO.WordWrap(0, boxw-charwidth-2, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, scale, MAYA.chat_log[i])
+		local msg = HIDEO.WordWrap(0, boxw-MM.hud.canvas.font.small.charwidth-2, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, MM.hud.canvas.font.small.scale, MAYA.chat_log[i])
 		local colormap
 
 		local str = {}
@@ -677,7 +589,7 @@ MAYA.DrawChatLog = function(v, offset)
 		while (j <= #str) do repeat
 			if (str[j] == '\n') --newline
 				if not prev_linereturn then
-					dy = $ + charheight
+					dy = $ + MM.hud.canvas.font.small.charheight
 					dx = 0
 				end
 				prev_linereturn = true
@@ -691,21 +603,21 @@ MAYA.DrawChatLog = function(v, offset)
 				break --continue
 			end
 
-			local code = unicode.code(str[j])
+			local code = str[j]:byte()
 			prev_linereturn = false
 			if (y+dy+2 >= chat_topy) and (y+dy < chat_bottomy) and (code ~= 32) then
-				v.drawScaled((x + dx + 2)*FU, (y + dy + 2)*FU, scale, HIDEO.GetUnicodeFont(v, code), V_SNAPTOBOTTOM|V_SNAPTOLEFT, colormap)
+				HIDEO.DrawCharUnicode(v, (x + dx + 2), (y + dy + 2), code, V_SNAPTOBOTTOM|V_SNAPTOLEFT, colormap, MM.hud.canvas.font.small.scale)
 			end
-			dx = $ + charwidth
+			dx = $ + MM.hud.canvas.font.small.charwidth
 
-			if (dx >= boxw - charwidth - 2 and i < MAYA.chat_nummsg_log) then
+			if (dx >= boxw - MM.hud.canvas.font.small.charwidth - 2 and i < MAYA.chat_nummsg_log) then
 				dx = 0
-				dy = $ + charheight
+				dy = $ + MM.hud.canvas.font.small.charheight
 				prev_linereturn = true
 			end
 			j = $ + 1
 		until true end
-		dy = $ + charheight
+		dy = $ + MM.hud.canvas.font.small.charheight
 		dx = 0
 	end
 
@@ -714,7 +626,7 @@ MAYA.DrawChatLog = function(v, offset)
 	end
 	MAYA.chat_scrollmedown = false
 
-	MAYA.chat_maxscroll = max(dy / charheight - cv_chatheight.value, 0)
+	MAYA.chat_maxscroll = max(dy / MM.hud.canvas.font.small.charheight - cv_chatheight.value, 0)
 
 	if (atbottom) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 
@@ -738,16 +650,7 @@ end
 
 --Draw the mini chat log
 MAYA.DrawMiniChat = function(v)
-	local scale, charwidth, charheight
-	if (v.width() < 640)
-		scale = 65536
-		charwidth = 8
-		charheight = 8
-	else
-		scale = 32768
-		charwidth = 4
-		charheight = 6
-	end
+	if (MAYA.chat_nummsg_min == 0) then return end --Do not draw if nothing to show
 
 	local x = chatx+2
 	local y
@@ -757,35 +660,32 @@ MAYA.DrawMiniChat = function(v)
 	local dy = 0
 	local prev_linereturn = false
 
-	if (MAYA.chat_nummsg_min == 0) then return end --Do not draw if nothing to show
-
 	for i = MAYA.chat_nummsg_min, 1, -1 do
 		if (MAYA.chat_mini[i - 1])
-			local msg = HIDEO.WordWrap(0, boxw-charwidth-2, V_MONOSPACE, scale, MAYA.chat_mini[i - 1])
+			local msg = HIDEO.WordWrap(0, (boxw - MM.hud.canvas.font.small.charwidth - 2), V_MONOSPACE, MM.hud.canvas.font.small.scale, MAYA.chat_mini[i - 1])
 			for j, c, b in unicode.chars(msg) do
-				local code = unicode.code(c)
-				if (code == 10) --newline, get back down
+				if (c == '\n') --newline, get back down
 					if (not prev_linereturn)
-						chatheight = $ + charheight
+						chatheight = $ + MM.hud.canvas.font.small.charheight
 						dx = 0
 					end
 					prev_linereturn = true
-				elseif (code >= FONTSTART)
+				elseif (c:byte() >= FONTSTART)
 					prev_linereturn = false
-					dx = $ + charwidth
+					dx = $ + MM.hud.canvas.font.small.charwidth
 
-					if (dx >= boxw-charwidth-2)
+					if (dx >= boxw-MM.hud.canvas.font.small.charwidth-2)
 						dx = 0
-						chatheight = $ + charheight
+						chatheight = $ + MM.hud.canvas.font.small.charheight
 						prev_linereturn = true
 					end
 				end
 			end
 			dx = 0
-			chatheight = $ + charheight
+			chatheight = $ + MM.hud.canvas.font.small.charheight
 		end
 	end
-	y = chaty - (chatheight + charheight)
+	y = chaty - (chatheight + MM.hud.canvas.font.small.charheight)
 	prev_linereturn = false
 
 	for i = 0, MAYA.chat_nummsg_min - 1 do
@@ -794,7 +694,7 @@ MAYA.DrawMiniChat = function(v)
 			local transflag
 			if (timer >= 0 and timer <= 9) then transflag = timer*V_10TRANS
 			else transflag = 0 end
-			local msg = HIDEO.WordWrap(0, boxw-charwidth-2, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, scale, MAYA.chat_mini[i])
+			local msg = HIDEO.WordWrap(0, boxw-MM.hud.canvas.font.small.charwidth-2, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, MM.hud.canvas.font.small.scale, MAYA.chat_mini[i])
 			local colormap
 
 			local str = {}
@@ -804,7 +704,7 @@ MAYA.DrawMiniChat = function(v)
 			while (j <= #str) do repeat
 				if (str[j] == '\n') --newline
 					if (not prev_linereturn)
-						dy = $ + charheight
+						dy = $ + MM.hud.canvas.font.small.charheight
 						dx = 0
 					end
 					prev_linereturn = true
@@ -820,23 +720,23 @@ MAYA.DrawMiniChat = function(v)
 
 				prev_linereturn = false
 				if (cv_chatbacktint.value)
-					v.drawFill((x + dx + 2), (y + dy), charwidth, charheight, GetChatBacktint(cv_con_backcolor.value)|V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
+					v.drawFill((x + dx + 2), (y + dy), MM.hud.canvas.font.small.charwidth, MM.hud.canvas.font.small.charheight, GetChatBacktint(cv_con_backcolor.value)|V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
 				end
 
-				local code = unicode.code(str[j])
+				local code = str[j]:byte()
 				if (code ~= 32)
-					v.drawScaled((x + dx + 2)*FU, (y + dy + 1)*FU, scale, HIDEO.GetUnicodeFont(v, code), V_SNAPTOBOTTOM|V_SNAPTOLEFT|transflag, colormap)
+					HIDEO.DrawCharUnicode(v, (x + dx + 2), (y + dy + 1), code, V_SNAPTOBOTTOM|V_SNAPTOLEFT|transflag, colormap, MM.hud.canvas.font.small.scale)
 				end
-				dx = $ + charwidth
+				dx = $ + MM.hud.canvas.font.small.charwidth
 
-				if (dx >= boxw - charwidth - 2) then
+				if (dx >= boxw - MM.hud.canvas.font.small.charwidth - 2) then
 					dx = 0
-					dy = $ + charheight
+					dy = $ + MM.hud.canvas.font.small.charheight
 					prev_linereturn = true
 				end
 				j = j + (charlen or 1)
 			until true end
-			dy = $ + charheight
+			dy = $ + MM.hud.canvas.font.small.charheight
 			dx = 0
 		end
 	end

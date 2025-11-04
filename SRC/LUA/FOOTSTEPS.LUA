@@ -2135,6 +2135,7 @@ local flatsounds={
 	["ACWOOD4"]="wood",
 	["ACWOODB2"]="wood",
 	["ACZRAILW"]="metal",
+	["BCKRMFR"]="cloth",
 	["BRICK1W"]="stone",
 	["BRICK2W"]="stone",
 	["CEPLR01"]="stone",

@@ -9,7 +9,11 @@
 
 
 assert(unicode, "\x88HIDEO\x80: Unicode library is not loaded! Cannot work without it!")
-rawset(_G, "HIDEO", {font = {}})
+rawset(_G, "HIDEO", {
+	font = {}, --"VRAM" were cached font patches are stored
+	charwidth = 8, --character width in pixels
+	charheight = 8, --character height in pixels
+})
 
 HIDEO.debug = true
 
@@ -58,31 +62,46 @@ HIDEO.GetUnicodeFont = function(v, chr)
 	end
 end
 
+HIDEO.DrawCharUnicode = function(v, x, y, code, flags, colormap, scale)
+	assert(v, "HIDEO.DrawCharUnicode() argument #1: Video drawer object expected")
+	if (code and type(code) != "number") then error("HIDEO.DrawCharUnicode() argument #4: Unicode Character number should be an integer") end
+
+	code = $ or 0xFFFD
+	x = $ or 0
+	y = $ or 0
+	flags = $ or 0
+	colormap = $ or v.getStringColormap(0)
+	scale = $ or FU
+
+	v.drawScaled(x*FU, y*FU, scale, HIDEO.GetUnicodeFont(v, code), flags, colormap)
+end
+
 --Draw strings encoded in UTF-8 formatting
 --The function mostly assumes you have font with 8x8 pixel characters
-HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
+HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
-	if (not str) or (type(str) != "string") error("HIDEO.DrawStrUnicode() argument #5: string expected") end
-
-	if (small) small = 2
-	else small = 1 end
+	if (not str) or (type(str) != "string") then error("HIDEO.DrawStrUnicode() argument #5: string expected") end
 
 	x = $ or 0
 	y = $ or 0
 	flags = $ or 0
+	scale = $ or FU
 
 	--set the space width
 	local spaceWidth = 4 --default to V_OLDSPACING
-	if (flags & V_MONOSPACE) spaceWidth = 8
-	elseif (flags & V_6WIDTHSPACE) spaceWidth = 6 end
+	if (flags & V_MONOSPACE) then spaceWidth = 8
+	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
 	--scale down if we want x0.5 font
-	spaceWidth = $ / small
-	local charWidth = 8 / small
+	spaceWidth = FixedMul($, scale)
+	local charWidth = FixedMul(HIDEO.charwidth, scale)
 
 	--character position
 	local cx = x
 	local cy = y
+	local tx, ty
+
+	--tile position on the sheet
 
 	--init variables
 	local isTextCode
@@ -99,7 +118,7 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 		--newline
 		if (c == '\n')
 			cx = x --carriage return
-			cy = $ + (8 / small)
+			cy = $ + FixedMul(HIDEO.charheight, scale)
 			continue
 		end
 
@@ -118,18 +137,18 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, small)
 		end
 
 		--draw the character
-		v.drawScaled((cx * FU), (cy * FU), (FU / small), HIDEO.GetUnicodeFont(v, unicode.code(c)), flags, color)
+		HIDEO.DrawCharUnicode(v, cx, cy, unicode.code(c), flags, color, scale)
 		cx = $ + charWidth
 	end
 end
 
 --Get string width for the HIDEO.DrawStrUnicode() function
-HIDEO.StrWidthUnicode = function(str, flags, small)
-	if (not str) or (str == "") return 0 end
+HIDEO.StrWidthUnicode = function(str, flags, scale)
+	if (not str) or (str == "") then return 0 end
 	flags = $ or 0
+	scale = $ or FU
 
-	if (small) small = 2
-	else small = 1 end
+	local lineheight = FixedMul(8, scale)
 
 	--symbol width
 	local pixelLen = 0
@@ -140,8 +159,8 @@ HIDEO.StrWidthUnicode = function(str, flags, small)
 	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
 	--scale down for x0.5 (if needed)
-	spaceWidth = $ / small
-	local charWidth = 8 / small
+	spaceWidth = FixedMul($, scale)
+	local charWidth = FixedMul(HIDEO.charwidth, scale)
 
 	local isTextCode
 
@@ -159,14 +178,13 @@ HIDEO.StrWidthUnicode = function(str, flags, small)
 		if (c == ' ') then pixelLen = $ + spaceWidth; continue end --space
 
 		--Count only visible charactrers
-		if (HIDEO.font[unicode.code(c)]) then
-			pixelLen = $ + charWidth
-		end
+		pixelLen = $ + charWidth
 	end
+
 	return pixelLen
 end
 
-local function splitLine(str)
+local function splitLine(str) --Split line by newline characters
 	local out = {}
 	local i = 1
 	while true do
@@ -181,29 +199,29 @@ local function splitLine(str)
 	return out
 end
 
-HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, small)
-	local scale
-	if (small) scale = 2
-	else scale = 1 end
+HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, scale)
+	x = $ or 0
+	y = $ or 0
+	scale = $ or FU
 
-	local lineheight = 8 / scale
+	local lineheight = FixedMul(HIDEO.charheight, scale)
 
 	local strs = splitLine(str)
 	for i = 1, #strs do
-		HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(strs[i], flags, small) / 2)), y + (i * lineheight) - lineheight, strs[i], flags, small)
+		HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(strs[i], flags, scale) / 2)), y + (i * lineheight) - lineheight, strs[i], flags, scale)
 	end
 end
 
-HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, small)
-	local scale
-	if (small) scale = 2
-	else scale = 1 end
+HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, scale)
+	x = $ or 0
+	y = $ or 0
+	scale = $ or FU
 
-	local lineheight = 8 / scale
+	local lineheight = FixedMul(HIDEO.charheight, scale)
 
 	local strs = splitLine(str)
 	for i = 1, #strs do
-		HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, small)), y + (i * lineheight) - lineheight, str, flags, small)
+		HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, scale)), y + (i * lineheight) - lineheight, str, flags, scale)
 	end
 end
 
@@ -457,8 +475,7 @@ end
 --	option	- video flags to set the spacing between characters;
 --	scale	- The scaling of the text (fixed_t value)
 --	str		- string to word wrap
---	v		- (optional argument) drawer object, used to load missing font graphics for correct calculations
-HIDEO.WordWrap = function(x, w, option, scale, str, v)
+HIDEO.WordWrap = function(x, w, option, scale, str)
 	local chars = {}
 	local c
 	local chw = 0
@@ -509,15 +526,13 @@ HIDEO.WordWrap = function(x, w, option, scale, str, v)
 		end
 
 		local patch
-		if (v) then patch = HIDEO.GetUnicodeFont(v, c)
-		else patch = HIDEO.font[c] end
-		if (((c >= 9) and (c <= 13)) or (c == 32) or not patch)
+		if (((c >= 9) and (c <= 13)) or (c == 32))
 			--unprintable character
 			chw = spacewidth
 			lastusablespace = i
 		else
 			--regular, printable character
-			if (charwidth == 0) then chw = patch.width
+			if (charwidth == 0) then chw = HIDEO.charwidth
 			else chw = charwidth end
 		end
 

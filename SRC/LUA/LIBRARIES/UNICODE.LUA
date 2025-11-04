@@ -101,6 +101,7 @@ end
 --https://stackoverflow.com/questions/24190608/lua-string-byte-for-non-ascii-characters
 --Return an codepoint value of a single Unicode symbol
 unicode.code = function(c)
+	c = $ or 0
     local b1, b2, b3, b4 = c:byte(1, 4)
 	if (not b1) then return nil end
 

@@ -4,16 +4,16 @@ if (MM)
 end
 
 rawset(_G, "MM", {
-	version = "1.3", --string, VERSION NUMBER, threat this as constant!
-	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, threat this as constant!
-	RoleColor = { --Text Color codes for Console/Chat text, threat this as constant!
+	version = "1.3", --string, VERSION NUMBER, treat this as constant!
+	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
+	RoleColor = { --Text Color codes for Console/Chat text, treat this as constant!
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
 		"\x8F"  --Dead
 	},
-	RoleColorHUD = { --Text Color codes for HUD text, threat this as constant!
+	RoleColorHUD = { --Text Color codes for HUD text, treat this as constant!
 		"^5", --Murderer
 		"^4", --Sheriff
 		"^3", --Innocent
@@ -21,6 +21,20 @@ rawset(_G, "MM", {
 		"^F"  --Dead
 	},
 	hud = { --variables that control the HUD renderer, not synched
+		canvas = {
+			width = 320,
+			height = 200,
+			font = {
+				charwidth = 8,
+				charheight = 16,
+				scale = FU,
+				small = {
+					charwidth = 4,
+					charheight = 8,
+					scale = 32768 --FU/2
+				}
+			}
+		},
 		game = { --Main Game HUD
 			active = true,
 			pos = {
@@ -80,8 +94,7 @@ rawset(_G, "MM", {
 		hits = 0,
 		padcolor = {37, 153} --player role colors
 	},
-	text = {}, --text strings used in the game, not synched, see the /LUA/TEXT/ directory
-	keyboardLayout = "EN" --Currently selected keyboard layout, not synched
+	text = {} --text strings used in the game, not synched, see the /LUA/TEXT/ directory
 })
 
 if (isdedicatedserver) then MM.lang = "EN" end

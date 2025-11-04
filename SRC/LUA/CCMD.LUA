@@ -52,7 +52,7 @@ local mmsetup_entries = {
 	{cvar = CV_FindVar("mm_speed_walk"), min = 6, max = 40, name = "Walking speed", description = "Walking speed."},
 	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Murderer", description = "Set weapons for the Murderer role during the normal gameplay.", valueMask = 0x3},
 	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Sheriff", description = "Set weapons for the Sheriff role during the normal gameplay.", valueMask = 0x3},
-	{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 3, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Normal gameplay weapons - Civilian", description = "Set weapons for the Civilian role during the normal gameplay."},
+	{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 2, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Normal gameplay weapons - Civilian", description = "Set weapons for the Civilian role during the normal gameplay."},
 	{cvar = CV_FindVar("mm_wepcfg_hero"), min = 0, max = 3, values = wepcfg_option, name = "Normal gameplay weapons - Hero", description = "Set weapons for the Hero role during the normal gameplay.", valueMask = 0x3},
 	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Murderer", description = "Set weapons for the Murderer role during the Showdown Duel.", valueMask = 0xC, shift = 4},
 	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 3, values = wepcfg_option, name = "Showdown Duel weapons - Sheriff", description = "Set weapons for the Sheriff role during the Showdown Duel.", valueMask = 0xC, shift = 4},
@@ -72,7 +72,7 @@ COM_AddCommand("mmsetup", function(p)
 		return
 	end
 
-	if ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame) or (p.spectator and p.mm.minigame) or p.mm.help.active)
+	if ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame) or (p.spectator and p.mm.minigame) or MM.hud.help.active)
 		CONS_Printf(p, "Unable to open MMSETUP UI right now")
 		return
 	end
@@ -84,6 +84,7 @@ COM_AddCommand("mmsetup", function(p)
 			if (mmsetup_entries[i].shift) then mmsetup_entries[i].value = $ / mmsetup_entries[i].shift end
 		else mmsetup_entries[i].value = mmsetup_entries[i].cvar.value end
 	end
+	input.setMouseGrab(false)
 end, COM_ADMIN)
 
 -- MMSETUP's core
@@ -98,7 +99,7 @@ local mmsetupExitNoSave = do
 	end
 	consoleplayer.mmsetupcursor = nil
 	MM.hud.game.active = true
-
+	input.setMouseGrab(true)
 end
 addHook("KeyDown", function(ev)
 	local ignore = true
@@ -114,6 +115,7 @@ addHook("KeyDown", function(ev)
 					end
 					consoleplayer.mmsetupcursor = nil
 					MM.hud.game.active = true
+					input.setMouseGrab(true)
 					print("\x87Murder Mystery\x80: Saved the new game settings")
 				end,
 				[#mmsetup_entries + 2] = mmsetupExitNoSave, --Exit without save
@@ -259,6 +261,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	--enable the UI
 	MM.hud.help.active = true
 	MM.hud.game.active = false
+	input.setMouseGrab(false)
 end, COM_LOCAL)
 
 --
@@ -276,10 +279,6 @@ local tech_info = {
 	"\nWebsite: ^Bhttps:/leonardothemutant.github.io/SRB2-Murder-Mystery^0"
 }
 
---Default canvas resolution for 16:10 screen ratio resolutions
-local canvasWidth = 320
-local canvasHeight = 200
-
 local renderBuffer = {}
 local pageLength = 0
 --local scrollBarHeight
@@ -296,12 +295,12 @@ addHook("PlayerThink", function(p)
 	if (MM.hud.help.active) and (MM.text[MM.lang]["HUD_MMHELP"])
 
 		--Update render buffer only when neccesary
-		if ((oldCanvasWidth != canvasWidth) or (oldCanvasWidth != canvasWidth) or (oldPage != help_page) or (oldLang != MM.lang))
-			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvasWidth, canvasHeight, MM.lang, help_page))
+		if ((oldCanvasWidth ~= MM.hud.canvas.width) or (oldCanvasHeight ~= MM.hud.canvas.height) or (oldPage ~= help_page) or (oldLang ~= MM.lang))
+			MM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", MM.hud.canvas.width, MM.hud.canvas.height, MM.lang, help_page))
 			renderBuffer = {}
 			pageLength = 0
-			oldCanvasWidth = canvasWidth
-			oldCanvasHeight = canvasHeight
+			oldCanvasWidth = MM.hud.canvas.width
+			oldCanvasHeight = MM.hud.canvas.height
 			oldPage = help_page
 			oldLang = MM.lang
 
@@ -323,6 +322,7 @@ addHook("KeyDown", function(ev)
 	if ((c == KEY_ESCAPE) or (c == input.gameControlToKeyNum(GC_CUSTOM1)) or (c == input.gameControlToKeyNum(GC_CUSTOM2)) or (c == input.gameControlToKeyNum(GC_CUSTOM3)))
 		MM.hud.game.active = true
 		MM.hud.help.active = false
+		input.setMouseGrab(true)
 	elseif ((c == KEY_CONSOLE) or ((c >= KEY_F1) and (c <= KEY_F12)))
 		ignore = false
 	elseif (c == KEY_F3)
@@ -346,16 +346,11 @@ end)
 hud.add(function(v, p)
 	if not ((MM.hud.help.active) and (MM.text[MM.lang]["HUD_MMHELP"]) and (MM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
 
-	--Update the Canvas resolution
-	canvasWidth = v.width() / v.dupx()
-	canvasHeight = v.height() / v.dupy()
-
-	
 	--
 	-- Text renderer
 	--
 	local x = 0
-	local y = 8 - help_scroll * 8
+	local y = MM.hud.canvas.font.charheight - help_scroll * MM.hud.canvas.font.charheight
 	local str, prev_linereturn, isTextCode
 	local colormap = v.getStringColormap(0)
 	pageLength = 0
@@ -370,19 +365,19 @@ hud.add(function(v, p)
 
 	--draw text from the render buffer
 	for i = 1, #renderBuffer do
-		str = HIDEO.WordWrap(0, canvasWidth, V_MONOSPACE, FU, renderBuffer[i], v)
+		str = HIDEO.WordWrap(0, MM.hud.canvas.width, V_MONOSPACE, MM.hud.canvas.font.scale, renderBuffer[i])
 
 		for b, c, j in unicode.chars(str) do
 			--Space
 			if (c == ' ')
-				x = $ + 8 --V_MONOSPACE
+				x = $ + MM.hud.canvas.font.charwidth --V_MONOSPACE
 				continue
 			end
 
 			--Newline
 			if (c == '\n')
 				if (not prev_linereturn)
-					y = $ + 8
+					y = $ + MM.hud.canvas.font.charheight
 					x = 0
 					pageLength = $ + 1
 				end
@@ -402,15 +397,15 @@ hud.add(function(v, p)
 				continue
 			else
 				prev_linereturn = false
-				if (((y >= 0) and (y < (canvasHeight - 16))))
-					v.draw(x, y, HIDEO.GetUnicodeFont(v, unicode.code(c)), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
+				if (y >= 0) and (y < (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight - (MM.hud.canvas.font.charheight*bool2int(v.width() < 640))))
+					HIDEO.DrawCharUnicode(v, x, y, unicode.code(c), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
 				end
 
-				x = $ + 8 --V_MONOSPACE
+				x = $ + MM.hud.canvas.font.charwidth --V_MONOSPACE
 
-				if ((x >= canvasWidth) and (i <= #renderBuffer))
+				if ((x >= MM.hud.canvas.width) and (i <= #renderBuffer))
 					x = 0
-					y = $ + 8
+					y = $ + MM.hud.canvas.font.charheight
 					pageLength = $ + 1
 					prev_linereturn = true
 				end
@@ -418,11 +413,11 @@ hud.add(function(v, p)
 		end
 
 		x = 0
-		y = $ + 8
+		y = $ + MM.hud.canvas.font.charheight
 		pageLength = $ + 1
 	end
 
-	pageLength = $ - (canvasHeight / 8) + 3
+	pageLength = $ - (MM.hud.canvas.height / MM.hud.canvas.font.charheight) + 3
 	pageLength = max($, 1) --for short pages
 
 
@@ -432,15 +427,15 @@ hud.add(function(v, p)
 	--
 
 	--local thumbH
-	--if (pageLength*8 <= canvasHeight-16) then thumbH = canvasHeight-16
-	--else thumbH = max(8, (canvasHeight-16 / pageLength*8) * canvasHeight-16)
+	--if (pageLength*8 <= MM.hud.canvas.height-16) then thumbH = MM.hud.canvas.height-16
+	--else thumbH = max(8, (MM.hud.canvas.height-16 / pageLength*8) * MM.hud.canvas.height-16)
 	--
-	--local contentRange = pageLength*8 - canvasHeight-16
-	--local thumbRange = canvasHeight-16 - thumbH
+	--local contentRange = pageLength*8 - MM.hud.canvas.height-16
+	--local thumbRange = MM.hud.canvas.height-16 - thumbH
 	--local thumbPos = (help_scroll / contentRange) * thumbRange
 	--
 	--
-	--local scrollBarHeight = canvasHeight - 16
+	--local scrollBarHeight = MM.hud.canvas.height - 16
 	--v.drawFill(canvasWidth - 8, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTOLEFT) --scroll bar
 	--
 	--scrollstep = #renderBuffer/scrnRows * scrollBarHeight
@@ -450,13 +445,13 @@ hud.add(function(v, p)
 	--
 	-- Footer
 	--
-	v.drawFill(0, 184, canvasWidth, 2, V_SNAPTOBOTTOM|V_SNAPTOLEFT) --horizontal line
+	v.drawFill(0, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight - (MM.hud.canvas.font.charheight*bool2int(v.width() < 640))), MM.hud.canvas.width, 2, V_SNAPTOTOP|V_SNAPTOLEFT) --horizontal line
 
-	v.drawString(0, 186, ("\x89Scroll: "..help_scroll.."/"..pageLength), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Scroll position counter
-	v.drawString(80, 186, ("\x88Page: "..help_page.."/"..(#MM.text[MM.lang]["HUD_MMHELP"] + 1)), V_SNAPTOBOTTOM|V_SNAPTOLEFT, "thin") --Page counter
+	v.drawString(0, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight + 2 - (MM.hud.canvas.font.charheight*bool2int(v.width() < 640))), ("\x89Scroll: "..help_scroll.."/"..pageLength), V_SNAPTOTOP|V_SNAPTOLEFT, "thin") --Scroll position counter
+	v.drawString(80, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight + 2 - (MM.hud.canvas.font.charheight*bool2int(v.width() < 640))), ("\x88Page: "..help_page.."/"..(#MM.text[MM.lang]["HUD_MMHELP"] + 1)), V_SNAPTOTOP|V_SNAPTOLEFT, "thin") --Page counter
 
-	HIDEO.DrawStrUnicode(v, 0, 192, MM.GetText("HUD_MMHELP_UI", 1), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"Arrow keys to scroll and change page"
-	HIDEO.DrawStrUnicode(v, 0, 196, MM.GetText("HUD_MMHELP_UI", 2), V_SNAPTOBOTTOM|V_SNAPTOLEFT, true) --"ESC to leave"
+	HIDEO.DrawStrUnicode(v, 0, (MM.hud.canvas.height - 2*MM.hud.canvas.font.small.charheight), MM.GetText("HUD_MMHELP_UI", 1), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale) --"Arrow keys to scroll and change page"
+	HIDEO.DrawStrUnicode(v, 0, (MM.hud.canvas.height - MM.hud.canvas.font.small.charheight), MM.GetText("HUD_MMHELP_UI", 2), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale) --"ESC to leave"
 end, "game")
 
 

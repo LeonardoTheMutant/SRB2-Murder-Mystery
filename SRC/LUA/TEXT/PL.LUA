@@ -8,30 +8,6 @@ MM.AddLang("PL", {
 	["LANGUAGE"]="Polski",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["KEYBOARD"]={
-		[3] = {
-			[97] = "ą",
-			[99] = "ć",
-			[101] = "ę",
-			[108] = "ł",
-			[110] = "ń",
-			[111] = "ó",
-			[115] = "ś",
-			[120] = "ź",
-			[122] = "ż"
-		},
-		[4] = {
-			[97] = "Ą",
-			[99] = "Ć",
-			[101] = "Ę",
-			[108] = "Ł",
-			[110] = "Ń",
-			[111] = "Ó",
-			[115] = "Ś",
-			[120] = "Ź",
-			[122] = "Ż"
-		}
-	},
 	["CHAT_ROLEGET_PM"]={
 		"Jesteś ^5Mordercą^0! ^5Zamorduj wszystkich.",
 		"Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
@@ -178,8 +154,8 @@ MM.AddLang("PL", {
 			"Jeśli ^4Szeryf^0 zabije ^3Cywilnego^0 gracza to stanie się cywilem i inny ^3Cywil^0 po cichu przejmie jego ^Brolę^0. Jak będziesz strzelać jako ^4Szeryf^0 pomyśl dwukrotnie kogo zabijasz!",
 			"\n* Kiedy ^5Morderca^0 zabije ^4Szeryfa^0 i zostaną żywi ^3Cywili^0 wtedy ^4Szeryf^0 upuści ^4Szmaragd Szeryfa^0 obok jego ciała.",
 			"W przeciwieństwie do Szmaragdów Chaosu, ten Szmaragd daje ^Brole^2 Bohatera^0 do^3 Cywila^0 który go pierwszy podniósł. ^2Bohaterzy^0 są podobni do ^4Szeryfów^0 ale mają pewne różnice:",
-			"  - Jeśli ^2Bohater^0 zabije ^3Cywilnego^0 to oboje umrą, a ich ^Brole^0 nie będą pzydzielone innym;",
-			"  - ^2Bohaterzy^0 nie upuszczają jakiegokolwiek Szmaragdu przy śmierci.",
+			" - Jeśli ^2Bohater^0 zabije ^3Cywilnego^0 to oboje umrą, a ich ^Brole^0 nie będą pzydzielone innym;",
+			" - ^2Bohaterzy^0 nie upuszczają jakiegokolwiek Szmaragdu przy śmierci.",
 			"\n* Zależnie od ilosci graczy, może być więcej niż jeden ^5Morderców^0 i ^4Szeryfów^0 wśród graczy w grze. Wtedy tworzą się^A drużyny^0 ^5Morderców^0 i ^4Szeryfów^0.",
 			"^AWspółnicy^0 mogą komunikować ze sobą w drużyną za pomocą polecenia ^7SAYTEAM^0 albo korzystając z czatu drużynowego (przycisk '^8y^0' na klawiaturze).",
 			"Jeśli jeden ^Awspólnik^0 strzeli drugiego to dostanie wiadomość żeby nie strzelal do współnika. Pamiętaj że inni mogą zobaczyć waszą interakcje i dowiedzieć się kim jesteście!"

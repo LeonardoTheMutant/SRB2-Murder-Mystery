@@ -155,8 +155,8 @@ MM.AddLang("TR", {
 			"Eğer bir ^4Şerif^0 ^3Masum^0u vurursa , rollerini kaybedecekler ve ^3Masum^0 olacaklar: Rastgele bir ^3Masum^0 daha sonra sessizce ^4Şerif^0'in rolünü üstlenecektir. Tetiği çekmeden önce iki kez düşünün!",
 			"\n* Bir ^5Katil^0, hala hayatta olan ^3Masum^0lar varken bir ^4Şerif^0'i öldürürse, ^4Şerif'in Zümrütü^0 cesedinin yanına düşecektir.",
 			"Bir ^3Masum^0, ^4Şerif'in Zümrütü^0'nü aldığında, bir ^2Kahraman^0 olurlar. ^2Kahraman^0lar ^4Şerif^0lere benzer, ancak bazı farklılıklarla birlikte gelir:",
-			"  - Bir ^2Kahraman^0 bir ^3Masum^0u öldürürse, her ikisi de ölür ve rolleri yeniden atanmaz;",
-			"  - ^2Kahramanlar^0 öldükten sonra ^4Şerif'in Zümrütü^0'nü düşrmezler.",
+			" - Bir ^2Kahraman^0 bir ^3Masum^0u öldürürse, her ikisi de ölür ve rolleri yeniden atanmaz;",
+			" - ^2Kahramanlar^0 öldükten sonra ^4Şerif'in Zümrütü^0'nü düşrmezler.",
 			"Oyuncu sayısının daha yüksek olduğu turlarda birden fazla ^5Katil^0ler ve ^4Şerif^0ler olabilir. Bu turlar için ^5Katil^0ler ve ^4Şerif^0'den oluşan ^ATakım^0lar oluşturulur.",
 			"^ATakım arkadaşları^0, konsoldaki ^7SAYTEAM^0 komutunu kullanarak (SAYTEAM düğmesi normal sohbet düğmesiyle aynı şekilde çalışır) veya mesajı otomatik olarak ekip üyelerine gönderen ^8%^0 simgesiyle bir mesaj başlatarak birbirleriyle sohbet edebilirler.",
 			"Yanlışlıkla bir ^ATakım arkadaşı^0 saldırırsanız, her iki oyuncu da kişisellştirilmiş bir uyarı alır. Dikkatli olun - bu tür ekip etkileşimleri başkalarına ^Brol^0'lerinizi ifşa edebilir!"
