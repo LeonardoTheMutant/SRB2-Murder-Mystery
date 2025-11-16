@@ -384,9 +384,13 @@ hud.add(function(v, p)
 						wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
 					end
 					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag()) --Ring weapon icon
+					if (MM.weapons[weapon][2] == MT_THROWNAUTOMATIC) and (MM.weapons[weapon][6][2] > 0)
+						--Draw overheat indicator
+						v.drawFill((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), 16, 16, 35|max(10 - MM.weapons[weapon][6][2], 0)*FU|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
+					end
 					v.drawString((MM.hud.game.pos.ringWep.x + 24 + weapon*20), (MM.hud.game.pos.ringWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag(), "thin-right") --Ammo counter
 				elseif (p.ringweapons & wep2rw(weapon))
-					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], V_PERPLAYER|V_SNAPTOBOTTOM|V_TRANSLUCENT|v.localTransFlag())
+					v.draw((MM.hud.game.pos.ringWep.x + 8 + weapon*20), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[weapon][1]], V_TRANSLUCENT|V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 				end
 			end
 			if ((p.ammoremovaltimer) and ((leveltime % 7) < 4))

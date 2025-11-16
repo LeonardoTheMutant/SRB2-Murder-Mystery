@@ -1,7 +1,7 @@
 -- WEAPONS.LUA
 -- Code by LeonardoTheMutant
 --
--- Vanilla weaponry recreation for modding it
+-- Weapon Ring stuff
 
 local autofireCVAR = CV_FindVar("mm_autofire")
 local killtrailCVAR = CV_FindVar("mm_killtrails")
@@ -31,42 +31,43 @@ MM.weapons[0]={ --Infinity Ring
 	16, --Weapon delay
 	800 --max amonut
 }
-MM.weapons[1]={ --Automatic Ring
+MM.weapons[WEP_AUTO]={ --Automatic Ring
 	"AUTOIND",
 	MT_THROWNAUTOMATIC,
 	MF2_AUTOMATIC,
 	2,
-	400
+	400,
+	{0, 0} --Weapon overheat (firing timer, delay value)
 }
-MM.weapons[2]={ --Bounce Ring
+MM.weapons[WEP_BOUNCE]={ --Bounce Ring
 	"BNCEIND",
 	MT_THROWNBOUNCE,
 	MF2_BOUNCERING,
 	8,
 	100
 }
-MM.weapons[3]={ --Scatter Ring
+MM.weapons[WEP_SCATTER]={ --Scatter Ring
 	"SCATIND",
 	MT_THROWNSCATTER,
 	MF2_SCATTER,
 	23,
 	50
 }
-MM.weapons[4]={ --Granade Ring
+MM.weapons[WEP_GRENADE]={ --Granade Ring
 	"GRENIND",
 	MT_THROWNGRENADE,
 	MF2_EXPLOSION,
 	11,
 	100
 }
-MM.weapons[5]={ --Explosion Ring
+MM.weapons[WEP_EXPLODE]={ --Explosion Ring
 	"BOMBIND",
 	MT_THROWNEXPLOSION,
 	MF2_EXPLOSION,
 	52,
 	50
 }
-MM.weapons[6]={ --Rail Ring
+MM.weapons[WEP_RAIL]={ --Rail Ring
 	"RAILIND",
 	MT_REDRING,
 	MF2_RAILRING|MF2_DONTDRAW,
@@ -143,6 +144,9 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 	if (p.mm.weapondelay) p.mm.weapondelay = $ - 1 end
 	if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL))
 		p.pflags = $ & ~PF_ATTACKDOWN
+		--"Let automatic ring cool down"
+		MM.weapons[WEP_AUTO][6][1] = $ - 1
+		if (MM.weapons[WEP_AUTO][6][2] and leveltime % 16 == 0) MM.weapons[WEP_AUTO][6][2] = $ - 1 end
 		return
 	end
 	if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay)
@@ -180,7 +184,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		-- AUTOMATIC --
 		P_DrainWeaponAmmo(p, pw_automaticring)
 		p.pflags = $ & ~PF_ATTACKDOWN
-		P_SetWeaponDelay(p, MM.weapons[WEP_AUTO][4])
+		
+		--"Heat up the weapon" (make additional firing delay)
+		MM.weapons[WEP_AUTO][6][1] = $ + 1
+		if (MM.weapons[WEP_AUTO][6][1] % 4 == 0) MM.weapons[WEP_AUTO][6][2] = $ + 1 end
+
+		P_SetWeaponDelay(p, MM.weapons[WEP_AUTO][4] + MM.weapons[WEP_AUTO][6][2])
 		mo = P_SpawnPlayerMissile(p.mo, MM.weapons[WEP_AUTO][2], MM.weapons[WEP_AUTO][3])
 	elseif (p.currentweapon == WEP_BOUNCE) and (p.powers[pw_bouncering])
 		-- BOUNCE --
