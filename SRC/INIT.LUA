@@ -171,6 +171,17 @@ enum(
 	"KILLBY_MAP"   --3, by map hazard
 )
 
+--Skins (number values)
+enum(
+	"SKIN_SONIC",
+	"SKIN_TAILS",
+	"SKIN_KNUCKLES",
+	"SKIN_AMY",
+	"SKIN_FANG",
+	"SKIN_METALSONIC",
+	"SKIN_CUSTOM"
+)
+
 rawset(_G, "KEY_NULL", 0) -- null key, triggers nothing
 rawset(_G, "KEY_BACKSPACE", 8)
 rawset(_G, "KEY_TAB", 9)
