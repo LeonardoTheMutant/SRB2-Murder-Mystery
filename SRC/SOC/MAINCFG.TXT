@@ -163,7 +163,7 @@ NextLevel = KG
 Lua.Author = Troplucky, LeonardoTheMutant
 
 Level KG
-Levelname = Atzec
+Levelname = Aztec
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 40
