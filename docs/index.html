@@ -1,133 +1,277 @@
-<html>
-	<head>
-		<meta charset="UFT-8">
-		<title>LTM's Murder Mystery</title>
-		<style>
-			body {
-			    background-color: #222222;
-			    color: white;
-			    font-family: arial;
-			    margin: auto;
-			    border: 5px solid red;
-			    max-width: 800px;
-			    padding: 10px;
-			}
+<!DOCTYPE html>
+<html lang="en">
 
-			header {
-			    padding: 5px;
-			    background-color: #111111;
-			}
+<head>
+	<meta charset="utf-8">
+	<title>LTM's Murder Mystery</title>
+	<style>
+		body {
+			background-color: #222;
+			color: white;
+			font-family: arial;
+			margin: auto;
+			border: 5px solid red;
+			max-width: 800px;
+			padding: 10px;
+		}
 
-			footer {
-			    padding: 5px;
-			    background-color: #111111;
-			}
+		header {
+			padding: 5px;
+			background-color: #111;
+		}
 
-			hr {
-			    background-color: red;
-			    border: none;
-			    height: 2px;
-			}
+		footer {
+			padding: 5px;
+			background-color: #111;
+		}
 
-			#logoimg img {
-				border: 4px dashed blue;
-				padding: 8px;
-			}
+		hr {
+			background-color: red;
+			border: none;
+			height: 2px;
+		}
 
-			#link_section {
-			    display: flex;
-			    justify-content: space-evenly;
-			}
+		#logoimg img {
+			border: 4px dashed blue;
+			padding: 8px;
+		}
 
-			.github_link {
-			    text-align: center;
-			    float: left;
-			}
+		.game-manual {
+			font-family: "Courier New";
+			background: #080808;
+			color: #DDD;
+			border: 1px solid #E0E0E0;
+			padding: 1rem;
+			border-radius: 4px;
+			line-height: 1.5;
+		}
 
-			a { color: rgb(195, 0, 255); }
-			h3 { color: orange; }
-			#download h3 { color: #5555ff; }
-		</style>
-	</head>
-	<body>
-		<main>
-			<header>
-				<h1><center><font color="#3C3CFF">LeonardoTheMutant's</font><font color="#FF7700"> Murder Mystery</font></center></h1>
-			</header>
-			<article>
-				<hr>
-				<section id="banner">
-					<h2>Welcome to the official LTM's MM webpage!</h2>
-					<h3><i>Formely "SRB2 MM"</i></h3>
-				</section>
-				<section id="logoimg">
-					<center><img src="LTMsMM_cover.png" alt="Murder Mystery box art" style="width: 500px; height: 500px"></center>
-				</section>
-				<section id="desc">
-					<h3>The port of the famous multiplayer game in SRB2!</h3>
-					<p>The project's goal is to make a "Murder Mystery" gametype for Sonic Robo Blast 2 designed around (classic) Sonic the Hedgehog. We are primarily inspired by Murder Mystery in Garry's Mod and the variations of this game in Minecraft. The development originally started by Tedbasher3000 in February 2023 and continued by the SRB2MM_DEV team to this day. We want to make a gametype which would fit the astetics of the vanilla SRB2 so it would feel like an official gamtype (we don't really expect STJr to make it official)</p>
-					<p style="text-align: center;"><i>"Inspired by many, made for SRB2"</i></p>
-					<h3>Short introduction into the gameplay</h3>
-					<p>The goal of this game is to detect and eliminate all <b><font color="#dc143c">Murderers</font></b> among the players before they kill everyone else (sounds very familiar to a popular 2020 game about austronauts, right?). <b><font color="#1e90ff">Sheriffs</font></b> are given the task to prevent this genocide and protect all <b><font color="#32cd32">Civilians</font></b> from being <font color="#dc143c">murdered</font>.</p>
-					<p>At the beginning of each round you will recieve one of these 3 roles. As said, <b><font color="#dc143c">Murderers have to murder everyone</font></b>, <b><font color="#1e90ff">Sheriffs have to defend Civilians and eliminate Murderers</font></b> & <b><font color="#32cd32">Innocents have to hide from the killers but can also help in the investigation</font></b>.</p>
-					<p>The gameplay is based on the Ringslinger gametypes of SRB2 (Match, Team Match, CTF, Tag, Hide&Seek) so you need some weapon aiming skills to play, unless you are a <font color="#32cd32"><b>Civilian</b></font></p>
-					<p>You can find more description with all the details in the game in <font color="orange">MMHELP</font> console command.<p>
-					<h3>Want to contribute? That's great!</h3>
-					<p>We made the <a href="https://discord.com/invite/UgG8h2djFE">SRB2MM Discord</a> server and a <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">GitHub repository</a> just for cases like this!<br>You can make any kind of contribution including new maps, music, ideas or even make a translation of the add-on to your native language! You can also join our Discord if you want talk with the developers and other players.</p>
-				</section>
-				<hr>
-				<section id="requirements">
-					<h3>Recommended System Requirements for the gametype</h3>
-					<ul>
-						<li>A computer capable of running Sonic Robo Blast 2</li>
-						<li>640x400 VGA monitor</li>
-						<li>Keyboard+Mouse or the 2-axis gamepad for the controls</li>
-						<li>Stereo sound output system (better with headphones) with enabled in-game closed captions</li>
-						<li>150ms or faster ping connection with the game server</li>
-						<li>Fast reaction time or <i>faster</i></li>
-						<li>A Human® brain supporting the CriticalThinking™ technology and the capability of running NI (Natural Intelligence)</li>
-					</ul>
-					<p>If your system does not meet one of these requirements, you are pretty much DOOM™ed</p>
-				</section>
-				<hr>
-				<section id="download">
-					<h3>Download the <font color="FF7700">LTM's Murder Mystery</font> Add-On (latest version: 1.1)</h3>
-					<a href="https://srb2.org">
-						<img src="https://img.shields.io/badge/SRB2_compatibility-v2.2.15-darkblue"></a>
-					<ul>
-						<li><a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases/download/1.1/MM_LTMs_MurderMystery_v1.1.pk3">Download</a></li>
-					</ul>
-					<p>Older versions and builds of the Add-On can be found in the <u><i>#release-builds</i></u> channel on our Discord server or in the repository's <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases">Releases</a> page</p>
-				</section>
-				<hr>
-				<section id="link_section">
-					<section class="github_link">
-							<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">
-								<img src="./github-mark-white.png" style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;">
-								<p>SRB2-Murder-Mystery repository</p>
-							</a>
-					</section>
-					<section class="github_link">
-							<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic">
-								<img src="./github-mark-white-music.png" style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;">
-								<p>Digital Music repository</p>
-							</a>
-					</section>
-				</section>
-				<iframe src="https://discord.com/widget?id=1075825170658381926&theme=dark" width="800" height="400" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-				<section id="link_section">
-					<a href="https://matrix.to/#/#ltm_mm:matrix.org"><img alt="Matrix Space" src="https://img.shields.io/matrix/ltm_mm%3Amatrix.org?logo=matrix&label=Matrix%20Space"></a>
-					<a href="https://mb.srb2.org/addons/leonardothemutants-murder-mystery.8150/"><img alt="Static Badge" src="https://img.shields.io/badge/SRB2%20Message%20Board%20post-blue"></a>
-				</section>
-			</article>
+		.link_section {
+			display: flex;
+			justify-content: space-evenly;
+		}
+
+		.github_link {
+			text-align: center;
+			float: left;
+		}
+
+		a { color: #C300FF }
+
+		h3, h4 { color: #FFA500 }
+		#download h3 { color: #55F }
+		.centered { text-align: center }
+
+		.yellow { color: #E6E200 }
+		.green { color: #32CD32 }
+		.blue { color: #1E90FF }
+		.red { color: #DC143C }
+		.gray { color: #888 }
+		.orange { color: #FFA500 }
+		.cyan { color: #2DC7CC }
+		.peridot { color: #C4EA01 }
+		.black {
+			color: #000;
+			text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1 class="centered"><span class="blue">LeonardoTheMutant's</span> <span class="orange">Murder Mystery</span></h1>
+	</header>
+	<main>
+		<article>
 			<hr>
-			<footer>
-				<p>All rights to Sonic The Hedgehog and the franchise belong to SEGA</p>
-				<p><a href="https://srb2.org">Sonic Robo Blast 2</a> is a free and open-source game by Sonic Team Jr.</p>
-				<p>DOOM is a trademark of id Softare</p>
-				<p>LTM's Murder Mystery made by SRB2MM_DEV Team and LeonardoTheMutant</p>
-				<p>Webpage by <a href="https://github.com/LeonardoTheMutant">LeonardoTheMutant</a></p>
-			</footer>
-		</main>
-	</body>
+			<section id="banner">
+				<h2>Welcome to the official LTM's MM webpage!</h2>
+				<h3><i>Formely "SRB2 MM"</i></h3>
+			</section>
+			<section id="logoimg" class="centered"><img src="LTMsMM_cover.png" alt="Murder Mystery box art" style="width: 500px; height: 500px"> </section>
+			<section id="desc">
+				<h3>The port of the famous multiplayer game in SRB2!</h3>
+				<p>The project's goal is to make a "Murder Mystery" gametype for Sonic Robo Blast 2 designed around
+					(classic) Sonic the Hedgehog. We are primarily inspired by Murder Mystery in Garry's Mod and the
+					variations of this game in Minecraft. The development originally started by Tedbasher3000 in
+					February 2023 and continued by the SRB2MM_DEV team to this day. We want to make a gametype which
+					would fit the astetics of the vanilla SRB2 so it would feel like an official gamtype (we don't
+					really expect STJr to make it official)</p>
+				<p class="centered"><i>"Inspired by many, made for SRB2"</i></p>
+				<h3>Short introduction into the gameplay</h3>
+				<p>The goal of this game is to detect and eliminate all <b class="red">Murderers</b> among the players
+					before they kill everyone else (sounds very familiar to a popular 2020 game about austronauts,
+					right?). <b class="blue">Sheriffs</b> are given the task to prevent this genocide and protect all
+					<b class="green">Civilians</b> from being <b class="red">murdered</b>.</p>
+				<p>At the beginning of each round you will recieve one of these 3 roles. As said, <b class="red">Murderers have to murder everyone</b>, <b class="blue">Sheriffs have to defend Civilians and eliminate Murderers</b> &amp; <b class="green">Innocents have to hide from the killers but can also help in the investigation</b>.</p>
+				<p>The gameplay is based on the Ringslinger gametypes of SRB2 (Match, Team Match, CTF, Tag, Hide&amp;Seek) so you need some weapon aiming skills to play, unless you are a <b class="green">Civilian</b></p>
+				<p>You can find more description with all the details in the manual down bellow on in-game by executing the <code class="orange">MMHELP</code> console command.</p>
+				<h3>Want to contribute? That's great!</h3>
+				<p>We made the <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">GitHub repository</a> and both <a href="https://discord.com/invite/UgG8h2djFE">SRB2MM Discord</a> &amp; <a href="https://matrix.to/#/#ltm_mm:matrix.org">Matrix</a> communities just for cases like this!<br>
+					You can make any kind of contribution including new maps, music, ideas or even make a translation of the add-on to your native language! You can also join our Discord if you want talk with the developers and other players.</p>
+			</section>
+			<hr>
+			<section id="manual">
+				<h3>The game manual</h3>
+				<p>Here is the copy of the in-game manual that can be accessed by executing the <code class="orange">MMHELP</code>
+					Console Command. We strongly recommend reading the entirety of it since it explains some important
+					gameplay details:</p>
+				<article class="game-manual">
+					<h4>Welcome to <b class="red">Murder Mystery</b>!<br>
+						The SRB2 interpretation of the popular multiplayer game!</h4>
+					The goal of the game is to find and eliminate all the <b class="red">Murderers</b> before they can
+					kill <b class="green">everyone else</b>. This gametype is similar to MATCH, so you will need sharp
+					aiming and shooting skills to win!<br><br>
+					First, let's go over the basics so you can jump in and start playing...<br><br>
+					At the beginning of each round, you will be assigned a <b class="peridot">role</b>, which determines
+					your task during the game. Here are the possible <b class="peridot">roles</b> you might receive:
+					<ul>
+						<li><b class="red">Murderer</b> - A deadly criminal. Their job is to eliminate everyone.</li>
+						<li><b class="blue">Sheriff</b> - Tasked with finding and eliminating the <b
+								class="red">Murderer(s)</b>.</li>
+						<li><b class="green">Civilian</b> - Must avoid being killed and assist in identifying the <b
+								class="red">Murderer</b>. Depending on the game setup, they can obtain a <b
+								class="red">Red Ring</b> to defend themselves by collecting 100 rings (or 50 rings for
+							certain skins).</li>
+					</ul>
+					That is the essential information you need to start playing. For more details, read through this
+					manual to the end.<br><br>Use the <b class="orange">MMLANG</b> command to change the language of the HUD interface and this
+					manual to your preferred language
+					<h4>About the gameplay situations</h4>
+					As mentioned in the basics, the game's goal is to eliminate all <b class="red">Murderers</b>, but
+					different scenarios can occur during gameplay:
+					<ul>
+						<li>
+							If you die, you will enter the <b class="black">Dead</b> state. Players in this state cannot
+							respawn or communicate globally with players who are still alive. Their messages are visible
+							only to other <b class="black">Dead</b> players.<br>
+							You cannot chat with or send Personal Messages to still living players while you are <b
+								class="black">Dead</b>.<br>
+							Dying from map hazards such as crushers, falling into pits, or drowning in water will also
+							make you <b class="black">Dead</b> for the rest of the round.<br>
+							Also, <b class="yellow">DO NOT TRY TO RENAME YOURSELF WHILE</b> <b class="black">DEAD</b>.
+							More details about this are on the next page.<br>
+						</li>
+						<li>
+							The <b class="blue">Sheriff's</b> job is to eliminate the <b class="red">Murderers</b>, but
+							be careful not to shoot a <b class="green">Civilian</b> by mistake.<br>
+							If a <b class="blue">Sheriff</b> player shoots a <b class="green">Civilian</b>, that player
+							will lose their <b class="peridot">role</b> and become a <b class="green">Civilian</b> as a
+							punishment. Another, randomly selected, <b class="green">Civilian</b> player will then
+							silently take on the <b class="blue">Sheriff's</b> <b class="peridot">role</b>. Think before
+							you pull the trigger!
+						</li>
+						<li>If a <b class="red">Murderer</b> kills a <b class="blue">Sheriff</b> while there are still
+							<b class="green">Civilians</b> alive, the <b class="blue">Sheriff's Emerald</b> will drop
+							near the corpse. When a <b class="green">Civilian</b> picks up the <b class="blue">Sheriff's Emerald</b>,
+							they become a <b class="yellow">Hero</b>. <b class="yellow">Heroes</b> are similar to <b class="blue">Sheriffs</b> but come with some
+							differences:
+							<ul>
+								<li>If a <b class="yellow">Hero</b> kills a <b class="green">Civilian</b>, both die, and
+									their <b class="peridot">role</b> is not reassigned;</li>
+								<li><b class="yellow">Heroes</b> do not drop the <b class="blue">Sheriff's Emerald</b>
+									upon death.</li>
+							</ul>
+						</li>
+						<li>In rounds with higher amount of players, there may be multiple <b class="red">Murderers</b> and
+							<b class="blue">Sheriffs</b>. Teams of <b class="red">Murderers</b> and <b class="blue">Sheriffs</b> are formed for these rounds.
+							<b class="cyan">Teammates</b> can communicate using the <code class="orange">SAYTEAM</code> command in
+							the console or by using the Team Chat (keyboard <b class="cyan">'y'</b> button).
+							If you accidentally attack a <b class="cyan">teammate</b>, both players will
+							receive a personalized warning. Be careful - such team interactions may reveal your <b class="peridot">role</b> to
+							others!
+						</li>
+					</ul>
+					<h4>Things to avoid in Murder Mystery</h4>
+					Rule No. 1: <b class="yellow">Be kind and have fun!</b> Here are some additional guidelines:
+					<ul>
+					<li>Do not spoil your <b class="peridot">Role</b>, even as a joke. While you can call out someone else's <b class="peridot">role</b> if you are sure, never reveal your own.</li>
+					<li>Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.</li>
+					<li>Do not go <b class="cyan">AFK</b> (<b class="cyan">Away From Keyboard</b>). If you stand still too long, a bomb will be dropped
+					on you, and you will be removed from the game.</li>
+					<li>Do not rename yourself during a round if you are <b class="black">Dead</b>. Doing so will result in being kicked from the server. If you are <b class="black">Dead</b>, wait until the intermission to rename safely.</li>
+					<li>Avoid camping around the <b class="blue">Sheriff's EmeraldM</b> if you are a <b class="red">Murderer</b>. Standing near the emerald for 30 seconds will result in being kicked from the game.</li>
+					</ul>
+					Breaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!
+					<h4>Useful tips</h4>
+					Here are some tips to help you succeed in <b class="red">Murder Mystery</b>
+					<ul>
+					<li>If character abilities are disabled by the admin, press <b class="orange">SPIN</b> to sneak silently without
+					leaving traces or making noise.</li>
+					<li>Picking up the <b class="blue">Sheriff's Emerald</b> grants you access to all the weapons and
+					rings you previously collected.</li>
+					<li>Use the Team Chat to coordinate actions with your <b class="cyan">teammates</b> and avoid friendly fire.</li>
+					<li>Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.</li>
+					<li>Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.</li>
+					<li>If your role is leaked, rename yourself and/or change your skin color. <b class="yellow">Keep in mind that your rename will appear in chat.</b></li>
+					<li>Use the <b class="orange">FIRENORMAL</b> button to wield the <b class="gray">Knife</b> anywhere, as long as you have rings. Sneaking while using a <b class="gray">Knife</b> ensures your attack is silent.</li>
+					<li>Use the <code class="orange">MMLANG</code> command to change the language of the HUD interface to your preferred language.</li>
+					</ul>
+				</article>
+			</section>
+			<hr>
+			<section id="requirements">
+				<h3>Recommended System Requirements for the gametype</h3>
+				<ul>
+					<li>A computer capable of running Sonic Robo Blast 2</li>
+					<li>640x400 VGA monitor</li>
+					<li>Keyboard+Mouse or the 2-axis gamepad for the controls</li>
+					<li>Stereo sound output system (better with headphones) with enabled in-game closed captions</li>
+					<li>150ms or faster ping connection with the game server</li>
+					<li>Fast reaction time or <i>faster</i></li>
+					<li>A Human® brain supporting the CriticalThinking™ technology and the capability of running NI (Natural Intelligence)</li>
+				</ul>
+				<p>If your system does not meet one of these requirements, you are pretty much DOOM™ed</p>
+			</section>
+			<hr>
+			<section id="download">
+				<h3>Download the <span class="orange">LTM's Murder Mystery</span> Add-On (latest version: 1.2)</h3>
+				<p><a href="https://srb2.org"><img
+							src="https://img.shields.io/badge/SRB2_compatibility-v2.2.15-darkblue"></a></p>
+				<ul>
+					<li><a
+							href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases/download/1.2/MM_LTMs_MurderMystery_v1.2.pk3">Download</a>
+					</li>
+				</ul>
+				<p>Older versions and builds of the Add-On can be found in the <u><i>#release-builds</i></u> channel on
+					our Discord server or in the repository's <a
+						href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases">Releases</a> page</p>
+			</section>
+			<hr>
+			<section class="link_section">
+				<section class="github_link">
+					<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">
+						<img src="./github-mark-white.png"
+							style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;" alt="GitHub Logo">
+						<p>SRB2-Murder-Mystery repository</p>
+					</a>
+				</section>
+				<section class="github_link">
+					<a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic">
+						<img src="./github-mark-white-music.png"
+							style="width: 64px; height: 64px; margin-left: auto; margin-right: auto;"
+							alt="GitHub Music Logo">
+						<p>Digital Music repository</p>
+					</a>
+				</section>
+			</section>
+			<iframe title="Discord" src="https://discord.com/widget?id=1075825170658381926&theme=dark" width="800" height="400" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+			<section class="link_section">
+				<a href="https://matrix.to/#/#ltm_mm:matrix.org"><img alt="Matrix Space"
+						src="https://img.shields.io/matrix/ltm_mm%3Amatrix.org?logo=matrix&label=Matrix%20Space"></a>
+				<a href="https://mb.srb2.org/addons/leonardothemutants-murder-mystery.8150/"><img alt="Static Badge"
+						src="https://img.shields.io/badge/SRB2%20Message%20Board%20post-blue"></a>
+			</section>
+		</article>
+		<hr>
+	</main>
+	<footer>
+		<p>All rights to Sonic The Hedgehog and the franchise belong to SEGA</p>
+		<p><a href="https://srb2.org">Sonic Robo Blast 2</a> is a free and open-source game by Sonic Team Jr.</p>
+		<p>DOOM is a trademark of id Software</p>
+		<p>LTM's Murder Mystery made by SRB2MM_DEV Team and LeonardoTheMutant</p>
+		<p>Webpage by <a href="https://github.com/LeonardoTheMutant">LeonardoTheMutant</a></p>
+	</footer>
+</body>
+
 </html>
