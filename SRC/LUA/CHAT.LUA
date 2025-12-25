@@ -10,7 +10,6 @@ local cv_chatspamprotection = CV_FindVar("chatspamprotection")
 local cv_mute = CV_FindVar("mute")
 
 /*
-
 local function CHAT_Say(s, m, me)
 	local textcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
 
@@ -134,10 +133,6 @@ local rightctrldown = false
 local shiftdown = false
 local leftshiftdown = false
 local rightshiftdown = false
-
-local altdown = false
-local leftaltdown = false
-local rightaltdown = false
 
 local deadkey = false
 
@@ -298,66 +293,78 @@ addHook("IntermissionThinker", CHAT_Ticker)
 
 local PUNCTUATION = [[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]]
 
-local function M_JumpWordReverse(line, offset)
-	if offset == 0 then
-		return 0
-	end
-	offset = offset - 1
-	local c = string.sub(line, offset + 1, offset + 1)
-	local is
-	if c:match("%s") then
-		is = function(ch) return ch:match("%s") end
-	elseif c:match("[%p]") then
-		is = function(ch) return ch:match("[%p]") end
+local function M_JumpWord(line)
+	if (line == "") then return 0 end
+	local f = line:sub(1,1)
+
+	if (f:match("%s"))
+		--Skip a run of spaces
+		local _, e = line:find("^%s+")
+		return e or 0
+	elseif (f:match(PUNCTUATION))
+		--Skip a run of punctuation characters defined by the macro
+		local _, e = line:find("^" .. PUNCTUATION .. "+")
+		return e or 0
 	else
-		is = function(ch) return ch:match("[%w]") end
+		--Find the first whitespace after position 2
+		local ws_pos = line:find("%s", 2)
+
+		--Find the first punctuation after position 2
+		local punc_pos = line:find(PUNCTUATION, 2)
+
+		-- Choose the smallest positive index (if any)
+		local sep_pos
+		if (ws_pos and punc_po)s then sep_pos = min(ws_pos, punc_pos)
+		else sep_pos = (ws_pos or punc_pos) end
+
+		if (sep_pos) then return sep_pos - 1 --We want to land just before the separator, i.e. after the word.
+		else return #line end -- No separator at all - the whole line is a single word.
 	end
-	local function test(idx)
-		local ch = string.sub(line, idx, idx)
-		return is(ch)
-	end
-	while offset > 0 and test(offset) do
-		offset = offset - 1
-	end
-	return offset
 end
 
-local function M_JumpWord(line)
-	local c = string.sub(line, 1, 1)
-	if c:match("%s") then
-		-- Return length of leading whitespace
-		local _, e = line:find("^%s+")
-		return e and e or 0
-	elseif c:match("[%p]") then
-		-- Return length of leading punctuation
-		local _, e = line:find("^["..PUNCTUATION:gsub("%p", "%%%0").."]+")
-		return e and e or 0
+local function M_JumpWordReverse(line, offset)
+	if offset <= 0 then return 0 end --nothing to move back to
+	offset = min(offset, #line) --clamp to string length
+
+	offset = offset - 1
+    if offset < 1 then return 0 end--nothing left of the first char
+
+	-- Character just before the supplied offset (Lua is 1‑based)
+	local c = line:sub(offset, offset)
+
+	-- Choose the predicate according to the character class
+	local pred
+	if (c:match("%s"))
+		pred = function(ch) return ch:match("%s") ~= nil end
+	elseif (c:match(PUNCTUATION))
+		pred = function(ch) return ch:match(PUNCTUATION) ~= nil end
 	else
-		local c2 = string.sub(line, 2, 2)
-		if c2:match("%s") then
-			-- 1 + length of whitespace after first char
-			local _, e = line:sub(2):find("^%s+")
-			return 1 + (e and e or 0)
-		else
-			-- Return length up to first whitespace or punctuation
-			local _, e = line:find("^[^%s"..PUNCTUATION:gsub("%p", "%%%0").."]+")
-			return e and e or 0
-		end
+		pred = function(ch) return ch:match("%w") ~= nil end
 	end
+
+	-- Remember whether the reference character satisfied the predicate
+	local ref_match = pred(c)
+
+	-- Walk backwards while the preceding character satisfies the same predicate
+	while (offset > 1)
+		local prev = line:sub(offset-1, offset-1)
+		if pred(prev) == ref_match then offset = offset - 1
+		else break end
+	end
+
+	return offset
 end
 
 addHook("KeyDown", function(key)
 	if (gametype != GT_LTMMURDERMYSTERY) then return false end
 
-	--print(key.num)
 	shiftdown = leftshiftdown or rightshiftdown
 	ctrldown = leftctrldown or rightctrldown
-	altdown = leftaltdown or rightaltdown
 
 	local c = key.num
 
 	local w_chat_table = {}
-	for i, c, b in unicode.chars(MAYA.w_chat) do w_chat_table[i] = c end
+	for i = 1, #MAYA.w_chat do w_chat_table[i] = MAYA.w_chat:sub(i,i) end
 
 	if (MM.hud.chat.active)
 		if (((c > 31) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
@@ -385,9 +392,7 @@ addHook("KeyDown", function(key)
 		end
 
 		if (c == KEY_ENTER)
-			if (not MAYA.CHAT_MUTE)
-				MAYA.SendChatMessage();
-			end
+			if (not MAYA.CHAT_MUTE) then MAYA.SendChatMessage(); end
 
 			MM.hud.chat.active = false
 			MAYA.c_input = 1
@@ -405,11 +410,22 @@ addHook("KeyDown", function(key)
 			MAYA.chat_scroll = $ + 1
 			MAYA.justscrolleddown = true
 			MAYA.chat_scrolltime = 4
+		elseif ((c == KEY_PGUP) and MAYA.chat_scroll > 0)
+			MAYA.chat_scroll = $ - 8
+			MAYA.justscrolledup = true
+			MAYA.chat_scrolltime = 4
+			if (MAYA.chat_scroll < 0) MAYA.chat_scroll = 0 end
+		elseif ((c == KEY_PGDN) and MAYA.chat_scroll < MAYA.chat_maxscroll and MAYA.chat_maxscroll > 0)
+			MAYA.chat_scroll = $ + 8
+			MAYA.justscrolleddown = true
+			MAYA.chat_scrolltime = 4
+			if (MAYA.chat_scroll > MAYA.chat_maxscroll) MAYA.chat_scroll = MAYA.chat_maxscroll end
 		elseif (c == KEY_LEFTARROW and MAYA.c_input != 1)
 			if (ctrldown) MAYA.c_input = M_JumpWordReverse(MAYA.w_chat, MAYA.c_input)
 			else MAYA.c_input = $ - 1 end
 		elseif (c == KEY_RIGHTARROW and MAYA.c_input <= unicode.len(MAYA.w_chat))
-			if (ctrldown) MAYA.c_input = $ + M_JumpWord(w_chat_table[MAYA.c_input + 1])
+			print(MAYA.w_chat:sub(MAYA.c_input))
+			if (ctrldown) MAYA.c_input = $ + M_JumpWord(MAYA.w_chat:sub(MAYA.c_input))
 			else MAYA.c_input = $ + 1 end
 		elseif (c == KEY_BACKSPACE)
 			if (MAYA.CHAT_MUTE or MAYA.c_input <= 1) return true end
@@ -468,10 +484,8 @@ hud.add(function(v)
 		if (MM.debug)
 			if (leftshiftdown) v.drawString(0, 176, "S") end
 			if (leftctrldown) v.drawString(0, 184, "C") end
-			if (leftaltdown) v.drawString(0, 192, "A") end
 			if (rightshiftdown) v.drawString(8, 176, "S") end
 			if (rightctrldown) v.drawString(8, 184, "C") end
-			if (rightaltdown) v.drawString(8, 192, "A") end
 		end
 	else
 		MAYA.typelines = 1
@@ -494,10 +508,8 @@ hud.add(function(v)
 		if (MM.debug)
 			if (leftshiftdown) v.drawString(0, 176, "S") end
 			if (leftctrldown) v.drawString(0, 184, "C") end
-			if (leftaltdown) v.drawString(0, 192, "A") end
 			if (rightshiftdown) v.drawString(8, 176, "S") end
 			if (rightctrldown) v.drawString(8, 184, "C") end
-			if (rightaltdown) v.drawString(8, 192, "A") end
 		end
 	else
 		MAYA.typelines = 1

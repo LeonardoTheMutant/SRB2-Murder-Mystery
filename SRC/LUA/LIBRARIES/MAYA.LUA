@@ -1,10 +1,10 @@
 -- MAYA.LUA
 -- Code by LeonardoTheMutant & the people who commited to the SRB2 source code
 --
+-- "Messages And Ymportant Annoucements"
 -- A modified port of SRB2's chat system that supports UTF-8 encoding
--- You can tell is it a messaging lib by the name
 
--- DEPENDENCIES: Caroline, Hideo
+-- DEPENDENCIES: Caroline, Hideo, MichaelMyers
 
 rawset(_G, "MAYA", {debug = true})
 
@@ -542,7 +542,7 @@ MAYA.DrawChat = function(v)
 			if (valid(player)) then
 				local name = string.sub(player.name, 1, 7)
 				v.drawFill(chatx + boxw + 2, (p_dispy - (6 * count)), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
-				HIDEO.DrawStrUnicode(v, (chatx + boxw + 4), (p_dispy - (6 * count) + 1), string.format("\x82%d\x80 - %s", #player, name), V_SNAPTOBOTTOM|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
+				HIDEO.DrawStrUnicode(v, (chatx + boxw + 4), (p_dispy - (6 * count) + 1), string.format("^2%d^0 - %s", #player, name), V_SNAPTOBOTTOM|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
 				count = count + 1
 			end
 		end
@@ -557,7 +557,7 @@ end
 
 --Draw the chat log
 MAYA.DrawChatLog = function(v, offset)
-	local boxh = min(cv_chatheight.value, (chaty / MM.hud.canvas.font.small.charheight))
+	local boxh = min(cv_chatheight.value, chaty/(MM.hud.canvas.font.small.charheight + 2))
 	local boxw = cv_chatwidth.value
 	local x = chatx + 2
 	local y
@@ -571,12 +571,12 @@ MAYA.DrawChatLog = function(v, offset)
 	--make sure that out scroll position isn't "illegal"
 	if (MAYA.chat_scroll > MAYA.chat_maxscroll) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 
-	y = chaty - offset*MM.hud.canvas.font.small.charheight - (MAYA.chat_scroll * MM.hud.canvas.font.small.charheight) - boxh*MM.hud.canvas.font.small.charheight - 12
+	y = chaty - offset*(MM.hud.canvas.font.small.charheight + 2) - MAYA.chat_scroll*(MM.hud.canvas.font.small.charheight + 2) - boxh*(MM.hud.canvas.font.small.charheight + 2) - 12
 
-	chat_topy = y + (MAYA.chat_scroll * MM.hud.canvas.font.small.charheight)
-	chat_bottomy = chat_topy + (boxh * MM.hud.canvas.font.small.charheight)
+	chat_topy = y + MAYA.chat_scroll*(MM.hud.canvas.font.small.charheight + 2)
+	chat_bottomy = chat_topy + boxh*(MM.hud.canvas.font.small.charheight + 2)
 
-	v.drawFill(chatx, chat_topy, boxw, boxh*MM.hud.canvas.font.small.charheight + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS)
+	v.drawFill(chatx, chat_topy, boxw, boxh*(MM.hud.canvas.font.small.charheight + 2) + 2, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM | V_SNAPTOLEFT | V_40TRANS)
 
 	for i = 0, MAYA.chat_nummsg_log - 1 do
 		local msg = HIDEO.WordWrap(0, boxw-MM.hud.canvas.font.small.charwidth-2, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, MM.hud.canvas.font.small.scale, MAYA.chat_log[i])
@@ -589,7 +589,7 @@ MAYA.DrawChatLog = function(v, offset)
 		while (j <= #str) do repeat
 			if (str[j] == '\n') --newline
 				if not prev_linereturn then
-					dy = $ + MM.hud.canvas.font.small.charheight
+					dy = $ + MM.hud.canvas.font.small.charheight + 2
 					dx = 0
 				end
 				prev_linereturn = true
@@ -612,12 +612,12 @@ MAYA.DrawChatLog = function(v, offset)
 
 			if (dx >= boxw - MM.hud.canvas.font.small.charwidth - 2 and i < MAYA.chat_nummsg_log) then
 				dx = 0
-				dy = $ + MM.hud.canvas.font.small.charheight
+				dy = $ + MM.hud.canvas.font.small.charheight + 2
 				prev_linereturn = true
 			end
 			j = $ + 1
 		until true end
-		dy = $ + MM.hud.canvas.font.small.charheight
+		dy = $ + MM.hud.canvas.font.small.charheight + 2
 		dx = 0
 	end
 
@@ -626,7 +626,8 @@ MAYA.DrawChatLog = function(v, offset)
 	end
 	MAYA.chat_scrollmedown = false
 
-	MAYA.chat_maxscroll = max(dy / MM.hud.canvas.font.small.charheight - cv_chatheight.value, 0)
+	MAYA.chat_maxscroll = max(dy / (MM.hud.canvas.font.small.charheight + 2) - boxh, 0)
+	v.drawString(160, 100, MAYA.chat_maxscroll)
 
 	if (atbottom) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 
@@ -682,10 +683,10 @@ MAYA.DrawMiniChat = function(v)
 				end
 			end
 			dx = 0
-			chatheight = $ + MM.hud.canvas.font.small.charheight
+			chatheight = $ + MM.hud.canvas.font.small.charheight + 2
 		end
 	end
-	y = chaty - (chatheight + MM.hud.canvas.font.small.charheight)
+	y = chaty - (chatheight + MM.hud.canvas.font.small.charheight + 2)
 	prev_linereturn = false
 
 	for i = 0, MAYA.chat_nummsg_min - 1 do
@@ -736,7 +737,7 @@ MAYA.DrawMiniChat = function(v)
 				end
 				j = j + (charlen or 1)
 			until true end
-			dy = $ + MM.hud.canvas.font.small.charheight
+			dy = $ + MM.hud.canvas.font.small.charheight + 2
 			dx = 0
 		end
 	end
