@@ -166,7 +166,7 @@ Level KG
 Levelname = Aztec
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
-SkyNum = 40
+SkyNum = 10
 NextLevel = KH
 Lua.Author = LeonardoTheMutant
 
