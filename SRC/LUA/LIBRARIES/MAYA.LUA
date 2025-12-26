@@ -627,7 +627,6 @@ MAYA.DrawChatLog = function(v, offset)
 	MAYA.chat_scrollmedown = false
 
 	MAYA.chat_maxscroll = max(dy / (MM.hud.canvas.font.small.charheight + 2) - boxh, 0)
-	v.drawString(160, 100, MAYA.chat_maxscroll)
 
 	if (atbottom) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 

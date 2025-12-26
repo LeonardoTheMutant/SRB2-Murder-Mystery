@@ -315,7 +315,7 @@ local function M_JumpWord(line)
 
 		-- Choose the smallest positive index (if any)
 		local sep_pos
-		if (ws_pos and punc_po)s then sep_pos = min(ws_pos, punc_pos)
+		if (ws_pos and punc_pos) then sep_pos = min(ws_pos, punc_pos)
 		else sep_pos = (ws_pos or punc_pos) end
 
 		if (sep_pos) then return sep_pos - 1 --We want to land just before the separator, i.e. after the word.
