@@ -254,7 +254,8 @@ local function CHAT_Ticker()
 
 				--Player renamed
 				if (last_name[i] and last_name[i] ~= p.name)
-					if (gamestate == GS_LEVEL and p.spectator) then MM.PunishPlayer(p, "Do not rename when dead!")
+					print(p.jointime)
+					if ((gamestate == GS_LEVEL) and p.spectator and (p.jointime > 35)) then MM.PunishPlayer(p, "Do not rename when dead!")
 					else
 						MAYA.SystemChatprint(string.format("^2*%s renamed", last_name[i]))
 						last_name[i] = p.name
