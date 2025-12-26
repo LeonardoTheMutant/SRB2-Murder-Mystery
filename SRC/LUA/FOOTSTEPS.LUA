@@ -2160,6 +2160,7 @@ local flatsounds={
 	["DCWAL27"]="stone",
 	["DSSWIT4"]="stone",
 	["DIRT1"]="dirt",
+	["ERZDRIED"]="metal",
 	["ERZRED1"]="metal",
 	["ERZWAL17"]="metal",
 	["ERZ_D0W0"]="metal",
