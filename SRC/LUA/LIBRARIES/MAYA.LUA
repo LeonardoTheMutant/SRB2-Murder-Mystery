@@ -429,12 +429,7 @@ MAYA.RecieveChatMessage = function(sender, target, msg)
 			fmt2 = "%s<%s%s>^0%s %s%s"
 		end
 		if (isdedicatedserver)
-			--Dedicated server console cannot interpret UTF-8 correctly, we have to either hide the entire message or show raw HEX data
-			--Obviously I chose the second option. If hosters REALLY want to read the message, they can use "HEX to UTF-8" converter
-			local message = {}
-			local len = #msg
-			for i = 1, len do message[i] = HEX[msg:byte(i)] end --Turn each character into "HEX bytes"
-			MAYA.Chatprint(sender.name.." sent a global message, raw HEX data: "..table.concat(message))
+			MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, msg))
 		else
 			if (not sender.spectator or (sender.spectator and consoleplayer.spectator))
 				MAYA.Chatprint(string.format(fmt2, prefix, cstart, dispname, cend, textcolor, msg), cv_chatnotifications.value)

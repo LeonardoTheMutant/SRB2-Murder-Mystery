@@ -26,6 +26,20 @@ local function P_CloseElevatorDoors()
     end
 end
 
+local function P_Teleport(dir)
+    local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
+    searchBlockmap("objects", function(refmobj, foundmobj)
+        switch(dir, {
+            [true] = do --up
+                P_MoveOrigin(foundmobj, foundmobj.x, foundmobj.y + 8388608, foundmobj.z) --dummy values
+            end,
+            [false] = do --down
+                P_MoveOrigin(foundmobj, foundmobj.x, foundmobj.y - 8388608, foundmobj.z) --dummy values
+            end
+        })
+    end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
+end
+
 addHook("ThinkFrame", do
     if (elevatorState[3]) then elevatorState[3] = $ - 1 end
     if (not elevatorState[3]) --if timer ran out
@@ -35,13 +49,13 @@ addHook("ThinkFrame", do
         else --doors are closed
             if (elevatorState[4]) --if evetator plans to move
                 if (elevatorState[4] == 1) then --going up
-                    P_LinedefExecute(96) --teleport
+                    P_Teleport(true)
                     elevatorState[1] = $ + 1
                     elevatorState[3] = 105 --3 seconds
                     elevatorState[4] = 3
                     P_OpenElevatorDoors()
                 elseif (elevatorState[4] == 2) then --going down
-                    P_LinedefExecute(97) --teleport
+                    P_Teleport(false)
                     elevatorState[1] = $ - 1
                     elevatorState[3] = 105 --3 seconds
                     elevatorState[4] = 3

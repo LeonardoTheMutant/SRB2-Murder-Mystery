@@ -134,12 +134,11 @@ local shiftdown = false
 local leftshiftdown = false
 local rightshiftdown = false
 
-local deadkey = false
-
 --
 -- Get the modifier key state
 --
 addHook("KeyDown", function(key)
+	if (not MM.hud.chat.active) then return end
 	switch(key.num, {
 		[KEY_LCTRL] = do
 			leftctrldown = true
@@ -152,16 +151,11 @@ addHook("KeyDown", function(key)
 		end,
 		[KEY_RSHIFT] = do
 			rightshiftdown = true
-		end,
-		[KEY_LALT] = do
-			leftaltdown = true
-		end,
-		[KEY_RALT] = do
-			rightaltdown = true
-		end,
+		end
 	})
 end)
 addHook("KeyUp", function(key)
+	if (not MM.hud.chat.active) then return end
 	switch(key.num, {
 		[KEY_LCTRL] = do
 			leftctrldown = false
@@ -174,13 +168,7 @@ addHook("KeyUp", function(key)
 		end,
 		[KEY_RSHIFT] = do
 			rightshiftdown = false
-		end,
-		[KEY_LALT] = do
-			leftaltdown = false
-		end,
-		[KEY_RALT] = do
-			rightaltdown = false
-		end,
+		end
 	})
 end)
 
@@ -359,15 +347,15 @@ end
 addHook("KeyDown", function(key)
 	if (gametype != GT_LTMMURDERMYSTERY) then return false end
 
-	shiftdown = leftshiftdown or rightshiftdown
-	ctrldown = leftctrldown or rightctrldown
-
 	local c = key.num
 
-	local w_chat_table = {}
-	for i = 1, #MAYA.w_chat do w_chat_table[i] = MAYA.w_chat:sub(i,i) end
-
 	if (MM.hud.chat.active)
+		shiftdown = leftshiftdown or rightshiftdown
+		ctrldown = leftctrldown or rightctrldown
+
+		local w_chat_table = {}
+		for i = 1, #MAYA.w_chat do w_chat_table[i] = MAYA.w_chat:sub(i,i) end
+
 		if (((c > 31) and (c < 127)) or ((c > 198) and (c < 210)) or (c == 228)) and not (ctrldown and c == KEY_SPACE)
 			if (MAYA.CHAT_MUTE or (#MAYA.w_chat >= HU_MAXMSGLEN)) then return true end
 

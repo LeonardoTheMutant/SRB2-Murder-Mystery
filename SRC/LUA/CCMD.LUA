@@ -85,7 +85,7 @@ COM_AddCommand("mmsetup", function(p)
 		else mmsetup_entries[i].value = mmsetup_entries[i].cvar.value end
 	end
 	input.setMouseGrab(false)
-end, COM_ADMIN)
+end, COM_ADMIN|COM_LOCAL)
 
 -- MMSETUP's core
 local mmsetupIncrement = do
