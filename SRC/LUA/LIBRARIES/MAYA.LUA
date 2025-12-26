@@ -603,7 +603,7 @@ MAYA.DrawChatLog = function(v, offset)
 				break --continue
 			end
 
-			local code = str[j]:byte()
+			local code = unicode.code(str[j])
 			prev_linereturn = false
 			if (y+dy+2 >= chat_topy) and (y+dy < chat_bottomy) and (code ~= 32) then
 				HIDEO.DrawCharUnicode(v, (x + dx + 2), (y + dy + 2), code, V_SNAPTOBOTTOM|V_SNAPTOLEFT, colormap, MM.hud.canvas.font.small.scale)
@@ -723,7 +723,7 @@ MAYA.DrawMiniChat = function(v)
 					v.drawFill((x + dx + 2), (y + dy), MM.hud.canvas.font.small.charwidth, MM.hud.canvas.font.small.charheight, GetChatBacktint(cv_con_backcolor.value)|V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
 				end
 
-				local code = str[j]:byte()
+				local code = unicode.code(str[j])
 				if (code ~= 32)
 					HIDEO.DrawCharUnicode(v, (x + dx + 2), (y + dy + 1), code, V_SNAPTOBOTTOM|V_SNAPTOLEFT|transflag, colormap, MM.hud.canvas.font.small.scale)
 				end

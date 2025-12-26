@@ -488,11 +488,11 @@ hud.add(function(v)
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
 				if (i > 10) then shift = {x=140, y=80} end
-				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\xC2B7 "..string.sub(plrs[i].name, 1, 15), v.localTransFlag(), MM.hud.canvas.font.scale)
+				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\x1E "..string.sub(plrs[i].name, 1, 15), v.localTransFlag(), MM.hud.canvas.font.scale)
 			else --Compact ("Tripple column") mode
 				if (i > 11) then shift = {x=94, y=88}
 				elseif (i > 22) then shift = {x=188, y=88} end
-				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\xC2B7 "..string.sub(plrs[i].name, 1, 16), v.localTransFlag(), MM.hud.canvas.font.scale)
+				HIDEO.DrawStrUnicode(v, (MM.hud.scores.pos.playerInfo.x + shift.x), (MM.hud.scores.pos.playerInfo.y - shift.y + (i * MM.hud.canvas.font.charheight)), "\x1E "..string.sub(plrs[i].name, 1, 16), v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
