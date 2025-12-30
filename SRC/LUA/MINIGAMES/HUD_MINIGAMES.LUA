@@ -12,8 +12,8 @@ local coords = {
 local function V_DrawMinigameTime(v)
     --label size and X position
 	local timeLabelWidth
-	if (MM.text[MM.lang]["BMP_TIME"]) and (not splitscreen)
-		timeLabelWidth = HIDEO.GetTextPatchWidth(MM.text[MM.lang]["BMP_TIME"]) + 64
+	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
+		timeLabelWidth = HIDEO.GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + 64
 	else
 		timeLabelWidth = 96
 	end
@@ -23,14 +23,12 @@ local function V_DrawMinigameTime(v)
 	local timertime = (MM.timelimit * 2100) - leveltime
 
 	--"TIME" text
-	if (MM.text[MM.lang]["BMP_TIME"]) and (not splitscreen)
+	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
 		--Draw the Text Label
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
-			--Swap the colors in the label for flashing effect
-			--0x49 in SRB2's palette is Yellow, 0x25 is Red
-			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, HIDEO.TextPatch_SwapColor(MM.text[MM.lang]["BMP_TIME"], 0x49, 0x25), V_SNAPTOTOP|v.localTransFlag())
+			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 2, V_SNAPTOTOP|v.localTransFlag()) --Flashing
 		else
-			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["BMP_TIME"], V_SNAPTOTOP|v.localTransFlag())
+			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 1, V_SNAPTOTOP|v.localTransFlag()) --Normal
 		end
 	else --in case Text Patch was not found or the game is splitscreen (HIDEO.DrawTextPatch() does not support per-player rendering)
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))

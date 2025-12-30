@@ -13,6 +13,7 @@ rawset(_G, "HIDEO", {
 	font = {}, --"VRAM" were cached font patches are stored
 	charwidth = 8, --character width in pixels
 	charheight = 8, --character height in pixels
+	palette = {0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240} --fallback palette for Text Patch drawing
 })
 
 HIDEO.debug = true
@@ -92,6 +93,9 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	if (flags & V_MONOSPACE) then spaceWidth = 8
 	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
+	local DrawCharUnicode = HIDEO.DrawCharUnicode
+	local getStringColormap = v.getStringColormap
+
 	--scale down if we want x0.5 font
 	spaceWidth = FixedMul($, scale)
 	local charWidth = FixedMul(HIDEO.charwidth, scale)
@@ -131,13 +135,13 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 
 		--Read the color value once in a caret sequence
 		if (isTextCode)
-			color = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(c:byte()))
+			color = getStringColormap((HEX2INT[c:byte()] or 0) * 4096)
 			isTextCode = false
 			continue
 		end
 
 		--draw the character
-		HIDEO.DrawCharUnicode(v, cx, cy, unicode.code(c), flags, color, scale)
+		DrawCharUnicode(v, cx, cy, unicode.code(c), flags, color, scale)
 		cx = $ + charWidth
 	end
 end
@@ -204,11 +208,13 @@ HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, scale)
 	y = $ or 0
 	scale = $ or FU
 
+	local DrawStrUnicode = HIDEO.DrawStrUnicode
+
 	local lineheight = FixedMul(HIDEO.charheight, scale)
 
 	local strs = splitLine(str)
 	for i = 1, #strs do
-		HIDEO.DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(strs[i], flags, scale) / 2)), y + (i * lineheight) - lineheight, strs[i], flags, scale)
+		DrawStrUnicode(v, (x - (HIDEO.StrWidthUnicode(strs[i], flags, scale) / 2)), y + (i * lineheight) - lineheight, strs[i], flags, scale)
 	end
 end
 
@@ -217,11 +223,13 @@ HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, scale)
 	y = $ or 0
 	scale = $ or FU
 
+	local DrawStrUnicode = HIDEO.DrawStrUnicode
+
 	local lineheight = FixedMul(HIDEO.charheight, scale)
 
 	local strs = splitLine(str)
 	for i = 1, #strs do
-		HIDEO.DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, scale)), y + (i * lineheight) - lineheight, str, flags, scale)
+		DrawStrUnicode(v, (x - HIDEO.StrWidthUnicode(str, flags, scale)), y + (i * lineheight) - lineheight, str, flags, scale)
 	end
 end
 
@@ -238,53 +246,65 @@ typedef struct {
 	int xoff; //Patch X offset
 	int yoff; //Patch Y offset
 
-	//2D table of rows & columns where each byte is a pointer to the SRB2 palette color,
-	//in LUA this is simply a table of strings where each character gets converted into a byte value
-	char** data;
+	unsigned char *palette[16]; //Collections of Palettes for the patch, values in each palette are indexes to the SRB2 palette
+
+	//2D table of rows & columns where each hexadecimal digit is an index to the Text Patch Palette color, space symbol is transparent pixel
+	char **image;
 } textpatch_t
 
 ]]
 
 --Draw an image from the Text Patch, similar to v.draw()
-HIDEO.DrawTextPatch = function(v, x, y, patch, flags)
+--Arguments:
+--
+--	v			- Video Drawer object
+--	x			- X coordinate to draw at
+--	y			- Y coordinate to draw at
+--	patch		- Text Patch to draw
+--	paletteNo	- Number of the Text Patch's palette to use
+--	flags		- Any of the following flags: V_NOSCALESTART, V_SNAPTOTOP, V_SNAPTOBOTTOM, V_SNAPTOLEFT and V_SNAPTORIGHT
+HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
 	assert(v, "HIDEO.DrawTextPatch() argument #1: Video drawer object expected")
-	local x = x or 0
-	local y = y or 0
+	x = x or 0
+	y = y or 0
 	assert(patch, "HIDEO.DrawTextPatch() argument #4: textpatch_t expected")
-	assert(patch.data, "HIDEO.DrawTextPatch() argument #4: given textpatch_t lacks the data table")
-	local xoff = patch.xoff or 0 --X offset
-	local yoff = patch.yoff or 0 --Y offset
-	local flags = flags or 0
+	assert(patch.image, "HIDEO.DrawTextPatch() argument #4: given textpatch_t lacks the data/image table")
+	flags = flags or 0
 
-	local color, startX, runColor
-	local xo = x - xoff - 1
-	local yo = y - yoff - 1
+	local drawFill = v.drawFill
+	local tmp = paletteNo or 0 --multipurpose variable, right now it is a palette number
+	local palette, color, rowStr, rowLen, column, runStart, runEnd, nxt
 
-	for row = 1, #patch.data do
-		if (patch.data[row])
-			startX = 0
-			runColor = nil
-			for column = 1, #patch.data[row] do
-				local pixel = patch.data[row]:byte(column)
-				if (pixel == 0xFF) --Is transparent pixel?
-					--Flush the loaded pixels onto screen
-					if (runColor)
-						v.drawFill((xo + startX), (yo + row), (column - startX), 1, runColor)
-						runColor = nil
-					end
-				else
-					color = pixel | flags
-					if (runColor != color)
-						--Flush the loaded pixels onto screen if met a different colored pixel in Text Patch
-						if (runColor) then v.drawFill((xo + startX), (yo + row), (column - startX), 1, runColor) end
-						--Start new run
-						runColor = color
-						startX = column
-					end
+	if (patch.palette and patch.palette[tmp]) then palette = patch.palette[tmp] end
+	if (not palette) then palette = HIDEO.palette end --fallback palette
+
+	local xo = x - (patch.xoff or 0) - 1
+	local yo = y - (patch.yoff or 0) - 1
+
+	for row = 1, #patch.image do
+		rowStr = patch.image[row]
+		rowLen = #rowStr
+		column = 1
+
+		while (column <= rowLen) do
+			tmp = rowStr:byte(column) --pixel value
+
+			if (tmp == 32) then column = column + 1 --Transparent pixel? Skip it
+			else --Not transparent pixel
+				color = palette[(HEX2INT[tmp] or 0) + 1] or 0
+
+				runStart = column; runEnd = column
+
+				--determine how much identical pixels we can draw horizontally with one drawFill() call
+				while (runEnd < rowLen) do
+					nxt = rowStr:byte(runEnd + 1)
+					if (nxt == 32) then break end --next pixel is transparent pixel
+					if ((palette[(HEX2INT[nxt] or 0) + 1] or 0) != color) then break end --next pixel has a different color than the current one
+					runEnd = runEnd + 1
 				end
-			end
-			--Flush run if row ended
-			if (runColor) then v.drawFill((xo + startX), (yo + row), (#patch.data[row] - startX + 1), 1, runColor)
+
+				drawFill((xo + column), (yo + row), (runEnd - runStart + 1), 1, color|flags)
+				column = runEnd + 1
 			end
 		end
 	end
@@ -295,9 +315,9 @@ HIDEO.GetTextPatchWidth = function(patch)
 	assert(patch, "HIDEO.GetTextPatchWidth() argument #1: textpatch_t expected")
 	local width = 0
 
-	if (patch.data)
-		for row = 1, #patch.data do
-			if (patch.data[row] and (#patch.data[row] > width)) then width = #patch.data[row] end
+	if (patch.image)
+		for row = 1, #patch.image do
+			if (patch.image[row] and (#patch.image[row] > width)) then width = #patch.image[row] end
 		end
 	end
 
@@ -307,156 +327,9 @@ end
 --Get the Height of the Text Patch
 HIDEO.GetTextPatchHeight = function(patch)
 	assert(patch, "HIDEO.GetTextPatchHeight() argument #1: textpatch_t expected")
-	if (patch.data) then return #patch.data
+	if (patch.image) then return #patch.image
 	else return 0 end
 end
-
---Swap colors in the Text Patch
---Each pixel of the color1 will be replaced by color2
-HIDEO.TextPatch_SwapColor = function(patch, color1, color2)
-	assert(patch, "HIDEO.TextPatch_SwapColor() argument #1: textpatch_t expected")
-	assert(patch.data, "HIDEO.TextPatch_SwapColor() argument #1: given textpatch_t lacks the data table")
-	local c1 = color1
-	if (type(color1) == "string") c1 = color1:byte() end
-	local c2 = color2
-	if (type(color2) == "string") c2 = color2:byte() end
-
-	local ptch = { --the returned copy
-		xoff = patch.xoff or 0,
-		yoff = patch.yoff or 0,
-		data = {}
-	}
-
-	local pixel
-
-	for row = 1, #patch.data do
-		if (patch.data[row])
-			local str = {}
-			for column = 1, #patch.data[row] do
-				pixel = patch.data[row]:byte(column, column)
-				if (pixel == c1) --is this the pixel we want to replace?
-					str[#str + 1] = string.char(c2) --Yes, place a replacement pixel
-				else
-					str[#str + 1] = string.char(pixel) --No, leave the pixel as is
-				end
-			end
-			ptch.data[row] = table.concat(str)
-		end
-	end
-
-	return ptch
-end
-
-
---[[
---Scroll the Text Patch by n pixels
---Perfomance heavy Text Patch manipulation function!
---Useful only for the static images!
-HIDEO.ScrollTextPatch_Vertical = function(patch, offset, side)
-	assert(patch, "V_ShiftTextPatch() argument #1: textpatch_t expected")
-	if ((offset == nil) or (offset < 1)) then error("V_ShiftTextPatch() argument #2: positive offset value expected") end
-
-	local buffer = {}
-
-	for line = 1, #patch do
-		buffer[line] = ""
-		if (side)
-			for i = offset, 1, -1 do
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-			for i = #patch[line], (offset + 1), -1 do
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-		else
-			for i = offset, #patch[line] do
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-			for i = 1, (offset - 1) do
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-		end
-	end
-
-	return buffer
-end
-
---Crop the Text Patch using relative coordinates
---Arguments:
---	startColumn	- X1 coordinate
---	endColumn	- X2
---	startLine	- Y1 coordinate
---	endLine		- Y2
---
---Perfomance heavy Text Patch manipulation function!
---Useful only for the static images!
-HIDEO.CropTextPatch = function(patch, startColumn, endColumn, startLine, endLine)
-	assert(patch, "HIDEO.CropTextPatch() argument #1: textpatch_t expected")
-	if (startColumn < 0) then error("HIDEO.CropTextPatch() argument #2: positive starting column position value expected") end
-	if (endColumn < 0) then error("HIDEO.CropTextPatch() argument #3: positive ending column position value expected") end
-	if (startLine < 0) then error("HIDEO.CropTextPatch() argument #4: positive starting line position value expected") end
-	if (endLine < 0) then error("HIDEO.CropTextPatch() argument #5: positive ending line position value expected") end
-
-	if (not startColumn) then startColumn = 1 end
-	if (not endColumn) then endColumn = 1 end
-	if (not startLine) then startLine = 1 end
-	if (not endLine) then endLine = 1 end
-
-	local buffer = {}
-
-	for line = startLine, #patch do
-		if (line == endLine) then break end
-		buffer[line] = ""
-		for i = startColumn, #patch[line] do
-			if (i <= width) then
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-		end
-	end
-
-	return buffer
-end
-
---Crop the Text Patch using relative coordinates
---Arguments:
---	startColumn	- X1 coordinate
---	width		- X2, but uses the relative position from X1
---	startLine	- Y1 coordinate
---	height		- Y2, but uses the relative position from Y1
---
---Perfomance heavy Text Patch manipulation function!
---Useful only for the static images!
-HIDEO.CropTextPatch_Relative = function(patch, startColumn, width, startLine, height)
-	assert(patch, "HIDEO.CropTextPatch_Relative() argument #1: textpatch_t expected")
-	if (not startColumn) then startColumn = 1 end
-	if (not width) then width = HIDEO.GetTextPatchWidth(patch) end
-	if (not startLine) then startLine = 1 end
-	if (not height) then height = #patch end
-
-	if (startColumn < 0) then error("HIDEO.CropTextPatch_Relative() argument #2: positive starting column position value expected") end
-	if (width < 0) then error("HIDEO.CropTextPatch_Relative() argument #3: positive width value expected") end
-	if (startLine < 0) then error("HIDEO.CropTextPatch_Relative() argument #4: positive starting line position value expected") end
-	if (height < 0) then error("HIDEO.CropTextPatch_Relative() argument #5: positive height value expected") end
-
-	local buffer = {}
-	local x = 0
-	local y = 0
-
-	for line = startLine, #patch do
-		y = $ + 1
-		if (y > height) then break end
-		buffer[line] = ""
-		x = 0
-		for i = startColumn, #patch[line] do
-			x = $ + 1
-			if (x <= width) then
-				buffer[line] = $..patch[line]:sub(i, i)
-			end
-		end
-	end
-
-	return buffer
-end
-]]
 
 --Helper functions for below
 local function isxdigit(c)
