@@ -118,9 +118,9 @@ int main(int argc, char *argv[])
 						printf("ERROR: Graphic contains more than %d colors! Unable to convert", COLORLIMIT);
 						return 1;
 					}
-					palette[++colorCount] = currColor; //...add color to the palette
+					palette[colorCount++] = currColor; //...add color to the palette
 				}
-				patchImage[j + rowstart][i] = FindPaletteColorIndex(currColor) + 1; //read the pixel
+				patchImage[j + rowstart][i] = FindPaletteColorIndex(currColor); //read the pixel
 			}
 
 			fread(&dummy, 1, 1, patchfile); //dummy byte

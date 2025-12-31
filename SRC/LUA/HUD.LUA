@@ -422,7 +422,7 @@ hud.add(function(v, p)
 		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end
 
-	--Sheriff Emerald Radar for Innocents
+	--Sheriff's Emerald Radar for Innocents
 	if (p.mm.role == ROLE_CIVILIAN) and (#MM.shremds) and (MM.shremdDist) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))
 		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(MM.shremdDist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
@@ -520,7 +520,7 @@ hud.add(function(v)
 			end
 		end
 	end
-
+ 
 	v.drawFill(0, 172, 320, 2, v.localTransFlag()) --horizontal line
 
 	--Roles counter
@@ -570,9 +570,13 @@ hud.add(function(v)
 	if ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) or (not MM.hud.intermission.active)) return end
 
 	--Background
+	local width = v.width
+	local height = v.height
+	local dupx = v.dupx
+	local dupy = v.dupy
 	local BGpatch = MM.graphics["INTRMBG"..MM.winner]
-	for x = 0, v.width(), BGpatch.width * v.dupx() do
-		for y = 0, v.height(), BGpatch.height * v.dupy() do
+	for x = 0, width(), BGpatch.width * dupx() do
+		for y = 0, height(), BGpatch.height * dupy() do
 			v.draw(x, y, BGpatch, V_NOSCALESTART)
 		end
 	end
