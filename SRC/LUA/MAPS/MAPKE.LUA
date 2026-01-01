@@ -3,7 +3,10 @@
 --Original level design by Konami & Hideo Kojima
 --SRB2 map port & code by LeonardoTheMutant
 
---ELEVATOR PLAYER TELEPORTATION DOES NOT CURRENTLY WORK
+local timerConst = {
+	105, --3 seconds, elevator came to the floor and waits to open doors
+	700 --20 seconds, evevator travel time
+}
 
 local elevatorState = {
 	0, --floor (0 - Top, 1 - B1, 2 - B2)
@@ -26,17 +29,46 @@ local function P_CloseElevatorDoors()
 	end
 end
 
-local function P_Teleport(dir)
-	local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
+local function P_ElevatorMove()
+	local mo
+	switch(elevatorState[1], {
+		[0] = do --from Top Floor
+			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
+			searchBlockmap("objects", function(refmobj, foundmobj)
+				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z)
+			end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
+		end,
+		[1] = do --from Basement 1
+			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
+			searchBlockmap("objects", function(refmobj, foundmobj)
+				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z) --dummy values
+			end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
+		end,
+		[2] = do --from Basement 2
+			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
+			searchBlockmap("objects", function(refmobj, foundmobj)
+				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z) --dummy values
+			end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
+		end,
+	})
+	P_StartQuake(FRACUNIT, timerConst[2] - 70, {-2240*FRACUNIT, 2752*FRACUNIT, 0}, 160*FRACUNIT)
+end
+
+local function P_ElevatorFloor()
+	local mo = P_SpawnMobj(-2240*FU, 2752*FU, 0, MT_RAY)
 	searchBlockmap("objects", function(refmobj, foundmobj)
-		switch(dir, {
-			[true] = do --up
-				P_MoveOrigin(foundmobj, foundmobj.x, foundmobj.y + 8388608, foundmobj.z) --dummy values
+		switch(elevatorState[1], {
+			[0] = do --to Top floor
+				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z)
 			end,
-			[false] = do --down
-				P_MoveOrigin(foundmobj, foundmobj.x, foundmobj.y - 8388608, foundmobj.z) --dummy values
-			end
+			[1] = do --to Basement 1
+				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z) --dummy values
+			end,
+			[2] = do --to Basement 2
+				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z) --dummy values
+			end,
 		})
+		S_StartSound(nil, sfx_ding, foundmobj.player)
 	end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
 end
 
@@ -49,23 +81,21 @@ addHook("ThinkFrame", do
 		else --doors are closed
 			if (elevatorState[4]) --if evetator plans to move
 				if (elevatorState[4] == 1) then --going up
-					P_Teleport(true)
 					elevatorState[1] = $ + 1
-					elevatorState[3] = 105 --3 seconds
-					elevatorState[4] = 3
-					P_OpenElevatorDoors()
 				elseif (elevatorState[4] == 2) then --going down
-					P_Teleport(false)
 					elevatorState[1] = $ - 1
-					elevatorState[3] = 105 --3 seconds
-					elevatorState[4] = 3
-					P_OpenElevatorDoors()
 				end
+				P_ElevatorFloor()
+				elevatorState[3] = timerConst[1]
+				elevatorState[4] = 3
+				P_OpenElevatorDoors(elevatorState[1])
 			end
 		end
 	else --timer is not 0
-		--do elevator shaking
-		if (((elevatorState[4] == 1) or (elevatorState[4] == 2)) and (elevatorState[3] == 140)) then P_StartQuake(FRACUNIT, 105, {-192*FRACUNIT, 2752*FRACUNIT, 0}, 160*FRACUNIT) end
+		--Move players into the elevator and do the evelator thingies
+		if (((elevatorState[4] == 1) or (elevatorState[4] == 2)) and (elevatorState[3] == timerConst[2] - 35))
+			P_ElevatorMove()
+		end
 	end
 end)
 
@@ -79,7 +109,7 @@ end,"KEELVOPN")
 addHook("LinedefExecute", do
 	if (not elevatorState[4]) then
 		P_CloseElevatorDoors()
-		elevatorState[3] = 175 --5 seconds
+		elevatorState[3] = timerConst[2]
 		elevatorState[4] = 1
 	end
 end,"KEELVUP")
@@ -87,7 +117,7 @@ end,"KEELVUP")
 addHook("LinedefExecute", do
 	if (not elevatorState[4]) then
 		P_CloseElevatorDoors()
-		elevatorState[3] = 175 --5 seconds
+		elevatorState[3] = timerConst[2]
 		elevatorState[4] = 2
 	end
 end,"KEELVDWN")

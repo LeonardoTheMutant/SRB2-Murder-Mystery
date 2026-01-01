@@ -13,7 +13,7 @@ https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 = MAPS =
 ========
 
-ELEVTR - "Going Up" by Lee Jackson (Rise of the Triad)
+ELEVTR - "Upgrade Station" by Valve Studio Orchestra (Team Fortress 2)
 MAPK0 - "Balancing Act" by Andrew Bassett (Freedoom: Phase 2 (v0.12.1))
 MAPK1 - "Fear" by Discoholic (Freedoom: Phase 2 (v0.13.0))
 MAPK2 - "Syntax Error" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
@@ -25,7 +25,6 @@ MAPK8 - "AimShootKill" by Tom Mustaine (Final Doom: TNT Evilution)
 MAPK9 - "Evilflower Zone" by Shadow Hog (Sonic Robo Blast 2 (v2.1))
 MAPKA - "Bright sound" (Sonic Adventure 2) (MIDI by Jose)
 MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
-MAPKE - "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 
@@ -65,6 +64,12 @@ MAPKDM (Present)     - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
 MAPKDP (Past)        - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD JP) (MIDI by Monster Iestyn)
 MAPKDB (Bad Future)  - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
 MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
+
+MAPKE: "Shadow Moses Island"
+----------------------------
+MAPKEM (Top floor)	- "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
+LVL1ALR 		- "Level 1 Alert" by Konami Kukeiha Club (Metal Gear 2: Solid Snake) (MIDI by Mayumi)
+FRQ14085		- "Frequency 140.85" by Konami Kukeiha Club (Metal Gear 2: Solid Snake) (MIDI by Jan van Valburg Locke)
 
 MAPKH: "Temple"
 ---------------------
