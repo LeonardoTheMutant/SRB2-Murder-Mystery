@@ -157,7 +157,7 @@ addHook("PlayerThink", function(p)
 		if (MM.shremdDist)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = do
-					if ((MM.shremdDist < 25165824) and (CV_FindVar("mm_nocamping").value)) --384*FU
+					if ((MM.shremdDist < 25165824) and (CV_FindVar("mm_nocamping").value) and (not MM.shwdwn)) --384*FU
 						p.mm.camping = $ + 1
 						if (p.mm.camping == 700) then MM.PunishPlayer(p, "Emerald camping") end --kick player after 20 seconds of camping
 					else p.mm.camping = 0 end
