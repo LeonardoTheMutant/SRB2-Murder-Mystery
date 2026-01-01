@@ -21,6 +21,7 @@ rawset(_G, "MM", {
 		"^F"  --Dead
 	},
 	hud = { --variables that control the HUD renderer, not synched
+		show = CV_FindVar("showhud").value,
 		canvas = {
 			width = 320,
 			height = 200,

@@ -7,8 +7,9 @@
 
 --Constants
 local HudLabelWidth = {0,0,0}
-local cv_cryptic = CV_FindVar("mm_cryptic")
-local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
+local cv_cryptic = CV_FindVar("mm_cryptic").value
+local cv_wepcfgCivil = CV_FindVar("mm_wepcfg_civil").value
+local showhud = CV_FindVar("showhud")
 local var1, var2, var3 --multipurpose variables
 
 local function wep2rw(wep) --convert WEP_* constant to RW_* constant
@@ -34,6 +35,17 @@ local DrawStrUnicode = HIDEO.DrawStrUnicode
 local DrawStrUnicode_Center = HIDEO.DrawStrUnicode_Center
 local DrawStrUnicode_Right = HIDEO.DrawStrUnicode_Right
 local WordWrap = HIDEO.WordWrap
+
+--F3 key/"showhud" locker
+addHook("ThinkFrame", do
+	if (not showhud.value and gametype == GT_LTMMURDERMYSTERY) then CV_Set(showhud, 1) end
+end)
+addHook("KeyDown", function(e)
+	if (e.num == KEY_F3 and gametype == GT_LTMMURDERMYSTERY)
+		MM.hud.show = not $
+		return true
+	end
+end)
 
 --
 -- Main game HUD
@@ -120,6 +132,11 @@ hud.add(function(v, p)
 	hud.disable("time")
 	hud.disable("rings")
 	hud.disable("weaponrings")
+
+	--HUD frontend for the flash/spark effects
+	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end
+
+	if (not MM.hud.show) then return end
 	
 	--
 	-- SUSPECTS - TIME - RINGS
@@ -405,7 +422,7 @@ hud.add(function(v, p)
 	--Civilian weapon logic
 	elseif (p.mm.role == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99))) and (wepcfgCVARs[ROLE_CIVILIAN].value)
 		--Knife-only
-		if (wepcfgCVARs[ROLE_CIVILIAN].value == 2)
+		if (cv_wepcfgCivil == 2)
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
 		else
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
@@ -448,9 +465,6 @@ hud.add(function(v, p)
 	if ((p.mm.sneak) and valid(p.mo) and P_IsObjectOnGround(p.mo))
 		DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), MM.GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
-	
-	--HUD frontend for the flash/spark effects
-	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end
 end, "game")
 
 --
@@ -469,7 +483,7 @@ hud.add(function(v)
 	DrawStrUnicode_Center(v, 160, 8, "^7"..MM.GetText("HUD_MM"), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 	--Player list
-	if ((cv_cryptic.value) or (MM.PlayerCount() == 1))
+	if ((cv_cryptic) or (MM.PlayerCount() == 1))
 		DrawStrUnicode(v, 16, 24, WordWrap(16, 304, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_SCORESTAB")), v.localTransFlag(), MM.hud.canvas.font.scale)
 	else
 		--Draw the player list
@@ -524,7 +538,7 @@ hud.add(function(v)
 	v.drawFill(0, 172, 320, 2, v.localTransFlag()) --horizontal line
 
 	--Roles counter
-	if (not cv_cryptic.value)
+	if (not cv_cryptic)
 		--Murderer
 		DrawStrUnicode(v, 16, (MM.hud.canvas.height - 3*MM.hud.canvas.font.charheight), MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag(), MM.hud.canvas.font.scale)
 		--Sheriff (and Hero)
