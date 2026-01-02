@@ -75,6 +75,19 @@ MM.weapons[WEP_RAIL]={ --Rail Ring
 	50
 }
 
+--Do not let player to switch to another weapon, if he is not allowed to
+addHook("KeyDown", function(e)
+	if (gametype != GT_LTMMURDERMYSTERY) return end
+
+	local key1, key2
+	for key = GC_WEAPONNEXT, GC_WEPSLOT10 do
+		key1, key2 = input.gameControlToKeyNum(key)
+		if (e.num == key1) or (e.num == key2)
+			if (MM.GetWepCfgFlags(consoleplayer.mm.role) & WEPCFG_REDONLY) then return true end
+		end
+	end
+end)
+
 --Function ports from the C source code with MM modifications
 local function P_DrainWeaponAmmo(p, weapon)
 	p.powers[weapon] = $ - 1
