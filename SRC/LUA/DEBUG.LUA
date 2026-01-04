@@ -68,6 +68,7 @@ addHook("KeyDown",function(e)
 	mmlayout[2]=e.num;return true
 end)
 hud.add(function(v, p)
+	if (gametype!=GT_LTMMURDERMYSTERY) return end
 	v.drawString(0,0,"Developer build. Hold TOSSFLAG for debug info",45056,"small-thin")
 	if p.cmd.buttons&BT_TOSSFLAG
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y,"\x87".."LTM_MM v"..MM.version.." DEBUG",V_PERPLAYER,"thin")

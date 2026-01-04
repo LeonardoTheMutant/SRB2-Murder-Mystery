@@ -497,7 +497,7 @@ hud.add(function(v, p)
 
 	--"Showdown duel!"
 	if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.twopgame) and (MM.PlayerCount() > 1))
-		DrawStrUnicode_Center(v, 160, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), "^8"..MM.GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM, MM.hud.canvas.font.scale)
+		DrawStrUnicode_Center(v, 160, 192, "^8"..MM.GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM, MM.hud.canvas.font.scale)
 	end
 
 	--Sneaking
@@ -588,15 +588,15 @@ hud.add(function(v)
 	--Roles counter
 	if (not cv_cryptic)
 		--Murderer
-		DrawStrUnicode(v, 16, (MM.hud.canvas.height - 3*MM.hud.canvas.font.charheight), MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag(), MM.hud.canvas.font.scale)
+		DrawStrUnicode(v, 16, 176, MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag(), MM.hud.canvas.font.scale)
 		--Sheriff (and Hero)
 		if (MM.PlayerCount(ROLE_HERO) or (MM.PlayerCount(ROLE_JESTERHERO)))
-			DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..(MM.PlayerCount(ROLE_HERO) + MM.PlayerCount(ROLE_JESTERHERO))), v.localTransFlag(), MM.hud.canvas.font.scale)
+			DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..(MM.PlayerCount(ROLE_HERO) + MM.PlayerCount(ROLE_JESTERHERO))), v.localTransFlag(), MM.hud.canvas.font.scale)
 		else
-			DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag(), MM.hud.canvas.font.scale)
+			DrawStrUnicode(v, 16, 184, (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 		--Civilian
-		if (MM.PlayerCount(ROLE_CIVILIAN)) DrawStrUnicode(v, 16, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..(MM.PlayerCount(ROLE_CIVILIAN) + MM.PlayerCount(ROLE_JESTER))), v.localTransFlag(), MM.hud.canvas.font.scale) end
+		if (MM.PlayerCount(ROLE_CIVILIAN)) DrawStrUnicode(v, 16, 192, (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..(MM.PlayerCount(ROLE_CIVILIAN) + MM.PlayerCount(ROLE_JESTER))), v.localTransFlag(), MM.hud.canvas.font.scale) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#MM.shremds) and (leveltime % 2))
