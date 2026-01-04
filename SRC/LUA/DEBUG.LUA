@@ -7,7 +7,7 @@
 
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
-	if (not pnum) or (not prole) CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-4)] [kill?]"); return end
+	if (not pnum) or (not prole) CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-6)] [kill?]"); return end
 	if (prole=="nil") players[tonumber(pnum)].mm.role=nil else players[tonumber(pnum)].mm.role=tonumber(prole) end
 	if (pdead) MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)
 	else players[tonumber(pnum)].spectator=0; players[tonumber(pnum)].pflags=$&~PF_GODMODE; players[tonumber(pnum)].mm.finished=false end
@@ -16,11 +16,11 @@ COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
 	winner=tonumber($); reason=tonumber($)
 	if (winner==nil)
 		CONS_Printf(p,"\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]")
-		CONS_Printf(p,"Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians")
-		CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"")
+		CONS_Printf(p,"Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians\n 6 - Jester")
+		CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"\n 6 - Jester was killed by Good Side")
 		return
 	end
-	if (not reason) MM.EndRound(winner,"WIN",winner) else MM.EndRound(winner,"WIN",reason) end
+	if (not reason) MM.EndRound(winner,"CHAT_ENDROUND",winner) else MM.EndRound(winner,"CHAT_ENDROUND",reason) end
 end)
 COM_AddCommand("mmshremd",function(p) --Spawn Sheriff's Emerald at player's position
 	MM.SpawnSHREMD(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)

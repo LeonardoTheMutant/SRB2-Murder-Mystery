@@ -151,11 +151,35 @@ MM.AssignRoles = do
     end
 	--tell each player its role personally
 	for p in players.iterate
-		if (p.mm.role == ROLE_NONE) p.mm.role = ROLE_CIVILIAN end --we previously didn't make Innos so make them now
-		MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLEGET_PM", p.mm.role))
-		if (p == consoleplayer)
-			MM.hud.game.roleflicker = 140 --timer for role name flickering on HUD, 4 seconds
+		p.mm.roletype = 0 --special flag for some roles
+		if (p.mm.role == ROLE_NONE) --Assign the rest of the roles
+			if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4))
+				--Assign Jester role
+				p.mm.role = ROLE_JESTER
+				MM.DebugPrint("Jester role assigned")
+			else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Role
 		end
+
+		--Annouce about their roles to players
+		switch(p.mm.role, {
+			[ROLE_MURDERER] = do
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
+			end,
+			[ROLE_SHERIFF] = do
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
+			end,
+			[ROLE_CIVILIAN] = do
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
+			end,
+			[ROLE_HERO] = do
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
+			end,
+			[ROLE_JESTER] = do
+				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
+			end,
+		})
+		
+		if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
 	end
 end
 
@@ -165,44 +189,68 @@ end
 MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
-			["CHAT_MURDKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText("CHAT_MURDKILLED", 1), var, MM.GetText("CHAT_MURDKILLED", 2)))
+			["MSG_MURDKILLED"] = do
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got eliminated!")))
 			end,
-			['CHAT_SHERIKILLED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_SHERIKILLED", 2)))
+			['MSG_SHERIKILLED'] = do
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got murdered!")))
 			end,
-			["CHAT_HEROKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText("CHAT_HEROKILLED", 1), var, MM.GetText("CHAT_HEROKILLED", 2)))
+			["MSG_HEROKILLED"] = do
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][2] or "Sheriff")))
 			end,
-			['SHERIKILLED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_SHERIKILLED", 2), MM.GetText("CHAT_SHERIKILLED", 3)))
+			['MSG_SHERIKILLED_DROP'] = do
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][2] or "Sheriff"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Get their emerald!")))
 			end,
-			['MURD_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", MM.GetText("CHAT_MURDKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_MURDDIED'] = do
+				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['SHERI_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_SHERIDIED'] = do
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['HERO_DIED'] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", MM.GetText("CHAT_HEROKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_HERODIED'] = do
+				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Hero"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['SHERI_DIED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", MM.GetText("CHAT_SHERIKILLED", 1), var, MM.GetText("CHAT_DIEDHAZARD"), MM.GetText("CHAT_SHERIKILLED", 3)))
+			['MSG_SHERIDIED_DROP'] = do
+				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Ger their emerald!")))
 			end,
-			['CHAT_LASTQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_LASTQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText('CHAT_LASTQUIT', 3)) end --for Hero	
+			['MSG_ONEQUIT'] = do
+				switch(var, {
+					[ROLE_MURDERER] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "ONEQUIT"))
+					end,
+					[ROLE_SHERIFF] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "ONEQUIT"))
+					end,
+					[ROLE_HERO] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "ONEQUIT"))
+					end
+				})
 			end,
-			['CHAT_ONEQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_ONEQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText('CHAT_ONEQUIT', 3)) end --for Hero	
+			['MSG_LASTQUIT'] = do
+				switch(var, {
+					[ROLE_MURDERER] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "LASTQUIT"))
+					end,
+					[ROLE_SHERIFF] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "LASTQUIT"))
+					end,
+					[ROLE_HERO] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "LASTQUIT"))
+					end
+				})
 			end,
-			['CHAT_REPLACEQUIT'] = do
-				if (var != ROLE_HERO) then MAYA.ChatprintPM(p, MM.GetText('CHAT_REPLACEQUIT', var)) --for Murd and Sheri
-				else MAYA.ChatprintPM(p, MM.GetText('CHAT_REPLACEQUIT', 3)) end --for Hero	
-			end,
-			['WIN'] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ENDROUND", var))	
+			['MSG_REPLACEQUIT'] = do
+				switch(var, {
+					[ROLE_MURDERER] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "REPLACEQUIT"))
+					end,
+					[ROLE_SHERIFF] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "REPLACEQUIT"))
+					end,
+					[ROLE_HERO] = do
+						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "REPLACEQUIT"))
+					end
+				})
 			end,
 			['default'] = do
 				MAYA.ChatprintPM(p, MM.GetText(msg, var))
@@ -319,17 +367,20 @@ end
 
 --Count Player's taemmates
 MM.TeammatesCount = function(p)
-	local teammates = false
+	local teammates = 0
 
 	switch(p.mm.role, {
 		[ROLE_MURDERER] = do
 			teammates = MM.PlayerCount(ROLE_MURDERER) - 1
 		end,
 		[ROLE_SHERIFF] = do
-			teammates = (MM.PlayerCount(ROLE_SHERIFF) - 1) + MM.PlayerCount(ROLE_HERO)
+			teammates = (MM.PlayerCount(ROLE_SHERIFF) - 1) + MM.PlayerCount(ROLE_HERO) + MM.PlayerCount(ROLE_JESTERHERO)
 		end,
 		[ROLE_HERO] = do
-			teammates = MM.PlayerCount(ROLE_SHERIFF) + (MM.PlayerCount(ROLE_HERO) - 1)
+			teammates = MM.PlayerCount(ROLE_SHERIFF) + (MM.PlayerCount(ROLE_HERO) - 1) + MM.PlayerCount(ROLE_JESTERHERO)
+		end,
+		[ROLE_JESTERHERO] = do
+			teammates = MM.PlayerCount(ROLE_SHERIFF) + MM.PlayerCount(ROLE_HERO)
 		end
 	})
 
@@ -342,6 +393,8 @@ MM.AreTeammates = function(p1, p2)
 
 	return ((p1.mm.role == ROLE_MURDERER) and (p2.mm.role == ROLE_MURDERER))
 		or (((p1.mm.role == ROLE_SHERIFF) or (p1.mm.role == ROLE_HERO)) and ((p2.mm.role == ROLE_SHERIFF) or (p2.mm.role == ROLE_HERO)))
+		or (((p1.mm.role == ROLE_SHERIFF) or (p1.mm.role == ROLE_JESTERHERO)) and ((p2.mm.role == ROLE_SHERIFF) or (p2.mm.role == ROLE_JESTERHERO)))
+		or (((p1.mm.role == ROLE_HERO) or (p1.mm.role == ROLE_JESTERHERO)) and ((p2.mm.role == ROLE_HERO) or (p2.mm.role == ROLE_JESTERHERO)))
 end
 
 --Damage two teammate players and notify them
@@ -360,45 +413,55 @@ MM.PlayerQuit = function(p)
 	switch(role, {
 		[ROLE_MURDERER] = do
 			if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER))) or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER)))
-				MM.EndRound(0, "CHAT_LASTQUIT", ROLE_MURDERER)
+				MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_MURDERER)
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER)))
-				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_MURDERER)
-				MM.SetRandomInnoAs(ROLE_MURDERER, 1)
+				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_MURDERER)
+				MM.SetRandomCivilianAs(ROLE_MURDERER)
 				if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
 			else
-				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_MURDERER)
+				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_MURDERER)
 				if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
 			end
 		end,
 		[ROLE_SHERIFF] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF))
-				if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("CHAT_LASTQUIT", ROLE_SHERIFF)
-				else MM.EndRound(0, "CHAT_LASTQUIT", ROLE_SHERIFF) end
+				if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("MSG_LASTQUIT", ROLE_SHERIFF)
+				else MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_SHERIFF) end
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF)))
-				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_SHERIFF)
-				MM.SetRandomInnoAs(ROLE_SHERIFF, 2)
+				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_SHERIFF)
+				MM.SetRandomCivilianAs(ROLE_SHERIFF)
 				if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
 			else
-				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_SHERIFF)
+				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_SHERIFF)
 				if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
 			end
 		end,
 		[ROLE_HERO] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_HERO))
 				if (MM.PlayerCount(ROLE_SHERIFF)) then MM.ChatprintGlobal("CHAT_LASTQUIT", ROLE_HERO)
-				else MM.EndRound(0, "CHAT_LASTQUIT", ROLE_HERO) end
+				else MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_HERO) end
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF)))
-				MM.ChatprintGlobal("CHAT_REPLACEQUIT", ROLE_HERO)
-				MM.SetRandomInnoAs(ROLE_HERO, 3)
+				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_HERO)
+				MM.SetRandomCivilianAs(ROLE_HERO)
 				if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
 			else
-				MM.ChatprintGlobal("CHAT_ONEQUIT", ROLE_HERO)
+				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_HERO)
 				if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
 			end
 		end,
 		[ROLE_CIVILIAN] = do
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
+				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
+			end
+		end,
+		[ROLE_JESTER] = do
 			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
-				MM.EndRound(0, "CHAT_LASTQUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
+				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Jester has left the game where he was the last hope, we will still consider him as the Hero
+			end
+		end,
+		[ROLE_JESTERHERO] = do
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Jester has left the game where he was the last hope, we will still consider him as the Hero
 			end
 		end
 	})
@@ -434,20 +497,22 @@ end
 --reason is used differently for each endtext message but usualy it is a win reason (WIN_* constant)
 MM.EndRound = function(winner, endtext, reason)
 	MM.winner = winner
-	if (endtext == "WIN") then MM.winreason = reason end
+	if (endtext == "CHAT_ENDROUND") then MM.winreason = reason end
 	MM.shwdwn = false
 	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) MM.ChatprintGlobal(endtext, reason) end
 	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "WIN") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
+		if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
 		else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
 	end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 MM.StartSuspenseMusic = do
-	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (MM.PlayerCount(ROLE_CIVILIAN) == 1) and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
+	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_JESTER))) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
+	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
 		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
 			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[P_RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
@@ -461,7 +526,7 @@ MM.StartSuspenseMusic = do
 	return false
 end
 
---Enable Showdown music when there are no innocents left
+--Enable Showdown music when there are no Civilians left
 MM.StartShowdownMusic = do
 	if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount())
 		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
@@ -477,8 +542,8 @@ MM.StartShowdownMusic = do
 	return false
 end
 
---Set random Innocent as the given role + notify them of the new role
-MM.SetRandomInnoAs = function(role, message)
+--Set random Civilian as the given role + notify them of the new role
+MM.SetRandomCivilianAs = function(role)
 	local plrs = {}
 	for plr in players.iterate
 		if ((not plr.spectator) and (plr.mm.role == ROLE_CIVILIAN)) then table.insert(plrs, #plr) end
@@ -486,7 +551,19 @@ MM.SetRandomInnoAs = function(role, message)
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
 	MM.hud.game.roleflicker = 105 --3 secs
-	MAYA.ChatprintPM(p, MM.GetText("CHAT_NEWROLEGET_PM", message))
+	local msg
+	switch(role, {
+		[ROLE_MURDERER] = do
+			msg = "CHAT_ROLE_MURDERER"
+		end,
+		[ROLE_SHERIFF] = do
+			msg = "CHAT_ROLE_SHERIFF"
+		end,
+		[ROLE_HERO] = do
+			msg = "CHAT_ROLE_HERO"
+		end
+	})
+	MAYA.ChatprintPM(p, MM.text[MM.lang][msg]["NEWROLEGET_PM"] or "You got new role!")
 	return
 end
 
@@ -501,12 +578,26 @@ end
 
 --Retrieve the Weapon Flags (set by the CVARs) for the given role
 MM.GetWepCfgFlags = function(role)
-	if (not role) or (role < ROLE_MURDERER) or (role > ROLE_HERO) or (role == ROLE_CIVILIAN) then return 0 end
-	if (MM.PlayerCount(ROLE_CIVILIAN)) --Normal gameplay
-		return wepcfgCVARs[role].value % 4
-	else --Showdown Duel
-		return (wepcfgCVARs[role].value / 4) % 4
-	end
+	local returnValue = 0
+	switch(role, {
+		[ROLE_MURDERER] = do
+			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_MURDERER].value % 4 --Normal gameplay
+			else returnValue = (wepcfgCVARs[ROLE_MURDERER].value / 4) % 4 end --Showdown Duel
+		end,
+		[ROLE_SHERIFF] = do
+			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_SHERIFF].value % 4 --Normal gameplay
+			else returnValue = (wepcfgCVARs[ROLE_SHERIFF].value / 4) % 4 end --Showdown Duel
+		end,
+		[ROLE_HERO] = do
+			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
+			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
+		end,
+		[ROLE_JESTERHERO] = do
+			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
+			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
+		end
+	})
+	return returnValue
 end
 
 

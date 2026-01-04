@@ -158,7 +158,7 @@ hud.add(function(v, p)
 		if (p.mm.role)
 			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		elseif (p.spectator)
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", ROLE_DEAD), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))

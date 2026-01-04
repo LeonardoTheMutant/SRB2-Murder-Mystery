@@ -3,8 +3,8 @@
 --
 -- Weapon Ring stuff
 
-local autofireCVAR = CV_FindVar("mm_autofire")
-local killtrailCVAR = CV_FindVar("mm_killtrails")
+local cv_autofire = CV_FindVar("mm_autofire").value
+local cv_killtrails = CV_FindVar("mm_killtrails").value
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 local knifeRadius = MELEERANGE --64*FU
 local knifeHeight = 1048576 --16*FU
@@ -112,7 +112,7 @@ local function P_SetWeaponDelay(p, delay)
 
 	--Decrease the delay for Knuckles
 	--Note that Knuckles has this feature in the vanilla game too, I just copied this feature into MM
-	if ((p.skin == SKIN_KNUCKLES) and (not autofireCVAR.value))
+	if ((p.skin == SKIN_KNUCKLES) and (not cv_autofire))
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
 		p.mm.weapondelay = ($ * 2)/3
@@ -137,8 +137,22 @@ local function P_DoKnife(source)
 		if (source != found) and (found.type == MT_PLAYER) --Ignore the source player and every non-player object
 		and (R_PointToDist2(x, y, found.x, found.y) < knifeRadius) --player must be in knife hitbox's range
 		and (((found.z + found.height) > z) and (found.z < (z + knifeHeight))) --do precise Z axis check
+
 			P_DamageMobj(found, source, source) --damage the found player
-			if (source.player.mm and killtrailCVAR.value) then source.player.mm.killtrailsteps = 60 end
+			if (source.player.mm and cv_killtrails)
+				switch(source.player.mm.role, {
+					[ROLE_JESTER] = do --Do not spill ketchup if Jester used knife on somebody
+					end,
+					[ROLE_JESTERHERO] = do --Jester with Hero priviledges can only get dirty if he killed Murderer
+						if (found.player.mm and found.player.mm.role == ROLE_MURDERER)
+							source.player.mm.killtrailsteps = 60
+						end
+					end,
+					['default'] = do --Always spill ketchup for other players
+						source.player.mm.killtrailsteps = 60
+					end
+				})
+			end
 		end
 	end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608)) --128*FU radius range in every 4 arguments
 
@@ -167,32 +181,44 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		or (p.playerstate == PST_DEAD) or (p.spectator) or (not p.mm.role)
 	then return end
 
-	if (not autofireCVAR.value) then p.pflags = $|PF_ATTACKDOWN end
+	if (not cv_autofire) then p.pflags = $|PF_ATTACKDOWN end
 
 	local mo
 
 	if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
 		-- KNIFE --
-		if (p.mm.role == ROLE_CIVILIAN)
-			if (((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
-				P_SetWeaponDelay(p, MM.weapons[-2][4])
-				P_DoKnife(p.mo)
+		switch(p.mm.role, {
+			[ROLE_CIVILIAN] = do
+				if (((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) and (p.rings > 49))
+				or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+					P_SetWeaponDelay(p, MM.weapons[-2][4])
+					P_DoKnife(p.mo)
 
-				--Weapon shot/use costs 100 rings for Innocents
-				if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
-				else P_GivePlayerRings(p, -100) end
+					--Weapon shot/use costs 100 rings for Innocents
+					if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
+					else P_GivePlayerRings(p, -100) end
 
-				if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+				end
+			end,
+			[ROLE_JESTER] = do
+				if (p.rings > 10)
+					P_SetWeaponDelay(p, MM.weapons[-2][4])
+					P_DoKnife(p.mo)
+					P_GivePlayerRings(p, -10)
+					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end
+				end
+			end,
+			['default'] = do
+				if (p.rings > 0)
+					P_SetWeaponDelay(p, MM.weapons[-2][4])
+					P_DoKnife(p.mo)
+					P_GivePlayerRings(p, -1)
+
+					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --stealth
+				end
 			end
-		else --Roles other than Civilian
-			if (p.rings > 0)
-				P_SetWeaponDelay(p, MM.weapons[-2][4])
-				P_DoKnife(p.mo)
-				P_GivePlayerRings(p, -1)
-
-				if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --stealth
-			end
-		end
+		})
 	elseif (p.currentweapon == WEP_AUTO) and (p.powers[pw_automaticring])
 		-- AUTOMATIC --
 		P_DrainWeaponAmmo(p, pw_automaticring)
@@ -254,32 +280,48 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		-- Rail has no unique thrown object, therefore its sound plays here.
 		S_StartSound(p.mo, sfx_rail1)
 	else
-		if (p.mm.role == ROLE_CIVILIAN)
-			-- RED RING --
-			if ((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 49) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1)
-				P_SetWeaponDelay(p, MM.weapons[-1][4])
-				mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
+		-- RED RING / INFINITY --
+		switch(p.mm.role, {
+			[ROLE_CIVILIAN] = do
+				-- RED RING --
+				if ((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 49) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1)
+					P_SetWeaponDelay(p, MM.weapons[-1][4])
+					mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
 
-				if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
-				else P_GivePlayerRings(p, -100) end
-			end
-		else --Roles other than Civilian
-			if (not (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
-				if (p.currentweapon == 0) and (p.powers[pw_infinityring])
-					-- INFINITY --
-					P_SetWeaponDelay(p, MM.weapons[0][4])
-					mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
-					p.powers[pw_infinityring] = $ - 1
-				else
-					-- RED RING --
-					if ((p.mm.role != ROLE_CIVILIAN) and (p.rings > 0)) or ((p.mm.role == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 49) or (not (p.skin == SKIN_TAILS and p.skin == SKIN_AMY) and p.rings > 99)))
-						P_SetWeaponDelay(p, MM.weapons[-1][4])
-						mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
-						P_GivePlayerRings(p, -1)
+					if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
+					else P_GivePlayerRings(p, -100) end
+				end
+			end,
+			[ROLE_JESTER] = do
+				-- RED RING --
+				if (p.rings > 10)
+					P_SetWeaponDelay(p, MM.weapons[-1][4])
+					mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
+					P_GivePlayerRings(p, -10)
+				end
+			end,
+			['default'] = do
+				if (not (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
+					if (p.currentweapon == 0) and (p.powers[pw_infinityring])
+						-- INFINITY --
+						P_SetWeaponDelay(p, MM.weapons[0][4])
+						mo = P_SpawnPlayerMissile(p.mo, MM.weapons[0][2], MM.weapons[0][3])
+						p.powers[pw_infinityring] = $ - 1
+					else
+						-- RED RING --
+						switch(p.mm.role, {
+							['default'] = do
+								if (p.rings > 0)
+									P_SetWeaponDelay(p, MM.weapons[-1][4])
+									mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
+									P_GivePlayerRings(p, -1)
+								end
+							end
+						})
 					end
 				end
 			end
-		end
+		})
 	end
 
 	--Rail ring main logic (sparkles, hit detection)

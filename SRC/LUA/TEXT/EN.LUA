@@ -90,44 +90,60 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Instead of placing "\x80", you should put "^0" (Caret Code). The format is "^#" where # is the color value in HEX
 	-- So for example, "^2" stands for Yellow and "^5" for Red.
 
-	-- "You got the role" personal messages
-	["CHAT_ROLEGET_PM"] = {
-		"You are the ^5Murderer^0. ^5Murder them all.", --Murderer 
-		"You are the ^4Sheriff^0! ^4Eliminate all the Murderers^0. Kill the ^3wrong person^0, and the role no longer belongs to you.", --Sheriff
-		"You are a ^3Civilian^0! Hide and help with the investigation." --Civilian
+	--Murderer role text
+	["CHAT_ROLE_MURDERER"] = {
+		["ROLEGET_PM"] = "You are the ^5Murderer^0. ^5Murder them all.", --"You got role" on round start
+		["NEWROLEGET_PM"] = "^7Life randomly decided you will be a ^5Murderer^7. ^5Now go kill everyone!", --PM message when a Murderer player left and you got his role
+		["KILLED"] = { --"Murderer got killed" announcement
+			"Murderer", --beginning of the string
+			"got eliminated!" --ending
+		},
+		["ONEQUIT"] = "One of the ^5Murderers^0 left!", --"One of the Murderer players left the game" annoucement
+		["LASTQUIT"] = "The last ^5Murderer^0 has left!", --"The last Murderer has left the game" annoucement
+		["REPLACEQUIT"] = "The ^5Murderer^0 left! Some random ^3Civilian^0 will take their role!" --"Murderer player left the game and someone else got the role" annoucement
 	},
 
-	-- Randomly selected civilian has a new role
-	["CHAT_NEWROLEGET_PM"] = {
-		"^7Life randomly decided you will be a ^5Murderer^7. ^5Now go kill everyone!",
-		"^7The Universe has made you a ^4Sheriff^7! Go and ^4eliminate all Murderers^7!",
-		"^7It was decided that you will be a ^2Hero^7. Save everyone from the Murderers!",
-		"^7You've eliminated one of the ^5Murderers^7! You've earned the honor of ^2Hero^7!"
+	--Sheriff role text
+	["CHAT_ROLE_SHERIFF"] = {
+		["ROLEGET_PM"] = "You are the ^4Sheriff^0! ^4Eliminate all the Murderers^0. Kill the ^3wrong person^0, and the role is no longer yours.", --"You got role" on round start
+		["NEWROLEGET_PM"] = "^7The Universe has made you a ^4Sheriff^7! Go and ^4eliminate all Murderers^7!", --PM message when a Sheriff player left and you got his role
+		["KILLED"] = { --"Sheriff got killed" announcement
+			"Sheriff", --beginning
+			"got murdered!", --ending
+			"Find their ^4Emerald^0!" --additional ending if Sheriff's Emerald is dropped
+		},
+		["ONEQUIT"] = "One of the ^4Sheriffs^0 left!!!", --"One of the Sheriffs players left the game" annoucement
+		["LASTQUIT"] = "The last ^4Sheriff^0 has left!", --"The last Sheriff has left the game" annoucement
+		["REPLACEQUIT"] = "The ^4Sheriff^0 left! Some random ^3Civilian^0 will take their role!" --"Sheriff player left the game and someone else got the role" annoucement
+	},
+
+	--Civilian role text
+	["CHAT_ROLE_CIVILIAN"] = {
+		["ROLEGET_PM"] = "You are a ^3Civilian^0! Hide and help with the investigation." --PM message when a Hero player left and you got his role
+	},
+
+	--Hero role text
+	["CHAT_ROLE_HERO"] = {
+		["NEWROLEGET_PM"] = "^7It was decided that you will be a ^2Hero^7. Save everyone from the Murderers!", --PM message when a Hero player left and you got his role
+		["REWARDHERO_PM"] = "^7You've eliminated one of the ^5Murderers^7! You've earned the honor of ^2Hero^7!", --PM message congratulating Civilian player killing a Murderer
+		["KILLED"] = { --"Hero got killed" announcement
+			"Hero", --beginning
+			"got murdered!" --ending
+		},
+		["ONEQUIT"] = "One of the ^2Heroes^0 has left!", --"One of the Heroes players left the game" annoucement
+		["LASTQUIT"] = "The last ^2Hero^0 has abandoned everyone!", --"The last Hero has left the game" annoucement
+		["REPLACEQUIT"] = "A ^2Hero^0 left! Some random ^3Civilian^0 will take their role!" --"Hero player left the game and someone else got the role" annoucement
+	},
+
+	--Jester role text
+	["CHAT_ROLE_JESTER"] = {
+		["ROLEGET_PM"] = "You are the ^1Jester^0. Make everyone believe you are the ^5Murderer^0" --"You got role" on round start
 	},
 
 	-- Teammate hit
 	["CHAT_TEAMMATEHIT_PM"] = {
 		"Careful! That's your teammate. Avoid friendly fire next time!",
 		"A teammate accidentally hit you. Revenge is NOT recommended!"
-	},
-
-	-- Murderer killed
-	["CHAT_MURDKILLED"] = {
-		"Murderer", --beginning of the string
-		"got eliminated!", --ending
-	},
-
-	-- Sheriff killed
-	["CHAT_SHERIKILLED"] = {
-		"Sheriff", --beginning
-		"got murdered!", --ending
-		"Find their ^4Emerald^0!" --additional ending if Sheriff's Emerald is dropped
-	},
-
-	-- Hero killed
-	["CHAT_HEROKILLED"] = {
-		"Hero",
-		"got murdered!",
 	},
 
 	-- Player was crushed, has drown or fell into a pit
@@ -146,30 +162,9 @@ local language_data = { --Language must be a table variable, you can name the va
 	},
 
 	-- Civilian hurt by Sheriff/Hero personal messages
-	["CHAT_INNOHURT"] = {
+	["CHAT_CIVILIANHURT"] = {
 		"The ^4Sheriff^0 murdered a ^3Civilian^0! Someone else should finish the job!", --Sheriff
 		"By killing the ^3Civilian^0, the ^2Hero^0 became the ^5villain^0 and paid the price." --Hero
-	},
-
-	-- "One of the players with role left!"
-	["CHAT_ONEQUIT"] = {
-		"One of the ^5Murderers^0 left!", --Murderer
-		"One of the ^4Sheriffs^0 left!!!", --Sheriff
-		"One of the ^2Heroes^0 has left!" --Hero
-	},
-
-	-- "Last player with role left!"
-	["CHAT_LASTQUIT"] = {
-		"The last ^5Murderer^0 has left!", --Murderer
-		"The last ^4Sheriff^0 has left!", --Sheriff
-		"The last ^2Hero^0 has abandoned everyone!" --Hero
-	},
-
-	-- "Player with role left, replaced him"
-	["CHAT_REPLACEQUIT"] = {
-		"The ^5Murderer^0 left! Some random ^3Civilian^0 will take their role!", --Murderer
-		"The ^4Sheriff^0 left! Some random ^3Civilian^0 will take their role!", --Sheriff
-		"A ^2Hero^0 left! Some random ^3Civilian^0 will take their role!" --Hero
 	},
 
 	-- Win texts
@@ -178,7 +173,8 @@ local language_data = { --Language must be a table variable, you can name the va
 		"All of the ^5Murderers^0 were killed! The ^3Civilians^0 win!", --Sheriffs / Heros win
 		"The ^5Murderers^0 win because ^4Sheriff^0 murdered the last Civilian! Shame on the ^4Sheriff^0...", --Sheriff killed the last Civilian
 		"The ^5Murderers^0 win because the ^2Hero^0 chose to kill the last Civilian. Shame on such ^2Hero^0...", --Hero killed the last Civilian
-		"The Defenders of the ^3Civilians^0 are dead. The ^5Murderers^0 win!" --All sheriffs and Heroes are dead
+		"The Defenders of the ^3Civilians^0 are dead. The ^5Murderers^0 win!", --All sheriffs and Heroes are dead
+		"^1Jester^0 was killed by the Good Guys. Gambling is bad kids." --Jester got killed by Sheriff/Hero
 	},
 
 
@@ -197,11 +193,12 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Role names
 	["HUD_ROLES"] = {
-		"MURDERER", --Murderer
-		"SHERIFF", --Sheriff
-		"CIVILIAN", --Civilian
-		"HERO", --Hero
-		"DEAD" --Dead
+		["MURDERER"] = "MURDERER",
+		["SHERIFF"] = "SHERIFF",
+		["CIVILIAN"] = "CIVILIAN",
+		["HERO"] = "HERO",
+		["JESTER"] = "JESTER",
+		["DEAD"] = "DEAD"
 	},
 
 	--"Killed by" parts of text
@@ -216,10 +213,11 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Role target/goal (a short description of the role) on TAB screen
 	["HUD_ROLETARGET"] = {
-		"Blend in, build trust, then strike.", --Murderer
-		"Find and eliminate all Murderers. Do not kill the Civilians!", --Sheriff
-		"Hide and protect yourself. Help with the investigation when possible.", --Civilian
-		"You got a chance to stop all Murderers. Go and save the day, but be careful!" --Hero
+		["MURDERER"] = "Blend in, build trust, then strike.", --Murderer
+		["SHERIFF"] = "Find and eliminate all Murderers. Do not kill the Civilians!", --Sheriff
+		["CIVILIAN"] = "Hide and protect yourself. Help with the investigation when possible.", --Civilian
+		["HERO"] = "You got a chance to stop all Murderers. Go and save the day, but be careful!", --Hero
+		["JESTER"] = "Make everyone believe you are the Bad Guy. Your Weapon Rings will not hurt anyone, unless a Hero" --Jester
 	},
 
 	-- Scores TAB screen role counters
@@ -266,7 +264,8 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_WIN"] = {
 		"TIE!",
 		"^5MURDERERS",
-		"^3CIVILIANS"
+		"^3CIVILIANS",
+		"^1JESTER"
 	},
 
 	-- Time Travel stuff

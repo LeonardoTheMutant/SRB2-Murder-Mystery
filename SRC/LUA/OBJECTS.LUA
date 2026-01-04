@@ -22,7 +22,7 @@ end, MT_DEADPLR)
 addHook("TouchSpecial", function(s, t) --special, toucher
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	if valid(t) and valid(t.player) and (t.player.mm.role == ROLE_CIVILIAN)
+	if valid(t) and valid(t.player) and ((t.player.mm.role == ROLE_CIVILIAN) or (t.player.mm.role == ROLE_JESTER))
 		for emeraldID = 1, #MM.shremds do
 			if ((MM.shremds[emeraldID].x == s.x) and (MM.shremds[emeraldID].y == s.y) and (MM.shremds[emeraldID].z == s.z))
 				table.remove(MM.shremds, emeraldID)
@@ -31,7 +31,14 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 			end
 		end
 		S_StartSound(t.player.mo, sfx_cgot, t.player)
-		t.player.mm.role = ROLE_HERO
+		switch(t.player.mm.role, {
+			[ROLE_CIVILIAN] = do
+				t.player.mm.role = ROLE_HERO
+			end,
+			[ROLE_JESTER] = do
+				t.player.mm.role = ROLE_JESTERHERO
+			end
+		})
 		if (t.player == consoleplayer)
 			MM.hud.game.roleflicker = 105 --3 secs
 		end

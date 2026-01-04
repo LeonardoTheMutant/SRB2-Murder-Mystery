@@ -118,7 +118,7 @@ hud.add(function(v, p)
 		LoadPatch(v, "RACEGO")
 
 		--Intermission background
-		for i = 0, 2 do
+		for i = 0, 5 do
 			if v.patchExists("INTRMBG"..i) then LoadPatch(v, "INTRMBG"..i) end
 		end
 	end
@@ -147,7 +147,7 @@ hud.add(function(v, p)
 	if ((p.mm.role == ROLE_MURDERER) or (p.mm.finished)) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
 
-	if (MM.text[MM.lang][var]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + 40
+	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + 40
 	else HudLabelWidth[1] = 96 end
 
 	--TIME
@@ -240,7 +240,33 @@ hud.add(function(v, p)
 
 	--Show your role
 	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (MM.hud.game.roleflicker % 2) == 0)
-		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
+		switch(p.mm.role , {
+			[ROLE_MURDERER] = do
+				var1 = "MURDERER"
+				var2 = ROLE_MURDERER
+			end,
+			[ROLE_SHERIFF] = do
+				var1 = "SHERIFF"
+				var2 = ROLE_SHERIFF
+			end,
+			[ROLE_CIVILIAN] = do
+				var1 = "CIVILIAN"
+				var2 = ROLE_CIVILIAN
+			end,
+			[ROLE_HERO] = do
+				var1 = "HERO"
+				var2 = ROLE_HERO
+			end,
+			[ROLE_JESTER] = do
+				var1 = "JESTER"
+				var2 = ROLE_JESTER
+			end,
+			[ROLE_JESTERHERO] = do
+				var1 = "JESTER"
+				var2 = ROLE_HERO
+			end
+		})
+		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 	end
 	
 	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
@@ -255,7 +281,7 @@ hud.add(function(v, p)
 	--DEAD player exclusive HUD
 	if (p.mm.finished)
 		--DEAD role label
-		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[5]..MM.GetText("HUD_ROLES", 5), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[6]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		DrawStrUnicode_Center(v, 160, 120, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_DEAD")), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		--"You joined mid-game"
@@ -328,7 +354,7 @@ hud.add(function(v, p)
 	end
 
 	--Weapon logic
-	if ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO))
+	if ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO) or (p.mm.role == ROLE_JESTERHERO))
 		local wepPatchFlags={
 			0, --automatic
 			0, --bounce
@@ -420,7 +446,7 @@ hud.add(function(v, p)
 		end
 	
 	--Civilian weapon logic
-	elseif (p.mm.role == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99))) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+	elseif (p.mm.role == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99))) and (cv_wepcfgCivil)
 		--Knife-only
 		if (cv_wepcfgCivil == 2)
 			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
@@ -437,10 +463,23 @@ hud.add(function(v, p)
 		
 		--Selector
 		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
+	elseif (p.mm.role == ROLE_JESTER) and (p.rings > 10)
+		--Knife-only
+		if (cv_wepcfgCivil == 2)
+			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
+		else
+			v.draw((MM.hud.game.pos.ringWepOnly.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
+		end
+
+		--Ammo counter
+		v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 10), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
+		
+		--Selector
+		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end
 
 	--Sheriff's Emerald Radar for Innocents
-	if (p.mm.role == ROLE_CIVILIAN) and (#MM.shremds) and (MM.shremdDist) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))
+	if ((p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (#MM.shremds) and (MM.shremdDist) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))
 		v.drawScaled(9961472, 8912896, 32768, MM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(MM.shremdDist))], V_SNAPTOBOTTOM|v.localTransFlag()) --152*FU, 136*FU, FU/2
 	end
 
@@ -520,7 +559,16 @@ hud.add(function(v)
 					--character icon
 					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 					--player name (colored as role)
-					v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136 * (teammateNo / 2))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16)), MM.RoleColor[p.mm.role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
+					local role
+					switch(p.mm.role, {
+						[ROLE_JESTERHERO] = do
+							role = 4
+						end,
+						['default'] = do
+							role = p.mm.role
+						end
+					})
+					v.drawString((MM.hud.scores.pos.teammateInfo.x + 18 + (136 * (teammateNo / 2))), (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16)), MM.RoleColor[role]..p.name, V_ALLOWLOWERCASE|v.localTransFlag())
 					--icon of the currently held weapon
 					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + MM.hud.scores.pos.teammateInfoOffset1.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, MM.graphics[MM.weapons[p.currentweapon][1]], v.localTransFlag()) --FU/2
 					--amount of currently held weapon ammo
@@ -542,13 +590,13 @@ hud.add(function(v)
 		--Murderer
 		DrawStrUnicode(v, 16, (MM.hud.canvas.height - 3*MM.hud.canvas.font.charheight), MM.RoleColorHUD[ROLE_MURDERER]..MM.GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..MM.PlayerCount(ROLE_MURDERER), v.localTransFlag(), MM.hud.canvas.font.scale)
 		--Sheriff (and Hero)
-		if (MM.PlayerCount(ROLE_HERO))
-			DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..MM.PlayerCount(ROLE_HERO)), v.localTransFlag(), MM.hud.canvas.font.scale)
+		if (MM.PlayerCount(ROLE_HERO) or (MM.PlayerCount(ROLE_JESTERHERO)))
+			DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)..MM.RoleColorHUD[ROLE_HERO].." + "..(MM.PlayerCount(ROLE_HERO) + MM.PlayerCount(ROLE_JESTERHERO))), v.localTransFlag(), MM.hud.canvas.font.scale)
 		else
 			DrawStrUnicode(v, 16, (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_SHERIFF]..MM.GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..MM.PlayerCount(ROLE_SHERIFF)), v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 		--Civilian
-		if (MM.PlayerCount(ROLE_CIVILIAN)) DrawStrUnicode(v, 16, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..MM.PlayerCount(ROLE_CIVILIAN)), v.localTransFlag(), MM.hud.canvas.font.scale) end
+		if (MM.PlayerCount(ROLE_CIVILIAN)) DrawStrUnicode(v, 16, (MM.hud.canvas.height - MM.hud.canvas.font.charheight), (MM.RoleColorHUD[ROLE_CIVILIAN]..MM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..(MM.PlayerCount(ROLE_CIVILIAN) + MM.PlayerCount(ROLE_JESTER))), v.localTransFlag(), MM.hud.canvas.font.scale) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#MM.shremds) and (leveltime % 2))
@@ -561,7 +609,35 @@ hud.add(function(v)
 
 	--Role target
 	if (consoleplayer.mm.role)
-		DrawStrUnicode(v, 160, (176 + MM.hud.canvas.font.charheight), MM.RoleColorHUD[consoleplayer.mm.role]..WordWrap(160, 304, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_ROLETARGET", consoleplayer.mm.role)), v.localTransFlag(), MM.hud.canvas.font.small.scale)
+		local role = ""
+		local color = 1
+		switch(consoleplayer.mm.role , {
+			[ROLE_MURDERER] = do
+				role = "MURDERER"
+				color = ROLE_MURDERER
+			end,
+			[ROLE_SHERIFF] = do
+				role = "SHERIFF"
+				color = ROLE_SHERIFF
+			end,
+			[ROLE_CIVILIAN] = do
+				role = "CIVILIAN"
+				color = ROLE_CIVILIAN
+			end,
+			[ROLE_HERO] = do
+				role = "HERO"
+				color = ROLE_HERO
+			end,
+			[ROLE_JESTER] = do
+				role = "JESTER"
+				color = ROLE_JESTER
+			end,
+			[ROLE_JESTERHERO] = do
+				role = "JESTER"
+				color = ROLE_HERO
+			end
+		})
+		DrawStrUnicode(v, 160, (176 + MM.hud.canvas.font.charheight), MM.RoleColorHUD[color]..WordWrap(160, 304, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_ROLETARGET", role)), v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 
 	--HUD frontend for the flash/spark effects
@@ -588,7 +664,21 @@ hud.add(function(v)
 	local height = v.height
 	local dupx = v.dupx
 	local dupy = v.dupy
-	local BGpatch = MM.graphics["INTRMBG"..MM.winner]
+	local BGpatch
+	switch(MM.winner, {
+		[WIN_MURD] = do
+			BGpatch = MM.graphics["INTRMBG1"]
+		end,
+		[WIN_CIVILS] = do
+			BGpatch = MM.graphics["INTRMBG2"]
+		end,
+		[WIN_JESTERKILLED] = do
+			BGpatch = MM.graphics["INTRMBG5"]
+		end,
+		['default'] = do
+			BGpatch = MM.graphics["INTRMBG0"]
+		end
+	})
 	for x = 0, width(), BGpatch.width * dupx() do
 		for y = 0, height(), BGpatch.height * dupy() do
 			v.draw(x, y, BGpatch, V_NOSCALESTART)
@@ -648,10 +738,31 @@ hud.add(function(v)
 			v.drawScaled((MM.hud.intermission.pos.name.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16))*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE)
+				local color = 1
+				switch(plrs[i].mm.role , {
+					[ROLE_MURDERER] = do
+						color = ROLE_MURDERER
+					end,
+					[ROLE_SHERIFF] = do
+						color = ROLE_SHERIFF
+					end,
+					[ROLE_CIVILIAN] = do
+						color = ROLE_CIVILIAN
+					end,
+					[ROLE_HERO] = do
+						color = ROLE_HERO
+					end,
+					[ROLE_JESTER] = do
+						color = ROLE_JESTER
+					end,
+					[ROLE_JESTERHERO] = do
+						color = ROLE_JESTER
+					end
+				})
+				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[6]..plrs[i].name, V_ALLOWLOWERCASE)
 			end
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills.x), (MM.hud.intermission.pos.players.y + (i * 16)), plrs[i].mm.kills)
@@ -662,10 +773,31 @@ hud.add(function(v)
 			v.drawScaled((MM.hud.intermission.pos.name.x + shift.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16) - shift.y)*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[plrs[i].mm.role]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				local color = 1
+				switch(plrs[i].mm.role , {
+					[ROLE_MURDERER] = do
+						color = ROLE_MURDERER
+					end,
+					[ROLE_SHERIFF] = do
+						color = ROLE_SHERIFF
+					end,
+					[ROLE_CIVILIAN] = do
+						color = ROLE_CIVILIAN
+					end,
+					[ROLE_HERO] = do
+						color = ROLE_HERO
+					end,
+					[ROLE_JESTER] = do
+						color = ROLE_JESTER
+					end,
+					[ROLE_JESTERHERO] = do
+						color = ROLE_JESTER
+					end
+				})
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[color]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[5]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[6]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
 			end
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), plrs[i].mm.kills)
@@ -677,10 +809,31 @@ hud.add(function(v)
 			v.drawScaled((MM.hud.intermission.pos.name2.x + shift.x - 10)*FU, ((MM.hud.intermission.pos.players2.y - 1) + (i * 8) - shift.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
 			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[plrs[i].mm.role]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				local color = 1
+				switch(plrs[i].mm.role , {
+					[ROLE_MURDERER] = do
+						color = ROLE_MURDERER
+					end,
+					[ROLE_SHERIFF] = do
+						color = ROLE_SHERIFF
+					end,
+					[ROLE_CIVILIAN] = do
+						color = ROLE_CIVILIAN
+					end,
+					[ROLE_HERO] = do
+						color = ROLE_HERO
+					end,
+					[ROLE_JESTER] = do
+						color = ROLE_JESTER
+					end,
+					[ROLE_JESTERHERO] = do
+						color = ROLE_JESTER
+					end
+				})
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			else
 				--DEAD
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[5]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[6]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
 			end
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), plrs[i].mm.kills, 0, "thin")
@@ -688,10 +841,25 @@ hud.add(function(v)
 	end
 
 	-- Winner text
-	if (MM.winner == 0) --tie
-		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WIN", 1))
+	if (not MM.winner)
+		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WIN", 1)) --Tie
 	else
-		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WINNERS").." "..MM.GetText("HUD_WIN", (MM.winner + 1)))
+		local winner
+		switch(MM.winner, {
+			[0] = do
+				winner = 1
+			end,
+			[WIN_MURD] = do
+				winner = 2
+			end,
+			[WIN_CIVILS] = do
+				winner = 3
+			end,
+			[WIN_JESTERKILLED] = do
+				winner = 4
+			end
+		})
+		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WINNERS").." "..MM.GetText("HUD_WIN", winner))
 	end
 
 	--Prerelease/Debug

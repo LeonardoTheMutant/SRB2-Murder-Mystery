@@ -4,7 +4,7 @@
 -- Code for MMHELP, MMLANG and MMSETUP console comands
 
 local adminCVARinfo = {
-	"\x87MM_ABILITIES\x80    - Switch between \x81\"Mystery\"\x80 and \x81\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).",
+	"\x87MM_ABILITIES\x80    - Switch between \x87\"Mystery\"\x80 and \x8C\"Vanilla\"\x80 skin abilities mode. Default is \"Mystery\" (OFF).",
 	"\x87MM_ALLOWINVINC\x80  - Allow Invincibility powerup to be used in MM.\x82 Do not enable this unless you want chaos in your game.\x80 Default value is \"NO\".",
 	"\x87MM_ALLOWSHIELDS\x80 - Allow Shield powerups to be used in MM.\x82 Do not enable this unless you want chaos in your game.\x80 Default value is \"NO\".",
 	"\x87MM_ALLOWSHOES\x80   - Allow Speed Sneakers powerup to be used in MM. Default value is \"NO\".",
@@ -13,7 +13,7 @@ local adminCVARinfo = {
 	"\x87MM_CUSTOMSKINS\x80  - Allow the usage of the Custom Skins/Characters in MM.",
 	"\x87MM_FOOTMARKS\x80    - Enable/Disable the footmarks spawning.",
 	"\x87MM_KILLTRAILS\x80   - Enable/Disable the Red Footmarks (Kill Trails) after Killing a player with the knife or stepping on the dead body.",
-	"\x87MM_NOCAMPING\x80    - When enabled, \x85Murderers\x80 who are camping on the \x84Sheriff's Emerald\x80 for longer than 30 seconds will be kicked.",
+	"\x87MM_NOCAMPING\x80    - When enabled, "..MM.RoleColor[ROLE_MURDERER].."Murderers\x80 who are camping on the "..MM.RoleColor[ROLE_SHERIFF].."Sheriff's Emerald\x80 for longer than 30 seconds will be kicked.",
 	"\x87MM_SPEED_SNEAK\x80  - Adjust the sneaking speed for all players. This works only when \x87MM_ABILITIES\x80 is disabled.",
 	"\x87MM_SPEED_WALK\x80   - Adjust the walk speed for all players. This works only when \x87MM_ABILITIES\x80 is disabled.",
 	"\x87MM_WEPCFG_MURD\x80  - Weapon Configuration for the "..MM.RoleColor[ROLE_MURDERER].."Murderer\x80 role during the Normal Gameplay and the Showdown Duel.",

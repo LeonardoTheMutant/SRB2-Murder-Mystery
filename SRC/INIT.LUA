@@ -11,6 +11,7 @@ rawset(_G, "MM", {
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
+		"\x81", --Jester
 		"\x8F"  --Dead
 	},
 	RoleColorHUD = { --Text Color codes for HUD text, treat this as constant!
@@ -18,10 +19,10 @@ rawset(_G, "MM", {
 		"^4", --Sheriff
 		"^3", --Innocent
 		"^2", --Hero
+		"^1", --Jester
 		"^F"  --Dead
 	},
 	hud = { --variables that control the HUD renderer, not synched
-		show = CV_FindVar("showhud").value,
 		canvas = {
 			width = 320,
 			height = 200,
@@ -98,7 +99,11 @@ rawset(_G, "MM", {
 	text = {} --text strings used in the game, not synched, see the /LUA/TEXT/ directory
 })
 
-if (isdedicatedserver) then MM.lang = "EN" end
+if (isdedicatedserver) then
+	MM.lang = "EN"
+else
+	MM.hud.show = CV_FindVar("showhud").value
+end
 
 --Synchronized Variables
 addHook("NetVars", function(net)
@@ -125,51 +130,54 @@ printf("\n\x87LTM's MURDER MYSTERY \x81v%s\n", MM.version)
 --Role constants
 enum(
 	"ROLE_NONE",
-	"ROLE_MURDERER", --1
-	"ROLE_SHERIFF",  --2
-	"ROLE_CIVILIAN", --3
-	"ROLE_HERO"      --4
+	"ROLE_MURDERER",	--1
+	"ROLE_SHERIFF",		--2
+	"ROLE_CIVILIAN",	--3
+	"ROLE_HERO",		--4
+	"ROLE_JESTER",		--5
+	"ROLE_JESTERHERO"	--6
 )
 
 --Win reason constants
 enum(
-	"WIN_NONE",
-	"WIN_MURD",          --1
-	"WIN_CIVILS",        --2
-	"WIN_SHERIKILLINNO", --3
-	"WIN_HEROKILLINNO",  --4
-	"WIN_NODEFENDERS"    --5
+	"WIN_TIE",				--0
+	"WIN_MURD",				--1
+	"WIN_CIVILS",			--2
+	"WIN_SHERIKILLINNO",	--3
+	"WIN_HEROKILLINNO",		--4
+	"WIN_NODEFENDERS",		--5
+	"WIN_JESTERKILLED"		--6
 )
 
 --Time Zone constants
 enum(
 	"TIMEZONE_NONE",
-	"TIMEZONE_PAST",       --1
-	"TIMEZONE_PRESENT",    --2
-	"TIMEZONE_FUTURE_BAD", --3
-	"TIMEZONE_FUTURE_GOOD" --4
+	"TIMEZONE_PAST",		--1
+	"TIMEZONE_PRESENT",		--2
+	"TIMEZONE_FUTURE_BAD",	--3
+	"TIMEZONE_FUTURE_GOOD"	--4
 )
 
 --Time Warp Sign values
 enum(
 	"TWS_NONE",
-	"TWS_PAST",  --1
-	"TWS_FUTURE" --2
+	"TWS_PAST",		--1
+	"TWS_FUTURE"	--2
 )
 
 --Weapon Configuration subgroup flags
 enum(
 	"WEPCFG_NONE",
-	"WEPCFG_REDONLY",   --1
-	"WEPCFG_DISABLERED" --2
+	"WEPCFG_REDONLY",	--1
+	"WEPCFG_DISABLERED"	--2
 )
 
 --Kill reasons (what killed the player)
 enum(
 	"KILLBY_NOTHING",
-	"KILLBY_PLR",  --1, by player
-	"KILLBY_GAME", --2, by game as a punishment
-	"KILLBY_MAP"   --3, by map hazard
+	"KILLBY_PLR",	--1, by player
+	"KILLBY_GAME",	--2, by game as a punishment
+	"KILLBY_MAP"	--3, by map hazard
 )
 
 --Skins (number values)

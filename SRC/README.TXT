@@ -5,7 +5,6 @@
 ADD-ON TECHNICAL INFORMATION
 ------------------+------------------------------------------------------
 Add-On name       | LeonardoTheMutant's Murder Mystery
-                  | (formely "SRB2 Murder Mystery")
                   |
 Add-On version    | 1.3
 Add-On type       | New gametype
@@ -36,21 +35,22 @@ translations      | English, Polish, Russian, Turkish, Ukrainian
 
 
 
-===================================================================================================
-===--- "LeonardoTheMutant's Murder Mystery" is made by these people from the SRB2MM_DEV team ---===
-===================================================================================================
+---======================================================================---
+---===  "LeonardoTheMutant's Murder Mystery" is made by these people  ===---
+---======================================================================---
 
-  LeonardoTheMutant   - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian & Polish translator, Ambassador of Europe
-  MinusMario (mm8573) - "The Veteran of MM", Music Composer & Management, Visual Design
-  Troplucky           - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
-  Jesus.B             - Coder, Spanish translator
-  Arnie37, Sonic1983  - Russian translators
-  Mobillia            - Turkish translator
-  LexTheGamer95       - Ambassador of North America
-  lamon               - Ambassador of the United Kingdom, Music Composer & Management
+  LeonardoTheMutant     - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian, German & Polish translator, Ambassador of Europe
+  MinusMario (mm8573)   - "The Veteran of MM", Music Composer & Management, Visual Design
+  Jesus.B               - Coder, Spanish translator
+  Mobillia              - Turkish translator
+  LexTheGamer95         - Ambassador of North America
+  lamon                 - Ambassador of the United Kingdom, Music Composer & Management
+  saturndreemurr        - Visual Design
 
-Former members:
+People who also contributed in the past:
   tedbasher3000 (AKA tedvin11) - Former Lead Coder
+  Troplucky         - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
+  Arnie37, Sonic1983    - Russian translators
   futuresmiles      - Ambassador of North America
   SuperOfSRB2       - Ambassador of North America, Mapper
   White Tails {UKR} - Ambassador of Lituana
@@ -87,5 +87,5 @@ You can reach us out in our communities where you can describe issues and sugges
   GitHub:  https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery
   Digital Music GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 
-Or contact the team members personally:
-  LeonardoTheMutant: @LeonardoTheMutant (Discord & GitHub), @leonardothemutant:matrix.org (Matrix)
+Or contact me personally:
+  @LeonardoTheMutant (Discord & GitHub), @leonardothemutant:matrix.org (Matrix)
