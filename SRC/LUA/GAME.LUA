@@ -138,7 +138,8 @@ addHook("PlayerThink", function(p)
 	end
 
 	--Sheriff Emerald Radar distance logic
-	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (not p.spectator)) --Murderers also need that number for the Anti-Camp system
+	--Murderers also need that number for the Anti-Camp system
+	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (not p.spectator) and (p == consoleplayer))
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
