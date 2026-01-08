@@ -125,7 +125,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	--Hero role text
 	["CHAT_ROLE_HERO"] = {
 		["NEWROLEGET_PM"] = "^7It was decided that you will be a ^2Hero^7. Save everyone from the Murderers!", --PM message when a Hero player left and you got his role
-		["REWARDHERO_PM"] = "^7You've eliminated one of the ^5Murderers^7! You've earned the honor of ^2Hero^7!", --PM message congratulating Civilian player killing a Murderer
+		["RANKUP_PM"] = "^7You've eliminated one of the ^5Murderers^7! You've earned the honor of ^2Hero^7!", --PM message congratulating Civilian player killing a Murderer
 		["KILLED"] = { --"Hero got killed" announcement
 			"Hero", --beginning
 			"got murdered!" --ending
@@ -137,7 +137,7 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	--Jester role text
 	["CHAT_ROLE_JESTER"] = {
-		["ROLEGET_PM"] = "You are the ^1Jester^0. Make everyone believe you are the ^5Murderer^0" --"You got role" on round start
+		["ROLEGET_PM"] = "You are the ^1Jester^0. Make everyone believe you are the ^5Murderer^0." --"You got role" on round start
 	},
 
 	-- Teammate hit
@@ -262,10 +262,10 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Winner stuff
 	["HUD_WINNERS"] = "Winners:",
 	["HUD_WIN"] = {
-		"TIE!",
-		"^5MURDERERS",
-		"^3CIVILIANS",
-		"^1JESTER"
+		["TIE"] = "TIE!", --Tie
+		["BAD"] = "^5MURDERERS", --Bad guys (Murderers)
+		["GOOD"] = "^3CIVILIANS", --Good guys (Sheriffs + Heroes + Civilians)
+		["JESTER"] = "^1JESTER" --Jester
 	},
 
 	-- Time Travel stuff

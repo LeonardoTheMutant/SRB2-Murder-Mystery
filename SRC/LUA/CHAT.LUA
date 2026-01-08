@@ -183,7 +183,7 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 
 	local target
 	if (typ == 1) target = -1 --SayTeam
-	else 
+	else
 		if (t) then target = #t + 1 --SayTo
 		else target = 0 end --Say
 	end
@@ -199,7 +199,7 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 	local spam_eatmsg = false
 
 	if (MAYA.spam_tokens[#s] <= 0 and cv_chatspamprotection.value)
-		MM.DebugPrint("Received SAY cmd too quickly from Player "..(#s + 1).." ("..s.name.."), assuming as spam and blocking message.");
+		MAYA.DebugPrint("Received SAY cmd too quickly from Player "..(#s + 1).." ("..s.name.."), assuming as spam and blocking message.");
 		MAYA.spam_tics[#s] = 0
 		spam_eatmsg = true
 	else
@@ -505,5 +505,6 @@ hud.add(function(v)
 		MAYA.chat_scrolltime = 0
 
 		if (cv_chatmode.value < 2) then MAYA.DrawMiniChat(v) end
+
 	end
 end, "intermission")

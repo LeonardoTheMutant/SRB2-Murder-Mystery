@@ -8,33 +8,46 @@ MM.AddLang("PL", {
 	["LANGUAGE"]="Polski",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CHAT_ROLEGET_PM"]={
-		"Jesteś ^5Mordercą^0! ^5Zamorduj wszystkich.",
-		"Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
-		"Jesteś ^3Cywilem^0! Kryj się i pomóż w dochodzeniu."
+	["CHAT_ROLE_MURDERER"]={
+		["ROLEGET_PM"]="Jesteś ^5Mordercą^0! ^5Zamorduj wszystkich.",
+		["NEWROLEGET_PM"]="^7Życie zrobilo z ciebie ^5Morderce^7, ^5teraz idz wszystkich zabić.",
+		["KILLED"]={
+			"Morderca",
+			"został wyeliminowany!"
+		},
+		["ONEQUIT"]="Jeden z ^5Morderców^0 wyszedł z gry!",
+		["LESTQUIT"]="Ostatni ^5Morderca^0 wyszedł z gry!",
+		["REPLACEQUIT"]="^5Morderca^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
 	},
-	["CHAT_NEWROLEGET_PM"]={
-		"^7Życie zrobilo z ciebie ^5Morderce^7, ^5teraz idz wszystkich zabić.",
-		"^7Świat sprawił cię nowym ^4Szeryfem^7! To teraz twoja robota ^4wyeliminować wszystkich Morderców^7!",
-		"^7Wszyscy obroncy odeszli ale swiat sprawil cie nowym^2 Bohaterem^7! To twoja szansa uratowac dzien!",
-		"^7Wyeliminowales jednego z ^5Morderc^7! Zostales awansowany na^2 Bohatera^7!"
+	["CHAT_ROLE_SHERIFF"]={
+		["ROLEGET_PM"]="Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
+		["NEWROLEGET_PM"]="^7Świat sprawił cię nowym ^4Szeryfem^7! To teraz twoja robota ^4wyeliminować wszystkich Morderców^7!",
+		["KILLED"]={
+			"Szeryf",
+			"został zamordowany!",
+			"Znajdź zgubiony ^4Szmaragd Szeryfa^0!"
+		},
+		["ONEQUIT"]="Jeden z ^4Szeryfów^0 wyszedł z gry!",
+		["LASTQUIT"]="Ostatni ^4Szeryf^0 wyszedł z gry!",
+		["REPLACEQUIT"]="^4Szeryf^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!",
+	},
+	["CHAT_ROLE_CIVILIAN"]={
+		["ROLEGET_PM"]="Jesteś ^3Cywilem^0! Kryj się i pomóż w dochodzeniu."
+	},
+	["CHAT_ROLE_HERO"]={
+		["NEWROLEGET_PM"]="^7Wszyscy obroncy odeszli ale swiat sprawil cie nowym^2 Bohaterem^7! To twoja szansa uratowac dzien!",
+		["RANKUP_PM"]="^7Wyeliminowales jednego z ^5Morderc^7! Zostales awansowany na^2 Bohatera^7!",
+		["KILLED"]={
+			"Bohater",
+			"został zamordowany!"
+		},
+		["ONEQUIT"]="Jeden z ^2Bohaterów^0 zostawił nas!",
+		["LASTQUIT"]="Ostatni ^2Bohater^0 wyszedł z gry!",
+		["REPLACEQUIT"]="^2Bohater^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
 	},
 	["CHAT_TEAMMATEHIT_PM"]={
 		"Ten gracz jest twoim wspólnikiem, natepnym razem nie próbuj zabiać ich ponownie",
 		"Twój wspólnik cię zaatakował, nie próbuj się mścić"
-	},
-	["CHAT_MURDKILLED"]={
-		"Morderca",
-		"został wyeliminowany!"
-	},
-	["CHAT_SHERIKILLED"]={
-		"Szeryf",
-		"został zamordowany!",
-		"Znajdź zgubiony ^4Szmaragd Szeryfa^0!"
-	},
-	["CHAT_HEROKILLED"]={
-		"Bohater",
-		"został zamordowany!"
 	},
 	["CHAT_DIEDHAZARD"]="zginał(eła) w nieszczesnym wypadku.",
 	["CHAT_SHREMDPICKUP"]="Ktoś podniosł ^4Szmaragd Szeryfa^0...",
@@ -49,21 +62,6 @@ MM.AddLang("PL", {
 		"^4Szeryfie^0, zamordowaleś Cywila! Ktoś z ^3Cywłów^0 musi dokonczyć robotę!",
 		"^2Bohater^0 zabił ^3Cywilnego^0 gracza. Teraz obydwoje nie zyją. Wstyd dla bohatera"
 	},
-	["CHAT_ONEQUIT"]={
-		"Jeden z ^5Morderców^0 wyszedł z gry!",
-		"Jeden z ^4Szeryfów^0 wyszedł z gry!",
-		"Jeden z ^2Bohaterów^0 zostawił nas!"
-	},
-	["CHAT_LASTQUIT"]={
-		"Ostatni ^5Morderca^0 wyszedł z gry!",
-		"Ostatni ^4Szeryf^0 wyszedł z gry!",
-		"Ostatni ^2Bohater^0 wyszedł z gry!"
-	},
-	["CHAT_REPLACEQUIT"]={
-		"^5Morderca^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!",
-		"^4Szeryf^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!",
-		"^2Bohater^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
-	},
 	["CHAT_ENDROUND"]={
 		"Wszyscy zostali zamordowani, ^5Mordercy^0 wygrywają!",
 		"Wszyscy Mordercy zostali wyeliminowani, ^3Cywile^0 wygrywają!",
@@ -73,11 +71,12 @@ MM.AddLang("PL", {
 	},
 	["HUD_MM"]="Tajemnica Morderstwa",
 	["HUD_ROLES"]={
-		"MORDERCA",
-		"SZERYF",
-		"CYWIL",
-		"BOHATER",
-		"MARTWY"
+		["MURDERER"]="MORDERCA",
+		["SHERIFF"]="SZERYF",
+		["CIVILIAN"]="CYWIL",
+		["HERO"]="BOHATER",
+		["JESTER"]="BŁAZEN",
+		["DEAD"]="MARTWY"
 	},
 	["HUD_SUSPECTS"]="Podejrzani",
 	["HUD_VICTIMS"]="Ofiary",
@@ -89,10 +88,11 @@ MM.AddLang("PL", {
 	},
 	["HUD_SCORESTAB"]="Jeśli ten tryb jest ci nowy użyj komendy ^7MMHELP^0 w Konsoli dla pomocy i ^7MMLANG^0 dla zmiany języka tutaj\n\n^2Baw się dobrze ;)",
 	["HUD_ROLETARGET"] = {
-		"Zamorduj wszystkich.",
-		"Wyeliminuj wszystkich Morderców. Nie zabijaj Ciwilów!",
-		"Kryj się i pomóż w dochodzeniu, kiedy jest to możliwe.",
-		"Masz szansę powstrzymać wszystkich Morderców. Ruszaj i uratuj dzień, ale bądź ostrożny!"
+		["MURDERER"]="Zamorduj wszystkich.",
+		["SHERIFF"]="Wyeliminuj wszystkich Morderców. Nie zabijaj Ciwilów!",
+		["CIVILIAN"]="Kryj się i pomóż w dochodzeniu, kiedy jest to możliwe.",
+		["HERO"]="Masz szansę powstrzymać wszystkich Morderców. Ruszaj i uratuj dzień, ale bądź ostrożny!",
+		["JESTER"]="Przekonaj wszystkich że jesteś złą osobą. Ty nikomu nie zaszkodzisz, jeśli nie masz Bohatera"
 	},
 	["HUD_ROLESALIVE"]={
 		"Morderców",
@@ -121,9 +121,10 @@ MM.AddLang("PL", {
 	["HUD_YOU"]="TY",
 	["HUD_WINNERS"]="Wygrani:",
 	["HUD_WIN"]={
-		"REMIS!",
-		"^5MÓRDERCY",
-		"^3CYWILE"
+		["TIE"]="REMIS!",
+		["BAD"]="^5MÓRDERCY",
+		["GOOD"]="^3CYWILE",
+		["JESTER"]="^1BŁAZEN"
 	},
 	["HUD_PAST"]="PRZESZLOŚĆ",
 	["HUD_FUTURE"]="PRZYSZLOŚĆ",

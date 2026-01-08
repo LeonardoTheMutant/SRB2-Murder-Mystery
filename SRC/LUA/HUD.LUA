@@ -842,21 +842,18 @@ hud.add(function(v)
 
 	-- Winner text
 	if (not MM.winner)
-		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WIN", 1)) --Tie
+		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WIN", "TIE")) --Tie
 	else
 		local winner
 		switch(MM.winner, {
-			[0] = do
-				winner = 1
-			end,
 			[WIN_MURD] = do
-				winner = 2
+				winner = "BAD"
 			end,
 			[WIN_CIVILS] = do
-				winner = 3
+				winner = "GOOD"
 			end,
 			[WIN_JESTERKILLED] = do
-				winner = 4
+				winner = "JESTER"
 			end
 		})
 		DrawStrUnicode_Center(v, 160, 176, MM.GetText("HUD_WINNERS").." "..MM.GetText("HUD_WIN", winner))

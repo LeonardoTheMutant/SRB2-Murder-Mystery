@@ -371,6 +371,7 @@ dofile("TEXT/EN.LUA") --English text is required for the game to run on the basi
 dofile("TEXT/DE.LUA")
 dofile("TEXT/ES.LUA")
 dofile("TEXT/FR.LUA")
+dofile("TEXT/GR.LUA")
 dofile("TEXT/PL.LUA")
 dofile("TEXT/RU.LUA")
 dofile("TEXT/TR.LUA")
