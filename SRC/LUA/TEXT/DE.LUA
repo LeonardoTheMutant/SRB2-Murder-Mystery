@@ -12,33 +12,49 @@ MM.AddLang("DE", {
 	["LANGUAGE"]="Deutsch",
 	["VERSION"]="1.3",
 	["AUTHOR"]="LeonardoTheMutant",
-	["CHAT_ROLEGET_PM"]={
-		"Du bist der ^5Morder^0. ^5Tote sie alle.",
-		"Du bist der ^4Sheriff^0!^4 Beseitige alle Morder^0. Tote die^3 falsche Person^0, und die Rolle gehort dir nicht mehr.",
-		"Du bist ein ^3Zivilist^0! Versteck dich und hilf bei den Ermittlungen."
+	["CHAT_ROLE_MURDERER"]={
+		["ROLEGET_PM"]="Du bist der ^5Morder^0. ^5Tote sie alle.",
+		["NEWROLEGET_PM"]="^7Das Leben hat zufällig entschieden, dass du ein ^5Morder^7 sein wirst. ^5Jetzt geh und tote alle!",
+		["KILLED"]={
+			"Morder",
+			"wurde eliminiert!"
+		},
+		["ONEQUIT"]="Einer der ^5Morder^0 hat verlassen!",
+		["LASTQUIT"]="Der letzte ^5Morder^0 hat verlassen!",
+		["REPLACEQUIT"]="Der ^5Morder^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!"
 	},
-	["CHAT_NEWROLEGET_PM"]={
-		"^7Das Leben hat zufällig entschieden, dass du ein ^5Morder^7 sein wirst. ^5Jetzt geh und tote alle!",
-		"^7Das Universum hat dich zum ^4Sheriff^7 ernannt! Geh und^4 eliminier alle Morder^7!",
-		"^7Es wurde beschlossen, dass du ein ^2Held^7 sein wirst. Rette alle vor den Mordern!",
-		"^7Du hast einen der ^5Morder^7 ausgeschaltet! Du hast dir die Ehre eines ^2Helden^7 verdient!"
+	["CHAT_ROLE_SHERIFF"]={
+		["ROLEGET_PM"]="Du bist der ^4Sheriff^0!^4 Beseitige alle Morder^0. Tote die^3 falsche Person^0, und die Rolle gehort dir nicht mehr.",
+		["NEWROLEGET_PM"]="^7Das Universum hat dich zum ^4Sheriff^7 ernannt! Geh und^4 eliminier alle Morder^7!",
+		["KILLED"]={
+			"Sheriff",
+			"wurde ermordet!",
+			"Finden Sie ihren ^4Smaragd^0!"
+		},
+		["ONEQUIT"]="Einer der ^4Sheriffs^0 het verlassen!",
+		["LASTQUIT"]="Der letzte ^5Sheriff^0 hat verlassen!",
+		["REPLACEQUIT"]="Der ^4Sheriff^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!"
+	},
+	["CHAT_ROLE_CIVILIAN"]={
+		["ROLEGET_PM"]="Du bist ein ^3Zivilist^0! Versteck dich und hilf bei den Ermittlungen."
+	},
+	["CHAT_ROLE_HERO"]={
+		["NEWROLEGET_PM"]="^7Es wurde beschlossen, dass du ein ^2Held^7 sein wirst. Rette alle vor den Mordern!",
+		["RANKUP_PM"]="^7Du hast einen der ^5Morder^7 ausgeschaltet! Du hast dir die Ehre eines ^2Helden^7 verdient!",
+		["KILLED"]={
+			"Held",
+			"wurde ermordet!",
+		},
+		["ONEQUIT"]="Einer der ^2Helden^0 hat verlassen!!!",
+		["LASTQUIT"]="Der letzte ^2Held^0 hat alle im Stich gelassen!",
+		["REPLACEQUIT"]="Der ^2Held^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!"
+	},
+	["CHAT_ROLE_JESTER"]={
+		["ROLEGET_PM"]="Du bist der ^1Narr^0. Bringe alle dazu zu glauben, dass du der ^5Mörder^0 bist."
 	},
 	["CHAT_TEAMMATEHIT_PM"]={
 		"Vorsicht! Das ist dein Teamkollege. Vermeide das nächste mal Friendly Fire!",
 		"Ein Teamkollege hat dich versehentlich getroffen. Rache ist NICHT empfehlenswert!"
-	},
-	["CHAT_MURDKILLED"]={
-		"Morder",
-		"wurde eliminiert!",
-	},
-	["CHAT_SHERIKILLED"]={
-		"Sheriff",
-		"wurde ermordet!",
-		"Finden Sie ihren ^4Smaragd^0!"
-	},
-	["CHAT_HEROKILLED"]={
-		"Held",
-		"wurde ermordet!",
 	},
 	["CHAT_DIEDHAZARD"]="ist gestorben. Traurig.",
 	["CHAT_SHREMDPICKUP"]="Jemand hat den ^4Smaragd des Sheriffs^0 an sich genommen...",
@@ -49,42 +65,29 @@ MM.AddLang("DE", {
 		"^7Du hast einen ^3Zivilisten^7 ermordet, genau wie dich selbst! Du wurdest für dein Verbrechen ^5hingerichtet^7.",
 		"^7Oh nein! Du hast einen ^2Helden^7 ermordet! Dafür wurdest du ^5hingerichtet^7."
 	},
-	["CHAT_INNOHURT"]={
+	["CHAT_CIVILIANHURT"]={
 		"Der ^4Sheriff^0 hat einen ^3Zivilisten^0 ermordet! Jemand anderes sollte die Arbeit zu Ende bringen!",
 		"Durch die Totung des ^3Zivilisten^0 wurde der ^2Held^0 zum ^5Bosewicht^0 und bezahlte dafür den Preis."
-	},
-	["CHAT_ONEQUIT"]={
-		"Einer der ^5Morder^0 hat verlassen!",
-		"Einer der ^4Sheriffs^0 het verlassen!",
-		"Einer der ^2Helden^0 hat verlassen!!!"
-	},
-	["CHAT_LASTQUIT"]={
-		"Der letzte ^5Morder^0 hat verlassen!",
-		"Der letzte ^5Sheriff^0 hat verlassen!",
-		"Der letzte ^2Held^0 hat alle im Stich gelassen!"
-	},
-	["CHAT_REPLACEQUIT"]={
-		"Der ^5Morder^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!",
-		"Der ^4Sheriff^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!",
-		"Der ^2Held^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!"
 	},
 	["CHAT_ENDROUND"]={
 		"Alle sind tot. Die ^5Morder^0 gewinnen!",
 		"Alle ^5Morder^0 wurden getotet! Die^3 Zivilisten^0 gewinnen!",
 		"Die ^5Morder^0 gewinnen, weil der ^4Sheriff^0 den letzten Zivilisten ermordet hat! Schande uber den ^4Sheriff^0...",
 		"Die ^5Morder^0 gewinnen, weil der ^2Held^0 sich entschieden hat, den letzten Zivilisten zu toten. Schande uber einen solchen ^2Helden^0...",
-		"Die Verteidiger der ^3Zivilisten^0 sind tot. Die ^5Morder^0 gewinnen!"
+		"Die Verteidiger der ^3Zivilisten^0 sind tot. Die ^5Morder^0 gewinnen!",
+		"^1Jester^0 wurde von den Guten getötet. Glücksspiel ist schlecht, Kinder."
 	},
 	["HUD_MM"]="Murder Mystery",
 	["HUD_SUSPECTS"]="Verdächtige",
 	["HUD_VICTIMS"]="Opfer",
 	["HUD_TEAMMATES"]="Teamkollegen",
 	["HUD_ROLES"]={
-		"MÖRDER",
-		"SHERIFF",
-		"ZIVILIST",
-		"HELD",
-		"TOT"
+		["MURDERER"]="MÖRDER",
+		["SHERIFF"]="SHERIFF",
+		["CIVILIAN"]="ZIVILIST",
+		["HERO"]="HELD",
+		["JESTER"]="NARR",
+		["DEAD"]="TOT"
 	},
 	["HUD_KILLEDBY"]={
 		"Getötet von",
@@ -93,10 +96,11 @@ MM.AddLang("DE", {
 	},
 	["HUD_SCORESTAB"]="Wenn du neu in diesem Spielmodus bist, verwende den Befehl ^7MMHELP^0 in der Konsole, um Hilfe zu erhalten.\n\n^2Viel Spaß!",
 	["HUD_ROLETARGET"]={
-		"Sich einfügen, Vertrauen aufbauen, dann zuschlagen.",
-		"Finde und eliminiere alle Mörder. Töte keine Zivilisten!",
-		"Versteck dich und schütze dich. Hilf bei den Ermittlungen, wenn möglich.",
-		"Du hast die Chance, alle Mörder zu stoppen. Geh und rette die Lage!"
+		["MURDERER"]="Sich einfügen, Vertrauen aufbauen, dann zuschlagen.",
+		["SHERIFF"]="Finde und eliminiere alle Mörder. Töte keine Zivilisten!",
+		["CIVILIAN"]="Versteck dich und schütze dich. Hilf bei den Ermittlungen, wenn möglich.",
+		["HERO"]="Du hast die Chance, alle Mörder zu stoppen. Geh und rette die Lage!",
+		["JESTER"]="Lass alle glauben, dass du der Bösewicht bist. Deine ringe werden niemanden verletzen, es sei denn, es handelt sich um einen Helden."
 	},
 	["HUD_ROLESALIVE"]={
 		"Mörder",
@@ -125,9 +129,10 @@ MM.AddLang("DE", {
 	["HUD_YOU"]="DU",
 	["HUD_WINNERS"]="Gewinner:",
 	["HUD_WIN"]={
-		"UNENTSCHIEDEN!",
-		"^5MÖRDER",
-		"^3ZIVILISTEN"
+		["TIE"]="UNENTSCHIEDEN!",
+		["BAD"]="^5MÖRDER",
+		["GOOD"]="^3ZIVILISTEN",
+		["JESTER"]="^1NARR"
 	},
 	["HUD_PAST"]="VERGANGEN",
 	["HUD_FUTURE"]="ZUKUNFT",
