@@ -40,7 +40,7 @@ if [ -f ./MAKE.SH ] && [ -d ./SRC/ ]; then
     if [ "$ARCHIVER" = "zip" ]; then
         zip -r "${BUILDDIR}/${FILENAME}" *
     elif [ "$ARCHIVER" = "7z" ]; then
-        7z a "${BUILDDIR}/${FILENAME}" *
+        7z a "${BUILDDIR}/${FILENAME}" * -tzip
     fi
 
     echo "Finished making ${BUILDDIR}/${FILENAME} !"
