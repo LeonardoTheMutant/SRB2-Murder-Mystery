@@ -20,7 +20,7 @@ MM.AddLang("PL", {
 		["REPLACEQUIT"]="^5Morderca^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
 	},
 	["CHAT_ROLE_SHERIFF"]={
-		["ROLEGET_PM"]="Jesteś ^4Szeryfem^0!^4 Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
+		["ROLEGET_PM"]="Jesteś ^4Szeryfem^0! ^4Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
 		["NEWROLEGET_PM"]="^7Świat sprawił cię nowym ^4Szeryfem^7! To teraz twoja robota ^4wyeliminować wszystkich Morderców^7!",
 		["KILLED"]={
 			"Szeryf",
@@ -32,7 +32,7 @@ MM.AddLang("PL", {
 		["REPLACEQUIT"]="^4Szeryf^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!",
 	},
 	["CHAT_ROLE_CIVILIAN"]={
-		["ROLEGET_PM"]="Jesteś ^3Cywilem^0! Kryj się i pomóż w dochodzeniu."
+		["ROLEGET_PM"]="Jesteś ^3Cywilem^0! ^3Kryj się i pomóż w dochodzeniu^0."
 	},
 	["CHAT_ROLE_HERO"]={
 		["NEWROLEGET_PM"]="^7Wszyscy obroncy odeszli ale swiat sprawil cie nowym^2 Bohaterem^7! To twoja szansa uratowac dzien!",
@@ -44,6 +44,9 @@ MM.AddLang("PL", {
 		["ONEQUIT"]="Jeden z ^2Bohaterów^0 zostawił nas!",
 		["LASTQUIT"]="Ostatni ^2Bohater^0 wyszedł z gry!",
 		["REPLACEQUIT"]="^2Bohater^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
+	},
+	["CHAT_ROLE_JESTER"]={
+		["ROLEGET_PM"]="Jesteś ^1Błaznem^0! Przekonaj wszystkich że jesteś ^5Mordercą^0. ^1Musisz umrzeć od dobrych ludzi^0."
 	},
 	["CHAT_TEAMMATEHIT_PM"]={
 		"Ten gracz jest twoim wspólnikiem, natepnym razem nie próbuj zabiać ich ponownie",
