@@ -138,7 +138,6 @@ local rightshiftdown = false
 -- Get the modifier key state
 --
 addHook("KeyDown", function(key)
-	if (not MM.hud.chat.active) then return end
 	switch(key.num, {
 		[KEY_LCTRL] = do
 			leftctrldown = true
@@ -155,7 +154,6 @@ addHook("KeyDown", function(key)
 	})
 end)
 addHook("KeyUp", function(key)
-	if (not MM.hud.chat.active) then return end
 	switch(key.num, {
 		[KEY_LCTRL] = do
 			leftctrldown = false
