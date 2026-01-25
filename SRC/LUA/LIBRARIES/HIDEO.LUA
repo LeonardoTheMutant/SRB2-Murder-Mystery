@@ -315,8 +315,10 @@ HIDEO.GetTextPatchWidth = function(patch)
 	assert(patch, "HIDEO.GetTextPatchWidth() argument #1: textpatch_t expected")
 	local width = 0
 
-	if (patch.image)
-		for row = 1, #patch.image do
+	if (patch.width) then width = patch.width
+	elseif (patch.image)
+		local height = #patch.image
+		for row = 1, height do
 			if (patch.image[row] and (#patch.image[row] > width)) then width = #patch.image[row] end
 		end
 	end
@@ -327,8 +329,12 @@ end
 --Get the Height of the Text Patch
 HIDEO.GetTextPatchHeight = function(patch)
 	assert(patch, "HIDEO.GetTextPatchHeight() argument #1: textpatch_t expected")
-	if (patch.image) then return #patch.image
-	else return 0 end
+	local height = 0
+
+	if (patch.height) then height = patch.height
+	elseif (patch.image) then height = #patch.image end
+
+	return height
 end
 
 --Helper functions for below

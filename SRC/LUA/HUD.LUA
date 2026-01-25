@@ -10,7 +10,20 @@ local HudLabelWidth = {0,0,0}
 local cv_cryptic = CV_FindVar("mm_cryptic").value
 local cv_wepcfgCivil = CV_FindVar("mm_wepcfg_civil").value
 local showhud = CV_FindVar("showhud")
-local var1, var2, var3 --multipurpose variables
+local HUDdigit_width
+
+--Custom rendering-related functions used in this script
+--I am defining them in a variable like this to reduce the table lookup times on each function call
+local LoadPatch = MM.LoadPatch
+local DrawTextPatch = HIDEO.DrawTextPatch
+local GetTextPatchWidth = HIDEO.GetTextPatchWidth
+local DrawStrUnicode = HIDEO.DrawStrUnicode
+local DrawStrUnicode_Center = HIDEO.DrawStrUnicode_Center
+local DrawStrUnicode_Right = HIDEO.DrawStrUnicode_Right
+local WordWrap = HIDEO.WordWrap
+
+--Variables
+local var1, var2, var3
 
 local function wep2rw(wep) --convert WEP_* constant to RW_* constant
 	return 2^(wep - 1)
@@ -25,16 +38,45 @@ local function V_GetSHREMDiconID(dist)
 	else return 1 end
 end
 
---Custom rendering-related functions used in this script
---I am defining them in a variable like this to reduce the table lookup times on each function call
+local function V_DrawHudNum(v, x, y, flags, num)
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	num = num or 0
+	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
 
-local LoadPatch = MM.LoadPatch
-local DrawTextPatch = HIDEO.DrawTextPatch
-local GetTextPatchWidth = HIDEO.GetTextPatchWidth
-local DrawStrUnicode = HIDEO.DrawStrUnicode
-local DrawStrUnicode_Center = HIDEO.DrawStrUnicode_Center
-local DrawStrUnicode_Right = HIDEO.DrawStrUnicode_Right
-local WordWrap = HIDEO.WordWrap
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+		w = w * v.dupx()
+	end
+
+	-- draw the number
+	repeat
+		x = x - w
+		DrawTextPatch(v, x, y, MM.textpatch["HUDDIGIT"][num % 10], 1, flags)
+		num = num / 10
+	until (not num)
+end
+
+local function V_DrawHudNumPadded(v, x, y, flags, num, digits)
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	num = num or 0
+	digits = digits or 0
+	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
+
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+		w = w * v.dupx()
+	end
+
+	-- draw the number
+	repeat
+		x = x - w
+		DrawTextPatch(v, x, y, MM.textpatch["HUDDIGIT"][num % 10], 1, flags)
+		num = num / 10
+		digits = digits - 1
+	until (not digits)
+end
 
 --F3 key/"showhud" locker
 addHook("ThinkFrame", do
@@ -74,13 +116,12 @@ hud.add(function(v, p)
 	MM.hud.canvas.font.small.charwidth = FixedMul(HIDEO.charwidth, MM.hud.canvas.font.small.scale)
 	MM.hud.canvas.font.small.charheight = FixedMul(HIDEO.charheight, MM.hud.canvas.font.small.scale)
 
+	HUDdigit_width = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
+
 	--Patch Graphics loading
 	if (not MM.graphics)
 		MM.DebugPrint("Loading graphics")
 		HIDEO.LoadUnicodeFont(v) --Initialize Unicode renderer
-
-		--Colon for time counter
-		LoadPatch(v, "STTCOLON")
 
 		--Emerald icon
 		LoadPatch(v, "CHAOS3")
@@ -137,7 +178,7 @@ hud.add(function(v, p)
 	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end
 
 	if (not MM.hud.show) then return end
-	
+
 	--
 	-- SUSPECTS - TIME - RINGS
 	--
@@ -147,16 +188,16 @@ hud.add(function(v, p)
 	if ((p.mm.role == ROLE_MURDERER) or (p.mm.finished)) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
 
-	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + 40
-	else HudLabelWidth[1] = 96 end
+	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + HUDdigit_width*3
+	else HudLabelWidth[1] = 88 end
 
 	--TIME
-	if (MM.text[MM.lang]["IMG_TIME"]) then HudLabelWidth[2] = GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + 64
-	else HudLabelWidth[2] = 96 end
+	if (MM.text[MM.lang]["IMG_TIME"]) then HudLabelWidth[2] = GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + HUDdigit_width*6
+	else HudLabelWidth[2] = 88 end
 
 	--RINGS
-	if (MM.text[MM.lang]["IMG_RINGS"]) then HudLabelWidth[3] = GetTextPatchWidth(MM.text[MM.lang]["IMG_RINGS"]) + 52
-	else HudLabelWidth[3] = 92 end
+	if (MM.text[MM.lang]["IMG_RINGS"]) then HudLabelWidth[3] = GetTextPatchWidth(MM.text[MM.lang]["IMG_RINGS"]) + HUDdigit_width*5
+	else HudLabelWidth[3] = 88 end
 
 	--find the longest element
 	var3 = HudLabelWidth[1] --maximum HUD label width
@@ -182,7 +223,7 @@ hud.add(function(v, p)
 		['default'] = do var1 = MM.PlayersAlive() - 1 end --Civilian and Dead
 	})
 	--Draw the number
-	v.drawNum(((hudinfo[HUD_SCORE].x + var3) - 16), hudinfo[HUD_SCORE].y, max(var1, 0), hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag())
+	V_DrawHudNum(v, (hudinfo[HUD_SCORE].x + var3), hudinfo[HUD_SCORE].y, hudinfo[HUD_SCORE].f|V_PERPLAYER|v.localTransFlag(), max(var1, 0))
 
 	--TIME
 	--timer calculation
@@ -203,9 +244,9 @@ hud.add(function(v, p)
 		end
 	end
 	--Draw the time
-	v.drawPaddedNum(((hudinfo[HUD_TIME].x + var3) - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --seconds
-	v.draw(((hudinfo[HUD_TIME].x + var3) - 40), hudinfo[HUD_TIME].y, MM.graphics["STTCOLON"], hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --colon
-	v.drawNum(((hudinfo[HUD_TIME].x + var3) - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag()) --minutes
+	V_DrawHudNumPadded(v, (hudinfo[HUD_TIME].x + var3), hudinfo[HUD_TIME].y, hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag(), G_TicsToSeconds(timertime), 2)
+	DrawTextPatch(v, (hudinfo[HUD_TIME].x + var3 - 24), hudinfo[HUD_TIME].y, MM.textpatch["HUDCOLON"], 1, hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag())
+	V_DrawHudNum(v, (hudinfo[HUD_TIME].x + var3 - 22), hudinfo[HUD_TIME].y, hudinfo[HUD_TIME].f|V_PERPLAYER|v.localTransFlag(), G_TicsToMinutes(timertime))
 
 	--RINGS
 	if (not p.spectator)
@@ -221,7 +262,7 @@ hud.add(function(v, p)
 				v.drawString(hudinfo[HUD_RINGS].x, hudinfo[HUD_RINGS].y, "RINGS", hudinfo[HUD_RINGS].f|V_PERPLAYER|V_YELLOWMAP|v.localTransFlag())
 			end
 		end
-		v.drawNum(((hudinfo[HUD_RINGS].x + var3) - 16), hudinfo[HUD_RINGS].y, p.rings, hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag())
+		V_DrawHudNum(v, (hudinfo[HUD_RINGS].x + var3), hudinfo[HUD_RINGS].y, hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag(), p.rings)
 	end
 	
 	--Time Warp Sign ("Warp ticket")
@@ -239,7 +280,7 @@ hud.add(function(v, p)
 	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|V_PERPLAYER|v.localTransFlag())
 
 	--Show your role
-	if ((p.mm.role) and  (p.mm.role > ROLE_NONE) and (MM.hud.game.roleflicker % 2) == 0)
+	if ((p.mm.role) and (MM.hud.game.roleflicker % 2) == 0)
 		switch(p.mm.role , {
 			[ROLE_MURDERER] = do
 				var1 = "MURDERER"
@@ -264,6 +305,10 @@ hud.add(function(v, p)
 			[ROLE_JESTERHERO] = do
 				var1 = "JESTER"
 				var2 = ROLE_HERO
+			end,
+			['default'] = do
+				var1 = "DEAD"
+				var2 = 6
 			end
 		})
 		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)

@@ -1,5 +1,5 @@
 if (MM)
-	error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("\x87LTM's Murder Mystery \x81v"..MM.version.."\x80 is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 
@@ -118,10 +118,10 @@ addHook("NetVars", function(net)
 end)
 
 
---Load the library with some C functionality ported to LUA
+--Load the library with some C functionality ported to LUA, the entire codebase relies on that lib
 dofile("LIBRARIES/CAROLINE.LUA")
 
-printf("\n\x87LTM's MURDER MYSTERY \x81v%s\n", MM.version)
+printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
 
 --
 -- ENUMERATES & CONSTANTS
@@ -355,6 +355,18 @@ CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_
 -- BOOT SEQUENCE
 --
 
+--Define gametype
+G_AddGametype({
+	name = "LTM_MM",
+	identifier = "LTMMURDERMYSTERY",
+	typeoflevel = freeslot("TOL_LTM_MM")|TOL_MATCH|TOL_TAG,
+	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
+	intermissiontype = int_match,
+	headerleftcolor = 37,
+	headerrightcolor = 153,
+	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, stop the genocide as \x84Sheriff\x80 and survive as\x83 Civilian\x80!"
+})
+
 --Load libraries
 dofile("LIBRARIES/UNICODE.LUA")
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
@@ -362,8 +374,11 @@ if (not isdedicatedserver) dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
 dofile("LIBRARIES/DOMINICA.LUA")
 dofile("LIBRARIES/MAYA.LUA")
 
---Freeslot
-dofile("FREESLOT.LUA")
+--Load Data
+print("\n\x87Murder Mystery\x80: Loading data...")
+dofile("DATA/FOOTSOUND.LUA")
+dofile("DATA/FREESLOT.LUA")
+if (not isdedicatedserver) dofile("DATA/TEXTPATCHES.LUA") end
 
 --Load the text and all translations
 print("\n\x87Murder Mystery\x80: Loading text...")

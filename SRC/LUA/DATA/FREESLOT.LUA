@@ -1,17 +1,8 @@
 -- FREESLOT.LUA
 --
--- Gametype definition and freeslots of the required add-on resources
+-- Freeslots of the required add-on resources
 
-G_AddGametype({
-	name = "LTM_MM",
-	identifier = "LTMMURDERMYSTERY",
-	typeoflevel = freeslot("TOL_LTM_MM")|TOL_MATCH|TOL_TAG,
-	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
-	intermissiontype = int_match,
-	headerleftcolor = 37,
-	headerrightcolor = 153,
-	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, stop the genocide as \x84Sheriff\x80 and survive as\x83 Civilian\x80!"
-})
+
 
 --
 -- OBJECTS, STATES & SPRITES

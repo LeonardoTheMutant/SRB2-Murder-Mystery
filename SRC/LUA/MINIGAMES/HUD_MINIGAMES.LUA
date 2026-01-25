@@ -9,15 +9,63 @@ local coords = {
     sonicRun = {x=60, y=60} --offset coordinates from (0,0)
 }
 
+local var1, var2
+
+local DrawTextPatch = HIDEO.DrawTextPatch
+local GetTextPatchWidth = HIDEO.GetTextPatchWidth
+local DrawStrUnicode = HIDEO.DrawStrUnicode
+local DrawStrUnicode_Center = HIDEO.DrawStrUnicode_Center
+local DrawStrUnicode_Right = HIDEO.DrawStrUnicode_Right
+
+local function V_DrawHudNum(v, x, y, flags, num)
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	num = num or 0
+	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
+
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+		w = w * v.dupx()
+	end
+
+	-- draw the number
+	repeat
+		x = x - w
+		DrawTextPatch(v, x, y, MM.textpatch["HUDDIGIT"][num % 10], 1, flags)
+		num = num / 10
+	until (not num)
+end
+
+local function V_DrawHudNumPadded(v, x, y, flags, num, digits)
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	num = num or 0
+	digits = digits or 0
+	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
+
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+		w = w * v.dupx()
+	end
+
+	-- draw the number
+	repeat
+		x = x - w
+		DrawTextPatch(v, x, y, MM.textpatch["HUDDIGIT"][num % 10], 1, flags)
+		num = num / 10
+		digits = digits - 1
+	until (not digits)
+end
+
 local function V_DrawMinigameTime(v)
     --label size and X position
 	local timeLabelWidth
 	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
-		timeLabelWidth = HIDEO.GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + 64
+		timeLabelWidth = GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + 48
 	else
 		timeLabelWidth = 96
 	end
-	local timeLabelX = (169 - (timeLabelWidth / 2))
+	local timeLabelX = (160 - (timeLabelWidth / 2))
 
     --timer calculation
 	local timertime = (MM.timelimit * 2100) - leveltime
@@ -26,9 +74,9 @@ local function V_DrawMinigameTime(v)
 	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
 		--Draw the Text Label
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
-			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 2, V_SNAPTOTOP|v.localTransFlag()) --Flashing
+			DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 2, V_SNAPTOTOP|v.localTransFlag()) --Flashing
 		else
-			HIDEO.DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 1, V_SNAPTOTOP|v.localTransFlag()) --Normal
+			DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 1, V_SNAPTOTOP|v.localTransFlag()) --Normal
 		end
 	else --in case Text Patch was not found or the game is splitscreen (HIDEO.DrawTextPatch() does not support per-player rendering)
 		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
@@ -39,9 +87,9 @@ local function V_DrawMinigameTime(v)
 	end
 
 	--Numbers
-	v.drawPaddedNum((timeLabelX + timeLabelWidth - 16), hudinfo[HUD_TIME].y, G_TicsToSeconds(timertime), 2, V_SNAPTOTOP|v.localTransFlag()) --seconds
-	v.draw((timeLabelX + timeLabelWidth - 40), hudinfo[HUD_TIME].y, MM.graphics["STTCOLON"], V_SNAPTOTOP|v.localTransFlag()) --colon
-	v.drawNum((timeLabelX + timeLabelWidth - 40), hudinfo[HUD_TIME].y, G_TicsToMinutes(timertime), V_SNAPTOTOP|v.localTransFlag()) --minutess
+	V_DrawHudNumPadded(v, (timeLabelX + timeLabelWidth), hudinfo[HUD_TIME].y, V_SNAPTOTOP|v.localTransFlag(), G_TicsToSeconds(timertime), 2)
+	DrawTextPatch(v, (timeLabelX + timeLabelWidth - 24), hudinfo[HUD_TIME].y, MM.textpatch["HUDCOLON"], 1, V_SNAPTOTOP|v.localTransFlag())
+	V_DrawHudNum(v, (timeLabelX + timeLabelWidth - 22), hudinfo[HUD_TIME].y, V_SNAPTOTOP|v.localTransFlag(), G_TicsToMinutes(timertime))
 end
 
 hud.add(function(v, p)
@@ -76,7 +124,7 @@ hud.add(function(v, p)
 
 		--CUSTOM3 related text
 		if (not p.mm.minigame.timeout)
-			HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+			DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 
 		--TIME
@@ -155,18 +203,16 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role
-		if (p.mm.role)
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[p.mm.role]..MM.GetText("HUD_ROLES", p.mm.role), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
-		elseif (p.spectator)
-			HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", ROLE_DEAD), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+		if (p.mm.finished)
+			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", ROLE_DEAD), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 		if (p.mm.timetravel and p.mm.timetravel.timezone)
 			if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
-				HIDEO.DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
@@ -190,18 +236,18 @@ hud.add(function(v, p)
 		--CUSTOM3 related text and show yourself
 		if (PONG_GetMySlot(p))
 			if (not p.mm.minigame.timeout) then
-				HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 			if (not splitscreen)
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				HIDEO.DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		else
-			HIDEO.DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+			DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			if (not p.mm.minigame.timeout) then
-				HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
@@ -221,9 +267,9 @@ hud.add(function(v, p)
 		--winner text
 		if (MM.pong.winner != nil)
 			if (not MM.pong.winner)
-				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
 			else
-				HIDEO.DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
+				DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 		
@@ -231,21 +277,49 @@ hud.add(function(v, p)
 		--player name
 		v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
 		--role
-		HIDEO.DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[1].mm.role)), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		switch(MM.duelplrs[1].mm.role , {
+			[ROLE_MURDERER] = do
+				var1 = "MURDERER"
+				var2 = ROLE_MURDERER
+			end,
+			[ROLE_SHERIFF] = do
+				var1 = "SHERIFF"
+				var2 = ROLE_SHERIFF
+			end,
+			['default'] = do
+				var1 = "DEAD"
+				var2 = 6
+			end
+		})
+		DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
 		--character picture
 		v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
 		--win count
-		HIDEO.DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
+		DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		--player 2 side information
 		--name
 		v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
 		--role
-		HIDEO.DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.GetText("HUD_ROLES", MM.duelplrs[2].mm.role)), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		switch(MM.duelplrs[2].mm.role , {
+			[ROLE_MURDERER] = do
+				var1 = "MURDERER"
+				var2 = ROLE_MURDERER
+			end,
+			[ROLE_SHERIFF] = do
+				var1 = "SHERIFF"
+				var2 = ROLE_SHERIFF
+			end,
+			['default'] = do
+				var1 = "DEAD"
+				var2 = 6
+			end
+		})
+		DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 		--charpic
 		v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
 		--win
-		HIDEO.DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
+		DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		if (MM.debug)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
@@ -259,7 +333,7 @@ hud.add(function(v, p)
 		end
     elseif (MM.minigame) and (not p.mm.minigame)
         --Draw the invitation/suggestion text
-        HIDEO.DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
-        HIDEO.DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+        DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+        DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 end, "game")
