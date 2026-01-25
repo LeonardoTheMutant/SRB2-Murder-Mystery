@@ -32,6 +32,7 @@ addHook("MapLoad", function(map)
 		p.mm.finished = false
 		p.pflags = $ & ~PF_GODMODE
 		p.spectator = false
+		p.mm.weapondelay = 175 --5 seconds
 	end
 
 	--Prepare the game
@@ -42,7 +43,7 @@ addHook("MapLoad", function(map)
 	MM.susnse = false
 	MM.shwdwn = false
 	MM.minigame = false
-	MM.roleflicker = 140 --4 seconds
+	MM.roleflicker = 175 --5 seconds
 	MM.hud.game.flash.translucency = 0
 
 	--Time limit
