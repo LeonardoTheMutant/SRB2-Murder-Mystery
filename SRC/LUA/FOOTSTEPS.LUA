@@ -236,7 +236,7 @@ local function getGroundTexture(mo)
 end
 
 addHook("PlayerThink", function(player)
-	if (gametype!=GT_LTMMURDERMYSTERY) return end
+	if (not (gametype == GT_LTMMURDERMYSTERY) and (player.mm)) then return end
 	if (valid(player.mo)) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
 		local pmo = player.mo
 		local panimInfo=playeraniminfo[pmo.skin]
@@ -298,7 +298,7 @@ addHook("PlayerThink", function(player)
 			elseif (not P_IsObjectOnGround(pmo))
 				player.wasfalling=true
 			end
-			if (player.playsound) and (not player.mm.sneak)
+			if (player.playsound) and not (player.mm.flags & FLAG_SNEAK)
 				if not (pmo.eflags & MFE_GOOWATER)
 					if (player.groundtexture) material=MM.FootstepFlatSound[player.groundtexture] end
 					if (not material) material="stone" end

@@ -198,7 +198,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 					if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
 					else P_GivePlayerRings(p, -100) end
 
-					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
+					if (not (p.mm.flags & FLAG_SNEAK)) then S_StartSound(p.mo, sfx_wepfir) end --yeah, stealth included
 				end
 			end,
 			[ROLE_JESTER] = do
@@ -206,7 +206,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 					P_SetWeaponDelay(p, MM.weapons[-2][4])
 					P_DoKnife(p.mo)
 					P_GivePlayerRings(p, -10)
-					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end
+					if (not (p.mm.flags & FLAG_SNEAK)) then S_StartSound(p.mo, sfx_wepfir) end
 				end
 			end,
 			['default'] = do
@@ -215,7 +215,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 					P_DoKnife(p.mo)
 					P_GivePlayerRings(p, -1)
 
-					if (not p.mm.sneak) S_StartSound(p.mo, sfx_wepfir) end --stealth
+					if (not (p.mm.flags & FLAG_SNEAK)) then S_StartSound(p.mo, sfx_wepfir) end --stealth
 				end
 			end
 		})

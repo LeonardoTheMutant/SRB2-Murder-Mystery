@@ -53,13 +53,20 @@ MM.DebugPrint = function(str, ...)
 	if (MM.debug) printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end
 
---Count the Players
+--Count the playing Players
+MM.PlayerCountReal = function()
+	local plrc = 0
+	for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
+	return plrc
+end
+
+--Count the playing Players
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
-		for p in players.iterate do if ((p.mm.role == role) and (not p.quittime)) then plrc = $ + 1 end end
+		for p in players.iterate do if ((p.mm.role == role) and (not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
 	else
-		for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
+		for p in players.iterate do if ((not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
 	end
 	return plrc
 end
@@ -79,13 +86,27 @@ MM.InitPlayer = function(p)
 	p.mm.camping = 0
 	p.mm.kills = 0
 	p.mm.killtrailsteps = 0
-	p.mm.sneak = false
 	p.mm.weapondelay = 0
 	p.mm.timetravel = {
 		timezone = TIMEZONE_PRESENT,
 		timesign = TWS_NONE,
 		warptimer = 0
 	}
+
+	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR))
+		switch(p.spectator, {
+			[true] = do
+				p.mm.flags = $ & ~(FLAG_SPECTATOR | FLAG_DEAD)
+				p.spectator = false
+			end,
+			[false] = do
+				p.mm.flags = $ | FLAG_SPECTATOR | FLAG_DEAD
+				p.spectator = true
+				p.pflags = $ | PF_GODMODE
+			end,
+		})
+		p.mm.flags = $ & ~FLAG_WAITSPECTATOR
+	end
 end
 
 --Calculate the role multiplier (how many players with same role should exist)
@@ -131,11 +152,7 @@ end
 MM.AssignRoles = do
 	if (gametype != GT_LTMMURDERMYSTERY) return end
 
-	-- Take care of the lonely player
-	if (MM.PlayerCount() < 2)
-		for p in players.iterate do p.mm.role = nil end
-		return
-	end
+	if (MM.PlayerCount() < 2) then return end --Assign roles only when there are 2+ playing players
 
 	local plrs = {} --table of player nodes that exist and are valid
 	for p in players.iterate --prepare players and get their player nodes
@@ -303,7 +320,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.pflags = $|PF_GODMODE --force player to remain dead if they die as spectator (SRB2 bug fix)
-	plr.mm.finished = true
+	plr.mm.flags = $|FLAG_DEAD
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_NONE
@@ -313,7 +330,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	plr.mm.killreason = KILLBY_PLR
 	plr.mm.killername = k.player.name
 	k.player.mm.kills = $ + 1
-	if (not k.player.mm.sneak) then P_PlayDeathSound(p) end
+	if (not (k.player.mm.flags & FLAG_SNEAK)) then P_PlayDeathSound(p) end
 	plr.rmomx = 0
 	plr.rmomy = 0
 
@@ -338,7 +355,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	local plr = p.player
 	if (MM.PlayerCount() != 1) --force player to remain dead if they die as spectator (SRB2 bug fix)
 		plr.pflags = $|PF_GODMODE
-		plr.mm.finished = true
+		plr.mm.flags = $|FLAG_DEAD
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0

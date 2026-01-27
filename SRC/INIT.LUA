@@ -127,6 +127,15 @@ printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
 -- ENUMERATES & CONSTANTS
 --
 
+--MM player flags
+enumbin(
+	"FLAG_SNEAK",			--1
+	"FLAG_DEAD",			--2
+	"FLAG_MINIGAME",		--4
+	"FLAG_WAITSPECTATOR",	--8
+	"FLAG_SPECTATOR"		--16
+)
+
 --Role constants
 enum(
 	"ROLE_NONE",
@@ -166,8 +175,7 @@ enum(
 )
 
 --Weapon Configuration subgroup flags
-enum(
-	"WEPCFG_NONE",
+enumbin(
 	"WEPCFG_REDONLY",	--1
 	"WEPCFG_DISABLERED"	--2
 )
@@ -182,13 +190,13 @@ enum(
 
 --Skins (number values)
 enum(
-	"SKIN_SONIC",
-	"SKIN_TAILS",
-	"SKIN_KNUCKLES",
-	"SKIN_AMY",
-	"SKIN_FANG",
-	"SKIN_METALSONIC",
-	"SKIN_CUSTOM"
+	"SKIN_SONIC",		--0
+	"SKIN_TAILS",		--1
+	"SKIN_KNUCKLES",	--2
+	"SKIN_AMY",			--3
+	"SKIN_FANG",		--4
+	"SKIN_METALSONIC",	--5
+	"SKIN_CUSTOM"		--6
 )
 
 rawset(_G, "KEY_NULL", 0) -- null key, triggers nothing
@@ -360,7 +368,7 @@ G_AddGametype({
 	name = "LTM_MM",
 	identifier = "LTMMURDERMYSTERY",
 	typeoflevel = freeslot("TOL_LTM_MM")|TOL_MATCH|TOL_TAG,
-	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
+	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT|GTR_SPECTATORS,
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,

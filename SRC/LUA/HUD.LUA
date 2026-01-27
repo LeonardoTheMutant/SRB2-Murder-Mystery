@@ -185,7 +185,7 @@ hud.add(function(v, p)
 
 	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
-	if ((p.mm.role == ROLE_MURDERER) or (p.mm.finished)) then var1 = "IMG_VICTIMS"
+	if ((p.mm.role == ROLE_MURDERER) or (p.mm.flags & FLAG_DEAD)) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
 
 	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + HUDdigit_width*3
@@ -324,7 +324,7 @@ hud.add(function(v, p)
 	end
 
 	--DEAD player exclusive HUD
-	if (p.mm.finished)
+	if (p.mm.flags & FLAG_DEAD)
 		--DEAD role label
 		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[6]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		DrawStrUnicode_Center(v, 160, 120, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_DEAD")), v.localTransFlag(), MM.hud.canvas.font.scale)
@@ -546,7 +546,7 @@ hud.add(function(v, p)
 	end
 
 	--Sneaking
-	if ((p.mm.sneak) and valid(p.mo) and P_IsObjectOnGround(p.mo))
+	if ((p.mm.flags & FLAG_SNEAK) and valid(p.mo) and P_IsObjectOnGround(p.mo))
 		DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), MM.GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 end, "game")

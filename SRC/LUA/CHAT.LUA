@@ -461,8 +461,8 @@ end)
 hud.add(function(v)
 	if (gametype != GT_LTMMURDERMYSTERY) then return end
 
-	MAYA.CHAT_MUTE = (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
-	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))
+	MAYA.CHAT_MUTE = (cv_mute.value or consoleplayer.muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
+	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or consoleplayer.muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))
 
 	if (MM.hud.chat.active)
 		MAYA.DrawChat(v)

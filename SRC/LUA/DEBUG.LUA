@@ -10,7 +10,7 @@ COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and 
 	if (not pnum) or (not prole) CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-6)] [kill?]"); return end
 	if (prole=="nil") players[tonumber(pnum)].mm.role=nil else players[tonumber(pnum)].mm.role=tonumber(prole) end
 	if (pdead) MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)
-	else players[tonumber(pnum)].spectator=0; players[tonumber(pnum)].pflags=$&~PF_GODMODE; players[tonumber(pnum)].mm.finished=false end
+	else players[tonumber(pnum)].spectator=0; players[tonumber(pnum)].pflags=$&~PF_GODMODE; players[tonumber(pnum)].mm.flags=$&~FLAG_DEAD end
 end)
 COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
 	winner=tonumber($); reason=tonumber($)
@@ -75,7 +75,7 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+8,"\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")",V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+16,"\x82".."GAMEMAP: \x80"..gamemap,V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+24,"\x82".."LEVELTIME: \x80"..leveltime,V_PERPLAYER,"thin")
-		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+32,"\x82".."FINISHED: \x80"..tostring(p.mm.finished),V_PERPLAYER,"thin")
+		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+32,"\x82".."P.MM.FLAGS: \x80"..tostring(p.mm.flags),V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+40,"\x82".."PLAYERNODE: \x80"..#p,V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+48,"\x82".."KILLS: \x80"..p.mm.kills,V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+56,"\x82".."KILLTRAILSTEPS: \x80"..p.mm.killtrailsteps,V_PERPLAYER,"thin")

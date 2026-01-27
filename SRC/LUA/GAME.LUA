@@ -28,11 +28,9 @@ addHook("MapLoad", function(map)
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
-		p.mm.minigame = nil
-		p.mm.finished = false
-		p.pflags = $ & ~PF_GODMODE
-		p.spectator = false
+		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME)
 		p.mm.weapondelay = 175 --5 seconds
+		p.mm.role = ROLE_NONE
 	end
 
 	--Prepare the game
@@ -94,26 +92,29 @@ addHook("PlayerSpawn", function(p)
 		end
 	end
 
-	--the game automatically removes the spectator flag(s) if the player dies by map hazard (which lets him respawn normally), we don't want that to happen
-	if (p.mm.finished) then
-		p.spectator = true
-		p.pflags = $ | PF_GODMODE
-	end
+	if (not p.mm.flags) then p.mm.flags = 0 end
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
 	--Check player num and state on join
 	if (p.mm.role == nil)
-		if (MM.PlayerCount() == 2) --Player2 joined a 'singleplayer' round
-			for player in players.iterate do player.mm.minigame = nil end --Shutdown Player1's minigame session
-			MM.minigame = false --Tell server to disable the PONG minigame
-			MM.AssignRoles() --Assign roles for that duel
-			MM.twopgame = true
-		elseif (MM.PlayerCount() > 2) --Other players are dead on join
-			p.pflags = $|PF_GODMODE
-			p.mm.finished = true
-			p.spectator = true
-		end
+		switch(MM.PlayerCountReal(), {
+			[1] = do
+				MM.DebugPrint("One player")
+				p.spectator = false
+			end,
+			[2] = do --Player2 joined a 'singleplayer' round
+				for player in players.iterate do player.mm.minigame = nil end --Shutdown Player1's minigame session
+				MM.minigame = false --Tell server to disable the PONG minigame
+				MM.AssignRoles() --Assign roles for that duel
+				MM.twopgame = true
+			end,
+			['default'] = do --Other players are dead on join
+				p.pflags = $|PF_GODMODE
+				p.mm.flags = $ & FLAG_DEAD
+				p.spectator = true
+			end
+		})
 	end
 end)
 
@@ -463,10 +464,9 @@ addHook("IntermissionThinker", do
 		if (MM.duelplrs[1].mm.kills > MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[1].mm.role
 		elseif (MM.duelplrs[1].mm.kills < MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[2].mm.role end
 	end
-	-- Kick forcer (for Intermission)
+	
 	for p in players.iterate do
-		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end
-		if (p.spectator) p.spectator = false end
+		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
 	end
 
 	MM.shwdwn = false
@@ -514,6 +514,23 @@ end)
 --
 addHook("HurtMsg", do --disable Ringslier hurt messages
 	if (gametype == GT_LTMMURDERMYSTERY) return true end
+end)
+
+addHook("TeamSwitch", function(p, t, s)
+	if (gametype == GT_LTMMURDERMYSTERY)
+		p.mm.flags = $ | FLAG_WAITSPECTATOR
+		switch(p.spectator , { --TEMPORARY
+			[true] = do
+				CONS_Printf(p, "Entering the game on next round")
+			end,
+			[false] = do
+				CONS_Printf(p, "Going to spectator on next round")
+			end
+		})
+		return false --do not switch
+	else
+		return --use game's default behaviour
+	end
 end)
 
 -- Custom TIMELIMIT code

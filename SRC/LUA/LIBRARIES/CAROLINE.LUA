@@ -48,6 +48,13 @@ rawset(_G, "enum", function(...)
 	for i = 1, #a do rawset(_G, a[i], i - 1) end
 end)
 
+--Binary Enumeration
+--Not a part of any C standart
+rawset(_G, "enumbin", function(...)
+	local a = {...}
+	for i = 1, #a do rawset(_G, a[i], 2^(i - 1)) end
+end)
+
 
 
 --
