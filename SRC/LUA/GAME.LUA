@@ -30,7 +30,7 @@ addHook("MapLoad", function(map)
 		MM.InitPlayer(p)
 		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME)
 		p.mm.weapondelay = 175 --5 seconds
-		p.mm.role = ROLE_NONE
+		p.mm.role = ROLE_DEAD
 	end
 
 	--Prepare the game
@@ -98,21 +98,20 @@ addHook("PlayerSpawn", function(p)
 
 	--Check player num and state on join
 	if (p.mm.role == nil)
-		switch(MM.PlayerCountReal(), {
+		switch(MM.PlayerCount(), {
 			[1] = do
-				MM.DebugPrint("One player")
 				p.spectator = false
 			end,
 			[2] = do --Player2 joined a 'singleplayer' round
-				for player in players.iterate do player.mm.minigame = nil end --Shutdown Player1's minigame session
+				p.spectator = false
+				for player in players.iterate do player.mm.flags = $ & ~FLAG_MINIGAME end --Shutdown Player1's minigame session
 				MM.minigame = false --Tell server to disable the PONG minigame
 				MM.AssignRoles() --Assign roles for that duel
 				MM.twopgame = true
 			end,
 			['default'] = do --Other players are dead on join
 				p.pflags = $|PF_GODMODE
-				p.mm.flags = $ & FLAG_DEAD
-				p.spectator = true
+				p.mm.role = ROLE_DEAD
 			end
 		})
 	end
@@ -141,7 +140,7 @@ addHook("PlayerThink", function(p)
 
 	--Sheriff Emerald Radar distance logic
 	--Murderers also need that number for the Anti-Camp system
-	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (not p.spectator) and (p == consoleplayer))
+	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (p == consoleplayer))
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
@@ -464,7 +463,7 @@ addHook("IntermissionThinker", do
 		if (MM.duelplrs[1].mm.kills > MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[1].mm.role
 		elseif (MM.duelplrs[1].mm.kills < MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[2].mm.role end
 	end
-	
+
 	for p in players.iterate do
 		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
 	end
@@ -516,15 +515,15 @@ addHook("HurtMsg", do --disable Ringslier hurt messages
 	if (gametype == GT_LTMMURDERMYSTERY) return true end
 end)
 
+--Spectator mode toggle
 addHook("TeamSwitch", function(p, t, s)
 	if (gametype == GT_LTMMURDERMYSTERY)
-		p.mm.flags = $ | FLAG_WAITSPECTATOR
-		switch(p.spectator , { --TEMPORARY
-			[true] = do
-				CONS_Printf(p, "Entering the game on next round")
+		switch(bool2int(p.mm.flags & FLAG_WAITSPECTATOR), {
+			[1] = do --True
+				p.mm.flags = $ & ~FLAG_WAITSPECTATOR
 			end,
-			[false] = do
-				CONS_Printf(p, "Going to spectator on next round")
+			[0] = do --False
+				p.mm.flags = $ | FLAG_WAITSPECTATOR
 			end
 		})
 		return false --do not switch

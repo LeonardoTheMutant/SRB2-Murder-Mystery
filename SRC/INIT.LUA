@@ -7,20 +7,20 @@ rawset(_G, "MM", {
 	version = "1.3", --string, VERSION NUMBER, treat this as constant!
 	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
 	RoleColor = { --Text Color codes for Console/Chat text, treat this as constant!
+		[0] = "\x8F", --Dead
 		"\x85", --Murderer
 		"\x84", --Sheriff
 		"\x83", --Innocent
 		"\x82", --Hero
 		"\x81", --Jester
-		"\x8F"  --Dead
 	},
 	RoleColorHUD = { --Text Color codes for HUD text, treat this as constant!
+		[0] = "^F", --Dead
 		"^5", --Murderer
 		"^4", --Sheriff
 		"^3", --Innocent
 		"^2", --Hero
 		"^1", --Jester
-		"^F"  --Dead
 	},
 	hud = { --variables that control the HUD renderer, not synched
 		canvas = {
@@ -130,15 +130,14 @@ printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
 --MM player flags
 enumbin(
 	"FLAG_SNEAK",			--1
-	"FLAG_DEAD",			--2
-	"FLAG_MINIGAME",		--4
-	"FLAG_WAITSPECTATOR",	--8
-	"FLAG_SPECTATOR"		--16
+	"FLAG_MINIGAME",		--2
+	"FLAG_WAITSPECTATOR",	--4
+	"FLAG_SPECTATOR"		--8
 )
 
 --Role constants
 enum(
-	"ROLE_NONE",
+	"ROLE_DEAD",		--0
 	"ROLE_MURDERER",	--1
 	"ROLE_SHERIFF",		--2
 	"ROLE_CIVILIAN",	--3

@@ -53,28 +53,37 @@ MM.DebugPrint = function(str, ...)
 	if (MM.debug) printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end
 
---Count the playing Players
-MM.PlayerCountReal = function()
+--Count the real amount of players online
+MM.PlayerCountReal = do
 	local plrc = 0
 	for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
 	return plrc
 end
 
---Count the playing Players
+--Count the amount of spectators
+MM.PlayerCountSpectators = do
+	local plrc = 0
+	for p in players.iterate do if ((not p.quittime) and (p.mm) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+	return plrc
+end
+
+--Count the playing players
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
-		for p in players.iterate do if ((p.mm.role == role) and (not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) and (p.mm.flags & FLAG_SPECTATOR))) then plrc = $ + 1 end end
 	else
-		for p in players.iterate do if ((not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+		for p in players.iterate do if not ((p.quittime) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
 	end
 	return plrc
 end
 
---Count the Alive Players (non-spectator players)
+--Count the Alive Players
 MM.PlayersAlive = do
 	local plrs = 0
-	for p in players.iterate do if ((not p.spectator) and (not p.quittime)) then plrs = $ + 1 end end
+	for p in players.iterate do
+		if not ((p.mm.flags & FLAG_SPECTATOR) and (p.mm.role == ROLE_DEAD) and (p.quittime)) then plrs = $ + 1 end
+	end
 	return plrs
 end
 
@@ -96,13 +105,14 @@ MM.InitPlayer = function(p)
 	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR))
 		switch(p.spectator, {
 			[true] = do
-				p.mm.flags = $ & ~(FLAG_SPECTATOR | FLAG_DEAD)
+				p.mm.flags = $ & ~FLAG_SPECTATOR
 				p.spectator = false
 			end,
 			[false] = do
-				p.mm.flags = $ | FLAG_SPECTATOR | FLAG_DEAD
+				p.mm.flags = $ | FLAG_SPECTATOR
 				p.spectator = true
 				p.pflags = $ | PF_GODMODE
+				p.mm.role = ROLE_DEAD
 			end,
 		})
 		p.mm.flags = $ & ~FLAG_WAITSPECTATOR
@@ -156,8 +166,10 @@ MM.AssignRoles = do
 
 	local plrs = {} --table of player nodes that exist and are valid
 	for p in players.iterate --prepare players and get their player nodes
-		p.mm.role = ROLE_NONE
-		table.insert(plrs, #p)
+		if not (p.mm.flags & FLAG_SPECTATOR)
+			p.mm.role = ROLE_DEAD
+			table.insert(plrs, #p)
+		end
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
         for i = 1, MM.GetRoleMultiplier()
@@ -167,36 +179,37 @@ MM.AssignRoles = do
         end
     end
 	--tell each player its role personally
-	for p in players.iterate
-		p.mm.roletype = 0 --special flag for some roles
-		if (p.mm.role == ROLE_NONE) --Assign the rest of the roles
-			if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4))
-				--Assign Jester role
-				p.mm.role = ROLE_JESTER
-				MM.DebugPrint("Jester role assigned")
-			else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Role
-		end
+	for p in players.iterate do
+		if not (p.mm.flags & FLAG_SPECTATOR)
+			if (p.mm.role == ROLE_DEAD) --Assign the rest of the roles
+				if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4))
+					--Assign Jester role
+					p.mm.role = ROLE_JESTER
+					MM.DebugPrint("Jester role assigned")
+					else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Role
+			end
 
-		--Annouce about their roles to players
-		switch(p.mm.role, {
-			[ROLE_MURDERER] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
-			end,
-			[ROLE_SHERIFF] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
-			end,
-			[ROLE_CIVILIAN] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
-			end,
-			[ROLE_HERO] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
-			end,
-			[ROLE_JESTER] = do
-				MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
-			end,
-		})
+			--Annouce about their roles to players
+			switch(p.mm.role, {
+				[ROLE_MURDERER] = do
+					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
+				end,
+				[ROLE_SHERIFF] = do
+					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
+				end,
+				[ROLE_CIVILIAN] = do
+					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
+				end,
+				[ROLE_HERO] = do
+					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
+				end,
+				[ROLE_JESTER] = do
+					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
+				end,
+			})
 		
-		if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
+			if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
+		end
 	end
 end
 
@@ -320,10 +333,9 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.pflags = $|PF_GODMODE --force player to remain dead if they die as spectator (SRB2 bug fix)
-	plr.mm.flags = $|FLAG_DEAD
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
-	plr.mm.role = ROLE_NONE
+	plr.mm.role = ROLE_DEAD
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
@@ -355,11 +367,10 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	local plr = p.player
 	if (MM.PlayerCount() != 1) --force player to remain dead if they die as spectator (SRB2 bug fix)
 		plr.pflags = $|PF_GODMODE
-		plr.mm.flags = $|FLAG_DEAD
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0
-	plr.mm.role = ROLE_NONE
+	plr.mm.role = ROLE_DEAD
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	if (killedForPunishment) then plr.mm.killreason = KILLBY_GAME
 	else plr.mm.killreason = KILLBY_MAP end
@@ -426,7 +437,7 @@ end
 --Player deinitializator, executes on PlayerQuit hook
 MM.PlayerQuit = function(p)
 	local role = p.mm.role
-	p.mm.role = ROLE_NONE
+	p.mm.role = ROLE_DEAD
 	switch(role, {
 		[ROLE_MURDERER] = do
 			if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER))) or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER)))
@@ -563,7 +574,7 @@ end
 MM.SetRandomCivilianAs = function(role)
 	local plrs = {}
 	for plr in players.iterate
-		if ((not plr.spectator) and (plr.mm.role == ROLE_CIVILIAN)) then table.insert(plrs, #plr) end
+		if (plr.mm.role == ROLE_CIVILIAN) then table.insert(plrs, #plr) end
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role

@@ -165,7 +165,7 @@ hud.add(function(v, p)
 	end
 
 	--Do not render the main HUD if it was disabled by another (MM) script
-	if (not MM.hud.game.active) or ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame) or (p.spectator and p.mm.minigame)) return end
+	if (not MM.hud.game.active) or ((MM.twopgame and MM.minigame and (p.mm.flags & FLAG_MINIGAME)) or (not MM.twopgame and (p.mm.flags & FLAG_MINIGAME)) or (p.spectator and (p.mm.flags & FLAG_MINIGAME))) return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -185,7 +185,7 @@ hud.add(function(v, p)
 
 	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
-	if ((p.mm.role == ROLE_MURDERER) or (p.mm.flags & FLAG_DEAD)) then var1 = "IMG_VICTIMS"
+	if (p.mm.role <= ROLE_MURDERER) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
 
 	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + HUDdigit_width*3
@@ -308,7 +308,7 @@ hud.add(function(v, p)
 			end,
 			['default'] = do
 				var1 = "DEAD"
-				var2 = 6
+				var2 = ROLE_DEAD
 			end
 		})
 		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
@@ -324,9 +324,9 @@ hud.add(function(v, p)
 	end
 
 	--DEAD player exclusive HUD
-	if (p.mm.flags & FLAG_DEAD)
+	if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 1)
 		--DEAD role label
-		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[6]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		DrawStrUnicode_Center(v, 160, 120, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_DEAD")), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		--"You joined mid-game"
@@ -346,7 +346,7 @@ hud.add(function(v, p)
 			})
 		end
 
-		if ((not p.mm.minigame) and (not MM.minigame))
+		if not ((p.mm.flags & FLAG_MINIGAME) and (MM.minigame))
 			DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 			DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 			DrawStrUnicode_Right(v, 320, 2*MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
@@ -354,7 +354,7 @@ hud.add(function(v, p)
 	end
 
 	--Show the PONG-related text & invitations
-	if (not p.spectator) and (MM.twopgame) and (MM.duelplrs)
+	if (p.mm.role != ROLE_DEAD) and (MM.twopgame) and (MM.duelplrs)
 		--determine the rival player
 		if (valid(MM.duelplrs[1]) and (MM.duelplrs[1] == p))
 			var1 = MM.duelplrs[2]
@@ -364,15 +364,15 @@ hud.add(function(v, p)
 
 		--draw the in-minigame text if the rival player still exists and is valid
 		if (valid(var1))
-			if ((not p.mm.minigame) and (not var1.mm.minigame))
+			if not ((p.mm.flags & FLAG_MINIGAME) and (var1.mm.minigame))
 				DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 				DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
-			elseif ((p.mm.minigame) and (not var1.mm.minigame))
+			elseif ((p.mm.flags & FLAG_MINIGAME) and (not var1.mm.minigame))
 				DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
-				if (not p.mm.minigame.timeout)
+				if (not p.mm.minigame_timeout)
 					DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 				end
-			elseif ((not p.mm.minigame) and (var1.mm.minigame) and (leveltime % 2))
+			elseif (not (p.mm.flags & FLAG_MINIGAME) and (var1.mm.minigame) and (leveltime % 2))
 				DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 				DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 			end
@@ -529,12 +529,12 @@ hud.add(function(v, p)
 	end
 
 	--Are you alone?
-	if (MM.PlayerCount() == 1)
+	if (MM.PlayerCount() == 1) and not (p.mm.flags & FLAG_SPECTATOR)
 		DrawStrUnicode_Center(v, 160, 136, WordWrap(0, canvasWidth, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_ALONE")), v.localTransFlag(), MM.hud.canvas.font.scale)
 	end
 
 	--suggest a minigame
-	if (MM.PlayerCount() == 1) or ((p.spectator) and (not MM.minigame) and (not p.mm.minigame) and (not MM.twopgame))
+	if (MM.PlayerCount() == 1) or ((p.spectator) and (not MM.minigame) and not (p.mm.flags & FLAG_MINIGAME) and (not MM.twopgame))
 		DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		DrawStrUnicode_Right(v, 320, 2*MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
@@ -548,6 +548,23 @@ hud.add(function(v, p)
 	--Sneaking
 	if ((p.mm.flags & FLAG_SNEAK) and valid(p.mo) and P_IsObjectOnGround(p.mo))
 		DrawStrUnicode(v, hudinfo[HUD_RINGS].x, (hudinfo[HUD_RINGS].y + 24), MM.GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+	end
+
+	--Spectator mode text
+	if (p.mm.flags & FLAG_SPECTATOR)
+		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_SPECTATOR", "INFO")), v.localTransFlag(), MM.hud.canvas.font.small.scale)
+	end
+
+	--
+	if (p.mm.flags & FLAG_WAITSPECTATOR)
+		switch(p.spectator, {
+			[true] = do
+				DrawStrUnicode(v, 0, 0, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+			end,
+			[false] = do
+				DrawStrUnicode(v, 0, 0, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+			end
+		})
 	end
 end, "game")
 
@@ -582,7 +599,7 @@ hud.add(function(v)
 		local shift = {x=0, y=0}
 		local plrs = {}
 		for p in players.iterate do
-			if ((not p.spectator) and (not MM.AreTeammates(consoleplayer, p)) and (consoleplayer != p) and (not p.quittime)) then table.insert(plrs, p) end
+			if not ((p.mm.role == ROLE_DEAD) and (MM.AreTeammates(consoleplayer, p)) and (consoleplayer == p) and (p.quittime)) then table.insert(plrs, p) end
 		end
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
@@ -650,7 +667,7 @@ hud.add(function(v)
 	end
 
 	--Online
-	v.drawString(160, 176, "ONLINE: "..MM.PlayerCount(), v.localTransFlag())
+	v.drawString(160, 176, string.format("\x89INGAME: %d \x8AONLINE: %d", MM.PlayerCountReal() - MM.PlayerCountSpectators(), MM.PlayerCountReal()), v.localTransFlag())
 
 	--Role target
 	if (consoleplayer.mm.role)
@@ -745,7 +762,9 @@ hud.add(function(v)
 	v.drawFill(0, 40, 320, 2, 0) --horizontal line
 
 	--player list
-	for p in players.iterate do table.insert(plrs, p) end
+	for p in players.iterate do
+		if not (p.mm.flags & FLAG_SPECTATOR) then table.insert(plrs, p) end
+	end
 	--sort players by kills count
 	table.sort(plrs, function(a, b)
 		return a.mm.kills > b.mm.kills
@@ -782,33 +801,32 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16))*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				local color = 1
-				switch(plrs[i].mm.role , {
-					[ROLE_MURDERER] = do
-						color = ROLE_MURDERER
-					end,
-					[ROLE_SHERIFF] = do
-						color = ROLE_SHERIFF
-					end,
-					[ROLE_CIVILIAN] = do
-						color = ROLE_CIVILIAN
-					end,
-					[ROLE_HERO] = do
-						color = ROLE_HERO
-					end,
-					[ROLE_JESTER] = do
-						color = ROLE_JESTER
-					end,
-					[ROLE_JESTERHERO] = do
-						color = ROLE_JESTER
-					end
-				})
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE)
-			else
-				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[6]..plrs[i].name, V_ALLOWLOWERCASE)
-			end
+			local color = 1
+			switch(plrs[i].mm.role, {
+				[ROLE_DEAD] = do
+					color = ROLE_DEAD
+				end,
+				[ROLE_MURDERER] = do
+					color = ROLE_MURDERER
+				end,
+				[ROLE_SHERIFF] = do
+					color = ROLE_SHERIFF
+				end,
+				[ROLE_CIVILIAN] = do
+					color = ROLE_CIVILIAN
+				end,
+				[ROLE_HERO] = do
+					color = ROLE_HERO
+				end,
+				[ROLE_JESTER] = do
+					color = ROLE_JESTER
+				end,
+				[ROLE_JESTERHERO] = do
+					color = ROLE_JESTER
+				end
+			})
+			v.drawString((MM.hud.intermission.pos.name.x), (MM.hud.intermission.pos.players.y + (i * 16)), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE)
+
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills.x), (MM.hud.intermission.pos.players.y + (i * 16)), plrs[i].mm.kills)
 		elseif ((MM.PlayerCount() > 8) and (MM.PlayerCount() <= 16)) --"Double column" mode
@@ -817,33 +835,32 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name.x + shift.x - 20)*FU, ((MM.hud.intermission.pos.players.y - 4) + (i * 16) - shift.y)*FU, 32768, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/2
 			--Player name (colored by role)
-			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				local color = 1
-				switch(plrs[i].mm.role , {
-					[ROLE_MURDERER] = do
-						color = ROLE_MURDERER
-					end,
-					[ROLE_SHERIFF] = do
-						color = ROLE_SHERIFF
-					end,
-					[ROLE_CIVILIAN] = do
-						color = ROLE_CIVILIAN
-					end,
-					[ROLE_HERO] = do
-						color = ROLE_HERO
-					end,
-					[ROLE_JESTER] = do
-						color = ROLE_JESTER
-					end,
-					[ROLE_JESTERHERO] = do
-						color = ROLE_JESTER
-					end
-				})
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[color]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
-			else
-				--DEAD
-				v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[6]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
-			end
+			local color = 1
+			switch(plrs[i].mm.role, {
+				[ROLE_DEAD] = do
+					color = ROLE_DEAD
+				end,
+				[ROLE_MURDERER] = do
+					color = ROLE_MURDERER
+				end,
+				[ROLE_SHERIFF] = do
+					color = ROLE_SHERIFF
+				end,
+				[ROLE_CIVILIAN] = do
+					color = ROLE_CIVILIAN
+				end,
+				[ROLE_HERO] = do
+					color = ROLE_HERO
+				end,
+				[ROLE_JESTER] = do
+					color = ROLE_JESTER
+				end,
+				[ROLE_JESTERHERO] = do
+					color = ROLE_JESTER
+				end
+			})
+			v.drawString((MM.hud.intermission.pos.name.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), MM.RoleColor[color]..string.sub(plrs[i].name, 1, 13), V_ALLOWLOWERCASE)
+
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players.y + (i * 16) - shift.y), plrs[i].mm.kills)
 		else --"Double column compact" mode
@@ -853,33 +870,32 @@ hud.add(function(v)
 			--Character icon
 			v.drawScaled((MM.hud.intermission.pos.name2.x + shift.x - 10)*FU, ((MM.hud.intermission.pos.players2.y - 1) + (i * 8) - shift.y)*FU, 16384, v.getSprite2Patch(plrs[i].skin, SPR2_XTRA), 0, v.getColormap(plrs[i].skin, plrs[i].skincolor)) --FU/4
 			--Player name (colored by role)
-			if ((plrs[i].mm.role) and (plrs[i].mm.role > ROLE_NONE))
-				local color = 1
-				switch(plrs[i].mm.role , {
-					[ROLE_MURDERER] = do
-						color = ROLE_MURDERER
-					end,
-					[ROLE_SHERIFF] = do
-						color = ROLE_SHERIFF
-					end,
-					[ROLE_CIVILIAN] = do
-						color = ROLE_CIVILIAN
-					end,
-					[ROLE_HERO] = do
-						color = ROLE_HERO
-					end,
-					[ROLE_JESTER] = do
-						color = ROLE_JESTER
-					end,
-					[ROLE_JESTERHERO] = do
-						color = ROLE_JESTER
-					end
-				})
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
-			else
-				--DEAD
-				v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[6]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
-			end
+			local color = 1
+			switch(plrs[i].mm.role, {
+				[ROLE_DEAD] = do
+					color = ROLE_DEAD
+				end,
+				[ROLE_MURDERER] = do
+					color = ROLE_MURDERER
+				end,
+				[ROLE_SHERIFF] = do
+					color = ROLE_SHERIFF
+				end,
+				[ROLE_CIVILIAN] = do
+					color = ROLE_CIVILIAN
+				end,
+				[ROLE_HERO] = do
+					color = ROLE_HERO
+				end,
+				[ROLE_JESTER] = do
+					color = ROLE_JESTER
+				end,
+				[ROLE_JESTERHERO] = do
+					color = ROLE_JESTER
+				end
+			})
+			v.drawString((MM.hud.intermission.pos.name2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), MM.RoleColor[color]..plrs[i].name, V_ALLOWLOWERCASE, "thin")
+
 			--Kills counter
 			v.drawString((MM.hud.intermission.pos.kills2.x + shift.x), (MM.hud.intermission.pos.players2.y + (i * 8) - shift.y), plrs[i].mm.kills, 0, "thin")
 		end

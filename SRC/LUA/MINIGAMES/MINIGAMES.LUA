@@ -17,7 +17,7 @@ local function PONG_Get2Players()
 end
 
 local function PONG_PlaySFX(sfx)
-	for p in players.iterate do if (p.mm.minigame) then S_StartSound(nil, sfx, p) end end
+	for p in players.iterate do if (p.mm.flags & FLAG_MINIGAME) then S_StartSound(nil, sfx, p) end end
 end
 
 local function PONG_Win(winner)
@@ -232,8 +232,8 @@ addHook("PlayerThink", function(p)
 	--Player's minigame toggle
 	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and (not MM.hud.help.active)
 		if (not (p.lastbuttons & BT_CUSTOM3))
-			if (p.mm.minigame) --Disable minigame
-				if (not p.mm.minigame.timeout) p.mm.minigame = nil end --Disable only when the timeout timer is out
+			if (p.mm.flags & FLAG_MINIGAME) --Disable minigame
+				if (not p.mm.minigame_timeout) p.mm.flags = $ & ~FLAG_MINIGAME end --Disable only when the timeout timer is out
 				if (MM.minigame and PONG_GetMySlot(p)) --PONG-specific code
 					for plr = 1, 2 do
 						MM.duelplrs[plr].mm.minigame = nil
@@ -242,17 +242,18 @@ addHook("PlayerThink", function(p)
 					end
 				end
 			else --Enable minigame
-				p.mm.minigame = {timeout = 105}
+				p.mm.flags = $ | FLAG_MINIGAME
+				p.mm.minigame_timeout = 105
 				SONIC_Reset(p)
 			end
 		end
 	end
 
 	--CUSTOM3 timeout logic
-	if ((p.mm.minigame) and (p.mm.minigame.timeout)) p.mm.minigame.timeout = $ - 1 end
+	if ((p.mm.flags & FLAG_MINIGAME) and (p.mm.minigame_timeout)) p.mm.minigame_timeout = $ - 1 end
 
 	--Player is in minigame state
-	if (p.mm.minigame)
+	if (p.mm.flags & FLAG_MINIGAME)
 		if ((MM.minigame) and (MM.twopgame)) --PONG
 			if (MM.pong.timeout < 0) PONG_ThinkCmd(p) end
 			--Disable player movement (kinda)

@@ -113,7 +113,7 @@ hud.add(function(v, p)
     --
 	-- SONIC RUN minigame renderer
 	--
-    if ((p.mm.minigame) and ((p.spectator) or (MM.PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
+    if ((p.mm.flags & FLAG_MINIGAME) and ((p.spectator) or (MM.PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--Load Sonic Run graphics into memory (if not already loaded)
 		--Backgrounds
 		if (not #SonicRunBG)
@@ -123,7 +123,7 @@ hud.add(function(v, p)
 		end
 
 		--CUSTOM3 related text
-		if (not p.mm.minigame.timeout)
+		if (not p.mm.minigame_timeout)
 			DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 
@@ -203,8 +203,8 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role ("DEAD" label)
-		if (p.mm.flags & FLAG_DEAD)
-			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", ROLE_DEAD), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+		if (p.mm.role == ROLE_DEAD and MM.PlayerCount() > 1)
+			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
@@ -232,10 +232,10 @@ hud.add(function(v, p)
     --
     -- PONG minigame
     --
-    elseif (MM.minigame) and (p.mm.minigame) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2])
+    elseif (MM.minigame) and (p.mm.flags & FLAG_MINIGAME) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2])
 		--CUSTOM3 related text and show yourself
 		if (PONG_GetMySlot(p))
-			if (not p.mm.minigame.timeout) then
+			if (not p.mm.minigame_timeout) then
 				DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 			if (not splitscreen)
@@ -246,7 +246,7 @@ hud.add(function(v, p)
 			end
 		else
 			DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
-			if (not p.mm.minigame.timeout) then
+			if (not p.mm.minigame_timeout) then
 				DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
@@ -288,7 +288,7 @@ hud.add(function(v, p)
 			end,
 			['default'] = do
 				var1 = "DEAD"
-				var2 = 6
+				var2 = ROLE_DEAD
 			end
 		})
 		DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
@@ -312,13 +312,13 @@ hud.add(function(v, p)
 			end,
 			['default'] = do
 				var1 = "DEAD"
-				var2 = 6
+				var2 = ROLE_DEAD
 			end
 		})
 		DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 		--charpic
 		v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
-		--win
+		--win[6]
 		DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 		if (MM.debug)
@@ -331,7 +331,7 @@ hud.add(function(v, p)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Timeout\x80 "..MM.pong.timeout,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
 		end
-    elseif (MM.minigame) and (not p.mm.minigame)
+    elseif (MM.minigame) and not (p.mm.flags & FLAG_MINIGAME)
         --Draw the invitation/suggestion text
         DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
         DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)

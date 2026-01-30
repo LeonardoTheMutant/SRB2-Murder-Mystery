@@ -446,7 +446,7 @@ addHook("KeyDown", function(key)
 				input.setMouseGrab(false)
 				MM.hud.chat.active = true
 				MAYA.w_chat = ""
-				if (consoleplayer.mm and consoleplayer.mm.role and not (consoleplayer.mm.role == ROLE_NONE or consoleplayer.mm.role == ROLE_CIVILIAN)) then MAYA.teamtalk = true
+				if (consoleplayer.mm and consoleplayer.mm.role and not (consoleplayer.mm.role == ROLE_DEAD or consoleplayer.mm.role == ROLE_CIVILIAN)) then MAYA.teamtalk = true
 				else MAYA.teamtalk = false end
 				MAYA.chat_scrollmedown = true
 				MAYA.typelines = 1

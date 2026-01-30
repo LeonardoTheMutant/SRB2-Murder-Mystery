@@ -72,7 +72,7 @@ COM_AddCommand("mmsetup", function(p)
 		return
 	end
 
-	if ((MM.twopgame and MM.minigame and p.mm.minigame) or (not MM.twopgame and p.mm.minigame) or (p.spectator and p.mm.minigame) or MM.hud.help.active)
+	if ((MM.twopgame and MM.minigame and (p.mm.flags & FLAG_MINIGAME)) or (not MM.twopgame and (p.mm.flags & FLAG_MINIGAME)) or (p.spectator and (p.mm.flags & FLAG_MINIGAME)) or MM.hud.help.active)
 		CONS_Printf(p, "Unable to open MMSETUP UI right now")
 		return
 	end
@@ -243,7 +243,7 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	if (isdedicatedserver) return end
 
-	if (p.mm.minigame or p.mmsetupcursor)
+	if ((p.mm.flags & FLAG_MINIGAME) or p.mmsetupcursor)
 		CONS_Printf(p, "Unable to open MMHELP UI right now")
 		return
 	end
