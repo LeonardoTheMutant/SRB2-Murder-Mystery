@@ -380,6 +380,7 @@ dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
 dofile("LIBRARIES/DOMINICA.LUA")
 dofile("LIBRARIES/MAYA.LUA")
+dofile("LIBRARIES/VICTORIA.LUA")
 
 --Load Data
 print("\n\x87Murder Mystery\x80: Loading data...")
