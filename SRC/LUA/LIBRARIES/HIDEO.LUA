@@ -110,17 +110,17 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	--init variables
 	local isTextCode
 	local color = v.getStringColormap(0) --default to white color
-	
+
 	--draw the string
 	for i, c, b in unicode.chars(str) do
 		--space
-		if (c == ' ')
+		if (c == ' ') then
 			cx = $ + spaceWidth
 			continue
 		end
 
 		--newline
-		if (c == '\n')
+		if (c == '\n') then
 			cx = x --carriage return
 			cy = $ + FixedMul(HIDEO.charheight, scale)
 			continue
@@ -134,7 +134,7 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 		end
 
 		--Read the color value once in a caret sequence
-		if (isTextCode)
+		if (isTextCode)then
 			color = getStringColormap((HEX2INT[c:byte()] or 0) * 4096)
 			isTextCode = false
 			continue
