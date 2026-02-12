@@ -264,7 +264,7 @@ hud.add(function(v, p)
 		end
 		V_DrawHudNum(v, (hudinfo[HUD_RINGS].x + var3), hudinfo[HUD_RINGS].y, hudinfo[HUD_RINGS].f|V_PERPLAYER|v.localTransFlag(), p.rings)
 	end
-	
+
 	--Time Warp Sign ("Warp ticket")
 	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer % 2))))
 		switch(p.mm.timetravel.timesign, {
@@ -313,7 +313,7 @@ hud.add(function(v, p)
 		})
 		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 	end
-	
+
 	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
 	if (p.mm.timetravel and p.mm.timetravel.timezone) and (not p.spectator)
 		if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
@@ -448,7 +448,7 @@ hud.add(function(v, p)
 				--Knife weapon
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
 				v.draw((MM.hud.game.pos.ringWep.x + 8), (MM.hud.game.pos.ringWep.y), MM.graphics[MM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
-			
+
 			--Draw Red/Infinite rings like normal
 			else
 				--Red/Infinity rings
@@ -489,7 +489,7 @@ hud.add(function(v, p)
 			--Selector
 			v.draw((MM.hud.game.pos.ringWep.x + 6 + p.currentweapon*20), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|v.localTransFlag())
 		end
-	
+
 	--Civilian weapon logic
 	elseif (p.mm.role == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99))) and (cv_wepcfgCivil)
 		--Knife-only
@@ -505,7 +505,7 @@ hud.add(function(v, p)
 		else
 			v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
 		end
-		
+
 		--Selector
 		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	elseif (p.mm.role == ROLE_JESTER) and (p.rings > 10)
@@ -518,7 +518,7 @@ hud.add(function(v, p)
 
 		--Ammo counter
 		v.drawString((MM.hud.game.pos.ringWepOnly.x + 24), (MM.hud.game.pos.ringWep.y + 8), (p.rings / 10), V_SNAPTOBOTTOM|v.localTransFlag(), "thin-right")
-		
+
 		--Selector
 		v.draw((MM.hud.game.pos.ringWepOnly.x + 6), (MM.hud.game.pos.ringWep.y - 2 - (var2 / 2)), MM.graphics["CURWEAP"], V_SNAPTOBOTTOM|v.localTransFlag())
 	end
@@ -644,7 +644,7 @@ hud.add(function(v)
 			end
 		end
 	end
- 
+
 	v.drawFill(0, 172, 320, 2, v.localTransFlag()) --horizontal line
 
 	--Roles counter

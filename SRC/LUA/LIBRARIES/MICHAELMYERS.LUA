@@ -71,9 +71,9 @@ end
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role)
-		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) and (p.mm.flags & FLAG_SPECTATOR))) then plrc = $ + 1 end end
+		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR))) then plrc = $ + 1 end end
 	else
-		for p in players.iterate do if not ((p.quittime) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+		for p in players.iterate do if not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
 	end
 	return plrc
 end
@@ -207,7 +207,7 @@ MM.AssignRoles = do
 					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
 				end,
 			})
-		
+
 			if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
 		end
 	end
@@ -389,7 +389,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	else
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
-	
+
 	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 

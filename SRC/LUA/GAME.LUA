@@ -24,7 +24,7 @@ local function MM_GetSHREMDinterval(dist)
 end
 
 addHook("MapLoad", function(map)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
@@ -72,7 +72,7 @@ end)
 -- Player spawn
 --
 addHook("PlayerSpawn", function(p)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	MM.InitPlayer(p)
 
@@ -114,6 +114,8 @@ addHook("PlayerSpawn", function(p)
 				p.mm.role = ROLE_DEAD
 			end
 		})
+	else
+		if not (p.mm.flags & FLAG_SPECTATOR) then p.spectator = false end
 	end
 end)
 
@@ -121,7 +123,7 @@ end)
 -- Player Thinker
 --
 addHook("PlayerThink", function(p)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	if (not cv_shields.value) then p.powers[pw_shield] = 0 end --Disable player shields
 	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
@@ -183,7 +185,7 @@ end)
 -- Death/Kill detectors
 --
 addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage type
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 	MM.DebugPrint("\x82Triggered MobjDeath")
 	local vp = v.player --Victim player
 	local vprole = vp.mm.role --Victim's role
@@ -200,7 +202,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 	if (ap)
 		if (MM.AreTeammates(vp, ap)) then return false
 		else
-			if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole != ROLE_MURDERER)) then return true
+			if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole ~= ROLE_MURDERER)) then return true
 			else MM.KillPlayerByPlayer(v, a) end
 		end
 	else
@@ -215,7 +217,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 			else
 				MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 			end
-				
+
 		end,
 		[ROLE_SHERIFF] = do
 			if (MM.PlayerCount(ROLE_CIVILIAN))
@@ -315,7 +317,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage type
-	if (gametype != GT_LTMMURDERMYSTERY) or (not a) or (not a.player) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (not a) or (not a.player) return end
 	MM.DebugPrint("\x82Player->Player damage (MobjDamage)")
 	local vp = v.player --Victim player
 	local ap = a.player --Attacker player
@@ -325,7 +327,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		MM.HitTeammate(vp, ap)
 		return false
 	else
-		if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole != ROLE_MURDERER)) then return true
+		if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole ~= ROLE_MURDERER)) then return true
 		else MM.KillPlayerByPlayer(v, a) end
 	end
 
@@ -457,7 +459,7 @@ end, MT_PLAYER)
 -- Intermission logic
 --
 addHook("IntermissionThinker", do
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 	--special round win check for the minigame
 	if ((MM.minigame) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]))
 		if (MM.duelplrs[1].mm.kills > MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[1].mm.role
@@ -475,7 +477,7 @@ end)
 -- Music handler
 --
 addHook("MusicChange", function(old, new)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	--Keep the event music playing
 	if ((gamestate == GS_LEVEL) and (leveltime) and (consoleplayer) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime]))
@@ -504,7 +506,7 @@ end)
 -- Player Quit/Leave handler
 --
 addHook("PlayerQuit", function(p)
-	if ((gametype != GT_LTMMURDERMYSTERY) or (gamestate != GS_LEVEL)) return end
+	if ((gametype ~= GT_LTMMURDERMYSTERY) or (gamestate ~= GS_LEVEL)) return end
 	if (p.mm.role) MM.PlayerQuit(p) end
 end)
 
@@ -549,13 +551,13 @@ end
 
 --Lock viewpoint switch (Disable F12)
 addHook("ViewpointSwitch", function(p) --player
-	if (gametype != GT_LTMMURDERMYSTERY) or (p.spectator) return --use game's default behaviour
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (p.spectator) return --use game's default behaviour
 	else return false end --do not switch
 end)
 
 --Hide player names in Cryptic game
 addHook("SeenPlayer", function(p, sp) --player, seenplayer
-	if (gametype != GT_LTMMURDERMYSTERY) then return --use game's default behavior
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return --use game's default behavior
 	else
 		if (cv_cryptic.value) then return false end --do not show
 	end
