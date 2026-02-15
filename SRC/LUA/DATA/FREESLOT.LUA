@@ -139,6 +139,7 @@ freeslot(
 	'sfx_mmdth7', --Michael Jackson's Moonwalker (Sega Mega Drive): Title theme
 	'sfx_mmdth8', --Metal Gear Solid: Game Over theme
 	'sfx_mmdth9', --Metal Gear Solid: Solid Snake's death
+	'sfx_mmdtha', --Half Life 2/Garry's Mod death SFX
 
 	--SFX for maps
 	'sfx_fallin', --Falling SFX
@@ -160,6 +161,7 @@ sfxinfo[sfx_mmdth6].caption = "PAIN"
 sfxinfo[sfx_mmdth7].caption = "Moonwalker"
 sfxinfo[sfx_mmdth8].caption = "Game Over"
 sfxinfo[sfx_mmdth9].caption = "EAAARGH..."
+sfxinfo[sfx_mmdtha].caption = "Clinical death"
 
 MM.death_sfx = { --Add the SFX to the global table
 	sfx_mmdth1, --Super Mario World: Game Over theme
@@ -170,7 +172,8 @@ MM.death_sfx = { --Add the SFX to the global table
 	sfx_mmdth6, --Pain meme sfx
 	sfx_mmdth7, --Michael Jackson's Moonwalker (Sega Mega Drive): Intro theme
 	sfx_mmdth8, --Metal Gear Solid: Game Over theme
-	sfx_mmdth9  --Metal Gear Solid: Solid Snake's death
+	sfx_mmdth9, --Metal Gear Solid: Solid Snake's death
+	sfx_mmdtha  --Half Life 2/Garry's Mod death SFX
 }
 
 --Maps
