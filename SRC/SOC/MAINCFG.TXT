@@ -106,8 +106,21 @@ Weather = 1
 NoZone = True
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
-NextLevel = KD
+NextLevel = KC
 Lua.Author = LeonardoTheMutant
+
+Level KC
+LevelName = Midwich Elementary School
+SubTitle = Under Construction
+SelectHeading = LTM's Murder Mystery
+Music = MAPKCM
+SkyNum = 6
+NoZone = True
+TypeOfLevel = LTM_MM,Match,Tag
+NextLevel = KD
+Lua.MM_ShowdownTrack = DIE
+Lua.MM_SuspenseTrack = NIMARE
+Lua.Author = Team Silent, Konami, LeonardoTheMutant, MinusMario
 
 Level KD
 LevelName = East City
@@ -151,11 +164,17 @@ SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 10
 NextLevel = KH
+Weather = 3
 Lua.Author = LeonardoTheMutant
 
 Level KH
-LevelName = Crystal Cave
+LevelName = Twin Caverns
+SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM
+SkyNum = 1025
 NextLevel = K0
+Lua.MM_ShowdownTrack = SAVIOR
+Lua.MM_SuspenseTrack = LAST
+Lua.Timelimit = 8
 Lua.Author = LeonardoTheMutant, MinusMario
