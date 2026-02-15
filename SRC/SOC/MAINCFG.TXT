@@ -110,11 +110,12 @@ NextLevel = KC
 Lua.Author = LeonardoTheMutant
 
 Level KC
-LevelName = Midwich Elementary School
+LevelName = Midwich Elementary
 SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
 Music = MAPKCM
 SkyNum = 6
+Weather = 2
 NoZone = True
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KD
