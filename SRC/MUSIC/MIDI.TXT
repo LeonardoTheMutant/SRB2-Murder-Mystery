@@ -28,36 +28,6 @@ MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 
-MAPKC: "Stauf's Mansion"
-------------------------
-Original game soundtrack from "The 11th Hour: The Sequel to The 7th Guest" and "The 7th Guest"
-Composed by the Fat Man and Team Fat
-11H_00 - "Hey Conductor" (Foyer)
-11H_01 - "Pool Balls" (Library)
-11H_02 - "Sadness" (Music room)
-11H_03 - Kitchen
-11H_04 - "Pool Balls (alt)" (Dining room)
-11H_05 - "Creep" (Upstairs hallway)
-11H_06 - "In the Walls II" (Foyer-Gallery passage)
-11H_07 - Gallery
-11H_08 - "Ghost of Bo" (Hamilton Temple's bedroom)
-11H_09 - "Long Jazzy End of XMusic Box" (Game room)
-11H_0A - "XMusic Box" (Julia Heine's bedroom)
-11H_0B - "All the Guests" (Edward Knox's bedroom)
-11H_0C - Bathroom
-11H_0D - Doll Room
-11H_0E - "Dolls of Doom" (Nursery)
-11H_0F - Brian Dutton's bedroom
-11H_10 - "Bedspread" (Martin Burden's bedroom)
-11H_11 - "Mirror Puzzle" (Attic staircase)
-11H_12 - "Doorbell (short)" (Attic)
-11H_13 - "Rain" (Room at the top)
-11H_14 - "Funky tubes" (Chapel)
-11H_15 - Laboratory
-11H_16 - "In the Walls I" (Dutton's-Chapel passage)
-11H_17 - "Bathroom (alt)" (Laboratory-Library passage)
-11H_18 - Basement maze
-
 MAPKD: "East City"
 ------------------
 MAPKDM (Present)     - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
@@ -82,7 +52,6 @@ MAPKHM (Temple theme) - "Lava Reef Zone Remix" by Stephen Patterson
 = SUSPENSE =
 ============
 
-11H_SP - "I Can't Find a [hiding] Place Without Seeing Mr. Death" by MinusMario
 CIVINS - "Civilian's Instinct" by MinusMario
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 MMSUS1 - "HOLD ON" by Lamonite
@@ -92,7 +61,6 @@ MMSUS1 - "HOLD ON" by Lamonite
 = SHOWDOWN =
 ============
 
-11H_TR - "Train Puzzle" by the Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
 MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear (NES)) (MIDI by Tsu Ryu and Takeuchi Yuka)
 MMSHD1 - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)

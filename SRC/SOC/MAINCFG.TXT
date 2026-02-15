@@ -106,25 +106,8 @@ Weather = 1
 NoZone = True
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
-NextLevel = KC
-Lua.Author = LeonardoTheMutant
-
-Level KC
-LevelName = Stauf's Mansion
-SubTitle = The^5 11th^0 hour
-SelectHeading = LTM's Murder Mystery
-Music = 11H_00
-SkyNum = 6
-NoZone = True
-TypeOfLevel = LTM_MM
 NextLevel = KD
-Lua.MM_ShowdownTrack = 11H_TR
-Lua.MM_SuspenseTrack = 11H_SP
-Lua.MM_SlowWalkSpeed = True
-Lua.MM_DisableEmeraldRadar = True
-Lua.MM_DisableFootmarks = True
-Lua.Timelimit = 11
-Lua.Author = Trillobyte, LeonardoTheMutant
+Lua.Author = LeonardoTheMutant
 
 Level KD
 LevelName = East City

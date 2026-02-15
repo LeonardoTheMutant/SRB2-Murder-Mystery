@@ -1,7 +1,7 @@
 Hi. You seem to be a developer, or you're just a guy who's trying to steal the code...
 Still, I am glad that someone is interested in our work.
 
-If you're reading this file from GitHub this is great - you have more content to work with 
+If you're reading this file from GitHub this is great - you have more content to work with
 
 But for now let me introduce you to our file structure first:
 
@@ -26,7 +26,6 @@ MM_LTMs_MurderMystery_v1.3.pk3
 |	|      +-MAPK6.LUA - Level layout randomizer (Backrooms)
 |	|      +-MAPK7.LUA - "The truth ray" and lab doors (Sky Mesa)
 |	|      +-MAPK8.LUA - Definition of the MT_8BALL object (8-Ball Hotel)
-|	|      \-MAPKC.LUA - Granfather clock strikes (Stauf's Mansion)
 |	|
 |	+-MINIGAMES-\
 |	|           +-HUD_MINIGAMES.LUA - Dedicated HUD renderer for the minigames
