@@ -1,0 +1,63 @@
+DIGITAL SOUNDTRACK
+for LTM's Murder Mystery add-on
+
+Credits and sources of the music used for this add-on's Soundtrack.
+The tracks are mostly taken from snesmusic.org, smwcentral.net and vgmrips.net
+
+The digital music tracks included in the add-on is different from the MIDI OST.
+If you want a "real" digital music that has digitized MIDI OST, visit the GitHub repository for various digital music packs:
+https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
+
+========
+= MAPS =
+========
+
+O_MAPK2M.SPC - "Sigma Stage 1" by Setsuo Yamamoto (Mega Man X)
+O_MAPK3M.SPC - "Chill Penguin stage" by Yuki Iwai (Mega Man X)
+O_MAPK4M.SPC - "Nesting in the Sands" by Miki Yanagisawa, Masanori Adachi & Tappi Iwase (Contra III: The Alien Wars)
+O_MAPKFM.SPC - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (SPC by EDIT3333)
+
+MAPKD: "East City"
+------------------
+O_MAPKDG.SPC (Good Future) - "Neon Night Riders" by Kazuhiko Uehara & Harumi Ueko (Teenage Mutant Ninja Turtles IV: Turtles in Time)
+
+MAPKE: "Shadow Moses Island"
+----------------------------
+O_MAPKEM.SPC (Top floor) - "Jungle Theme" (Metal Gear (NES))
+
+MAPKH: "Temple"
+---------------------
+O_MAPKHI.SPC (Ice theme)    - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music)
+
+
+============
+= SUSPENSE =
+============
+
+O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X)
+
+
+============
+= SHOWDOWN =
+============
+
+O_MMSHD1.SPC - "Pressing Pursuit ~ Cornered " by Masakazu Sugimori (Phoenix Wright: Ace Attorney) (SPC arranegement by Hooded Edge)
+O_MMSHD2.SPC - "Pressing Pursuit ~ Caught" by Noriyuki Iwadare (Phoenix Wright: Trials and Tribulations) (SPC by ???)
+O_MMSHD3.SPC - "Rude Buster" by Toby Fox (Deltarune) (SPC by Giftshaven & Ultima)
+O_MMSHD7.SPC - "The Decisive Battle" (Boss Battle) by Nobuo Uematsu (Final Fantasy 6)
+O_MMSHD8.SPC - "Battle Against a True Hero" by Toby Fox (Undertale) (SPC by S1Z2)
+O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC by Bak Sangwoo)
+
+
+================
+= INTERMISSION =
+================
+
+O_MM_TIE.SPC -            Tie            - "Competition Menu" (Sonic the Hedgehog 3 (Nov. 1993 Prototype)) (SPC by bebn legg)
+O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
+O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X)
+O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X)
+O_MMEND3.SPC - Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (SPC by Xulon)
+O_MMEND4.SPC -   Murderous Hero Ending   - "Sign of Evil" by Bobby Prince (DOOM (SNES))
+O_MMEND5.SPC -    No Defenders Ending    - "Vanilla Dome" by Koji Kondo (Super Mario World)
+O_MMEND6.SPC -       Jester Ending       - "Puppy Love" by Tommy Tallarico (Earthworm Jim 2 (SNES))

@@ -5,8 +5,8 @@ Credits and sources of the music used for this add-on's Soundtrack.
 Some songs were originally not in MIDI format, the authors of such sequences/arrangements are credited as well.
 Most of the MIDI sequences/arrangements are downloaded from VGMusic.com
 
-This mod has music only in MIDI format, Digital Soundtrack is placed in
-a separate add-on (to not bloat the filesize of the main add-on) and can be downloaded from the GitHub repository:
+This mod also has music available in digital format, but the digital music included in the add-on is different from the MIDI OST.
+If you want a "real" digital music that has digitized MIDI OST, visit the GitHub repository for various digital music packs:
 https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 
 ========
@@ -94,7 +94,7 @@ MMSUS1 - "HOLD ON" by Lamonite
 
 11H_TR - "Train Puzzle" by the Fat Man and Team Fat (The 11th Hour: The Sequel to The 7th Guest)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
-MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear NES) (MIDI by Tsu Ryu and Takeuchi Yuka)
+MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear (NES)) (MIDI by Tsu Ryu and Takeuchi Yuka)
 MMSHD1 - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)
 MMSHD2 - "Pressing Pursuit ~ Caught" (Phoenix Wright: Trials and Tribulations) (MIDI by Seveneth)
 MMSHD3 - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ShinkoNetCavy)
@@ -103,6 +103,7 @@ MMSHD5 - "Boss Theme" (Sonic the Hedgehog 2 (Master System)) (MIDI by SwordBolt)
 MMSHD6 - "Showdown" by Barry Blum (Sonic Spinball (Genesis)) (MIDI by King Meteor)
 MMSHD7 - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
 MMSHD8 - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by S_T_D)
+MMSHD9 - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad)
 
 
 ================
