@@ -6,7 +6,7 @@
 
 -- DEPENDENCIES: Caroline, Hideo, MichaelMyers
 
-rawset(_G, "MAYA", {debug = true})
+rawset(_G, "MAYA", {})
 
 local cv_con_backcolor = CV_FindVar("con_backcolor")
 local cv_chatnotifications = CV_FindVar("chatnotifications")
@@ -234,13 +234,8 @@ local function GetChatBacktint(c)
 	return c
 end
 
-MAYA.DebugPrint = function(str, ...)
-	if (MAYA.debug) printf("\x85MAYA\x80: %s", str, {...}) end
-end
-
 --Remove the latest message from chat log
 MAYA.RemoveChatText_Log = do
-	MAYA.DebugPrint("RemoveChatText_Log()")
 	for i = 0, MAYA.chat_nummsg_log - 1 do
 		MAYA.chat_log[i] = MAYA.chat_log[i + 1]
 	end
@@ -249,7 +244,6 @@ end
 
 --Remove the latest message from the mini chat log
 MAYA.RemoveChatText_Mini = do
-	MAYA.DebugPrint("RemoveChatText_Mini()")
 	for i = 0, MAYA.chat_nummsg_min - 2 do
 		MAYA.chat_mini[i] = MAYA.chat_mini[i+1]
 		MAYA.chat_timers[i] = MAYA.chat_timers[i+1]

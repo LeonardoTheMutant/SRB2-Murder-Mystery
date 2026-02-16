@@ -162,9 +162,9 @@ local function P_DoKnife(source)
 end
 
 addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() from C source code
-	if (gametype != GT_LTMMURDERMYSTERY) then return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	if ((p.mm.role != ROLE_CIVILIAN) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
+	if ((p.mm.role ~= ROLE_CIVILIAN) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_REDONLY)) or (p.mm.role == ROLE_CIVILIAN) then p.currentweapon = 0 end --Force to weapon Slot 1
 
 	p.weapondelay = 1 --vanilla weapons don't shoot anymore, only the MM recreation
 
@@ -185,7 +185,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 
 	local mo
 
-	if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role != ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
+	if (p.cmd.buttons & BT_FIRENORMAL) or ((p.mm.role == ROLE_CIVILIAN) and (wepcfgCVARs[ROLE_CIVILIAN].value == 2)) or ((p.mm.role ~= ROLE_CIVILIAN) and (p.currentweapon == 0) and (MM.GetWepCfgFlags(p.mm.role) & WEPCFG_DISABLERED))
 		-- KNIFE --
 		switch(p.mm.role, {
 			[ROLE_CIVILIAN] = do
@@ -202,7 +202,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 				end
 			end,
 			[ROLE_JESTER] = do
-				if (p.rings > 10)
+				if (p.rings > 9)
 					P_SetWeaponDelay(p, MM.weapons[-2][4])
 					P_DoKnife(p.mo)
 					P_GivePlayerRings(p, -10)
@@ -223,7 +223,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		-- AUTOMATIC --
 		P_DrainWeaponAmmo(p, pw_automaticring)
 		p.pflags = $ & ~PF_ATTACKDOWN
-		
+
 		--"Heat up the weapon" (make additional firing delay)
 		MM.weapons[WEP_AUTO][6][1] = $ + 1
 		if (MM.weapons[WEP_AUTO][6][1] % 4 == 0) MM.weapons[WEP_AUTO][6][2] = $ + 1 end
@@ -294,7 +294,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 			end,
 			[ROLE_JESTER] = do
 				-- RED RING --
-				if (p.rings > 10)
+				if (p.rings > 9)
 					P_SetWeaponDelay(p, MM.weapons[-1][4])
 					mo = P_SpawnPlayerMissile(p.mo, MM.weapons[-1][2], MM.weapons[-1][3])
 					P_GivePlayerRings(p, -10)

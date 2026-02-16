@@ -555,7 +555,7 @@ hud.add(function(v, p)
 		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_SPECTATOR", "INFO")), v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
 
-	--
+	--Toggled the "Spectate"/"Enter Game" button
 	if (p.mm.flags & FLAG_WAITSPECTATOR)
 		switch(p.spectator, {
 			[true] = do

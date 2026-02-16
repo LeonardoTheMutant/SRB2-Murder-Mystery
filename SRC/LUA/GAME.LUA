@@ -250,21 +250,21 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 		end,
 		[ROLE_CIVILIAN] = do
 			if (ap)
-				switch(ap.mm.role, {
+				local aprole = ap.mm.role
+				MM.KillPlayer(a, true, true)
+				switch(aprole, {
 					[ROLE_SHERIFF] = do
-						-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
-						-- otherwise Murderers win
+						-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
+						-- otherwise, Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
 							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 							MM.SetRandomCivilianAs(ROLE_SHERIFF)
-							ap.mm.role = ROLE_CIVILIAN
 						else
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_SHERIKILLINNO)
 						end
 					end,
 					[ROLE_HERO] = do
-						MM.KillPlayer(a, true, true)
 						if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
@@ -379,24 +379,24 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 			end
 		end,
 		[ROLE_CIVILIAN] = do
-			if (ap.mm.role == ROLE_MURDERER) and (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
+			local aprole = ap.mm.role
+			if (aprole == ROLE_MURDERER) and (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 			end
-			switch(ap.mm.role, {
+			MM.KillPlayer(a, true, true)
+			switch(aprole, {
 				[ROLE_SHERIFF] = do
-					-- Sheriff killed an innocent, remove the "Sheriff" role from the player if there are still Innos alive,
+					-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
 						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 						MM.SetRandomCivilianAs(ROLE_SHERIFF)
-						ap.mm.role = ROLE_CIVILIAN
 					else
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_SHERIKILLINNO)
 					end
 				end,
 				[ROLE_HERO] = do
-					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
@@ -407,7 +407,6 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					end
 				end,
 				[ROLE_CIVILIAN] = do
-					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 					else

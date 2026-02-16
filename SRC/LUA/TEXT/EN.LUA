@@ -154,7 +154,7 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	-- Player has killed someone it did not have to
 	["CHAT_KILLPUNISHMENT_PM"] = {
-		"^7You murdered a ^3Civilian^7! You got fired. (You are no longer a Sheriff)", --Sheriff killed Civilian
+		"^7You murdered a ^3Civilian^7! Du bist zu gefährlich für die Gesellschaft, um am Leben gelassen zu werden!", --Sheriff killed Civilian
 		"^2Heroes^7 are not meant to kill ^3Civilians^7! You were ^5executed^7 for your war crime.", --Hero killed Civilian
 		"^7Oh no! You murdered a ^4Sheriff^7!!! You were ^5executed^7 for that.", --Civilian killed Sheriff
 		"^7You murdered a ^3Civilian^7 player just like you! You were ^5executed^7 for your crime.", --Civilian killed Civilian

@@ -16,7 +16,7 @@ MM.AddLang("PL", {
 			"został wyeliminowany!"
 		},
 		["ONEQUIT"]="Jeden z ^5Morderców^0 wyszedł z gry!",
-		["LESTQUIT"]="Ostatni ^5Morderca^0 wyszedł z gry!",
+		["LASTQUIT"]="Ostatni ^5Morderca^0 wyszedł z gry!",
 		["REPLACEQUIT"]="^5Morderca^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
 	},
 	["CHAT_ROLE_SHERIFF"]={
@@ -55,7 +55,7 @@ MM.AddLang("PL", {
 	["CHAT_DIEDHAZARD"]="zginał(eła) w nieszczesnym wypadku.",
 	["CHAT_SHREMDPICKUP"]="Ktoś podniosł ^4Szmaragd Szeryfa^0...",
 	["CHAT_KILLPUNISHMENT_PM"]={
-		"^7Zamordowaleś ^3Cywilnego^7! Nie jesteś już ^4Szeryfem^7!",
+		"^7Zamordowaleś ^3Cywilnego^7! Jesteś zbyt niebezpieczny dla społeczeństwa, by pozostawać żywym!",
 		"^2Bohaterowie nie są po to, żeby zabijać ^3Cywilów^7! Masz za to karę śmierci.",
 		"^7O nie! Zamordowaleś ^4Szeryfa^7! Masz za to karę śmierci!",
 		"^7Zabileś takiego samego ^3Cywilnego^7 gracza jak i ty! Masz za to karę śmierci!",
