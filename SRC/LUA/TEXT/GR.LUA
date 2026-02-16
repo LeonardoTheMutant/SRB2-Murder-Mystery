@@ -6,7 +6,7 @@
 
 MM.AddLang("GR", {
 	["LANGUAGE"]="Greek",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3_OLD",
 	["AUTHOR"]="tedbasher",
 	["CHAT_ROLE_MURDERER"]={
 		["ROLEGET_PM"]="Είσαι ο ^5Δολοφόνος^0. ^5Σκότωσε τους όλους.",

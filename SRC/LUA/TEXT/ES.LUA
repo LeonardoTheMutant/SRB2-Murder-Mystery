@@ -6,7 +6,7 @@
 
 MM.AddLang("ES", {
 	["LANGUAGE"]="Espanol",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3_OLD",
 	["AUTHOR"]="Jesus.B",
 	["CHAT_ROLEGET_PM"]={
 		"Eres el ^5Asesino. Acaba con todos.",

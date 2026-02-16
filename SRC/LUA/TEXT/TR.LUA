@@ -6,16 +6,16 @@
 
 MM.AddLang("TR", {
 	["LANGUAGE"]="Turkish",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3_OLD",
 	["AUTHOR"]="Mobillia",
 	["CHAT_ROLEGET_PM"]={
-		"Sen \x85Katil\x80'sin! \x85Herkesi oldur!", 
-		"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.", 
-		"Sen bir\x83Masum\x80'sun! Saklan ve sorusturmaya yardim et." 
+		"Sen \x85Katil\x80'sin! \x85Herkesi oldur!",
+		"Sen \x84Serif\x80'sin! \x84Tum Katilleri ortadan kaldir\x80. Masum birini oldururseniz, rolunuzden siyrilirsiniz.",
+		"Sen bir\x83Masum\x80'sun! Saklan ve sorusturmaya yardim et."
 	},
 	["CHAT_NEWROLEGET_PM"]={
 		"\x87Hayat rastgele karar verdi, \x85Katil\x87 olacaksin.\x85 Simdi git herkesi oldur!",
-		"Evren\x87 seni bir \x84Serif\x87 yapti! Git ve\x84 tum Katilleri\x87 ortadan kaldir!", 
+		"Evren\x87 seni bir \x84Serif\x87 yapti! Git ve\x84 tum Katilleri\x87 ortadan kaldir!",
 		"\x82Kahraman\x87 olmaniza karar verildi. Herkesi Katillerden kurtarin!",
 		"\x87\x85Katillerden\x87 birini ortadan kaldirdiniz! \x82Kahramanliga\x87 terfi edildiniz!"
 	},
@@ -34,7 +34,7 @@ MM.AddLang("TR", {
 	},
 	["CHAT_HEROKILLED"]={
 		"Kahraman",
-		"olduruldu!" 
+		"olduruldu!"
 	},
 	["CHAT_DIEDHAZARD"]="bir kazada oldu.",
 	["CHAT_SHREMDPICKUP"]="Birisi \x84Serif'in Zumrutu\x80'nu aldi...",
@@ -71,7 +71,7 @@ MM.AddLang("TR", {
 		"\x82Kahraman\x80 son Masum'u oldurmeyi secti. \x85Katiller\x80 kazandi!",
 		"\x83Masum\x80larin savunuculari oldu. \x85Katiller\x80 kazandi!"
 	},
-	["HUD_MM"]="Murder Mystery", 
+	["HUD_MM"]="Murder Mystery",
 	["HUD_ROLES"]={
 		["MURDERER"]="KATİL",
 		["SHERIFF"]="ŞERİF",

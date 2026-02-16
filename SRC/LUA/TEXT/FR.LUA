@@ -6,7 +6,7 @@
 
 MM.AddLang("FR", {
 	["LANGUAGE"]="Francais",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3_OLD",
 	["AUTHOR"]="Troplucky",
 	["CON_MMLANG"]={
 		"Votre langue actuel est\x82 Francais\x80\nVous pouver le changer avec la commande \x87MMLANG [langue]",

@@ -240,7 +240,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	["HUD_SPECTATOR"] = {
 		["INFO"] = "You are currently spectating. Enter the game to join on the next round", --Centered text showing that you are a spectator
 		["SWITCHING_TO"]= "Going into spectator mode next round...", --Information that you are going to switch TO spectator
-		["SWITCHING_FROM"]= "Entering the game next round.." --Information that you are switing FROM spectator
+		["SWITCHING_FROM"]= "Entering the game next round..." --Information that you are switing FROM spectator
 	},
 
 	-- Sneaking
