@@ -59,7 +59,7 @@ MM.AddLang("DE", {
 	["CHAT_DIEDHAZARD"]="ist gestorben. Traurig.",
 	["CHAT_SHREMDPICKUP"]="Jemand hat den ^4Smaragd des Sheriffs^0 an sich genommen...",
 	["CHAT_KILLPUNISHMENT_PM"]={
-		"^7Du hast haben einen ^3Zivilisten^7 ermordet! ",
+		"^7Du hast haben einen ^3Zivilisten^7 ermordet! Du bist zu gefährlich für die Gesellschaft, um am Leben gelassen zu werden!",
 		"^2Helden^7 sollen keine ^3Zivilisten^7 toten! Du wurdest wegen Kriegsverbrechen ^5hingerichtet^7.",
 		"^7Oh nein! Du hast einen ^4Sheriff^7 emordet!!! Du wurdest dafür ^5hingerichtet^7...",
 		"^7Du hast einen ^3Zivilisten^7 ermordet, genau wie dich selbst! Du wurdest für dein Verbrechen ^5hingerichtet^7.",
