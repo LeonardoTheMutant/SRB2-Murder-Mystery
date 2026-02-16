@@ -530,10 +530,10 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) MM.ChatprintGlobal(endtext, reason) end
-	if (isdedicatedserver) --console log for dedicated host
-		if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
-		else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
-	end
+	--if (isdedicatedserver) --console log for dedicated host
+	--	if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
+	--	else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
+	--end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald

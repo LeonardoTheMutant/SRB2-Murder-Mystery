@@ -12,7 +12,7 @@
 --Note: This switch-case implementation does not support "break" fallthrough
 --Note 2: Do not place "return" directly in the cases as it returns from the case subroutine, not the function the switch is being executed in
 --Usage:
---  switch(a, { 
+--  switch(a, {
 --      [1] = do -- for case 1
 --          print("Case 1")
 --      end,

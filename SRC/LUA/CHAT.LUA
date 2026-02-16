@@ -9,55 +9,13 @@ local cv_chatspamburst = CV_FindVar("chatspamburst")
 local cv_chatspamprotection = CV_FindVar("chatspamprotection")
 local cv_mute = CV_FindVar("mute")
 
-/*
-local function CHAT_Say(s, m, me)
-	local textcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
-
-	--Admin/Verified badges
-	local badge = ""
-	if (s == server) badge = "\x82~"..textcolor
-	elseif (IsPlayerAdmin(s)) badge = "\x82@"..textcolor end
-
-	for p in players.iterate do
-		if (gamestate != GS_LEVEL) or (p.spectator) or (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
-			if (me)
-				MAYA.ChatprintPM(p, "* "..badge..s.name.."\x80 "..m:sub(5)) --"/me" message
-			else
-				MAYA.ChatprintPM(p, textcolor.."<"..badge..s.name..">\x80 "..m) --Normal message
-			end
-			S_StartSound(nil, sfx_radio, p)
-		end
-	end
-
-	if (isdedicatedserver) then MAYA.ChatprintPM(server, "<"..badge..s.name.."> "..m) end
-end
-
-local function CHAT_TeamSay(s, m) --sender, message
-	for p in players.iterate do
-		if (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone))
-			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER))
-				MAYA.ChatprintPM(p, "\x85[TEAM]<"..s.name.."> "..m)
-				S_StartSound(nil, sfx_radio, p)
-			elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)
-				if (s.mm.role == ROLE_SHERIFF)
-					MAYA.ChatprintPM(p, "\x84[TEAM]<"..s.name.."> "..m)
-				elseif (s.mm.role == ROLE_HERO)
-					MAYA.ChatprintPM(p, "\x84[TEAM]\x82<"..s.name..">\x84 "..m)
-				end
-				S_StartSound(nil, sfx_radio, p)
-			end
-		end
-	end
-end
-*/
-
 --SAYDEAD command - Say to the Dead Chat (as Server or Administrator)
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
-	if (gametype != GT_LTMMURDERMYSTERY)
+	if (gametype ~= GT_LTMMURDERMYSTERY)
 		CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command")
 		return
 	end
-	
+
 	--get the message string
 	local arg = {...}
 	local m = ""
@@ -65,11 +23,11 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 		m = $ + arg[i]
 		if (i < #arg) then m = $ + " " end --add space between words (arguments)
 	end
-	
+
 	local sender
 	if (p == server) then sender = "\x80~SERVER\x86"
 	else sender = p.name end
-	
+
 	if (#m)
 		--send the message
 		for p in players.iterate do
@@ -80,45 +38,6 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 		CONS_Printf(p, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat.")
 	end
 end, COM_ADMIN)
-
-/*
-addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
-	if (gametype != GT_LTMMURDERMYSTERY) or (not s.mm) or (not sMM.lang) then return end
-
-	if (s.spectator)
-		switch(type, {
-			[0] = do --If dead player sends a message, make that messsage appear only to the dead players
-				for p in players.iterate do if (p.spectator) MAYA.ChatprintPM(p, "\x86{"..s.name.."} "..m) end end
-				if (isdedicatedserver) CONS_Printf(server, "{"..s.name.."} "..m) end
-			end,
-			[2] = do --PM messages in different design for DEAD
-				if (t.spectator)
-					MAYA.ChatprintPM(s, "\x82[TO]\x86{"..t.name.."} "..m)
-					MAYA.ChatprintPM(t, "\x82[PM]\x86{"..s.name.."} "..m)
-				else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
-			end
-		})
-	else
-		switch(type, {
-			[0] = do
-				if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL)
-					CHAT_TeamSay(s, m:sub(2))  --SAYTEAM shortcut
-				else
-					CHAT_Say(s, m, m:find("/me ", 1,4, true)) --send message normally (handle "/me" messages too)
-				end
-			end,
-			[1] = do  --SAYTEAM
-				if (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m)
-				else CHAT_Say(s, m) end
-			end,
-			[2] = do --SAYTO or "/pm"
-				return false
-			end
-		})
-	end
-	return true
-end)
-*/
 
 --
 -- UTF-8 CHAT
@@ -190,9 +109,11 @@ addHook("PlayerMsg", function(s, typ, t, msg)
 	if (isdedicatedserver) then pn = 0 --#consoleplayer fails for dedicated hosts, we have to make the server's player number ourself
 	else pn = #consoleplayer end
 
-	if (target == -1 and not MM.AreTeammates(consoleplayer, s)) then return true end --ignore team messages which are not meant for us
+	if (target == -1 and not (MM.AreTeammates(consoleplayer, s) and MM.IsTimelineCorrect(s.mm.timetravel.timezone, consoleplayer.mm.timetravel.timezone))) then return true end --ignore team messages which are not meant for us
 
 	if (target == -1 and gamestate ~= GS_LEVEL) then target = 0 end --redirect team messages to global chat if outside the round
+
+	if not ((s.mm.role == ROLE_DEAD) or MM.IsTimelineCorrect(s.mm.timetravel.timezone, consoleplayer.mm.timetravel.timezone)) then return true end --do not recieve messages which are not timelime canonical
 
 	local spam_eatmsg = false
 
@@ -342,7 +263,7 @@ local function M_JumpWordReverse(line, offset)
 end
 
 addHook("KeyDown", function(key)
-	if (gametype != GT_LTMMURDERMYSTERY) then return false end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return false end
 
 	local c = key.num
 
@@ -459,7 +380,7 @@ addHook("KeyDown", function(key)
 end)
 
 hud.add(function(v)
-	if (gametype != GT_LTMMURDERMYSTERY) then return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	MAYA.CHAT_MUTE = (cv_mute.value or consoleplayer.muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
 	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or consoleplayer.muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))
@@ -483,7 +404,7 @@ hud.add(function(v)
 end, "game")
 
 hud.add(function(v)
-	if (gametype != GT_LTMMURDERMYSTERY) then return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	MAYA.CHAT_MUTE = (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer))
 	MAYA.OLD_MUTE = (MAYA.OLDCHAT and (cv_mute.value or players[#consoleplayer].muted) and not (consoleplayer == server or IsPlayerAdmin(consoleplayer)))

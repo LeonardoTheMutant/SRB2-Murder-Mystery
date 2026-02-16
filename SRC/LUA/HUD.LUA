@@ -185,7 +185,7 @@ hud.add(function(v, p)
 
 	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
-	if (p.mm.role <= ROLE_MURDERER) then var1 = "IMG_VICTIMS"
+	if (p.mm.role) and (p.mm.role <= ROLE_MURDERER) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
 
 	if (MM.text[MM.lang][var1]) then HudLabelWidth[1] = GetTextPatchWidth(MM.text[MM.lang][var1]) + HUDdigit_width*3
@@ -572,7 +572,7 @@ end, "game")
 -- SCORES TAB
 --
 hud.add(function(v)
-	if (gametype != GT_LTMMURDERMYSTERY)
+	if (gametype ~= GT_LTMMURDERMYSTERY)
 		hud.enable("rankings")
 		return
 	end
@@ -584,7 +584,7 @@ hud.add(function(v)
 	DrawStrUnicode_Center(v, 160, 8, "^7"..MM.GetText("HUD_MM"), v.localTransFlag(), MM.hud.canvas.font.scale)
 
 	--Player list
-	if ((cv_cryptic) or (MM.PlayerCount() == 1))
+	if ((cv_cryptic) or (MM.PlayerCount() < 2))
 		DrawStrUnicode(v, 16, 24, WordWrap(16, 304, 0, MM.hud.canvas.font.scale, MM.GetText("HUD_SCORESTAB")), v.localTransFlag(), MM.hud.canvas.font.scale)
 	else
 		--Draw the player list
@@ -599,7 +599,7 @@ hud.add(function(v)
 		local shift = {x=0, y=0}
 		local plrs = {}
 		for p in players.iterate do
-			if not ((p.mm.role == ROLE_DEAD) and (MM.AreTeammates(consoleplayer, p)) and (consoleplayer == p) and (p.quittime)) then table.insert(plrs, p) end
+			if not ((p.mm.flags & FLAG_SPECTATOR) or (p.mm.role == ROLE_DEAD) and MM.AreTeammates(consoleplayer, p) and (consoleplayer == p) and (p.quittime)) then table.insert(plrs, p) end
 		end
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
@@ -617,7 +617,7 @@ hud.add(function(v)
 			local teammateNo = 0
 			DrawStrUnicode(v, MM.hud.scores.pos.teammateInfo.x, (MM.hud.scores.pos.teammateInfo.y - 12), "^A"..MM.GetText("HUD_TEAMMATES")..":", v.localTransFlag(), MM.hud.canvas.font.scale)
 			for p in players.iterate
-				if (MM.AreTeammates(consoleplayer, p) and (consoleplayer != p))
+				if (MM.AreTeammates(consoleplayer, p) and (consoleplayer ~= p))
 					--character icon
 					v.drawScaled((MM.hud.scores.pos.teammateInfo.x + (136 * (teammateNo / 2)))*FU, (MM.hud.scores.pos.teammateInfo.y + ((teammateNo % 2) * 16))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
 					--player name (colored as role)

@@ -533,7 +533,7 @@ MAYA.DrawChat = function(v)
 					if #player ~= n then continue end
 				end
 			end
-		
+
 			if (valid(player)) then
 				local name = string.sub(player.name, 1, 7)
 				v.drawFill(chatx + boxw + 2, (p_dispy - (6 * count)), 48, 6, GetChatBacktint(cv_con_backcolor.value) | V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_40TRANS)
@@ -562,7 +562,7 @@ MAYA.DrawChatLog = function(v, offset)
 	local chat_topy, chat_bottomy
 	local atbottom = false
 	local prev_linereturn = false
-	
+
 	--make sure that out scroll position isn't "illegal"
 	if (MAYA.chat_scroll > MAYA.chat_maxscroll) then MAYA.chat_scroll = MAYA.chat_maxscroll end
 
