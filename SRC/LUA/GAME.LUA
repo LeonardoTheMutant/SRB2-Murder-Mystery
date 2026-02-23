@@ -6,6 +6,7 @@
 -- hit detection, player parameters, and round endings
 
 local cv_rejointimeout = CV_FindVar("rejointimeout")
+local cv_idletimeout = CV_FindVar("idletimeout")
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_shields = CV_FindVar("mm_allowshields")
 local cv_invinc = CV_FindVar("mm_allowinvinc")
@@ -93,6 +94,7 @@ addHook("PlayerSpawn", function(p)
 	end
 
 	if (not p.mm.flags) then p.mm.flags = 0 end
+	if (not p.afk) then p.afk = 0 end
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
@@ -136,7 +138,7 @@ addHook("PlayerThink", function(p)
 	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = $ - 1 end
 
 	--HUD backend for fullscreen flash/spark effects
-	if (MM.hud.game.flash.translucency) and (MM.hud.game.flash.duration) and (not (leveltime % MM.hud.game.flash.duration))
+	if (MM.hud.game.flash.translucency) and (not (leveltime % int(MM.hud.game.flash.duration)))
 		MM.hud.game.flash.translucency = $ - 1
 	end
 
@@ -146,7 +148,7 @@ addHook("PlayerThink", function(p)
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
-			if (valid(MM.shremds[emeraldID])) and (MM.shremds[emeraldID].timezone and (MM.shremds[emeraldID].timezone == p.mm.timetravel.timezone))
+			if (valid(MM.shremds[emeraldID]) and int(MM.shremds[emeraldID].timezone) == p.mm.timetravel.timezone)
 				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremds[emeraldID].x, p.mo.y - MM.shremds[emeraldID].y), p.mo.z - MM.shremds[emeraldID].z))
 			end
 		end
@@ -168,17 +170,22 @@ addHook("PlayerThink", function(p)
 				end,
 				[ROLE_CIVILIAN] = do
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
 				end,
 				[ROLE_JESTER] = do
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
 				end
 			})
 		end
 	end
 
 	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
+
+	if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
+	else p.afk = p.afk + 1 end
+
+	if (int(p.afk) > cv_idletimeout.value*TICRATE) then MM.KillPlayer(p.mo, true, true) end
 end)
 
 --
