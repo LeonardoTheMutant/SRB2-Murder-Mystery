@@ -8,34 +8,34 @@ local speedsneakCVAR = CV_FindVar("mm_speed_sneak")
 local speedwalkCVAR = CV_FindVar("mm_speed_walk")
 
 addHook("PlayerThink", function(p)
-	if (not valid(p.mo)) return end
+	if (not valid(p.mo)) then return end
 	local s = (p.mo.skin or "sonic") -- added an or just incase the game slips
 
 	--Enable skin abilities if the MM_ABILITIES CVAR is enabled OR the gametype is not Murder Mystery
-	if (gametype != GT_LTMMURDERMYSTERY) or (MM_ABILITIES.value)
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (MM_ABILITIES.value) then
 		p.charability = skins[s].ability
 		p.charability2 = skins[s].ability2
 		p.charflags = skins[s].flags
 		p.normalspeed = skins[s].normalspeed
-		if (p.mm) p.mm.flags = $ & ~FLAG_SNEAK end
+		if (p.mm) then p.mm.flags = p.mm.flags & ~FLAG_SNEAK end
 
 	--"Everyone are regular persons" mode (MM_ABILITIES disabled)
-	elseif ((gametype == GT_LTMMURDERMYSTERY) and (not MM_ABILITIES.value))
+	elseif ((gametype == GT_LTMMURDERMYSTERY) and (not MM_ABILITIES.value)) then
 		p.charability = 0
 		p.charability2 = 0
 		p.charflags = 0
-		if ((p.cmd.buttons & BT_SPIN)) --sneaking
+		if ((p.cmd.buttons & BT_SPIN)) then --sneaking
 			p.normalspeed = speedsneakCVAR.value * FU
-			p.mm.flags = $ | FLAG_SNEAK
+			p.mm.flags = p.mm.flags | FLAG_SNEAK
 		else
 			if (SOC_IsTrue(mapheaderinfo[gamemap].mm_slowwalkspeed)) then p.normalspeed = (speedwalkCVAR.value - (speedwalkCVAR.value / 4) - (speedwalkCVAR.value / 8))*FU --x0.625 of the normal speed
 			else p.normalspeed = speedwalkCVAR.value * FU end
-			p.mm.flags = $ & ~FLAG_SNEAK
+			p.mm.flags = p.mm.flags & ~FLAG_SNEAK
 		end
 	end
 
 	--disable custom skins if the admin did not allow their usage
-	if (gametype == GT_LTMMURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5)
+	if (gametype == GT_LTMMURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5) then
 		CONS_Printf(p, "The Game Administrator has disabled the usage of Custom Skins in the current MM game")
 		R_SetPlayerSkin(p, "sonic")
 	end

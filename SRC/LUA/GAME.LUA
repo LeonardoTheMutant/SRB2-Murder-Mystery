@@ -257,7 +257,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 						-- otherwise, Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
-							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
+							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 							MM.SetRandomCivilianAs(ROLE_SHERIFF)
 						else
@@ -270,7 +270,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						else
-							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
+							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
 						end
 					end
@@ -306,6 +306,9 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 				MM.ChatprintGlobal("MSG_HERODIED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Jester Hero) has died in an accident") end
 			end
+		end,
+		['default'] = do
+			MM.KillPlayer(v, spawnBodyOrEmerald)
 		end
 	})
 
@@ -338,7 +341,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 				if (ap.mm.role == ROLE_CIVILIAN)
 					ap.mm.role = ROLE_HERO
-					MAYA.ChatprintPM(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
+					MM.Chatprint(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -349,7 +352,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
+				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
@@ -367,7 +370,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
+				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
 
@@ -383,13 +386,13 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 			if (aprole == ROLE_MURDERER) and (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 			end
-			MM.KillPlayer(a, true, true)
 			switch(aprole, {
 				[ROLE_SHERIFF] = do
+					MM.KillPlayer(a, true, true)
 					-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 						MM.SetRandomCivilianAs(ROLE_SHERIFF)
 					else
@@ -397,20 +400,22 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					end
 				end,
 				[ROLE_HERO] = do
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
 					end
 				end,
 				[ROLE_CIVILIAN] = do
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
 					end
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
 				end
@@ -446,6 +451,9 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
 			end
+		end,
+		['default'] = do
+			MM.KillPlayerByPlayer(v, a)
 		end
 	})
 

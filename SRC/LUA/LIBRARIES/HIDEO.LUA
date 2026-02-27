@@ -37,7 +37,7 @@ end
 --Load (precache) font patch into (V)RAM
 HIDEO.LoadUnicodeFont = function(v, a)
 	assert(v, "HIDEO.LoadUnicodeFont() argument #1: Video drawer object expected")
-	if (a and (type(a) != "number")) then error("HIDEO.LoadUnicodeFont() argument #2: Unicode charachter index should be integer") end
+	if (a and (type(a) ~= "number")) then error("HIDEO.LoadUnicodeFont() argument #2: Unicode charachter index should be integer") end
 
 	a = a or 0xFFFD
 	local patchname = "UNIC"..string.format("%04X", a)
@@ -51,7 +51,7 @@ end
 --Retrieve a precached font patch from (V)RAM
 HIDEO.GetUnicodeFont = function(v, chr)
 	assert(v, "HIDEO.GetUnicodeFont() argument #1: Video drawer object expected")
-	if (chr and type(chr) != "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
+	if (chr and type(chr) ~= "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
 
 	chr = chr or 0xFFFD
 
@@ -65,7 +65,7 @@ end
 
 HIDEO.DrawCharUnicode = function(v, x, y, code, flags, colormap, scale)
 	assert(v, "HIDEO.DrawCharUnicode() argument #1: Video drawer object expected")
-	if (code and type(code) != "number") then error("HIDEO.DrawCharUnicode() argument #4: Unicode Character number should be an integer") end
+	if (code and type(code) ~= "number") then error("HIDEO.DrawCharUnicode() argument #4: Unicode Character number should be an integer") end
 
 	code = $ or 0xFFFD
 	x = $ or 0
@@ -81,7 +81,7 @@ end
 --The function mostly assumes you have font with 8x8 pixel characters
 HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
-	if (not str) or (type(str) != "string") then error("HIDEO.DrawStrUnicode() argument #5: string expected") end
+	if (not str) or (type(str) ~= "string") then error("HIDEO.DrawStrUnicode() argument #5: string expected") end
 
 	x = $ or 0
 	y = $ or 0
@@ -113,36 +113,39 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 
 	--draw the string
 	for i, c, b in unicode.chars(str) do
+	repeat
 		--space
 		if (c == ' ') then
 			cx = $ + spaceWidth
-			continue
+			break
 		end
 
 		--newline
 		if (c == '\n') then
 			cx = x --carriage return
 			cy = $ + FixedMul(HIDEO.charheight, scale)
-			continue
+			break
 		end
 
 		--Beginning of the color sequence
 		--If we meet that symbol twice in a row it means that this is a symbol, not a color code
 		if (c == '^')
 			isTextCode = not $
-			if (isTextCode) then continue end
+			if (isTextCode) then break end
 		end
 
 		--Read the color value once in a caret sequence
-		if (isTextCode)then
-			color = getStringColormap((HEX2INT[c:byte()] or 0) * 4096)
+		if (isTextCode) then
+			color = getStringColormap((HEX2INT[c] or 0) * 4096)
 			isTextCode = false
-			continue
+			break
 		end
 
 		--draw the character
 		DrawCharUnicode(v, cx, cy, unicode.code(c), flags, color, scale)
 		cx = $ + charWidth
+		break
+	until true
 	end
 end
 
@@ -169,20 +172,23 @@ HIDEO.StrWidthUnicode = function(str, flags, scale)
 	local isTextCode
 
 	for i, c, b in unicode.chars(str) do
+	repeat
 		--Caret code
 		if (c == '^')
 			isTextCode = not $
-			if (isTextCode) then continue end --If it is not '^^' sequence ignore the symbol
+			if (isTextCode) then break end --If it is not '^^' sequence ignore the symbol
 		end
 
 		--Ignore the caret code digit
-		if (isTextCode) then isTextCode = false; continue end
+		if (isTextCode) then isTextCode = false; break end
 
 		--Space
-		if (c == ' ') then pixelLen = $ + spaceWidth; continue end --space
+		if (c == ' ') then pixelLen = $ + spaceWidth; break end --space
 
 		--Count only visible charactrers
 		pixelLen = $ + charWidth
+		break
+	until true
 	end
 
 	return pixelLen
@@ -299,7 +305,7 @@ HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
 				while (runEnd < rowLen) do
 					nxt = rowStr:byte(runEnd + 1)
 					if (nxt == 32) then break end --next pixel is transparent pixel
-					if ((palette[(HEX2INT[nxt] or 0) + 1] or 0) != color) then break end --next pixel has a different color than the current one
+					if ((palette[(HEX2INT[nxt] or 0) + 1] or 0) ~= color) then break end --next pixel has a different color than the current one
 					runEnd = runEnd + 1
 				end
 
@@ -390,18 +396,18 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 			x = 0
 			lastusablespace = 1
 			i = i + 1
-			break --continue
+			break
 		end
 
 		if (chars[i] == '^') and (isxdigit(chars[i + 1])) --Caret Code
 			i = $ + 2
-			break --continue
+			break
 		end
 
 		c = unicode.code(chars[i])
 		if (not c)
 			i = i + 1
-			break --continue
+			break
 		end
 
 		local patch

@@ -377,10 +377,11 @@ hud.add(function(v, p)
 		str = HIDEO.WordWrap(0, MM.hud.canvas.width, V_MONOSPACE, MM.hud.canvas.font.scale, renderBuffer[i])
 
 		for b, c, j in unicode.chars(str) do
+		repeat
 			--Space
 			if (c == ' ')
 				x = $ + MM.hud.canvas.font.charwidth --V_MONOSPACE
-				continue
+				break
 			end
 
 			--Newline
@@ -391,19 +392,19 @@ hud.add(function(v, p)
 					pageLength = $ + 1
 				end
 				prev_linereturn = true
-				continue
+				break
 			end
 
 			--Caret Code
 			if (c == '^')
 				isTextCode = not $
-				if (isTextCode) then continue end
+				if (isTextCode) then break end
 			end
 
 			if (isTextCode)
 				colormap = v.getStringColormap(HIDEO.GetColorFlagFromHexDigit(c:byte()))
 				isTextCode = false
-				continue
+				break
 			else
 				prev_linereturn = false
 				if (y >= 0) and (y < (MM.hud.canvas.height - 2*MM.hud.canvas.font.charheight - (MM.hud.canvas.font.charheight*bool2int(v.width() < 640))))
@@ -419,6 +420,8 @@ hud.add(function(v, p)
 					prev_linereturn = true
 				end
 			end
+			break
+		until true
 		end
 
 		x = 0

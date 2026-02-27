@@ -140,7 +140,7 @@ local TimeTravel_ShiftX, TimeTravel_ShiftY, TimeTravel_ShiftX2, TimeTravel_Shift
 
 --Get the lengths between different Time Zones (if map has Time Travel)
 addHook("PlayerSpawn", function (p)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	TimeTravel_ShiftX = 0
 	TimeTravel_ShiftY = 0
@@ -173,13 +173,13 @@ addHook("PlayerSpawn", function (p)
 end)
 
 addHook("PlayerThink", function(p)
-	if ((gametype != GT_LTMMURDERMYSTERY) or (not p.mm) or (not p.mm.timetravel) or (not valid(p.mo))) return end
-	
+	if ((gametype ~= GT_LTMMURDERMYSTERY) or (not p.mm) or (not p.mm.timetravel) or (not valid(p.mo))) return end
+
 	if (p.mm.timetravel.timesign)
 		if (p.speed >= 2949120) --45*FU
 			p.mm.timetravel.warptimer = $ + 1
 			P_SpawnMobjFromMobj(p.mo,0,0,0,MT_SUPERSPARK) --Time Warp trail
-			
+
 			--Time Warp itself
 			if ((p.mm.timetravel.warptimer >= 140))
 				if (p.mm.timetravel.timesign == TWS_PAST) --warping to the more Past stage
@@ -234,13 +234,13 @@ end)
 
 --Future
 addHook("MapThingSpawn", function(mo) --Do not spawn the sign outside Murder Mystery
-	if (gametype != GT_LTMMURDERMYSTERY)
+	if (gametype ~= GT_LTMMURDERMYSTERY)
 		mo.state = 0
 		return true
 	end
 end, MT_TIMESIGN_F)
 addHook("TouchSpecial", function(special, toucher)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.mm.timetravel and (toucher.player.mm.timetravel.timesign != TWS_FUTURE)) and (not special.spinning)
 		toucher.player.mm.timetravel.timesign = TWS_FUTURE
@@ -259,13 +259,13 @@ end, MT_TIMESIGN_F)
 
 --Past
 addHook("MapThingSpawn", function(mo) --Do not spawn the sign outside Murder Mystery
-	if (gametype != GT_LTMMURDERMYSTERY)
+	if (gametype ~= GT_LTMMURDERMYSTERY)
 		mo.state = 0
 		return true
 	end
 end, MT_TIMESIGN_P)
 addHook("TouchSpecial", function(special, toucher)
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	if (toucher) and valid(toucher.player) and (not toucher.player.spectator) and (toucher.player.mm.timetravel and (toucher.player.mm.timetravel.timesign != TWS_PAST)) and (not special.spinning)
 		toucher.player.mm.timetravel.timesign = TWS_PAST

@@ -599,7 +599,7 @@ hud.add(function(v)
 		local shift = {x=0, y=0}
 		local plrs = {}
 		for p in players.iterate do
-			if not ((p.mm.flags & FLAG_SPECTATOR) or (p.mm.role == ROLE_DEAD) and MM.AreTeammates(consoleplayer, p) and (consoleplayer == p) and (p.quittime)) then table.insert(plrs, p) end
+			if (p.mm.role ~= ROLE_DEAD) and (not MM.AreTeammates(consoleplayer, p)) and (consoleplayer ~= p) and (not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR) then table.insert(plrs, p) end
 		end
 		for i = 1, #plrs do
 			if (MM.PlayerCount() <= 20) --Regular ("Double column") mode
