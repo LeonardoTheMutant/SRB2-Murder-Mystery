@@ -25,6 +25,7 @@ MAPK8 - "AimShootKill" by Tom Mustaine (Final Doom: TNT Evilution)
 MAPK9 - "Evilflower Zone" by Shadow Hog (Sonic Robo Blast 2 (v2.1))
 MAPKA - "Bright sound" (Sonic Adventure 2) (MIDI by Jose)
 MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
+MAPKC - "Midwich Nightmare" (Second Half) by Akira Yamaoka (Silent Hill)
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 
@@ -37,15 +38,17 @@ MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 
 MAPKE: "Shadow Moses Island"
 ----------------------------
-MAPKEM (Top floor)	- "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
-LVL1ALR 		- "Level 1 Alert" by Konami Kukeiha Club (Metal Gear 2: Solid Snake) (MIDI by Mayumi)
-FRQ14085		- "Frequency 140.85" by Konami Kukeiha Club (Metal Gear 2: Solid Snake) (MIDI by Jan van Valburg Locke)
+MAPKEM (Top floor)	      - "Theme of Tara" by Iku Mizutani (Metal Gear) (MIDI by King Meteor)
+MAPKE1 (1st Floor Basement)   - "Cavern" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by King Meteor)
+MAPKE2 (2nd Floor Basement)   - "Colosseo" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by ???)
 
 MAPKH: "Temple"
 ---------------------
 MAPKHI (Ice theme)    - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
-MAPKHF (Lava theme)   - "Cursed Cathedral Fire Remix" by MinusMario
+MAPKHF (Lava theme)   - "Cursed Cathedral Fire Arrangement" by MinusMario (Original MIDI by ShinkoNetCavy)
 MAPKHM (Temple theme) - "Lava Reef Zone Remix" by Stephen Patterson
+MAPKHC (Core theme)   - "CORE" by Toby Fox (Undertale)
+ARCHIV (Gallery)      - "ARCHIVE" by MinusMario
 
 
 ============
@@ -55,12 +58,16 @@ MAPKHM (Temple theme) - "Lava Reef Zone Remix" by Stephen Patterson
 CIVINS - "Civilian's Instinct" by MinusMario
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 MMSUS1 - "HOLD ON" by Lamonite
+LAST   - "LAST OUTCOME" by MinusMario
+NIMARE - "Midwich Nightmare" (First Half) by Akira Yamaoka (Silent Hill)
 
 
 ============
 = SHOWDOWN =
 ============
 
+SAVIOR - "Savior of Humanity" by Ivan "continuum.mid" Stanton & Cammy (TNT MIDI Pack)
+DIE    - "Die" by Akira Yamaoka (Silent Hill)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
 MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear (NES)) (MIDI by Tsu Ryu and Takeuchi Yuka)
 MMSHD1 - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)

@@ -266,6 +266,26 @@ rawset(_G, "bool2int", function(a)
 	return b
 end)
 
+--Return integer, even if the variable isn't integer
+rawset(_G, "int", function(a)
+	local ret
+	switch(type(a), {
+		["nil"] = do
+			ret = 0
+		end,
+		["boolean"] = do
+			ret = bool2int(a)
+		end,
+		["number"] = do
+			ret = a
+		end,
+		["default"] = do
+			ret = bool2int(a)
+		end
+	})
+	return ret
+end)
+
 rawset(_G, "HEX2INT", {
 	--.byte() -> int
 	[48] = 0,  [49] = 1,  [50] = 2,  [51] = 3, [52] = 4,  [53] = 5,  [54] = 6,  [55] = 7, [56] = 8,  [57] = 9, --'0'‑'9'
