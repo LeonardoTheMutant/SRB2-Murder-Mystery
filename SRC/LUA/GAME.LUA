@@ -6,11 +6,12 @@
 -- hit detection, player parameters, and round endings
 
 local cv_rejointimeout = CV_FindVar("rejointimeout")
-local cv_idletimeout = CV_FindVar("idletimeout")
+local cv_idletime = CV_FindVar("idletime")
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_shields = CV_FindVar("mm_allowshields")
 local cv_invinc = CV_FindVar("mm_allowinvinc")
 local cv_shoes = CV_FindVar("mm_allowshoes")
+local cv_nocamping = CV_FindVar("mm_nocamping")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -127,6 +128,8 @@ end)
 addHook("PlayerThink", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
+	local pmo = p.mo
+
 	if (not cv_shields.value) then p.powers[pw_shield] = 0 end --Disable player shields
 	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
 	if (not cv_shoes.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
@@ -148,8 +151,9 @@ addHook("PlayerThink", function(p)
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
-			if (valid(MM.shremds[emeraldID]) and int(MM.shremds[emeraldID].timezone) == p.mm.timetravel.timezone)
-				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremds[emeraldID].x, p.mo.y - MM.shremds[emeraldID].y), p.mo.z - MM.shremds[emeraldID].z))
+			local emerald = MM.shremds[emeraldID]
+			if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone)
+				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(pmo.x - emerald.x, pmo.y - emerald.y), pmo.z - emerald.z))
 			end
 		end
 		shremd_closest = shremd_distances[0]
@@ -163,9 +167,9 @@ addHook("PlayerThink", function(p)
 		if (MM.shremdDist)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = do
-					if ((MM.shremdDist < 25165824) and (CV_FindVar("mm_nocamping").value) and (not MM.shwdwn)) --384*FU
+					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) --384*FU
 						p.mm.camping = $ + 1
-						if (p.mm.camping == 700) then MM.KillPlayer(p.mo, true, true) end --kill player after 20 seconds of camping
+						if (p.mm.camping == 700) then MM.KillPlayer(pmo, true, true) end --kill player after 20 seconds of camping
 					else p.mm.camping = 0 end
 				end,
 				[ROLE_CIVILIAN] = do
@@ -180,12 +184,19 @@ addHook("PlayerThink", function(p)
 		end
 	end
 
+	--Ketchup cleaner
+	if (p.mm.killtrailsteps) and (pmo.z > pmo.waterbottom) and (p.mo.z < pmo.watertop) then
+		p.mm.killtrailsteps = 0
+	end
+
 	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
 
-	if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
-	else p.afk = p.afk + 1 end
+	if (MM.PlayerCount() > 1)
+		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
+		else p.afk = p.afk + 1 end
 
-	if (int(p.afk) > cv_idletimeout.value*TICRATE) then MM.KillPlayer(p.mo, true, true) end
+		if ((int(p.afk) > cv_idletime.value*2100) and not (p.mm.role ~= ROLE_DEAD)) then MM.KillPlayer(p.mo, true, true) end
+	end
 end)
 
 --
@@ -556,8 +567,10 @@ end)
 
 --Automap anti-cheat
 if (tsourdt3rd)
+	local cv_automap1 = int(CV_FindVar("automapoutsidedevmode").value)
+	local cv_automap2 = int(CV_FindVar("tsourdt3rd_debug_automapanywhere").value)
 	addHook("KeyDown", function(keyevent)
-		if (keyevent.num == 9) and ((CV_FindVar("automapoutsidedevmode") and CV_FindVar("automapoutsidedevmode").value) or (CV_FindVar("tsourdt3rd_debug_automapanywhere") and CV_FindVar("tsourdt3rd_debug_automapanywhere").value)) and (gametype == GT_LTMMURDERMYSTERY)
+		if (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY)
 			COM_BufInsertText(consoleplayer, "QUIT")
 		end
 	end)

@@ -40,7 +40,7 @@ rawset(_G, "MM", {
 		game = { --Main Game HUD
 			active = true,
 			pos = {
-				ringWepOnly = {x = 144}, --Murderer's weapon icon
+				ringWepOnly_x = 144, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
 				debug = {x=8, y=48}, --Debug info
 			},
@@ -56,23 +56,20 @@ rawset(_G, "MM", {
 			pos = {
 				playerInfo = {x=20, y=28}, --Player list
 				teammateInfo = {x=20, y=136}, --Teammates list
-				teammateInfoOffset1 = {x=18}, --Offset for current weapon icon
-				teammateInfoOffset2 = {x=36}, --Offset for Rings counter
+				teammateInfoOffset1_x = 18, --Offset for current weapon icon
+				teammateInfoOffset2_x = 36, --Offset for Rings counter
 			}
 		},
 		intermission = { --Intermission HUD
 			active = true,
 			pos = {
-				players = {y=32},
-				name = {x=24},
-				kills = {x=264},
-				players2 = {y=40},
-				name2 = {x=12},
-				kills2 = {x=132},
+				players_y = 32,
+				name_x = 24,
+				kills_x = 264,
+				players2_y = 40,
+				name2_x = 12,
+				kills2_x = 132,
 			}
-		},
-		chat = {
-			active = false
 		},
 		help = { --MMHELP UI
 			active = false
@@ -291,6 +288,7 @@ dofile("LIBRARIES/VICTORIA.LUA")
 
 --Load Data
 print("\n\x87Murder Mystery\x80: Loading data...")
+dofile("DATA/CCMDTEXT.LUA")
 dofile("DATA/FOOTSOUND.LUA")
 dofile("DATA/FREESLOT.LUA")
 if (not isdedicatedserver) then

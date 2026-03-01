@@ -5,8 +5,8 @@
 --
 -- Modified by LeonardoTheMutant for LTM's Murder Mystery
 
-local footmarksCVAR = CV_FindVar("mm_footmarks")
-local killtrailCVAR = CV_FindVar("mm_killtrails")
+local footmarksCVAR = CV_FindVar("mm_footmarks").value
+local killtrailCVAR = CV_FindVar("mm_killtrails").value
 
 freeslot(
 	"sfx_sowoln", "sfx_socoln", "sfx_sodiln", "sfx_someln", "sfx_sogrln", "sfx_sowaln", "sfx_soglln", "sfx_sosnln", "sfx_sosaln", "sfx_soclln",
@@ -203,7 +203,7 @@ local playeraniminfo={ --only Vanilla characters are left
 }
 
 local function reset(player)
-	if valid(player.mo)
+	if valid(player.mo) then
 		player.lastframe=0
 		player.lastanim=nil
 		player.playsound=false
@@ -222,65 +222,65 @@ local function has_value (tab, val)
 end
 local function getGroundTexture(mo)
     local result
-    
-    if (mo.eflags & MFE_VERTICALFLIP)
-		if (mo.ceilingrover) result=mo.ceilingrover.bottompic
-        elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.c_slope)) result=mo.subsector.sector.ceilingpic
-        elseif (mo.ceilingz == mo.subsector.sector.ceilingheight) result=mo.subsector.sector.ceilingpic end
+
+    if (mo.eflags & MFE_VERTICALFLIP) then
+		if (mo.ceilingrover) then result=mo.ceilingrover.bottompic
+        elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.c_slope)) then result=mo.subsector.sector.ceilingpic
+        elseif (mo.ceilingz == mo.subsector.sector.ceilingheight) then result=mo.subsector.sector.ceilingpic end
     else
-        if (mo.floorrover) result=mo.floorrover.toppic
-		elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.f_slope)) result=mo.subsector.sector.floorpic
-        elseif (mo.floorz == mo.subsector.sector.floorheight) result=mo.subsector.sector.floorpic end
+        if (mo.floorrover) then result=mo.floorrover.toppic
+		elseif ((mo.standingslope) and (mo.standingslope == mo.subsector.sector.f_slope)) then result=mo.subsector.sector.floorpic
+        elseif (mo.floorz == mo.subsector.sector.floorheight) then result=mo.subsector.sector.floorpic end
 	end
 	return result
 end
 
 addHook("PlayerThink", function(player)
 	if (not (gametype == GT_LTMMURDERMYSTERY) and (player.mm)) then return end
-	if (valid(player.mo)) and (player.mo.state != S_PLAY_DEAD) and (not player.spectator)
+	if (valid(player.mo)) and (player.mo.state ~= S_PLAY_DEAD) and (not player.spectator) then
 		local pmo = player.mo
 		local panimInfo=playeraniminfo[pmo.skin]
-		if (panimInfo)
-			if (not player.variablesset) reset(player) end
+		if (panimInfo) then
+			if (not player.variablesset) then reset(player) end
 			player.groundtexture=getGroundTexture(pmo)
-			if (not player.groundtexture) and (player.lastgroundtexture) player.groundtexture=player.lastgroundtexture end
+			if (not player.groundtexture) and (player.lastgroundtexture) then player.groundtexture=player.lastgroundtexture end
 			local material
 			local soundType
 			player.playsound=false
 
 			local minHeight
-			if (pmo.eflags & MFE_VERTICALFLIP)
-				if (pmo.ceilingrover) minHeight = P_GetFOFBottomZAt(pmo.ceilingrover, pmo.x, pmo.y)
+			if (pmo.eflags & MFE_VERTICALFLIP) then
+				if (pmo.ceilingrover) then minHeight = P_GetFOFBottomZAt(pmo.ceilingrover, pmo.x, pmo.y)
 				else minHeight = P_GetSectorCeilingZAt(pmo.subsector.sector, pmo.x, pmo.y) end
 			else
 				--pmo.floorrover (and pmo.ceilingrover) does not nil when player's origin is not on FOF but instead stands on the edge of it. This leads to afwul results in a form of "poop flying marks" on FOF edges. Any way to fix this?
-				if (pmo.floorrover) minHeight = P_GetFOFTopZAt(pmo.floorrover, pmo.x, pmo.y)
+				if (pmo.floorrover) then minHeight = P_GetFOFTopZAt(pmo.floorrover, pmo.x, pmo.y)
 				else minHeight = P_GetSectorFloorZAt(pmo.subsector.sector, pmo.x, pmo.y) end
 			end
 
-			if ((pmo.z == minHeight) or ((pmo.standingslope) and (pmo.standingslope.zdelta < 32768))) --FU/2
-				if not(player.wasfalling)
-					if (player.skidtime==16)
+			if ((pmo.z == minHeight) or ((pmo.standingslope) and (pmo.standingslope.zdelta < 32768))) then --FU/2
+				if not(player.wasfalling) then
+					if (player.skidtime==16) then
 						player.playsound=true
 						soundType="skid"
-					elseif not (player.powers[pw_carry])
+					elseif not (player.powers[pw_carry]) then
 						switch(pmo.state, {
-							[S_PLAY_RUN] = do
+							[S_PLAY_RUN] = function()
 								player.playsound=panimInfo["run"] and (has_value(panimInfo["runFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["runFrames"], pmo.frame))
 							end,
-							[S_PLAY_DASH] = do
+							[S_PLAY_DASH] = function()
 								player.playsound=panimInfo["dash"] and (has_value(panimInfo["dashFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["dashFrames"], pmo.frame))
 							end,
-							[S_PLAY_WALK] = do
+							[S_PLAY_WALK] = function()
 								player.playsound=panimInfo["walk"] and (has_value(panimInfo["walkFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["walkFrames"], pmo.frame))
 							end,
-							[S_PLAY_STND] = do
+							[S_PLAY_STND] = function()
 								player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
 							end,
-							[S_PLAY_EDGE] = do
+							[S_PLAY_EDGE] = function()
 								player.playsound=panimInfo["idle"] and player.lastanim ~= player.panim
 							end,
-							[S_PLAY_WAIT] = do
+							[S_PLAY_WAIT] = function()
 								player.playsound=panimInfo["wait"] and (has_value(panimInfo["waitFrames"], pmo.frame & FF_FRAMEMASK) or has_value(panimInfo["waitFrames"], pmo.frame))
 							end
 						})
@@ -295,25 +295,25 @@ addHook("PlayerThink", function(player)
 					player.playsound=true
 					soundType="land"
 				end
-			elseif (not P_IsObjectOnGround(pmo))
+			elseif (not P_IsObjectOnGround(pmo)) then
 				player.wasfalling=true
 			end
-			if (player.playsound) and not (player.mm.flags & FLAG_SNEAK)
-				if not (pmo.eflags & MFE_GOOWATER)
-					if (player.groundtexture) material=MM.FootstepFlatSound[player.groundtexture] end
-					if (not material) material="stone" end
+			if (player.playsound) and not (player.mm.flags & FLAG_SNEAK) then
+				if not (pmo.eflags & MFE_GOOWATER) then
+					if (player.groundtexture) then material=MM.FootstepFlatSound[player.groundtexture] end
+					if (not material) then material="stone" end
 					player.lastgroundtexture = player.groundtexture
-					if (material) and (soundType) and (soundinfolist[material]) and (soundinfolist[material][soundType])
+					if (material) and (soundType) and (soundinfolist[material]) and (soundinfolist[material][soundType]) then
 						local sounds = soundinfolist[material][soundType]
-						if (sounds)
+						if (sounds) then
 							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
-							if (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disablefootmarks) and footmarksCVAR.value)
+							if (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disablefootmarks) and footmarksCVAR) then
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
 								--Kill trail steps
-								if (player.mm.killtrailsteps and killtrailCVAR.value)
+								if (player.mm.killtrailsteps and killtrailCVAR) then
 									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE|min((player.mm.killtrailsteps / 2), 9)
-									player.mm.killtrailsteps= $ - 1
+									player.mm.killtrailsteps = player.mm.killtrailsteps - 1
 								else
 									mobjstep.frame = FF_SEMIBRIGHT|FF_FLOORSPRITE --reset to black
 								end
@@ -321,12 +321,12 @@ addHook("PlayerThink", function(player)
 						end
 					end
 				end
-				if (pmo.eflags & MFE_TOUCHLAVA)
+				if (pmo.eflags & MFE_TOUCHLAVA) then
 					local sounds=soundinfolist["lava"][soundType]
-					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
-				elseif (pmo.eflags & MFE_UNDERWATER) or (pmo.eflags & MFE_TOUCHWATER) or (pmo.eflags & MFE_GOOWATER)
+					if (sounds) then S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
+				elseif (pmo.eflags & MFE_UNDERWATER) or (pmo.eflags & MFE_TOUCHWATER) or (pmo.eflags & MFE_GOOWATER) then
 					local sounds=soundinfolist["water"][soundType]
-					if (sounds) S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) then S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
 				end
 			end
 		end

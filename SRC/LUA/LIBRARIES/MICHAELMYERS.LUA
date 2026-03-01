@@ -360,6 +360,7 @@ end
 MM.SpawnSHREMD = function(x, y, z, timezone)
 	if (x == nil) or (y == nil) or (z == nil) then error("Not enough arguments for MM.SpawnSHREMD(int x, int y, int z, [int timezone])") end
 	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
+	mo.dispoffset = 1
 	if (timezone) then mo.timezone = timezone end
 	table.insert(MM.shremds, (#MM.shremds + 1), mo)
 end
@@ -596,7 +597,7 @@ end
 
 --Enable Showdown music when there are no Civilians left
 MM.StartShowdownMusic = function()
-	if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
+	if not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
 		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
 		else
 			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
@@ -655,6 +656,9 @@ MM.GetWepCfgFlags = function(role)
 		[ROLE_SHERIFF] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_SHERIFF].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_SHERIFF].value / 4) % 4 end --Showdown Duel
+		end,
+		[ROLE_CIVILIAN] = function()
+			returnValue = WEPCFG_REDONLY
 		end,
 		[ROLE_HERO] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay

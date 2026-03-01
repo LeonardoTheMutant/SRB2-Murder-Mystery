@@ -273,9 +273,6 @@ rawset(_G, "int", function(a)
 		["nil"] = do
 			ret = 0
 		end,
-		["boolean"] = do
-			ret = bool2int(a)
-		end,
 		["number"] = do
 			ret = a
 		end,
