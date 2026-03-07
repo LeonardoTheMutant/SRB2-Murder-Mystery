@@ -1,7 +1,7 @@
 -- CAROLINE.LUA
 -- Code by LeonardoTheMutant
 --
--- Port of some C functionality and expansions to BLUA
+-- Port of some C functionality and expansions to LUA
 -- Why "Caroline"? Try "string.sub('Caroline', 1, 1)"
 -- Can you C it now?
 
@@ -81,12 +81,12 @@ rawset(_G, "strcmp", function(str1, str2)
 	assert(type(str1) == "string", "strcmp() argument #1: String expected")
 	assert(type(str2) == "string", "strcmp() argument #2: String expected")
 	--Append '\0' to the end of both strings, if missing
-	if (str1:byte(#str1)) then str1 = strterm($) end
-	if (str2:byte(#str2)) then str2 = strterm($) end
+	if (str1:byte(#str1)) then str1 = strterm(str1) end
+	if (str2:byte(#str2)) then str2 = strterm(str2) end
 
 	local i = 1
-	while (true)
-		if (str1:byte(i) != str2:byte(i))
+	while (true) do
+		if (str1:byte(i) ~= str2:byte(i)) then
 			if (str1:byte(i) < str2:byte(i)) then return -1
 			else return 1 end
 		end
@@ -186,11 +186,8 @@ table.fill = function(tbl, x, a, b)
 	a = a or 1
 	b = b or #tbl
     for i = a, b do
-        if type(x) == "function" then
-            tbl[i] = x(i)
-        else
-            tbl[i] = x
-        end
+        if type(x) == "function" then tbl[i] = x(i)
+        else tbl[i] = x end
     end
 end
 
@@ -199,16 +196,12 @@ table.copy = function(tbl1, tbl2)
 	tbl2 = tbl2 or {}
 
 	-- clear old keys
-    for k in pairs(tbl2) do
-        tbl2[k] = nil
-    end
+	for k in pairs(tbl2) do tbl2[k] = nil end
 
 	--copy new keys
-    for k, v in pairs(tbl1) do
-        tbl2[k] = v
-    end
+	for k, v in pairs(tbl1) do tbl2[k] = v end
 
-    return tbl2
+	return tbl2
 end
 
 --Make a table copy with ALL contents
@@ -268,7 +261,26 @@ end
 
 --Convert boolean to integer
 rawset(_G, "bool2int", function(a)
-	if (a) return 1 else return 0 end
+	local b = 0
+	if (a) then b = 1 end
+	return b
+end)
+
+--Return integer, even if the variable isn't integer
+rawset(_G, "int", function(a)
+	local ret
+	switch(type(a), {
+		["nil"] = do
+			ret = 0
+		end,
+		["number"] = do
+			ret = a
+		end,
+		["default"] = do
+			ret = bool2int(a)
+		end
+	})
+	return ret
 end)
 
 rawset(_G, "HEX2INT", {

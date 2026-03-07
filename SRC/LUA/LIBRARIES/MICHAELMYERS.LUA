@@ -4,7 +4,7 @@
 -- Function definitions for the core MM functionality, PONG minigame and some global functions
 -- Named after Michael Myers - one of the fictional serial murderers from the horror films (nah it's just because his initials are "MM")
 
--- DEPENDENCIES: Caroline, Maya
+-- DEPENDENCIES: Caroline
 
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
@@ -12,79 +12,79 @@ local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri")
 MM.AddLang = function(langID, langTbl)
 	assert(langID, "Invalid Language Index")
 	assert(langTbl, "Invalid Language Table.")
-	if (type(langID) ~= "string") error("Language ID should be string and contain 2-3 characters long") end
-	if (type(langTbl) ~= "table") error("Language Talbe shoulb be table.") end
-	if (MM.text[langID])
+	if (type(langID) ~= "string") then error("Language ID should be string and contain 2-3 characters long") end
+	if (type(langTbl) ~= "table") then error("Language Talbe shoulb be table.") end
+	if (MM.text[langID]) then
 		MM.text[langID] = nil --Empty the table so that the language can be updated
 		printf("\x82WARNING\x80: Updating the \x81%s\x80 language...", langID)
 	end
 	MM.text[langID:upper()] = langTbl
 	printf("\x87Murder Mystery\x80: Added the \x81%s\x80 language by %s", langID, MM.text[langID]["AUTHOR"])
-	if (MM.text[langID]["VERSION"] ~= MM.version) printf("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84%s\x80 to update it for the \x87Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
+	if (MM.text[langID]["VERSION"] ~= MM.version) then printf("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84%s\x80 to update it for the \x87Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
 end
 
 --(Re)Load a list of available Suspense music
-MM.LoadSuspenseTracks = do
+MM.LoadSuspenseTracks = function()
 	MM.susnse_music = {}
 	local lumpname
 	for i = 0, 15 do
 		lumpname = string.format("MMSUS%X", i)
-		if (S_MusicExists(lumpname))
+		if (S_MusicExists(lumpname)) then
 			table.insert(MM.susnse_music, lumpname)
-			if (MM.debug) printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
+			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
 		end
 	end
 end
 
 --(Re)Load a list of available Showdown Duel music
-MM.LoadShowdownTracks = do
+MM.LoadShowdownTracks = function()
 	MM.shwdwn_music = {}
 	local lumpname
 	for i = 0, 15 do
 		lumpname = string.format("MMSHD%X", i)
-		if (S_MusicExists(lumpname))
+		if (S_MusicExists(lumpname)) then
 			table.insert(MM.shwdwn_music, lumpname)
-			if (MM.debug) printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
+			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
 		end
 	end
 end
 
 MM.DebugPrint = function(str, ...)
-	if (MM.debug) printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
+	if (MM.debug) then printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end
 
 --Count the real amount of players online
-MM.PlayerCountReal = do
+MM.PlayerCountReal = function()
 	local plrc = 0
-	for p in players.iterate do if (not p.quittime) then plrc = $ + 1 end end
+	for p in players.iterate do if (not p.quittime) then plrc = plrc + 1 end end
 	return plrc
 end
 
 --Count the amount of spectators
-MM.PlayerCountSpectators = do
+MM.PlayerCountSpectators = function()
 	local plrc = 0
-	for p in players.iterate do if ((not p.quittime) and (p.mm) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+	for p in players.iterate do if ((not p.quittime) and (p.mm) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = plrc + 1 end end
 	return plrc
 end
 
 --Count the playing players
 MM.PlayerCount = function(role)
 	local plrc = 0
-	if (role)
-		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR))) then plrc = $ + 1 end end
+	if (role) then
+		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR))) then plrc = plrc + 1 end end
 	else
-		for p in players.iterate do if not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR)) then plrc = $ + 1 end end
+		for p in players.iterate do if not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR)) then plrc = plrc + 1 end end
 	end
 	return plrc
 end
 
 --Count the Alive Players
-MM.PlayersAlive = do
-	local plrs = 0
+MM.PlayersAlive = function()
+	local plrc = 0
 	for p in players.iterate do
-		if not ((p.mm.flags & FLAG_SPECTATOR) and (p.mm.role == ROLE_DEAD) and (p.quittime)) then plrs = $ + 1 end
+		if not ((p.mm.flags & FLAG_SPECTATOR) and (p.mm.role == ROLE_DEAD) and (p.quittime)) then plrc = plrc + 1 end
 	end
-	return plrs
+	return plrc
 end
 
 --Player initializator
@@ -102,53 +102,53 @@ MM.InitPlayer = function(p)
 		warptimer = 0
 	}
 
-	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR))
+	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR)) then
 		switch(p.spectator, {
-			[true] = do
-				p.mm.flags = $ & ~FLAG_SPECTATOR
+			[true] = function()
+				p.mm.flags = p.mm.flags & ~FLAG_SPECTATOR
 				p.spectator = false
 			end,
-			[false] = do
-				p.mm.flags = $ | FLAG_SPECTATOR
+			[false] = function()
+				p.mm.flags = p.mm.flags | FLAG_SPECTATOR
 				p.spectator = true
-				p.pflags = $ | PF_GODMODE
+				p.pflags = p.pflags | PF_GODMODE
 				p.mm.role = ROLE_DEAD
 			end,
 		})
-		p.mm.flags = $ & ~FLAG_WAITSPECTATOR
+		p.mm.flags = p.mm.flags & ~FLAG_WAITSPECTATOR
 	end
 end
 
 --Calculate the role multiplier (how many players with same role should exist)
-MM.GetRoleMultiplier = do
+MM.GetRoleMultiplier = function()
 	local plrcount = MM.PlayerCount()
-	if (plrcount < 8) return 1
-	elseif (plrcount >= 8) and (plrcount <= 14) return 2
-	elseif (plrcount >= 15) and (plrcount <= 21) return 3
-	elseif (plrcount >= 22) and (plrcount <= 28) return 4
-	elseif (plrcount >= 29) return 5 end
+	if (plrcount < 8) then return 1
+	elseif (plrcount >= 8) and (plrcount <= 14) then return 2
+	elseif (plrcount >= 15) and (plrcount <= 21) then return 3
+	elseif (plrcount >= 22) and (plrcount <= 28) then return 4
+	elseif (plrcount >= 29) then return 5 end
 end
 
 --Retrieve the text line from TEXT.LUA, if exists
 MM.GetText = function(line, param)
-	if (line)
-		if (MM.text[MM.lang][line])
-			if (param)
-				if (MM.text[MM.lang][line][param])
+	if (line) then
+		if (MM.text[MM.lang][line]) then
+			if (param) then
+				if (MM.text[MM.lang][line][param]) then
 					return MM.text[MM.lang][line][param]
 				else
-					if (MM.debug) error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line, param)) end
+					if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line, param)) end
 					return "MM.text["..MM.lang.."]["..line.."]["..param.."]"
 				end
 			end
-			if (type(MM.text[MM.lang][line]) == "string")
+			if (type(MM.text[MM.lang][line]) == "string") then
 				return MM.text[MM.lang][line]
 			else
-				if (MM.debug) error(string.format("\x82Tried to access the table at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 without parameter!\x80", MM.lang, line)) end
+				if (MM.debug) then error(string.format("\x82Tried to access the table at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 without parameter!\x80", MM.lang, line)) end
 				return "MM.text["..MM.lang.."]["..line.."][nil]"
 			end
 		else
-			if (MM.debug) error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line)) end
+			if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line)) end
 			return "MM.text["..MM.lang.."]["..line.."]"
 		end
 	else
@@ -159,20 +159,20 @@ end
 -- RoleAssigner v5
 -- Give roles at the beginning of each new round
 -- F to LeoTM - he got insane while coding this 256 times
-MM.AssignRoles = do
-	if (gametype != GT_LTMMURDERMYSTERY) return end
+MM.AssignRoles = function()
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	if (MM.PlayerCount() < 2) then return end --Assign roles only when there are 2+ playing players
 
 	local plrs = {} --table of player nodes that exist and are valid
-	for p in players.iterate --prepare players and get their player nodes
-		if not (p.mm.flags & FLAG_SPECTATOR)
+	for p in players.iterate do --prepare players and get their player nodes
+		if not (p.mm.flags & FLAG_SPECTATOR) then
 			p.mm.role = ROLE_DEAD
 			table.insert(plrs, #p)
 		end
 	end
-    for r = ROLE_MURDERER, ROLE_SHERIFF --assign Murderers and Sheriffs
-        for i = 1, MM.GetRoleMultiplier()
+    for r = ROLE_MURDERER, ROLE_SHERIFF do --assign Murderers and Sheriffs
+        for i = 1, MM.GetRoleMultiplier() do
             local randPlr = P_RandomKey(#plrs) + 1 --select random player
             players[plrs[randPlr]].mm.role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
@@ -180,9 +180,9 @@ MM.AssignRoles = do
     end
 	--tell each player its role personally
 	for p in players.iterate do
-		if not (p.mm.flags & FLAG_SPECTATOR)
-			if (p.mm.role == ROLE_DEAD) --Assign the rest of the roles
-				if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4))
+		if not (p.mm.flags & FLAG_SPECTATOR) then
+			if (p.mm.role == ROLE_DEAD) then --Assign the rest of the roles
+				if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4)) then
 					--Assign Jester role
 					p.mm.role = ROLE_JESTER
 					MM.DebugPrint("Jester role assigned")
@@ -191,20 +191,20 @@ MM.AssignRoles = do
 
 			--Annouce about their roles to players
 			switch(p.mm.role, {
-				[ROLE_MURDERER] = do
-					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
+				[ROLE_MURDERER] = function()
+					MM.Chatprint(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
 				end,
-				[ROLE_SHERIFF] = do
-					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
+				[ROLE_SHERIFF] = function()
+					MM.Chatprint(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
 				end,
-				[ROLE_CIVILIAN] = do
-					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
+				[ROLE_CIVILIAN] = function()
+					MM.Chatprint(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
 				end,
-				[ROLE_HERO] = do
-					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
+				[ROLE_HERO] = function()
+					MM.Chatprint(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
 				end,
-				[ROLE_JESTER] = do
-					MAYA.ChatprintPM(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
+				[ROLE_JESTER] = function()
+					MM.Chatprint(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
 				end,
 			})
 
@@ -213,77 +213,114 @@ MM.AssignRoles = do
 	end
 end
 
+--Small helper function to convert a carret color code (ex. "^5") into vanilla SRB2 one ("\x85")
+--Use this for ASCII strings only!
+local carretToSRB2_color = function(s)
+	local str = ""
+	local code = 0
+	local colorcode = false
+	for i = 1, #s do
+	repeat
+		code = s:byte(i)
+		if (code == 94) then --'^' char found
+			colorcode = not colorcode
+			if (colorcode) then break end
+		end
+
+		if (colorcode) then
+			str = str..CHAR[128 + HEX2INT[code]]
+			colorcode = false
+			break
+		end
+
+		str = str..CHAR[code]
+		break
+	until true
+	end
+
+	return str
+end
+
+--chatprintf but safe for vanilla SRB2
+MM.Chatprint = function(p, msg)
+	--if (srb2classic) then
+		--chatprintf(p, msg)
+	--else
+		chatprintf(p, carretToSRB2_color(unicode.ascii(msg)))
+	--end
+end
+
 --Function to display global messages in chat
 --Works as regular chatprint but sends the global message personally to everyone in their (player.mmlang) language
 --var argument is mostly used as an INTEGER for win reasons or player role that left. For some messages it's STRING
 MM.ChatprintGlobal = function(msg, var)
 	for p in players.iterate do
 		switch(msg, {
-			["MSG_MURDKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got eliminated!")))
+			["MSG_MURDKILLED"] = function()
+				MM.Chatprint(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got eliminated!")))
 			end,
-			['MSG_SHERIKILLED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got murdered!")))
+			['MSG_SHERIKILLED'] = function()
+				MM.Chatprint(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][2] or "got murdered!")))
 			end,
-			["MSG_HEROKILLED"] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][2] or "Sheriff")))
+			["MSG_HEROKILLED"] = function()
+				MM.Chatprint(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][2] or "Sheriff")))
 			end,
-			['MSG_SHERIKILLED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][2] or "Sheriff"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Get their emerald!")))
+			['MSG_SHERIKILLED_DROP'] = function()
+				MM.Chatprint(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][2] or "Sheriff"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Get their emerald!")))
 			end,
-			['MSG_MURDDIED'] = do
-				MAYA.ChatprintPM(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_MURDDIED'] = function()
+				MM.Chatprint(p, string.format("^5%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_MURDERER"]["KILLED"][1] or "Murderer"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['MSG_SHERIDIED'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_SHERIDIED'] = function()
+				MM.Chatprint(p, string.format("^4%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['MSG_HERODIED'] = do
-				MAYA.ChatprintPM(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Hero"), var, MM.GetText("CHAT_DIEDHAZARD")))
+			['MSG_HERODIED'] = function()
+				MM.Chatprint(p, string.format("^2%s ^7%s^0 %s", (MM.text[MM.lang]["CHAT_ROLE_HERO"]["KILLED"][1] or "Hero"), var, MM.GetText("CHAT_DIEDHAZARD")))
 			end,
-			['MSG_SHERIDIED_DROP'] = do
-				MAYA.ChatprintPM(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Ger their emerald!")))
+			['MSG_SHERIDIED_DROP'] = function()
+				MM.Chatprint(p, string.format("^4%s ^7%s^0 %s %s", (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][1] or "Sheriff"), var, MM.GetText("CHAT_DIEDHAZARD"), (MM.text[MM.lang]["CHAT_ROLE_SHERIFF"]["KILLED"][3] or "Ger their emerald!")))
 			end,
-			['MSG_ONEQUIT'] = do
+			['MSG_ONEQUIT'] = function()
 				switch(var, {
-					[ROLE_MURDERER] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "ONEQUIT"))
+					[ROLE_MURDERER] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_MURDERER', "ONEQUIT"))
 					end,
-					[ROLE_SHERIFF] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "ONEQUIT"))
+					[ROLE_SHERIFF] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_SHERIFF', "ONEQUIT"))
 					end,
-					[ROLE_HERO] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "ONEQUIT"))
+					[ROLE_HERO] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_HERO', "ONEQUIT"))
 					end
 				})
 			end,
-			['MSG_LASTQUIT'] = do
+			['MSG_LASTQUIT'] = function()
 				switch(var, {
-					[ROLE_MURDERER] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "LASTQUIT"))
+					[ROLE_MURDERER] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_MURDERER', "LASTQUIT"))
 					end,
-					[ROLE_SHERIFF] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "LASTQUIT"))
+					[ROLE_SHERIFF] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_SHERIFF', "LASTQUIT"))
 					end,
-					[ROLE_HERO] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "LASTQUIT"))
+					[ROLE_HERO] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_HERO', "LASTQUIT"))
 					end
 				})
 			end,
-			['MSG_REPLACEQUIT'] = do
+			['MSG_REPLACEQUIT'] = function()
 				switch(var, {
-					[ROLE_MURDERER] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_MURDERER', "REPLACEQUIT"))
+					[ROLE_MURDERER] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_MURDERER', "REPLACEQUIT"))
 					end,
-					[ROLE_SHERIFF] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_SHERIFF', "REPLACEQUIT"))
+					[ROLE_SHERIFF] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_SHERIFF', "REPLACEQUIT"))
 					end,
-					[ROLE_HERO] = do
-						MAYA.ChatprintPM(p, MM.GetText('CHAT_ROLE_HERO', "REPLACEQUIT"))
+					[ROLE_HERO] = function()
+						MM.Chatprint(p, MM.GetText('CHAT_ROLE_HERO', "REPLACEQUIT"))
 					end
 				})
 			end,
-			['default'] = do
-				MAYA.ChatprintPM(p, MM.GetText(msg, var))
+			['default'] = function()
+				MM.Chatprint(p, MM.GetText(msg, var))
 			end
 		})
 	end
@@ -309,9 +346,9 @@ MM.SpawnSkeletonBody = function(p, t) --player (MOBJ_T), timezone (TIMEZONE_* co
 	temp = tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)
 	if (temp) then ShiftY = temp end
 
-	if (ShiftX) or (ShiftY)
+	if (ShiftX) or (ShiftY) then
 		for timezone = TIMEZONE_PAST, TIMEZONE_FUTURE_BAD do
-			if MM.IsTimelineCorrect(t, timezone)
+			if MM.IsTimelineCorrect(t, timezone) then
 				local body = P_SpawnMobjFromMobj(p, ShiftX, ShiftY, 0, MT_DEADPLR)
 				body.state = S_MMSKELT
 			end
@@ -323,6 +360,7 @@ end
 MM.SpawnSHREMD = function(x, y, z, timezone)
 	if (x == nil) or (y == nil) or (z == nil) then error("Not enough arguments for MM.SpawnSHREMD(int x, int y, int z, [int timezone])") end
 	local mo = P_SpawnMobj(x ,y, z, MT_SHREMD)
+	mo.dispoffset = 1
 	if (timezone) then mo.timezone = timezone end
 	table.insert(MM.shremds, (#MM.shremds + 1), mo)
 end
@@ -332,7 +370,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not p) or (not p.player)) then error("MM.KillPlayerByPlayer() argument #1: player's mobj_t expected") end
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
-	plr.pflags = $|PF_GODMODE --force player to remain dead if they die as spectator (SRB2 bug fix)
+	plr.pflags = plr.pflags|PF_GODMODE --force player to remain dead if they die as spectator (SRB2 bug fix)
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
@@ -341,14 +379,14 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
 	plr.mm.killreason = KILLBY_PLR
 	plr.mm.killername = k.player.name
-	k.player.mm.kills = $ + 1
+	k.player.mm.kills = k.player.mm.kills + 1
 	if (not (k.player.mm.flags & FLAG_SNEAK)) then P_PlayDeathSound(p) end
 	plr.rmomx = 0
 	plr.rmomy = 0
 
 	--Dead body spawn
 	local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-	if (P_IsValidSprite2(p, SPR2_SHIT)) --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
+	if (P_IsValidSprite2(p, SPR2_SHIT)) then --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
 		body.skin = p.skin
 		body.state = S_MMPLRDEAD
 		body.color = p.color
@@ -363,10 +401,10 @@ end
 
 --Kill Player by not player (map hazards such as pit, crusher, water drowning or simply as a punishment)
 MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "Spawn dead body?" (boolean), "Was this player killed for punishment?" (boolean)
-	if ((not p) or (not p.player)) error("MM.KillPlayer() argument #1: player's mobj_t expected") end
+	if ((not p) or (not p.player)) then error("MM.KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
-	if (MM.PlayerCount() != 1) --force player to remain dead if they die as spectator (SRB2 bug fix)
-		plr.pflags = $|PF_GODMODE
+	if (MM.PlayerCount() ~= 1) then --force player to remain dead if they die as spectator (SRB2 bug fix)
+		plr.pflags = plr.pflags|PF_GODMODE
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0
@@ -375,9 +413,9 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	if (killedForPunishment) then plr.mm.killreason = KILLBY_GAME
 	else plr.mm.killreason = KILLBY_MAP end
 
-	if (spawnbody)
+	if (spawnbody) then
 		local body = P_SpawnMobjFromMobj(p,0,0,0,MT_DEADPLR)
-		if (P_IsValidSprite2(p, SPR2_SHIT)) --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
+		if (P_IsValidSprite2(p, SPR2_SHIT)) then --Does skin have SPR2_SHIT sprite ("SHITA0" sprite lump)?
 			body.skin = p.skin
 			body.state = S_MMPLRDEAD
 			body.color = p.color
@@ -398,16 +436,16 @@ MM.TeammatesCount = function(p)
 	local teammates = 0
 
 	switch(p.mm.role, {
-		[ROLE_MURDERER] = do
+		[ROLE_MURDERER] = function()
 			teammates = MM.PlayerCount(ROLE_MURDERER) - 1
 		end,
-		[ROLE_SHERIFF] = do
+		[ROLE_SHERIFF] = function()
 			teammates = (MM.PlayerCount(ROLE_SHERIFF) - 1) + MM.PlayerCount(ROLE_HERO) + MM.PlayerCount(ROLE_JESTERHERO)
 		end,
-		[ROLE_HERO] = do
+		[ROLE_HERO] = function()
 			teammates = MM.PlayerCount(ROLE_SHERIFF) + (MM.PlayerCount(ROLE_HERO) - 1) + MM.PlayerCount(ROLE_JESTERHERO)
 		end,
-		[ROLE_JESTERHERO] = do
+		[ROLE_JESTERHERO] = function()
 			teammates = MM.PlayerCount(ROLE_SHERIFF) + MM.PlayerCount(ROLE_HERO)
 		end
 	})
@@ -417,7 +455,8 @@ end
 
 --Check if Player1 and Player2 are teammates
 MM.AreTeammates = function(p1, p2)
-	if ((not p1.mm.role) or (not p2.mm.role)) then return false end
+	if not (p1.mm and p2.mm) then return false end
+	if not (p1.mm.role) and (p2.mm.role) then return false end
 
 	return ((p1.mm.role == ROLE_MURDERER) and (p2.mm.role == ROLE_MURDERER))
 		or (((p1.mm.role == ROLE_SHERIFF) or (p1.mm.role == ROLE_HERO)) and ((p2.mm.role == ROLE_SHERIFF) or (p2.mm.role == ROLE_HERO)))
@@ -427,8 +466,8 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	MAYA.ChatprintPM(a, MM.RoleColorHUD[v.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
-	MAYA.ChatprintPM(v, MM.RoleColorHUD[a.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
+	MM.Chatprint(a, MM.RoleColorHUD[v.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
+	MM.Chatprint(v, MM.RoleColorHUD[a.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
@@ -439,56 +478,58 @@ MM.PlayerQuit = function(p)
 	local role = p.mm.role
 	p.mm.role = ROLE_DEAD
 	switch(role, {
-		[ROLE_MURDERER] = do
-			if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER))) or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER)))
+		[ROLE_MURDERER] = function()
+			if ((not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_MURDERER)))
+			or ((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_MURDERER))) then
 				MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_MURDERER)
-			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER)))
+			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_MURDERER)
 				MM.SetRandomCivilianAs(ROLE_MURDERER)
-				if (isdedicatedserver) CONS_Printf(server, "- Murderer replaced") end
+				if (isdedicatedserver) then CONS_Printf(server, "- Murderer replaced") end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_MURDERER)
-				if (isdedicatedserver) CONS_Printf(server, "- Murderer left") end
+				if (isdedicatedserver) then CONS_Printf(server, "- Murderer left") end
 			end
 		end,
-		[ROLE_SHERIFF] = do
-			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF))
+		[ROLE_SHERIFF] = function()
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) then
 				if (MM.PlayerCount(ROLE_HERO)) then MM.ChatprintGlobal("MSG_LASTQUIT", ROLE_SHERIFF)
 				else MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_SHERIFF) end
-			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF)))
+			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_SHERIFF)
 				MM.SetRandomCivilianAs(ROLE_SHERIFF)
-				if (isdedicatedserver) CONS_Printf(server,"- Sheriff replaced") end
+				if (isdedicatedserver) then CONS_Printf(server,"- Sheriff replaced") end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_SHERIFF)
-				if (isdedicatedserver) CONS_Printf(server,"- Sheriff left") end
+				if (isdedicatedserver) then CONS_Printf(server,"- Sheriff left") end
 			end
 		end,
-		[ROLE_HERO] = do
-			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_HERO))
+		[ROLE_HERO] = function()
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_HERO)) then
 				if (MM.PlayerCount(ROLE_SHERIFF)) then MM.ChatprintGlobal("CHAT_LASTQUIT", ROLE_HERO)
 				else MM.EndRound(WIN_TIE, "MSG_LASTQUIT", ROLE_HERO) end
-			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF)))
+			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_HERO)
 				MM.SetRandomCivilianAs(ROLE_HERO)
-				if (isdedicatedserver) CONS_Printf(server, "- Hero replaced") end
+				if (isdedicatedserver) then CONS_Printf(server, "- Hero replaced") end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_HERO)
-				if (isdedicatedserver) CONS_Printf(server, "- Hero left") end
+				if (isdedicatedserver) then CONS_Printf(server, "- Hero left") end
 			end
 		end,
-		[ROLE_CIVILIAN] = do
-			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
+		[ROLE_CIVILIAN] = function()
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+			and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO)) then
 				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Civilian has left the game where he was the last hope, we will still consider him as the Hero
 			end
 		end,
-		[ROLE_JESTER] = do
-			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+		[ROLE_JESTER] = function()
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) then
 				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Jester has left the game where he was the last hope, we will still consider him as the Hero
 			end
 		end,
-		[ROLE_JESTERHERO] = do
-			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
+		[ROLE_JESTERHERO] = function()
+			if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) then
 				MM.EndRound(WIN_NONE, "MSG_LASTQUIT", 3) --The Jester has left the game where he was the last hope, we will still consider him as the Hero
 			end
 		end
@@ -507,12 +548,12 @@ end
 MM.StartFlashFX = function(p, duration, color)
 	assert(p, "MM.StartFlashFX argument #1: player_t not given!")
 	assert(duration, "MM.StartFlashFX argument #2: Effect duration time is not specified")
-	if (type(duration) != "number") then error("MM.StartFlashFX argument #2: The value of the effect duration must be a number") end
-	if (color and (type(color) != "number")) then error("MM.StartFlashFX argument #3: The value of the effect's color must be a number") end
+	if (type(duration) ~= "number") then error("MM.StartFlashFX argument #2: The value of the effect duration must be a number") end
+	if (color and (type(color) ~= "number")) then error("MM.StartFlashFX argument #3: The value of the effect's color must be a number") end
 
 	color = color or 0
 
-	if (p == consoleplayer)
+	if (p == consoleplayer) then
 		MM.hud.game.flash.translucency = 10
 		MM.hud.game.flash.duration = duration
 		MM.hud.game.flash.color = color
@@ -529,18 +570,18 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.shwdwn = false
 	MM.susnse = false
 	G_ExitLevel()
-	if (endtext) MM.ChatprintGlobal(endtext, reason) end
-	--if (isdedicatedserver) --console log for dedicated host
-	--	if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
-	--	else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
-	--end
+	if (endtext) then MM.ChatprintGlobal(endtext, reason) end
+	if (isdedicatedserver) then --console log for dedicated host
+		if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
+		else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
+	end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
-MM.StartSuspenseMusic = do
+MM.StartSuspenseMusic = function()
 	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_JESTER))) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
-	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value))
+	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value)) then
 		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
 			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[P_RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
@@ -555,8 +596,8 @@ MM.StartSuspenseMusic = do
 end
 
 --Enable Showdown music when there are no Civilians left
-MM.StartShowdownMusic = do
-	if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount())
+MM.StartShowdownMusic = function()
+	if not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
 		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
 		else
 			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
@@ -573,7 +614,7 @@ end
 --Set random Civilian as the given role + notify them of the new role
 MM.SetRandomCivilianAs = function(role)
 	local plrs = {}
-	for plr in players.iterate
+	for plr in players.iterate do
 		if (plr.mm.role == ROLE_CIVILIAN) then table.insert(plrs, #plr) end
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
@@ -581,17 +622,17 @@ MM.SetRandomCivilianAs = function(role)
 	MM.hud.game.roleflicker = 105 --3 secs
 	local msg
 	switch(role, {
-		[ROLE_MURDERER] = do
+		[ROLE_MURDERER] = function()
 			msg = "CHAT_ROLE_MURDERER"
 		end,
-		[ROLE_SHERIFF] = do
+		[ROLE_SHERIFF] = function()
 			msg = "CHAT_ROLE_SHERIFF"
 		end,
-		[ROLE_HERO] = do
+		[ROLE_HERO] = function()
 			msg = "CHAT_ROLE_HERO"
 		end
 	})
-	MAYA.ChatprintPM(p, MM.text[MM.lang][msg]["NEWROLEGET_PM"] or "You got new role!")
+	MM.Chatprint(p, MM.text[MM.lang][msg]["NEWROLEGET_PM"] or "You got new role!")
 	return
 end
 
@@ -608,19 +649,22 @@ end
 MM.GetWepCfgFlags = function(role)
 	local returnValue = 0
 	switch(role, {
-		[ROLE_MURDERER] = do
+		[ROLE_MURDERER] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_MURDERER].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_MURDERER].value / 4) % 4 end --Showdown Duel
 		end,
-		[ROLE_SHERIFF] = do
+		[ROLE_SHERIFF] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_SHERIFF].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_SHERIFF].value / 4) % 4 end --Showdown Duel
 		end,
-		[ROLE_HERO] = do
+		[ROLE_CIVILIAN] = function()
+			returnValue = WEPCFG_REDONLY
+		end,
+		[ROLE_HERO] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
 		end,
-		[ROLE_JESTERHERO] = do
+		[ROLE_JESTERHERO] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
 		end
@@ -637,7 +681,7 @@ end
 --Retrieve a PONG player node number
 rawset(_G, "PONG_GetMySlot", function(p)
 	assert(p, "PONG_GetMySlot(): player_t not given!")
-	if (not MM.duelplrs) return end
+	if (not MM.duelplrs) then return end
 	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
 end)
 
@@ -647,21 +691,21 @@ end)
 --	0	- Select a random ball direction
 --	>0	- Make ball go right
 rawset(_G, "PONG_SetVelocity", function(side)
-	side = $ or 0
+	side = side or 0
 
 	local x = 0
-	if (side < 0) x = -1
-	elseif (side > 0) x = 1
+	if (side < 0) then x = -1
+	elseif (side > 0) then x = 1
 	else while (not x) do x = P_RandomRange(-1, 1) end end
 
 	local y = 0
-	while (not y) y = P_RandomRange(-2, 2) end
+	while (not y) do y = P_RandomRange(-2, 2) end
 
 	MM.pong.velocity.x = x
 	MM.pong.velocity.y = y
 end)
 
-rawset(_G, "PONG_Reset", do
+rawset(_G, "PONG_Reset", function()
 	MM.pong.ball.x = 79
 	MM.pong.ball.y = 39
 
@@ -681,11 +725,11 @@ end)
 MM.LoadPatch = function(v, patchname)
 	assert(v, "MM.LoadPatch() argument #1: Video drawer object expected")
 	assert(patchname, "MM.LoadPatch() argument #2: Patch graphic name expected")
-	if (type(patchname) != "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
+	if (type(patchname) ~= "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
 
 	if (not MM.graphics) then MM.graphics = {} end
 
-	if (MM.graphics[patchname]) MM.DebugPrint("Patch \x81"..patchname.."\x87 is already loaded into memory") end
+	if (MM.graphics[patchname]) then MM.DebugPrint("Patch \x81"..patchname.."\x87 is already loaded into memory") end
 	MM.graphics[patchname] = v.cachePatch(patchname)
 	MM.DebugPrint("Loaded patch \x81"..patchname)
 end
@@ -693,9 +737,9 @@ end
 --Unload patch from (V)RAM
 MM.UnloadPatch = function(patchname)
 	assert(patchname, "MM.UnloadPatch() argument #1: Patch graphic name expected")
-	if (type(patchname) != "string") then error("MM.UnloadPatch() argument #1: Patch graphic name expected in string type") end
+	if (type(patchname) ~= "string") then error("MM.UnloadPatch() argument #1: Patch graphic name expected in string type") end
 
-	if (MM.graphics[patchname])
+	if (MM.graphics[patchname]) then
 		MM.graphics[patchname] = nil
 		MM.DebugPrint("Unloaded patch \x81"..patchname)
 	else
@@ -709,24 +753,24 @@ end
 
 -- Returns the height of the sector floor at (x, y)
 rawset(_G, "P_GetSectorFloorZAt", function(sector, x, y)
-	if (sector.f_slope) return P_GetZAt(sector.f_slope, x, y)
+	if (sector.f_slope) then return P_GetZAt(sector.f_slope, x, y)
 	else return sector.floorheight end
 end)
 
 -- Returns the height of the sector ceiling at (x, y)
 rawset(_G, "P_GetSectorCeilingZAt", function(sector, x, y)
-	if (sector.c_slope) return P_GetZAt(sector.c_slope, x, y)
+	if (sector.c_slope) then return P_GetZAt(sector.c_slope, x, y)
 	else return sector.ceilingheight end
 end)
 -- Returns the top height of the FOF at (x, y)
 rawset(_G, "P_GetFOFTopZAt", function(fof, x, y)
-	if (fof.t_slope) return P_GetZAt(fof.t_slope, x, y)
+	if (fof.t_slope) then return P_GetZAt(fof.t_slope, x, y)
 	else return fof.topheight end
 end)
 
 -- Returns the height of the sector ceiling at (x, y)
 rawset(_G, "P_GetFOFBottomZAt", function(fof, x, y)
-	if (fof.b_slope) return P_GetZAt(fof.b_slope, x, y)
+	if (fof.b_slope) then return P_GetZAt(fof.b_slope, x, y)
 	else return fof.bottomheight end
 end)
 

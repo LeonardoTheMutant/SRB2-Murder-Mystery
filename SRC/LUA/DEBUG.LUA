@@ -7,16 +7,14 @@
 
 local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
-	if (not pnum) or (not prole) CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-6)]"); return end
-	switch(prole,{['nil']=do players[tonumber(pnum)].mm.role=nil end,["0"]=do MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo) end,
+	if(not pnum)or(not prole)CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-6)]");return end
+	switch(prole,{['nil']=do players[tonumber(pnum)].mm.role=nil end,["0"]=do MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)end,
 	['default']=do players[tonumber(pnum)].mm.role=tonumber(prole);players[tonumber(pnum)].spectator=0;players[tonumber(pnum)].pflags=$&~PF_GODMODE end})
 end)
 COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
-	winner=tonumber($); reason=tonumber($)
-	if (winner==nil)
-		CONS_Printf(p,"\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]")
-		CONS_Printf(p,"Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians\n 6 - Jester")
-		CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"\n 6 - Jester was killed by Good Side")
+	winner=tonumber($);reason=tonumber($)
+	if(winner==nil)
+		CONS_Printf(p,"\x87MMEXITLEVEL\x80 [winner_role] [reason (optional)]");CONS_Printf(p,"Possible values for [winner]:\n 0 - Tie\n 1 - Murderers\n 2 - Civilians\n 6 - Jester");CONS_Printf(p,"Possible values for [reason]:\n 1 - Regular Murd win\n 2 - Regular Sheriff win\n 3 - Sheriff killed last Inno\n 4 - Hero killed last Inno\n 5 - \"All defenders are dead\"\n 6 - Jester was killed by Good Side")
 		return
 	end
 	if (not reason) MM.EndRound(winner,"CHAT_ENDROUND",winner) else MM.EndRound(winner,"CHAT_ENDROUND",reason) end
@@ -25,51 +23,51 @@ COM_AddCommand("mmshremd",function(p) --Spawn Sheriff's Emerald at player's posi
 	MM.SpawnSHREMD(p.realmo.x,p.realmo.y,p.realmo.z,p.mm.timetravel.timezone)
 end)
 COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different time zones manually
-	if (gamestate!=1) or (not valid(p.mo)) return end
-	if (not direction) CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [true/false (optinal)]"); return end
-	if (mapheaderinfo[gamemap].mm_timetravel_shiftx and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)) ShiftX=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx) else ShiftX=0 end
-	if (mapheaderinfo[gamemap].mm_timetravel_shifty and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)) ShiftY=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty) else ShiftY=0 end
-	if (mapheaderinfo[gamemap].mm_timetravel_shiftx2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2)) ShiftX2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2) else ShiftX2=0 end
-	if (mapheaderinfo[gamemap].mm_timetravel_shifty2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2)) ShiftY2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2) else ShiftY2=0 end
-	if (direction=="-") sign=-1 else sign=1 end
-	if (shift and shift!="false") P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z) else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z) end
+	if(gamestate~=1)or(not valid(p.mo))return end
+	if(not direction) CONS_Printf(p,"\x87MMTIMEWARP\x80 [+/-] [true/false (optinal)]"); return end
+	if(mapheaderinfo[gamemap].mm_timetravel_shiftx and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx))ShiftX=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx)else ShiftX=0 end
+	if(mapheaderinfo[gamemap].mm_timetravel_shifty and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty))ShiftY=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty)else ShiftY=0 end
+	if(mapheaderinfo[gamemap].mm_timetravel_shiftx2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2))ShiftX2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shiftx2) else ShiftX2=0 end
+	if(mapheaderinfo[gamemap].mm_timetravel_shifty2 and tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2))ShiftY2=tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2)else ShiftY2=0 end
+	if(direction=="-")sign=-1 else sign=1 end
+	if(shift and shift~="false")P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z)end
 end)
 COM_AddCommand("mmsusnse",do
-	if (mapheaderinfo[gamemap].mm_suspensetrack) MM.susnse=mapheaderinfo[gamemap].mm_suspensetrack
-	else if (#MM.susnse_music) MM.susnse=MM.susnse_music[P_RandomKey(#MM.susnse_music)+1] end end
-	if (MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse, true) end
+	if(mapheaderinfo[gamemap].mm_suspensetrack) MM.susnse=mapheaderinfo[gamemap].mm_suspensetrack
+	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[P_RandomKey(#MM.susnse_music)+1]end end
+	if(MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse, true) end
 end)
 COM_AddCommand("mmduel",do
-	if (mapheaderinfo[gamemap].mm_showdowntrack) MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
-	else if (#MM.shwdwn_music) MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1] end end
-	if (MM.shwdwn and S_MusicExists(MM.shwdwn)) S_ChangeMusic(MM.shwdwn, true) end
+	if(mapheaderinfo[gamemap].mm_showdowntrack)MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
+	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1]end end
+	if(MM.shwdwn and S_MusicExists(MM.shwdwn))S_ChangeMusic(MM.shwdwn, true) end
 end)
 COM_AddCommand("mmloadmus",do
-	MM.LoadSuspenseTracks(); printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")
-	MM.LoadShowdownTracks(); printf("\x82%d %s",#MM.shwdwn_music,"Showdown Tracks")
+	MM.LoadSuspenseTracks();printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")
+	MM.LoadShowdownTracks();printf("\x82%d %s",#MM.shwdwn_music,"Showdown Tracks")
 end)
 local mmcharset={0,0,0}
 COM_AddCommand("mmcharset",function(p, r)
 	mmcharset[1]=1;mmcharset[2]=0
-	if tonumber(r) mmcharset[3]=tonumber(r) end
+	if tonumber(r) mmcharset[3]=tonumber(r)end
 	MM.hud.game.active=false
 end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
-	if not p.mm or not mmcharset[1] return end
-	if (p.cmd.buttons&BT_SPIN) mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.active=true end
-	if (p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP)) mmcharset[2]=$+1; mmcharset[2]=$&15 end
+	if not(mmcharset[1])return end
+	if(p.cmd.buttons&BT_SPIN)mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.active=true end
+	if(p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP))mmcharset[2]=$+1;mmcharset[2]=$&15 end
 end)
 local mmlayout={0,0}
 COM_AddCommand("mmlayout",function(p) mmlayout[1]=true;MM.hud.game.active=false end)
 addHook("KeyDown",function(e)
-	if not mmlayout[1] return end
-	if e.num==KEY_ENTER mmlayout[1]=false;MM.hud.game.active=true;return end
+	if not(mmlayout[1])return end
+	if(e.num==KEY_ENTER)mmlayout[1]=false;MM.hud.game.active=true;return end
 	mmlayout[2]=e.num;return true
 end)
 hud.add(function(v, p)
-	if (gametype!=GT_LTMMURDERMYSTERY) return end
+	if(gametype~=GT_LTMMURDERMYSTERY)return end
 	v.drawString(0,0,"Developer build. Hold TOSSFLAG for debug info",83931136,"small-thin")
-	if p.cmd.buttons&BT_TOSSFLAG
+	if(p.cmd.buttons&BT_TOSSFLAG)
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y,"\x87".."LTM_MM v"..MM.version.." DEBUG",V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+8,"\x81 "..p.realmo.x.." "..p.realmo.y.." "..p.realmo.z.." \x80("..fixint(p.realmo.x).." "..fixint(p.realmo.y).." "..fixint(p.realmo.z)..")",V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+16,"\x82".."GAMEMAP: \x80"..gamemap,V_PERPLAYER,"thin")
@@ -87,32 +85,26 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+112,"\x82".."MM.SUSNSE: \x80"..tostring(MM.susnse),V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+120,"\x82".."MM.LANG: \x80"..MM.lang,V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+128,"\x82".."MM.SHREMDDIST: \x81"..MM.shremdDist.." \x80("..fixint(MM.shremdDist)..")",V_PERPLAYER,"thin")
+		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+136,"\x82".."AFK: \x80"..p.afk,V_PERPLAYER,"thin")
 	end
-	if (p.mm and mmcharset[1])
-		for row=-1, 20
-			for column=-1,15
-				if ((row==-1) and (column>-1)) v.drawString(24+(column*8),0,string.format("%X",column))
-				elseif ((column==-1) and (row>-1)) v.drawString(0,16+(row*8),HEX[row])
-				elseif (column>-1) and (row>-1)
-					patchNum=mmcharset[3]+((row)*16)+column
-					if (HIDEO.font[patchNum]) v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
-				end
+	if(mmcharset[1])then
+		for row=-1,20 for column=-1,15
+			if((row==-1)and(column>-1))v.drawString(24+(column*8),0,string.format("%X",column))
+			elseif((column==-1)and(row>-1))v.drawString(0,16+(row*8),HEX[row])
+			elseif(column>-1)and(row>-1)
+				patchNum=mmcharset[3]+((row)*16)+column
+				if(HIDEO.font[patchNum])v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
 			end
-		end
-		for row=20, 41
-			for column=-1,15
-				if ((row==20) and (column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
-				elseif ((column==-1) and (row>20)) v.drawString(160,-152+(row*8),HEX[row])
-				elseif (column>-1) and (row>20)
-					patchNum=mmcharset[3]+((row)*16)+column
-					if (HIDEO.font[patchNum]) v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
-				end
+		end end
+		for row=20,41 for column=-1,15
+			if((row==20)and(column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
+			elseif((column==-1)and(row>20))v.drawString(160,-152+(row*8),HEX[row])
+			elseif(column>-1)and(row>20)
+				patchNum=mmcharset[3]+((row)*16)+column
+				if(HIDEO.font[patchNum])v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096))end
 			end
-		end
+		end end
 		v.drawString(0,184,"Color: "..mmcharset[2]); v.drawString(0,192,"JUMP - next color, SPIN - exit")
 	end
-	if (mmlayout[1])
-		v.drawNum(160,100,mmlayout[2])
-		v.drawString(0,0,"ENTER to exit")
-	end
+	if(mmlayout[1])v.drawNum(160,100,mmlayout[2]);v.drawString(0,0,"ENTER to exit")end
 end)

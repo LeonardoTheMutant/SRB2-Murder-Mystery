@@ -27,7 +27,7 @@ MAPKD: "East City"
 O_MAPKDB.SPC (Bad Future) - "Sadness" by Yanda (Last Bible 3) (SPC Ported by Kevin)
 O_MAPKDG.SPC (Good Future) - "Neon Night Riders" by Kazuhiko Uehara & Harumi Ueko (Teenage Mutant Ninja Turtles IV: Turtles in Time)
 O_MAPKDM.SPC (Present) - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
-O_MAPKDP.SPC (Past) - "Palmtree Panic Zone (Past)" by Naofumi Hataya (SPC Ported by Bell)
+O_MAPKDP.SPC (Past) - "Wacky Workbench Zone (Past)" by Naofumi Hataya (SPC Ported by Ultima)
 
 MAPKE: "Shadow Moses Island"
 ----------------------------

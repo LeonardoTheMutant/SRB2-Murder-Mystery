@@ -19,7 +19,7 @@ rawset(_G, "HIDEO", {
 HIDEO.debug = true
 
 HIDEO.DebugPrint = function(str)
-	if (HIDEO.debug) print("\x88HIDEO\x80: "..str) end
+	if (HIDEO.debug) then print("\x88HIDEO\x80: "..str) end
 end
 
 HIDEO.GetColorFlagFromHexDigit = function(c)
@@ -37,13 +37,14 @@ end
 --Load (precache) font patch into (V)RAM
 HIDEO.LoadUnicodeFont = function(v, a)
 	assert(v, "HIDEO.LoadUnicodeFont() argument #1: Video drawer object expected")
-	if (a and (type(a) != "number")) then error("HIDEO.LoadUnicodeFont() argument #2: Unicode charachter index should be integer") end
+	if (a and (type(a) ~= "number")) then error("HIDEO.LoadUnicodeFont() argument #2: Unicode charachter index should be integer") end
 
 	a = a or 0xFFFD
-	local patchname = "UNIC"..string.format("%04X", a)
-	if (v.patchExists(patchname))
+	local a_str = string.format("%04X", a)
+	local patchname = "UNIC"..a_str
+	if (v.patchExists(patchname)) then
 		HIDEO.font[a] = v.cachePatch(patchname)
-		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..string.format("%04X", a).."\x80 into the Unicode Font Table")
+		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..a_str.."\x80 into the Unicode Font Table")
 		return HIDEO.font[a]
 	end
 end
@@ -51,28 +52,29 @@ end
 --Retrieve a precached font patch from (V)RAM
 HIDEO.GetUnicodeFont = function(v, chr)
 	assert(v, "HIDEO.GetUnicodeFont() argument #1: Video drawer object expected")
-	if (chr and type(chr) != "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
+	if (chr and type(chr) ~= "number") then error("HIDEO.LoadUnicodeFont() argument #2: Unicode Character number should be integer") end
 
 	chr = chr or 0xFFFD
+	local patch = HIDEO.font[chr]
 
-	if (HIDEO.font[chr]) return HIDEO.font[chr]
+	if (patch) then return patch
 	else
 		HIDEO.LoadUnicodeFont(v, chr) --try to load the character if the slot is empty
-		if (HIDEO.font[chr]) then return HIDEO.font[chr]
+		if (patch) then return patch
 		else return HIDEO.font[0xFFFD] end --if character is still not found in the font table, replace the character with the "Replacement Character" (U+FFFD)
 	end
 end
 
 HIDEO.DrawCharUnicode = function(v, x, y, code, flags, colormap, scale)
 	assert(v, "HIDEO.DrawCharUnicode() argument #1: Video drawer object expected")
-	if (code and type(code) != "number") then error("HIDEO.DrawCharUnicode() argument #4: Unicode Character number should be an integer") end
+	if (code and type(code) ~= "number") then error("HIDEO.DrawCharUnicode() argument #4: Unicode Character number should be an integer") end
 
-	code = $ or 0xFFFD
-	x = $ or 0
-	y = $ or 0
-	flags = $ or 0
-	colormap = $ or v.getStringColormap(0)
-	scale = $ or FU
+	code = code or 0xFFFD
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	colormap = colormap or v.getStringColormap(0)
+	scale = scale or FU
 
 	v.drawScaled(x*FU, y*FU, scale, HIDEO.GetUnicodeFont(v, code), flags, colormap)
 end
@@ -81,24 +83,28 @@ end
 --The function mostly assumes you have font with 8x8 pixel characters
 HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	assert(v, "HIDEO.DrawStrUnicode() argument #1: Video drawer object expected")
-	if (not str) or (type(str) != "string") then error("HIDEO.DrawStrUnicode() argument #5: string expected") end
+	if (not str) or (type(str) ~= "string") then error("HIDEO.DrawStrUnicode() argument #5: string expected") end
 
-	x = $ or 0
-	y = $ or 0
-	flags = $ or 0
-	scale = $ or FU
+	x = x or 0
+	y = y or 0
+	flags = flags or 0
+	scale = scale or FU
 
 	--set the space width
 	local spaceWidth = 4 --default to V_OLDSPACING
 	if (flags & V_MONOSPACE) then spaceWidth = 8
 	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
-	local DrawCharUnicode = HIDEO.DrawCharUnicode
+	local Hi = HIDEO
+	local DrawCharUnicode = Hi.DrawCharUnicode
 	local getStringColormap = v.getStringColormap
 
+	local HIDEO_charwidth = Hi.charwidth
+	local HIDEO_charheight = Hi.charheight
+
 	--scale down if we want x0.5 font
-	spaceWidth = FixedMul($, scale)
-	local charWidth = FixedMul(HIDEO.charwidth, scale)
+	spaceWidth = FixedMul(spaceWidth, scale)
+	local charWidth = FixedMul(HIDEO_charwidth, scale)
 
 	--character position
 	local cx = x
@@ -113,44 +119,53 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 
 	--draw the string
 	for i, c, b in unicode.chars(str) do
+	repeat
 		--space
 		if (c == ' ') then
-			cx = $ + spaceWidth
-			continue
+			cx = cx + spaceWidth
+			break
 		end
 
 		--newline
 		if (c == '\n') then
 			cx = x --carriage return
-			cy = $ + FixedMul(HIDEO.charheight, scale)
-			continue
+			cy = cy + FixedMul(HIDEO_charheight, scale)
+			break
+		end
+
+		--tab
+		if (c == '	') then
+			cx = cx + spaceWidth*2
+			break
 		end
 
 		--Beginning of the color sequence
 		--If we meet that symbol twice in a row it means that this is a symbol, not a color code
-		if (c == '^')
-			isTextCode = not $
-			if (isTextCode) then continue end
+		if (c == '^') then
+			isTextCode = not isTextCode
+			if (isTextCode) then break end
 		end
 
 		--Read the color value once in a caret sequence
-		if (isTextCode)then
-			color = getStringColormap((HEX2INT[c:byte()] or 0) * 4096)
+		if (isTextCode) then
+			color = getStringColormap((HEX2INT[c] or 0) * 4096)
 			isTextCode = false
-			continue
+			break
 		end
 
 		--draw the character
 		DrawCharUnicode(v, cx, cy, unicode.code(c), flags, color, scale)
-		cx = $ + charWidth
+		cx = cx + charWidth
+		break
+	until true
 	end
 end
 
 --Get string width for the HIDEO.DrawStrUnicode() function
 HIDEO.StrWidthUnicode = function(str, flags, scale)
 	if (not str) or (str == "") then return 0 end
-	flags = $ or 0
-	scale = $ or FU
+	flags = flags or 0
+	scale = scale or FU
 
 	local lineheight = FixedMul(8, scale)
 
@@ -163,26 +178,34 @@ HIDEO.StrWidthUnicode = function(str, flags, scale)
 	elseif (flags & V_6WIDTHSPACE) then spaceWidth = 6 end
 
 	--scale down for x0.5 (if needed)
-	spaceWidth = FixedMul($, scale)
+	spaceWidth = FixedMul(spaceWidth, scale)
 	local charWidth = FixedMul(HIDEO.charwidth, scale)
 
 	local isTextCode
 
 	for i, c, b in unicode.chars(str) do
+	repeat
 		--Caret code
-		if (c == '^')
-			isTextCode = not $
-			if (isTextCode) then continue end --If it is not '^^' sequence ignore the symbol
+		if (c == '^') then
+			isTextCode = not isTextCode
+			if (isTextCode) then break end --If it is not '^^' sequence ignore the symbol
 		end
 
 		--Ignore the caret code digit
-		if (isTextCode) then isTextCode = false; continue end
+		if (isTextCode) then isTextCode = false; break end
 
 		--Space
-		if (c == ' ') then pixelLen = $ + spaceWidth; continue end --space
+		if (c == ' ') then pixelLen = pixelLen + spaceWidth; break end --space
+
+		--Tab
+		if (c == '	') then
+			pixelLen = pixelLen + spaceWidth*2; break
+		end
 
 		--Count only visible charactrers
-		pixelLen = $ + charWidth
+		pixelLen = pixelLen + charWidth
+		break
+	until true
 	end
 
 	return pixelLen
@@ -193,7 +216,7 @@ local function splitLine(str) --Split line by newline characters
 	local i = 1
 	while true do
 		local pos = str:find("\n", i, true)
-		if (not pos)
+		if (not pos) then
 			table.insert(out, str:sub(i))
 			break
 		end
@@ -204,9 +227,9 @@ local function splitLine(str) --Split line by newline characters
 end
 
 HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, scale)
-	x = $ or 0
-	y = $ or 0
-	scale = $ or FU
+	x = x or 0
+	y = y or 0
+	scale = scale or FU
 
 	local DrawStrUnicode = HIDEO.DrawStrUnicode
 
@@ -219,9 +242,9 @@ HIDEO.DrawStrUnicode_Center = function(v, x, y, str, flags, scale)
 end
 
 HIDEO.DrawStrUnicode_Right = function(v, x, y, str, flags, scale)
-	x = $ or 0
-	y = $ or 0
-	scale = $ or FU
+	x = x or 0
+	y = y or 0
+	scale = scale or FU
 
 	local DrawStrUnicode = HIDEO.DrawStrUnicode
 
@@ -267,8 +290,9 @@ HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
 	assert(v, "HIDEO.DrawTextPatch() argument #1: Video drawer object expected")
 	x = x or 0
 	y = y or 0
+	local patch_image = patch.image
 	assert(patch, "HIDEO.DrawTextPatch() argument #4: textpatch_t expected")
-	assert(patch.image, "HIDEO.DrawTextPatch() argument #4: given textpatch_t lacks the data/image table")
+	assert(patch_image, "HIDEO.DrawTextPatch() argument #4: given textpatch_t lacks the data/image table")
 	flags = flags or 0
 
 	local drawFill = v.drawFill
@@ -281,8 +305,8 @@ HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
 	local xo = x - (patch.xoff or 0) - 1
 	local yo = y - (patch.yoff or 0) - 1
 
-	for row = 1, #patch.image do
-		rowStr = patch.image[row]
+	for row = 1, #patch_image do
+		rowStr = patch_image[row]
 		rowLen = #rowStr
 		column = 1
 
@@ -299,7 +323,7 @@ HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
 				while (runEnd < rowLen) do
 					nxt = rowStr:byte(runEnd + 1)
 					if (nxt == 32) then break end --next pixel is transparent pixel
-					if ((palette[(HEX2INT[nxt] or 0) + 1] or 0) != color) then break end --next pixel has a different color than the current one
+					if ((palette[(HEX2INT[nxt] or 0) + 1] or 0) ~= color) then break end --next pixel has a different color than the current one
 					runEnd = runEnd + 1
 				end
 
@@ -315,11 +339,17 @@ HIDEO.GetTextPatchWidth = function(patch)
 	assert(patch, "HIDEO.GetTextPatchWidth() argument #1: textpatch_t expected")
 	local width = 0
 
-	if (patch.width) then width = patch.width
-	elseif (patch.image)
-		local height = #patch.image
+	local patch_width = patch.width
+	local patch_image = patch.image
+	local patch_image_row, patch_image_row_len
+
+	if (patch_width) then width = patch_width
+	elseif (patch_image) then
+		local height = #patch_image
 		for row = 1, height do
-			if (patch.image[row] and (#patch.image[row] > width)) then width = #patch.image[row] end
+			patch_image_row = patch_image[row]
+			patch_image_row_len = #patch_image_row
+			if (patch_image_row and (patch_image_row_len > width)) then width = patch_image_row_len end
 		end
 	end
 
@@ -331,13 +361,18 @@ HIDEO.GetTextPatchHeight = function(patch)
 	assert(patch, "HIDEO.GetTextPatchHeight() argument #1: textpatch_t expected")
 	local height = 0
 
-	if (patch.height) then height = patch.height
-	elseif (patch.image) then height = #patch.image end
+	local patch_height = patch.height
+	local patch_image = patch.image
+
+	if (patch_height) then height = patch_height
+	elseif (patch_image) then height = #patch_image end
 
 	return height
 end
 
---Helper functions for below
+
+
+--Helper functions for below function
 local function isxdigit(c)
 	c = c:byte()
 	return ((c >= 48) and (c <= 57)) or ((c >= 65) and (c <= 70)) or (c >= 97) and (c <= 102)
@@ -361,6 +396,7 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 	local lastusablespace = 1
 	local spacewidth = 4
 	local charwidth = 0
+	local HIDEO_charwidth = HIDEO.charwidth
 
 	if (not w or w == 0) then w = 320 end
 	w = $ - x
@@ -369,14 +405,14 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 	scale = $ or FU
 
 	switch(option & V_SPACINGMASK, {
-		[V_MONOSPACE] = do
+		[V_MONOSPACE] = function()
 			spacewidth = 8
 			charwidth = 8
 		end,
-		[V_OLDSPACING] = do
+		[V_OLDSPACING] = function()
 			charwidth = 8
 		end,
-		[V_6WIDTHSPACE] = do
+		[V_6WIDTHSPACE] = function()
 			spacewidth = 6
 		end
 	})
@@ -386,23 +422,18 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 
 	local i = 1
 	while (i <= #chars) do repeat
-		if (chars[i] == '\n') --newline
+		if (chars[i] == '\n') then --newline
 			x = 0
 			lastusablespace = 1
 			i = i + 1
-			break --continue
+			break
 		end
 
-		if (chars[i] == '^') and (isxdigit(chars[i + 1])) --Caret Code
-			i = $ + 2
-			break --continue
-		end
+		--Caret Code
+		if (chars[i] == '^') and (isxdigit(chars[i + 1])) then i = $ + 2; break end
 
 		c = unicode.code(chars[i])
-		if (not c)
-			i = i + 1
-			break --continue
-		end
+		if (not c) then i = i + 1; break end
 
 		local patch
 		if (((c >= 9) and (c <= 13)) or (c == 32))
@@ -411,13 +442,13 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 			lastusablespace = i
 		else
 			--regular, printable character
-			if (charwidth == 0) then chw = HIDEO.charwidth
+			if (charwidth == 0) then chw = HIDEO_charwidth
 			else chw = charwidth end
 		end
 
 		x = $ + FixedMul(chw, scale)
 
-		if (lastusablespace ~= 1 and x > w)
+		if (lastusablespace ~= 1 and x > w) then
 			--reached the width limit, add newline to wrap the string
 			chars[lastusablespace] = '\n'
 			i = lastusablespace

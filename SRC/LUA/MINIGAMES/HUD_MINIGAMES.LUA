@@ -24,7 +24,7 @@ local function V_DrawHudNum(v, x, y, flags, num)
 	num = num or 0
 	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
 
-	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH)) then
 		w = w * v.dupx()
 	end
 
@@ -44,7 +44,7 @@ local function V_DrawHudNumPadded(v, x, y, flags, num, digits)
 	digits = digits or 0
 	local w = GetTextPatchWidth(MM.textpatch["HUDDIGIT"][0])
 
-	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH))
+	if (flags & (V_NOSCALESTART|V_NOSCALEPATCH)) then
 		w = w * v.dupx()
 	end
 
@@ -60,7 +60,7 @@ end
 local function V_DrawMinigameTime(v)
     --label size and X position
 	local timeLabelWidth
-	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
+	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen) then
 		timeLabelWidth = GetTextPatchWidth(MM.text[MM.lang]["IMG_TIME"]) + 48
 	else
 		timeLabelWidth = 96
@@ -71,15 +71,15 @@ local function V_DrawMinigameTime(v)
 	local timertime = (MM.timelimit * 2100) - leveltime
 
 	--"TIME" text
-	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen)
+	if (MM.text[MM.lang]["IMG_TIME"]) and (not splitscreen) then
 		--Draw the Text Label
-		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4)) then
 			DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 2, V_SNAPTOTOP|v.localTransFlag()) --Flashing
 		else
 			DrawTextPatch(v, timeLabelX, hudinfo[HUD_TIME].y, MM.text[MM.lang]["IMG_TIME"], 1, V_SNAPTOTOP|v.localTransFlag()) --Normal
 		end
 	else --in case Text Patch was not found or the game is splitscreen (HIDEO.DrawTextPatch() does not support per-player rendering)
-		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4))
+		if (timelimit and (not G_TicsToMinutes(timertime)) and (leveltime & 4)) then
 			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTRTIME"], V_SNAPTOTOP|v.localTransFlag())
 		else
 			v.draw(timeLabelX, hudinfo[HUD_TIME].y, MM.graphics["STTTIME"], V_SNAPTOTOP|v.localTransFlag())
@@ -93,7 +93,7 @@ local function V_DrawMinigameTime(v)
 end
 
 hud.add(function(v, p)
-	if (gametype != GT_LTMMURDERMYSTERY) --in case if switched from MM to another gametype
+	if (gametype ~= GT_LTMMURDERMYSTERY) then --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
 		hud.enable("score")
@@ -116,14 +116,14 @@ hud.add(function(v, p)
     if ((p.mm.flags & FLAG_MINIGAME) and ((p.spectator) or (MM.PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
 		--Load Sonic Run graphics into memory (if not already loaded)
 		--Backgrounds
-		if (not #SonicRunBG)
+		if (not #SonicRunBG) then
 			for i = 0, 2 do
 				if (v.patchExists("SNCRNBG"..i)) then SonicRunBG[i] = v.cachePatch("SNCRNBG"..i) end
 			end
 		end
 
 		--CUSTOM3 related text
-		if (not p.mm.minigame_timeout)
+		if (not p.mm.minigame_timeout) then
 			DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 		end
 
@@ -140,21 +140,21 @@ hud.add(function(v, p)
 		--Sonic
 		local sonicSprite
 		switch(p.SonicRun.state, {
-			[0] = do --Standing
+			[0] = function() --Standing
 				sonicSprite = "SNC_STND"
 			end,
-			[1] = do --Running
+			[1] = function() --Running
 				sonicSprite = "SNC_RUN"..((leveltime % 2) + 1)
 			end,
-			[2] = do --Spinning/Jumping
+			[2] = function() --Spinning/Jumping
 				switch(leveltime % 4, {
-					[1] = do
+					[1] = function()
 						sonicSprite = "SNC_SPN2"
 					end,
-					[3] = do
+					[3] = function()
 						sonicSprite = "SNC_SPN3"
 					end,
-					['default'] = do
+					['default'] = function()
 						sonicSprite = "SNC_SPN1"
 					end
 				})
@@ -164,7 +164,7 @@ hud.add(function(v, p)
 
 		--hazards
 		local hazardSprite = "SPIK"..CHAR[65 + ((leveltime % 16) / 2)].."0"
-		for id, hazard in pairs(p.SonicRun.hazards)
+		for id, hazard in pairs(p.SonicRun.hazards) do
 			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
 		end
 
@@ -175,15 +175,15 @@ hud.add(function(v, p)
 		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31|v.localTransFlag()) --bottom
 
 		--Startup timer
-		if (p.SonicRun.timeout)
+		if (p.SonicRun.timeout) then
 			local secondsLeft = p.SonicRun.timeout / TICRATE
-			if (secondsLeft)
+			if (secondsLeft) then
 				local countdownPatch = "RACE3"
-				if (secondsLeft <= 2)
+				if (secondsLeft <= 2) then
 					countdownPatch = "RACE"..secondsLeft
 				end
 				v.draw(152, 100, MM.graphics[countdownPatch], v.localTransFlag())
-			elseif
+			else
 				v.draw(142, 100, MM.graphics["RACEGO"], v.localTransFlag())
 			end
 		end
@@ -191,7 +191,7 @@ hud.add(function(v, p)
 		--score
 		v.drawString((coords.sonicRun.x + 200 - v.stringWidth(p.SonicRun.score)), (coords.sonicRun.y - 12), p.SonicRun.score, V_BLUEMAP|v.localTransFlag())
 
-		if (not p.SonicRun.active)
+		if (not p.SonicRun.active) then
 			v.drawString(160, (coords.sonicRun.y + 44), "GAME OVER", V_INVERTMAP|v.localTransFlag(), "center")
 		end
 
@@ -203,20 +203,20 @@ hud.add(function(v, p)
 		--name
 		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
 		--role ("DEAD" label)
-		if (p.mm.role == ROLE_DEAD and MM.PlayerCount() > 1)
+		if (p.mm.role == ROLE_DEAD and MM.PlayerCount() > 1) then
 			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
 		end
 
 		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
-		if (p.mm.timetravel and p.mm.timetravel.timezone)
-			if (p.mm.timetravel.timezone == TIMEZONE_PAST) --Past
+		if (p.mm.timetravel and p.mm.timetravel.timezone) then
+			if (p.mm.timetravel.timezone == TIMEZONE_PAST) then --Past
 				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
-			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) --One of the Futures
+			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) then --One of the Futures
 				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
 
-		if (MM.debug)
+		if (MM.debug) then
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
@@ -234,11 +234,11 @@ hud.add(function(v, p)
     --
     elseif (MM.minigame) and (p.mm.flags & FLAG_MINIGAME) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2])
 		--CUSTOM3 related text and show yourself
-		if (PONG_GetMySlot(p))
+		if (PONG_GetMySlot(p)) then
 			if (not p.mm.minigame_timeout) then
 				DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
-			if (not splitscreen)
+			if (not splitscreen) then
 				local youX
 				if (p == MM.duelplrs[1]) then youX = 32
 				elseif (p == MM.duelplrs[2]) then youX = 288 end
@@ -261,32 +261,32 @@ hud.add(function(v, p)
 		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role]|v.localTransFlag())
 		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role]|v.localTransFlag())
 		--draw ball
-		if (MM.pong.timeout & 1)
+		if (MM.pong.timeout & 1) then
 			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72|v.localTransFlag())
 		end
 		--winner text
-		if (MM.pong.winner != nil)
+		if (MM.pong.winner ~= nil)
 			if (not MM.pong.winner)
 				DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
 			else
 				DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
 			end
 		end
-		
+
 		--player 1 side information
 		--player name
 		v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
 		--role
 		switch(MM.duelplrs[1].mm.role , {
-			[ROLE_MURDERER] = do
+			[ROLE_MURDERER] = function()
 				var1 = "MURDERER"
 				var2 = ROLE_MURDERER
 			end,
-			[ROLE_SHERIFF] = do
+			[ROLE_SHERIFF] = function()
 				var1 = "SHERIFF"
 				var2 = ROLE_SHERIFF
 			end,
-			['default'] = do
+			['default'] = function()
 				var1 = "DEAD"
 				var2 = ROLE_DEAD
 			end
@@ -302,15 +302,15 @@ hud.add(function(v, p)
 		v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
 		--role
 		switch(MM.duelplrs[2].mm.role , {
-			[ROLE_MURDERER] = do
+			[ROLE_MURDERER] = function()
 				var1 = "MURDERER"
 				var2 = ROLE_MURDERER
 			end,
-			[ROLE_SHERIFF] = do
+			[ROLE_SHERIFF] = function()
 				var1 = "SHERIFF"
 				var2 = ROLE_SHERIFF
 			end,
-			['default'] = do
+			['default'] = function()
 				var1 = "DEAD"
 				var2 = ROLE_DEAD
 			end
@@ -321,7 +321,7 @@ hud.add(function(v, p)
 		--win[6]
 		DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
 
-		if (MM.debug)
+		if (MM.debug) then
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
@@ -331,7 +331,7 @@ hud.add(function(v, p)
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Timeout\x80 "..MM.pong.timeout,0,"thin")
 			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
 		end
-    elseif (MM.minigame) and not (p.mm.flags & FLAG_MINIGAME)
+    elseif (MM.minigame) and not (p.mm.flags & FLAG_MINIGAME) then
         --Draw the invitation/suggestion text
         DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
         DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)

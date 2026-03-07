@@ -6,10 +6,12 @@
 -- hit detection, player parameters, and round endings
 
 local cv_rejointimeout = CV_FindVar("rejointimeout")
+local cv_idletime = CV_FindVar("idletime")
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_shields = CV_FindVar("mm_allowshields")
 local cv_invinc = CV_FindVar("mm_allowinvinc")
 local cv_shoes = CV_FindVar("mm_allowshoes")
+local cv_nocamping = CV_FindVar("mm_nocamping")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -93,6 +95,7 @@ addHook("PlayerSpawn", function(p)
 	end
 
 	if (not p.mm.flags) then p.mm.flags = 0 end
+	if (not p.afk) then p.afk = 0 end
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
@@ -125,6 +128,8 @@ end)
 addHook("PlayerThink", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
+	local pmo = p.mo
+
 	if (not cv_shields.value) then p.powers[pw_shield] = 0 end --Disable player shields
 	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
 	if (not cv_shoes.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
@@ -136,7 +141,7 @@ addHook("PlayerThink", function(p)
 	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = $ - 1 end
 
 	--HUD backend for fullscreen flash/spark effects
-	if (MM.hud.game.flash.translucency) and (MM.hud.game.flash.duration) and (not (leveltime % MM.hud.game.flash.duration))
+	if (MM.hud.game.flash.translucency) and (not (leveltime % int(MM.hud.game.flash.duration)))
 		MM.hud.game.flash.translucency = $ - 1
 	end
 
@@ -146,8 +151,9 @@ addHook("PlayerThink", function(p)
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
-			if (valid(MM.shremds[emeraldID])) and (MM.shremds[emeraldID].timezone and (MM.shremds[emeraldID].timezone == p.mm.timetravel.timezone))
-				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(p.mo.x - MM.shremds[emeraldID].x, p.mo.y - MM.shremds[emeraldID].y), p.mo.z - MM.shremds[emeraldID].z))
+			local emerald = MM.shremds[emeraldID]
+			if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone)
+				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(pmo.x - emerald.x, pmo.y - emerald.y), pmo.z - emerald.z))
 			end
 		end
 		shremd_closest = shremd_distances[0]
@@ -161,24 +167,36 @@ addHook("PlayerThink", function(p)
 		if (MM.shremdDist)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = do
-					if ((MM.shremdDist < 25165824) and (CV_FindVar("mm_nocamping").value) and (not MM.shwdwn)) --384*FU
+					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) --384*FU
 						p.mm.camping = $ + 1
-						if (p.mm.camping == 700) then MM.PunishPlayer(p, "Emerald camping") end --kick player after 20 seconds of camping
+						if (p.mm.camping == 700) then MM.KillPlayer(pmo, true, true) end --kill player after 20 seconds of camping
 					else p.mm.camping = 0 end
 				end,
 				[ROLE_CIVILIAN] = do
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
 				end,
 				[ROLE_JESTER] = do
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
 				end
 			})
 		end
 	end
 
+	--Ketchup cleaner
+	if (p.mm.killtrailsteps) and (pmo.z > pmo.waterbottom) and (p.mo.z < pmo.watertop) then
+		p.mm.killtrailsteps = 0
+	end
+
 	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
+
+	if (MM.PlayerCount() > 1)
+		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
+		else p.afk = p.afk + 1 end
+
+		if ((int(p.afk) > cv_idletime.value*2100) and not (p.mm.role ~= ROLE_DEAD)) then MM.KillPlayer(p.mo, true, true) end
+	end
 end)
 
 --
@@ -257,7 +275,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 						-- otherwise, Murderers win
 						if (MM.PlayerCount(ROLE_CIVILIAN))
-							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
+							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 							MM.SetRandomCivilianAs(ROLE_SHERIFF)
 						else
@@ -270,7 +288,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						else
-							MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
+							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
 						end
 					end
@@ -306,6 +324,9 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 				MM.ChatprintGlobal("MSG_HERODIED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Jester Hero) has died in an accident") end
 			end
+		end,
+		['default'] = do
+			MM.KillPlayer(v, spawnBodyOrEmerald)
 		end
 	})
 
@@ -338,7 +359,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
 				if (ap.mm.role == ROLE_CIVILIAN)
 					ap.mm.role = ROLE_HERO
-					MAYA.ChatprintPM(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
+					MM.Chatprint(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -349,7 +370,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_SHERIFF] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
+				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
@@ -367,7 +388,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		[ROLE_HERO] = do
 			if (ap.mm.role == ROLE_CIVILIAN)
 				MM.KillPlayer(a, true, true)
-				MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
+				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
 			end
 
@@ -383,13 +404,13 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 			if (aprole == ROLE_MURDERER) and (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO))
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 			end
-			MM.KillPlayer(a, true, true)
 			switch(aprole, {
 				[ROLE_SHERIFF] = do
+					MM.KillPlayer(a, true, true)
 					-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 					-- otherwise, Murderers win
 					if (MM.PlayerCount(ROLE_CIVILIAN))
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 						MM.SetRandomCivilianAs(ROLE_SHERIFF)
 					else
@@ -397,20 +418,22 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 					end
 				end,
 				[ROLE_HERO] = do
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 					elseif (MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
 					end
 				end,
 				[ROLE_CIVILIAN] = do
+					MM.KillPlayer(a, true, true)
 					if (not MM.PlayerCount(ROLE_CIVILIAN)) and (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 					else
-						MAYA.ChatprintPM(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
+						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
 					end
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
 				end
@@ -446,6 +469,9 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
 			end
+		end,
+		['default'] = do
+			MM.KillPlayerByPlayer(v, a)
 		end
 	})
 
@@ -541,8 +567,10 @@ end)
 
 --Automap anti-cheat
 if (tsourdt3rd)
+	local cv_automap1 = int(CV_FindVar("automapoutsidedevmode").value)
+	local cv_automap2 = int(CV_FindVar("tsourdt3rd_debug_automapanywhere").value)
 	addHook("KeyDown", function(keyevent)
-		if (keyevent.num == 9) and ((CV_FindVar("automapoutsidedevmode") and CV_FindVar("automapoutsidedevmode").value) or (CV_FindVar("tsourdt3rd_debug_automapanywhere") and CV_FindVar("tsourdt3rd_debug_automapanywhere").value)) and (gametype == GT_LTMMURDERMYSTERY)
+		if (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY)
 			COM_BufInsertText(consoleplayer, "QUIT")
 		end
 	end)

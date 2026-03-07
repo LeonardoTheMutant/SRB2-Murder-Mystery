@@ -32,19 +32,19 @@ end
 local function P_ElevatorMove()
 	local mo
 	switch(elevatorState[1], {
-		[0] = do --from Top Floor
+		[0] = function() --from Top Floor
 			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
 			searchBlockmap("objects", function(refmobj, foundmobj)
 				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z)
 			end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
 		end,
-		[1] = do --from Basement 1
+		[1] = function() --from Basement 1
 			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
 			searchBlockmap("objects", function(refmobj, foundmobj)
 				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z) --dummy values
 			end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
 		end,
-		[2] = do --from Basement 2
+		[2] = function() --from Basement 2
 			local mo = P_SpawnMobj(-192*FU, 2752*FU, 0, MT_RAY)
 			searchBlockmap("objects", function(refmobj, foundmobj)
 				P_MoveOrigin(foundmobj, foundmobj.x - 2048*FU, foundmobj.y, foundmobj.z) --dummy values
@@ -58,13 +58,13 @@ local function P_ElevatorFloor()
 	local mo = P_SpawnMobj(-2240*FU, 2752*FU, 0, MT_RAY)
 	searchBlockmap("objects", function(refmobj, foundmobj)
 		switch(elevatorState[1], {
-			[0] = do --to Top floor
+			[0] = function() --to Top floor
 				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z)
 			end,
-			[1] = do --to Basement 1
+			[1] = function() --to Basement 1
 				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z) --dummy values
 			end,
-			[2] = do --to Basement 2
+			[2] = function() --to Basement 2
 				P_MoveOrigin(foundmobj, foundmobj.x + 2048*FU, foundmobj.y, foundmobj.z) --dummy values
 			end,
 		})
@@ -72,18 +72,18 @@ local function P_ElevatorFloor()
 	end, mo, (mo.x - 8388608), (mo.x + 8388608), (mo.y - 8388608), (mo.y + 8388608))
 end
 
-addHook("ThinkFrame", do
-	if (elevatorState[3]) then elevatorState[3] = $ - 1 end
-	if (not elevatorState[3]) --if timer ran out
+addHook("ThinkFrame", function()
+	if (elevatorState[3]) then elevatorState[3] = elevatorState[3] - 1 end
+	if (not elevatorState[3]) then --if timer ran out
 		if (elevatorState[2]) then --if the doors are open
 			if (not elevatorState[4]) then P_CloseElevatorDoors() --if elevator does not plan to move close the elevator doors
 			elseif (elevatorState[4] == 3) then elevatorState[4] = 0 end --if elevator has just arrived change its direction to none/idle
 		else --doors are closed
-			if (elevatorState[4]) --if evetator plans to move
+			if (elevatorState[4]) then --if evetator plans to move
 				if (elevatorState[4] == 1) then --going up
-					elevatorState[1] = $ + 1
+					elevatorState[1] = elevatorState[1] + 1
 				elseif (elevatorState[4] == 2) then --going down
-					elevatorState[1] = $ - 1
+					elevatorState[1] = elevatorState[1] - 1
 				end
 				P_ElevatorFloor()
 				elevatorState[3] = timerConst[1]
@@ -93,20 +93,20 @@ addHook("ThinkFrame", do
 		end
 	else --timer is not 0
 		--Move players into the elevator and do the evelator thingies
-		if (((elevatorState[4] == 1) or (elevatorState[4] == 2)) and (elevatorState[3] == timerConst[2] - 35))
+		if (((elevatorState[4] == 1) or (elevatorState[4] == 2)) and (elevatorState[3] == timerConst[2] - 35)) then
 			P_ElevatorMove()
 		end
 	end
 end)
 
-addHook("LinedefExecute", do
+addHook("LinedefExecute", function()
 	if (not elevatorState[4]) then
 		P_OpenElevatorDoors()
 		elevatorState[3] = 5*TICRATE
 	end
 end,"KEELVOPN")
 
-addHook("LinedefExecute", do
+addHook("LinedefExecute", function()
 	if (not elevatorState[4]) then
 		P_CloseElevatorDoors()
 		elevatorState[3] = timerConst[2]
@@ -114,7 +114,7 @@ addHook("LinedefExecute", do
 	end
 end,"KEELVUP")
 
-addHook("LinedefExecute", do
+addHook("LinedefExecute", function()
 	if (not elevatorState[4]) then
 		P_CloseElevatorDoors()
 		elevatorState[3] = timerConst[2]
@@ -173,18 +173,24 @@ local duelSign_digits = {
 
 --Graphics optimization at its peak (do not let the programmer cook graphics)
 
-local tilePart0 = "00"
-local tilePart1 = "11"
-local tilePart2 = "22"
+local zero = "0"
+local one = "1"
+local two = "2"
+local tilePart0 = string.rep(zero, 2)
+local tilePart1 = string.rep(one, 2)
+local tilePart2 = string.rep(two, 2)
 local tilePartSpace = string.rep(" ", 12)
 
-local signTile0 = tilePart0..string.rep(tilePart1, 4)..tilePartSpace..tilePart1..tilePartSpace..tilePart1.."1"..string.rep(tilePart0, 2)..tilePart1.."1"..tilePartSpace..tilePart1..tilePartSpace..string.rep(tilePart1, 4)..tilePart0
+local signTile0 = tilePart0..string.rep(tilePart1, 4)..tilePartSpace..tilePart1..tilePartSpace..string.rep(one, 3)..string.rep(zero, 4)..string.rep(one, 3)..tilePartSpace..tilePart1..tilePartSpace..string.rep(tilePart1, 4)..tilePart0
 local signTile1 = string.rep(tilePart0, 41) --plain line of zeroes
 local signTile2 = tilePart0..string.rep(tilePart1, 39)..tilePart0 --"00111100"
 local signTile3 = tilePart0..string.rep(tilePart2, 39)..tilePart0 --"00222200"
-local signTile4 = "0011111111000000000000000000000000000000000000000000000000000000000000001111111100"
+local signTile4 = tilePart0..string.rep(tilePart1, 4)..string.rep(tilePart0, 31)..string.rep(tilePart1, 4)..tilePart0
 local signTile5 = tilePart0..string.rep(tilePart1, 4)..tilePartSpace..tilePart1..tilePartSpace..string.rep(tilePart1, 5)..tilePartSpace..tilePart1..tilePartSpace..string.rep(tilePart1, 4)..tilePart0
+local signTile6 = tilePart0..string.rep(one, 11)..string.rep(zero, 5)..tilePart1..string.rep(tilePart0, 2)..string.rep(one, 19)..string.rep(zero, 3)..string.rep(one, 3)..string.rep(tilePart0, 2)..string.rep(one, 7)..string.rep(zero, 3)..string.rep(one, 17)..tilePart0
+local signTile7 = tilePart0..string.rep(tilePart1, 10)..string.rep(tilePart0, 2)..string.rep(one, 17)..string.rep(tilePart0, 4)..tilePart1..string.rep(zero, 5)..string.rep(one, 7)..string.rep(zero, 5)..string.rep(tilePart1, 5)..tilePart0
 
+--No I am serious - do not let me make the graphics :skull:
 local duelSign = {
 	palette = {
 		{31, 39, 31},
@@ -199,11 +205,7 @@ local duelSign = {
 		{31, 39, 41}
 	},
 	image = {
-		signTile1,
-		signTile1,
-		signTile2,
-		signTile3,
-		signTile3,
+		signTile1,signTile1,signTile2,signTile3,signTile3,
 		"0022222111111111122221111222222222211111111111112211111111112222111111111111222200",
 		"0022221111111111112221111222222222211111111111112211111111111222111111111111222200",
 		"0022221111222221111221111222222222211112222222222211112222211122222211112222222200",
@@ -215,22 +217,16 @@ local duelSign = {
 		"0022221111222222111221111222222222211112222222222211112222211122222211112222222200",
 		"0022221111222222111221111111111112211111111111112211112222211122222211112222222200",
 		"0022221111222222111221111111111112211111111111112211112222211122222211112222222200",
-		signTile3,
-		signTile3,
-		signTile3,
+		signTile3,signTile3,signTile3,
 		"0022222111111122112211111111112211221111111221122111111111111221122111111112222200",
 		"0022222111111122112211111111112211221111111221122111111111111221122111111112222200",
-		signTile3,
-		signTile3,
-		signTile2,
-		signTile2,
+		signTile3,signTile3,signTile2,signTile2,
 		"0011111111111111000000000000000111111111111000000000011111000000011111111111111100",
 		"0011111111111111000000000000000111111111111000000000011100001110000111111111111100",
 		"0011111111111000000011111000000111111111111000110000011100001110000111111111111100",
 		"0011111111111000000011111000000111111111111000110000011100001110000111111111111100",
 		"0011111111111111111111000000000111111111111000110001110000111111100001111111111100",
-		"0011111111111111111111000011111111111111111000000001100000111111100000111111111100",
-		"0011111111111111111111000011111111111111111000000001100000111111100000111111111100",
+		signTile7,signTile7,
 		"0011111111111000000000000000000000000011111000001111111100000000000111111111111100",
 		"0011111111111000000000000000000000000011111000001111111100000000000111111111111100",
 		"0011111111111000000000000000000000000011111000001111111111100000111111111111111100",
@@ -242,51 +238,17 @@ local duelSign = {
 		"0011111111111000001100001111100001111111111000111000000001100000110000111111111100",
 		"0011111111111000001100001100000001111111111000111000000000000000000000111111111100",
 		"0011111111111000001100001100000001111111111000111000011111110001111111111111111100",
-		"0011111111111000001100001111111111111111111000111000011111110001111111111111111100",
-		"0011111111111000001100001111111111111111111000111000011111110001111111111111111100",
-		"0011111111111000001100001111111111111111111000111000011111110001111111111111111100",
-		"0011111111111000001100001111111111111111111000111000011111110001111111111111111100",
+		signTile6,signTile6,signTile6,signTile6,
 		"0011111111111000001100001111111111111111111000100000111111000000011111111111111100",
 		"0011111111111000001100001111111111111111111000100001111111000000011111111111111100",
 		"0011111111111000001100001111111110000111111000111111111100001110000111111111111100",
 		"0011111111110000011111000000000000000011111000111111111100001110000111111111111100",
 		"0011111111000000111111100000000000000011111000111111100000111111100000111111111100",
 		"0011111111000000111111100000000000000111111111111111100000111111100000111111111100",
-		signTile2,
-		signTile2,
-		signTile4,
-		signTile4,
-		signTile2,
-		signTile2,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile5,
-		signTile0,
-		signTile0,
-		signTile0,
-		signTile0,
-		signTile2,
-		signTile2,
-		signTile4,
-		signTile4,
-		signTile2,
-		signTile1,
-		signTile1
+		signTile2,signTile2,signTile4,signTile4,signTile2,signTile2,signTile5,signTile5,signTile5,
+		signTile5,signTile5,signTile5,signTile5,signTile5,signTile5,signTile5,signTile5,signTile5,
+		signTile5,signTile5,signTile5,signTile5,signTile5,signTile5,signTile0,signTile0,signTile0,
+		signTile0,signTile2,signTile2,signTile4,signTile4,signTile2,signTile1,signTile1
 	}
 }
 
@@ -302,7 +264,7 @@ hud.add(function(v)
 	timertime = (MM.timelimit * 2100) - leveltime
 	v.drawString(200, 184, "\x85".."Elevator state", V_SNAPTOLEFT, "thin")
 	v.drawString(200, 192, string.format("%4d %4d %4d %4d", elevatorState[1], elevatorState[2], elevatorState[3], elevatorState[4]), V_SNAPTOLEFT, "thin")
-	if (MM and HIDEO and MM.shwdwn)
+	if (MM and HIDEO and MM.shwdwn) then
 		HIDEO.DrawTextPatch(v, 234, 4, duelSign, sortOfSine(leveltime, 9)+1, V_SNAPTOTOP|V_SNAPTORIGHT)
 		if ((timertime / 35) > 99) then
 			for i = 1, 2 do
