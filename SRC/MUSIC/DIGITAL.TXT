@@ -47,7 +47,7 @@ O_MAPKHM.SPC (Temple theme) - "Playing the Card Game Tarot" by Ukiyotei Sound Te
 = SUSPENSE =
 ============
 
-O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X)
+O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
 
 
 ============
@@ -68,9 +68,9 @@ O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC
 
 O_MM_TIE.SPC -            Tie            - "Competition Menu" (Sonic the Hedgehog 3 (Nov. 1993 Prototype)) (SPC by bebn legg)
 O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
-O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X)
-O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X)
+O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
+O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X) (Sega Gensis VGM by Savaged Regime)
 O_MMEND3.SPC - Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (SPC by Xulon)
 O_MMEND4.SPC -   Murderous Hero Ending   - "Sign of Evil" by Bobby Prince (DOOM (SNES))
 O_MMEND5.SPC -    No Defenders Ending    - "Vanilla Dome" by Koji Kondo (Super Mario World)
-O_MMEND6.SPC -       Jester Ending       - "Puppy Love" by Tommy Tallarico (Earthworm Jim 2 (SNES))
+O_MMEND6.SPC -       Jester Ending       - "Puppy Love" by Tommy Tallarico (Earthworm Jim 2 (Genesis))
