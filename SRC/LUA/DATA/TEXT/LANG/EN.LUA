@@ -236,6 +236,11 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Centered text when you are alone
 	["HUD_ALONE"] = "^42 players^0 are required for the game,\nPlease wait for ^4one more^0 player to start.",
 
+	-- Camera stuff
+	["HUD_CAMERA"] = {
+		["TERMINAL"] = "Press ^7CUSTOM1^0 to view the cameras",
+	},
+
 	-- Spectator related text
 	["HUD_SPECTATOR"] = {
 		["INFO"] = "You are currently spectating. Enter the game to join in the next round.", --Centered text showing that you are a spectator

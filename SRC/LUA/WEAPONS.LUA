@@ -78,20 +78,6 @@ MM.weapons[WEP_RAIL]={ --Rail Ring
 	50
 }
 
---Do not let player to switch to another weapon, if he is not allowed to
---(Weapon Switch sound silencer)
-addHook("KeyDown", function(e)
-	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
-
-	local key1, key2
-	for key = GC_WEAPONNEXT, GC_WEPSLOT7 do
-		key1, key2 = input.gameControlToKeyNum(key)
-		if (e.num == key1) or (e.num == key2) then
-			if (GetWepCfgFlags(consoleplayer.mm.role) & WEPCFG_REDONLY or ((consoleplayer.mm.role < ROLE_MURDERER or consoleplayer.mm.role > ROLE_JESTERHERO))) then return true end
-		end
-	end
-end)
-
 --Function ports from the C source code with MM modifications
 local function P_DrainWeaponAmmo(p, weapon)
 	p.powers[weapon] = p.powers[weapon] - 1

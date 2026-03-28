@@ -42,7 +42,7 @@ rawset(_G, "MM", {
 			pos = {
 				ringWepOnly_x = 144, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
-				debug = {x=8, y=48}, --Debug info
+				debug = {x=8, y=32}, --Debug info
 			},
 			roleflicker = 0,
 			flash = {
@@ -93,6 +93,7 @@ rawset(_G, "MM", {
 		hits = 0,
 		padcolor = {37, 153} --player role colors
 	},
+	cameras = {}, --table containing all cameras for the current map, gets cleared every map load
 	text = {} --text strings used in the game, not synched, see the /LUA/TEXT/ directory
 })
 
@@ -105,6 +106,7 @@ end
 --Synchronized Variables
 addHook("NetVars", function(net)
 	MM.shremds = net(MM.shremds)
+	MM.cameras = net(MM.cameras)
 	MM.winner = net(MM.winner)
 	MM.winreason = net(MM.winreason)
 	MM.timelimit = net(MM.timelimit)
@@ -284,11 +286,13 @@ dofile("LIBRARIES/UNICODE.LUA")
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) then dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
 dofile("LIBRARIES/DOMINICA.LUA")
+dofile("LIBRARIES/PAPERMODEL.LUA")
 dofile("LIBRARIES/VICTORIA.LUA")
 
 --Load Data
 print("\n\x87Murder Mystery\x80: Loading data...")
-dofile("DATA/CCMDTEXT.LUA")
+dofile("DATA/TEXT/CCMDTEXT.LUA")
+dofile("DATA/TEXT/CAMTEXT.LUA")
 dofile("DATA/FOOTSOUND.LUA")
 dofile("DATA/FREESLOT.LUA")
 if (not isdedicatedserver) then
@@ -298,15 +302,15 @@ end
 
 --Load the text and all translations
 print("\n\x87Murder Mystery\x80: Loading text...")
-dofile("TEXT/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
-dofile("TEXT/DE.LUA")
-dofile("TEXT/ES.LUA")
-dofile("TEXT/FR.LUA")
-dofile("TEXT/GR.LUA")
-dofile("TEXT/PL.LUA")
-dofile("TEXT/RU.LUA")
-dofile("TEXT/TR.LUA")
-dofile("TEXT/UA.LUA")
+dofile("DATA/TEXT/LANG/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
+dofile("DATA/TEXT/LANG/DE.LUA")
+dofile("DATA/TEXT/LANG/ES.LUA")
+dofile("DATA/TEXT/LANG/FR.LUA")
+dofile("DATA/TEXT/LANG/GR.LUA")
+dofile("DATA/TEXT/LANG/PL.LUA")
+dofile("DATA/TEXT/LANG/RU.LUA")
+dofile("DATA/TEXT/LANG/TR.LUA")
+dofile("DATA/TEXT/LANG/UA.LUA")
 
 --Script files load
 print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
@@ -320,6 +324,7 @@ dofile("CCMD.LUA")
 dofile("FOOTSTEPS.LUA")
 dofile("ABILITIES.LUA")
 dofile("TIMETRAVEL.LUA")
+dofile("CAMERA.LUA")
 
 --Minigames module
 print("\n\x87Murder Mystery\x80: Loading minigames module...")

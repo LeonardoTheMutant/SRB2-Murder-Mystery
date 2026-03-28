@@ -640,6 +640,9 @@ hud.add(function(v)
 
 	hud.disable("rankings")
 
+	--HUD frontend for the flash/spark effects
+	if (HudGame_flash.translucency) then v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency) end
+
 	DrawStrUnicode_Center(v, 160, 8, "^7"..GetText("HUD_MM"), localTransFlag, canvas.font.scale)
 
 	--Player list
@@ -758,9 +761,6 @@ hud.add(function(v)
 		})
 		DrawStrUnicode(v, 160, (176 + font.charheight), RoleColorHUD[color]..WordWrap(160, 304, 0, font_small.scale, GetText("HUD_ROLETARGET", role)), localTransFlag, font_small.scale)
 	end
-
-	--HUD frontend for the flash/spark effects
-	if (HudGame_flash.translucency) then v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency) end
 
 	-- Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|localTransFlag, "center") end

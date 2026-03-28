@@ -101,6 +101,13 @@ MM.InitPlayer = function(p)
 		timesign = TWS_NONE,
 		warptimer = 0
 	}
+	p.mm.camera = {
+		active = false,
+		available = false,
+		state = 0,
+		timer = 0,
+		id = 1
+	}
 
 	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR)) then
 		switch(p.spectator, {
@@ -374,6 +381,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
+	MM.ResetHUD(plr)
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
 	P_PlayerWeaponPanelOrAmmoBurst(plr)
@@ -409,6 +417,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	end
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
+	MM.ResetHUD(plr)
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	if (killedForPunishment) then plr.mm.killreason = KILLBY_GAME
 	else plr.mm.killreason = KILLBY_MAP end
@@ -557,6 +566,18 @@ MM.StartFlashFX = function(p, duration, color)
 		MM.hud.game.flash.translucency = 10
 		MM.hud.game.flash.duration = duration
 		MM.hud.game.flash.color = color
+	end
+end
+
+--Reset/Restore the HUD
+MM.ResetHUD = function(p)
+	--Remind me to rewrite the entire HUD engine because maintaining multiple sub-HUDs that cannot be shown simotaniousely is pain and is horrible design choice
+	p.mm.camera.active = false
+	if (p == consoleplayer) then
+		if (not MM.hud.help.active) and (not MM.hud.minigames.active) then
+			if not (MM.hud.game.active) then MM.hud.game.active = true end
+			if not (MM.hud.scores.active) then MM.hud.scores.active = true end
+		end
 	end
 end
 

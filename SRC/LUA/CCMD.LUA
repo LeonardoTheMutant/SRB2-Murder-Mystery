@@ -381,8 +381,8 @@ end)
 
 --Renderer, Frontend
 hud.add(function(v, p)
-	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
 	if not ((eMeM.hud.help.active) and (MM_text) and (eMeM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
+	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
 
 	local vi = v
 	local draw = vi.draw
