@@ -90,8 +90,9 @@ end
 --
 -- SONIC RUN MINIGAME
 --
-local function SONIC_Reset(p)
-	p.SonicRun = {
+rawset(_G, "SonicRun", {})
+local function SONIC_Reset()
+	SonicRun = {
 		active = 1,
 		score = 0,
 		Y = 0,
@@ -105,91 +106,95 @@ local function SONIC_Reset(p)
 	}
 end
 
+local function SONIC_IntertHazard(height)
+	table.insert(SonicRun.hazards, {192, height})
+end
+
 --
 -- Main SONIC RUN logic & input handler
 --
-local function SONIC_Thinker(p)
-	if (p.SonicRun.Y < 1) then --touching the ground?
-		p.SonicRun.state = 1 --running
-		p.SonicRun.velocity = 0
+local function SONIC_Thinker()
+	if (SonicRun.Y < 1) then --touching the ground?
+		SonicRun.state = 1 --running
+		SonicRun.velocity = 0
 
 		--controls
 		if (p.cmd.buttons & BT_JUMP) then --FORWARD/JUMP (jump)
-			p.SonicRun.state = 2 --spinning (jump/spin)
-			p.SonicRun.velocity = 10
+			SonicRun.state = 2 --spinning (jump/spin)
+			SonicRun.velocity = 10
 			S_StartSound(nil, sfx_cdfm02, p)
 		elseif (p.cmd.buttons & BT_SPIN) then --BACKWARD/SPIN (spin)
-			p.SonicRun.state = 2 --spinning (jump/spin)
-			if (not p.SonicRun.spinsound) then S_StartSound(nil, sfx_spin, p) end
-			p.SonicRun.spinsound = 1
-		else p.SonicRun.spinsound = 0 end
-	else p.SonicRun.velocity = $ - 1 end
+			SonicRun.state = 2 --spinning (jump/spin)
+			if (not SonicRun.spinsound) then S_StartSound(nil, sfx_spin, p) end
+			SonicRun.spinsound = 1
+		else SonicRun.spinsound = 0 end
+	else SonicRun.velocity = $ - 1 end
 
 	--adjust Sonic's hitbox
-	if (p.SonicRun.state == 2) p.SonicRun.Height = 14
-	else p.SonicRun.Height = 20 end
+	if (SonicRun.state == 2) then SonicRun.Height = 14
+	else SonicRun.Height = 20 end
 
-	p.SonicRun.Y = $ + p.SonicRun.velocity
+	SonicRun.Y = SonicRun.Y + SonicRun.velocity
 	--reposition Sonic so he doesn't move underground
-	while (p.SonicRun.Y < 0) p.SonicRun.Y = $ + 1 end
+	while (SonicRun.Y < 0) SonicRun.Y = $ + 1 end
 
-	p.SonicRun.score = $ + 1
+	SonicRun.score = $ + 1
 
 	--
 	-- Hazard logic
 	--
-	p.SonicRun.hazardsTimeout = $ - 1
+	SonicRun.hazardsTimeout = $ - 1
 
 	--hazard spawning
-	if (p.SonicRun.hazardsTimeout <= 0) then
+	if (SonicRun.hazardsTimeout <= 0) then
 		switch(P_RandomKey(8), {
 			[0] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 0})
+				SONIC_IntertHazard(0)
 			end,
 			[1] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 16})
+				SONIC_IntertHazard(16)
 			end,
 			[2] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+				SONIC_IntertHazard(32)
 			end,
 			[3] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 0})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 16})
+				SONIC_IntertHazard(0)
+				SONIC_IntertHazard(16)
 			end,
 			[4] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 16})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+				SONIC_IntertHazard(16)
+				SONIC_IntertHazard(32)
 			end,
 			[5] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 48})
+				SONIC_IntertHazard(32)
+				SONIC_IntertHazard(48)
 			end,
 			[6] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 16})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 48})
+				SONIC_IntertHazard(16)
+				SONIC_IntertHazard(32)
+				SONIC_IntertHazard(48)
 			end,
 			[7] = function()
-				table.insert(p.SonicRun.hazards, {x = 192, y = 0})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 16})
-				table.insert(p.SonicRun.hazards, {x = 192, y = 32})
+				SONIC_IntertHazard(0)
+				SONIC_IntertHazard(16)
+				SONIC_IntertHazard(32)
 			end
 		})
-		p.SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 18
+		SonicRun.hazardsTimeout = (P_RandomKey(2) * 16) + 18
 	end
 
 	--hazards thinker and collision
-	for id = 1, #p.SonicRun.hazards do
-		if (p.SonicRun.hazards[id]) then
+	for id = 1, #SonicRun.hazards do
+		if (SonicRun.hazards[id]) then
 			--I have no idea why hazards desync in their movement
-			p.SonicRun.hazards[id].x = $ - 5 --move
+			SonicRun.hazards[id].x = $ - 5 --move
 
-			if (((p.SonicRun.hazards[id].x + 16) >= 16) and (p.SonicRun.hazards[id].x <= 20))
-			and (((p.SonicRun.hazards[id].y + 16) >= p.SonicRun.Y) and (p.SonicRun.hazards[id].y <= (p.SonicRun.Y + p.SonicRun.Height))) then
+			if (((SonicRun.hazards[id].x + 16) >= 16) and (SonicRun.hazards[id].x <= 20))
+			and (((SonicRun.hazards[id].y + 16) >= SonicRun.Y) and (SonicRun.hazards[id].y <= (SonicRun.Y + SonicRun.Height))) then
 				--die
-				p.SonicRun.active = 0
-			elseif (p.SonicRun.hazards[id].x < -15) --out of bounds
-				table.remove(p.SonicRun.hazards, id)
+				SonicRun.active = 0
+			elseif (SonicRun.hazards[id].x < -15) --out of bounds
+				table.remove(SonicRun.hazards, id)
 			end
 		end
 	end
@@ -234,7 +239,10 @@ addHook("PlayerThink", function(p)
 	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and (not MM.hud.help.active) then
 		if (not (p.lastbuttons & BT_CUSTOM3)) then
 			if (p.mm.flags & FLAG_MINIGAME) then --Disable minigame
-				if (not p.mm.minigame_timeout) then p.mm.flags = p.mm.flags & ~FLAG_MINIGAME end --Disable only when the timeout timer is out
+				if (not p.mm.minigame_timeout) then
+					MM.hud.game.routine = MM.hud.routines["game_main"]
+					p.mm.flags = p.mm.flags & ~FLAG_MINIGAME
+				end --Disable only when the timeout timer is out
 				if (MM.minigame and PONG_GetMySlot(p)) then --PONG-specific code
 					for plr = 1, 2 do
 						MM.duelplrs[plr].mm.minigame = nil
@@ -256,23 +264,37 @@ addHook("PlayerThink", function(p)
 	--Player is in minigame state
 	if (p.mm.flags & FLAG_MINIGAME) then
 		if ((MM.minigame) and (MM.twopgame)) then --PONG
-			if (MM.pong.timeout < 0) then PONG_ThinkCmd(p) end
-			--Disable player movement (kinda)
-			if (valid(p.realmo)) then
-				p.realmo.momx = 0
-				p.realmo.momy = 0
-				p.realmo.state = S_PLAY_WAIT
-			end
+			MM.hud.game.routine = MM.hud.routines["minigame_pong"]
 		elseif ((p.spectator) or (MM.PlayerCount() == 1)) then --SONIC RUN
-			if (p.SonicRun.timeout) then
-				p.SonicRun.timeout = $ - 1
-				if (p.SonicRun.timeout > TICRATE) then
-					p.SonicRun.state = 0
-					if (not (p.SonicRun.timeout % TICRATE)) then S_StartSound(nil, sfx_s3ka7, p) end
-				elseif (p.SonicRun.timeout == TICRATE) then S_StartSound(nil, sfx_s3kad, p) end
+			MM.hud.game.routine = MM.hud.routines["minigame_sonicrun"]
+			if (SonicRun.timeout) then
+				SonicRun.timeout = $ - 1
+				if (SonicRun.timeout > TICRATE) then
+					SonicRun.state = 0
+					if (not (SonicRun.timeout % TICRATE)) then S_StartSound(nil, sfx_s3ka7, p) end
+				elseif (SonicRun.timeout == TICRATE) then S_StartSound(nil, sfx_s3kad, p) end
 			end
-			if ((p.SonicRun.active) and (not (p.SonicRun.timeout / TICRATE))) then SONIC_Thinker(p) end
-			p.powers[pw_nocontrol] = 1
+		end
+	end
+end)
+
+--Input reader for both minigames
+addHook("PreThinkFrame", function()
+	for p in players.iterate do
+		if (p.mm.flags & FLAG_MINIGAME) then
+			if (MM.minigame) and (MM.twopgame) then
+				if (MM.pong.timeout < 0) then
+					PONG_ThinkCmd(p)
+					p.cmd.forwardmove = 0
+					p.cmd.sidemove = 0
+					p.cmd.buttons = 0
+				end
+			elseif (p.spectator) or (MM.PlayerCount() == 1) then
+				if (SonicRun.active) and (not (SonicRun.timeout / TICRATE)) then SONIC_Thinker() end
+				p.cmd.forwardmove = 0
+				p.cmd.sidemove = 0
+				p.cmd.buttons = 0
+			end
 		end
 	end
 end)

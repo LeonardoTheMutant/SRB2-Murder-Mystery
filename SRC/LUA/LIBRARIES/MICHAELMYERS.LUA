@@ -102,7 +102,6 @@ MM.InitPlayer = function(p)
 		warptimer = 0
 	}
 	p.mm.camera = {
-		active = false,
 		available = false,
 		state = 0,
 		timer = 0,
@@ -381,6 +380,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
+	plr.mm.camera.active = false
 	MM.ResetHUD(plr)
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	P_PlayerRingBurst(plr, -1)
@@ -417,6 +417,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	end
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
+	plr.mm.camera.active = false
 	MM.ResetHUD(plr)
 	MM.StartFlashFX(plr, 4, 0x23) --Red flash effect
 	if (killedForPunishment) then plr.mm.killreason = KILLBY_GAME
@@ -571,14 +572,11 @@ end
 
 --Reset/Restore the HUD
 MM.ResetHUD = function(p)
-	--Remind me to rewrite the entire HUD engine because maintaining multiple sub-HUDs that cannot be shown simotaniousely is pain and is horrible design choice
-	p.mm.camera.active = false
-	if (p == consoleplayer) then
-		if (not MM.hud.help.active) and (not MM.hud.minigames.active) then
-			if not (MM.hud.game.active) then MM.hud.game.active = true end
-			if not (MM.hud.scores.active) then MM.hud.scores.active = true end
-		end
-	end
+	if (p) and (p ~= consoleplayer) then return end
+
+	MM.hud.game.routine = MM.hud.routines["game_main"]
+	MM.hud.scores.routine = MM.hud.routines["scores_main"]
+	MM.hud.intermission.routine = MM.hud.routines["intermission_main"]
 end
 
 --Function to end the round, arguments here:

@@ -1,13 +1,14 @@
 -- HUD_MINIGAMES.LUA
 -- Code by LeonardoTheMutant
 --
--- Dedicated HUD renderer for Minigames
+-- Dedicated HUD renderering functions for Minigames
 
 local SonicRunBG = {} --Cached background images for Sonic Run
 local coords = {
     pong = {x=80, y=60}, --offset coordinates from (0,0)
     sonicRun = {x=60, y=60} --offset coordinates from (0,0)
 }
+local SR = SonicRun
 
 local var1, var2
 
@@ -92,7 +93,10 @@ local function V_DrawMinigameTime(v)
 	V_DrawHudNum(v, (timeLabelX + timeLabelWidth - 22), hudinfo[HUD_TIME].y, V_SNAPTOTOP|v.localTransFlag(), G_TicsToMinutes(timertime))
 end
 
-hud.add(function(v, p)
+--
+-- SONIC RUN minigame renderer
+--
+MM.hud.routines["minigame_sonicrun"] = function(v, p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
@@ -110,230 +114,222 @@ hud.add(function(v, p)
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-    --
-	-- SONIC RUN minigame renderer
-	--
-    if ((p.mm.flags & FLAG_MINIGAME) and ((p.spectator) or (MM.PlayerCount() == 1)) and (not (MM.minigame and MM.twopgame)))
-		--Load Sonic Run graphics into memory (if not already loaded)
-		--Backgrounds
-		if (not #SonicRunBG) then
-			for i = 0, 2 do
-				if (v.patchExists("SNCRNBG"..i)) then SonicRunBG[i] = v.cachePatch("SNCRNBG"..i) end
-			end
+	--Load Sonic Run graphics into memory (if not already loaded)
+	--Backgrounds
+	if (not #SonicRunBG) then
+		for i = 0, 2 do
+			if (v.patchExists("SNCRNBG"..i)) then SonicRunBG[i] = v.cachePatch("SNCRNBG"..i) end
 		end
-
-		--CUSTOM3 related text
-		if (not p.mm.minigame_timeout) then
-			DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
-		end
-
-		--TIME
-		V_DrawMinigameTime(v)
-
-		--Draw scrolling background
-		--Despite checking for the patch width, it can currently work only with 200x80 images
-		local scroll = p.SonicRun.score % SonicRunBG[p.SonicRun.background].width
-		v.drawCropped((coords.sonicRun.x * FU), (coords.sonicRun.y * FU), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, (scroll * FU), 0, (SonicRunBG[p.SonicRun.background].width - scroll)*FU, 5242880) --80*FU
-		v.drawCropped((coords.sonicRun.x + SonicRunBG[p.SonicRun.background].width - scroll)*FU, (coords.sonicRun.y * FU), FU, FU, SonicRunBG[p.SonicRun.background], v.localTransFlag(), nil, 0, 0, (scroll * FU), 5242880) --80*FU
-
-
-		--Sonic
-		local sonicSprite
-		switch(p.SonicRun.state, {
-			[0] = function() --Standing
-				sonicSprite = "SNC_STND"
-			end,
-			[1] = function() --Running
-				sonicSprite = "SNC_RUN"..((leveltime % 2) + 1)
-			end,
-			[2] = function() --Spinning/Jumping
-				switch(leveltime % 4, {
-					[1] = function()
-						sonicSprite = "SNC_SPN2"
-					end,
-					[3] = function()
-						sonicSprite = "SNC_SPN3"
-					end,
-					['default'] = function()
-						sonicSprite = "SNC_SPN1"
-					end
-				})
-			end
-		})
-		v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - p.SonicRun.Height - p.SonicRun.Y)), MM.graphics[sonicSprite], v.localTransFlag())
-
-		--hazards
-		local hazardSprite = "SPIK"..CHAR[65 + ((leveltime % 16) / 2)].."0"
-		for id, hazard in pairs(p.SonicRun.hazards) do
-			v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
-		end
-
-		--black screen outline
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y), 16, 80, 31|v.localTransFlag()) --left side
-		v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y), 16, 80, 31|v.localTransFlag()) --right
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y - 16), 232, 16, 31|v.localTransFlag()) --top
-		v.drawFill((coords.sonicRun.x - 16), (coords.sonicRun.y + 80), 232, 16, 31|v.localTransFlag()) --bottom
-
-		--Startup timer
-		if (p.SonicRun.timeout) then
-			local secondsLeft = p.SonicRun.timeout / TICRATE
-			if (secondsLeft) then
-				local countdownPatch = "RACE3"
-				if (secondsLeft <= 2) then
-					countdownPatch = "RACE"..secondsLeft
-				end
-				v.draw(152, 100, MM.graphics[countdownPatch], v.localTransFlag())
-			else
-				v.draw(142, 100, MM.graphics["RACEGO"], v.localTransFlag())
-			end
-		end
-
-		--score
-		v.drawString((coords.sonicRun.x + 200 - v.stringWidth(p.SonicRun.score)), (coords.sonicRun.y - 12), p.SonicRun.score, V_BLUEMAP|v.localTransFlag())
-
-		if (not p.SonicRun.active) then
-			v.drawString(160, (coords.sonicRun.y + 44), "GAME OVER", V_INVERTMAP|v.localTransFlag(), "center")
-		end
-
-		v.drawString(160, (coords.sonicRun.y + 84), "Controls: \x87JUMP\x80 & \x87SPIN\x80", v.localTransFlag(), "center")
-
-		--player side information
-		--character icon
-		v.drawScaled((hudinfo[HUD_LIVES].x * FU), (hudinfo[HUD_LIVES].y * FU), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
-		--name
-		v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
-		--role ("DEAD" label)
-		if (p.mm.role == ROLE_DEAD and MM.PlayerCount() > 1) then
-			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
-		end
-
-		--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
-		if (p.mm.timetravel and p.mm.timetravel.timezone) then
-			if (p.mm.timetravel.timezone == TIMEZONE_PAST) then --Past
-				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
-			elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) then --One of the Futures
-				DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
-			end
-		end
-
-		if (MM.debug) then
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82State:\x80 "..p.SonicRun.state,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Y:\x80 "..p.SonicRun.Y,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Height:\x80 "..p.SonicRun.Height,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Velocity:\x80 "..p.SonicRun.velocity,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Ttimeout\x80 "..p.SonicRun.timeout,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82#Hazards:\x80 "..#p.SonicRun.hazards,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82Hazards timeout:\x80 "..p.SonicRun.hazardsTimeout,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."Background:\x80 "..p.SonicRun.background,0,"thin")
-		end
-
-    --
-    -- PONG minigame
-    --
-    elseif (MM.minigame) and (p.mm.flags & FLAG_MINIGAME) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2])
-		--CUSTOM3 related text and show yourself
-		if (PONG_GetMySlot(p)) then
-			if (not p.mm.minigame_timeout) then
-				DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
-			end
-			if (not splitscreen) then
-				local youX
-				if (p == MM.duelplrs[1]) then youX = 32
-				elseif (p == MM.duelplrs[2]) then youX = 288 end
-				DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
-			end
-		else
-			DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
-			if (not p.mm.minigame_timeout) then
-				DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
-			end
-		end
-
-		--TIME
-		V_DrawMinigameTime(v)
-
-		--draw board
-		v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, v.localTransFlag()) --white outline
-		v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31|v.localTransFlag()) --black background
-		--draw player paddles
-		v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role]|v.localTransFlag())
-		v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role]|v.localTransFlag())
-		--draw ball
-		if (MM.pong.timeout & 1) then
-			v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72|v.localTransFlag())
-		end
-		--winner text
-		if (MM.pong.winner ~= nil)
-			if (not MM.pong.winner)
-				DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
-			else
-				DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
-			end
-		end
-
-		--player 1 side information
-		--player name
-		v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
-		--role
-		switch(MM.duelplrs[1].mm.role , {
-			[ROLE_MURDERER] = function()
-				var1 = "MURDERER"
-				var2 = ROLE_MURDERER
-			end,
-			[ROLE_SHERIFF] = function()
-				var1 = "SHERIFF"
-				var2 = ROLE_SHERIFF
-			end,
-			['default'] = function()
-				var1 = "DEAD"
-				var2 = ROLE_DEAD
-			end
-		})
-		DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
-		--character picture
-		v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
-		--win count
-		DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
-
-		--player 2 side information
-		--name
-		v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
-		--role
-		switch(MM.duelplrs[2].mm.role , {
-			[ROLE_MURDERER] = function()
-				var1 = "MURDERER"
-				var2 = ROLE_MURDERER
-			end,
-			[ROLE_SHERIFF] = function()
-				var1 = "SHERIFF"
-				var2 = ROLE_SHERIFF
-			end,
-			['default'] = function()
-				var1 = "DEAD"
-				var2 = ROLE_DEAD
-			end
-		})
-		DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
-		--charpic
-		v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
-		--win[6]
-		DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
-
-		if (MM.debug) then
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Timeout\x80 "..MM.pong.timeout,0,"thin")
-			v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
-		end
-    elseif (MM.minigame) and not (p.mm.flags & FLAG_MINIGAME) then
-        --Draw the invitation/suggestion text
-        DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
-        DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
 	end
-end, "game")
+
+	--CUSTOM3 related text
+	if (not p.mm.minigame_timeout) then
+		DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.small.scale)
+	end
+
+	--TIME
+	V_DrawMinigameTime(v)
+
+	--Draw scrolling background
+	--Despite checking for the patch width, it can currently work only with 200x80 images
+	local scroll = SR.score % SonicRunBG[SR.background].width
+	v.drawCropped((coords.sonicRun.x * FU), (coords.sonicRun.y * FU), FU, FU, SonicRunBG[SR.background], v.localTransFlag(), nil, (scroll * FU), 0, (SonicRunBG[SR.background].width - scroll)*FU, 5242880) --80*FU
+	v.drawCropped((coords.sonicRun.x + SonicRunBG[SR.background].width - scroll)*FU, (coords.sonicRun.y * FU), FU, FU, SonicRunBG[SR.background], v.localTransFlag(), nil, 0, 0, (scroll * FU), 5242880) --80*FU
+
+
+	--Sonic
+	local sonicSprite
+	switch(SR.state, {
+		[0] = function() --Standing
+			sonicSprite = "SNC_STND"
+		end,
+		[1] = function() --Running
+			sonicSprite = "SNC_RUN"..((leveltime % 2) + 1)
+		end,
+		[2] = function() --Spinning/Jumping
+			switch(leveltime % 4, {
+				[1] = function()
+					sonicSprite = "SNC_SPN2"
+				end,
+				[3] = function()
+					sonicSprite = "SNC_SPN3"
+				end,
+				['default'] = function()
+					sonicSprite = "SNC_SPN1"
+				end
+			})
+		end
+	})
+	v.draw((coords.sonicRun.x + 16), (coords.sonicRun.y + (80 - SR.Height - SR.Y)), MM.graphics[sonicSprite], v.localTransFlag())
+
+	--hazards
+	local hazardSprite = "SPIK"..CHAR[65 + ((leveltime % 16) / 2)].."0"
+	for id, hazard in pairs(SR.hazards) do
+		v.drawScaled((coords.sonicRun.x + hazard.x + 14)*FU, (coords.sonicRun.y + (80 - hazard.y))*FU, 32768, v.cachePatch(hazardSprite)) --FU/2
+	end
+
+	--black screen outline
+	v.drawFill((coords.sonicRun.x - 16),  (coords.sonicRun.y),      16,  80, 31|v.localTransFlag()) --left side
+	v.drawFill((coords.sonicRun.x + 200), (coords.sonicRun.y),      16,  80, 31|v.localTransFlag()) --right
+	v.drawFill((coords.sonicRun.x - 16),  (coords.sonicRun.y - 16), 232, 16, 31|v.localTransFlag()) --top
+	v.drawFill((coords.sonicRun.x - 16),  (coords.sonicRun.y + 80), 232, 16, 31|v.localTransFlag()) --bottom
+
+	--Startup timer
+	if (SR.timeout) then
+		local secondsLeft = SR.timeout / TICRATE
+		if (secondsLeft) then
+			local countdownPatch = "RACE3"
+			if (secondsLeft <= 2) then
+				countdownPatch = "RACE"..secondsLeft
+			end
+			v.draw(152, 100, MM.graphics[countdownPatch], v.localTransFlag())
+		else
+			v.draw(142, 100, MM.graphics["RACEGO"], v.localTransFlag())
+		end
+	end
+
+	--score
+	v.drawString((coords.sonicRun.x + 200 - v.stringWidth(SR.score)), (coords.sonicRun.y - 12), SR.score, V_BLUEMAP|v.localTransFlag())
+
+	if (not SR.active) then
+		v.drawString(160, (coords.sonicRun.y + 44), "GAME OVER", V_INVERTMAP|v.localTransFlag(), "center")
+	end
+
+	v.drawString(160, (coords.sonicRun.y + 84), "Controls: \x87JUMP\x80 & \x87SPIN\x80", v.localTransFlag(), "center")
+
+	--player side information
+	--character icon
+	v.drawScaled((hudinfo[HUD_LIVES].x * FU), (hudinfo[HUD_LIVES].y * FU), 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), hudinfo[HUD_LIVES].f|v.localTransFlag(), v.getColormap(p.skin, p.skincolor)) --FU/2
+	--name
+	v.drawString((hudinfo[HUD_LIVES].x + 18), hudinfo[HUD_LIVES].y, p.name, hudinfo[HUD_LIVES].f|V_ALLOWLOWERCASE|v.localTransFlag())
+	--role ("DEAD" label)
+	if (p.mm.role == ROLE_DEAD and MM.PlayerCount() > 1) then
+		DrawStrUnicode(v, (hudinfo[HUD_LIVES].x + 18), (hudinfo[HUD_LIVES].y + 8), MM.RoleColorHUD[ROLE_DEAD]..MM.GetText("HUD_ROLES", "DEAD"), hudinfo[HUD_LIVES].f|v.localTransFlag(), MM.hud.canvas.font.scale)
+	end
+
+	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
+	if (p.mm.timetravel and p.mm.timetravel.timezone) then
+		if (p.mm.timetravel.timezone == TIMEZONE_PAST) then --Past
+			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_PAST"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
+		elseif (p.mm.timetravel.timezone > TIMEZONE_PRESENT) then --One of the Futures
+			DrawStrUnicode(v, (hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + 8 + MM.hud.canvas.font.charheight), "^6"..MM.GetText("HUD_FUTURE"), hudinfo[HUD_LIVES].f|V_PERPLAYER|v.localTransFlag(), MM.hud.canvas.font.scale)
+		end
+	end
+
+	if (MM.debug) then
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87SONIC RUN",0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82State:\x80 "..SR.state,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Y:\x80 "..SR.Y,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Height:\x80 "..SR.Height,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Velocity:\x80 "..SR.velocity,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Ttimeout\x80 "..SR.timeout,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Leveltime\x80 "..leveltime,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82#Hazards:\x80 "..#SR.hazards,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+64, "\x82Hazards timeout:\x80 "..SR.hazardsTimeout,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+72, "\x82".."Background:\x80 "..SR.background,0,"thin")
+	end
+end
+
+--
+-- PONG minigame renderer
+--
+MM.hud.routines["minigame_pong"] = function(v, p)
+	--CUSTOM3 related text and show yourself
+	if (PONG_GetMySlot(p)) then
+		if (not p.mm.minigame_timeout) then
+			DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		end
+		if (not splitscreen) then
+			local youX
+			if (p == MM.duelplrs[1]) then youX = 32
+			elseif (p == MM.duelplrs[2]) then youX = 288 end
+			DrawStrUnicode_Center(v, youX, 48, "^2"..MM.GetText("HUD_YOU"), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		end
+	else
+		DrawStrUnicode_Right(v, 320, 0, MM.GetText("HUD_MINIGAME", "SPECTATING"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		if (not p.mm.minigame_timeout) then
+			DrawStrUnicode_Right(v, 320, MM.hud.canvas.font.charheight, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "LEAVE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+		end
+	end
+
+	--TIME
+	V_DrawMinigameTime(v)
+
+	--draw board
+	v.drawFill((coords.pong.x - 2), (coords.pong.y - 2), 164, 84, v.localTransFlag()) --white outline
+	v.drawFill(coords.pong.x, coords.pong.y, 160, 80, 31|v.localTransFlag()) --black background
+	--draw player paddles
+	v.drawFill((coords.pong.x + 8), (coords.pong.y + MM.pong.pads[1]), 2, 16, MM.pong.padcolor[MM.duelplrs[1].mm.role]|v.localTransFlag())
+	v.drawFill((310 - coords.pong.x), (coords.pong.y + MM.pong.pads[2]), 2, 16, MM.pong.padcolor[MM.duelplrs[2].mm.role]|v.localTransFlag())
+	--draw ball
+	if (MM.pong.timeout & 1) then
+		v.drawFill((coords.pong.x + MM.pong.ball.x), (coords.pong.y + MM.pong.ball.y), 2, 2, 72|v.localTransFlag())
+	end
+	--winner text
+	if (MM.pong.winner ~= nil)
+		if (not MM.pong.winner)
+			DrawStrUnicode_Center(v, 160, 160, MM.GetText("HUD_WIN", 1), v.localTransFlag(), MM.hud.canvas.font.scale)
+		else
+			DrawStrUnicode_Center(v, 160, 160, MM.RoleColorHUD[MM.duelplrs[MM.pong.winner].mm.role]..MM.GetText("HUD_MINIGAME", "GOAL"), v.localTransFlag(), MM.hud.canvas.font.scale)
+		end
+	end
+
+	--player 1 side information
+	--player name
+	v.drawString(16, 176, MM.duelplrs[1].name, V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag())
+	--role
+	switch(MM.duelplrs[1].mm.role , {
+		[ROLE_MURDERER] = function()
+			var1 = "MURDERER"
+			var2 = ROLE_MURDERER
+		end,
+		[ROLE_SHERIFF] = function()
+			var1 = "SHERIFF"
+			var2 = ROLE_SHERIFF
+		end,
+		['default'] = function()
+			var1 = "DEAD"
+			var2 = ROLE_DEAD
+		end
+	})
+	DrawStrUnicode(v, hudinfo[HUD_LIVES].x, (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTOLEFT|v.localTransFlag(), MM.hud.canvas.font.scale)
+	--character picture
+	v.draw(48, 80, v.getSprite2Patch(MM.duelplrs[1].skin, SPR2_XTRA), V_ALLOWLOWERCASE|V_SNAPTOLEFT|v.localTransFlag(), v.getColormap(MM.duelplrs[1].skin, MM.duelplrs[1].skincolor)) --draw character icon flipped horizontaly
+	--win count
+	DrawStrUnicode_Center(v, (coords.pong.x + 10), 44, (MM.RoleColorHUD[MM.duelplrs[1].mm.role]..MM.duelplrs[1].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
+
+	--player 2 side information
+	--name
+	v.drawString((304 - v.stringWidth(MM.duelplrs[2].name)), 176, MM.duelplrs[2].name, V_ALLOWLOWERCASE|V_SNAPTORIGHT|v.localTransFlag())
+	--role
+	switch(MM.duelplrs[2].mm.role , {
+		[ROLE_MURDERER] = function()
+			var1 = "MURDERER"
+			var2 = ROLE_MURDERER
+		end,
+		[ROLE_SHERIFF] = function()
+			var1 = "SHERIFF"
+			var2 = ROLE_SHERIFF
+		end,
+		['default'] = function()
+			var1 = "DEAD"
+			var2 = ROLE_DEAD
+		end
+	})
+	DrawStrUnicode_Right(v, (320 - hudinfo[HUD_LIVES].x), (hudinfo[HUD_LIVES].y + MM.hud.canvas.font.charheight), MM.RoleColorHUD[var2]..MM.GetText("HUD_ROLES", var1), V_SNAPTORIGHT|v.localTransFlag(), MM.hud.canvas.font.scale)
+	--charpic
+	v.draw(272, 80, v.getSprite2Patch(MM.duelplrs[2].skin, SPR2_XTRA), V_SNAPTORIGHT|v.localTransFlag(), v.getColormap(MM.duelplrs[2].skin, MM.duelplrs[2].skincolor))
+	--win[6]
+	DrawStrUnicode_Center(v, (310 - coords.pong.x), 44, (MM.RoleColorHUD[MM.duelplrs[2].mm.role]..MM.duelplrs[2].mm.kills), v.localTransFlag(), MM.hud.canvas.font.scale)
+
+	if (MM.debug) then
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y, "\x87PONG",0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+8, "\x82".."Ball:\x80 "..MM.pong.ball.x.." "..MM.pong.ball.y,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+16, "\x82Velocity:\x80 "..MM.pong.velocity.x.." "..MM.pong.velocity.y,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+24, "\x82Hits:\x80 "..MM.pong.hits,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+32, "\x82Speed:\x80 "..MM.pong.speed,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+40, "\x82Winner:\x80 "..tostring(MM.pong.winner),0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+48, "\x82Timeout\x80 "..MM.pong.timeout,0,"thin")
+		v.drawString(MM.hud.game.pos.debug.x, MM.hud.game.pos.debug.y+56, "\x82Leveltime\x80 "..leveltime,0,"thin")
+	end
+end

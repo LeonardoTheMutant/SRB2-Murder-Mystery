@@ -82,46 +82,47 @@ local static_level = 0
 addHook("PreThinkFrame", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	local p = consoleplayer
-	local pcam = p.mm.camera
+	for p in players.iterate do
+		local pcam = p.mm.camera
 
-	pcam.available = false
+		pcam.available = false
 
-	if (pcam.timer) then pcam.timer = pcam.timer - 1 end
+		if (pcam.timer) then pcam.timer = pcam.timer - 1 end
 
-	if (pcam.active) then
-		camera.angle = MM.cameras[1].a
-		p.pflags = p.pflags | PF_FULLSTASIS
+		if (pcam.active) then
+			camera.angle = MM.cameras[1].a
+			p.pflags = p.pflags | PF_FULLSTASIS
 
-		if (p.cmd.forwardmove) then p.cmd.forwardmove = 0 end
+			if (p.cmd.forwardmove) then p.cmd.forwardmove = 0 end
 
-		if (p.cmd.buttons & BT_WEAPONNEXT) then
-			pcam.id = pcam.id + 1
-			pcam.timer = 52
-			static_level = 0
-			S_StartSound(nil, sfx_static, p)
-			if (pcam.id > #MM.cameras) then pcam.id = 1 end
-		end
+			if (p.cmd.buttons & BT_WEAPONNEXT) then
+				pcam.id = pcam.id + 1
+				pcam.timer = 52
+				static_level = 0
+				S_StartSound(nil, sfx_static, p)
+				if (pcam.id > #MM.cameras) then pcam.id = 1 end
+			end
 
-		if (p.cmd.buttons & BT_WEAPONPREV) then
-			pcam.id = pcam.id - 1
-			pcam.timer = 52
-			static_level = 0
-			S_StartSound(nil, sfx_static, p)
-			if not (pcam.id) then pcam.id = #MM.cameras end
-		end
+			if (p.cmd.buttons & BT_WEAPONPREV) then
+				pcam.id = pcam.id - 1
+				pcam.timer = 52
+				static_level = 0
+				S_StartSound(nil, sfx_static, p)
+				if not (pcam.id) then pcam.id = #MM.cameras end
+			end
 
-		if ((p.cmd.buttons & BT_JUMP) or (p.cmd.buttons & BT_SPIN)) and not (pcam.timer) then
+			if ((p.cmd.buttons & BT_JUMP) or (p.cmd.buttons & BT_SPIN)) and not (pcam.timer) then
+				p.cmd.buttons = 0
+				MM.hud.game.routine = MM.hud.routines["game_main"]
+				MM.hud.scores.routine = MM.hud.routines["scores_main"]
+				pcam.active = false
+				pcam.timer = 3
+			end
+
 			p.cmd.buttons = 0
-			MM.hud.game.active = true
-			MM.hud.scores.active = true
-			pcam.active = false
-			pcam.timer = 3
+			p.cmd.forwardmove = 0
+			p.cmd.sidemove = 0
 		end
-
-		p.cmd.buttons = 0
-		p.cmd.forwardmove = 0
-		p.cmd.sidemove = 0
 	end
 end)
 
@@ -130,7 +131,7 @@ addHook("PostThinkFrame", function()
 
 	local p = consoleplayer
 
-	if (p.mm.camera.active) then
+	if valid(p) and (p.mm.camera.active) then
 		local cam_id = p.mm.camera.id
 		P_TeleportCameraMove(camera, MM.cameras[cam_id].x, MM.cameras[cam_id].y, MM.cameras[cam_id].z)
 		camera.angle = MM.cameras[cam_id].a
@@ -140,6 +141,57 @@ addHook("PostThinkFrame", function()
 		end
 	end
 end)
+
+--Disable Terminal view when map changes or you die
+addHook("PlayerSpawn", function()
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+	if (consoleplayer.mm.camera.active) then
+		consoleplayer.mm.camera.active = false
+		MM.ResetHUD(consoleplayer)
+	end
+end)
+
+--
+-- Terminal screen renderer
+--
+-- Renderer
+local moire_step = 8
+local function terminal_renderer(v)
+	local width = v.width()
+	local height = v.height()
+
+	local p = consoleplayer
+	local c = camera
+
+	hud.disable("rankings")
+
+	if not (CV_FindVar("chasecam").value) then
+		v.drawFill(0, 0, width, height, 152|V_NOSCALESTART)
+		HIDEO.DrawStrUnicode(v, 0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
+		return
+	end
+
+	if (MM.cameras[p.mm.camera.id].status) then v.drawFill()
+	else v.drawFill(0, 0, width, height, 31|V_60TRANS|V_NOSCALESTART) end
+
+	--Draw White Noise static
+	if (static_level < 9) and not (leveltime % 4) then static_level = static_level + 1 end
+	for y = 0, MM.hud.canvas.height, 4 do
+		for x = 0, MM.hud.canvas.width, 4 do
+			v.drawFill(x, y, 4, 4, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
+		end
+	end
+
+	v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
+	if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
+	v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+
+	--Draw moire effect
+	for i = 0, height, moire_step do
+		v.drawFill(0, (-moire_step + i + (leveltime % (moire_step))), width, 4, 31|V_90TRANS|V_NOSCALESTART)
+	end
+end
 
 --
 -- Terminal view toggle
@@ -155,61 +207,15 @@ addHook("MobjThinker", function(mo)
 			local p = found.player
 			p.mm.camera.available = true
 			if (p.cmd.buttons & BT_CUSTOM1) and not (p.lastbuttons & BT_CUSTOM1) and not (p.mm.camera.active) then
-				MM.hud.game.active = false
-				MM.hud.scores.active = false
+				if (p == consoleplayer) then
+					MM.hud.game.routine = terminal_renderer
+					MM.hud.scores.routine = terminal_renderer
+					static_level = 0
+				end
 				p.mm.camera.active = true
-				static_level = 0
 			end
 		end
 	end, mo, mo.x - mo.radius, mo.x + mo.radius, mo.y - mo.radius, mo.y + mo.radius)
 
 	return true
 end, MT_MMTERMINAL)
-
---
--- Terminal screen
---
-
--- Renderer
-local function renderer(v, p, c)
-	if (p.mm.camera.available) and not (p.mm.camera.active) then
-		HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, MM.GetText("HUD_CAMERA", "TERMINAL")), v.localTransFlag(), MM.hud.canvas.font.small.scale)
-	end
-
-	if (p.mm.camera.active) then
-		local width = v.width()
-		local height = v.height()
-
-		if not (CV_FindVar("chasecam").value) then
-			v.drawFill(0, 0, width, height, 152|V_NOSCALESTART)
-			HIDEO.DrawStrUnicode(v, 0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
-			return
-		end
-
-		if (MM.cameras[p.mm.camera.id].status) then
-			v.drawFill()
-		else
-			v.drawFill(0, 0, width, height, 31|V_60TRANS|V_NOSCALESTART)
-		end
-
-		--Draw White Noise static
-		if (static_level < 9) and not (leveltime % 4) then static_level = static_level + 1 end
-		for y = 0, MM.hud.canvas.height, v.dupy() do
-			for x = 0, MM.hud.canvas.width, v.dupx() do
-				v.drawFill(x, y, v.dupx(), v.dupy(), v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
-			end
-		end
-
-		v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
-		if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
-		v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-
-		--Draw moire effect
-		for i = 0, height, 2 do
-			v.drawFill(0, (-8 + i*8 + (leveltime % 16)), width, 2, 31|V_90TRANS|V_NOSCALESTART)
-		end
-	end
-end
-
-hud.add(renderer, "game")
-hud.add(renderer, "score")

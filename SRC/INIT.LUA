@@ -23,6 +23,7 @@ rawset(_G, "MM", {
 		"^1", --Jester
 	},
 	hud = { --variables that control the HUD renderer, not synched
+		routines = {}, --collection of HUD drawing functions
 		canvas = {
 			width = 320,
 			height = 200,
@@ -38,7 +39,7 @@ rawset(_G, "MM", {
 			}
 		},
 		game = { --Main Game HUD
-			active = true,
+			routine = function(v, p, c) end, --actively running drawing function
 			pos = {
 				ringWepOnly_x = 144, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
@@ -52,7 +53,7 @@ rawset(_G, "MM", {
 			}
 		},
 		scores = { --HUD for Scores Tab
-			active = true,
+			routine = function(v) end, --actively running drawing function
 			pos = {
 				playerInfo = {x=20, y=28}, --Player list
 				teammateInfo = {x=20, y=136}, --Teammates list
@@ -61,7 +62,7 @@ rawset(_G, "MM", {
 			}
 		},
 		intermission = { --Intermission HUD
-			active = true,
+			routine = function() end, --actively runnning drawing function
 			pos = {
 				players_y = 32,
 				name_x = 24,
@@ -93,13 +94,17 @@ rawset(_G, "MM", {
 		hits = 0,
 		padcolor = {37, 153} --player role colors
 	},
+	help = { --MMHELP console command related stuff
+		active = false,
+		page = 1,
+		scroll = 1,
+	},
 	cameras = {}, --table containing all cameras for the current map, gets cleared every map load
-	text = {} --text strings used in the game, not synched, see the /LUA/TEXT/ directory
+	text = {}, --text strings used in the game, not synched, see the /LUA/TEXT/ directory
+	lang = "EN"
 })
 
-if (isdedicatedserver) then
-	MM.lang = "EN"
-else
+if not isdedicatedserver then
 	MM.hud.show = CV_FindVar("showhud").value
 end
 
@@ -131,7 +136,8 @@ enumbin(
 	"FLAG_SNEAK",			--1
 	"FLAG_MINIGAME",		--2
 	"FLAG_WAITSPECTATOR",	--4
-	"FLAG_SPECTATOR"		--8
+	"FLAG_SPECTATOR",		--8
+	"FLAG_NEWCOMER"			--16
 )
 
 --Role constants

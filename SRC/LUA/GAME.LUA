@@ -35,12 +35,13 @@ addHook("MapLoad", function(map)
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
-		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME)
+		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME|FLAG_NEWCOMER)
 		p.mm.weapondelay = 175 --5 seconds
 		p.mm.role = ROLE_DEAD
 	end
 
 	--Prepare the game
+	MM.help.active = false
 	MM.winner = 0
 	MM.winreason = 0
 	MM.shremds = {}
@@ -85,8 +86,6 @@ addHook("PlayerSpawn", function(p)
 
 	MM.InitPlayer(p)
 
-	MM.ResetHUD(p)
-
 	--Apply language
 	if (not MM.lang)
 		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
@@ -123,6 +122,7 @@ addHook("PlayerSpawn", function(p)
 			end,
 			['default'] = function() --Other players are dead on join
 				p.pflags = $|PF_GODMODE
+				p.mm.flags = p.mm.flags | FLAG_NEWCOMER
 				p.mm.role = ROLE_DEAD
 			end
 		})
@@ -206,7 +206,12 @@ addHook("PlayerThink", function(p)
 		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if ((int(p.afk) > cv_idletime.value*2100) and not (p.mm.role ~= ROLE_DEAD)) then MM.KillPlayer(p.mo, true, true) end
+		if ((int(p.afk) > cv_idletime.value*2100) and not (p.mm.role ~= ROLE_DEAD)) then
+			local body
+			if valid(pmo) then body = pmo
+			elseif valid(p.realmo) then body = p.realmo end
+			MM.KillPlayer(body, true, true)
+		end
 	end
 end)
 

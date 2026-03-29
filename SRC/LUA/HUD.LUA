@@ -146,7 +146,7 @@ end)
 --
 -- Main game HUD
 --
-hud.add(function(v, p)
+MMhud.routines["game_main"] = function(v, p ,c)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then --in case if switched from MM to another gametype
 		hud.enable("lives")
 		hud.enable("textspectator")
@@ -165,22 +165,8 @@ hud.add(function(v, p)
 	local getColormap = v.getColormap
 	local getSprite2Patch = v.getSprite2Patch
 	local localTransFlag = v.localTransFlag()
-	local v_width = v.width
 
 	local prole = p.mm.role
-
-	--Calculate important canvas values which are going to be used in the entire UI of the add-on
-	canvas.width = v_width()/v.dupx()
-	canvas.height = v.height()/v.dupy()
-	font.scale = FU
-	font.charwidth = FixedMul(charwidth, font.scale)
-	font.charheight = FixedMul(charheight, font.scale)
-
-	--Canvas values for small font
-	if (v_width() < 640) then font_small.scale = font.scale
-	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
-	font_small.charwidth = FixedMul(charwidth, font_small.scale)
-	font_small.charheight = FixedMul(charheight, font_small.scale)
 
 	HUDdigit_width = GetTextPatchWidth(HudDigit[0])
 
@@ -229,9 +215,6 @@ hud.add(function(v, p)
 			if patchExists("INTRMBG"..i) then LoadPatch(v, "INTRMBG"..i) end
 		end
 	end
-
-	--Do not render the main HUD if it was disabled by another (MM) script
-	if (not HudGame.active) or ((eMeM.twopgame and eMeM.minigame and (p.mm.flags & FLAG_MINIGAME)) or (not eMeM.twopgame and (p.mm.flags & FLAG_MINIGAME)) or (p.spectator and (p.mm.flags & FLAG_MINIGAME))) then return end
 
 	hud.disable("lives")
 	hud.disable("textspectator")
@@ -396,15 +379,17 @@ hud.add(function(v, p)
 		DrawStrUnicode_Center(v, 160, 120, WordWrap(0, canvas.width, 0, font.scale, GetText("HUD_DEAD")), localTransFlag, font.scale)
 
 		--"You joined mid-game"
-		if (prole == nil) then
-			DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_MIDJOIN")), localTransFlag, font_small.scale)
+		if (p.mm.flags & FLAG_NEWCOMER) then
+			DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_MIDJOIN")), localTransFlag, font_small.scale)
 		end
 
 		--"Killed by"
-		if (int(p.mm.killreason) == KILLBY_PLR) then
-			if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f) end
-		else
-			DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
+		if not (p.mm.flags & FLAG_NEWCOMER)
+			if (int(p.mm.killreason) == KILLBY_PLR) then
+				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f) end
+			else
+				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
+			end
 		end
 
 		if not ((p.mm.flags & FLAG_MINIGAME) and (eMeM.minigame)) then
@@ -598,6 +583,15 @@ hud.add(function(v, p)
 		DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 		DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 		DrawStrUnicode_Right(v, 320, 2*font_small.charheight, GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
+	elseif (eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) then
+        --Draw the invitation/suggestion text
+        DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
+        DrawStrUnicode_Right(v, 320, font_small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
+	end
+
+	--Draw the camera message when you can activate camera view
+	if (p.mm.camera.available)
+		HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvas.width, 0, font_small.scale, MM.GetText("HUD_CAMERA", "TERMINAL")), v.localTransFlag(), font_small.scale)
 	end
 
 	--"Showdown duel!"
@@ -623,20 +617,18 @@ hud.add(function(v, p)
 			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
 		end
 	end
-end, "game")
+end
 
 --
 -- SCORES TAB
 --
-hud.add(function(v)
+MMhud.routines["scores_main"] = function(v)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then hud.enable("rankings"); return end
 
 	local draw = v.draw
 	local drawFill = v.drawFill
 	local drawString = v.drawString
 	local localTransFlag = v.localTransFlag()
-
-	if (not HudScores.active) then return end
 
 	hud.disable("rankings")
 
@@ -764,12 +756,12 @@ hud.add(function(v)
 
 	-- Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM|localTransFlag, "center") end
-end, "scores")
+end
 
 --
 -- Custom intermission HUD
 --
-hud.add(function(v)
+MMhud.routines["intermission_main"] = function(v)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then hud.enable("intermissiontally"); return end
 
 	local draw = v.draw
@@ -780,7 +772,7 @@ hud.add(function(v)
 	local getColormap = v.getColormap
 
 	--Do not render the Intermission when MapVote is working or when other script specifically disables it
-	if ((MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) or (not HudInter.active)) then return end
+	if (MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) then return end
 
 	--Background
 	local BGpatch
@@ -827,19 +819,21 @@ hud.add(function(v)
 		return a.mm.kills > b.mm.kills
 	end)
 
+	local PlayerCount = eMeM.PlayerCount()
+
 	-- Column names
 
 	--vertical line and everything common for >8 player screen
-	if (eMeM.PlayerCount() > 8) then
+	if (PlayerCount > 8) then
 		drawFill(160, 40, 2, 144, 0)
 		drawString(HudInter_pos_kills2_x, HudInter_pos_players_y, "\x82KILLS", 0, "thin")
 		drawString((HudInter_pos_kills2_x + 160), HudInter_pos_players_y, "\x82KILLS", 0, "thin")
 	end
 	--everything else which is uncommon
-	if (eMeM.PlayerCount() <= 8) then
+	if (PlayerCount <= 8) then
 		drawString(HudInter_pos_name_x, HudInter_pos_players_y, "\x82NAME", 0)
 		drawString(HudInter_pos_kills_x, HudInter_pos_players_y, "\x82KILLS", 0)
--- 	elseif (eMeM.PlayerCount() > 8) and (eMeM.PlayerCount() <= 16) then
+ 	elseif (PlayerCount > 8) and (PlayerCount <= 16) then
 		--players 1-8
 		drawString(HudInter_pos_name_x, HudInter_pos_players_y, "\x82NAME", 0, "thin")
 		--players 9-16
@@ -856,7 +850,7 @@ hud.add(function(v)
 	for i = 1, #plrs do
 		local p = plrs[i]
 		local pmm = p.mm
-		if (PlayerCount() <= 8) then --Regular mode
+		if (PlayerCount <= 8) then --Regular mode
 			--Character icon
 			drawScaled((HudInter_pos_name_x - 20)*FU, ((HudInter_pos_players_y - 4) + (i * 16))*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, getColormap(p.skin, p.skincolor)) --FU/2
 			--Player name (colored by role)
@@ -888,7 +882,7 @@ hud.add(function(v)
 
 			--Kills counter
 			drawString((HudInter_pos_kills_x), (HudInter_pos_players_y + (i * 16)), p.mm.kills)
-		elseif ((PlayerCount() > 8) and (PlayerCount() <= 16)) then --"Double column" mode
+		elseif ((PlayerCount > 8) and (PlayerCount <= 16)) then --"Double column" mode
 			if (i > 8) then shiftx=160; shifty=128 end --players 9-16 are drawn on the second column
 
 			--Character icon
@@ -981,4 +975,40 @@ hud.add(function(v)
 
 	--Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
+end
+
+--Set the main drawing functions on boot
+HudGame.routine = MMhud.routines["game_main"]
+HudScores.routine = MMhud.routines["scores_main"]
+HudInter.routine = MMhud.routines["intermission_main"]
+
+--
+-- Drawing Hooks
+--
+hud.add(function(v, p, c)
+	--Calculate important canvas values which are going to be used in the entire UI of the add-on
+	local v_width = v.width()
+	local FixMul = FixedMul
+	canvas.width = v_width/v.dupx()
+	canvas.height = v.height()/v.dupy()
+	font.scale = FU
+	font.charwidth = FixMul(charwidth, font.scale)
+	font.charheight = FixMul(charheight, font.scale)
+
+	--Calculate canvas values for small font
+	if (v_width < 640) then font_small.scale = font.scale
+	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
+	font_small.charwidth = FixMul(charwidth, font_small.scale)
+	font_small.charheight = FixMul(charheight, font_small.scale)
+
+	--Call the drawing routine
+	HudGame.routine(v, p, c)
+end, "game")
+
+hud.add(function(v)
+	HudScores.routine(v)
+end, "scores")
+
+hud.add(function(v)
+	HudInter.routine(v)
 end, "intermission")

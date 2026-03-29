@@ -22,6 +22,7 @@ end
 -- MMSETUP (Admin-only CCMD)
 --
 
+--Whole bunch of constant stuff
 local wepcfg_options = {
 	[0] = "All",
 	[1] = "RR&K only",
@@ -93,6 +94,9 @@ Changing this value will require a level restart in order for the changes to ful
 }
 
 local mmsetupcursor
+local mmsetup_renderer = function(v) end --void mmsetup_renderer(drawer v);
+
+--Command itself
 COM_AddCommand("mmsetup", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
@@ -109,6 +113,7 @@ COM_AddCommand("mmsetup", function(p)
 		CONS_Printf(p, "Unable to open MMSETUP UI right now"); return
 	end
 
+	MM.hud.game.routine = mmsetup_renderer
 	mmsetupcursor = 1
 	for i = 1, #mmsetup_entries do --Update the values so they represent real (current) CVAR values
 		mmsetup_entries[i].value = mmsetup_entries[i].cvar.value
@@ -129,20 +134,20 @@ local mmsetupExitNoSave = function()
 		mmsetup_entries[k].value = mmsetup_entries[k].cvar.value
 	end
 	mmsetupcursor = nil
-	MM.hud.game.active = true
+	MM.hud.game.routine = MM.hud.routines["game_main"]
 	input.setMouseGrab(true)
 end
+
 addHook("KeyDown", function(ev)
 	local ignore = true
 	if not ((gametype == GT_LTMMURDERMYSTERY) and mmsetupcursor) then return end
-	MM.hud.game.active = false
 	switch(ev.num, {
 		[KEY_ENTER] = function() --ENTER/RETURN
 			switch(mmsetupcursor, {
 				[#mmsetup_entries + 1] = function() --Save & Exit
 					for k = 1, #mmsetup_entries do CV_StealthSet(mmsetup_entries[k].cvar, mmsetup_entries[k].value) end --Silently update all CVARs
 					mmsetupcursor = nil
-					MM.hud.game.active = true
+					MM.hud.game.routine = MM.hud.routines["game_main"]
 					input.setMouseGrab(true)
 					print("\x87Murder Mystery\x80: Saved the new game settings")
 				end,
@@ -189,15 +194,16 @@ end)
 
 -- MMSETUP UI's renderer
 local textcolor, yPos, cursorVFlag
-hud.add(function(v, p)
-	if not ((mmsetupcursor) and (gametype == GT_LTMMURDERMYSTERY)) then return end
+mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	local drawString = v.drawString
 
 	v.fadeScreen(16, 10) --gray background
 
 	--Top blue wave bar
-	for x = 0, (v.width() / 8) do v.drawFill((x * 8), 0, 8, 8, (144 + sortOfSine((leveltime / 4) + x, 16))|V_SNAPTOTOP|V_SNAPTOLEFT) end
+	local cellwidth = 8
+	for x = 0, (MM.hud.canvas.width / cellwidth) do v.drawFill((x*cellwidth), 0, cellwidth, cellwidth, (144 + sortOfSine((leveltime / 4) + x, 16))|V_SNAPTOTOP|V_SNAPTOLEFT) end
 	drawString(160, 0, "MM setup utility", V_SNAPTOTOP|V_MONOSPACE|V_ALLOWLOWERCASE, "center")
 
 	--Entries list
@@ -257,16 +263,15 @@ hud.add(function(v, p)
 	drawString(320, 188, "\24             Change item", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
 	drawString(320, 192, "ENTER              Select", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
 	drawString(320, 196, "ESC   Exit without saving", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
-end)
+end
 
 
 
 --
 -- MMHELP
 --
-
-local help_page = 1
-local help_scroll = 1
+local MMhelp = eMeM.help
+local function mmhelp_renderer() end --void mmhelp_renderer(drawer v);
 
 COM_AddCommand("mmhelp", function(p, page)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
@@ -276,7 +281,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	if ((p == server) or (IsPlayerAdmin(p))) then
 		CONS_Printf(p, color_2.."ADMIN ZONE"); CONS_Printf(p, info_mmhelp_adminCVAR)
 	end
-	if (MM.debug) then
+	if (eMeM.debug) then
 		CONS_Printf(p, color_2.."DEBUG COMMANDS"); CONS_Printf(p, info_mmhelp_debug)
 	end
 
@@ -290,15 +295,15 @@ COM_AddCommand("mmhelp", function(p, page)
 	--load HELP page
 	local pageInt = tonumber(page)
 	if (pageInt) then
-		if (pageInt <= (#MM.text[MM.lang]["HUD_MMHELP"] + 1)) then
-			help_page = pageInt
-			help_scroll = 1
-		else help_page = 1 end
+		if (pageInt <= (#eMeM.text[eMeM.lang]["HUD_MMHELP"] + 1)) then
+			MMhelp.page = pageInt
+			MMhelp.scroll = 1
+		else MMhelp.page = 1 end
 	end
 
 	--enable the UI
-	MM.hud.help.active = true
-	MM.hud.game.active = false
+	MMhelp.active = true
+	eMeM.hud.game.routine = mmhelp_renderer
 	input.setMouseGrab(false)
 end, COM_LOCAL)
 
@@ -316,79 +321,16 @@ local oldCanvasHeight = 0
 local oldPage = 0
 local oldLang = ""
 
---Backend
-addHook("PlayerThink", function(p)
-	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
-
-	local MM_text = eMeM.text[MM.lang]["HUD_MMHELP"]
-	local MM_hud = eMeM.hud
-	local canvas = MM_hud.canvas
-	local canvas_width = canvas.width
-	local canvas_height = canvas.height
-
-	if (MM_hud.help.active) and (MM_text) then
-
-		--Update render buffer only when neccesary
-		if ((oldCanvasWidth ~= canvas_width) or (oldCanvasHeight ~= canvas_height) or (oldPage ~= help_page) or (oldLang ~= MM.lang)) then
-			eMeM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvas_width, canvas_height, MM.lang, help_page))
-			renderBuffer = {}
-			pageLength = 0
-			oldCanvasWidth = canvas_width
-			oldCanvasHeight = canvas_height
-			oldPage = help_page
-			oldLang = eMeM.lang
-
-			--Insert data into the render buffer
-			if (help_page <= #MM_text) then renderBuffer = eMeM.GetText("HUD_MMHELP", help_page)
-			elseif (help_page == (#MM_text + 1)) then --last page is always a technical info page
-				renderBuffer = {info_mmhelp_technical}
-			end
-		end
-	end
-end)
-
---Inputs
-addHook("KeyDown", function(ev)
-	local ignore = true
-
-	if not ((gametype == GT_LTMMURDERMYSTERY) and (MM.hud.help.active)) then return end
-
-	local c = ev.num
-	if ((c == KEY_ESCAPE) or (c == input.gameControlToKeyNum(GC_CUSTOM1)) or (c == input.gameControlToKeyNum(GC_CUSTOM2)) or (c == input.gameControlToKeyNum(GC_CUSTOM3))) then
-		MM.hud.game.active = true
-		MM.hud.help.active = false
-		input.setMouseGrab(true)
-	elseif ((c == KEY_CONSOLE) or ((c >= KEY_F1) and (c <= KEY_F12))) then
-		ignore = false
-	elseif (c == KEY_F3) then
-		local cvar = CV_FindVar("showhud")
-		if (not cvar.value) then CV_Set(cvar, 1) end
-	elseif ((c == KEY_UPARROW or c == KEY_MOUSEWHEELUP or c == input.gameControlToKeyNum(GC_FORWARD)) and help_scroll > 1) then
-		help_scroll = help_scroll - 1
-	elseif ((c == KEY_DOWNARROW or c == KEY_MOUSEWHEELDOWN or c == input.gameControlToKeyNum(GC_BACKWARD)) and (help_scroll < pageLength)) then
-		help_scroll = help_scroll + 1
-	elseif ((c == KEY_LEFTARROW or c == input.gameControlToKeyNum(GC_STRAFELEFT)) and help_page ~= 1) then
-		help_page = help_page - 1
-		help_scroll = 1
-	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and help_page <= #MM.text[MM.lang]["HUD_MMHELP"]) then
-		help_page = help_page + 1
-		help_scroll = 1
-	elseif (c == KEY_F11) then
-		ignore = false
-	end
-	return ignore
-end)
-
 --Renderer, Frontend
-hud.add(function(v, p)
-	if not ((eMeM.hud.help.active) and (MM_text) and (eMeM.graphics) and (gametype == GT_LTMMURDERMYSTERY)) then return end
+--void mmhelp_renderer(drawer v) { ... };
+mmhelp_renderer = function(v)
+	if (MM_text) and (eMeM.graphics) and (gametype == GT_LTMMURDERMYSTERY) then return end
 	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
 
-	local vi = v
-	local draw = vi.draw
-	local drawString = vi.drawString
-	local drawFill = vi.drawFill
-	local v_width = vi.width()
+	local draw = v.draw
+	local drawString = v.drawString
+	local drawFill = v.drawFill
+	local v_width = v.width()
 	local bool_doSmall = bool2int(v_width < 640)
 
 	local Hi = HIDEO
@@ -412,7 +354,7 @@ hud.add(function(v, p)
 	-- Text renderer
 	--
 	local x = 0
-	local y = canvas_font_charheight - help_scroll * canvas_font_charheight
+	local y = canvas_font_charheight - MMhelp.scroll * canvas_font_charheight
 	local str, prev_linereturn, isTextCode
 	local colormap = v.getStringColormap(0)
 	pageLength = 0
@@ -494,21 +436,20 @@ hud.add(function(v, p)
 	--local thumbH
 	--if (pageLength*8 <= canvas_height-16) then thumbH = canvas_height-16
 	--else thumbH = max(8, (canvas_height-16 / pageLength*8) * canvas_height-16)
-	--
 	--local contentRange = pageLength*8 - canvas_height-16
 	--local thumbRange = canvas_height-16 - thumbH
-	--local thumbPos = (help_scroll / contentRange) * thumbRange
-	--
-	--
+	--local thumbPos = (MMhelp.scroll / contentRange) * thumbRange
+
 	--local scrollBarHeight = canvas_height - 16
 	--drawFill(canvasWidth - 8, 0, 8, scrollBarHeight, 16|V_SNAPTOTOP|V_SNAPTOLEFT) --scroll bar
-	--
+
 	--scrollstep = #renderBuffer/scrnRows * scrollBarHeight
-	--drawFill(312, ((help_scroll - 1)*scrollstep), 8, (scrollBarHeight/#renderBuffer), V_SNAPTOTOP|V_SNAPTOLEFT) --scroll slider
+	--drawFill(312, ((MMhelp.scroll - 1)*scrollstep), 8, (scrollBarHeight/#renderBuffer), V_SNAPTOTOP|V_SNAPTOLEFT) --scroll slider
 
 	local canvas_font_small = canvas_font.small
 	local canvas_font_small_charheight = canvas_font_small.charheight
 	local canvas_font_small_scale = canvas_font_small.scale
+	local text_id = "HUD_MMHELP_UI"
 	local thin = "thin"
 	local slash = "/"
 
@@ -517,12 +458,75 @@ hud.add(function(v, p)
 	--
 	drawFill(0, (infoArea_y - (canvas_font_charheight * bool_doSmall)), canvas_width, 2, V_SNAPTOTOP|V_SNAPTOLEFT) --horizontal line
 
-	drawString(0, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x89Scroll: "..help_scroll..slash..pageLength), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Scroll position counter
-	drawString(80, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x88Page: "..help_page..slash..(#MM_text + 1)), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Page counter
+	drawString(0, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x89Scroll: "..MMhelp.scroll..slash..pageLength), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Scroll position counter
+	drawString(80, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x88Page: "..MMhelp.page..slash..(#MM_text + 1)), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Page counter
 
-	DrawStrUnicode(v, 0, (canvas_height - 2*canvas_font_small_charheight), GetText("HUD_MMHELP_UI", 1), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"Arrow keys to scroll and change page"
-	DrawStrUnicode(v, 0, (canvas_height - canvas_font_small_charheight), GetText("HUD_MMHELP_UI", 2), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"ESC to leave"
-end, "game")
+	DrawStrUnicode(v, 0, (canvas_height - 2*canvas_font_small_charheight), GetText(text_id, 1), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"Arrow keys to scroll and change page"
+	DrawStrUnicode(v, 0, (canvas_height - canvas_font_small_charheight), GetText(text_id, 2), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"ESC to leave"
+end
+
+--Backend
+addHook("PlayerThink", function(p)
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
+	local MM_hud = eMeM.hud
+	local canvas = MM_hud.canvas
+	local canvas_width = canvas.width
+	local canvas_height = canvas.height
+
+	if (MMhelp.active) and (MM_text) then
+
+		--Update render buffer only when neccesary
+		if ((oldCanvasWidth ~= canvas_width) or (oldCanvasHeight ~= canvas_height) or (oldPage ~= MM.help.page) or (oldLang ~= MM.lang)) then
+			eMeM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvas_width, canvas_height, MM.lang, MM.help.page))
+			renderBuffer = {}
+			pageLength = 0
+			oldCanvasWidth = canvas_width
+			oldCanvasHeight = canvas_height
+			oldPage = MM.help.page
+			oldLang = eMeM.lang
+
+			--Insert data into the render buffer
+			if (MM.help.page <= #MM_text) then renderBuffer = eMeM.GetText("HUD_MMHELP", MM.help.page)
+			elseif (MM.help.page == (#MM_text + 1)) then --last page is always a technical info page
+				renderBuffer = {info_mmhelp_technical}
+			end
+		end
+	end
+end)
+
+--Inputs
+addHook("KeyDown", function(ev)
+	local ignore = true
+
+	if not ((gametype == GT_LTMMURDERMYSTERY) and (MMhelp.active)) then return end
+
+	local c = ev.num
+	if ((c == KEY_ESCAPE) or (c == input.gameControlToKeyNum(GC_CUSTOM1)) or (c == input.gameControlToKeyNum(GC_CUSTOM2)) or (c == input.gameControlToKeyNum(GC_CUSTOM3))) then
+		MM.hud.game.routine = MM.hud.routines["game_main"]
+		MMhelp.active = false
+		input.setMouseGrab(true)
+	elseif ((c == KEY_CONSOLE) or ((c >= KEY_F1) and (c <= KEY_F12))) then
+		ignore = false
+	elseif (c == KEY_F3) then
+		local cvar = CV_FindVar("showhud")
+		if (not cvar.value) then CV_Set(cvar, 1) end
+	elseif ((c == KEY_UPARROW or c == KEY_MOUSEWHEELUP or c == input.gameControlToKeyNum(GC_FORWARD)) and MMhelp.scroll > 1) then
+		MMhelp.scroll = MM.help.scroll - 1
+	elseif ((c == KEY_DOWNARROW or c == KEY_MOUSEWHEELDOWN or c == input.gameControlToKeyNum(GC_BACKWARD)) and (MMhelp.scroll < pageLength)) then
+		MMhelp.scroll = MM.help.scroll + 1
+	elseif ((c == KEY_LEFTARROW or c == input.gameControlToKeyNum(GC_STRAFELEFT)) and MMhelp.page ~= 1) then
+		MMhelp.page = MM.help.page - 1
+		MMhelp.scroll = 1
+	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and MMhelp.page <= #MM.text[MM.lang]["HUD_MMHELP"]) then
+		MMhelp.page = MM.help.page + 1
+		MMhelp.scroll = 1
+	elseif (c == KEY_F11) then
+		ignore = false
+	end
+	return ignore
+end)
 
 
 
@@ -573,7 +577,7 @@ If you cannot find your language here please ask the Game Administrator(s) to ad
 	else
 		l = $:upper()
 		if (MM.text[l]) then
-			MM.lang = l; help_scroll = 1
+			MM.lang = l; MM.help.scroll = 1
 
 			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", l, MM.text[l]["AUTHOR"])) end
 			local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
