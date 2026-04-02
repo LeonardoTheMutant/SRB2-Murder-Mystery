@@ -130,11 +130,6 @@ SkyNum = 300
 SkyboxScale = 8
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KE
-Lua.MM_TimeTravel_ShiftX = 335544320 #5120*FU (Past, Present, Bad Future)
-Lua.MM_TimeTravel_ShiftY = 0
-Lua.MM_TimeTravel_ShiftX2 = 671088640 #10240*FU (Good Future)
-Lua.MM_TimeTravel_ShiftY2 = 0
-Lua.Timelimit = 10
 Lua.Author = LeonardoTheMutant
 
 Level KE
