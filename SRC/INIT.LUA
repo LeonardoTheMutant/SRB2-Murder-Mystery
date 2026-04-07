@@ -92,7 +92,8 @@ rawset(_G, "MM", {
 		speed = 1,
 		pads = {32, 32},
 		hits = 0,
-		padcolor = {37, 153} --player role colors
+		padcolor = {37, 153}, --player role colors
+		timeout = 70,
 	},
 	help = { --MMHELP console command related stuff
 		active = false,
@@ -343,7 +344,6 @@ dofile("MAPS/MAPK0.LUA")
 dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
-dofile("MAPS/MAPKD.LUA")
 dofile("MAPS/MAPKE.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")

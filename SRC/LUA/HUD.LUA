@@ -22,7 +22,6 @@ local GetWepCfgFlags = eMeM.GetWepCfgFlags
 local PlayersAlive = eMeM.PlayersAlive
 local RoleColor = eMeM.RoleColor
 local RoleColorHUD = eMeM.RoleColorHUD
-local duelplrs = eMeM.duelplrs
 local weapons = eMeM.weapons
 local HudDigit = eMeM.textpatch["HUDDIGIT"]
 local MMhud = eMeM.hud
@@ -224,7 +223,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	hud.disable("weaponrings")
 
 	--HUD frontend for the flash/spark effects
-	if (HudGame_flash.translucency) then v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency) end
+	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end
 
 	if (not MMhud.show) then return end
 
@@ -391,36 +390,30 @@ MMhud.routines["game_main"] = function(v, p ,c)
 				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
 			end
 		end
-
-		if not ((p.mm.flags & FLAG_MINIGAME) and (eMeM.minigame)) then
-			DrawStrUnicode_Right(v, 320, 0, eMeM.GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|localTransFlag, font_small.scale)
-			DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|localTransFlag, font_small.scale)
-			DrawStrUnicode_Right(v, 320, 2*font_small.charheight, GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|localTransFlag, font_small.scale)
-		end
 	end
 
 	--Show the PONG-related text & invitations
-	if (prole ~= ROLE_DEAD) and (eMeM.twopgame) and (duelplrs) then
+	if (prole ~= ROLE_DEAD) and (eMeM.twopgame) and (eMeM.duelplrs) and valid(eMeM.duelplrs[1]) and valid(eMeM.duelplrs[2]) then
 		--determine the rival player
-		if (valid(duelplrs[1]) and (duelplrs[1] == p)) then
-			var1 = duelplrs[2]
-		elseif (valid(duelplrs[2]) and (duelplrs[2] == p)) then
-			var1 = duelplrs[1]
+		if (eMeM.duelplrs[1] == p) then
+			var1 = eMeM.duelplrs[2]
+		elseif (eMeM.duelplrs[2] == p) then
+			var1 = eMeM.duelplrs[1]
 		end
 
 		--draw the in-minigame text if the rival player still exists and is valid
 		if (valid(var1)) then
-			if not ((p.mm.flags & FLAG_MINIGAME) and (var1.mm.minigame)) then
+			if not (p.mm.flags & FLAG_MINIGAME) and not (var1.mm.flags & FLAG_MINIGAME) then
 				DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 				DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-			elseif ((p.mm.flags & FLAG_MINIGAME) and (not var1.mm.minigame)) then
+			elseif (p.mm.flags & FLAG_MINIGAME) and not (var1.mm.flags & FLAG_MINIGAME) then
 				DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-				if (not p.mm.minigame_timeout) then
-					DrawStrUnicode_Right(v, 320, font_small.charheight, (GetText("HUD_MINIGAME", "PRESS").." "..GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
+				DrawStrUnicode_Right(v, 320, font_small.charheight, (GetText("HUD_MINIGAME", "PRESS").." "..GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
+			elseif not (p.mm.flags & FLAG_MINIGAME) and (var1.mm.flags & FLAG_MINIGAME) then
+				if (leveltime % 2) then
+					DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
+					DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 				end
-			elseif (not (p.mm.flags & FLAG_MINIGAME) and (var1.mm.minigame) and (leveltime % 2)) then
-				DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-				DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 			end
 		end
 	end
@@ -579,14 +572,15 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	end
 
 	--suggest a minigame
-	if (PlayerCount() == 1) or ((p.spectator) and (not eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) and (not eMeM.twopgame)) then
+	if ((p.spectator) and (not eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) and (not eMeM.twopgame)) then
+		--Suggest SONIC RUN
 		DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 		DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 		DrawStrUnicode_Right(v, 320, 2*font_small.charheight, GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
 	elseif (eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) then
-        --Draw the invitation/suggestion text
-        DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
-        DrawStrUnicode_Right(v, 320, font_small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
+		--Draw the invitation/suggestion text to spectate PONG game
+		DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
+		DrawStrUnicode_Right(v, 320, font_small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
 	end
 
 	--Draw the camera message when you can activate camera view

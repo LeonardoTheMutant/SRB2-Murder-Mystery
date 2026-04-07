@@ -30,7 +30,7 @@ MM.LoadSuspenseTracks = function()
 	for i = 0, 15 do
 		lumpname = string.format("MMSUS%X", i)
 		if (S_MusicExists(lumpname)) then
-			table.insert(MM.susnse_music, lumpname)
+			table.insert(MM.susnse_music, #MM.susnse_music, lumpname)
 			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
 		end
 	end
@@ -43,7 +43,7 @@ MM.LoadShowdownTracks = function()
 	for i = 0, 15 do
 		lumpname = string.format("MMSHD%X", i)
 		if (S_MusicExists(lumpname)) then
-			table.insert(MM.shwdwn_music, lumpname)
+			table.insert(MM.shwdwn_music, #MM.shwdwn_music, lumpname)
 			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
 		end
 	end
@@ -545,9 +545,13 @@ MM.PlayerQuit = function(p)
 		end
 	})
 
-	--If player was one of the PONG rivals, forget about him
-	local myslot = PONG_GetMySlot(p)
-	if (myslot) then MM.duelplrs[myslot] = nil end
+	--If player was one of the PONG rivals, disable PONG minigame
+	if (PONG_GetMySlot(p)) then
+		MM.duelplrs[1].mm.minigame = false
+		MM.duelplrs[2].mm.minigame = false
+		MM.minigame = false
+		MM.duelplrs = nil
+	end
 
 	MM.StartSuspenseMusic()
 	MM.StartShowdownMusic()
@@ -697,17 +701,34 @@ end
 -- MINIGAME.LUA
 --
 
+--Find two players for the PONG minigame
+rawset(_G, "PONG_Get2Players", function()
+	if (MM.PlayerCount() ~= 2) then return end
+	local plrs = {}
+	for p in players.iterate do
+		plrs[#plrs + 1] = p
+		if (#plrs == 2) then break end
+	end
+	return plrs
+end)
+
 --Retrieve a PONG player node number
 rawset(_G, "PONG_GetMySlot", function(p)
 	assert(p, "PONG_GetMySlot(): player_t not given!")
-	if (not MM.duelplrs) then return end
-	for i = 1, 2 do if (MM.duelplrs[i] == p) then return i end end
+
+	local eMeM = MM
+	if (not eMeM.duelplrs) then return 0 end
+
+	if (eMeM.duelplrs[1] == p) then return 1 end
+	if (eMeM.duelplrs[2] == p) then return 2 end
+
+	return 0
 end)
 
 --Set PONG ball's valocity
 --Possible values for "side":
 --	<0	- Make ball go left
---	0	- Select a random ball direction
+--	0 	- Select a random ball direction
 --	>0	- Make ball go right
 rawset(_G, "PONG_SetVelocity", function(side)
 	side = side or 0

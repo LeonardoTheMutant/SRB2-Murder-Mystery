@@ -6,22 +6,13 @@
 --
 -- PONG MINIGAME
 --
-local function PONG_Get2Players()
-	if (MM.PlayerCount() ~= 2) then return end
-	local plrs = {}
-	for p in players.iterate
-		plrs[#plrs + 1] = p
-		if (#plrs == 2) break end
-	end
-	return plrs
-end
 
 local function PONG_PlaySFX(sfx)
 	for p in players.iterate do if (p.mm.flags & FLAG_MINIGAME) then S_StartSound(nil, sfx, p) end end
 end
 
 local function PONG_Win(winner)
-	if (winner) MM.duelplrs[winner].mm.kills = $ + 1 end
+	if (winner) then MM.duelplrs[winner].mm.kills = MM.duelplrs[winner].mm.kills + 1 end
 	MM.pong.winner = winner
 	MM.pong.timeout = 70
 	PONG_PlaySFX(sfx_lvpass)
@@ -29,53 +20,61 @@ end
 
 --PONG main logic
 local function PONG_Thinker()
-	--Move ball
-	for frame = 1, MM.pong.speed do --speed works like frameskip for ball
-		MM.pong.ball.x = $ + MM.pong.velocity.x
-		MM.pong.ball.y = $ + MM.pong.velocity.y
-	end
-
-	--COLLISION CHECK
-	--bounds
-	if (MM.pong.ball.y < 0) then --top
-		MM.pong.ball.y = 0
-		MM.pong.velocity.y = -$
-		PONG_PlaySFX(sfx_mario1)
-	end
-	if (MM.pong.ball.y > 79) then --bottom
-		MM.pong.ball.y = 79
-		MM.pong.velocity.y = -$
-		PONG_PlaySFX(sfx_mario1)
-	end
-	if (MM.pong.ball.x < 0) then --left side
-		MM.pong.velocity.x = 0
-		MM.pong.velocity.y = 0
-		PONG_Win(2)
-	end
-	if (MM.pong.ball.x >= 160) then --right side
-		MM.pong.velocity.x = 0
-		MM.pong.velocity.y = 0
-		PONG_Win(1)
-	end
-
 	--check if paddles are out of bounds
 	for pad = 1, 2 do
 		if (MM.pong.pads[pad] < 0) then MM.pong.pads[pad] = 0
 		elseif (MM.pong.pads[pad] > 64) then MM.pong.pads[pad] = 64 end
 	end
 
-	--ball & paddles collision
-	if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1] - 1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16))) then
-		MM.pong.hits = $ + 1
-		PONG_SetVelocity(1)
-		if ((MM.pong.hits % 10) == 9) then MM.pong.speed = $ + 1 end --increase the ball's speed every 10 hits
-		PONG_PlaySFX(sfx_mario2)
-	end
-	if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2] - 1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16))) then
-		MM.pong.hits = $ + 1
-		PONG_SetVelocity(-1)
-		if ((MM.pong.hits % 10) == 9) then MM.pong.speed = $ + 1 end --increase the ball's speed every 10 hits
-		PONG_PlaySFX(sfx_mario2)
+	if (MM.pong.timeout) then
+		MM.pong.timeout = MM.pong.timeout - 1
+		if (not MM.pong.timeout) then
+			MM.pong.winner = nil
+			PONG_PlaySFX(sfx_chchng)
+			PONG_Reset()
+		end
+	else
+		--Move ball
+		for frame = 1, MM.pong.speed do --speed works like frameskip for ball
+			MM.pong.ball.x = MM.pong.ball.x + MM.pong.velocity.x
+			MM.pong.ball.y = MM.pong.ball.y + MM.pong.velocity.y
+		end
+
+		--Ball collision check against walls
+		if (MM.pong.ball.y < 0) then --top
+			MM.pong.ball.y = 0
+			MM.pong.velocity.y = -MM.pong.velocity.y
+			PONG_PlaySFX(sfx_mario1)
+		end
+		if (MM.pong.ball.y > 79) then --bottom
+			MM.pong.ball.y = 79
+			MM.pong.velocity.y = -MM.pong.velocity.y
+			PONG_PlaySFX(sfx_mario1)
+		end
+		if (MM.pong.ball.x < 0) then --left side
+			MM.pong.velocity.x = 0
+			MM.pong.velocity.y = 0
+			PONG_Win(2)
+		end
+		if (MM.pong.ball.x > 158) then --right side
+			MM.pong.velocity.x = 0
+			MM.pong.velocity.y = 0
+			PONG_Win(1)
+		end
+
+		--ball & paddles collision
+		if ((MM.pong.ball.x >= 8) and (MM.pong.ball.x <= 10) and (MM.pong.ball.y >= MM.pong.pads[1] - 1) and (MM.pong.ball.y <= (MM.pong.pads[1] + 16))) then
+			MM.pong.hits = MM.pong.hits + 1
+			PONG_SetVelocity(1)
+			if ((MM.pong.hits % 10) == 9) then MM.pong.speed = MM.pong.speed + 1 end --increase the ball's speed every 10 hits
+			PONG_PlaySFX(sfx_mario2)
+		end
+		if ((MM.pong.ball.x >= 149) and (MM.pong.ball.x <= 152) and (MM.pong.ball.y >= MM.pong.pads[2] - 1) and (MM.pong.ball.y <= (MM.pong.pads[2] + 16))) then
+			MM.pong.hits = MM.pong.hits + 1
+			PONG_SetVelocity(-1)
+			if ((MM.pong.hits % 10) == 9) then MM.pong.speed = MM.pong.speed + 1 end --increase the ball's speed every 10 hits
+			PONG_PlaySFX(sfx_mario2)
+		end
 	end
 end
 
@@ -114,21 +113,31 @@ end
 -- Main SONIC RUN logic & input handler
 --
 local function SONIC_Thinker()
+	if (SonicRun.timeout) then
+		SonicRun.timeout = SonicRun.timeout - 1
+		if not (SonicRun.timeout % TICRATE) then
+			if (SonicRun.timeout > TICRATE) then S_StartSound(nil, sfx_s3ka7, consoleplayer)
+			elseif (SonicRun.timeout == TICRATE) then S_StartSound(nil, sfx_s3kad, consoleplayer) end
+		end
+	end
+
+	if (not SonicRun.active) or (SonicRun.timeout > TICRATE) then return end
+
 	if (SonicRun.Y < 1) then --touching the ground?
 		SonicRun.state = 1 --running
 		SonicRun.velocity = 0
 
 		--controls
-		if (p.cmd.buttons & BT_JUMP) then --FORWARD/JUMP (jump)
+		if (consoleplayer.cmd.buttons & BT_JUMP) then --FORWARD/JUMP (jump)
 			SonicRun.state = 2 --spinning (jump/spin)
 			SonicRun.velocity = 10
 			S_StartSound(nil, sfx_cdfm02, p)
-		elseif (p.cmd.buttons & BT_SPIN) then --BACKWARD/SPIN (spin)
+		elseif (consoleplayer.cmd.buttons & BT_SPIN) then --BACKWARD/SPIN (spin)
 			SonicRun.state = 2 --spinning (jump/spin)
 			if (not SonicRun.spinsound) then S_StartSound(nil, sfx_spin, p) end
 			SonicRun.spinsound = 1
 		else SonicRun.spinsound = 0 end
-	else SonicRun.velocity = $ - 1 end
+	else SonicRun.velocity = SonicRun.velocity - 1 end
 
 	--adjust Sonic's hitbox
 	if (SonicRun.state == 2) then SonicRun.Height = 14
@@ -136,14 +145,14 @@ local function SONIC_Thinker()
 
 	SonicRun.Y = SonicRun.Y + SonicRun.velocity
 	--reposition Sonic so he doesn't move underground
-	while (SonicRun.Y < 0) SonicRun.Y = $ + 1 end
+	while (SonicRun.Y < 0) do SonicRun.Y = SonicRun.Y + 1 end
 
-	SonicRun.score = $ + 1
+	SonicRun.score = SonicRun.score + 1
 
 	--
 	-- Hazard logic
 	--
-	SonicRun.hazardsTimeout = $ - 1
+	SonicRun.hazardsTimeout = SonicRun.hazardsTimeout - 1
 
 	--hazard spawning
 	if (SonicRun.hazardsTimeout <= 0) then
@@ -187,114 +196,98 @@ local function SONIC_Thinker()
 	for id = 1, #SonicRun.hazards do
 		if (SonicRun.hazards[id]) then
 			--I have no idea why hazards desync in their movement
-			SonicRun.hazards[id].x = $ - 5 --move
+			SonicRun.hazards[id][1] = SonicRun.hazards[id][1] - 5 --move
 
-			if (((SonicRun.hazards[id].x + 16) >= 16) and (SonicRun.hazards[id].x <= 20))
-			and (((SonicRun.hazards[id].y + 16) >= SonicRun.Y) and (SonicRun.hazards[id].y <= (SonicRun.Y + SonicRun.Height))) then
+			if (((SonicRun.hazards[id][1] + 16) >= 16) and (SonicRun.hazards[id][1] <= 20))
+			and (((SonicRun.hazards[id][2] + 16) >= SonicRun.Y) and (SonicRun.hazards[id][2] <= (SonicRun.Y + SonicRun.Height))) then
 				--die
 				SonicRun.active = 0
-			elseif (SonicRun.hazards[id].x < -15) --out of bounds
+			elseif (SonicRun.hazards[id][1] < -15) then --out of bounds
 				table.remove(SonicRun.hazards, id)
 			end
 		end
 	end
 end
 
---global Pong thinker
-addHook("ThinkFrame", do
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
-	if (MM.twopgame) then
-		if (MM.PlayerCount() == 2) and (not MM.duelplrs) then MM.duelplrs = PONG_Get2Players() end
 
-		if ((MM.duelplrs) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]) and (MM.duelplrs[1].mm.minigame) and (MM.duelplrs[2].mm.minigame)) then
-			MM.minigame = true
+--
+-- MAIN LOGIC
+--
+local FLAG_M = FLAG_MINIGAME --load the global variable into local variables space
+local C3_timeout
 
-			--Pong overlay objects for both Players
-			for plr = 1, 2 do
-				local mo = MM.duelplrs[plr].mo
-				if (valid(mo.tracer)) then P_SetOrigin(mo.tracer, mo.x, mo.y, mo.z + mo.height)
-				else mo.tracer = P_SpawnMobjFromMobj(mo, 0, 0, mo.height, MT_PONGOVERLAY) end
-			end
-		else MM.minigame = false end
-	end
-	if (MM.minigame) then
-		if (MM.pong.timeout > -1) then MM.pong.timeout = $ - 1
-		else PONG_Thinker() end
-		if (MM.pong.timeout == 0) then
-			MM.pong.winner = nil
-			PONG_Reset()
-			PONG_PlaySFX(sfx_gravch)
-		end
-	else
-		MM.pong.winner = nil
-		MM.pong.timeout = 70
-	end
-end)
-
---Player Thinker (Pong inputs, Sonic Run Thinker for each player)
-addHook("PlayerThink", function(p)
+addHook("PreThinkFrame", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	--Player's minigame toggle
-	if (p.cmd.buttons & BT_CUSTOM3) and ((MM.twopgame) or (p.spectator) or (MM.PlayerCount() == 1)) and (not MM.hud.help.active) then
-		if (not (p.lastbuttons & BT_CUSTOM3)) then
-			if (p.mm.flags & FLAG_MINIGAME) then --Disable minigame
-				if (not p.mm.minigame_timeout) then
-					MM.hud.game.routine = MM.hud.routines["game_main"]
-					p.mm.flags = p.mm.flags & ~FLAG_MINIGAME
-				end --Disable only when the timeout timer is out
-				if (MM.minigame and PONG_GetMySlot(p)) then --PONG-specific code
-					for plr = 1, 2 do
-						MM.duelplrs[plr].mm.minigame = nil
-						MM.pong.pads[plr] = 32
-						P_RemoveMobj(MM.duelplrs[plr].mo.tracer)
+	for p in players.iterate do
+		if (p.cmd.buttons & BT_CUSTOM3) and not (C3_timeout) then
+			C3_timeout = 35
+			if (p.mm.flags & FLAG_M) then
+				--Disable minigame
+				p.mm.flags = p.mm.flags & ~FLAG_M
+
+				if (MM.twopgame) and (MM.minigame) and PONG_GetMySlot(p) then
+					--Disable PONG if one of the duel players quit the minigame
+					MM.duelplrs[1].mm.flags = MM.duelplrs[1].mm.flags & ~FLAG_M
+					MM.ResetHUD(MM.duelplrs[1])
+					MM.duelplrs[2].mm.flags = MM.duelplrs[2].mm.flags & ~FLAG_M
+					MM.ResetHUD(MM.duelplrs[2])
+					PONG_Reset()
+					MM.minigame = false
+					MM.pong.timeout = 70
+				end
+				MM.ResetHUD() --Restore HUD
+			else
+				if (MM.twopgame) or (p.spectator) then --Do not let players enable the Minigame state when they are not meant to
+					--Enable minigame
+					p.mm.flags = p.mm.flags | FLAG_M
+
+					--Set the HUD rendering routine
+					if (p.spectator) then
+						--SONIC RUN
+						SONIC_Reset()
+						MM.hud.game.routine = MM.hud.routines["minigame_sonicrun"]
 					end
 				end
-			else --Enable minigame
-				p.mm.flags = $ | FLAG_MINIGAME
-				p.mm.minigame_timeout = 105
-				SONIC_Reset(p)
 			end
 		end
-	end
 
-	--CUSTOM3 timeout logic
-	if ((p.mm.flags & FLAG_MINIGAME) and (p.mm.minigame_timeout)) then p.mm.minigame_timeout = $ - 1 end
-
-	--Player is in minigame state
-	if (p.mm.flags & FLAG_MINIGAME) then
-		if ((MM.minigame) and (MM.twopgame)) then --PONG
-			MM.hud.game.routine = MM.hud.routines["minigame_pong"]
-		elseif ((p.spectator) or (MM.PlayerCount() == 1)) then --SONIC RUN
-			MM.hud.game.routine = MM.hud.routines["minigame_sonicrun"]
-			if (SonicRun.timeout) then
-				SonicRun.timeout = $ - 1
-				if (SonicRun.timeout > TICRATE) then
-					SonicRun.state = 0
-					if (not (SonicRun.timeout % TICRATE)) then S_StartSound(nil, sfx_s3ka7, p) end
-				elseif (SonicRun.timeout == TICRATE) then S_StartSound(nil, sfx_s3kad, p) end
+		if (p.mm.flags & FLAG_M) then
+			if (MM.twopgame) and (MM.minigame) then
+				--PONG
+				PONG_ThinkCmd(p)
+				p.cmd.buttons = 0
+				p.cmd.forwardmove = 0
+				p.cmd.sidemove = 0
+			elseif (p.spectator) then
+				--SONIC RUN
+				SONIC_Thinker()
+				p.cmd.buttons = 0
+				p.cmd.forwardmove = 0
+				p.cmd.sidemove = 0
 			end
 		end
 	end
 end)
 
---Input reader for both minigames
-addHook("PreThinkFrame", function()
-	for p in players.iterate do
-		if (p.mm.flags & FLAG_MINIGAME) then
-			if (MM.minigame) and (MM.twopgame) then
-				if (MM.pong.timeout < 0) then
-					PONG_ThinkCmd(p)
-					p.cmd.forwardmove = 0
-					p.cmd.sidemove = 0
-					p.cmd.buttons = 0
-				end
-			elseif (p.spectator) or (MM.PlayerCount() == 1) then
-				if (SonicRun.active) and (not (SonicRun.timeout / TICRATE)) then SONIC_Thinker() end
-				p.cmd.forwardmove = 0
-				p.cmd.sidemove = 0
-				p.cmd.buttons = 0
-			end
+addHook("ThinkFrame", function()
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+	if (MM.duelplrs) then
+		if (valid(MM.duelplrs[1]) and (MM.duelplrs[1].mm.flags & FLAG_M))
+		and (valid(MM.duelplrs[2]) and (MM.duelplrs[2].mm.flags & FLAG_M)) then
+			MM.minigame = true
+		else
+			MM.minigame = false
 		end
 	end
+
+	if (MM.twopgame) and (MM.minigame) then
+		if (consoleplayer == MM.duelplrs[1]) or (consoleplayer == MM.duelplrs[2]) then
+			MM.hud.game.routine = MM.hud.routines["minigame_pong"]
+		end
+		PONG_Thinker()
+	end
+
+	if (C3_timeout) then C3_timeout = C3_timeout - 1 end
 end)

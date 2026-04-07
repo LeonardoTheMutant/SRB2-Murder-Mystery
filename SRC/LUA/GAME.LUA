@@ -35,6 +35,7 @@ addHook("MapLoad", function(map)
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
+		if (p.mm.flags & FLAG_MINIGAME) then MM.ResetHUD(p) end
 		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME|FLAG_NEWCOMER)
 		p.mm.weapondelay = 175 --5 seconds
 		p.mm.role = ROLE_DEAD
@@ -67,10 +68,9 @@ addHook("MapLoad", function(map)
 	--Prepare the minigames
 	MM.twopgame = (MM.PlayerCount() == 2)
 	MM.minigame = false
-	PONG_Reset()
 	MM.pong.pads[1] = 32
 	MM.pong.pads[2] = 32
-	MM.pong.timeout = -1
+	MM.pong.timeout = 70
 
 	--Assign roles to the players
 	MM.AssignRoles()
@@ -119,6 +119,7 @@ addHook("PlayerSpawn", function(p)
 				MM.minigame = false --Tell server to disable the PONG minigame
 				MM.AssignRoles() --Assign roles for that duel
 				MM.twopgame = true
+				MM.duelplrs = PONG_Get2Players()
 			end,
 			['default'] = function() --Other players are dead on join
 				p.pflags = $|PF_GODMODE
@@ -139,7 +140,7 @@ end)
 addHook("PlayerThink", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
-	local pmo = p.mo
+	local pmo = p.mo or p.realmo
 
 	if (not cv_shields.value) then p.powers[pw_shield] = 0 end --Disable player shields
 	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
@@ -196,7 +197,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--Ketchup cleaner
-	if (p.mm.killtrailsteps) and (pmo.z > pmo.waterbottom) and (p.mo.z < pmo.watertop) then
+	if (p.mm.killtrailsteps) and (pmo.z > pmo.waterbottom) and (pmo.z < pmo.watertop) then
 		p.mm.killtrailsteps = 0
 	end
 

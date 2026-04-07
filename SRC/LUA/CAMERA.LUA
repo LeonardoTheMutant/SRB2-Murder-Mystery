@@ -143,12 +143,12 @@ addHook("PostThinkFrame", function()
 end)
 
 --Disable Terminal view when map changes or you die
-addHook("PlayerSpawn", function()
+addHook("PlayerSpawn", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	if (consoleplayer.mm.camera.active) then
-		consoleplayer.mm.camera.active = false
-		MM.ResetHUD(consoleplayer)
+	if (p.mm.camera.active) then
+		p.mm.camera.active = false
+		MM.ResetHUD(p)
 	end
 end)
 
