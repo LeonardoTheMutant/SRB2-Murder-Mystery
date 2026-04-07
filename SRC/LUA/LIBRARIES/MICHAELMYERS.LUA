@@ -547,8 +547,8 @@ MM.PlayerQuit = function(p)
 
 	--If player was one of the PONG rivals, disable PONG minigame
 	if (PONG_GetMySlot(p)) then
-		MM.duelplrs[1].mm.minigame = false
-		MM.duelplrs[2].mm.minigame = false
+		MM.duelplrs[1].mm.flags = MM.duelplrs[1].mm.flags & ~FLAG_MINIGAME
+		MM.duelplrs[2].mm.flags = MM.duelplrs[2].mm.flags & ~FLAG_MINIGAME
 		MM.minigame = false
 		MM.duelplrs = nil
 	end
