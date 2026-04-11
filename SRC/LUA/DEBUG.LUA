@@ -50,11 +50,29 @@ local mmcharset={0,0,0}
 COM_AddCommand("mmcharset",function(p, r)
 	mmcharset[1]=1;mmcharset[2]=0
 	if tonumber(r) mmcharset[3]=tonumber(r)end
-	MM.hud.game.active=false
+	MM.hud.game.routine=function(v)
+		for row=-1,20 for column=-1,15
+			if((row==-1)and(column>-1))v.drawString(24+(column*8),0,string.format("%X",column))
+			elseif((column==-1)and(row>-1))v.drawString(0,16+(row*8),HEX[row])
+			elseif(column>-1)and(row>-1)
+				patchNum=mmcharset[3]+((row)*16)+column
+				if(HIDEO.font[patchNum])v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
+			end
+		end end
+		for row=20,41 for column=-1,15
+			if((row==20)and(column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
+			elseif((column==-1)and(row>20))v.drawString(160,-152+(row*8),HEX[row])
+			elseif(column>-1)and(row>20)
+				patchNum=mmcharset[3]+((row)*16)+column
+				if(HIDEO.font[patchNum])v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096))end
+			end
+		end end
+		v.drawString(0,184,"Color: "..mmcharset[2]); v.drawString(0,192,"JUMP - next color, SPIN - exit")
+	end
 end)
 addHook("PlayerThink",function(p) --MMCHARSET logic
 	if not(mmcharset[1])return end
-	if(p.cmd.buttons&BT_SPIN)mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.active=true end
+	if(p.cmd.buttons&BT_SPIN)mmcharset[1]=0;mmcharset[2]=0;MM.hud.game.routine=MM.hud.routines["game_main"] end
 	if(p.cmd.buttons&BT_JUMP and not (p.lastbuttons&BT_JUMP))mmcharset[2]=$+1;mmcharset[2]=$&15 end
 end)
 local mmlayout={0,0}
@@ -87,25 +105,6 @@ hud.add(function(v, p)
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+128,"\x82".."MM.LANG: \x80"..MM.lang,V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+136,"\x82".."MM.SHREMDDIST: \x81"..MM.shremdDist.." \x80("..fixint(MM.shremdDist)..")",V_PERPLAYER,"thin")
 		v.drawString(MM.hud.game.pos.debug.x,MM.hud.game.pos.debug.y+144,"\x82".."AFK: \x80"..p.afk,V_PERPLAYER,"thin")
-	end
-	if(mmcharset[1])then
-		for row=-1,20 for column=-1,15
-			if((row==-1)and(column>-1))v.drawString(24+(column*8),0,string.format("%X",column))
-			elseif((column==-1)and(row>-1))v.drawString(0,16+(row*8),HEX[row])
-			elseif(column>-1)and(row>-1)
-				patchNum=mmcharset[3]+((row)*16)+column
-				if(HIDEO.font[patchNum])v.draw((24+column*8),(16+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096)) end
-			end
-		end end
-		for row=20,41 for column=-1,15
-			if((row==20)and(column>-1)) v.drawString(192+(column*8),0,string.format("%X",column))
-			elseif((column==-1)and(row>20))v.drawString(160,-152+(row*8),HEX[row])
-			elseif(column>-1)and(row>20)
-				patchNum=mmcharset[3]+((row)*16)+column
-				if(HIDEO.font[patchNum])v.draw((192+column*8),(-152+row*8),HIDEO.font[patchNum],0,v.getStringColormap(mmcharset[2]*4096))end
-			end
-		end end
-		v.drawString(0,184,"Color: "..mmcharset[2]); v.drawString(0,192,"JUMP - next color, SPIN - exit")
 	end
 	if(mmlayout[1])v.drawNum(160,100,mmlayout[2]);v.drawString(0,0,"ENTER to exit")end
 end)
