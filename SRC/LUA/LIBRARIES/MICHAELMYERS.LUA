@@ -117,7 +117,7 @@ MM.InitPlayer = function(p)
 			[false] = function()
 				p.mm.flags = p.mm.flags | FLAG_SPECTATOR
 				p.spectator = true
-				p.pflags = p.pflags | PF_GODMODE
+				p.pflags = p.pflags | PF_GODMODE | PF_NOCLIP
 				p.mm.role = ROLE_DEAD
 			end,
 		})
@@ -376,7 +376,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not p) or (not p.player)) then error("MM.KillPlayerByPlayer() argument #1: player's mobj_t expected") end
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
-	plr.pflags = plr.pflags|PF_GODMODE --force player to remain dead if they die as spectator (SRB2 bug fix)
+	plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP --force player to remain dead if they die as spectator (SRB2 bug fix)
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.role = ROLE_DEAD
@@ -412,7 +412,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	if ((not p) or (not p.player)) then error("MM.KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
 	if (MM.PlayerCount() ~= 1) then --force player to remain dead if they die as spectator (SRB2 bug fix)
-		plr.pflags = plr.pflags|PF_GODMODE
+		plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0

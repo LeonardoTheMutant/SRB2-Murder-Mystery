@@ -122,7 +122,7 @@ addHook("PlayerSpawn", function(p)
 				MM.duelplrs = PONG_Get2Players()
 			end,
 			['default'] = function() --Other players are dead on join
-				p.pflags = $|PF_GODMODE
+				p.pflags = $|PF_GODMODE|PF_NOCLIP
 				p.mm.flags = p.mm.flags | FLAG_NEWCOMER
 				p.mm.role = ROLE_DEAD
 			end
