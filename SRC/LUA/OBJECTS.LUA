@@ -34,9 +34,11 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 		switch(t.player.mm.role, {
 			[ROLE_CIVILIAN] = function()
 				t.player.mm.role = ROLE_HERO
+				t.player.mm.prevrole = ROLE_HERO
 			end,
 			[ROLE_JESTER] = function()
 				t.player.mm.role = ROLE_JESTERHERO
+				t.player.mm.prevrole = ROLE_JESTERHERO
 			end
 		})
 		if (t.player == consoleplayer) then

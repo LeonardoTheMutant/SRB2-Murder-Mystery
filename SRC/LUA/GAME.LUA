@@ -378,16 +378,20 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 
 	switch(vprole, {
 		[ROLE_MURDERER] = function()
-			if (MM.PlayerCount(ROLE_MURDERER))
+			if (MM.PlayerCount(ROLE_MURDERER)) then
 				MM.ChatprintGlobal("MSG_MURDKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
-				if (ap.mm.role == ROLE_CIVILIAN)
+				if (ap.mm.role == ROLE_CIVILIAN) then
 					ap.mm.role = ROLE_HERO
+					ap.mm.prevrole = ROLE_HERO
 					MM.Chatprint(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
-				if (ap.mm.role == ROLE_CIVILIAN) then ap.mm.role = ROLE_HERO end --Reward the Innocent
+				if (ap.mm.role == ROLE_CIVILIAN) then --Reward the Innocent
+					ap.mm.role = ROLE_HERO
+					ap.mm.prevrole = ROLE_HERO
+				end
 				MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 			end
 		end,

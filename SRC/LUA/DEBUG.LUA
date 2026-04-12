@@ -108,3 +108,8 @@ hud.add(function(v, p)
 	end
 	if(mmlayout[1])v.drawNum(160,100,mmlayout[2]);v.drawString(0,0,"ENTER to exit")end
 end)
+local botnum=0
+COM_AddCommand("mmaddbot",do
+	G_AddPlayer(botnum,botnum,botnum,0)
+	botnum=$+1
+end)

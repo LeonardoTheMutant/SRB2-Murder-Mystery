@@ -119,6 +119,7 @@ MM.InitPlayer = function(p)
 				p.spectator = true
 				p.pflags = p.pflags | PF_GODMODE | PF_NOCLIP
 				p.mm.role = ROLE_DEAD
+				p.mm.prevrole = ROLE_DEAD
 			end,
 		})
 		p.mm.flags = p.mm.flags & ~FLAG_WAITSPECTATOR
@@ -216,6 +217,8 @@ MM.AssignRoles = function()
 
 			if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
 		end
+
+		p.mm.prevrole = p.mm.role
 	end
 end
 
@@ -379,6 +382,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP --force player to remain dead if they die as spectator (SRB2 bug fix)
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
+	plr.mm.prevrole = plr.mm.role
 	plr.mm.role = ROLE_DEAD
 	plr.mm.camera.active = false
 	MM.ResetHUD(plr)
@@ -416,6 +420,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0
+	plr.mm.prevrole = plr.mm.role
 	plr.mm.role = ROLE_DEAD
 	plr.mm.camera.active = false
 	MM.ResetHUD(plr)
@@ -486,6 +491,7 @@ end
 --Player deinitializator, executes on PlayerQuit hook
 MM.PlayerQuit = function(p)
 	local role = p.mm.role
+	p.mm.prevrole = role
 	p.mm.role = ROLE_DEAD
 	switch(role, {
 		[ROLE_MURDERER] = function()
@@ -642,6 +648,7 @@ MM.SetRandomCivilianAs = function(role)
 	end
     local p = players[plrs[P_RandomKey(#plrs)+1]]
 	p.mm.role = role
+	p.mm.prevrole = role
 	MM.hud.game.roleflicker = 105 --3 secs
 	local msg
 	switch(role, {

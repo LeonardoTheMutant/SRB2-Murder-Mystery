@@ -46,8 +46,8 @@ local HudInter_pos_players_y = HudInter_pos.players_y
 local HudInter_pos_name_x = HudInter_pos.name_x
 local HudInter_pos_kills_x = HudInter_pos.kills_x
 local HudInter_pos_players2_y = HudInter_pos.players2_y
-local HudInter_pos_name2_x = HudInter_pos_name2_x
-local HudInter_pos_kills2_x = HudInter_pos_kills2_x
+local HudInter_pos_name2_x = HudInter_pos.name2_x
+local HudInter_pos_kills2_x = HudInter_pos.kills2_x
 
 
 --HIDEO related stuff
@@ -383,7 +383,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		end
 
 		--"Killed by"
-		if not (p.mm.flags & FLAG_NEWCOMER)
+		if not (p.mm.flags & FLAG_NEWCOMER) then
 			if (int(p.mm.killreason) == KILLBY_PLR) then
 				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f) end
 			else
@@ -584,7 +584,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	end
 
 	--Draw the camera message when you can activate camera view
-	if (p.mm.camera.available)
+	if (p.mm.camera.available) then
 		HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvas.width, 0, font_small.scale, MM.GetText("HUD_CAMERA", "TERMINAL")), v.localTransFlag(), font_small.scale)
 	end
 
@@ -681,7 +681,7 @@ MMhud.routines["scores_main"] = function(v)
 					--amount of currently held weapon ammo
 					v.drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.powers[pw_infinityring + p.currentweapon], localTransFlag, "thin")
 					--red ring icon
-					v.drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[-1][1]], v.localTransFlag) --FU/2
+					v.drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[-1][1]], localTransFlag) --FU/2
 					--amount of [red] rings
 					v.drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.rings, localTransFlag, "thin")
 					teammateNo = teammateNo + 1
@@ -755,6 +755,49 @@ end
 --
 -- Custom intermission HUD
 --
+local crossTextPatch1 = "0              0"
+local crossTextPatch2 = " 0            0"
+local crossTextPatch3 = "  0          0"
+local crossTextPatch4 = "   0        0"
+local crossTextPatch5 = "    0      0"
+local crossTextPatch6 = "     0    0"
+local crossTextPatch7 = "      0  0"
+local crossTextPatch8 = "       00"
+local crossTextPatch16x16 = {
+	palette = {{35}},
+	image = {
+		crossTextPatch1,
+		crossTextPatch2,
+		crossTextPatch3,
+		crossTextPatch4,
+		crossTextPatch5,
+		crossTextPatch6,
+		crossTextPatch7,
+		crossTextPatch8,
+		crossTextPatch8,
+		crossTextPatch7,
+		crossTextPatch6,
+		crossTextPatch5,
+		crossTextPatch4,
+		crossTextPatch3,
+		crossTextPatch2,
+		crossTextPatch1
+	}
+}
+local crossTextPatch8x8 = {
+	palette = {{35}},
+	image = {
+		crossTextPatch5,
+		crossTextPatch6,
+		crossTextPatch7,
+		crossTextPatch8,
+		crossTextPatch8,
+		crossTextPatch7,
+		crossTextPatch6,
+		crossTextPatch5
+	}
+}
+
 MMhud.routines["intermission_main"] = function(v)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then hud.enable("intermissiontally"); return end
 
@@ -764,6 +807,7 @@ MMhud.routines["intermission_main"] = function(v)
 	local drawString = v.drawString
 	local getSprite2Patch = v.getSprite2Patch
 	local getColormap = v.getColormap
+	local stringWidth = v.stringWidth
 
 	--Do not render the Intermission when MapVote is working or when other script specifically disables it
 	if (MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) then return end
@@ -844,35 +888,44 @@ MMhud.routines["intermission_main"] = function(v)
 	for i = 1, #plrs do
 		local p = plrs[i]
 		local pmm = p.mm
+
+		--Player name color
+		local color = 1
+		switch(p.mm.prevrole, {
+			[ROLE_MURDERER] = function()
+				color = ROLE_MURDERER
+			end,
+			[ROLE_SHERIFF] = function()
+				color = ROLE_SHERIFF
+			end,
+			[ROLE_CIVILIAN] = function()
+				color = ROLE_CIVILIAN
+			end,
+			[ROLE_HERO] = function()
+				color = ROLE_HERO
+			end,
+			[ROLE_JESTER] = function()
+				color = ROLE_JESTER
+			end,
+			[ROLE_JESTERHERO] = function()
+				color = ROLE_JESTER
+			end,
+			['default'] = function()
+				color = ROLE_DEAD
+			end
+		})
+		local nameLength = #p.name
+
 		if (PlayerCount <= 8) then --Regular mode
 			--Character icon
-			drawScaled((HudInter_pos_name_x - 20)*FU, ((HudInter_pos_players_y - 4) + (i * 16))*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, getColormap(p.skin, p.skincolor)) --FU/2
+			drawScaled((HudInter_pos_name_x - 20)*FU, (HudInter_pos_players_y - 4 + (i * 16))*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, getColormap(p.skin, p.skincolor)) --FU/2
 			--Player name (colored by role)
-			local color = 1
-			switch(pmm.role, {
-				[ROLE_DEAD] = function()
-					color = ROLE_DEAD
-				end,
-				[ROLE_MURDERER] = function()
-					color = ROLE_MURDERER
-				end,
-				[ROLE_SHERIFF] = function()
-					color = ROLE_SHERIFF
-				end,
-				[ROLE_CIVILIAN] = function()
-					color = ROLE_CIVILIAN
-				end,
-				[ROLE_HERO] = function()
-					color = ROLE_HERO
-				end,
-				[ROLE_JESTER] = function()
-					color = ROLE_JESTER
-				end,
-				[ROLE_JESTERHERO] = function()
-					color = ROLE_JESTER
-				end
-			})
 			drawString((HudInter_pos_name_x), (HudInter_pos_players_y + (i * 16)), RoleColor[color]..p.name, V_ALLOWLOWERCASE)
+			--Cross player name if they were killed
+			if (p.mm.role == ROLE_DEAD) and (PlayerCount > 1) then
+				DrawTextPatch(v, HudInter_pos_name_x - 20, (HudInter_pos_players_y - 4 + (i * 16)), crossTextPatch16x16, 1)
+				drawFill(HudInter_pos_name_x, (HudInter_pos_players_y + (i * 16) + 4), stringWidth(p.name), 1, 35)
+			end
 
 			--Kills counter
 			drawString((HudInter_pos_kills_x), (HudInter_pos_players_y + (i * 16)), p.mm.kills)
@@ -880,33 +933,14 @@ MMhud.routines["intermission_main"] = function(v)
 			if (i > 8) then shiftx=160; shifty=128 end --players 9-16 are drawn on the second column
 
 			--Character icon
-			drawScaled((HudInter_pos_name_x + shiftx - 20)*FU, ((HudInter_pos_players_y - 4) + (i * 16) - shifty)*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
+			drawScaled((HudInter_pos_name_x + shiftx - 20)*FU, (HudInter_pos_players_y - 4 + (i * 16) - shifty)*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
 			--Player name (colored by role)
-			local color = 1
-			switch(p.mm.role, {
-				[ROLE_DEAD] = function()
-					color = ROLE_DEAD
-				end,
-				[ROLE_MURDERER] = function()
-					color = ROLE_MURDERER
-				end,
-				[ROLE_SHERIFF] = function()
-					color = ROLE_SHERIFF
-				end,
-				[ROLE_CIVILIAN] = function()
-					color = ROLE_CIVILIAN
-				end,
-				[ROLE_HERO] = function()
-					color = ROLE_HERO
-				end,
-				[ROLE_JESTER] = function()
-					color = ROLE_JESTER
-				end,
-				[ROLE_JESTERHERO] = function()
-					color = ROLE_JESTER
-				end
-			})
 			drawString((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), RoleColor[color]..string.sub(p.name, 1, 13), V_ALLOWLOWERCASE)
+			--Cross player name if they were killed
+			if (p.mm.role == ROLE_DEAD) then
+				DrawTextPatch(v, HudInter_pos_name_x + shiftx - 20, (HudInter_pos_players_y - 4 + (i * 16) - shifty), crossTextPatch16x16, 1)
+				drawFill((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) + 4 - shifty), stringWidth(p.name), 1, 35)
+			end
 
 			--Kills counter
 			drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), p.mm.kills)
@@ -915,33 +949,14 @@ MMhud.routines["intermission_main"] = function(v)
 
 			--back to the rows
 			--Character icon
-			drawScaled((HudInter_pos_name2_x + shiftx - 10)*FU, ((HudInter_pos_players2_y - 1) + (i * 8) - shifty)*FU, 16384, getSprite2Patch(p.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/4
-			--Player name (colored by role)
-			local color = 1
-			switch(p.mm.role, {
-				[ROLE_DEAD] = function()
-					color = ROLE_DEAD
-				end,
-				[ROLE_MURDERER] = function()
-					color = ROLE_MURDERER
-				end,
-				[ROLE_SHERIFF] = function()
-					color = ROLE_SHERIFF
-				end,
-				[ROLE_CIVILIAN] = function()
-					color = ROLE_CIVILIAN
-				end,
-				[ROLE_HERO] = function()
-					color = ROLE_HERO
-				end,
-				[ROLE_JESTER] = function()
-					color = ROLE_JESTER
-				end,
-				[ROLE_JESTERHERO] = function()
-					color = ROLE_JESTER
-				end
-			})
+			drawScaled((HudInter_pos_name2_x + shiftx - 10)*FU, (HudInter_pos_players2_y - 1 + (i * 8) - shifty)*FU, 16384, getSprite2Patch(p.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/4
+
 			drawString((HudInter_pos_name2_x + shiftx), (HudInter_pos_players2_y + (i * 8) - shifty), RoleColor[color]..p.name, V_ALLOWLOWERCASE, "thin")
+			--Cross player name if they were killed
+			if (p.mm.role == ROLE_DEAD) then
+				DrawTextPatch(v, HudInter_pos_name2_x + shiftx - 14, (HudInter_pos_players2_y - 1 + (i * 8) - shifty), crossTextPatch8x8, 1)
+				drawFill((HudInter_pos_name2_x + shiftx), (HudInter_pos_players2_y + (i * 8) + 3 - shifty), stringWidth(p.name, 0, "thin"), 1, 35)
+			end
 
 			--Kills counter
 			drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players2_y + (i * 8) - shifty), p.mm.kills, 0, "thin")
