@@ -32,6 +32,7 @@ end
 --
 addHook("MapLoad", function(map)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)

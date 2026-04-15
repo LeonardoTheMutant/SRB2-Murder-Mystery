@@ -73,7 +73,7 @@ end, MT_MMCAMERA)
 -- Camera Terminal
 --
 addHook("MapThingSpawn", function(mo, thing)
-	MM.DebugPrint("Spawned a Camera Terminal")
+	MM.DebugPrint(string.format("Spawned a Camera Terminal at %d %d %d", FixedInt(mo.x), FixedInt(mo.y), FixedInt(mo.z)))
 end, MT_MMTERMINAL)
 
 local cv_chasecam = CV_FindVar("chasecam")
@@ -142,13 +142,16 @@ addHook("PostThinkFrame", function()
 	end
 end)
 
---Disable Terminal view when map changes or you die
-addHook("PlayerSpawn", function(p)
+--Reset cameras on Map Change and disable Terminal view for all players
+addHook("MapChange", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	if (p.mm.camera.active) then
-		p.mm.camera.active = false
-		MM.ResetHUD(p)
+	MM.cameras = {}
+	for p in players.iterate do
+		if (p.mm.camera.active) then
+			p.mm.camera.active = false
+			MM.ResetHUD(p)
+		end
 	end
 end)
 
@@ -157,6 +160,7 @@ end)
 --
 -- Renderer
 local moire_step = 8
+local noise_pixel_multiplier = 4
 local function terminal_renderer(v)
 	local width = v.width()
 	local height = v.height()
@@ -177,9 +181,9 @@ local function terminal_renderer(v)
 
 	--Draw White Noise static
 	if (static_level < 9) and not (leveltime % 4) then static_level = static_level + 1 end
-	for y = 0, MM.hud.canvas.height, 4 do
-		for x = 0, MM.hud.canvas.width, 4 do
-			v.drawFill(x, y, 4, 4, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
+	for y = 0, MM.hud.canvas.height, noise_pixel_multiplier do
+		for x = 0, MM.hud.canvas.width, noise_pixel_multiplier do
+			v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
 		end
 	end
 
