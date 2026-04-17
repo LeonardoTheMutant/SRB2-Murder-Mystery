@@ -66,7 +66,7 @@ Level K7
 LevelName = Space Mesa
 SelectHeading = LTM's Murder Mystery
 NoZone = True
-SkyNum = 21
+SkyNum = 700
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K8
 Lua.Author = LeonardoTheMutant
