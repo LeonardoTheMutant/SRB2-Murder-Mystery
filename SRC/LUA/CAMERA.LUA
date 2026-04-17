@@ -2,7 +2,7 @@
 -- By Re & LeonardoTheMutant
 -- Cameras management code
 
-freeslot("MT_MMCAMERA", "SPR_CAMS", "MT_MMTERMINAL", "sfx_static")
+freeslot("MT_MMCAMERA", "SPR_CAMS", "MT_MMTERMINAL", "sfx_static", "sfx_camopn")
 
 mobjinfo[MT_MMCAMERA] = {
 	--$Title Survivalence Camera
@@ -117,6 +117,7 @@ addHook("PreThinkFrame", function()
 				MM.hud.scores.routine = MM.hud.routines["scores_main"]
 				pcam.active = false
 				pcam.timer = 3
+				S_StartSound(nil, sfx_camopn, p)
 			end
 
 			p.cmd.buttons = 0
@@ -190,6 +191,7 @@ local function terminal_renderer(v)
 	v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
 	if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
 	v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	v.drawString(0, 184, "NEXT/PREV WEAPON to switch", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 
 	--Draw moire effect
 	for i = 0, height, moire_step do
@@ -215,6 +217,8 @@ addHook("MobjThinker", function(mo)
 					MM.hud.game.routine = terminal_renderer
 					MM.hud.scores.routine = terminal_renderer
 					static_level = 0
+					S_StartSound(nil, sfx_camopn, p)
+					S_StartSound(nil, sfx_static, p)
 				end
 				p.mm.camera.active = true
 			end
