@@ -17,17 +17,16 @@ O_MAPK1M.SPC - "Ruined Fortress" by Segment1Zone2 (Papercut)
 O_MAPK2M.SPC - "eternal forest" by RednGreen (Super Mario World Custom Music)
 O_MAPK3M.SPC - "In a Snow-Bound Land" by Dave Wise (Donkey Kong Country 2)
 O_MAPK4M.SPC - "Wild West" by Nobuo Uematsu (Final Fantasy 6)
+O_MAPK5M.VGZ - "Wave Trouble" by Matt Furniss (James Bond 007: The Duel)
 O_MAPK7M.SPC - "Colony" by Taro Kudou & M. C. Ada (Axelay)
+O_MAPK8M.SPC - "Montgomery" by Segment1Zone2 (Papercut) 
 O_MAPK9M.SPC - "At the Bottom of Night" by Yasunori Mitsuda (Chrono Trigger)
 O_MAPKFM.SPC - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (SPC by EDIT3333)
+O_MAPKAM.SPC - "Boo-Flavored Coffee" by ThinkOneMoreTime, Arranged by Hooded Edge
+O_MAPKBM.SPC - "Sadness" by Yanda (Last Bible 3) (SPC ported by Kevin)
+O_MAPKDM.SPC - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
 O_MAPKGM.SPC - "Ruins Village" by Segment1Zone2 (Papercut)
 
-MAPKD: "East City"
-------------------
-O_MAPKDB.SPC (Bad Future) - "Sadness" by Yanda (Last Bible 3) (SPC Ported by Kevin)
-O_MAPKDG.SPC (Good Future) - "Neon Night Riders" by Kazuhiko Uehara & Harumi Ueko (Teenage Mutant Ninja Turtles IV: Turtles in Time)
-O_MAPKDM.SPC (Present) - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
-O_MAPKDP.SPC (Past) - "Wacky Workbench Zone (Past)" by Naofumi Hataya (SPC Ported by Ultima)
 
 MAPKE: "Shadow Moses Island"
 ----------------------------
@@ -47,8 +46,9 @@ O_MAPKHM.SPC (Temple theme) - "Playing the Card Game Tarot" by Ukiyotei Sound Te
 = SUSPENSE =
 ============
 
+O_CIVINS.SPC - "Tension" by Kenji Yamamoto (Super Metroid)
 O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
-
+O_MMSUS0.SPC - "Danger" by Taro Kudou & M. C. Ada (Axelay)
 
 ============
 = SHOWDOWN =
@@ -57,6 +57,9 @@ O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by
 O_MMSHD1.SPC - "Pressing Pursuit ~ Cornered " by Masakazu Sugimori (Phoenix Wright: Ace Attorney) (SPC arranegement by Hooded Edge)
 O_MMSHD2.SPC - "Pressing Pursuit ~ Caught" by Noriyuki Iwadare (Phoenix Wright: Trials and Tribulations) (SPC by ???)
 O_MMSHD3.SPC - "Rude Buster" by Toby Fox (Deltarune) (SPC by Giftshaven & Ultima)
+O_MMSHD4.SPC - "Battle 1" by Yasunori Mitsuda (Chrono Trigger)
+O_MMSHD5.SPC - "Meridian Dance" (Final Battle) by Hiroki Kikuta (Secret of Mana)
+O_MMSHD6.SPC - "Fight Against Smithy, Who Likes Transforming" by Yoko Shimomura (Super Mario RPG)
 O_MMSHD7.SPC - "The Decisive Battle" (Boss Battle) by Nobuo Uematsu (Final Fantasy 6)
 O_MMSHD8.SPC - "Battle Against a True Hero" by Toby Fox (Undertale) (SPC by S1Z2)
 O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC by Bak Sangwoo)
@@ -66,7 +69,7 @@ O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC
 = INTERMISSION =
 ================
 
-O_MM_TIE.SPC -            Tie            - "Competition Menu" (Sonic the Hedgehog 3 (Nov. 1993 Prototype)) (SPC by bebn legg)
+O_MM_TIE.VGZ -            Tie            - "No Way? No Way!" (Sonic the Hedgehog 3)
 O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
 O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
 O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X) (Sega Gensis VGM by Savaged Regime)

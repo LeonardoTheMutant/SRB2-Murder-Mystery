@@ -26,15 +26,10 @@ MAPK9 - "Evilflower Zone" by Shadow Hog (Sonic Robo Blast 2 (v2.1))
 MAPKA - "Bright sound" (Sonic Adventure 2) (MIDI by Jose)
 MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
 MAPKC - "Midwich Nightmare" (Second Half) by Akira Yamaoka (Silent Hill)
+MAPKD - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 
-MAPKD: "East City"
-------------------
-MAPKDM (Present)     - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
-MAPKDP (Past)        - "Wacky Workbench 'P' Remix" by Masafumi Ogata (Sonic CD JP) (MIDI by Monster Iestyn)
-MAPKDB (Bad Future)  - "Look At Me I'm Underhalls Too" by Mark "TheMisterCat" McGill-Smith (Freedoom: Phase 1 (v0.13.0))
-MAPKDG (Good Future) - "Main Code" by Korp (Freedoom: Phase 1 (v0.13.0))
 
 MAPKE: "Shadow Moses Island"
 ----------------------------
