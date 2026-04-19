@@ -60,8 +60,8 @@ O_MMSHD2.SPC - "Pressing Pursuit ~ Caught" by Noriyuki Iwadare (Phoenix Wright: 
 O_MMSHD3.SPC - "Rude Buster" by Toby Fox (Deltarune) (SPC by Giftshaven & Ultima)
 O_MMSHD4.SPC - "Battle 1" by Yasunori Mitsuda (Chrono Trigger)
 O_MMSHD5.SPC - "Meridian Dance" (Final Battle) by Hiroki Kikuta (Secret of Mana)
-O_MMSHD6.SPC - "Fight Against Smithy, Who Likes Transforming" by Yoko Shimomura (Super Mario RPG)
-O_MMSHD7.SPC - "The Decisive Battle" (Boss Battle) by Nobuo Uematsu (Final Fantasy 6)
+O_MMSHD6.SPC - "The Decisive Battle" (Boss Battle) by Nobuo Uematsu (Final Fantasy 6)
+O_MMSHD7.SPC - "Fight Against Smithy, Who Likes Transforming" by Yoko Shimomura (Super Mario RPG)
 O_MMSHD8.SPC - "Battle Against a True Hero" by Toby Fox (Undertale) (SPC by S1Z2)
 O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC by Bak Sangwoo)
 

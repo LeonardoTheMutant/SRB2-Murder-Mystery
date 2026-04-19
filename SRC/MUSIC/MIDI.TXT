@@ -70,7 +70,7 @@ MMSHD2 - "Pressing Pursuit ~ Caught" (Phoenix Wright: Trials and Tribulations) (
 MMSHD3 - "Rude Buster" by Toby Fox (Deltarune) (MIDI by ShinkoNetCavy)
 MMSHD4 - "Boss Theme" (Sonic the Hedgehog 2 (Game Gear)) (MIDI by King Meteor)
 MMSHD5 - "Boss Theme" (Sonic the Hedgehog 2 (Master System)) (MIDI by SwordBolt)
-MMSHD6 - "Showdown" by Barry Blum (Sonic Spinball (Genesis)) (MIDI by King Meteor)
+MMSHD6 - "The Decisive Battle" by Nobuo Uematsu (Final Fantasy VI) (MIDI by King Meteor)
 MMSHD7 - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
 MMSHD8 - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by S_T_D)
 MMSHD9 - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad)
