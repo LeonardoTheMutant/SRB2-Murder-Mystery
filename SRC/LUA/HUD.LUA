@@ -600,15 +600,15 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	--Spectator mode text
 	if (p.mm.flags & FLAG_SPECTATOR) then
-		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "INFO")), localTransFlag, font_small.scale)
+		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "INFO")), localTransFlag, font_small.scale)
 	end
 
 	--Toggled the "Spectate"/"Enter Game" button
 	if (p.mm.flags & FLAG_WAITSPECTATOR) then
 		if (p.spectator) then
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
+			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
 		else
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
+			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
 		end
 	end
 end
