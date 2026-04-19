@@ -54,7 +54,7 @@ O_MMSUS0.SPC - "Danger" by Taro Kudou & M. C. Ada (Axelay)
 = SHOWDOWN =
 ============
 
-O_MMSHD0.SPC - "A Spirit of Bushy" by Hiroshi Kobayashi, Michiru Yamane, Akira Yamaoka, Hirofumi Taniguchi, Aki Hata (Contra: Hard Corps)
+O_MMSHD0.SPC - "A Spirit of Bushi" by Hiroshi Kobayashi, Michiru Yamane, Akira Yamaoka, Hirofumi Taniguchi, Aki Hata (Contra: Hard Corps)
 O_MMSHD1.SPC - "Pressing Pursuit ~ Cornered " by Masakazu Sugimori (Phoenix Wright: Ace Attorney) (SPC arranegement by Hooded Edge)
 O_MMSHD2.SPC - "Pressing Pursuit ~ Caught" by Noriyuki Iwadare (Phoenix Wright: Trials and Tribulations) (SPC by ???)
 O_MMSHD3.SPC - "Rude Buster" by Toby Fox (Deltarune) (SPC by Giftshaven & Ultima)
