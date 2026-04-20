@@ -47,7 +47,7 @@ O_MAPKHM.SPC (Temple theme) - "Playing the Card Game Tarot" by Ukiyotei Sound Te
 ============
 
 O_CIVINS.SPC - "Tension" by Kenji Yamamoto (Super Metroid)
-O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
+O_MMSUS1.VGZ - "Boss Intro" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
 O_MMSUS0.SPC - "Danger" by Taro Kudou & M. C. Ada (Axelay)
 
 ============
