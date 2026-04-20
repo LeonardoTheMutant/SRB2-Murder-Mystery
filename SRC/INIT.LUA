@@ -100,6 +100,11 @@ rawset(_G, "MM", {
 		page = 1,
 		scroll = 1,
 	},
+	mapvote = {
+		blacklist = {},
+		maplist = {},
+		votes = {}
+	},
 	cameras = {}, --table containing all cameras for the current map, gets cleared every map load
 	text = {}, --text strings used in the game, not synched, see the /LUA/TEXT/ directory
 	lang = "EN"
@@ -109,17 +114,22 @@ if not isdedicatedserver then
 	MM.hud.show = CV_FindVar("showhud").value
 end
 
+--leveltime but for intermission
+rawset(_G, "intermissiontime", 0)
+rawset(_G, "intermissionstate", 0)
+
 --Synchronized Variables
 addHook("NetVars", function(net)
+	MM.mapvote = net(MM.mapvote)
 	MM.shremds = net(MM.shremds)
 	MM.cameras = net(MM.cameras)
-	MM.winner = net(MM.winner)
-	MM.winreason = net(MM.winreason)
 	MM.timelimit = net(MM.timelimit)
 	MM.twopgame = net(MM.twopgame)
 	MM.minigame = net(MM.minigame)
 	MM.pong = net(MM.pong)
 	MM.duelplrs = net(MM.duelplrs)
+	intermissiontime = net(intermissiontime)
+	intermissionstate = net(intermissionstate)
 end)
 
 
@@ -270,6 +280,11 @@ CV_RegisterVar({name = "mm_allowshields", defaultvalue = "No", PossibleValue = C
 CV_RegisterVar({name = "mm_allowinvinc", defaultvalue = "No", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_abilities", defaultvalue = "Off", PossibleValue = CV_OnOff, flags = 6, func = VarChange})
 
+CV_RegisterVar({name = "mm_vote_resulttime", defaultvalue = 5, PossibleValue = {MIN = 3, MAX = 10}, flags = 4})
+CV_RegisterVar({name = "mm_vote_votetime", defaultvalue = 15, PossibleValue = {MIN = 5, MAX = 30}, flags = 4})
+CV_RegisterVar({name = "mm_vote_scoretime", defaultvalue = 10, PossibleValue = {MIN = 5, MAX = 30}, flags = 4})
+CV_RegisterVar({name = "mm_vote_enable", defaultvalue = "On", PossibleValue = CV_OnOff, flags = 4})
+
 
 
 --
@@ -325,6 +340,7 @@ if (MM.debug) then dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
 dofile("WEAPONS.LUA")
 dofile("OBJECTS.LUA")
+dofile("MAPVOTE.LUA")
 if (not isdedicatedserver) then dofile("HUD.LUA") end
 dofile("CHAT.LUA")
 dofile("CCMD.LUA")

@@ -66,7 +66,7 @@ O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC
 = INTERMISSION =
 ================
 
-O_MM_TIE.SPC -            Tie            - "Competition Menu" (Sonic the Hedgehog 3 (Nov. 1993 Prototype)) (SPC by bebn legg)
+O_MM_TIE.VGZ -            Tie            - "Competition Menu" by Tatsuyuki Maeda, Sachio Ogawa, Masanori Hikichi (Sonic the Hedgehog 3 (Nov. 1993 Prototype))
 O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
 O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X) (Sega Genesis VGM by Savaged Regime)
 O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X) (Sega Gensis VGM by Savaged Regime)

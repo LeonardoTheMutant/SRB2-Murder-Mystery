@@ -68,6 +68,8 @@ local hudinfo_time = hudinfo[HUD_TIME]
 local hudinfo_rings = hudinfo[HUD_RINGS]
 local hudinfo_lives = hudinfo[HUD_LIVES]
 
+local HUD_INTERMISSION = "HUD_INTERMISSION"
+
 
 --
 --Variables
@@ -78,6 +80,9 @@ local HudLabelWidth = {0,0,0}
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_wepcfgCivil = CV_FindVar("mm_wepcfg_civil")
 local showhud = CV_FindVar("showhud")
+local cv_inttime = CV_FindVar("inttime")
+local cv_vote_enable = CV_FindVar("mm_vote_enable")
+local cv_scoretime = CV_FindVar("mm_vote_scoretime")
 
 
 
@@ -600,15 +605,15 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	--Spectator mode text
 	if (p.mm.flags & FLAG_SPECTATOR) then
-		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "INFO")), localTransFlag, font_small.scale)
+		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "INFO")), localTransFlag, font_small.scale)
 	end
 
 	--Toggled the "Spectate"/"Enter Game" button
 	if (p.mm.flags & FLAG_WAITSPECTATOR) then
 		if (p.spectator) then
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
+			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
 		else
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, canvas.font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
+			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
 		end
 	end
 end
@@ -799,7 +804,11 @@ local crossTextPatch8x8 = {
 }
 
 MMhud.routines["intermission_main"] = function(v)
-	if (gametype ~= GT_LTMMURDERMYSTERY) then hud.enable("intermissiontally"); return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then
+		hud.enable("intermissiontally")
+		hud.enable("intermissionmessages")
+		return
+	end
 
 	local draw = v.draw
 	local drawScaled = v.drawScaled
@@ -811,6 +820,9 @@ MMhud.routines["intermission_main"] = function(v)
 
 	--Do not render the Intermission when MapVote is working or when other script specifically disables it
 	if (MapVote) or (MapVoteNet and (MapVoteNet.state > 0)) then return end
+
+	hud.disable("intermissiontally")
+	hud.disable("intermissionmessages")
 
 	--Background
 	local BGpatch
@@ -833,8 +845,6 @@ MMhud.routines["intermission_main"] = function(v)
 			draw(x, y, BGpatch, V_NOSCALESTART)
 		end
 	end
-
-	hud.disable("intermissiontally")
 
 	local plrs = {}
 	local shiftx, shifty = 0, 0
@@ -982,6 +992,18 @@ MMhud.routines["intermission_main"] = function(v)
 		DrawStrUnicode_Center(v, 160, 176, GetText("HUD_WINNERS").." "..GetText("HUD_WIN", winner))
 	end
 
+	--Timer
+	local timeleft
+	local text
+	if (cv_vote_enable.value) then
+		timeleft = (cv_scoretime.value * TICRATE) - intermissiontime
+		text = "VOTING_IN"
+	else
+		timeleft = (cv_inttime.value * TICRATE) - intermissiontime
+		text = "WARPING_IN"
+	end
+	DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, text), G_TicsToSeconds(timeleft), GetText("HUD_SECONDS")))
+
 	--Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 end
@@ -1009,6 +1031,9 @@ hud.add(function(v, p, c)
 	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
 	font_small.charwidth = FixMul(charwidth, font_small.scale)
 	font_small.charheight = FixMul(charheight, font_small.scale)
+
+	--Reset intermission timer
+	intermissiontime = 0
 
 	--Call the drawing routine
 	HudGame.routine(v, p, c)

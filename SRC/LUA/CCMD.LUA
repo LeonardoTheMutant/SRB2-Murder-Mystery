@@ -82,10 +82,28 @@ Player footmarks must be enabled for this to work.]]
 		description = "Set weapons for the Hero role. "..wepcfg_description},
 	{cvar = CV_FindVar("mm_wepcfg_civil"), min = 0, max = 2, values = {[0] = "No weapons", [1] = "Red Rings & Knife", [2] = "Knife only"}, name = "Weapons set - Civilian",
 		description = "Set weapons for the Civilian role during the normal gameplay."},
+	{cvar = CV_FindVar("mm_vote_enable"), min = 0, max = 2, values = NoYes_option, name = "Enable Map Voting",
+		description = "Enable/Disable the Map Voting during intermission. Also see the MMVOTE_BLACKLIST console command to manage the Map Blacklist"},
+	{cvar = CV_FindVar("mm_vote_scoretime"), min = 5, max = 30, name = "Round Results screen time",
+		description = [[
+How long the Round Result screen should stay, in seconds.
+Map Voting must be enabled for this to work.]]
+	},
+	{cvar = CV_FindVar("mm_vote_votetime"), min = 5, max = 30, name = "Voting time",
+		description = [[
+How much time the players can vote for the next map, in seconds.
+Map Voting must be enabled for this to work.]]
+	},
+	{cvar = CV_FindVar("mm_vote_resulttime"), min = 3, max = 10, name = "Voting Results screen time",
+		description = [[
+How long the Voting Result screen should stay, in seconds.
+Map Voting must be enabled for this to work.]]
+	},
 	{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit",
 		description = [[
-Time limit for the round in minutes. With the "Let MM decide" option the game will automatically choose the time limit for each round.
-Changing this value will require a level restart in order for the changes to fully apply]]
+Time limit for the round, in minutes. With "Let MM decide" option the game will automatically choose the time limit for each round.
+Map restart is required when this value is changed.
+Note: If Map Voting is enabled, this variable is automatically adjusted to the time needed for the entire map vote process.]]
 	},
 	{cvar = CV_FindVar("maxplayers"), min = 2, max = 32, name = "Maximum players",
 		description = "The maximum amount of players allowed to be in the server.\nJoining players who do not fit into this limit will be rejected."},

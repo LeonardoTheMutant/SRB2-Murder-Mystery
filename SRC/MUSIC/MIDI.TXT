@@ -85,7 +85,7 @@ MMSHD9 - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad)
 = INTERMISSION =
 ================
 
-MM_TIE -            Tie            - "No Way? No way!" (Sonic the Hedgehog 3 & Knuckles) (MIDI taken from "Sonic 3 & Knuckles Collection")
+MM_TIE -            Tie            - "Competition Menu" by Tatsuyuki Maeda, Sachio Ogawa, Masanori Hikichi (Sonic 3 & Knuckles Collection)
 MMEND0 - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (MIDI by BlankPoints)
 MMEND1 -      Murderer Ending      - "Doomguy and His Angry Band" by Ivan "continuum.mid" Stanton (The Ultimate DOOM Ultimate MIDI pack)
 MMEND2 -      Civilian Ending      - "FTW You 100" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))

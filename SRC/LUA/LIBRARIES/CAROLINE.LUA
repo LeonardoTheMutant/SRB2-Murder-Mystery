@@ -36,13 +36,13 @@ end)
 --Enumeration (enum)
 --Note: You can not set individual values to the things you want to enumerate, the function can only automatically set values 0, 1, 2, 3, etc.
 --Usage:
---  enum({
+--  enum(
 --      VALUE_0,
 --      VALUE_1,
 --      VALUE_2,
 --      VALUE_2,
 --      ...
---  })
+--  )
 rawset(_G, "enum", function(...)
 	local a = {...}
 	for i = 1, #a do rawset(_G, a[i], i - 1) end

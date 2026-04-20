@@ -280,6 +280,22 @@ local language_data = { --Language must be a table variable, you can name the va
 		["JESTER"] = "^1JESTER" --Jester
 	},
 
+	--"seconds"
+	["HUD_SECONDS"] = "seconds",
+
+	--Intermission map voting stuff
+	["HUD_INTERMISSION"] = {
+		["VOTING_IN"] = "Voting in",
+		["VOTING"] = "Where are we going next?",
+		["VOTING_ENDS_IN"] = "Voting ends in",
+		["DECISION"] = "Decision",
+		["SPEEDINGOFF_TO"] = "Speeding off to",
+		["WARPING_IN"] = "Warping in",
+		["SELECT"] = "Select",
+		["CANCEL"] = "Cancel",
+		["AUTHORS"] = "Authors"
+	},
+
 	-- Time Travel stuff
 	["HUD_PAST"] = "PAST",
 	["HUD_FUTURE"] = "FUTURE",

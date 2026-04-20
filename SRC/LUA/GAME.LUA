@@ -86,6 +86,7 @@ addHook("PlayerSpawn", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	MM.InitPlayer(p)
+	CV_Set(CV_FindVar("inttime"), 30)
 
 	--Apply language
 	if (not MM.lang)
