@@ -81,6 +81,10 @@ end)
 addHook("TouchSpecial", function(s, t) --special, toucher
 	if (s.alpha == FU) then
 		S_StartSound(nil, sfx_squeak, t.player)
+		if (MM.PlayerCount() == 1) then
+			MM.Chatprint(t.player, MM.GetText("CHAT_GOTPLUSHIE"))
+			G_ExitLevel()
+		end
 		s.alpha = $ - 1024
 		t.player.rings = $ + 500
 		t.player.powers[pw_infinityring] = $ + (MM.weapons[0][5] / 8)

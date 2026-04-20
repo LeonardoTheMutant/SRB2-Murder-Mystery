@@ -152,6 +152,8 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Sheriff's Emerald pickup global notification
 	["CHAT_SHREMDPICKUP"] = "Someone picked up the ^4Sheriff's Emerald^0...",
 
+	["CHAT_GOTPLUSHIE"] = "Plusihe found!",
+
 	-- Player has killed someone it did not have to
 	["CHAT_KILLPUNISHMENT_PM"] = {
 		"^7You murdered a ^3Civilian^7! You are too dangerous for the society to be kept alive!", --Sheriff killed Civilian
