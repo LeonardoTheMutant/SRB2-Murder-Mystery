@@ -192,9 +192,10 @@ MM.AssignRoles = function()
 				if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4)) then
 					--Assign Jester role
 					p.mm.role = ROLE_JESTER
-					MM.DebugPrint("Jester role assigned")
-					else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Role
+				else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Roles
 			end
+
+			p.spectator = false --Disable spectator left from the previous roundif not (p.mm.flags & FLAG_SPECTATOR) then p.spectator = false end
 
 			--Annouce about their roles to players
 			switch(p.mm.role, {
@@ -600,10 +601,6 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) then MM.ChatprintGlobal(endtext, reason) end
-	if (isdedicatedserver) then --console log for dedicated host
-		if (endtext == "CHAT_ENDROUND") then CONS_Printf(server, "- "..MM.GetText("CHAT_ENDROUND", reason))
-		else CONS_Printf(server, "- "..MM.GetText(endtext, reason)) end
-	end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald

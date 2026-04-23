@@ -86,7 +86,6 @@ addHook("PlayerSpawn", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	MM.InitPlayer(p)
-	CV_Set(CV_FindVar("inttime"), 30)
 
 	--Apply language
 	if (not MM.lang)
@@ -110,27 +109,34 @@ addHook("PlayerSpawn", function(p)
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
 	--Check player num and state on join
-	if (p.mm.role == nil)
-		switch(MM.PlayerCount(), {
-			[1] = function()
-				p.spectator = false
-			end,
-			[2] = function() --Player2 joined a 'singleplayer' round
-				p.spectator = false
-				for player in players.iterate do player.mm.flags = $ & ~FLAG_MINIGAME end --Shutdown Player1's minigame session
-				MM.minigame = false --Tell server to disable the PONG minigame
-				MM.AssignRoles() --Assign roles for that duel
-				MM.twopgame = true
-				MM.duelplrs = PONG_Get2Players()
-			end,
-			['default'] = function() --Other players are dead on join
-				p.pflags = $|PF_GODMODE|PF_NOCLIP
-				p.mm.flags = p.mm.flags | FLAG_NEWCOMER
-				p.mm.role = ROLE_DEAD
-			end
-		})
-	else
+	if (p.mm.role) then
+		--Just respawn, if you are not a spectator
 		if not (p.mm.flags & FLAG_SPECTATOR) then p.spectator = false end
+	else
+		if (p.mm.role == nil)
+			switch(MM.PlayerCount(), {
+				[1] = function()
+					p.spectator = false
+				end,
+				[2] = function() --Player2 joined a 'singleplayer' round
+					p.spectator = false
+					for player in players.iterate do player.mm.flags = $ & ~FLAG_MINIGAME end --Shutdown Player1's minigame session
+					MM.minigame = false --Tell server to disable the PONG minigame
+					MM.AssignRoles() --Assign roles for that duel
+					MM.twopgame = true
+					MM.duelplrs = PONG_Get2Players()
+				end,
+				['default'] = function() --Other players are dead on join
+					p.pflags = $|PF_GODMODE|PF_NOCLIP
+					p.mm.flags = p.mm.flags | FLAG_NEWCOMER
+					p.mm.role = ROLE_DEAD
+				end
+			})
+		else
+			if (p.mm.role == ROLE_DEAD)
+				p.spectator = true
+			end
+		end
 	end
 end)
 
@@ -153,11 +159,6 @@ addHook("PlayerThink", function(p)
 
 	--role flickering timer
 	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = $ - 1 end
-
-	--HUD backend for fullscreen flash/spark effects
-	if (MM.hud.game.flash.translucency) and (not (leveltime % int(MM.hud.game.flash.duration)))
-		MM.hud.game.flash.translucency = MM.hud.game.flash.translucency - 1
-	end
 
 	--Sheriff Emerald Radar distance logic
 	--Murderers also need that number for the Anti-Camp system

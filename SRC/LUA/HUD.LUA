@@ -175,7 +175,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	HUDdigit_width = GetTextPatchWidth(HudDigit[0])
 
 	--Patch Graphics loading
-	if (not eMeM.graphics) then
+	if (not MM.graphics) then
 		eMeM.DebugPrint("Loading graphics")
 		Hi.LoadUnicodeFont(v) --Initialize Unicode renderer
 
@@ -227,8 +227,13 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	hud.disable("rings")
 	hud.disable("weaponrings")
 
-	--HUD frontend for the flash/spark effects
-	if (MM.hud.game.flash.translucency) then v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency) end
+	--Flash/Spark effects
+	if (MM.hud.game.flash.translucency) then
+		v.fadeScreen(MM.hud.game.flash.color, MM.hud.game.flash.translucency)
+		if ((leveltime % int(MM.hud.game.flash.duration)) == 0) then
+			MM.hud.game.flash.translucency = MM.hud.game.flash.translucency - 1
+		end
+	end
 
 	if (not MMhud.show) then return end
 
@@ -546,7 +551,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		if (p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY) then
 			drawString((HudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 50), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
 		else
-			drawString((HHudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
+			drawString((HudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
 		end
 
 		--Selector
@@ -627,6 +632,7 @@ MMhud.routines["scores_main"] = function(v)
 	local draw = v.draw
 	local drawFill = v.drawFill
 	local drawString = v.drawString
+	local drawScaled = v.drawScaled
 	local localTransFlag = v.localTransFlag()
 
 	hud.disable("rankings")
@@ -674,21 +680,21 @@ MMhud.routines["scores_main"] = function(v)
 				local prole = p.mm.role
 				if (eMeM.AreTeammates(consoleplayer, p) and (consoleplayer ~= p)) then
 					--character icon
-					v.drawScaled((HudScores_pos_teammate.x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + ((teammateNo % 2) * 16))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), localTransFlag, v.getColormap(p.skin, p.skincolor)) --FU/2
+					drawScaled((HudScores_pos_teammate.x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + ((teammateNo % 2) * 16))*FU, 32768, v.getSprite2Patch(p.skin, SPR2_XTRA), localTransFlag, v.getColormap(p.skin, p.skincolor)) --FU/2
 					--player name (colored as role)
 					local role
 					if (prole == ROLE_JESTERHERO) then role = ROLE_HERO
 					else role = prole end
 
-					v.drawString((HudScores_pos_teammate.x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + ((teammateNo % 2) * 16)), RoleColor[role]..p.name, V_ALLOWLOWERCASE|localTransFlag)
+					drawString((HudScores_pos_teammate.x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + ((teammateNo % 2) * 16)), RoleColor[role]..p.name, V_ALLOWLOWERCASE|localTransFlag)
 					--icon of the currently held weapon
-					v.drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[p.currentweapon][1]], localTransFlag) --FU/2
+					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[p.currentweapon][1]], localTransFlag) --FU/2
 					--amount of currently held weapon ammo
-					v.drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.powers[pw_infinityring + p.currentweapon], localTransFlag, "thin")
+					drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.powers[pw_infinityring + p.currentweapon], localTransFlag, "thin")
 					--red ring icon
-					v.drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[-1][1]], localTransFlag) --FU/2
+					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[-1][1]], localTransFlag) --FU/2
 					--amount of [red] rings
-					v.drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.rings, localTransFlag, "thin")
+					drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.rings, localTransFlag, "thin")
 					teammateNo = teammateNo + 1
 				end
 			end
@@ -996,13 +1002,13 @@ MMhud.routines["intermission_main"] = function(v)
 	local timeleft
 	local text
 	if (cv_vote_enable.value) then
-		timeleft = (cv_scoretime.value * TICRATE) - intermissiontime
+		timeleft = MM.mapvote.timers[0]
 		text = "VOTING_IN"
 	else
-		timeleft = (cv_inttime.value * TICRATE) - intermissiontime
+		timeleft = (cv_inttime.value * TICRATE) - MM.mapvote.timers[0]
 		text = "WARPING_IN"
 	end
-	DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, text), G_TicsToSeconds(timeleft), GetText("HUD_SECONDS")))
+	DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", GetText(HUD_INTERMISSION, text), G_TicsToSeconds(timeleft), GetText("HUD_SECONDS")))
 
 	--Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
@@ -1031,9 +1037,6 @@ hud.add(function(v, p, c)
 	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
 	font_small.charwidth = FixMul(charwidth, font_small.scale)
 	font_small.charheight = FixMul(charheight, font_small.scale)
-
-	--Reset intermission timer
-	intermissiontime = 0
 
 	--Call the drawing routine
 	HudGame.routine(v, p, c)

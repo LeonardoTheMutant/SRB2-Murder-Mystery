@@ -90,7 +90,7 @@ addHook("PreThinkFrame", function()
 		if (pcam.timer) then pcam.timer = pcam.timer - 1 end
 
 		if (pcam.active) then
-			camera.angle = MM.cameras[1].a
+			if (p == consoleplayer) then camera.angle = MM.cameras[1].a end
 			p.pflags = p.pflags | PF_FULLSTASIS
 
 			if (p.cmd.forwardmove) then p.cmd.forwardmove = 0 end
@@ -98,7 +98,7 @@ addHook("PreThinkFrame", function()
 			if (p.cmd.buttons & BT_WEAPONNEXT) then
 				pcam.id = pcam.id + 1
 				pcam.timer = 52
-				static_level = 0
+				if (p == consoleplayer) then static_level = 0 end
 				S_StartSound(nil, sfx_static, p)
 				if (pcam.id > #MM.cameras) then pcam.id = 1 end
 			end
@@ -106,15 +106,17 @@ addHook("PreThinkFrame", function()
 			if (p.cmd.buttons & BT_WEAPONPREV) then
 				pcam.id = pcam.id - 1
 				pcam.timer = 52
-				static_level = 0
+				if (p == consoleplayer) then static_level = 0 end
 				S_StartSound(nil, sfx_static, p)
 				if not (pcam.id) then pcam.id = #MM.cameras end
 			end
 
 			if ((p.cmd.buttons & BT_JUMP) or (p.cmd.buttons & BT_SPIN)) and not (pcam.timer) then
+				if (p == consoleplayer) then
+					MM.hud.game.routine = MM.hud.routines["game_main"]
+					MM.hud.scores.routine = MM.hud.routines["scores_main"]
+				end
 				p.cmd.buttons = 0
-				MM.hud.game.routine = MM.hud.routines["game_main"]
-				MM.hud.scores.routine = MM.hud.routines["scores_main"]
 				pcam.active = false
 				pcam.timer = 3
 				S_StartSound(nil, sfx_camopn, p)
@@ -171,27 +173,26 @@ local function terminal_renderer(v)
 
 	hud.disable("rankings")
 
-	if not (CV_FindVar("chasecam").value) then
+	if (CV_FindVar("chasecam").value) then
+		if (MM.cameras[p.mm.camera.id].status) then v.drawFill()
+		else v.drawFill(0, 0, width, height, 31|V_60TRANS|V_NOSCALESTART) end
+
+		--Draw White Noise static
+		if (static_level < 9) and not (leveltime % 3) then static_level = static_level + 1 end
+		for y = 0, MM.hud.canvas.height, noise_pixel_multiplier do
+			for x = 0, MM.hud.canvas.width, noise_pixel_multiplier do
+				v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
+			end
+		end
+
+		v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
+		if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
+		v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+		v.drawString(0, 184, "NEXT/PREV WEAPON to switch", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+	else
 		v.drawFill(0, 0, width, height, 152|V_NOSCALESTART)
 		HIDEO.DrawStrUnicode(v, 0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
-		return
 	end
-
-	if (MM.cameras[p.mm.camera.id].status) then v.drawFill()
-	else v.drawFill(0, 0, width, height, 31|V_60TRANS|V_NOSCALESTART) end
-
-	--Draw White Noise static
-	if (static_level < 9) and not (leveltime % 4) then static_level = static_level + 1 end
-	for y = 0, MM.hud.canvas.height, noise_pixel_multiplier do
-		for x = 0, MM.hud.canvas.width, noise_pixel_multiplier do
-			v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
-		end
-	end
-
-	v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
-	if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
-	v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-	v.drawString(0, 184, "NEXT/PREV WEAPON to switch", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
 
 	--Draw moire effect
 	for i = 0, height, moire_step do

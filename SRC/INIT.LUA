@@ -103,7 +103,8 @@ rawset(_G, "MM", {
 	mapvote = {
 		blacklist = {},
 		maplist = {},
-		votes = {}
+		state = 0,
+		timers = {[0] = 0, [1] = 0, [2] = 0}
 	},
 	cameras = {}, --table containing all cameras for the current map, gets cleared every map load
 	text = {}, --text strings used in the game, not synched, see the /LUA/TEXT/ directory
@@ -113,10 +114,6 @@ rawset(_G, "MM", {
 if not isdedicatedserver then
 	MM.hud.show = CV_FindVar("showhud").value
 end
-
---leveltime but for intermission
-rawset(_G, "intermissiontime", 0)
-rawset(_G, "intermissionstate", 0)
 
 --Synchronized Variables
 addHook("NetVars", function(net)
@@ -128,8 +125,6 @@ addHook("NetVars", function(net)
 	MM.minigame = net(MM.minigame)
 	MM.pong = net(MM.pong)
 	MM.duelplrs = net(MM.duelplrs)
-	intermissiontime = net(intermissiontime)
-	intermissionstate = net(intermissionstate)
 end)
 
 

@@ -228,25 +228,29 @@ addHook("PreThinkFrame", function()
 
 				if (MM.twopgame) and (MM.minigame) and PONG_GetMySlot(p) then
 					--Disable PONG if one of the duel players quit the minigame
-					MM.duelplrs[1].mm.flags = MM.duelplrs[1].mm.flags & ~FLAG_M
-					MM.ResetHUD(MM.duelplrs[1])
-					MM.duelplrs[2].mm.flags = MM.duelplrs[2].mm.flags & ~FLAG_M
-					MM.ResetHUD(MM.duelplrs[2])
+					for plr in players.iterate do
+						plr.mm.flags = plr.mm.flags & ~FLAG_M
+						MM.ResetHUD(plr)
+					end
 					PONG_Reset()
 					MM.minigame = false
 					MM.pong.timeout = 70
 				end
 				MM.ResetHUD() --Restore HUD
 			else
-				if (MM.twopgame) or (p.spectator) then --Do not let players enable the Minigame state when they are not meant to
+				if (MM.twopgame) or (p.spectator) then --Let players enable the Minigame state only when they are meant to
 					--Enable minigame
 					p.mm.flags = p.mm.flags | FLAG_M
 
 					--Set the HUD rendering routine
-					if (p.spectator) then
-						--SONIC RUN
-						SONIC_Reset()
-						MM.hud.game.routine = MM.hud.routines["minigame_sonicrun"]
+					if (p.spectator) and (p == consoleplayer) then
+						if (MM.minigame) then
+							MM.hud.game.routine = MM.hud.routines["minigame_pong"]
+						else
+							--SONIC RUN
+							SONIC_Reset()
+							MM.hud.game.routine = MM.hud.routines["minigame_sonicrun"]
+						end
 					end
 				end
 			end
@@ -259,7 +263,7 @@ addHook("PreThinkFrame", function()
 				p.cmd.buttons = 0
 				p.cmd.forwardmove = 0
 				p.cmd.sidemove = 0
-			elseif (p.spectator) then
+			elseif (p.spectator) and not (MM.minigame)
 				--SONIC RUN
 				SONIC_Thinker()
 				p.cmd.buttons = 0

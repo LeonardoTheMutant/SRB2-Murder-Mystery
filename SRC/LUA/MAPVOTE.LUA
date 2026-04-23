@@ -127,6 +127,14 @@ local function getRandomMaps(NoOfMaps)
 	return m
 end
 
+local function countPlayerVotesForSlot(slot)
+	local a = 0
+	for p in players.iterate do
+		if (p.currentweapon == slot) and (p.mm.kills) then a = a + 1 end
+	end
+	return a
+end
+
 local fade_strength = 0
 local NUM_MAPS = 6
 
@@ -138,13 +146,18 @@ enum(
 
 local eMeM = MM
 
-addHook("MapChange", function()
-	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+addHook("MapLoad", function()
+	if not ((gametype == GT_LTMMURDERMYSTERY) and cv_voteenabled.value) then return end
 
-	for i = 1, NUM_MAPS do MM.mapvote.votes[i] = 0 end
-	MM.mapvote.maplist = {}
+	eMeM.mapvote.maplist = {}
+	eMeM.mapvote.timers[MV_SCORE] = cv_scoretime.value * TICRATE
+	eMeM.mapvote.timers[MV_VOTE] = cv_votetime.value * TICRATE
+	eMeM.mapvote.timers[MV_RESULT] = cv_resulttime.value * TICRATE
+	eMeM.mapvote.state = MV_SCORE
 	eMeM.hud.intermission.routine = eMeM.hud.routines["intermission_main"]
-	intermissionstate = MV_SCORE
+
+	local totaltime = cv_scoretime.value + cv_votetime.value + cv_resulttime.value
+	if (totaltime > cv_inttime.value) then CV_Set(cv_inttime, totaltime + 10) end
 end)
 
 --Background renderer
@@ -210,9 +223,8 @@ local function vote_render(v)
 	if (not voteIcon) then voteIcon = v.cachePatch("NSSHUD") end
 
 	HIDEO.DrawStrUnicode_Center(v, 160, 8, MM.GetText(HUD_INTERMISSION, "VOTING"))
-	local timeleft = G_TicsToSeconds((cv_votetime.value*TICRATE) - intermissiontime)
 	HIDEO.DrawStrUnicode_Center(v, 160, 172, string.format("%s: ^7JUMP^0   %s: ^7SPIN^0", MM.GetText(HUD_INTERMISSION, "SELECT"), MM.GetText(HUD_INTERMISSION, "CANCEL")), MM.hud.canvas.font.small.scale)
-	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "VOTING_ENDS_IN"), timeleft, MM.GetText("HUD_SECONDS")))
+	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "VOTING_ENDS_IN"), G_TicsToSeconds(MM.mapvote.timers[MV_VOTE]), MM.GetText("HUD_SECONDS")))
 
 	--This loop is designed for 6 maps per screen!!!
 	for i = 1, NUM_MAPS do
@@ -239,8 +251,8 @@ local function vote_render(v)
 		end
 		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
 
-		for r = 0, MM.mapvote.votes[i] - 1 do
-			v.drawScaled((startX + (x*xoffset) + r*4)*FU, (startY + (y*yoffset) + 52)*FU, 32768, voteIcon)
+		for r = 0, countPlayerVotesForSlot(i) - 1 do
+			v.drawScaled((startX + (x*xoffset) + r*2)*FU, (startY + (y*yoffset) + 52)*FU, 32768, voteIcon)
 		end
 	end
 end
@@ -248,7 +260,7 @@ end
 local function result_render(v)
 	render_background(v)
 
-	local timeleft = (cv_resulttime.value*TICRATE) - intermissiontime
+	local timeleft = MM.mapvote.timers[MV_RESULT]
 
 	HIDEO.DrawStrUnicode_Center(v, 160, 8, MM.GetText(HUD_INTERMISSION, "DECISION"))
 
@@ -266,7 +278,7 @@ local function result_render(v)
 	end
 	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "WARPING_IN"), G_TicsToSeconds(timeleft), MM.GetText("HUD_SECONDS")))
 
-	if (intermissiontime >= (cv_resulttime.value*TICRATE) - 32) then
+	if (MM.mapvote.timers[MV_RESULT] < 33) then
 		v.fadeScreen(0xFB00, 32 - timeleft)
 	end
 end
@@ -288,123 +300,124 @@ local up, down, left, right
 addHook("IntermissionThinker", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	intermissiontime = intermissiontime + 1
-
-	local totaltime = cv_scoretime.value + cv_votetime.value + cv_resulttime.value
-	if (totaltime > cv_inttime.value) and (cv_voteenabled.value) then CV_Set(cv_inttime, totaltime) end
-
-	switch(intermissionstate, {
+	switch(MM.mapvote.state, {
 		[MV_SCORE] = function()
-			if (intermissiontime == (cv_scoretime.value * TICRATE)) and (cv_voteenabled.value) then
+			if (MM.mapvote.timers[MV_SCORE]) then
+				if (cv_voteenabled.value) then
+					MM.mapvote.timers[MV_SCORE] = MM.mapvote.timers[MV_SCORE] - 1
+				end
+			else
 				MM.mapvote.maplist = getRandomMaps(6)
 				for p in players.iterate do
 					p.currentweapon = 1
 					p.mm.kills = 0
 				end
 				MM.hud.intermission.routine = vote_render --swap to the Map Voting screen
-				intermissionstate = MV_VOTE
-				intermissiontime = 0
+				MM.mapvote.state = MV_VOTE
 				S_StartSound(nil, SFX_VOTING_START)
 			end
 		end,
 		[MV_VOTE] = function()
-			--Listen for player inputs
-			for p in players.iterate do
-				local pmm = p.mm
+			if (MM.mapvote.timers[MV_VOTE]) then
+				MM.mapvote.timers[MV_VOTE] = MM.mapvote.timers[MV_VOTE] - 1
+				--Listen for player inputs
+				for p in players.iterate do
+					local pmm = p.mm
 
-				up = (p.cmd.forwardmove >= 10)
-				down = (p.cmd.forwardmove <= -10)
-				left = (p.cmd.sidemove <= -10)
-				right = (p.cmd.sidemove >= 10)
+					up = (p.cmd.forwardmove >= 10)
+					down = (p.cmd.forwardmove <= -10)
+					left = (p.cmd.sidemove <= -10)
+					right = (p.cmd.sidemove >= 10)
 
-				if (pmm.kills) --I am too lazy to make another variable just to store boolean value
-					--Player has voted, listen only for "Cancel choice" button
-					if (p.cmd.buttons & BT_SPIN) then
-						MM.mapvote.votes[p.currentweapon] = MM.mapvote.votes[p.currentweapon] - 1
-						pmm.kills = 0
-						S_StartSound(nil, SFX_CANCEL, p)
-					end
+					if (pmm.kills) then --I am too lazy to make another variable just to store boolean value
+						--Player has voted, listen only for "Cancel choice" button
+						if (p.cmd.buttons & BT_SPIN) then
+							pmm.kills = 0
+							S_StartSound(nil, SFX_CANCEL, p)
+						end
 
-					if (up and not p.prevup) or (down and not p.prevdown) or (left and not p.prevleft) or (right and not p.prevright) then S_StartSound(nil, SFX_FAIL, p) end
-				else
-					--Player has not voted yet, let it select the desired map
-					if (p.cmd.buttons & BT_JUMP) then
-						MM.mapvote.votes[p.currentweapon] = MM.mapvote.votes[p.currentweapon] + 1
-						pmm.kills = 1
-						S_StartSound(nil, SFX_CONFIRM, p)
-					end
+						if (up and not p.prevup) or (down and not p.prevdown) or (left and not p.prevleft) or (right and not p.prevright) then S_StartSound(nil, SFX_FAIL, p) end
+					else
+						--Player has not voted yet, let it select the desired map
+						if (p.cmd.buttons & BT_JUMP) then
+							pmm.kills = 1
+							S_StartSound(nil, SFX_CONFIRM, p)
+						end
 
-					if (up) and not (p.prevup) then
-						if (p.currentweapon < 4) then p.currentweapon = p.currentweapon + 3
-						else p.currentweapon = p.currentweapon - 3 end
-						S_StartSound(nil, SFX_SELECT, p)
-					end
+						if (up) and not (p.prevup) then
+							if (p.currentweapon < 4) then p.currentweapon = p.currentweapon + 3
+							else p.currentweapon = p.currentweapon - 3 end
+							S_StartSound(nil, SFX_SELECT, p)
+						end
 
-					if (down) and not (p.prevdown) then
-						if (p.currentweapon > 3) then p.currentweapon = p.currentweapon - 3
-						else p.currentweapon = p.currentweapon + 3 end
-						S_StartSound(nil, SFX_SELECT, p)
-					end
+						if (down) and not (p.prevdown) then
+							if (p.currentweapon > 3) then p.currentweapon = p.currentweapon - 3
+							else p.currentweapon = p.currentweapon + 3 end
+							S_StartSound(nil, SFX_SELECT, p)
+						end
 
-					if (left) and not (p.prevleft) then
-						switch(p.currentweapon, {
-							[1] = function()
-								p.currentweapon = 3
-							end,
-							[4] = function()
-								p.currentweapon = 6
-							end,
-						["default"] = function()
-							p.currentweapon = p.currentweapon - 1
-							end
-						})
-						S_StartSound(nil, SFX_SELECT, p)
-					end
-
-					if (right) and not (p.prevright) then
-						switch(p.currentweapon, {
-							[3] = function()
-								p.currentweapon = 1
-							end,
-							[6] = function()
-								p.currentweapon = 4
-							end,
+						if (left) and not (p.prevleft) then
+							switch(p.currentweapon, {
+								[1] = function()
+									p.currentweapon = 3
+								end,
+								[4] = function()
+									p.currentweapon = 6
+								end,
 							["default"] = function()
-								p.currentweapon = p.currentweapon + 1
-							end
-						})
-						S_StartSound(nil, SFX_SELECT, p)
+								p.currentweapon = p.currentweapon - 1
+								end
+							})
+							S_StartSound(nil, SFX_SELECT, p)
+						end
+
+						if (right) and not (p.prevright) then
+							switch(p.currentweapon, {
+								[3] = function()
+									p.currentweapon = 1
+								end,
+								[6] = function()
+									p.currentweapon = 4
+								end,
+								["default"] = function()
+									p.currentweapon = p.currentweapon + 1
+								end
+							})
+							S_StartSound(nil, SFX_SELECT, p)
+						end
 					end
+
+					p.prevup = up
+					p.prevdown = down
+					p.prevleft = left
+					p.prevright = right
 				end
 
-				p.prevup = up
-				p.prevdown = down
-				p.prevleft = left
-				p.prevright = right
-			end
+				if (MM.mapvote.timers[MV_VOTE] <= 105) and not (MM.mapvote.timers[MV_VOTE] % TICRATE) then
+					S_StartSound(nil, SFX_COUNTDOWN)
+				end
 
-			local timeleft = (cv_votetime.value * TICRATE) - intermissiontime
-			if ((timeleft > 0) and (timeleft <= 105) and not (intermissiontime % TICRATE)) then
-				S_StartSound(nil, SFX_COUNTDOWN)
-			end
-
-			if (intermissiontime == (cv_votetime.value * TICRATE)) then
+			else
 				MM.hud.intermission.routine = result_render --swap to the Vote Result screen
-				intermissionstate = MV_RESULT
-				intermissiontime = 0
-				S_StartSound(nil, SFX_WINNER, consoleplayer)
+				MM.mapvote.state = MV_RESULT
+				S_StartSound(nil, SFX_WINNER)
 
 				--Get the best number of tallies
 				local best = 0
+				local votesPerMapSlot = {}
 				for slot = 1, NUM_MAPS do
-					if (MM.mapvote.votes[slot] > best) then best = MM.mapvote.votes[slot] end
+					votesPerMapSlot[slot] = countPlayerVotesForSlot(slot)
+					if (votesPerMapSlot[slot] > best) then best = votesPerMapSlot[slot] end
 				end
 
 				local bestMaps = {}
-				local bestMapsNo = 1
+				local bestMapsNo = 0
 				--How many tied slots are there with the top number?
 				for slot = 1, NUM_MAPS do
-					if (MM.mapvote.votes[slot] == best) then bestMaps[bestMapsNo] = slot end
+					if (votesPerMapSlot[slot] == best) then
+						bestMaps[bestMapsNo + 1] = slot
+						bestMapsNo = bestMapsNo + 1
+					end
 				end
 
 				--Now select the random slot among best slots
@@ -412,10 +425,12 @@ addHook("IntermissionThinker", function()
 			end
 		end,
 		[MV_RESULT] = function()
-			if (intermissiontime == (cv_resulttime.value*TICRATE) - 32) then
-				S_StartSound(nil, SFX_SPEEDING_OFF, consoleplayer)
+			MM.mapvote.timers[MV_RESULT] = MM.mapvote.timers[MV_RESULT] - 1
+			if (MM.mapvote.timers[MV_RESULT] == 32) then
+				S_StartSound(nil, SFX_SPEEDING_OFF)
 			end
-			if (intermissiontime == (cv_resulttime.value*TICRATE) - 1) then
+
+			if (MM.mapvote.timers[MV_RESULT] == 1) then
 				COM_BufInsertText(server, string.format("map %d", winnerMapID))
 			end
 		end
