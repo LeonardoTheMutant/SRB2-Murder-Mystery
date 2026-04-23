@@ -54,12 +54,17 @@ MM.AddLang("TR", { -- cCc
 	},
 	["CHAT_DIEDHAZARD"]="kazara oldu. Talihsiz.",
 	["CHAT_SHREMDPICKUP"]="Birisi ^4Serif'in Zumrutu^0'nu aldi...",
+	["CHAT_GOTPLUSHIE"]="Pelus bulundu!",
 	["CHAT_KILLPUNISHMENT_PM"]={
 	    "^7Bir ^3Masum^7'u oldurdun! Toplumun hayatta kalmasi için çok tehlikelisin!",
 		"^2Kahramanlar^7 ^3Masumlar^7'i oldurmek icin tasarlanmamistir. Bunun icin idam cezasi aldiniz.",
 		"^7Oh hayir! Bir ^4Serif^7'i oldurdun!!! Bunun icin idam cezasi aldin",
 		"^7Senin gibi ^3Masum^7 bir oyuncuyu oldurdun! Bunun icin idam cezasi aldin",
 		"^7Oh hayir! Bir ^2Kahraman^7'i oldurdun! Bunun icin idam cezasi aldin"
+	},
+	["CHAT_CIVILIANHURT"]={
+		"^4Serif^0 bir ^3Masum^0'u oldurdu! Baska biri isi bitirmeli!",
+		"^2Kahraman^0 bir ^3Masum^0'u oldurerek ^5kotu adam^0 oldu ve bedelini odedi."
 	},
 	["CHAT_ENDROUND"]={
 		"Herkes oldu. ^5Katiller^0 kazandi!",
@@ -70,7 +75,7 @@ MM.AddLang("TR", { -- cCc
 		"^1Saklaban^0 Iyi Insanlar tarafindan olduruldu. Kumar kotu cocuklar."
 	},
 	["HUD_MM"]="Murder Mystery",
-	["HUD_SUSPECTS"]="Şüphelíler",
+	["HUD_SUSPECTS"]="Şüpheliler",
 	["HUD_VICTIMS"]="Masumlar",
 	["HUD_TEAMMATES"]="Takım arkadaşları",
 	["HUD_ROLES"]={
@@ -87,7 +92,7 @@ MM.AddLang("TR", { -- cCc
 		"harita tasarımı"
 	},
 	["HUD_SCORESTAB"]="Oyun türünde yeniyseniz konsola ^7MMHELP^0 yazın. Buradaki dili değiştirmek için ^7MMLANG^0 komutunu kullanın.\n\n^2İyi eğlenceler!",
-	["HUD_ROLETARGET"] = {
+	["HUD_ROLETARGET"]={
 		["MURDERER"]="Uyum sağla, güven oluştur, sonra saldır.",
 		["SHERIFF"]="Tüm Katilleri bulun ve ortadan kaldırın. Masumları öldürmeyin!",
 		["CIVILIAN"]="Saklan ve kendini koru. Mümkün olduğunda soruşturmaya yardım et.",
@@ -102,6 +107,9 @@ MM.AddLang("TR", { -- cCc
 	["HUD_DEAD"]="^FÖldün^0.\nYeninden doğamaz veya ölmemiş insanlar ile konuşamazsın.",
 	["HUD_MIDJOIN"]="^4Tur ortasında^0 katıldınız, lütfen bu turun bitmesini bekleyin.\nBeklerken lütfen ^7MMHELP^0 konsol komutundaki oyun kurallarını okuyunuz",
 	["HUD_ALONE"]="Oyunun başlaması için en az ^42 oyuncu^0 gereklidir,\nLütfen^4 bir oyuncunun^0 daha gelmesini bekleyin",
+	["HUD_CAMERA"]={
+		["TERMINAL"]="Kameraları görüntülemek için ^7CUSTOM1^0 tuşuna basın"
+	},
 	["HUD_SPECTATOR"]={
 		["INFO"]="Şu anda seyrediyorsunuz. Bir sonraki tura katılmak için oyuna girin.",
 		["SWITCHING_TO"]="Bir sonraki turda izleyici moduna geçiliyor...",
@@ -130,6 +138,18 @@ MM.AddLang("TR", { -- cCc
 		["BAD"]="^5KATİLLER",
 		["GOOD"]="^3MASUMLAR",
 		["JESTER"]="^1ŞAKLABAN"
+	},
+	["HUD_SECONDS"]="saniye",
+	["HUD_INTERMISSION"]={
+		["VOTING_IN"]="Oy kullan",
+		["VOTING"]="Sırada nereye gidiyoruz?",
+		["VOTING_ENDS_IN"]="Oylama süresinin bitmesine",
+		["DECISION"]="Karar",
+		["SPEEDINGOFF_TO"]="Hızla gidiliyor",
+		["WARPING_IN"]="Işınlanılıyor",
+		["SELECT"]="Seç",
+		["CANCEL"]="İptal",
+		["AUTHORS"]="Yapımcılar"
 	},
 	["HUD_PAST"]="GEÇMİŞ",
 	["HUD_FUTURE"]="GELECEK",
@@ -173,7 +193,7 @@ MM.AddLang("TR", { -- cCc
 			"\n* Diğer oyunculara hakaret etmekten kaçının. Arkadaşça şakalar sorun değildir, ancak sürekli suçlamalar veya düşmanca davranışlar başkalarının size güvenmemesine yol açar.",
 			"\n* ^8AFK^0 (^8Klavyeden Uzakta^0) olmayın . Çok uzun süre hareketsiz kalırsanız, üzerinize bir bomba bıraklıacak ve oyundan atılacaksınız.",
 			"\n* Bir tur sırasında ^FÖlüyken^0 kendinizi yeniden adlandırmayın, bunu yapmak sizi sunucudan atacaktır. Hayattaysanız yeniden adlandırabilirsiniz. Güvenli bir şekilde yeniden adlandırmak için oyunun ara vermesini bekleyin.",
-			"Eğer bir ^5Katil^0 iseniz ^4Şerif'in Zümrütü^0 çevresinde kamp yapmaktan kaçının. Zümrütün yanında 30 saniye durmak, oyundan atılmanıza neden olacaktır.",
+			"\n* Eğer bir ^5Katil^0 iseniz ^4Şerif'in Zümrütü^0 çevresinde kamp yapmaktan kaçının. Zümrütün yanında 30 saniye durmak, oyundan atılmanıza neden olacaktır.",
 			"\nBu kurallardan birini ihlal etmek, oyundan atılma veya bazı durumlarda Yönetici tarafından yasaklanma ile sonuçlanabilir. Adil oynayın ve eğlenin!"
 		},
 		{
