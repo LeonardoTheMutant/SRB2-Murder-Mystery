@@ -140,10 +140,11 @@ printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
 --MM player flags
 enumbin(
 	"FLAG_SNEAK",			--1
-	"FLAG_MINIGAME",		--2
-	"FLAG_WAITSPECTATOR",	--4
-	"FLAG_SPECTATOR",		--8
-	"FLAG_NEWCOMER"			--16
+	"FLAG_DEAD",			--2
+	"FLAG_MINIGAME",		--4
+	"FLAG_WAITSPECTATOR",	--8
+	"FLAG_SPECTATOR",		--16
+	"FLAG_NEWCOMER"			--32
 )
 
 --Role constants
@@ -331,7 +332,6 @@ dofile("DATA/TEXT/LANG/UA.LUA")
 
 --Script files load
 print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
-if (MM.debug) then dofile("DEBUG.LUA") end
 dofile("GAME.LUA")
 dofile("WEAPONS.LUA")
 dofile("OBJECTS.LUA")
@@ -343,6 +343,7 @@ dofile("FOOTSTEPS.LUA")
 dofile("ABILITIES.LUA")
 dofile("TIMETRAVEL.LUA")
 dofile("CAMERA.LUA")
+if (MM.debug) then dofile("DEBUG.LUA") end
 
 --Minigames module
 print("\n\x87Murder Mystery\x80: Loading minigames module...")

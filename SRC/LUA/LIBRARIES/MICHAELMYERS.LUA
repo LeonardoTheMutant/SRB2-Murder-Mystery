@@ -381,6 +381,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
 	plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP --force player to remain dead if they die as spectator (SRB2 bug fix)
+	plr.mm.flags = plr.mm.flags | FLAG_DEAD
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
 	plr.mm.prevrole = plr.mm.role
@@ -418,6 +419,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 	local plr = p.player
 	if (MM.PlayerCount() ~= 1) then --force player to remain dead if they die as spectator (SRB2 bug fix)
 		plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP
+		plr.mm.flags = plr.mm.flags | FLAG_DEAD
 		plr.spectator = true
 	end
 	plr.powers[pw_shield] = 0

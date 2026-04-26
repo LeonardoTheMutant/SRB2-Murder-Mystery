@@ -37,7 +37,7 @@ addHook("MapLoad", function(map)
 	for p in players.iterate do
 		MM.InitPlayer(p)
 		if (p.mm.flags & FLAG_MINIGAME) then MM.ResetHUD(p) end
-		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_MINIGAME|FLAG_NEWCOMER)
+		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_MINIGAME|FLAG_NEWCOMER)
 		p.mm.weapondelay = 175 --5 seconds
 		p.mm.role = ROLE_DEAD
 	end
@@ -108,6 +108,8 @@ addHook("PlayerSpawn", function(p)
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
+	if (p.mm.flags & FLAG_DEAD) then p.spectator = true end
+
 	--Check player num and state on join
 	if (p.mm.role) then
 		--Just respawn, if you are not a spectator
@@ -132,10 +134,6 @@ addHook("PlayerSpawn", function(p)
 					p.mm.role = ROLE_DEAD
 				end
 			})
-		else
-			if (p.mm.role == ROLE_DEAD)
-				p.spectator = true
-			end
 		end
 	end
 end)

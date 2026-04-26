@@ -9,7 +9,7 @@ local ShiftX,ShiftY,ShiftX2,ShiftY2,sign,patchNum
 COM_AddCommand("mmplayer",function(p,pnum,prole,pdead) --change player role and state to alive/dead
 	if(not pnum)or(not prole)CONS_Printf(p,"\x87MMPLAYER\x80 [playernum] [role (nil, 0-6)]");return end
 	switch(prole,{['nil']=do players[tonumber(pnum)].mm.role=nil end,["0"]=do MM.KillPlayerByPlayer(players[tonumber(pnum)].realmo,players[tonumber(pnum)].realmo)end,
-	['default']=do players[tonumber(pnum)].mm.role=tonumber(prole);players[tonumber(pnum)].spectator=0;players[tonumber(pnum)].pflags=$&~(PF_GODMODE|PF_NOCLIP) end})
+	['default']=do players[tonumber(pnum)].mm.role=tonumber(prole);players[tonumber(pnum)].spectator=0;players[tonumber(pnum)].mm.flags=$&~(FLAG_DEAD);players[tonumber(pnum)].pflags=$&~(PF_GODMODE|PF_NOCLIP) end})
 end)
 COM_AddCommand("mmexitlevel",function(p,winner,reason) --exitlevel alternative
 	winner=tonumber($);reason=tonumber($)

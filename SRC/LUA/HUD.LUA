@@ -174,52 +174,6 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	HUDdigit_width = GetTextPatchWidth(HudDigit[0])
 
-	--Patch Graphics loading
-	if (not MM.graphics) then
-		eMeM.DebugPrint("Loading graphics")
-		Hi.LoadUnicodeFont(v) --Initialize Unicode renderer
-
-		--Emerald icon
-		LoadPatch(v, "CHAOS3")
-
-		--Radar icons
-		for i = 1, 6 do
-			if patchExists("IDEYAR"..i) then LoadPatch(v, "IDEYAR"..i) end
-		end
-
-		--Weapon icons
-		for i = -2, 6 do LoadPatch(v, eMeM.weapons[i][1]) end
-		LoadPatch(v, "CURWEAP") --weapon selector
-
-		--Past/Future Warp Signs
-		LoadPatch(v, "TWS_FUTR")
-		LoadPatch(v, "TWS_PAST")
-
-		--MMHELP scrolling background
-		LoadPatch(v, "NTSATKT2")
-		LoadPatch(v, "NTSATKB1")
-
-		--Sonic Run
-		--Running frames
-		for i = 1, 2 do
-			if patchExists("SNC_RUN"..i) then LoadPatch(v, "SNC_RUN"..i) end
-		end
-		--Spinning frames
-		for i = 1, 3 do
-			if patchExists("SNC_SPN"..i) then LoadPatch(v, "SNC_SPN"..i) end
-		end
-		--Idle/standing frame
-		if patchExists("SNC_STND") then LoadPatch(v, "SNC_STND") end
-		--Countdown numbers
-		for i = 1, 3 do LoadPatch(v, "RACE"..i) end
-		LoadPatch(v, "RACEGO")
-
-		--Intermission background
-		for i = 0, 5 do
-			if patchExists("INTRMBG"..i) then LoadPatch(v, "INTRMBG"..i) end
-		end
-	end
-
 	hud.disable("lives")
 	hud.disable("textspectator")
 	hud.disable("score")
@@ -1019,6 +973,51 @@ HudGame.routine = MMhud.routines["game_main"]
 HudScores.routine = MMhud.routines["scores_main"]
 HudInter.routine = MMhud.routines["intermission_main"]
 
+local function loadGraphics(v)
+	MM.DebugPrint("Loading graphics")
+	HIDEO.LoadUnicodeFont(v) --Initialize Unicode renderer
+
+	--Emerald icon
+	LoadPatch(v, "CHAOS3")
+
+	--Radar icons
+	for i = 1, 6 do
+		if v.patchExists("IDEYAR"..i) then LoadPatch(v, "IDEYAR"..i) end
+	end
+
+	--Weapon icons
+	for i = -2, 6 do LoadPatch(v, eMeM.weapons[i][1]) end
+	LoadPatch(v, "CURWEAP") --weapon selector
+
+	--Past/Future Warp Signs
+	LoadPatch(v, "TWS_FUTR")
+	LoadPatch(v, "TWS_PAST")
+
+	--MMHELP scrolling background
+	LoadPatch(v, "NTSATKT2")
+	LoadPatch(v, "NTSATKB1")
+
+	--Sonic Run
+	--Running frames
+	for i = 1, 2 do
+		if v.patchExists("SNC_RUN"..i) then LoadPatch(v, "SNC_RUN"..i) end
+	end
+	--Spinning frames
+	for i = 1, 3 do
+		if v.patchExists("SNC_SPN"..i) then LoadPatch(v, "SNC_SPN"..i) end
+	end
+	--Idle/standing frame
+	if v.patchExists("SNC_STND") then LoadPatch(v, "SNC_STND") end
+	--Countdown numbers
+	for i = 1, 3 do LoadPatch(v, "RACE"..i) end
+	LoadPatch(v, "RACEGO")
+
+	--Intermission background
+	for i = 0, 5 do
+		if v.patchExists("INTRMBG"..i) then LoadPatch(v, "INTRMBG"..i) end
+	end
+end
+
 --
 -- Drawing Hooks
 --
@@ -1038,6 +1037,8 @@ hud.add(function(v, p, c)
 	font_small.charwidth = FixMul(charwidth, font_small.scale)
 	font_small.charheight = FixMul(charheight, font_small.scale)
 
+	if (not MM.graphics) then loadGraphics(v) end
+
 	--Call the drawing routine
 	HudGame.routine(v, p, c)
 end, "game")
@@ -1047,5 +1048,6 @@ hud.add(function(v)
 end, "scores")
 
 hud.add(function(v)
+	if (not MM.graphics) then loadGraphics(v) end
 	HudInter.routine(v)
 end, "intermission")
