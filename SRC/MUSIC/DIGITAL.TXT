@@ -26,6 +26,7 @@ O_MAPKAM.SPC - "Boo-Flavored Coffee" by ThinkOneMoreTime, Arranged by Hooded Edg
 O_MAPKBM.SPC - "Sadness" by Yanda (Last Bible 3) (SPC ported by Kevin)
 O_MAPKDM.SPC - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
 O_MAPKGM.SPC - "Ruins Village" by Segment1Zone2 (Papercut)
+O_MAPKIM.VGZ - "Slow Moon" by Yuzo Koshiro (Streets of Rage 2)
 
 
 MAPKE: "Shadow Moses Island"
