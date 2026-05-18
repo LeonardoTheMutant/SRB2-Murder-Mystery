@@ -152,7 +152,7 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Sheriff's Emerald pickup global notification
 	["CHAT_SHREMDPICKUP"] = "Someone picked up the ^4Sheriff's Emerald^0...",
 
-	["CHAT_GOTPLUSHIE"] = "Plusihe found!",
+	["CHAT_GOTPLUSHIE"] = "Plushie found!",
 
 	-- Player has killed someone it did not have to
 	["CHAT_KILLPUNISHMENT_PM"] = {
@@ -324,6 +324,7 @@ local language_data = { --Language must be a table variable, you can name the va
 			" * ^5Murderer^0 - A deadly criminal. Their job is to eliminate everyone.",
 			" * ^4Sheriff^0 - Tasked with finding and eliminating the ^5Murderer(s)^0.",
 			" * ^3Civilian^0 - Must avoid being killed and assist in identifying the ^5Murderer^0. Depending on the game setup, they can obtain a ^5Red Ring^0 to defend themselves by collecting 100 rings (or 50 rings for certain skins).",
+			" * ^1Jester^0 - A funny guy. Only one player in the round can have this rare role (not every round will have a player with this role). ^1Jester^0 has to trick everyone into thinking they are the ^5Murderer^0 by shooting fake Red Rings that cannot hurt anyone. Jester wins if it get killed by ^4Sheriff^0, ^2Hero^0 or even a ^3Civilian^0. Once the ^1Jester^0 picks up the ^4Sheriff's Emerald^0 they turn into ^4Hero^0 and must play along the good guys instead.",
 			"\nThat is the essential information you need to start playing. For more details, read through this manual to the end",
 			"\nUse the ^7MMLANG^0 command to change the language of the HUD interface and this manual to your preferred language."
 		},
@@ -351,7 +352,8 @@ local language_data = { --Language must be a table variable, you can name the va
 			"\n* Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.",
 			"\n* Do not go ^8AFK^0 (^8Away From Keyboard^0). If you stand still too long, a bomb will be dropped on you, and you will be removed from the game.",
 			"\n* Do not rename yourself during a round if you are ^FDead^0. Doing so will result in being kicked from the server. If you are ^FDead^0, wait until the intermission to rename safely.",
-			"\n* Avoid camping around the ^4Sheriff's Emerald^0 if you are a ^5Murderer^0. Standing near the emerald for 30 seconds will result in being kicked from the game.",
+			"\n* Avoid camping around the ^4Sheriff's Emerald^0 if you are a ^5Murderer^0. You can develop a blindness from standing near the artifact, unless you get further from it.",
+			"\n* Using custom clients to gain unfair advantage over other players is a ^FWar Crime^0. ^5You deserve the worst punishment possible for using cheats.^0",
 			"\nBreaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!"
 		},
 		{

@@ -58,6 +58,7 @@ MM.AddLang("DE", {
 	},
 	["CHAT_DIEDHAZARD"]="ist gestorben. Traurig.",
 	["CHAT_SHREMDPICKUP"]="Jemand hat den ^4Smaragd des Sheriffs^0 an sich genommen...",
+	["CHAT_GOTPLUSHIE"]="Plüschtier gefunden!",
 	["CHAT_KILLPUNISHMENT_PM"]={
 		"^7Du hast haben einen ^3Zivilisten^7 ermordet! Du bist zu gefährlich für die Gesellschaft, um am Leben gelassen zu werden!",
 		"^2Helden^7 sollen keine ^3Zivilisten^7 toten! Du wurdest wegen Kriegsverbrechen ^5hingerichtet^7.",
@@ -155,6 +156,7 @@ MM.AddLang("DE", {
 			" * ^5Mörder^0 - Ein tödlicher Verbrecher. Seine Aufgabe ist es, alle zu eliminieren.",
 			" * ^4Sheriff^0 - mit der Aufgabe betraut, die ^5Mörder^0 zu finden und zu eliminieren",
 			" * ^3Zivilist^0 - Muss vermeiden, getötet zu werden, und bei der Identifizierung des ^5Mörders^0 helfen. Je nach Spielkonfiguration können sie einen ^5Roten Ring^0 erhalten, um sich zu verteidigen, indem sie 100 Ringe (oder 50 Ringe für bestimmte Skins) sammeln.",
+		   "* ^1Jester^0 – Ein lustiger Typ. Nur ein Spieler pro Runde kann diese seltene Rolle einnehmen (nicht in jeder Runde gibt es einen Spieler mit dieser Rolle). ^1Jester^0 muss alle glauben machen, er sei der ^5Mörder^0, indem er falsche rote Ringe abschießt, die niemandem Schaden zufügen können. ^1Jester^0 gewinnt, wenn er vom ^4Sheriff^0, ^2Helden^0 oder sogar einem ^3Zivilisten^0 getötet wird. Sobald der ^1Jester^0 den ^4Smaragd des Sheriffs^0 aufhebt, verwandelt er sich in den ^4Helden^0 und muss stattdessen auf der Seite der Guten mitspielen.",
 			"\nDas sind die wichtigsten Informationen, die du brauchst, um mit dem Spielen zu beginnen. Für weitere Details lies bitte dieses Handbuch bis zum Ende durch."
 		},
 		{
@@ -181,7 +183,8 @@ MM.AddLang("DE", {
 			"\n* Vermeide es, andere Spieler zu beleidigen. Freundschaftliches Geplänkel ist in Ordnung, aber ständige Anschuldigungen oder feindseliges Verhalten führen dazu, dass andere dir misstrauen.",
 			"\n* Geh nicht ^8AFK^0 (^8Away From Keyboard^0). Wenn du zu lange stillstehst, wirst du aus dem Spiel entfernt.",
 			"\n* Benennt euch während einer Runde nicht um, wenn ihr ^Ftot^0 seid. Andernfalls werdet ihr vom Server gekickt. Wenn ihr ^Ftot^0 seid, wartet bis zum Ende der Runde, um euch sicher umzubenennen.",
-			"\n* Vermeide es, in der Nähe des ^4Smaragds des Sheriffs^0 zu campen, wenn du ein ^5Mörder^0 bist. Wenn du dich 30 Sekunden lang in der Nähe des Smaragds aufhältst, wirst du aus dem Spiel geworfen.",
+			"\n* Vermeide es, in der Nähe des ^4Smaragds des Sheriffs^0 zu campen, wenn du ein ^5Mörder^0 bist. Wenn du in der Nähe des Artefakts stehen bleibst, kannst du erblinden, es sei denn, du entfernst dich weiter davon.",
+			"\n* Die Verwendung von benutzerdefinierten Clients, um sich einen unfairen Vorteil gegenüber anderen Spielern zu verschaffen, ist ein ^FKriegsverbrechen^0. ^5Für die Verwendung von Cheats verdienst du die höchstmögliche Strafe.^0",
 			"\nEin Verstoß gegen diese Regeln kann zu einem Ausschluss oder in schweren Fällen zu einer Sperre durch den Administrator führen. Spiel fair und hab Spaß!"
 		},
 		{

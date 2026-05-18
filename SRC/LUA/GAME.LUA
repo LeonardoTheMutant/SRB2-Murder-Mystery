@@ -143,6 +143,7 @@ end)
 --
 -- Player Thinker
 --
+local camping_maxtime = 350
 addHook("PlayerThink", function(p)
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
@@ -181,9 +182,15 @@ addHook("PlayerThink", function(p)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = function()
 					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) --384*FU
-						p.mm.camping = $ + 1
-						if (p.mm.camping == 700) then MM.KillPlayer(pmo, true, true) end --kill player after 20 seconds of camping
-					else p.mm.camping = 0 end
+						p.mm.camping = p.mm.camping + 1
+					else
+						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
+					end
+					if (p == consoleplayer) then
+						MM.hud.game.flash.color = 152 --Blue
+						MM.hud.game.flash.duration = 1
+						MM.hud.game.flash.translucency = min(p.mm.camping / (camping_maxtime / 10), 10)
+					end
 				end,
 				[ROLE_CIVILIAN] = function()
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
@@ -202,19 +209,34 @@ addHook("PlayerThink", function(p)
 		p.mm.killtrailsteps = 0
 	end
 
-	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end --Force player quit so that there are no rejoining player ghosts
+	--Force player quit so that there are no rejoining player ghosts
+	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end
 
+	--AFK
 	if (MM.PlayerCount() > 1)
 		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if ((int(p.afk) > cv_idletime.value*2100) and not (p.mm.role ~= ROLE_DEAD)) then
+		if ((int(p.afk) > cv_idletime.value*2100) and (p.mm.role ~= ROLE_DEAD)) then
 			local body
 			if valid(pmo) then body = pmo
 			elseif valid(p.realmo) then body = p.realmo end
+			chatprint(string.format("\x87%s\x80 is killed for being AFK, turned into spectator", p.name))
+			p.mm.flags = p.mm.flags | FLAG_SPECTATOR
 			MM.KillPlayer(body, true, true)
+			MM.TryEndgame()
 		end
 	end
+end)
+
+--Do not let the Spectator Switch flag toggle every tic (force players to use ESC > "Enter Game")
+addHook("KeyDown", function(e)
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+	local key = e.num
+	local key1, key2 = input.gameControlToKeyNum(GC_FIRE)
+
+	if ((key == key1) or (key == key2)) and (consoleplayer.mm.flags & FLAG_SPECTATOR) then return true end
 end)
 
 
@@ -588,17 +610,6 @@ end)
 addHook("ThinkFrame", function()
 	if ((gametype == GT_LTMMURDERMYSTERY) and (leveltime >= (MM.timelimit * 2100) - 1) and (not timelimit)) then G_ExitLevel() end
 end)
-
---Automap anti-cheat
-if (tsourdt3rd)
-	local cv_automap1 = int(CV_FindVar("automapoutsidedevmode").value)
-	local cv_automap2 = int(CV_FindVar("tsourdt3rd_debug_automapanywhere").value)
-	addHook("KeyDown", function(keyevent)
-		if (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY) then
-			COM_BufInsertText(consoleplayer, "QUIT")
-		end
-	end)
-end
 
 --Lock viewpoint switch (Disable F12)
 addHook("ViewpointSwitch", function(p) --player

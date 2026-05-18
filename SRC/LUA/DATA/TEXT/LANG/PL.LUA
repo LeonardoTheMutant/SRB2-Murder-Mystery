@@ -54,6 +54,7 @@ MM.AddLang("PL", {
 	},
 	["CHAT_DIEDHAZARD"]="zginał(eła) w nieszczesnym wypadku.",
 	["CHAT_SHREMDPICKUP"]="Ktoś podniosł ^4Szmaragd Szeryfa^0...",
+	["CHAT_GOTPLUSHIE"] = "Pluszak znaleziony!",
 	["CHAT_KILLPUNISHMENT_PM"]={
 		"^7Zamordowaleś ^3Cywilnego^7! Jesteś zbyt niebezpieczny dla społeczeństwa, by pozostawać żywym!",
 		"^2Bohaterowie nie są po to, żeby zabijać ^3Cywilów^7! Masz za to karę śmierci.",
@@ -146,10 +147,11 @@ MM.AddLang("PL", {
 			"Interpretacji popularnej gry multiplayer w SRB2!^0\n",
 			"Celem gry jest znalezienie i wyeliminowanie wszystkich ^5Morderców^0 zanim zabiją ^3wszystkich innych^0. Ten typ gry jest podobny do MATCH, więc musisz umieć dobrze strzelać i celować się.",
 			"Będziesz potrzebować kilku podstaw....",
-			"\nNa początku każdej rundy dostaniesz ^Brole^0 która dyktuje co masz robić w grze. To są 3 mozliwe ^Brole^0 które możesz dostać:",
+			"\nNa początku każdej rundy dostaniesz ^Brole^0 która dyktuje co masz robić w grze. To są wszystkie mozliwe ^Brole^0 które możesz dostać na początku:",
 			" * ^5Morderca^0 - Prawdziwy kryminalista - ma zabić wszystkich.",
 			" * ^4Szeryf^0 - Jego zadaniem jest znalezienie i wyeliminowanie ^5Morderców^0.",
 			" * ^3Cywil^0 - Kompletnie bezbronny cywil, musi nie zostać zabity i pomóc w znalezieniu ^5Mordercy^0. W zależności od ustawień gry, ^3Cywili^0 mogą posiadać Czerwony Ring dla samoobrony jeżeli będą posiadać 100 i więcej ringów (dla niektórych postaci starczy 50 ringów).",
+			" * ^1Błazen^0 - Zabawny człowiek. Tylko jeden gracz w całej grze może posiadacz tą rządką rolę (nie w każdej rundzie jest gracz z tą rolą). ^1Błazen^0 musi przekonać wszytkich, że to on jest ^5Mordercą^0. W jego arsenalu są nieprawdziwe Czerwone Ringi (one nie mogą nikomu naszkodzić) za pomocą których on może przekonywać innych. ^1Błazen^0 wygrywa jeśli zostanie zabity przez ^4Szeryfa^0, ^2Bohatera^0 czy nawet ^3Cywila^0. Jeśli ^1Błazen^0 zabierze ^4Szmaragd Szeryfa^0 to stanie ^4Bohaterem^0 i wtedy musi grać wspólnie z dobrymi ludźmi.",
 			"\nTo jest cala niezbędna informacja do gry, jeśli nadal czegoś nie wiesz lub chcesz dowiedzieć się więcej zachęcamy do przeczytania tego podręcznika do końca"
 		},
 		{
@@ -172,11 +174,12 @@ MM.AddLang("PL", {
 		{
 			"^7Rzeczy których należy unikać w Tajemnicy Morderstw^0\n",
 			"Zasada numer 1 każdej gry: ^2Bądź miły i się baw!^0 Oprócz tego...",
-			"* Nie ujawniaj swojej roli innym, nawet dla żartu. Wypowiedzenie swojej ^BRoli^0 sprawi że gra nie będzie już \'Tajemnicą\'. Możesz wypowiedzieć ^Brole^0 kogoś innego jak jesteś pewny, ale nigdy swojej.",
-			"* Unikaj obrażania innych graczy. Przyjazne żarty są w porządku, ale ciągłe oskarżenia lub wrogie zachowanie sprawią, że inni przestaną ci ufać.",
-			"* Nie odchodź od klawiatury (^8AFK^0). Jeśli nie będziesz się ruszal przez dluzszy czas zostaniesz wygnany z gry (tylko jeśli żyjesz).",
-			"* Nie zmieniaj swego imienia gracza póki jesteś Martwy(a) - gra jest bardzo ścisła i ^5wyrzuci^0 ci z gry jeżeli to zrobisz. Po prostu zaczekaj na ekran zakończenia rundy żeby znów bezpiecznie zmieniać imię.",
-			"* Unikaj obozowania w pobliżu Szmaragdu Szeryfa, jeśli jesteś Mordercą. Stanie w pobliżu Szmaragdu przez 30 sekund spowoduje wyrzucenie z gry.",
+			"\n* Nie ujawniaj swojej roli innym, nawet dla żartu. Wypowiedzenie swojej ^BRoli^0 sprawi że gra nie będzie już \'Tajemnicą\'. Możesz wypowiedzieć ^Brole^0 kogoś innego jak jesteś pewny, ale nigdy swojej.",
+			"\n* Unikaj obrażania innych graczy. Przyjazne żarty są w porządku, ale ciągłe oskarżenia lub wrogie zachowanie sprawią, że inni przestaną ci ufać.",
+			"\n* Nie odchodź od klawiatury (^8AFK^0). Jeśli nie będziesz się ruszal przez dluzszy czas zostaniesz wygnany z gry (tylko jeśli żyjesz).",
+			"\n* Nie zmieniaj swego imienia gracza póki jesteś Martwy(a) - gra jest bardzo ścisła i ^5wyrzuci^0 ci z gry jeżeli to zrobisz. Po prostu zaczekaj na ekran zakończenia rundy żeby znów bezpiecznie zmieniać imię.",
+			"\n* Unikaj obozowania w pobliżu ^4Szmaragdu Szeryfa^0, jeśli jesteś ^5Mordercą^0. Możesz rozwinąć ślepotę gdy będziesz za długo przebywać koło artefaktu.",
+			"\n* Korzystanie z modyfikowanych klientów w cełach otrzymania nieuczciwej przewagi jest ^FZbrodnią Wojenną^0. ^5Zasługujesz na najgorszą karę jeśli korzystasz z cheat'ów.^0",
 			"Złamanie tych zasad może spowodować że zostaniesz wykopany a czasami zbanowany przez Administratora, prosimy ich nie łamać i grać fer."
 		},
 		{

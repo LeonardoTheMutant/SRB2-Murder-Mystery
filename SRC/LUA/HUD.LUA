@@ -720,46 +720,52 @@ end
 --
 -- Custom intermission HUD
 --
-local crossTextPatch1 = "0              0"
-local crossTextPatch2 = " 0            0"
-local crossTextPatch3 = "  0          0"
-local crossTextPatch4 = "   0        0"
-local crossTextPatch5 = "    0      0"
-local crossTextPatch6 = "     0    0"
-local crossTextPatch7 = "      0  0"
-local crossTextPatch8 = "       00"
+local deadcolor = 35
+local pixel = '0'
+local trans = ' '
+local crossTextPatch = {
+	pixel..string.rep(trans, 14)..pixel,
+	string.rep(trans, 1)..pixel..string.rep(' ', 12)..pixel,
+	string.rep(trans, 2)..pixel..string.rep(' ', 10)..pixel,
+	string.rep(trans, 3)..pixel..string.rep(' ', 8)..pixel,
+	string.rep(trans, 4)..pixel..string.rep(' ', 6)..pixel,
+	string.rep(trans, 5)..pixel..string.rep(' ', 4)..pixel,
+	string.rep(trans, 6)..pixel..string.rep(' ', 2)..pixel,
+	string.rep(trans, 7)..string.rep(pixel, 2),
+}
+
 local crossTextPatch16x16 = {
-	palette = {{35}},
+	palette = {{deadcolor}},
 	image = {
-		crossTextPatch1,
-		crossTextPatch2,
-		crossTextPatch3,
-		crossTextPatch4,
-		crossTextPatch5,
-		crossTextPatch6,
-		crossTextPatch7,
-		crossTextPatch8,
-		crossTextPatch8,
-		crossTextPatch7,
-		crossTextPatch6,
-		crossTextPatch5,
-		crossTextPatch4,
-		crossTextPatch3,
-		crossTextPatch2,
-		crossTextPatch1
+		crossTextPatch[1],
+		crossTextPatch[2],
+		crossTextPatch[3],
+		crossTextPatch[4],
+		crossTextPatch[5],
+		crossTextPatch[6],
+		crossTextPatch[7],
+		crossTextPatch[8],
+		crossTextPatch[8],
+		crossTextPatch[7],
+		crossTextPatch[6],
+		crossTextPatch[5],
+		crossTextPatch[4],
+		crossTextPatch[3],
+		crossTextPatch[2],
+		crossTextPatch[1],
 	}
 }
 local crossTextPatch8x8 = {
-	palette = {{35}},
+	palette = {{deadcolor}},
 	image = {
-		crossTextPatch5,
-		crossTextPatch6,
-		crossTextPatch7,
-		crossTextPatch8,
-		crossTextPatch8,
-		crossTextPatch7,
-		crossTextPatch6,
-		crossTextPatch5
+		crossTextPatch[5],
+		crossTextPatch[6],
+		crossTextPatch[7],
+		crossTextPatch[8],
+		crossTextPatch[8],
+		crossTextPatch[7],
+		crossTextPatch[6],
+		crossTextPatch[5]
 	}
 }
 
@@ -894,7 +900,7 @@ MMhud.routines["intermission_main"] = function(v)
 			--Cross player name if they were killed
 			if (p.mm.role == ROLE_DEAD) and (PlayerCount > 1) then
 				DrawTextPatch(v, HudInter_pos_name_x - 20, (HudInter_pos_players_y - 4 + (i * 16)), crossTextPatch16x16, 1)
-				drawFill(HudInter_pos_name_x, (HudInter_pos_players_y + (i * 16) + 4), stringWidth(p.name), 1, 35)
+				drawFill(HudInter_pos_name_x, (HudInter_pos_players_y + (i * 16) + 4), stringWidth(p.name), 1, deadcolor)
 			end
 
 			--Kills counter
@@ -909,7 +915,7 @@ MMhud.routines["intermission_main"] = function(v)
 			--Cross player name if they were killed
 			if (p.mm.role == ROLE_DEAD) then
 				DrawTextPatch(v, HudInter_pos_name_x + shiftx - 20, (HudInter_pos_players_y - 4 + (i * 16) - shifty), crossTextPatch16x16, 1)
-				drawFill((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) + 4 - shifty), stringWidth(p.name), 1, 35)
+				drawFill((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) + 4 - shifty), stringWidth(p.name), 1, deadcolor)
 			end
 
 			--Kills counter
@@ -925,7 +931,7 @@ MMhud.routines["intermission_main"] = function(v)
 			--Cross player name if they were killed
 			if (p.mm.role == ROLE_DEAD) then
 				DrawTextPatch(v, HudInter_pos_name2_x + shiftx - 14, (HudInter_pos_players2_y - 1 + (i * 8) - shifty), crossTextPatch8x8, 1)
-				drawFill((HudInter_pos_name2_x + shiftx), (HudInter_pos_players2_y + (i * 8) + 3 - shifty), stringWidth(p.name, 0, "thin"), 1, 35)
+				drawFill((HudInter_pos_name2_x + shiftx), (HudInter_pos_players2_y + (i * 8) + 3 - shifty), stringWidth(p.name, 0, "thin"), 1, deadcolor)
 			end
 
 			--Kills counter

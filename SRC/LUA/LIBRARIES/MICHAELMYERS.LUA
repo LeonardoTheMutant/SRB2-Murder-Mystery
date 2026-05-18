@@ -13,7 +13,7 @@ MM.AddLang = function(langID, langTbl)
 	assert(langID, "Invalid Language Index")
 	assert(langTbl, "Invalid Language Table.")
 	if (type(langID) ~= "string") then error("Language ID should be string and contain 2-3 characters long") end
-	if (type(langTbl) ~= "table") then error("Language Talbe shoulb be table.") end
+	if (type(langTbl) ~= "table") then error("Language Table should be table.") end
 	if (MM.text[langID]) then
 		MM.text[langID] = nil --Empty the table so that the language can be updated
 		printf("\x82WARNING\x80: Updating the \x81%s\x80 language...", langID)
@@ -491,6 +491,20 @@ MM.HitTeammate = function(v, a)
 	v.powers[pw_flashing] = 105 --3 seconds
 end
 
+--End a round if any ending conditions are met
+MM.TryEndgame = function()
+	if (not MM.PlayerCount(ROLE_MURDERER)) then
+		MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
+	end
+
+	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO)) and ((not MM.PlayerCount(ROLE_CIVILIAN)) or (MM.PlayerCount(ROLE_CIVILIAN) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+		MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
+	end
+
+	MM.StartSuspenseMusic()
+	MM.StartShowdownMusic()
+end
+
 --Player deinitializator, executes on PlayerQuit hook
 MM.PlayerQuit = function(p)
 	local role = p.mm.role
@@ -669,8 +683,8 @@ end
 MM.PunishPlayer = function(p, msg, ban) --player (player_t), punishment message (string), ban instead of kick? (boolean)
 	if (p == server) then COM_BufInsertText(server, "QUIT")
 	else
-		if (ban) then COM_BufInsertText(server, "BAN "..#p.." "..msg)
-		else COM_BufInsertText(server, "KICK "..#p.." "..msg) end
+		if (ban) then COM_BufInsertText(server, string.format("BAN %d %s", #p, msg))
+		else COM_BufInsertText(server, string.format("KICK %d %s", #p, msg)) end
 	end
 end
 

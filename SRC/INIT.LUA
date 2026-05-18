@@ -314,7 +314,7 @@ dofile("DATA/TEXT/CAMTEXT.LUA")
 dofile("DATA/FOOTSOUND.LUA")
 dofile("DATA/FREESLOT.LUA")
 if (not isdedicatedserver) then
-	dofile("DATA/KEYS.LUA")
+	dofile("DATA/HID_KEYS.LUA")
 	dofile("DATA/TEXTPATCHES.LUA")
 end
 
@@ -333,6 +333,7 @@ dofile("DATA/TEXT/LANG/UA.LUA")
 --Script files load
 print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
 dofile("GAME.LUA")
+dofile("ANTICHEAT.LUA")
 dofile("WEAPONS.LUA")
 dofile("OBJECTS.LUA")
 dofile("MAPVOTE.LUA")
