@@ -3,6 +3,11 @@
 --
 -- A collection of anti-cheat algorithms
 
+--"Kick Yourself"
+COM_AddCommand("kys", function(p, ...)
+	CONS_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself")
+end)
+
 --
 -- AIMBOT
 --
@@ -35,6 +40,7 @@ local cv_automap2 = CV_FindVar("tsourdt3rd_debug_automapanywhere")
 addHook("KeyDown", function(keyevent)
 	if (gametype == GT_LTMMURDERMYSTERY) and (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY) then
 		COM_BufInsertText(consoleplayer, "QUIT")
+		COM_BufInsertText(consoleplayer, "KYS 'Automap usage'")
 	end
 end)
 
@@ -45,7 +51,10 @@ end)
 --
 local cv_fullbrigth = CV_FindVar("fullbrite")
 addHook("ThinkFrame", function()
-	if (gametype == GT_LTMMURDERMYSTERY) and (cv_fullbrigth) and (cv_fullbrigth.value) and (leveltime > TICRATE) then COM_BufInsertText(consoleplayer, "QUIT") end
+	if (gametype == GT_LTMMURDERMYSTERY) and (cv_fullbrigth) and (cv_fullbrigth.value) and (leveltime > TICRATE) then
+		COM_BufInsertText(consoleplayer, "QUIT")
+		COM_BufInsertText(consoleplayer, "KYS 'Usage of cheat CVAR(s)'")
+	end
 end)
 
 
