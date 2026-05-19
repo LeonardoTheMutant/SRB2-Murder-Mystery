@@ -4,8 +4,8 @@
 -- A collection of anti-cheat algorithms
 
 --"Kick Yourself"
-COM_AddCommand("kys", function(p, ...)
-	CONS_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself")
+COM_AddCommand("kys", function(p, msg)
+	CONS_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself"))
 end)
 
 --
