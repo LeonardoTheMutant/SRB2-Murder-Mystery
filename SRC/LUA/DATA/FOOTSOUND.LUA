@@ -2065,6 +2065,10 @@ MM.FootstepFlatSound = {
 	["THZWALLA"]="stone",
 	["THZWAL07"]="metal",
 	["THDOOR2B"]="stone",
+	["SILE01"]="wood",
+	["SILE02"]="metal",
+	["SILE04"]="stone",
+	["SILE05"]="wood",
 	--FREEDOOM flats
 	["A-CAMO1"]="metal",
 	["A-WOOD1"]="wood",
