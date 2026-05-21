@@ -54,7 +54,7 @@ ARCHIV (Gallery)      - "ARCHIVE" by MinusMario
 CIVINS - "Civilian's Instinct" by MinusMario
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 MMSUS1 - "HOLD ON" by Lamonite
-LAST   - "LAST OUTCOME" by MinusMario
+FINAL     - "Nemesis Final Metamorphosis" by Capcom Sound Team (Resident Evil 3: Nemesis)
 NIMARE - "Midwich Nightmare" (First Half) by Akira Yamaoka (Silent Hill)
 
 
