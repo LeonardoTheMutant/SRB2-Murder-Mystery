@@ -39,6 +39,7 @@ if (MM.debug) then rawset(_G, "info_mmhelp_debug", [[
 rawset(_G, "info_mmhelp_technical", string.format([[
 ^4LTM's ^7Murder Mystery
 ^0Version ^1%s^0
+^6Preview 1^0
 by ^2"SRB2MM_DEV team"^0
 Full credits are in the ^6README.TXT^0 inside this .PK3 file
 
@@ -46,9 +47,9 @@ Full credits are in the ^6README.TXT^0 inside this .PK3 file
 The developer team can be reached out by using one of the following links:
 
 
-Discord: ^4https://www.discord.com/invite/UgG8h2djFE^0
-
 Matrix: ^3https://matrix.to/#/#ltm_mm:matrix.org^0
+
+Discord: ^4https://www.discord.com/invite/UgG8h2djFE^0
 
 GitHub: ^6https://www.github.com/LeonardoTheMutant/SRB2-Murder-Mystery^0
 

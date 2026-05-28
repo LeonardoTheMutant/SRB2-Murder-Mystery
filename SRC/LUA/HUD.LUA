@@ -195,7 +195,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	-- SUSPECTS - TIME - RINGS
 	--
 
-	--precalculate the expected sizes of these elements to make the HUD look SonicCD-style
+	--precalculate the expected sizes of these elements to make the HUD look Sonic1-style
 	--SUSPECTS/VICTIMS (replaces SCORES)
 	if (int(prole) <= ROLE_MURDERER) then var1 = "IMG_VICTIMS"
 	else var1 = "IMG_SUSPECTS" end
@@ -229,10 +229,11 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	end
 	--Calculate the number of suspects/victims
 	switch(prole, {
+		[ROLE_DEAD] = function() var1 = PlayersAlive() end,
 		[ROLE_MURDERER] = function() var1 = PlayersAlive() - PlayerCount(ROLE_MURDERER) end,
 		[ROLE_SHERIFF] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
 		[ROLE_HERO] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
-		['default'] = function() var1 = PlayersAlive() - 1 end --Civilian and Dead
+		['default'] = function() var1 = PlayersAlive() - 1 end --Civilian and Jester
 	})
 	--Draw the number
 	V_DrawHudNum(v, (hudinfo_score.x + var3), hudinfo_score.y, hudinfo_score.f|V_PERPLAYER|localTransFlag, max(var1, 0))
@@ -351,33 +352,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			if (int(p.mm.killreason) == KILLBY_PLR) then
 				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f) end
 			else
-				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason), V_SNAPTOTOP|V_SNAPTOLEFT)
-			end
-		end
-	end
-
-	--Show the PONG-related text & invitations
-	if (prole ~= ROLE_DEAD) and (eMeM.twopgame) and (eMeM.duelplrs) and valid(eMeM.duelplrs[1]) and valid(eMeM.duelplrs[2]) then
-		--determine the rival player
-		if (eMeM.duelplrs[1] == p) then
-			var1 = eMeM.duelplrs[2]
-		elseif (eMeM.duelplrs[2] == p) then
-			var1 = eMeM.duelplrs[1]
-		end
-
-		--draw the in-minigame text if the rival player still exists and is valid
-		if (valid(var1)) then
-			if not (p.mm.flags & FLAG_MINIGAME) and not (var1.mm.flags & FLAG_MINIGAME) then
-				DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-				DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "REQUEST"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-			elseif (p.mm.flags & FLAG_MINIGAME) and not (var1.mm.flags & FLAG_MINIGAME) then
-				DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "WAIT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-				DrawStrUnicode_Right(v, 320, font_small.charheight, (GetText("HUD_MINIGAME", "PRESS").." "..GetText("HUD_MINIGAME", "CANCEL")), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-			elseif not (p.mm.flags & FLAG_MINIGAME) and (var1.mm.flags & FLAG_MINIGAME) then
-				if (leveltime % 2) then
-					DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-					DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "ACCEPT"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-				end
+				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason or KILLBY_MAP), V_SNAPTOTOP|V_SNAPTOLEFT)
 			end
 		end
 	end
@@ -475,9 +450,9 @@ MMhud.routines["game_main"] = function(v, p ,c)
 						wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
 					end
 					draw((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), eMeM.graphics[weapons[weapon][1]], wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Ring weapon icon
-					if (weapons[weapon][2] == MT_THROWNAUTOMATIC) and (weapons[weapon][6][2] > 0) then
+					if (weapons[weapon][2] == MT_THROWNAUTOMATIC) and (p.mm.weaponoverheat_delay > 0) then
 						--Draw overheat indicator
-						drawFill((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), 16, 16, 35|max(10 - weapons[weapon][6][2], 0)*FU|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
+						drawFill((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), 16, 16, 35|max(10 - p.mm.weaponoverheat_delay, 0)*FU|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
 					end
 					drawString((HudRingWep.x + 24 + weapon*20), (HudRingWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag, "thin-right") --Ammo counter
 				elseif (p.ringweapons & wep2rw(weapon)) then
@@ -531,20 +506,8 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	end
 
 	--Are you alone?
-	if (PlayerCount() == 1) and not (p.mm.flags & FLAG_SPECTATOR) then
+	if (PlayerCount() == 1) then
 		DrawStrUnicode_Center(v, 160, 136, WordWrap(0, canvasWidth, 0, font.scale, GetText("HUD_ALONE")), localTransFlag, font.scale)
-	end
-
-	--suggest a minigame
-	if ((p.spectator) and (not eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) and (not eMeM.twopgame)) then
-		--Suggest SONIC RUN
-		DrawStrUnicode_Right(v, 320, 0, GetText("HUD_MINIGAME", "BORED"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-		DrawStrUnicode_Right(v, 320, font_small.charheight, GetText("HUD_MINIGAME", "PRESS"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-		DrawStrUnicode_Right(v, 320, 2*font_small.charheight, GetText("HUD_MINIGAME", "START"), V_SNAPTOTOP|V_SNAPTORIGHT|V_PERPLAYER|localTransFlag, font_small.scale)
-	elseif (eMeM.minigame) and not (p.mm.flags & FLAG_MINIGAME) then
-		--Draw the invitation/suggestion text to spectate PONG game
-		DrawStrUnicode_Right(v, 320, 0, (MM.GetText("HUD_MINIGAME", "PRESS").." "..MM.GetText("HUD_MINIGAME", "SPECTATE")), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
-		DrawStrUnicode_Right(v, 320, font_small.charheight, MM.GetText("HUD_MINIGAME", "DUEL"), V_SNAPTOTOP|V_SNAPTORIGHT|v.localTransFlag(), font_small.scale)
 	end
 
 	--Draw the camera message when you can activate camera view
@@ -560,20 +523,6 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	--Sneaking
 	if ((p.mm.flags & FLAG_SNEAK) and valid(p.mo) and P_IsObjectOnGround(p.mo)) then
 		DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y + 24), GetText("HUD_SNEAKING"), V_SNAPTOTOP|V_SNAPTOLEFT|V_PERPLAYER|localTransFlag, font_small.scale)
-	end
-
-	--Spectator mode text
-	if (p.mm.flags & FLAG_SPECTATOR) then
-		DrawStrUnicode_Center(v, 160, 156, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "INFO")), localTransFlag, font_small.scale)
-	end
-
-	--Toggled the "Spectate"/"Enter Game" button
-	if (p.mm.flags & FLAG_WAITSPECTATOR) then
-		if (p.spectator) then
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_FROM")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
-		else
-			DrawStrUnicode(v, 0, 0, WordWrap(0, canvas.width, 0, font_small.scale, GetText("HUD_SPECTATOR", "SWITCHING_TO")), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag, font_small.scale)
-		end
 	end
 end
 
@@ -612,7 +561,9 @@ MMhud.routines["scores_main"] = function(v)
 		local shiftx, shifty = 0, 0
 		local plrs = {}
 		for p in players.iterate do
-			if (p.mm.role ~= ROLE_DEAD) and (not eMeM.AreTeammates(consoleplayer, p)) and (consoleplayer ~= p) and (not p.quittime) and not (p.mm.flags & FLAG_SPECTATOR) then table.insert(plrs, p) end
+			if (p.mm.role ~= ROLE_DEAD) and (not eMeM.AreTeammates(consoleplayer, p)) and (consoleplayer ~= p) and (not p.quittime) then
+				table.insert(plrs, p)
+			end
 		end
 		for i = 1, #plrs do
 			local p = plrs[i]
@@ -677,7 +628,7 @@ MMhud.routines["scores_main"] = function(v)
 	end
 
 	--Online
-	drawString(160, 176, string.format("\x89INGAME: %d \x8AONLINE: %d", PlayerCountReal() - eMeM.PlayerCountSpectators(), PlayerCountReal()), localTransFlag)
+	drawString(160, 176, string.format("ONLINE: %d", PlayerCount()), localTransFlag)
 
 	--Role target
 	local prole = consoleplayer.mm.role
@@ -826,7 +777,7 @@ MMhud.routines["intermission_main"] = function(v)
 
 	--player list
 	for p in players.iterate do
-		if not (p.mm.flags & FLAG_SPECTATOR) then table.insert(plrs, p) end
+		 table.insert(plrs, p)
 	end
 	--sort players by kills count
 	table.sort(plrs, function(a, b)
@@ -911,11 +862,12 @@ MMhud.routines["intermission_main"] = function(v)
 			--Character icon
 			drawScaled((HudInter_pos_name_x + shiftx - 20)*FU, (HudInter_pos_players_y - 4 + (i * 16) - shifty)*FU, 32768, getSprite2Patch(p.skin, SPR2_XTRA), 0, v.getColormap(p.skin, p.skincolor)) --FU/2
 			--Player name (colored by role)
-			drawString((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), RoleColor[color]..string.sub(p.name, 1, 13), V_ALLOWLOWERCASE)
+			local name = string.sub(p.name, 1, 13)
+			drawString((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), RoleColor[color]..name, V_ALLOWLOWERCASE)
 			--Cross player name if they were killed
 			if (p.mm.role == ROLE_DEAD) then
 				DrawTextPatch(v, HudInter_pos_name_x + shiftx - 20, (HudInter_pos_players_y - 4 + (i * 16) - shifty), crossTextPatch16x16, 1)
-				drawFill((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) + 4 - shifty), stringWidth(p.name), 1, deadcolor)
+				drawFill((HudInter_pos_name_x + shiftx), (HudInter_pos_players_y + (i * 16) + 4 - shifty), stringWidth(name), 1, deadcolor)
 			end
 
 			--Kills counter
@@ -958,6 +910,11 @@ MMhud.routines["intermission_main"] = function(v)
 		DrawStrUnicode_Center(v, 160, 176, GetText("HUD_WINNERS").." "..GetText("HUD_WIN", winner))
 	end
 
+	--Prerelease/Debug
+	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
+	drawString(0, 184, "LTM's MM v" + MM.version, V_ALLOWLOWERCASE)
+	drawString(0, 192, "Preview 1", V_ALLOWLOWERCASE)
+
 	--Timer
 	local timeleft
 	local text
@@ -969,9 +926,6 @@ MMhud.routines["intermission_main"] = function(v)
 		text = "WARPING_IN"
 	end
 	DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", GetText(HUD_INTERMISSION, text), G_TicsToSeconds(timeleft), GetText("HUD_SECONDS")))
-
-	--Prerelease/Debug
-	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
 end
 
 --Set the main drawing functions on boot
@@ -982,6 +936,9 @@ HudInter.routine = MMhud.routines["intermission_main"]
 local function loadGraphics(v)
 	MM.DebugPrint("Loading graphics")
 	HIDEO.LoadUnicodeFont(v) --Initialize Unicode renderer
+	for c = 33, 126 do --Load ASCII range of characters for basic text
+		HIDEO.LoadUnicodeFont(v, c)
+	end
 
 	--Emerald icon
 	LoadPatch(v, "CHAOS3")
@@ -1002,21 +959,6 @@ local function loadGraphics(v)
 	--MMHELP scrolling background
 	LoadPatch(v, "NTSATKT2")
 	LoadPatch(v, "NTSATKB1")
-
-	--Sonic Run
-	--Running frames
-	for i = 1, 2 do
-		if v.patchExists("SNC_RUN"..i) then LoadPatch(v, "SNC_RUN"..i) end
-	end
-	--Spinning frames
-	for i = 1, 3 do
-		if v.patchExists("SNC_SPN"..i) then LoadPatch(v, "SNC_SPN"..i) end
-	end
-	--Idle/standing frame
-	if v.patchExists("SNC_STND") then LoadPatch(v, "SNC_STND") end
-	--Countdown numbers
-	for i = 1, 3 do LoadPatch(v, "RACE"..i) end
-	LoadPatch(v, "RACEGO")
 
 	--Intermission background
 	for i = 0, 5 do

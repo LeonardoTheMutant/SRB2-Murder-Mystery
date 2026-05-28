@@ -95,17 +95,18 @@ addHook("PreThinkFrame", function()
 
 			if (p.cmd.forwardmove) then p.cmd.forwardmove = 0 end
 
-			if (p.cmd.buttons & BT_WEAPONNEXT) then
+			if (p.cmd.buttons & BT_WEAPONNEXT) and not (pcam.timer) then
+				p.lastbuttons = p.lastbuttons | BT_WEAPONNEXT
 				pcam.id = pcam.id + 1
-				pcam.timer = 52
+				pcam.timer = 10
 				if (p == consoleplayer) then static_level = 0 end
 				S_StartSound(nil, sfx_static, p)
 				if (pcam.id > #MM.cameras) then pcam.id = 1 end
 			end
 
-			if (p.cmd.buttons & BT_WEAPONPREV) then
+			if (p.cmd.buttons & BT_WEAPONPREV) and not (pcam.timer) then
 				pcam.id = pcam.id - 1
-				pcam.timer = 52
+				pcam.timer = 10
 				if (p == consoleplayer) then static_level = 0 end
 				S_StartSound(nil, sfx_static, p)
 				if not (pcam.id) then pcam.id = #MM.cameras end
@@ -209,11 +210,11 @@ addHook("MobjThinker", function(mo)
 	searchBlockmap("objects", function(ref, found)
 		if (ref == found) then return end --ignore itself
 
-		if (found.type == MT_PLAYER) and (AngleFixed(found.angle) > AngleFixed(ref.angle - ANG30)) and (AngleFixed(found.angle) < AngleFixed(ref.angle + ANG30))
+		if (found.type == MT_PLAYER) and (not found.player.spectator) and (AngleFixed(found.angle) > AngleFixed(ref.angle - ANG30)) and (AngleFixed(found.angle) < AngleFixed(ref.angle + ANG30))
 		and (R_PointToDist2(found.x, found.y, ref.x, ref.y) < ref.radius) and (found.z <= (ref.z + ref.height)) and (found.z >= ref.z) then
 			local p = found.player
 			p.mm.camera.available = true
-			if (p.cmd.buttons & BT_CUSTOM1) and not (p.lastbuttons & BT_CUSTOM1) and not (p.mm.camera.active) then
+			if (p.cmd.buttons & BT_CUSTOM1) and not (p.lastbuttons & BT_CUSTOM1) and not (p.mm.camera.active) and not (p.spectator) then
 				if (p == consoleplayer) then
 					MM.hud.game.routine = terminal_renderer
 					MM.hud.scores.routine = terminal_renderer

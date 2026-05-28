@@ -8,7 +8,7 @@ local cv_speedsneak = CV_FindVar("mm_speed_sneak")
 local cv_speedwalk = CV_FindVar("mm_speed_walk")
 
 addHook("PlayerThink", function(p)
-	if (not valid(p.mo)) then return end
+	if not (valid(p) and valid(p.mo)) then return end
 	local s = (p.mo.skin or "sonic") -- added an or just incase the game slips
 
 	--Enable skin abilities if the MM_ABILITIES CVAR is enabled OR the gametype is not Murder Mystery

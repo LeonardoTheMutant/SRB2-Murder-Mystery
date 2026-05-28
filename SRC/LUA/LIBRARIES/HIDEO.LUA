@@ -16,8 +16,6 @@ rawset(_G, "HIDEO", {
 	palette = {0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240} --fallback palette for Text Patch drawing
 })
 
-HIDEO.debug = true
-
 HIDEO.DebugPrint = function(str)
 	if (HIDEO.debug) then print("\x88HIDEO\x80: "..str) end
 end

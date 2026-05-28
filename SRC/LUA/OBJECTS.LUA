@@ -81,8 +81,8 @@ end)
 addHook("TouchSpecial", function(s, t) --special, toucher
 	if (s.alpha == FU) then
 		S_StartSound(nil, sfx_squeak, t.player)
-		if (MM.PlayerCount() == 1) then
-			MM.Chatprint(t.player, MM.GetText("CHAT_GOTPLUSHIE"))
+		if (MM.PlayersAlive() < 3) then
+			MM.ChatprintGlobal("CHAT_GOTPLUSHIE")
 			G_ExitLevel()
 		end
 		s.alpha = $ - 1024

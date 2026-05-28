@@ -107,20 +107,6 @@ MM.AddLang("FR", {
 	["HUD_ALONE"]="^42 joueurs^0 sont requis pour commencer, attendez pour ^4Un^0 joueur de plus pour commencer",
 	["HUD_SNEAKING"]="En Discret...",
 	["HUD_SHOWDOWN"]="Duel Final!",
-	["HUD_MINIGAME"]={
-		["PRESS"]="Appuyer sur^2 CUSTOM3^0 pour",
-		["LEAVE"]="quitter",
-		["CANCEL"]="annulez",
-		["SPECTATE"]="Regarder",
-		["DUEL"]="un minijeux duel",
-		["REQUEST"]="demander une partie de ^7PONG^0",
-		["START"]="démarrer une partie de ^7\"SONIC RUN\"^0",
-		["ACCEPT"]="accepter le duel de ^7PONG^0!",
-		["WAIT"]="En attente que le rival accepte...",
-		["SPECTATING"]="En train de regarder un duel...",
-		["BORED"]="Ennuyez?",
-		["GOAL"]="But!"
-	},
 	["HUD_YOU"]="VOUS",
 	["HUD_WINNERS"]="Gagnants:",
 	["HUD_WIN"]={

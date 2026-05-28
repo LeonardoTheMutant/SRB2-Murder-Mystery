@@ -111,27 +111,8 @@ MM.AddLang("DE", {
 	["HUD_DEAD"]="Du bist ^Ftot^0.\nDu kannst nicht wiederbelebt werden oder mit Personen sprechen die noch am Leben sind.",
 	["HUD_MIDJOIN"]="Du bist ^4mitten im Spiel^0 eingestiegen, bitte warte bis zum Ende dieser Runde. Während du wartest, lies bitte die Spielregeln im ^7MMHELP^0-Konsolenbefehl!",
 	["HUD_ALONE"]="^42 Spieler^0 sind für das Spiel erforderlich,\nBitte warten Sie, bis^4 ein weiterer Spieler^0 das Spiel startet.",
-	["HUD_SPECTATOR"] = {
-		["INFO"] = "Du bist derzeit Zuschauer. Klicke auf \"Enter Game\", um in der nächsten Runde am Spiel teilzunehmen.",
-		["SWITCHING_TO"]= "In der nächsten Runde geht es in den Zuschauermodus...",
-		["SWITCHING_FROM"]= "Einstieg in die nächste Runde des Spiels..."
-	},
 	["HUD_SNEAKING"]="Schleichen...",
 	["HUD_SHOWDOWN"]="Showdown Duell!",
-	["HUD_MINIGAME"]={
-		["PRESS"]="Drücke ^2CUSTOM3^0 zum",
-		["LEAVE"]="verlassen",
-		["CANCEL"]="abzubrechen",
-		["SPECTATE"]="zuschauen",
-		["DUEL"]="ein Minispiel-Duell",
-		["REQUEST"]="ein ^7PONG-Minispiel^0 anfordern!",
-		["START"]="ein ^7\"SONIC RUN\"^0 Minispiel starten!",
-		["ACCEPT"]="die ^7PONG^0 Herausforderung annehmen!",
-		["WAIT"]="Warten darauf, dass der Rivale akzeptiert...",
-		["SPECTATING"]="Ein Duell beobachten...",
-		["BORED"]="Langweilst du dich?",
-		["GOAL"]="Tor!"
-	},
 	["HUD_YOU"]="DU",
 	["HUD_WINNERS"]="Gewinner:",
 	["HUD_WIN"]={

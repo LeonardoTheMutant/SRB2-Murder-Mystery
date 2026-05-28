@@ -7,6 +7,7 @@
 
 local cv_rejointimeout = CV_FindVar("rejointimeout")
 local cv_idletime = CV_FindVar("idletime")
+local cv_idleaction = CV_FindVar("idleaction")
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_shields = CV_FindVar("mm_allowshields")
 local cv_invinc = CV_FindVar("mm_allowinvinc")
@@ -36,8 +37,7 @@ addHook("MapLoad", function(map)
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
-		if (p.mm.flags & FLAG_MINIGAME) then MM.ResetHUD(p) end
-		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_MINIGAME|FLAG_NEWCOMER)
+		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_NEWCOMER)
 		p.mm.weapondelay = 175 --5 seconds
 		p.mm.role = ROLE_DEAD
 	end
@@ -50,7 +50,6 @@ addHook("MapLoad", function(map)
 	MM.shremdDist = 0
 	MM.susnse = false
 	MM.shwdwn = false
-	MM.minigame = false
 	MM.roleflicker = 175 --5 seconds
 	MM.hud.game.flash.translucency = 0
 
@@ -65,13 +64,6 @@ addHook("MapLoad", function(map)
 	end
 	MM.timelimit = $ + MM.GetRoleMultiplier() - 1
 	printf("Time limit for this round is %d minutes", MM.timelimit)
-
-	--Prepare the minigames
-	MM.twopgame = (MM.PlayerCount() == 2)
-	MM.minigame = false
-	MM.pong.pads[1] = 32
-	MM.pong.pads[2] = 32
-	MM.pong.timeout = 70
 
 	--Assign roles to the players
 	MM.AssignRoles()
@@ -111,30 +103,21 @@ addHook("PlayerSpawn", function(p)
 	if (p.mm.flags & FLAG_DEAD) then p.spectator = true end
 
 	--Check player num and state on join
-	if (p.mm.role) then
-		--Just respawn, if you are not a spectator
-		if not (p.mm.flags & FLAG_SPECTATOR) then p.spectator = false end
-	else
-		if (p.mm.role == nil)
-			switch(MM.PlayerCount(), {
-				[1] = function()
-					p.spectator = false
-				end,
-				[2] = function() --Player2 joined a 'singleplayer' round
-					p.spectator = false
-					for player in players.iterate do player.mm.flags = $ & ~FLAG_MINIGAME end --Shutdown Player1's minigame session
-					MM.minigame = false --Tell server to disable the PONG minigame
-					MM.AssignRoles() --Assign roles for that duel
-					MM.twopgame = true
-					MM.duelplrs = PONG_Get2Players()
-				end,
-				['default'] = function() --Other players are dead on join
-					p.pflags = $|PF_GODMODE|PF_NOCLIP
-					p.mm.flags = p.mm.flags | FLAG_NEWCOMER
-					p.mm.role = ROLE_DEAD
-				end
-			})
-		end
+	if (p.mm.role == nil)
+		switch(MM.PlayerCount(), {
+			[1] = function()
+				p.spectator = false
+			end,
+			[2] = function() --Player2 joined a 'singleplayer' round
+				p.spectator = false
+				MM.AssignRoles() --Assign roles for that duel
+			end,
+			['default'] = function() --Other players are dead on join
+				p.spectator = true
+				p.mm.flags = p.mm.flags | FLAG_NEWCOMER
+				p.mm.role = ROLE_DEAD
+			end
+		})
 	end
 end)
 
@@ -194,11 +177,11 @@ addHook("PlayerThink", function(p)
 				end,
 				[ROLE_CIVILIAN] = function()
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then S_StartSound(nil, sfx_emfind, p) end
 				end,
 				[ROLE_JESTER] = function()
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (not (leveltime % int(shremd_interval)) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar))) then S_StartSound(nil, sfx_emfind, p) end
+					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then S_StartSound(nil, sfx_emfind, p) end
 				end
 			})
 		end
@@ -212,31 +195,15 @@ addHook("PlayerThink", function(p)
 	--Force player quit so that there are no rejoining player ghosts
 	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end
 
-	--AFK
+	--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enought
 	if (MM.PlayerCount() > 1)
-		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
+		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) and (not p.spectator) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if ((int(p.afk) > cv_idletime.value*2100) and (p.mm.role ~= ROLE_DEAD)) then
-			local body
-			if valid(pmo) then body = pmo
-			elseif valid(p.realmo) then body = p.realmo end
-			chatprint(string.format("\x87%s\x80 is killed for being AFK, turned into spectator", p.name))
-			p.mm.flags = p.mm.flags | FLAG_SPECTATOR
-			MM.KillPlayer(body, true, true)
-			MM.TryEndgame()
+		if (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and not (p.spectator) then
+			COM_BufInsertText(server, string.format("KICK %d AFK", #p))
 		end
 	end
-end)
-
---Do not let the Spectator Switch flag toggle every tic (force players to use ESC > "Enter Game")
-addHook("KeyDown", function(e)
-	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
-
-	local key = e.num
-	local key1, key2 = input.gameControlToKeyNum(GC_FIRE)
-
-	if ((key == key1) or (key == key2)) and (consoleplayer.mm.flags & FLAG_SPECTATOR) then return true end
 end)
 
 
@@ -245,7 +212,7 @@ end)
 -- Death/Kill detectors
 --
 
-addHook("MobjDeath", function(v, i, a, s) --Victim, inflictor, attacker, damage type
+addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage type
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	MM.DebugPrint("\x82Triggered MobjDeath")
@@ -279,7 +246,6 @@ addHook("MobjDeath", function(v, i, a, s) --Victim, inflictor, attacker, damage 
 			else
 				MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 			end
-
 		end,
 		[ROLE_SHERIFF] = function()
 			if (MM.PlayerCount(ROLE_CIVILIAN))
@@ -375,6 +341,7 @@ addHook("MobjDeath", function(v, i, a, s) --Victim, inflictor, attacker, damage 
 	})
 
 	if (MM.PlayersAlive() > 1) then --Ignore those deaths if the player is being alone on the server
+		MM.TryEndgame()
 		MM.StartSuspenseMusic()
 		MM.StartShowdownMusic()
 		return true
@@ -407,7 +374,7 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 				if (ap.mm.role == ROLE_CIVILIAN) then
 					ap.mm.role = ROLE_HERO
 					ap.mm.prevrole = ROLE_HERO
-					MM.Chatprint(ap, MM.text[MM.lang]["CHAR_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
+					MM.Chatprint(ap, MM.text[MM.lang]["CHAT_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
 					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
 				end
 			else
@@ -526,6 +493,8 @@ addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage
 		end
 	})
 
+	MM.TryEndgame()
+
 	MM.StartSuspenseMusic()
 	MM.StartShowdownMusic()
 	return true
@@ -536,11 +505,6 @@ end, MT_PLAYER)
 --
 addHook("IntermissionThinker", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
-	--special round win check for the minigame
-	if ((MM.minigame) and valid(MM.duelplrs[1]) and valid(MM.duelplrs[2]))
-		if (MM.duelplrs[1].mm.kills > MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[1].mm.role
-		elseif (MM.duelplrs[1].mm.kills < MM.duelplrs[2].mm.kills) then MM.winner = MM.duelplrs[2].mm.role end
-	end
 
 	for p in players.iterate do
 		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
@@ -618,9 +582,9 @@ addHook("ViewpointSwitch", function(p) --player
 end)
 
 --Hide player names in Cryptic game
-addHook("SeenPlayer", function(p, sp) --player, seenplayer
+addHook("SeenPlayer", function(p) --player
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return --use game's default behavior
 	else
-		if (cv_cryptic.value) then return false end --do not show
+		if (cv_cryptic.value) or (p.camera and p.camera.active) then return false end --do not show
 	end
 end)

@@ -35,7 +35,7 @@ TypeOfLevel = LTM_MM,Match,Tag
 SkyNum = 17
 Weather = 2
 NextLevel = K4
-Lua.Autor = SRB2 Zombie Escape team, LeonardoTheMutant, MinusMario
+Lua.Author = SRB2 Zombie Escape team, LeonardoTheMutant, MinusMario
 
 Level K4
 LevelName = West City
@@ -60,7 +60,7 @@ SelectHeading = LTM's Murder Mystery
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = K7
-Lua.Author = LeonardoTheMutant
+Lua.Author = LeonardoTheMutant, MinusMario
 
 Level K7
 LevelName = Space Mesa
@@ -107,7 +107,7 @@ NoZone = True
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = KC
-Lua.Author = LeonardoTheMutant
+Lua.Author = LeonardoTheMutant, MinusMario
 
 Level KC
 LevelName = Midwich Elementary
@@ -168,7 +168,7 @@ LevelName = Twin Caverns
 SubTitle = Under Construction
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM
-SkyNum = 1025
+SkyNum = 701
 NextLevel = KI
 Lua.MM_ShowdownTrack = SAVIOR
 Lua.MM_SuspenseTrack = FINAL

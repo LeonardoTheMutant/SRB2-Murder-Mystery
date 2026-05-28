@@ -104,20 +104,6 @@ MM.AddLang("ES", {
 	["HUD_ALONE"]="^42 jugadores^0 son requeridos para jugar,\nPor favor espera a ^4uno mas^0 para iniciar.",
 	["HUD_SNEAKING"]="Agachado...",
 	["HUD_SHOWDOWN"]="Duelo de Enfrentamiento!",
-	["HUD_MINIGAME"]={
-		["PRESS"]="Presiona^2 CUSTOM3^0 para",
-		["LEAVE"]="abandonar",
-		["CANCEL"]="cancelar",
-		["SPECTATE"]="espectar",
-		["DUEL"]="un minjuego de duelo",
-		["REQUEST"]="solicita un minijuego de ^7PONG^0 !",
-		["START"]="inicia un minijuego de ^7\"SONIC RUN\"^0 !",
-		["ACCEPT"]="aceptar el reto de ^7PONG^0!",
-		["WAIT"]="Esperando a que el rival acepte...",
-		["SPECTATING"]="Espectando un duelo...",
-		["BORED"]="Estas aburrido?",
-		["GOAL"]="Ganaste!"
-	},
 	["HUD_YOU"]="TU",
 	["HUD_WINNERS"]="Ganadores:",
 	["HUD_WIN"]={

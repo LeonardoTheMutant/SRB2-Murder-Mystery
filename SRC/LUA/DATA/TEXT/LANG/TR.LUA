@@ -110,27 +110,8 @@ MM.AddLang("TR", { -- cCc
 	["HUD_CAMERA"]={
 		["TERMINAL"]="Kameraları görüntülemek için ^7CUSTOM1^0 tuşuna basın"
 	},
-	["HUD_SPECTATOR"]={
-		["INFO"]="Şu anda seyrediyorsunuz. Bir sonraki tura katılmak için oyuna girin.",
-		["SWITCHING_TO"]="Bir sonraki turda izleyici moduna geçiliyor...",
-		["SWITCHING_FROM"]="Bir sonraki turda oyuna giriliyor..."
-	},
 	["HUD_SNEAKING"]="Sinsice...",
 	["HUD_SHOWDOWN"]="Karşılaşma düellosu!",
-	["HUD_MINIGAME"]={
-		["PRESS"]="^2 CUSTOM3^0'e bas ve",
-		["LEAVE"]="ayrıl",
-		["CANCEL"]="iptal",
-		["SPECTATE"]="seyret",
-		["DUEL"]="bir mini oyun düellosu",
-		["REQUEST"]="bir ^7PONG^0 oyunu talep edin",
-		["START"]="bir ^7\"SONIC RUN\"^0 oyunu başlat",
-		["ACCEPT"]="^7PONG^0 meydan okumasını kabul et!",
-		["WAIT"]="Rakibin kabul etmesi bekleniyor...",
-		["SPECTATING"]="Bir düello seyrediliyor...",
-		["BORED"]="Sıklındın mı?",
-		["GOAL"]="Gol!"
-	},
     ["HUD_YOU"]="SEN",
 	["HUD_WINNERS"]="Kazananlar:",
 	["HUD_WIN"]={

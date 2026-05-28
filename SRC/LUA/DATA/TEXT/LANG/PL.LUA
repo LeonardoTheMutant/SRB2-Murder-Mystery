@@ -106,27 +106,8 @@ MM.AddLang("PL", {
 	["HUD_DEAD"]="Jesteś ^Fmartwy(a)\nNie mozesz się odnawiać lub gadać do żywych",
 	["HUD_MIDJOIN"]="Pan(i) dolaczył(a) się ^4w środku rundy^0, prosze poczekać na nową rundę żeby zagrać.\nPodczas oczekiwania prosimy o zapoznanie się z regulami gry w poleceniu konsoli ^7MMHELP^0",
 	["HUD_ALONE"]="^42 graczy^0 jest wymaganych do gry,\nprosze poczekać na ^4jeszcze jednego^0 gracza dla startu",
-	["HUD_SPECTATOR"] = {
-		["INFO"] = "Jesteś teraz obserwatorem. Kliknij \"Enter Game\" by dołączyć do gry w następnej rundzie.",
-		["SWITCHING_TO"]= "Staniesz obserwatorem w następnej rundzie...",
-		["SWITCHING_FROM"]= "Dołaczysz się do gry w następnej rundzie..."
-	},
 	["HUD_SNEAKING"]="Skradzamy się...",
 	["HUD_SHOWDOWN"]="Pojedynek!",
-	["HUD_MINIGAME"]={
-		["PRESS"] = "Naciśnij^2 CUSTOM3^0, aby", --must contain MM escape color codes
-		["LEAVE"]="opuścić grę",
-		["CANCEL"]="anulować",
-		["SPECTATE"]="oglądać",
-		["DUEL"]="za pojedynkiem w minigrzę",
-		["REQUEST"]="zagrać w ^7PONG^0 z przeciwnikiem", --must contain MM escape color codes
-		["START"]="zagrać w ^7SONIC RUN", --must contain MM escape color codes
-		["ACCEPT"]="zaakceptować zaproszenie w ^7PONG^0!", --must contain MM escape color codes
-		["WAIT"]="Czekamy na odpowiedź przeciwnika...",
-		["SPECTATING"]="Oglądamy za pojedynkiem...",
-		["BORED"]="Nudzisz się?",
-		["GOAL"]="Gol!"
-	},
 	["HUD_YOU"]="TY",
 	["HUD_WINNERS"]="Wygrani:",
 	["HUD_WIN"]={

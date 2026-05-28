@@ -5,7 +5,7 @@ end
 
 rawset(_G, "MM", {
 	version = "1.3", --string, VERSION NUMBER, treat this as constant!
-	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
+	debug = false, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
 	RoleColor = { --Text Color codes for Console/Chat text, treat this as constant!
 		[0] = "\x8F", --Dead
 		"\x85", --Murderer
@@ -39,7 +39,7 @@ rawset(_G, "MM", {
 			}
 		},
 		game = { --Main Game HUD
-			routine = function(v, p, c) end, --actively running drawing function
+			routine = function() end, --currently running drawing function
 			pos = {
 				ringWepOnly_x = 144, --Murderer's weapon icon
 				ringWep = {x=84, y=156}, --Location of the first weapon icon
@@ -53,7 +53,7 @@ rawset(_G, "MM", {
 			}
 		},
 		scores = { --HUD for Scores Tab
-			routine = function(v) end, --actively running drawing function
+			routine = function() end, --currently running drawing function
 			pos = {
 				playerInfo = {x=20, y=28}, --Player list
 				teammateInfo = {x=20, y=136}, --Teammates list
@@ -62,7 +62,7 @@ rawset(_G, "MM", {
 			}
 		},
 		intermission = { --Intermission HUD
-			routine = function() end, --actively runnning drawing function
+			routine = function() end, --currently runnning drawing function
 			pos = {
 				players_y = 32,
 				name_x = 24,
@@ -81,20 +81,11 @@ rawset(_G, "MM", {
 	},
 	shwdwn = false, --currently playing Showdown Duel track (also used to determine if the Duel is happening)
 	susnse = false, --currently playing Suspense track
-	winner = 0, --for intermission, netsynced
-	winreason = 0, --for intermission, netsynced
+	winner = 0, --for intermission
+	winreason = 0, --for intermission
 	timelimit = 5, --for custom timelimit, netsynced
 	shremds = {}, --table containing all dropped Sheriff Emeralds mobj_t values, netsynced
 	shremdDist = 0, --distance to the closest Sheriff's Emerald, not synched
-	pong = { --some of the variables for Pong minigame, netsynced
-		ball = {x=80, y=40},
-		velocity = {x=0, y=0},
-		speed = 1,
-		pads = {32, 32},
-		hits = 0,
-		padcolor = {37, 153}, --player role colors
-		timeout = 70,
-	},
 	help = { --MMHELP console command related stuff
 		active = false,
 		page = 1,
@@ -121,10 +112,6 @@ addHook("NetVars", function(net)
 	MM.shremds = net(MM.shremds)
 	MM.cameras = net(MM.cameras)
 	MM.timelimit = net(MM.timelimit)
-	MM.twopgame = net(MM.twopgame)
-	MM.minigame = net(MM.minigame)
-	MM.pong = net(MM.pong)
-	MM.duelplrs = net(MM.duelplrs)
 end)
 
 
@@ -141,10 +128,7 @@ printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
 enumbin(
 	"FLAG_SNEAK",			--1
 	"FLAG_DEAD",			--2
-	"FLAG_MINIGAME",		--4
-	"FLAG_WAITSPECTATOR",	--8
-	"FLAG_SPECTATOR",		--16
-	"FLAG_NEWCOMER"			--32
+	"FLAG_NEWCOMER"			--4
 )
 
 --Role constants
@@ -292,7 +276,7 @@ G_AddGametype({
 	name = "LTM_MM",
 	identifier = "LTMMURDERMYSTERY",
 	typeoflevel = freeslot("TOL_LTM_MM")|TOL_MATCH|TOL_TAG,
-	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT|GTR_SPECTATORS,
+	rules = GTR_DEATHMATCHSTARTS|GTR_RINGSLINGER|GTR_FIRSTPERSON|GTR_TIMELIMIT,
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,
@@ -303,9 +287,6 @@ G_AddGametype({
 dofile("LIBRARIES/UNICODE.LUA")
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) then dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
-dofile("LIBRARIES/DOMINICA.LUA")
-dofile("LIBRARIES/PAPERMODEL.LUA")
-dofile("LIBRARIES/VICTORIA.LUA")
 
 --Load Data
 print("\n\x87Murder Mystery\x80: Loading data...")
@@ -344,12 +325,10 @@ dofile("FOOTSTEPS.LUA")
 dofile("ABILITIES.LUA")
 dofile("TIMETRAVEL.LUA")
 dofile("CAMERA.LUA")
-if (MM.debug) then dofile("DEBUG.LUA") end
-
---Minigames module
-print("\n\x87Murder Mystery\x80: Loading minigames module...")
-if (not isdedicatedserver) then dofile("MINIGAMES/HUD_MINIGAMES.LUA") end
-dofile("MINIGAMES/MINIGAMES.LUA")
+if (MM.debug) then
+	dofile("DEBUG.LUA")
+	HIDEO.debug = true
+end
 
 --Map scripts
 print("\n\x87Murder Mystery\x80: Loading map scripts...")

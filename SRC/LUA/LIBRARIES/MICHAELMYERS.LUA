@@ -1,7 +1,7 @@
 -- MICHAELMYERS.LUA (Formely FUNCTIONS.LUA)
 -- Code by LeonardoTheMutant, Jisk and Tedvin11
 --
--- Function definitions for the core MM functionality, PONG minigame and some global functions
+-- Function definitions for the core MM functionality and some global functions
 -- Named after Michael Myers - one of the fictional serial murderers from the horror films (nah it's just because his initials are "MM")
 
 -- DEPENDENCIES: Caroline
@@ -53,27 +53,13 @@ MM.DebugPrint = function(str, ...)
 	if (MM.debug) then printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end
 
---Count the real amount of players online
-MM.PlayerCountReal = function()
-	local plrc = 0
-	for p in players.iterate do if (not p.quittime) then plrc = plrc + 1 end end
-	return plrc
-end
-
---Count the amount of spectators
-MM.PlayerCountSpectators = function()
-	local plrc = 0
-	for p in players.iterate do if ((not p.quittime) and (p.mm) and (p.mm.flags & FLAG_SPECTATOR)) then plrc = plrc + 1 end end
-	return plrc
-end
-
 --Count the playing players
 MM.PlayerCount = function(role)
 	local plrc = 0
 	if (role) then
-		for p in players.iterate do if ((p.mm.role == role) and not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR))) then plrc = plrc + 1 end end
+		for p in players.iterate do if ((p.mm.role == role) and not (p.quittime)) then plrc = plrc + 1 end end
 	else
-		for p in players.iterate do if not ((p.quittime) or (p.mm.flags & FLAG_SPECTATOR)) then plrc = plrc + 1 end end
+		for p in players.iterate do if not (p.quittime) then plrc = plrc + 1 end end
 	end
 	return plrc
 end
@@ -82,7 +68,7 @@ end
 MM.PlayersAlive = function()
 	local plrc = 0
 	for p in players.iterate do
-		if not ((p.mm.flags & FLAG_SPECTATOR) and (p.mm.role == ROLE_DEAD) and (p.quittime)) then plrc = plrc + 1 end
+		if not (p.spectator or p.quittime) then plrc = plrc + 1 end
 	end
 	return plrc
 end
@@ -107,23 +93,8 @@ MM.InitPlayer = function(p)
 		timer = 0,
 		id = 1
 	}
-
-	if (p.mm.flags and (p.mm.flags & FLAG_WAITSPECTATOR)) then
-		switch(p.spectator, {
-			[true] = function()
-				p.mm.flags = p.mm.flags & ~FLAG_SPECTATOR
-				p.spectator = false
-			end,
-			[false] = function()
-				p.mm.flags = p.mm.flags | FLAG_SPECTATOR
-				p.spectator = true
-				p.pflags = p.pflags | PF_GODMODE | PF_NOCLIP
-				p.mm.role = ROLE_DEAD
-				p.mm.prevrole = ROLE_DEAD
-			end,
-		})
-		p.mm.flags = p.mm.flags & ~FLAG_WAITSPECTATOR
-	end
+	p.mm.weaponoverheat_timer = 0
+	p.mm.weaponoverheat_delay = 0
 end
 
 --Calculate the role multiplier (how many players with same role should exist)
@@ -136,7 +107,7 @@ MM.GetRoleMultiplier = function()
 	elseif (plrcount >= 29) then return 5 end
 end
 
---Retrieve the text line from TEXT.LUA, if exists
+--Retrieve the text lines, if they exist
 MM.GetText = function(line, param)
 	if (line) then
 		if (MM.text[MM.lang][line]) then
@@ -145,18 +116,18 @@ MM.GetText = function(line, param)
 					return MM.text[MM.lang][line][param]
 				else
 					if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line, param)) end
-					return "MM.text["..MM.lang.."]["..line.."]["..param.."]"
+					return "MM.text[\""..MM.lang.."\"][\""..line.."\"][\""..param.."\"]"
 				end
 			end
 			if (type(MM.text[MM.lang][line]) == "string") then
 				return MM.text[MM.lang][line]
 			else
 				if (MM.debug) then error(string.format("\x82Tried to access the table at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 without parameter!\x80", MM.lang, line)) end
-				return "MM.text["..MM.lang.."]["..line.."][nil]"
+				return "MM.text[\""..MM.lang.."\"][\""..line.."\"][nil]"
 			end
 		else
 			if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line)) end
-			return "MM.text["..MM.lang.."]["..line.."]"
+			return "MM.text[\""..MM.lang.."\"][\""..line.."\"]"
 		end
 	else
 		return ""
@@ -173,10 +144,8 @@ MM.AssignRoles = function()
 
 	local plrs = {} --table of player nodes that exist and are valid
 	for p in players.iterate do --prepare players and get their player nodes
-		if not (p.mm.flags & FLAG_SPECTATOR) then
-			p.mm.role = ROLE_DEAD
-			table.insert(plrs, #p)
-		end
+		p.mm.role = ROLE_DEAD
+		table.insert(plrs, #p)
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF do --assign Murderers and Sheriffs
         for i = 1, MM.GetRoleMultiplier() do
@@ -185,39 +154,37 @@ MM.AssignRoles = function()
             table.remove(plrs, randPlr) --and finally forget about it
         end
     end
+
+    --Assign Jester role
+    if (MM.PlayerCount() > 3) and (not P_RandomKey(4)) then
+		local randPlr = P_RandomKey(#plrs) + 1
+		players[plrs[randPlr]].mm.role = ROLE_JESTER
+		table.remove(plrs, randPlr)
+	end
 	--tell each player its role personally
 	for p in players.iterate do
-		if not (p.mm.flags & FLAG_SPECTATOR) then
-			if (p.mm.role == ROLE_DEAD) then --Assign the rest of the roles
-				if (not MM.PlayerCount(ROLE_JESTER) and MM.PlayerCount() > 3 and not P_RandomKey(4)) then
-					--Assign Jester role
-					p.mm.role = ROLE_JESTER
-				else p.mm.role = ROLE_CIVILIAN end --Assign Civilian Roles
-			end
+		--Assign the Civilian role to the rest of the players
+		if (p.mm.role == ROLE_DEAD) then p.mm.role = ROLE_CIVILIAN end
 
-			p.spectator = false --Disable spectator left from the previous roundif not (p.mm.flags & FLAG_SPECTATOR) then p.spectator = false end
+		p.spectator = false --Disable spectator left from the previous round
 
-			--Annouce about their roles to players
-			switch(p.mm.role, {
-				[ROLE_MURDERER] = function()
-					MM.Chatprint(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
-				end,
-				[ROLE_SHERIFF] = function()
-					MM.Chatprint(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
-				end,
-				[ROLE_CIVILIAN] = function()
-					MM.Chatprint(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
-				end,
-				[ROLE_HERO] = function()
-					MM.Chatprint(p, MM.GetText("CHAT_ROLE_HERO", "ROLEGET_PM"))
-				end,
-				[ROLE_JESTER] = function()
-					MM.Chatprint(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
-				end,
-			})
+		--Annouce about their roles to players
+		switch(p.mm.role, {
+			[ROLE_MURDERER] = function()
+				MM.Chatprint(p, MM.GetText("CHAT_ROLE_MURDERER", "ROLEGET_PM"))
+			end,
+			[ROLE_SHERIFF] = function()
+				MM.Chatprint(p, MM.GetText("CHAT_ROLE_SHERIFF", "ROLEGET_PM"))
+			end,
+			[ROLE_CIVILIAN] = function()
+				MM.Chatprint(p, MM.GetText("CHAT_ROLE_CIVILIAN", "ROLEGET_PM"))
+			end,
+			[ROLE_JESTER] = function()
+				MM.Chatprint(p, MM.GetText("CHAT_ROLE_JESTER", "ROLEGET_PM"))
+			end,
+		})
 
-			if (p == consoleplayer) then MM.hud.game.roleflicker = 140 end --timer for role name flickering on HUD, 4 seconds
-		end
+		MM.hud.game.roleflicker = 140 --timer for role name flickering on HUD, 4 seconds
 
 		p.mm.prevrole = p.mm.role
 	end
@@ -380,7 +347,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 	if ((not p) or (not p.player)) then error("MM.KillPlayerByPlayer() argument #1: player's mobj_t expected") end
 	if ((not k) or (not k.player)) then error("MM.KillPlayerByPlayer() argument #2: killer player's mobj_t expected") end
 	local plr = p.player
-	plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP --force player to remain dead if they die as spectator (SRB2 bug fix)
+	plr.pflags = plr.pflags|PF_GODMODE
 	plr.mm.flags = plr.mm.flags | FLAG_DEAD
 	plr.spectator = true
 	plr.powers[pw_shield] = 0
@@ -417,8 +384,8 @@ end
 MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "Spawn dead body?" (boolean), "Was this player killed for punishment?" (boolean)
 	if ((not p) or (not p.player)) then error("MM.KillPlayer() argument #1: player's mobj_t expected") end
 	local plr = p.player
-	if (MM.PlayerCount() ~= 1) then --force player to remain dead if they die as spectator (SRB2 bug fix)
-		plr.pflags = plr.pflags|PF_GODMODE|PF_NOCLIP
+	if (MM.PlayerCount() ~= 1) then
+		plr.pflags = plr.pflags|PF_GODMODE
 		plr.mm.flags = plr.mm.flags | FLAG_DEAD
 		plr.spectator = true
 	end
@@ -568,14 +535,6 @@ MM.PlayerQuit = function(p)
 		end
 	})
 
-	--If player was one of the PONG rivals, disable PONG minigame
-	if (PONG_GetMySlot(p)) then
-		MM.duelplrs[1].mm.flags = MM.duelplrs[1].mm.flags & ~FLAG_MINIGAME
-		MM.duelplrs[2].mm.flags = MM.duelplrs[2].mm.flags & ~FLAG_MINIGAME
-		MM.minigame = false
-		MM.duelplrs = nil
-	end
-
 	MM.StartSuspenseMusic()
 	MM.StartShowdownMusic()
 end
@@ -714,66 +673,6 @@ MM.GetWepCfgFlags = function(role)
 	})
 	return returnValue
 end
-
-
-
---
--- MINIGAME.LUA
---
-
---Find two players for the PONG minigame
-rawset(_G, "PONG_Get2Players", function()
-	if (MM.PlayerCount() ~= 2) then return end
-	local plrs = {}
-	for p in players.iterate do
-		plrs[#plrs + 1] = p
-		if (#plrs == 2) then break end
-	end
-	return plrs
-end)
-
---Retrieve a PONG player node number
-rawset(_G, "PONG_GetMySlot", function(p)
-	assert(p, "PONG_GetMySlot(): player_t not given!")
-
-	local eMeM = MM
-	if (not eMeM.duelplrs) then return 0 end
-
-	if (eMeM.duelplrs[1] == p) then return 1 end
-	if (eMeM.duelplrs[2] == p) then return 2 end
-
-	return 0
-end)
-
---Set PONG ball's valocity
---Possible values for "side":
---	<0	- Make ball go left
---	0 	- Select a random ball direction
---	>0	- Make ball go right
-rawset(_G, "PONG_SetVelocity", function(side)
-	side = side or 0
-
-	local x = 0
-	if (side < 0) then x = -1
-	elseif (side > 0) then x = 1
-	else while (not x) do x = P_RandomRange(-1, 1) end end
-
-	local y = 0
-	while (not y) do y = P_RandomRange(-2, 2) end
-
-	MM.pong.velocity.x = x
-	MM.pong.velocity.y = y
-end)
-
-rawset(_G, "PONG_Reset", function()
-	MM.pong.ball.x = 79
-	MM.pong.ball.y = 39
-
-	PONG_SetVelocity()
-
-	MM.pong.hits = 0
-	MM.pong.speed = 1
-end)
 
 
 

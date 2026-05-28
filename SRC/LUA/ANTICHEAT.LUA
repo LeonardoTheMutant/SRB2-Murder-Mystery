@@ -1,16 +1,19 @@
 -- ANTICHEAT.LUA
--- Code by LeonardoTheMutant
+-- Code by LeonardoTheMutant, Re & Dr. Stuffd Bagel
 --
 -- A collection of anti-cheat algorithms
 
 --"Kick Yourself"
 COM_AddCommand("kys", function(p, msg)
-	CONS_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself"))
+	COM_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself"))
 end)
+
+
 
 --
 -- AIMBOT
 --
+
 addHook("PlayerSpawn", function(p)
 	p.startangle = p.realmo.angle
 end)
@@ -49,26 +52,64 @@ end)
 --
 -- CHEAT CVAR
 --
+
 local cv_fullbrigth = CV_FindVar("fullbrite")
+local cv_camclipping = CV_FindVar("cam_clipping")
+local cv_forceautomap = CV_FindVar("forceautomap")
 addHook("ThinkFrame", function()
-	if (gametype == GT_LTMMURDERMYSTERY) and (cv_fullbrigth) and (cv_fullbrigth.value) and (leveltime > TICRATE) then
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) then return end
+	if (cv_fullbrigth) and (cv_fullbrigth.value) then
 		COM_BufInsertText(consoleplayer, "QUIT")
 		COM_BufInsertText(consoleplayer, "KYS 'Usage of cheat CVAR(s)'")
+	end
+
+	if (cv_camclipping) and (cv_camclipping.value == 0) then
+		MM.hud.game.flash.translucency = 10
+		MM.hud.game.flash.duration = 1
+		MM.hud.game.flash.color = 31
+		if not (leveltime % TICRATE) then
+			chatprintf(consoleplayer, "Please set \"cam_clipping\" to value other than 0")
+		end
+	end
+
+	if (cv_forceautomap) and (cv_forceautomap.value) then
+		MM.hud.game.flash.translucency = 10
+		MM.hud.game.flash.duration = 1
+		MM.hud.game.flash.color = 31
+		if not (leveltime % TICRATE) then
+			chatprintf(consoleplayer, "Please disable \"forceautomap\" in your console")
+		end
 	end
 end)
 
 
 
 --
--- ILLEGAL MOVEMENT
+-- ILLEGAL STATES
 --
+
+addHook("PlayerSpawn", function(p)
+	p.oldname = p.name
+end)
+
 local cv_abilities = CV_FindVar("mm_abilities")
+local cv_restrictskinchange = CV_FindVar("restrictskinchange")
 addHook("PlayerThink", function(p)
-	if (gametype == GT_LTMMURDERMYSTERY) and (cv_abilities) and not (cv_abilities.value) and (p.mo)
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) then return end
+	if (cv_abilities) and not (cv_abilities.value) and (p.mo)
 	and ((p.mo.state == S_PLAY_SPINDASH) or (p.mo.state == S_PLAY_DASH) or (p.mo.state == S_PLAY_FLY)
-	or (p.mo.state == S_PLAY_GLIDE) or (p.mo.state == S_PLAY_FLOAT) or (p.mo.state == S_PLAY_FLOAT_RUN)) then
+	or (p.mo.state == S_PLAY_GLIDE) or (p.mo.state == S_PLAY_FLOAT) or (p.mo.state == S_PLAY_FLOAT_RUN)
+	or (p.mo.state == S_PLAY_TWINSPIN) or (p.mo.state == S_PLAY_MELEE_FINISH)) then
 		CONS_Printf(server, string.format("\x85!!! %s has attempted to perform an illegal move !!!", p.name))
 		MM.KillPlayer(p.mo, true, true)
 		MM.TryEndgame()
+	end
+
+	if (p.name ~= p.oldname) and (leveltime > TICRATE)
+		if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
+			MM.PunishPlayer(p, "Do not rename when dead!", true)
+		else
+			p.oldname = p.name
+		end
 	end
 end)

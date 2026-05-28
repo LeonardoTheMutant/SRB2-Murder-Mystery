@@ -126,8 +126,7 @@ COM_AddCommand("mmsetup", function(p)
 
 	if (isdedicatedserver) then CONS_Printf(p, info_mmhelp_adminCVAR); return end
 
-	if ((MM.twopgame and MM.minigame and (p.mm.flags & FLAG_MINIGAME)) or (not MM.twopgame and (p.mm.flags & FLAG_MINIGAME))
-	or (p.spectator and (p.mm.flags & FLAG_MINIGAME)) or MM.hud.help.active) then
+	if (MM.hud.help.active) or (p.camera and p.camera.active) then
 		CONS_Printf(p, "Unable to open MMSETUP UI right now"); return
 	end
 
@@ -305,7 +304,7 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	if (isdedicatedserver) then return end
 
-	if ((p.mm.flags & FLAG_MINIGAME) or mmsetupcursor) then
+	if (mmsetupcursor) or (p.camera and p.camera.active) then
 		CONS_Printf(p, "Unable to open MMHELP UI right now"); return
 	end
 

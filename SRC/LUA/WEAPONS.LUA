@@ -40,7 +40,6 @@ MM.weapons[WEP_AUTO]={ --Automatic Ring
 	MF2_AUTOMATIC,
 	2,
 	400,
-	{0, 0} --Weapon overheat (firing timer, delay value)
 }
 MM.weapons[WEP_BOUNCE]={ --Bounce Ring
 	"BNCEIND",
@@ -167,13 +166,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 	if not (p.cmd.buttons & (BT_ATTACK|BT_FIRENORMAL)) then
 		p.pflags = p.pflags & ~PF_ATTACKDOWN
 		--"Let automatic ring cool down"
-		eMeM.weapons[WEP_AUTO][6][1] = eMeM.weapons[WEP_AUTO][6][1] - 1
-		if (eMeM.weapons[WEP_AUTO][6][2] and leveltime % 16 == 0) then eMeM.weapons[WEP_AUTO][6][2] = eMeM.weapons[WEP_AUTO][6][2] - 1 end
+		pmm.weaponoverheat_timer = pmm.weaponoverheat_timer - 1
+		if (pmm.weaponoverheat_delay and leveltime % 16 == 0) then pmm.weaponoverheat_delay = pmm.weaponoverheat_delay - 1 end
 		return
 	end
-	if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay)
-	or (not prole) or ((eMeM.minigame) and (p.mm.flags & FLAG_MINIGAME))
-	or (p.playerstate == PST_DEAD) or (p.spectator) or (not prole) or (AimbotCheck(p)) then
+	if (p.pflags & PF_ATTACKDOWN) or (p.climbing) or (p.mm.weapondelay) or (not prole) or (p.playerstate == PST_DEAD)
+	or (p.spectator) or (not prole) or (AimbotCheck(p)) then
 		return
 	end
 
@@ -222,10 +220,10 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		p.pflags = p.pflags & ~PF_ATTACKDOWN
 
 		--"Heat up the weapon" (make additional firing delay)
-		eMeM.weapons[WEP_AUTO][6][1] = eMeM.weapons[WEP_AUTO][6][1] + 1
-		if (eMeM.weapons[WEP_AUTO][6][1] % 4 == 0) then eMeM.weapons[WEP_AUTO][6][2] = eMeM.weapons[WEP_AUTO][6][2] + 1 end
+		pmm.weaponoverheat_timer = pmm.weaponoverheat_timer + 1
+		if (pmm.weaponoverheat_timer % 4 == 0) then pmm.weaponoverheat_delay = pmm.weaponoverheat_delay + 1 end
 
-		P_SetWeaponDelay(p, eMeM.weapons[WEP_AUTO][4] + eMeM.weapons[WEP_AUTO][6][2])
+		P_SetWeaponDelay(p, eMeM.weapons[WEP_AUTO][4] + pmm.weaponoverheat_delay)
 		mo = P_SpawnPlayerMissile(pmo, eMeM.weapons[WEP_AUTO][2], eMeM.weapons[WEP_AUTO][3])
 	elseif (p.currentweapon == WEP_BOUNCE) and (p.powers[pw_bouncering]) then
 		-- BOUNCE --

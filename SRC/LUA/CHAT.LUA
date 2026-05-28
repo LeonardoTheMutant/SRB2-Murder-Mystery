@@ -104,7 +104,7 @@ end, COM_ADMIN)
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (not s.mm) then return end
 
-	if (s.spectator) then
+	if (s.spectator) and (gamestate == GS_LEVEL) then
 		if (type == 0) then --If dead player sends a message, make that messsage appear only to the dead players
 			for p in players.iterate do if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", s.name, m)) end end
 			if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", s.name, m)) end

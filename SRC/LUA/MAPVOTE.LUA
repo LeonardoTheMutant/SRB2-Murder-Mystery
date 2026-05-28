@@ -333,7 +333,7 @@ addHook("IntermissionThinker", function()
 						--Player has voted, listen only for "Cancel choice" button
 						if (p.cmd.buttons & BT_SPIN) then
 							pmm.kills = 0
-							S_StartSound(nil, SFX_CANCEL, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_CANCEL, p) end
 						end
 
 						if (up and not p.prevup) or (down and not p.prevdown) or (left and not p.prevleft) or (right and not p.prevright) then S_StartSound(nil, SFX_FAIL, p) end
@@ -341,19 +341,19 @@ addHook("IntermissionThinker", function()
 						--Player has not voted yet, let it select the desired map
 						if (p.cmd.buttons & BT_JUMP) then
 							pmm.kills = 1
-							S_StartSound(nil, SFX_CONFIRM, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_CONFIRM, p) end
 						end
 
 						if (up) and not (p.prevup) then
 							if (p.currentweapon < 4) then p.currentweapon = p.currentweapon + 3
 							else p.currentweapon = p.currentweapon - 3 end
-							S_StartSound(nil, SFX_SELECT, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_SELECT, p) end
 						end
 
 						if (down) and not (p.prevdown) then
 							if (p.currentweapon > 3) then p.currentweapon = p.currentweapon - 3
 							else p.currentweapon = p.currentweapon + 3 end
-							S_StartSound(nil, SFX_SELECT, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_SELECT, p) end
 						end
 
 						if (left) and not (p.prevleft) then
@@ -368,7 +368,7 @@ addHook("IntermissionThinker", function()
 								p.currentweapon = p.currentweapon - 1
 								end
 							})
-							S_StartSound(nil, SFX_SELECT, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_SELECT, p) end
 						end
 
 						if (right) and not (p.prevright) then
@@ -383,7 +383,7 @@ addHook("IntermissionThinker", function()
 									p.currentweapon = p.currentweapon + 1
 								end
 							})
-							S_StartSound(nil, SFX_SELECT, p)
+							if (p == consoleplayer) then S_StartSound(nil, SFX_SELECT, p) end
 						end
 					end
 
@@ -431,7 +431,7 @@ addHook("IntermissionThinker", function()
 			end
 
 			if (MM.mapvote.timers[MV_RESULT] == 1) then
-				COM_BufInsertText(server, string.format("map %d", winnerMapID))
+				COM_BufInsertText(server, string.format("MAP %d", winnerMapID))
 			end
 		end
 	})

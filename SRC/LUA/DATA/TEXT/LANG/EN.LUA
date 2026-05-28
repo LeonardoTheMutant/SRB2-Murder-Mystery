@@ -243,34 +243,12 @@ local language_data = { --Language must be a table variable, you can name the va
 		["TERMINAL"] = "Press ^7CUSTOM1^0 to view the cameras",
 	},
 
-	-- Spectator related text
-	["HUD_SPECTATOR"] = {
-		["INFO"] = "You are currently spectating. Enter the game to join in the next round.", --Centered text showing that you are a spectator
-		["SWITCHING_TO"]= "Going into spectator mode next round...", --Information that you are going to switch TO spectator
-		["SWITCHING_FROM"]= "Entering the game next round..." --Information that you are switing FROM spectator
-	},
-
 	-- Sneaking
 	["HUD_SNEAKING"] = "Sneaking...",
 
 	-- "Showdown duel!"
 	["HUD_SHOWDOWN"] = "Showdown Duel!",
 
-	--minigame stuff
-	["HUD_MINIGAME"] = {
-		["PRESS"] = "Press ^2CUSTOM3^0 to",
-		["LEAVE"] = "leave",
-		["CANCEL"] = "cancel",
-		["SPECTATE"] = "spectate",
-		["DUEL"] = "a minigame duel",
-		["REQUEST"] = "request a ^7PONG^0 minigame!",
-		["START"] = "start a ^7\"SONIC RUN\"^0 minigame!",
-		["ACCEPT"] = "accept the ^7PONG^0 challenge!",
-		["WAIT"] = "Waiting for the rival to accept...",
-		["SPECTATING"] = "Spectating a duel...",
-		["BORED"] = "Bored?",
-		["GOAL"]="Goal!"
-	},
 	["HUD_YOU"] = "YOU",
 
 	-- Winner stuff
