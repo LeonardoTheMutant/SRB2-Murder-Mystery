@@ -1,11 +1,15 @@
 -- ANTICHEAT.LUA
--- Code by LeonardoTheMutant, Re & Dr. Stuffd Bagel
+-- Code by LeonardoTheMutant, Re & nikoberry
 --
 -- A collection of anti-cheat algorithms
 
 --"Kick Yourself"
-COM_AddCommand("kys", function(p, msg)
-	COM_BufInsertText(server, string.format("kick %d %s", #p, msg or "Kicked itself"))
+COM_AddCommand("kys", function(p, id)
+	local msg = {
+		"Automap usage",
+		"Usage of cheat CVAR(s)"
+	}
+	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[tonumber(id)] or "Kicked itself"))
 end)
 
 
@@ -43,7 +47,7 @@ local cv_automap2 = CV_FindVar("tsourdt3rd_debug_automapanywhere")
 addHook("KeyDown", function(keyevent)
 	if (gametype == GT_LTMMURDERMYSTERY) and (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY) then
 		COM_BufInsertText(consoleplayer, "QUIT")
-		COM_BufInsertText(consoleplayer, "KYS 'Automap usage'")
+		COM_BufInsertText(consoleplayer, "KYS '1'")
 	end
 end)
 
@@ -53,32 +57,36 @@ end)
 -- CHEAT CVAR
 --
 
-local cv_fullbrigth = CV_FindVar("fullbrite")
+local function Blind(str)
+	MM.hud.game.flash.translucency = 10
+	MM.hud.game.flash.duration = 1
+	MM.hud.game.flash.color = 31
+	if not (leveltime % TICRATE) then
+		chatprintf(consoleplayer, str)
+	end
+end
+
+local cv_fullbright = CV_FindVar("fullbrite")
+local cv_secbright = CV_FindVar("r_secbright")
 local cv_camclipping = CV_FindVar("cam_clipping")
 local cv_forceautomap = CV_FindVar("forceautomap")
 addHook("ThinkFrame", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) then return end
-	if (cv_fullbrigth) and (cv_fullbrigth.value) then
+	if (cv_fullbright) and (cv_fullbright.value) then
 		COM_BufInsertText(consoleplayer, "QUIT")
-		COM_BufInsertText(consoleplayer, "KYS 'Usage of cheat CVAR(s)'")
+		COM_BufInsertText(consoleplayer, "KYS '2'")
 	end
 
 	if (cv_camclipping) and (cv_camclipping.value == 0) then
-		MM.hud.game.flash.translucency = 10
-		MM.hud.game.flash.duration = 1
-		MM.hud.game.flash.color = 31
-		if not (leveltime % TICRATE) then
-			chatprintf(consoleplayer, "Please set \"cam_clipping\" to value other than 0")
-		end
+		Blind("Please set \"cam_clipping\" to a value other than 0")
 	end
 
 	if (cv_forceautomap) and (cv_forceautomap.value) then
-		MM.hud.game.flash.translucency = 10
-		MM.hud.game.flash.duration = 1
-		MM.hud.game.flash.color = 31
-		if not (leveltime % TICRATE) then
-			chatprintf(consoleplayer, "Please disable \"forceautomap\" in your console")
-		end
+		Blind("Please disable \"forceautomap\" in your console")
+	end
+
+	if (cv_secbright) and (cv_secbright.value) then
+		Blind("Please set \"r_secbright\" to 0")
 	end
 end)
 
