@@ -3,13 +3,20 @@
 --
 -- A collection of anti-cheat algorithms
 
+enum(
+	KYS_KIS,
+	KYS_AUTOMAP,
+	KYS_CVAR,
+)
+
 --"Kick Yourself"
 COM_AddCommand("kys", function(p, id)
 	local msg = {
+		"Kicked itself",
 		"Automap usage",
 		"Usage of cheat CVAR(s)"
 	}
-	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[tonumber(id)] or "Kicked itself"))
+	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id or KYS_KIS]))
 end)
 
 
@@ -44,10 +51,13 @@ end)
 
 local cv_automap1 = CV_FindVar("automapoutsidedevmode")
 local cv_automap2 = CV_FindVar("tsourdt3rd_debug_automapanywhere")
+local cv_automap3 = CV_FindVar("forceautomap")
 addHook("KeyDown", function(keyevent)
-	if (gametype == GT_LTMMURDERMYSTERY) and (keyevent.num == 9) and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value)) and (gametype == GT_LTMMURDERMYSTERY) then
+	if (gametype == GT_LTMMURDERMYSTERY) and (keyevent.num == 9)
+	and ((cv_automap1 and cv_automap1.value) or (cv_automap2 and cv_automap2.value) or (cv_automap3 and cv_automap3.value))
+	then
 		COM_BufInsertText(consoleplayer, "QUIT")
-		COM_BufInsertText(consoleplayer, "KYS '1'")
+		COM_BufInsertText(consoleplayer, string.format("KYS %d", KYS_AUTOMAP))
 	end
 end)
 
@@ -69,12 +79,17 @@ end
 local cv_fullbright = CV_FindVar("fullbrite")
 local cv_secbright = CV_FindVar("r_secbright")
 local cv_camclipping = CV_FindVar("cam_clipping")
-local cv_forceautomap = CV_FindVar("forceautomap")
+local cv_renderhitbox = CV_FindVar("renderhitbox")
 addHook("ThinkFrame", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) then return end
 	if (cv_fullbright) and (cv_fullbright.value) then
 		COM_BufInsertText(consoleplayer, "QUIT")
-		COM_BufInsertText(consoleplayer, "KYS '2'")
+		COM_BufInsertText(consoleplayer, string.format("KYS %d", KYS_CVAR))
+	end
+
+	if (cv_renderhitbox) and (cv_renderhitbox.value) then
+		COM_BufInsertText(consoleplayer, "QUIT")
+		COM_BufInsertText(consoleplayer, string.format("KYS %d", KYS_CVAR))
 	end
 
 	if (cv_camclipping) and (cv_camclipping.value == 0) then
