@@ -5,7 +5,7 @@ end
 
 rawset(_G, "MM", {
 	version = "1.3", --string, VERSION NUMBER, treat this as constant!
-	debug = false, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
+	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
 	RoleColor = { --Text Color codes for Console/Chat text, treat this as constant!
 		[0] = "\x8F", --Dead
 		"\x85", --Murderer

@@ -229,7 +229,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	end
 	--Calculate the number of suspects/victims
 	switch(prole, {
-		[ROLE_DEAD] = function() var1 = PlayersAlive() end,
+		[ROLE_DEAD] = function() var1 = PlayersAlive() - bool2int(MM.PlayerCount() == 1) end,
 		[ROLE_MURDERER] = function() var1 = PlayersAlive() - PlayerCount(ROLE_MURDERER) end,
 		[ROLE_SHERIFF] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
 		[ROLE_HERO] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,

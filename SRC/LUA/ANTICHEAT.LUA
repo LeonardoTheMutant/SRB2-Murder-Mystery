@@ -6,7 +6,7 @@
 enum(
 	KYS_KIS,
 	KYS_AUTOMAP,
-	KYS_CVAR,
+	KYS_CVAR
 )
 
 --"Kick Yourself"

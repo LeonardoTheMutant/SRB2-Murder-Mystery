@@ -106,6 +106,11 @@ MM.AddLang("PL", {
 	["HUD_DEAD"]="Jesteś ^Fmartwy(a)\nNie mozesz się odnawiać lub gadać do żywych",
 	["HUD_MIDJOIN"]="Pan(i) dolaczył(a) się ^4w środku rundy^0, prosze poczekać na nową rundę żeby zagrać.\nPodczas oczekiwania prosimy o zapoznanie się z regulami gry w poleceniu konsoli ^7MMHELP^0",
 	["HUD_ALONE"]="^42 graczy^0 jest wymaganych do gry,\nprosze poczekać na ^4jeszcze jednego^0 gracza dla startu",
+	["HUD_CAMERA"] = {
+		["TERMINAL"] = "Wciśnij ^7CUSTOM1^0 by zobaczyć kamery",
+		["NOVIDEO"] = "BRAK SYGNALU",
+		["CONTROLS"] = "JUMP LUB SPIN BY WYJSC\nNEXT/PREV WEAPON DLA KAMER"
+	},
 	["HUD_SNEAKING"]="Skradzamy się...",
 	["HUD_SHOWDOWN"]="Pojedynek!",
 	["HUD_YOU"]="TY",
@@ -115,6 +120,18 @@ MM.AddLang("PL", {
 		["BAD"]="^5MÓRDERCY",
 		["GOOD"]="^3CYWILE",
 		["JESTER"]="^1BŁAZEN"
+	},
+	["HUD_SECONDS"] = "sekund",
+	["HUD_INTERMISSION"] = {
+		["VOTING_IN"] = "Głosowanie rozpocznie się za",
+		["VOTING"] = "Dokąd zmierzamy się teraz?",
+		["VOTING_ENDS_IN"] = "Głosowanie skończy się za",
+		["DECISION"] = "Decyzja",
+		["SPEEDINGOFF_TO"] = "Zmierzamy się do",
+		["WARPING_IN"] = "Warp za",
+		["SELECT"] = "Wybrać",
+		["CANCEL"] = "Anulować",
+		["AUTHORS"] = "Autorzy"
 	},
 	["HUD_PAST"]="PRZESZLOŚĆ",
 	["HUD_FUTURE"]="PRZYSZLOŚĆ",

@@ -187,9 +187,8 @@ local function terminal_renderer(v)
 		end
 
 		v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
-		if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, "No video signal", V_SNAPTOTOP|V_SNAPTOLEFT) end
-		v.drawString(0, 192, "JUMP or SPIN to exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
-		v.drawString(0, 184, "NEXT/PREV WEAPON to switch", V_SNAPTOBOTTOM|V_SNAPTOLEFT)
+		if (MM.cameras[p.mm.camera.id].status) then HIDEO.DrawStrUnicode(v, 0, 8, MM.GetText("HUD_CAMERA", "NOVIDEO"), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.scale) end
+		HIDEO.DrawStrUnicode(v, 0, 184, MM.GetText("HUD_CAMERA", "CONTROLS"), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.scale)
 	else
 		v.drawFill(0, 0, width, height, 152|V_NOSCALESTART)
 		HIDEO.DrawStrUnicode(v, 0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)

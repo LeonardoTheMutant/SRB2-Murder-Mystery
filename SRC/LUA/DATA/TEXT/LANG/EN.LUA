@@ -241,6 +241,8 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Camera stuff
 	["HUD_CAMERA"] = {
 		["TERMINAL"] = "Press ^7CUSTOM1^0 to view the cameras",
+		["NOVIDEO"] = "NO VIDEO SIGNAL",
+		["CONTROLS"] = "JUMP OR SPIN - EXIT\nNEXT/PREV WEAPON - CAMERAS"
 	},
 
 	-- Sneaking

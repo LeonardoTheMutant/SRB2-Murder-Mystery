@@ -111,6 +111,11 @@ MM.AddLang("DE", {
 	["HUD_DEAD"]="Du bist ^Ftot^0.\nDu kannst nicht wiederbelebt werden oder mit Personen sprechen die noch am Leben sind.",
 	["HUD_MIDJOIN"]="Du bist ^4mitten im Spiel^0 eingestiegen, bitte warte bis zum Ende dieser Runde. Während du wartest, lies bitte die Spielregeln im ^7MMHELP^0-Konsolenbefehl!",
 	["HUD_ALONE"]="^42 Spieler^0 sind für das Spiel erforderlich,\nBitte warten Sie, bis^4 ein weiterer Spieler^0 das Spiel startet.",
+	["HUD_CAMERA"] = {
+		["TERMINAL"] = "Drückst du ^7CUSTOM1^0, um die Kameras anzuzeigen",
+		["NOVIDEO"] = "KEIN SIGNAL",
+		["CONTROLS"] = "JUMP ODER SPIN - EXIT\nNEXT/PREV WEAPON - KAMERAS"
+	},
 	["HUD_SNEAKING"]="Schleichen...",
 	["HUD_SHOWDOWN"]="Showdown Duell!",
 	["HUD_YOU"]="DU",
@@ -120,6 +125,18 @@ MM.AddLang("DE", {
 		["BAD"]="^5MÖRDER",
 		["GOOD"]="^3ZIVILISTEN",
 		["JESTER"]="^1NARR"
+	},
+	["HUD_SECONDS"] = "Sekunden",
+	["HUD_INTERMISSION"] = {
+		["VOTING_IN"] = "Die Abstimmung beginnt in",
+		["VOTING"] = "Wohin geht es als Nächstes?",
+		["VOTING_ENDS_IN"] = "Die Abstimmung endet in",
+		["DECISION"] = "Entscheidung",
+		["SPEEDINGOFF_TO"] = "Mit Vollgas zum",
+		["WARPING_IN"] = "Warp in",
+		["SELECT"] = "Auswählen",
+		["CANCEL"] = "Abbrechen",
+		["AUTHORS"] = "Autoren"
 	},
 	["HUD_PAST"]="VERGANGEN",
 	["HUD_FUTURE"]="ZUKUNFT",
