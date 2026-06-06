@@ -176,7 +176,7 @@ Lua.Timelimit = 8
 Lua.Author = LeonardoTheMutant, MinusMario
 
 Level KI
-LevelName = Lemerk's House
+LevelName = Lemerks' House
 SelectHeading = LTM's Murder Mystery
 Nozone = true
 TypeOfLevel = LTM_MM
