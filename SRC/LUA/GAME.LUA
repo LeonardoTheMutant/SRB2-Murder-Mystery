@@ -169,7 +169,7 @@ addHook("PlayerThink", function(p)
 					else
 						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
 					end
-					if (p == consoleplayer) then
+					if (p == displayplayer) then
 						MM.hud.game.flash.color = 152 --Blue
 						MM.hud.game.flash.duration = 1
 						MM.hud.game.flash.translucency = min(p.mm.camping / (camping_maxtime / 10), 10)
@@ -254,7 +254,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 					MM.ChatprintGlobal("MSG_SHERIDIED_DROP", vp.name)
 					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
 				else
-					if (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO)) and (wepcfgCVARs[ROLE_CIVILIAN].value)
+					if (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO)) or ((MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and wepcfgCVARs[ROLE_CIVILIAN])
 						MM.ChatprintGlobal("MSG_SHERIDIED", vp.name)
 						if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accicent") end
 					else
@@ -348,7 +348,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 	end
 end, MT_PLAYER)
 
-addHook("MobjDamage", function(v, i, a, d) --Victim, inflictor, attacker, damage type
+addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (not a) or (not a.player) then return end
 
 	MM.DebugPrint("\x82Player->Player damage (MobjDamage)")

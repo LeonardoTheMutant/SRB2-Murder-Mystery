@@ -549,7 +549,7 @@ MM.StartFlashFX = function(p, duration, color)
 
 	color = color or 0
 
-	if (p == consoleplayer) then
+	if (p == displayplayer) then
 		MM.hud.game.flash.translucency = 10
 		MM.hud.game.flash.duration = duration
 		MM.hud.game.flash.color = color

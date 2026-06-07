@@ -611,15 +611,15 @@ MMhud.routines["scores_main"] = function(v)
 	--Roles counter
 	if (not cv_cryptic.value) then
 		--Murderer
-		DrawStrUnicode(v, 16, 176, RoleColorHUD[ROLE_MURDERER]..GetText("HUD_ROLESALIVE", ROLE_MURDERER)..": "..PlayerCount(ROLE_MURDERER), localTransFlag, font.scale)
+		DrawStrUnicode(v, 16, 176, string.format("%s%s: %d", RoleColorHUD[ROLE_MURDERER], GetText("HUD_ROLESALIVE", ROLE_MURDERER), PlayerCount(ROLE_MURDERER)), localTransFlag, font.scale)
 		--Sheriff (and Hero)
 		if (PlayerCount(ROLE_HERO) or (PlayerCount(ROLE_JESTERHERO))) then
-			DrawStrUnicode(v, 16, 184, (RoleColorHUD[ROLE_SHERIFF]..GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)..RoleColorHUD[ROLE_HERO].." + "..(PlayerCount(ROLE_HERO) + PlayerCount(ROLE_JESTERHERO))), localTransFlag, font.scale)
+			DrawStrUnicode(v, 16, 184, string.format("%s%s: %d %s+ %d", RoleColorHUD[ROLE_SHERIFF], GetText("HUD_ROLESALIVE", ROLE_SHERIFF), PlayerCount(ROLE_SHERIFF), RoleColorHUD[ROLE_HERO], PlayerCount(ROLE_HERO) + PlayerCount(ROLE_JESTERHERO)), localTransFlag, font.scale)
 		else
-			DrawStrUnicode(v, 16, 184, (RoleColorHUD[ROLE_SHERIFF]..GetText("HUD_ROLESALIVE", ROLE_SHERIFF)..": "..PlayerCount(ROLE_SHERIFF)), localTransFlag, font.scale)
+			DrawStrUnicode(v, 16, 184, string.format("%s%s: %d", RoleColorHUD[ROLE_SHERIFF], GetText("HUD_ROLESALIVE", ROLE_SHERIFF), PlayerCount(ROLE_SHERIFF)), localTransFlag, font.scale)
 		end
 		--Civilian
-		if (PlayerCount(ROLE_CIVILIAN)) then DrawStrUnicode(v, 16, 192, (RoleColorHUD[ROLE_CIVILIAN]..eMeM.GetText("HUD_ROLESALIVE", ROLE_CIVILIAN)..": "..(PlayerCount(ROLE_CIVILIAN) + PlayerCount(ROLE_JESTER))), localTransFlag, font.scale) end
+		if (PlayerCount(ROLE_CIVILIAN) or PlayerCount(ROLE_JESTER)) then DrawStrUnicode(v, 16, 192, string.format("%s%s: %d", RoleColorHUD[ROLE_CIVILIAN], GetText("HUD_ROLESALIVE", ROLE_CIVILIAN), PlayerCount(ROLE_CIVILIAN) + PlayerCount(ROLE_JESTER)), localTransFlag, font.scale) end
 
 		--"Sheriff's Emerald is available!"
 		if ((#eMeM.shremds) and (leveltime % 2)) then
