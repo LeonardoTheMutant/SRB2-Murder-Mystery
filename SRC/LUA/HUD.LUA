@@ -841,7 +841,6 @@ MMhud.routines["intermission_main"] = function(v)
 				color = ROLE_DEAD
 			end
 		})
-		local nameLength = #p.name
 
 		if (PlayerCount <= 8) then --Regular mode
 			--Character icon
@@ -855,7 +854,8 @@ MMhud.routines["intermission_main"] = function(v)
 			end
 
 			--Kills counter
-			drawString((HudInter_pos_kills_x), (HudInter_pos_players_y + (i * 16)), p.mm.kills)
+			local kills = p.mm.kills
+			if (kills) then drawString((HudInter_pos_kills_x), (HudInter_pos_players_y + (i * 16)), kills) end
 		elseif ((PlayerCount > 8) and (PlayerCount <= 16)) then --"Double column" mode
 			if (i > 8) then shiftx=160; shifty=128 end --players 9-16 are drawn on the second column
 
@@ -871,7 +871,8 @@ MMhud.routines["intermission_main"] = function(v)
 			end
 
 			--Kills counter
-			drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), p.mm.kills)
+			local kills = p.mm.kills
+			if (kills) then drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players_y + (i * 16) - shifty), kills) end
 		else --"Double column compact" mode
 			if (i > 16) then shiftx=160; shifty=128 end --players 17-32 are drawn on the second column
 
@@ -887,7 +888,8 @@ MMhud.routines["intermission_main"] = function(v)
 			end
 
 			--Kills counter
-			drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players2_y + (i * 8) - shifty), p.mm.kills, 0, "thin")
+			local kills = p.mm.kills
+			if (kills) then drawString((HudInter_pos_kills2_x + shiftx), (HudInter_pos_players2_y + (i * 8) - shifty), p.mm.kills, 0, "thin") end
 		end
 	end
 
