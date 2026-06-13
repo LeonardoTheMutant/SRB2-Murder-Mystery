@@ -248,7 +248,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 			end
 		end,
 		[ROLE_SHERIFF] = function()
-			if (MM.PlayerCount(ROLE_CIVILIAN))
+			if (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER))
 				if (spawnBodyOrEmerald)
 					MM.SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 					MM.ChatprintGlobal("MSG_SHERIDIED_DROP", vp.name)
@@ -392,7 +392,7 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
 			end
 
-			if (MM.PlayerCount(ROLE_CIVILIAN))
+			if (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER))
 				MM.SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 				MM.ChatprintGlobal("MSG_SHERIKILLED_DROP", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
