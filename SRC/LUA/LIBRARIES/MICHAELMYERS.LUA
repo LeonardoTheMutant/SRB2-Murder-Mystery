@@ -464,7 +464,7 @@ MM.TryEndgame = function()
 		MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 	end
 
-	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_JESTER)) and (not MM.PlayerCount(ROLE_JESTERHERO)) and ((not MM.PlayerCount(ROLE_CIVILIAN)) or (MM.PlayerCount(ROLE_CIVILIAN) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO)) and (not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) or ((MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 		MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 	end
 
@@ -580,8 +580,8 @@ end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
 MM.StartSuspenseMusic = function()
-	if (not MM.PlayerCount(ROLE_SHERIFF)) and (not MM.PlayerCount(ROLE_HERO))
-	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and (not MM.PlayerCount(ROLE_JESTER))) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
+	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO))
+	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and not MM.PlayerCount(ROLE_JESTER)) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
 	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value)) then
 		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
@@ -650,25 +650,26 @@ end
 --Retrieve the Weapon Flags (set by the CVARs) for the given role
 MM.GetWepCfgFlags = function(role)
 	local returnValue = 0
+	local civilsPresent = (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER))
 	switch(role, {
 		[ROLE_MURDERER] = function()
-			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_MURDERER].value % 4 --Normal gameplay
+			if (civilsPresent) then returnValue = wepcfgCVARs[ROLE_MURDERER].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_MURDERER].value / 4) % 4 end --Showdown Duel
 		end,
 		[ROLE_SHERIFF] = function()
-			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_SHERIFF].value % 4 --Normal gameplay
+			if (civilsPresent) then returnValue = wepcfgCVARs[ROLE_SHERIFF].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_SHERIFF].value / 4) % 4 end --Showdown Duel
 		end,
-		[ROLE_CIVILIAN] = function()
-			returnValue = WEPCFG_REDONLY
-		end,
 		[ROLE_HERO] = function()
-			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
+			if (civilsPresent) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
 		end,
 		[ROLE_JESTERHERO] = function()
-			if (MM.PlayerCount(ROLE_CIVILIAN)) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
+			if (civilsPresent) then returnValue = wepcfgCVARs[ROLE_HERO].value % 4 --Normal gameplay
 			else returnValue = (wepcfgCVARs[ROLE_HERO].value / 4) % 4 end --Showdown Duel
+		end,
+		['default'] = function()
+			returnValue = wepcfgCVARs[ROLE_CIVILIAN].value
 		end
 	})
 	return returnValue

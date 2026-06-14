@@ -485,7 +485,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 		--Selector
 		draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.graphics["CURWEAP"], V_SNAPTOBOTTOM|localTransFlag)
-	elseif (prole == ROLE_JESTER) and (p.rings > 10) then
+	elseif (prole == ROLE_JESTER) and (p.rings > 9) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
 			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
@@ -914,8 +914,6 @@ MMhud.routines["intermission_main"] = function(v)
 
 	--Prerelease/Debug
 	if (eMeM.debug) then drawString(160, 160, "\x82".."DEVELOPER BUILD! NOT FOR PUBLIC HOSTING!!!", V_SNAPTOBOTTOM, "center") end
-	drawString(0, 184, "LTM's MM v" + MM.version, V_ALLOWLOWERCASE)
-	drawString(0, 192, "Preview 1", V_ALLOWLOWERCASE)
 
 	--Timer
 	local timeleft
@@ -1000,4 +998,6 @@ end, "scores")
 hud.add(function(v)
 	if (not MM.graphics) then loadGraphics(v) end
 	HudInter.routine(v)
+	v.drawString(0, 184, "LTM's MM v" + MM.version, V_ALLOWLOWERCASE)
+	v.drawString(0, 192, "Preview 2", V_ALLOWLOWERCASE)
 end, "intermission")
