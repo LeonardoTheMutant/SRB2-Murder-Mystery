@@ -62,6 +62,7 @@
 		#download h3 { color: #55F }
 		.centered { text-align: center }
 
+		.purple { color: #AE3DC2 }
 		.yellow { color: #E6E200 }
 		.green { color: #32CD32 }
 		.blue { color: #1E90FF }
@@ -88,24 +89,24 @@
 				<h2>Welcome to the official LTM's MM webpage!</h2>
 				<h3><i>Formely "SRB2 MM"</i></h3>
 			</section>
-			<section id="logoimg" class="centered"><img src="LTMsMM_cover.png" alt="Murder Mystery box art" style="width: 500px; height: 500px"> </section>
+			<section id="logoimg" class="centered"><img src="LTMsMM_cover.png" alt="Murder Mystery box art" style="width: 450px; height: 500px"> </section>
 			<section id="desc">
 				<h3>The port of the famous multiplayer game in SRB2!</h3>
 				<p>The project's goal is to make a "Murder Mystery" gametype for Sonic Robo Blast 2 designed around
 					(classic) Sonic the Hedgehog. We are primarily inspired by Murder Mystery in Garry's Mod and the
 					variations of this game in Minecraft. The development originally started by Tedbasher3000 in
 					February 2023 and continued by the SRB2MM_DEV team to this day. We want to make a gametype which
-					would fit the astetics of the vanilla SRB2 so it would feel like an official gamtype (we don't
+					would fit the ascetics of the vanilla SRB2 so it would feel like an official gametype (we don't
 					really expect STJr to make it official)</p>
 				<p class="centered"><i>"Inspired by many, made for SRB2"</i></p>
 				<h3>Short introduction into the gameplay</h3>
 				<p>The goal of this game is to detect and eliminate all <b class="red">Murderers</b> among the players
-					before they kill everyone else (sounds very familiar to a popular 2020 game about austronauts,
+					before they kill everyone else (sounds very familiar to a popular 2020 game about astronauts,
 					right?). <b class="blue">Sheriffs</b> are given the task to prevent this genocide and protect all
 					<b class="green">Civilians</b> from being <b class="red">murdered</b>.</p>
 				<p>At the beginning of each round you will recieve one of these 3 roles. As said, <b class="red">Murderers have to murder everyone</b>, <b class="blue">Sheriffs have to defend Civilians and eliminate Murderers</b> &amp; <b class="green">Innocents have to hide from the killers but can also help in the investigation</b>.</p>
 				<p>The gameplay is based on the Ringslinger gametypes of SRB2 (Match, Team Match, CTF, Tag, Hide&amp;Seek) so you need some weapon aiming skills to play, unless you are a <b class="green">Civilian</b></p>
-				<p>You can find more description with all the details in the manual down bellow on in-game by executing the <code class="orange">MMHELP</code> console command.</p>
+				<p>You can find more description with all the details in the manual down below on in-game by executing the <code class="orange">MMHELP</code> console command.</p>
 				<h3>Want to contribute? That's great!</h3>
 				<p>We made the <a href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery">GitHub repository</a> and both <a href="https://discord.com/invite/UgG8h2djFE">SRB2MM Discord</a> &amp; <a href="https://matrix.to/#/#ltm_mm:matrix.org">Matrix</a> communities just for cases like this!<br>
 					You can make any kind of contribution including new maps, music, ideas or even make a translation of the add-on to your native language! You can also join our Discord if you want talk with the developers and other players.</p>
@@ -133,6 +134,13 @@
 								class="red">Murderer</b>. Depending on the game setup, they can obtain a <b
 								class="red">Red Ring</b> to defend themselves by collecting 100 rings (or 50 rings for
 							certain skins).</li>
+						<li><b class="purple">Jester</b> - A funny guy. Only one player in the round can have this rare
+							role (not every round will have a player with this role). <b class="purple">Jester</b> has to trick everyone
+							into thinking they are the <b class="red">Murderer</b> by shooting fake Red Rings that cannot
+							hurt anyone. Jester wins if it get killed by <b class="blue">Sheriff</b>, <b class="yellow">Hero</b>
+							or even a <b class="green">Civilian</b>. Once the <b class="purple">Jester</b> picks up the
+							<b class="blue">Sheriff's Emerald</b> they turn into <b class="yellow">Hero</b> and must play
+							along the good guys instead.</li>
 					</ul>
 					That is the essential information you need to start playing. For more details, read through this
 					manual to the end.<br><br>Use the <b class="orange">MMLANG</b> command to change the language of the HUD interface and this
@@ -185,27 +193,28 @@
 					<h4>Things to avoid in Murder Mystery</h4>
 					Rule No. 1: <b class="yellow">Be kind and have fun!</b> Here are some additional guidelines:
 					<ul>
-					<li>Do not spoil your <b class="peridot">Role</b>, even as a joke. While you can call out someone else's <b class="peridot">role</b> if you are sure, never reveal your own.</li>
-					<li>Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.</li>
-					<li>Do not go <b class="cyan">AFK</b> (<b class="cyan">Away From Keyboard</b>). If you stand still too long, a bomb will be dropped
-					on you, and you will be removed from the game.</li>
-					<li>Do not rename yourself during a round if you are <b class="black">Dead</b>. Doing so will result in being kicked from the server. If you are <b class="black">Dead</b>, wait until the intermission to rename safely.</li>
-					<li>Avoid camping around the <b class="blue">Sheriff's EmeraldM</b> if you are a <b class="red">Murderer</b>. Standing near the emerald for 30 seconds will result in being kicked from the game.</li>
+						<li>Do not spoil your <b class="peridot">Role</b>, even as a joke. While you can call out someone else's <b class="peridot">role</b> if you are sure, never reveal your own.</li>
+						<li>Avoid insulting other players. Friendly banter is fine, but constant accusations or hostile behavior will make others distrust you.</li>
+						<li>Do not go <b class="cyan">AFK</b> (<b class="cyan">Away From Keyboard</b>). If you stand still too long, a bomb will be dropped
+						on you, and you will be removed from the game.</li>
+						<li>Do not rename yourself during a round if you are <b class="black">Dead</b>. Doing so will result in being kicked from the server. If you are <b class="black">Dead</b>, wait until the intermission to rename safely.</li>
+						<li>Avoid camping around the <b class="blue">Sheriff's Emerald</b> if you are a <b class="red">Murderer</b>. You can develop a blindness from standing near the artifact, unless you get further from it.</li>
+						<li>Using custom clients to gain unfair advantage over other players is a <b class="black">War Crime</b>. <b class="red">You deserve the worst punishment possible for using cheats</b>.
 					</ul>
 					Breaking these rules may result in a kick or, in severe cases, a ban from the Admin. Play fairly and have fun!
 					<h4>Useful tips</h4>
 					Here are some tips to help you succeed in <b class="red">Murder Mystery</b>
 					<ul>
-					<li>If character abilities are disabled by the admin, press <b class="orange">SPIN</b> to sneak silently without
-					leaving traces or making noise.</li>
-					<li>Picking up the <b class="blue">Sheriff's Emerald</b> grants you access to all the weapons and
-					rings you previously collected.</li>
-					<li>Use the Team Chat to coordinate actions with your <b class="cyan">teammates</b> and avoid friendly fire.</li>
-					<li>Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.</li>
-					<li>Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.</li>
-					<li>If your role is leaked, rename yourself and/or change your skin color. <b class="yellow">Keep in mind that your rename will appear in chat.</b></li>
-					<li>Use the <b class="orange">FIRENORMAL</b> button to wield the <b class="gray">Knife</b> anywhere, as long as you have rings. Sneaking while using a <b class="gray">Knife</b> ensures your attack is silent.</li>
-					<li>Use the <code class="orange">MMLANG</code> command to change the language of the HUD interface to your preferred language.</li>
+						<li>If character abilities are disabled by the admin, press <b class="orange">SPIN</b> to sneak silently without
+						leaving traces or making noise.</li>
+						<li>Picking up the <b class="blue">Sheriff's Emerald</b> grants you access to all the weapons and
+						rings you previously collected.</li>
+						<li>Use the Team Chat to coordinate actions with your <b class="cyan">teammates</b> and avoid friendly fire.</li>
+						<li>Take damage from obstacles like lava, spikes, or fire to gain a brief 3-second invincibility.</li>
+						<li>Find hiding spots on the map to avoid detection. Sometimes it is better to stay out of sight.</li>
+						<li>If your role is leaked, rename yourself and/or change your skin color. <b class="yellow">Keep in mind that your rename will appear in chat.</b></li>
+						<li>Use the <b class="orange">FIRENORMAL</b> button to wield the <b class="gray">Knife</b> anywhere, as long as you have rings. Sneaking while using a <b class="gray">Knife</b> ensures your attack is silent.</li>
+						<li>Use the <code class="orange">MMLANG</code> command to change the language of the HUD interface to your preferred language.</li>
 					</ul>
 				</article>
 			</section>
@@ -213,8 +222,8 @@
 			<section id="requirements">
 				<h3>Recommended System Requirements for the gametype</h3>
 				<ul>
-					<li>A computer capable of running Sonic Robo Blast 2</li>
-					<li>640x400 VGA monitor</li>
+					<li>A device capable of running <a href="https://srb2.org">Sonic Robo Blast 2</a></li>
+					<li>At least 640x400 256-color display or monitor</li>
 					<li>Keyboard+Mouse or the 2-axis gamepad for the controls</li>
 					<li>Stereo sound output system (better with headphones) with enabled in-game closed captions</li>
 					<li>150ms or faster ping connection with the game server</li>
@@ -233,8 +242,7 @@
 							href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases/download/1.2/MM_LTMs_MurderMystery_v1.2.pk3">Download</a>
 					</li>
 				</ul>
-				<p>Older versions and builds of the Add-On can be found in the <u><i>#release-builds</i></u> channel on
-					our Discord server or in the repository's <a
+				<p>Older versions and builds of the Add-On can be found in our Discord community or in the repository's <a
 						href="https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery/releases">Releases</a> page</p>
 			</section>
 			<hr>
@@ -255,8 +263,9 @@
 					</a>
 				</section>
 			</section>
-			<iframe title="Discord" src="https://discord.com/widget?id=1075825170658381926&theme=dark" width="800" height="400" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 			<section class="link_section">
+				<a href="https://discord.gg/UgG8h2djFE"><img alt="Discord Server"
+						src="https://img.shields.io/discord/1075825170658381926?logo=discord&label=Discord%20Server"></a>
 				<a href="https://matrix.to/#/#ltm_mm:matrix.org"><img alt="Matrix Space"
 						src="https://img.shields.io/matrix/ltm_mm%3Amatrix.org?logo=matrix&label=Matrix%20Space"></a>
 				<a href="https://mb.srb2.org/addons/leonardothemutants-murder-mystery.8150/"><img alt="Static Badge"
