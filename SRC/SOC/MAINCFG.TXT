@@ -182,4 +182,5 @@ Nozone = true
 TypeOfLevel = LTM_MM
 SkyNum = 69 # nice
 NextLevel = K0
+Lua.MM_SlowWalkSpeed = true
 Lua.Author = Lemerks.xm, Aga_Damu, LeonardoTheMutant

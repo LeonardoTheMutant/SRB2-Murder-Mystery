@@ -6,8 +6,8 @@
 local eMeM = MM
 local GetWepCfgFlags = MM.GetWepCfgFlags
 
-local cv_autofire = CV_FindVar("mm_autofire").value
-local cv_killtrails = CV_FindVar("mm_killtrails").value
+local cv_autofire = CV_FindVar("mm_autofire")
+local cv_killtrails = CV_FindVar("mm_killtrails")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 local knifeRadius = MELEERANGE --64*FU
 local knifeHeight = 1048576 --16*FU
@@ -100,9 +100,9 @@ local function P_SetWeaponDelay(p, delay)
 	local pmm = p.mm
 	pmm.weapondelay = delay;
 
-	--Decrease the delay for Knuckles
+	--Decrease the delay for Knuckles and Fang
 	--Note that Knuckles has this feature in the vanilla game too, I just copied this feature into MM
-	if ((p.skin == SKIN_KNUCKLES) and (not cv_autofire)) then
+	if ((p.skin == SKIN_KNUCKLES) or (p.skin == SKIN_FANG)) and (not cv_autofire.value) then
 		-- Multiply before dividing.
 		-- Loss of precision can make a surprisingly large difference.
 		pmm.weapondelay = (pmm.weapondelay * 2)/3
@@ -129,7 +129,7 @@ local function P_DoKnife(source)
 		and (((found.z + found.height) > z) and (found.z < (z + knifeHeight))) then --do precise Z axis check
 
 			P_DamageMobj(found, source, source) --damage the found player
-			if (source.player.mm and cv_killtrails) then
+			if (source.player.mm and cv_killtrails.value) then
 				switch(source.player.mm.role, {
 					[ROLE_JESTER] = function() --Do not spill ketchup if Jester used knife on somebody
 					end,
@@ -175,7 +175,7 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		return
 	end
 
-	if (not cv_autofire) then p.pflags = p.pflags|PF_ATTACKDOWN end
+	if (not cv_autofire.value) then p.pflags = p.pflags|PF_ATTACKDOWN end
 
 	local mo
 
@@ -184,13 +184,13 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		-- KNIFE --
 		switch(prole, {
 			[ROLE_CIVILIAN] = function()
-				if (((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) and (p.rings > 49))
-				or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value) then
+				if ((p.skin == SKIN_TAILS) and (p.rings > 49))
+				or ((p.skin ~= SKIN_TAILS) and (p.rings > 99)) and (wepcfgCVARs[ROLE_CIVILIAN].value) then
 					P_SetWeaponDelay(p, eMeM.weapons[-2][4])
 					P_DoKnife(pmo)
 
 					--Weapon shot/use costs 100 rings for Innocents
-					if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
+					if (p.skin == SKIN_TAILS) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
 					else P_GivePlayerRings(p, -100) end
 
 					if (not (pmm.flags & FLAG_SNEAK)) then S_StartSound(pmo, sfx_wepfir) end --yeah, stealth included
@@ -279,12 +279,12 @@ addHook("PlayerThink", function(p) --this whole hook is a port of P_DoFiring() f
 		switch(prole, {
 			[ROLE_CIVILIAN] = function()
 				-- RED RING --
-				if ((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 49)
-				or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1) then
+				if ((p.skin == SKIN_TAILS) and p.rings > 49)
+				or ((p.skin ~= SKIN_TAILS) and p.rings > 99) and (wepcfgCVARs[ROLE_CIVILIAN].value == 1) then
 					P_SetWeaponDelay(p, eMeM.weapons[-1][4])
 					mo = P_SpawnPlayerMissile(pmo, eMeM.weapons[-1][2], eMeM.weapons[-1][3])
 
-					if ((p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY)) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
+					if (p.skin == SKIN_TAILS) then P_GivePlayerRings(p, -50) --Player is Tails or Amy, take 50 rings instead
 					else P_GivePlayerRings(p, -100) end
 				end
 			end,

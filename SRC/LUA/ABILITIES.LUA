@@ -3,7 +3,7 @@
 --
 -- This script takes care of player skin and abilities
 
-local cv_abilities = CV_FindVar("mm_abilities")
+local cv_abilities = CV_FindVar("mm_abilities") --0 = MM, 1 = Vanilla
 local cv_speedsneak = CV_FindVar("mm_speed_sneak")
 local cv_speedwalk = CV_FindVar("mm_speed_walk")
 
@@ -35,6 +35,7 @@ addHook("PlayerThink", function(p)
 			else p.normalspeed = cv_speedwalk.value * FU end
 			pmm.flags = pmm.flags & ~FLAG_SNEAK
 		end
+		p.normalspeed = p.normalspeed + (bool2int(s == "sonic") * (cv_speedwalk.value / 4)*FU) --Sonic's passive ability
 	end
 
 	--disable custom skins if the admin did not allow their usage

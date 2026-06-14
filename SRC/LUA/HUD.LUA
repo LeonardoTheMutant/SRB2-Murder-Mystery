@@ -468,7 +468,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		end
 
 	--Civilian weapon logic
-	elseif (prole == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 49)) or (not (p.skin == SKIN_TAILS or p.skin == SKIN_AMY) and (p.rings > 99))) and (cv_wepcfgCivil.value) then
+	elseif (prole == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS) and (p.rings > 49)) or ((p.skin ~= SKIN_TAILS) and (p.rings > 99))) and (cv_wepcfgCivil.value) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
 			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
@@ -477,7 +477,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		end
 
 		--Ammo counter
-		if (p.skin == SKIN_TAILS) or (p.skin == SKIN_AMY) then
+		if (p.skin == SKIN_TAILS) then
 			drawString((HudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 50), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
 		else
 			drawString((HudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 100), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
