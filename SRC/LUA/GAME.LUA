@@ -196,11 +196,11 @@ addHook("PlayerThink", function(p)
 	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end
 
 	--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enought
-	if (MM.PlayerCount() > 1)
-		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) and (not p.spectator) then p.afk = 0
+	if (MM.PlayerCount() > 1) and not (p.spectator)
+		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and not (p.spectator) then
+		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and then
 			COM_BufInsertText(server, string.format("KICK %d AFK", #p))
 		end
 	end
