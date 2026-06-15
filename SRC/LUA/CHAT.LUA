@@ -51,10 +51,10 @@ end
 local function CHAT_TeamSay(s, m) --sender, message
 	for p in players.iterate do
 		if (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone)) then
-			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER)) then
+			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER)) or (p.spectator) then
 				chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
 				S_StartSound(nil, sfx_radio, p)
-			elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO) then
+			elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)  or (p.spectator) then
 				switch(s.mm.role, {
 					[ROLE_SHERIFF] = function()
 						chatprintf(p, string.format("\x84[TEAM]<%s> %s", s.name, m))
@@ -117,7 +117,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	else
 		if (type == 0) then
 			if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL) then
-				CHAT_TeamSay(s, m:sub(1)) --SAYTEAM shortcut
+				CHAT_TeamSay(s, m:sub(2)) --SAYTEAM shortcut
 			else
 				CHAT_Say(s, m, m:find("/me ", 1,4, true)) --send message normally (handle "/me" messages too)
 			end
