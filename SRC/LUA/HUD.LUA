@@ -350,7 +350,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		--"Killed by"
 		if not (p.mm.flags & FLAG_NEWCOMER) then
 			if (int(p.mm.killreason) == KILLBY_PLR) then
-				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f) end
+				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f|localTransFlag) end
 			else
 				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason or KILLBY_MAP), V_SNAPTOTOP|V_SNAPTOLEFT)
 			end
