@@ -4,6 +4,7 @@
 -- A collection of anti-cheat algorithms
 
 enum(
+	LOVEYOURSELF,
 	KYS_KIS,
 	KYS_AUTOMAP,
 	KYS_CVAR
@@ -16,7 +17,11 @@ COM_AddCommand("kys", function(p, id)
 		"Automap usage",
 		"Usage of cheat CVAR(s)"
 	}
-	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id or KYS_KIS]))
+
+	id = tonumber(id) or KYS_KIS
+	if (id < 1) or (id > #msg) then return end
+
+	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id]))
 end)
 
 
