@@ -984,7 +984,6 @@ hud.add(function(v, p, c)
 	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
 	font_small.charwidth = FixMul(charwidth, font_small.scale)
 	font_small.charheight = FixMul(charheight, font_small.scale)
-
 	if (not MM.graphics) then loadGraphics(v) end
 
 	--Call the drawing routine
@@ -998,6 +997,6 @@ end, "scores")
 hud.add(function(v)
 	if (not MM.graphics) then loadGraphics(v) end
 	HudInter.routine(v)
-	v.drawString(0, 184, "LTM's MM v" + MM.version, V_ALLOWLOWERCASE)
-	v.drawString(0, 192, "Preview 2", V_ALLOWLOWERCASE)
+	v.drawString(0, 184, "LTM's MM v" + MM.version, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
+	v.drawString(0, 192, "Preview 2", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
 end, "intermission")

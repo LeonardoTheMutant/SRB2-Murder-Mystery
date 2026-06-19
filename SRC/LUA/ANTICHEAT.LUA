@@ -130,7 +130,7 @@ addHook("PlayerThink", function(p)
 
 	if (p.name ~= p.oldname) and (leveltime > TICRATE) and (p.jointime > TICRATE) then
 		if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
-			MM.PunishPlayer(p, "Do not rename when dead!", true)
+			MM.PunishPlayer(p, "Do not rename when dead!")
 		else
 			p.oldname = p.name
 		end
