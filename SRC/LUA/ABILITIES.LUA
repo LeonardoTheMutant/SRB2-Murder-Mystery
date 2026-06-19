@@ -35,7 +35,7 @@ addHook("PlayerThink", function(p)
 			else p.normalspeed = cv_speedwalk.value * FU end
 			pmm.flags = pmm.flags & ~FLAG_SNEAK
 		end
-		p.normalspeed = p.normalspeed + (bool2int(s == "sonic") * (cv_speedwalk.value / 4)*FU) --Sonic's passive ability
+		p.normalspeed = p.normalspeed + (bool2int(s == "sonic") * (cv_speedwalk.value / 8)*FU) --Sonic's passive ability
 	end
 
 	--disable custom skins if the admin did not allow their usage
