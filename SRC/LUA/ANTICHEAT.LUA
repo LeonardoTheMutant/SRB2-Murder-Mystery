@@ -4,10 +4,10 @@
 -- A collection of anti-cheat algorithms
 
 enum(
-	LOVEYOURSELF,
-	KYS_KIS,
-	KYS_AUTOMAP,
-	KYS_CVAR
+	"LOVEYOURSELF",
+	"KYS_KIS",
+	"KYS_AUTOMAP",
+	"KYS_CVAR"
 )
 
 --"Kick Yourself"
