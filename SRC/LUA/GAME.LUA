@@ -360,7 +360,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
-	if (gametype ~= GT_LTMMURDERMYSTERY) or (not a) or (not a.player) then return end
+	if not ((gametype == GT_LTMMURDERMYSTERY) and a and a.player) then return end
 
 	MM.DebugPrint("\x82Player->Player damage (MobjDamage)")
 
@@ -384,6 +384,7 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 	local thereIsJester = MM.PlayerCount(ROLE_JESTER)
 	local thereIsJesterHero = MM.PlayerCount(ROLE_JESTERHERO)
 
+	local returnTrue -- We can't directly do "return true" from the switch blocks so we need something that will do that after switch ends
 	switch(vprole, {
 		[ROLE_MURDERER] = function()
 			if (thereAreMurderers) then
@@ -400,7 +401,6 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 					ap.mm.role = ROLE_HERO
 					ap.mm.prevrole = ROLE_HERO
 				end
-				MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 			end
 		end,
 		[ROLE_SHERIFF] = function()
@@ -429,6 +429,7 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 			if not (thereAreHeroes or thereAreSheriffs or thereIsJesterHero) and ((not (thereAreCivilians or thereIsJester))
 			or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
+				returnTrue = true
 			else
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
@@ -447,15 +448,18 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 						MM.SetRandomCivilianAs(ROLE_SHERIFF)
 					else
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_SHERIKILLINNO)
+						returnTrue = true
 					end
 				end,
 				[ROLE_HERO] = function()
 					MM.KillPlayer(a, true, true)
 					if not (thereAreCivilians or thereIsJester or thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
+						returnTrue = true
 					elseif (thereAreCivilians or thereIsJester) and not (thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
 					and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
+						returnTrue = true
 					else
 						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
@@ -469,8 +473,10 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 				[ROLE_JESTERHERO] = function()
 					if not (thereAreCivilians or thereAreSheriffs or thereAreHeroes)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
+						returnTrue = true
 					elseif (thereAreCivilians) and not (thereAreSheriffs or thereAreHeroes) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
+						returnTrue = true
 					else
 						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 2)
@@ -483,24 +489,31 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 				[ROLE_SHERIFF] = function()
 					-- Sheriff killed the Jester, instantly end round and make Jester win
 					MM.EndRound(WIN_JESTERKILLED, "CHAT_ENDROUND", WIN_JESTERKILLED)
+					returnTrue = true
 				end,
 				[ROLE_HERO] = function()
 					-- Hero killed the Jester, instantly end round and make Jester win
 					MM.EndRound(WIN_JESTERKILLED, "CHAT_ENDROUND", WIN_JESTERKILLED)
+					returnTrue = true
 				end,
 				[ROLE_CIVILIAN] = function()
 					-- Civilian killed the Jester, instantly end round and make Jester win
 					MM.EndRound(WIN_JESTERKILLED, "CHAT_ENDROUND", WIN_JESTERKILLED)
+					returnTrue = true
 				end
 			})
 		end,
 		[ROLE_JESTERHERO] = function()
 			-- If Civilian killed the Jester, instantly end round and make Jester win
-			if (ap.mm.role == ROLE_CIVILIAN) then MM.EndRound(WIN_JESTERKILLED, "CHAT_ENDROUND", WIN_JESTERKILLED) end
+			if (ap.mm.role == ROLE_CIVILIAN) then
+				MM.EndRound(WIN_JESTERKILLED, "CHAT_ENDROUND", WIN_JESTERKILLED)
+				returnTrue = true
+			end
 
 			if not (thereAreHeroes or thereAreSheriffs)
 			and ((not thereAreCivilians) or (thereAreCivilians and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
+				returnTrue = true
 			else
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
 				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
@@ -510,6 +523,7 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 			MM.KillPlayerByPlayer(v, a)
 		end
 	})
+	if (returnTrue) then return true end --stop execution right there
 
 	MM.TryEndgame()
 
