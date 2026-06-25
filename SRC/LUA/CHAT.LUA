@@ -3,6 +3,7 @@
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
+-- Convert video flag to text color code
 local function chatcolor2textcolor(c)
 	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return CHAR[128] end
 	switch(c, {
@@ -26,6 +27,11 @@ local function chatcolor2textcolor(c)
 	return c
 end
 
+
+
+--
+-- SAY
+--
 local function CHAT_Say(s, m, me)
 	local chatcolor = chatcolor2textcolor(skincolors[s.skincolor].chatcolor)
 
@@ -48,33 +54,40 @@ local function CHAT_Say(s, m, me)
 	if (isdedicatedserver) then MM.Chatprint(server, string.format("<%s%s> %s", badge, s.name, m)) end
 end
 
-local function CHAT_TeamSay(s, m) --sender, message
+
+
+--
+-- SAYTEAM
+--
+
+local hero_fmt = "\x84[TEAM]\x82<%s>\x84 %s"
+local chat_fmts = {
+	[ROLE_MURDERER]   = "\x85[TEAM]<%s> %s",
+	[ROLE_SHERIFF]    = "\x84[TEAM]<%s> %s",
+	[ROLE_HERO]       = hero_fmt,
+	[ROLE_JESTERHERO] = hero_fmt,
+}
+
+local function CHAT_TeamSay(s, m) --Sender (player_t), Message
+	local msg = string.format(chat_fmts[s.mm.role] or "[via SAYTEAM]<%s> %s", s.name, m)
+
 	for p in players.iterate do
-		if (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone)) then
-			if ((p.mm.role == s.mm.role) and (s.mm.role == ROLE_MURDERER)) or (p.spectator) then
-				chatprintf(p, "\x85[TEAM]<"..s.name.."> "..m)
+		if MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone) then
+			if (p.spectator) or (isdedicatedserver) or (s.mm.role == ROLE_MURDERER and p.mm.role == ROLE_MURDERER)
+			or ((s.mm.role == ROLE_SHERIFF or s.mm.role == ROLE_HERO or s.mm.role == ROLE_JESTERHERO)
+			and (p.mm.role == ROLE_SHERIFF or p.mm.role == ROLE_HERO or p.mm.role == ROLE_JESTERHERO)) then
+				chatprintf(p, msg)
 				S_StartSound(nil, sfx_radio, p)
-			elseif (p.mm.role == ROLE_SHERIFF) or (p.mm.role == ROLE_HERO)  or (p.spectator) then
-				switch(s.mm.role, {
-					[ROLE_SHERIFF] = function()
-						chatprintf(p, string.format("\x84[TEAM]<%s> %s", s.name, m))
-						S_StartSound(nil, sfx_radio, p)
-					end,
-					[ROLE_HERO] = function()
-						chatprintf(p, string.format("\x84[TEAM]\x82<%s>\x84 %s", s.name, m))
-						S_StartSound(nil, sfx_radio, p)
-					end,
-					[ROLE_JESTERHERO] = function()
-						chatprintf(p, string.format("\x84[TEAM]\x82<%s>\x84 %s", s.name, m))
-						S_StartSound(nil, sfx_radio, p)
-					end,
-				})
 			end
 		end
 	end
 end
 
---SAYDEAD command - Say to the Dead Chat (as Server or Administrator)
+
+
+--
+-- SAYDEAD command - Say to the Dead Chat (as Server or Administrator)
+--
 COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	if (gametype ~= GT_LTMMURDERMYSTERY) then CONS_Printf(p, "The game must be LTM's Murder Mystery to access this command"); return end
 
@@ -101,32 +114,47 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	end
 end, COM_ADMIN)
 
+
+
+--
+-- HOOK
+--
 addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 	if (gametype ~= GT_LTMMURDERMYSTERY) or (not s.mm) then return end
 
+	local returnValue = true
 	if (s.spectator) and (gamestate == GS_LEVEL) then
-		if (type == 0) then --If dead player sends a message, make that messsage appear only to the dead players
-			for p in players.iterate do if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", s.name, m)) end end
-			if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", s.name, m)) end
-		elseif (type == 2) then --PM messages in different design for DEAD
-			if (t.spectator) then
-				MM.Chatprint(s, string.format("\x82[TO]\x86{%s}\x82 %s", t.name, m))
-				MM.Chatprint(t, string.format("\x82[PM]\x86{%s}\x82 %s", s.name, m))
-			else CONS_Printf(s, t.name.." ".."is alive, message not sent") end
-		end
-	else
-		if (type == 0) then
-			if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL) then
-				CHAT_TeamSay(s, m:sub(2)) --SAYTEAM shortcut
-			else
-				CHAT_Say(s, m, m:find("/me ", 1,4, true)) --send message normally (handle "/me" messages too)
+		switch(type, {
+			[0] = function() --If dead player sends a message, make that messsage appear only to the dead players
+				for p in players.iterate do
+					if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", s.name, m)) end
+				end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", s.name, m)) end
+			end,
+			[2] = function() --PM messages in different design for DEAD
+				if (t.spectator) then
+					MM.Chatprint(s, string.format("\x82[TO]\x86{%s}\x82 %s", t.name, m))
+					MM.Chatprint(t, string.format("\x82[PM]\x86{%s}\x82 %s", s.name, m))
+				else CONS_Printf(s, string.format("%s is alive, message not sent", t.name)) end
 			end
-		elseif (type == 1) then --SAYTEAM
-			if (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m)
-			else CHAT_Say(s, m) end
-		elseif (type == 2) then --SAYTO or "/pm"
-			return false
-		end
+		})
+	else
+		switch(type, {
+			[0] = function() --SAY
+				if (m:sub(1,1) == "%") and (gamestate == GS_LEVEL) then --SAYTEAM shortcut
+					CHAT_TeamSay(s, m:sub(2))
+				else
+					CHAT_Say(s, m, m:find("/me ", 1,4, true)) --send message normally (handle "/me" messages too)
+				end
+			end,
+			[1] = function() --SAYTEAM
+				if (gamestate == GS_LEVEL) then CHAT_TeamSay(s, m)
+				else CHAT_Say(s, m) end
+			end,
+			[2] = function() --SAYTO or "/pm"
+				returnValue = false
+			end
+		})
 	end
-	return true
+	return returnValue
 end)
