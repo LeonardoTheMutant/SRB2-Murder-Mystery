@@ -583,6 +583,13 @@ MM.StartSuspense = function()
 	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO))
 	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and not MM.PlayerCount(ROLE_JESTER)) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
 	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value)) then
+		--Promote Jester to Hero form, if he is the only Civilian left
+		if (MM.PlayerCount(ROLE_JESTER)) then
+			for p in players.iterate do
+				if (p.mm.role == ROLE_JESTER) then p.mm.role = ROLE_JESTERHERO; break end
+			end
+		end
+
 		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
 			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[P_RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
