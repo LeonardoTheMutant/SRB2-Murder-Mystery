@@ -353,8 +353,8 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 
 	if (MM.PlayerCount() > 1) then --Ignore those deaths if the player is being alone on the server
 		MM.TryEndgame()
-		MM.StartSuspenseMusic()
-		MM.StartShowdownMusic()
+		MM.StartSuspense()
+		MM.StartShowdown()
 		return true
 	end
 end, MT_PLAYER)
@@ -527,8 +527,8 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 
 	MM.TryEndgame()
 
-	MM.StartSuspenseMusic()
-	MM.StartShowdownMusic()
+	MM.StartSuspense()
+	MM.StartShowdown()
 	return true
 end, MT_PLAYER)
 

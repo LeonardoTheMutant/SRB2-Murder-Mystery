@@ -30,7 +30,7 @@ MM.LoadSuspenseTracks = function()
 	for i = 0, 15 do
 		lumpname = string.format("MMSUS%X", i)
 		if (S_MusicExists(lumpname)) then
-			table.insert(MM.susnse_music, #MM.susnse_music, lumpname)
+			table.insert(MM.susnse_music, lumpname)
 			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
 		end
 	end
@@ -43,7 +43,7 @@ MM.LoadShowdownTracks = function()
 	for i = 0, 15 do
 		lumpname = string.format("MMSHD%X", i)
 		if (S_MusicExists(lumpname)) then
-			table.insert(MM.shwdwn_music, #MM.shwdwn_music, lumpname)
+			table.insert(MM.shwdwn_music, lumpname)
 			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
 		end
 	end
@@ -468,8 +468,8 @@ MM.TryEndgame = function()
 		MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 	end
 
-	MM.StartSuspenseMusic()
-	MM.StartShowdownMusic()
+	MM.StartSuspense()
+	MM.StartShowdown()
 end
 
 --Player deinitializator, executes on PlayerQuit hook
@@ -535,8 +535,8 @@ MM.PlayerQuit = function(p)
 		end
 	})
 
-	MM.StartSuspenseMusic()
-	MM.StartShowdownMusic()
+	MM.StartSuspense()
+	MM.StartShowdown()
 end
 
 --Start the Flash Effect on screen
@@ -579,7 +579,7 @@ MM.EndRound = function(winner, endtext, reason)
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
-MM.StartSuspenseMusic = function()
+MM.StartSuspense = function()
 	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO))
 	and (((MM.PlayerCount(ROLE_CIVILIAN) == 1) and not MM.PlayerCount(ROLE_JESTER)) or (not MM.PlayerCount(ROLE_CIVILIAN) and MM.PlayerCount(ROLE_JESTER)))
 	and ((#MM.shremds and not wepcfgCVARs[ROLE_CIVILIAN].value) or (wepcfgCVARs[ROLE_CIVILIAN].value)) then
@@ -597,7 +597,7 @@ MM.StartSuspenseMusic = function()
 end
 
 --Enable Showdown music when there are no Civilians left
-MM.StartShowdownMusic = function()
+MM.StartShowdown = function()
 	if not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
 		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
 		else

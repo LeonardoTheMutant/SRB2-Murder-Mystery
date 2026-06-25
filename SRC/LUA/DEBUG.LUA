@@ -46,6 +46,10 @@ COM_AddCommand("mmloadmus",do
 	MM.LoadSuspenseTracks();printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")
 	MM.LoadShowdownTracks();printf("\x82%d %s",#MM.shwdwn_music,"Showdown Tracks")
 end)
+COM_AddCommand("mmshowmus",do
+	for k,v in pairs(MM.susnse_music) do print(k, v) end
+	for k,v in pairs(MM.shwdwn_music) do print(k, v) end
+end)
 local mmcharset={0,0,0}
 COM_AddCommand("mmcharset",function(p, r)
 	mmcharset[1]=1;mmcharset[2]=0

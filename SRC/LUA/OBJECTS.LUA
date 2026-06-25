@@ -45,7 +45,7 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 			MM.hud.game.roleflicker = 105 --3 secs
 		end
 		MM.ChatprintGlobal("CHAT_SHREMDPICKUP")
-		MM.StartShowdownMusic()
+		MM.StartShowdown()
 	end
 
 	return true
