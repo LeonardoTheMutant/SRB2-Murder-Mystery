@@ -43,11 +43,10 @@ local function CHAT_Say(s, m, me)
 	for p in players.iterate do
 		if (gamestate ~= GS_LEVEL) or (p.spectator) or (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone)) then
 			if (me) then
-				chatprintf(p, string.format("* %s%s\x80 %s", badge, s.name, m:sub(5))) --"/me" message
+				MM.Chatprint(p, string.format("* %s%s\x80 %s", badge, s.name, m:sub(5))) --"/me" message
 			else
-				chatprintf(p, string.format("%s<%s%s>\x80 %s", chatcolor, badge, s.name, m)) --Normal message
+				MM.Chatprint(p, string.format("%s<%s%s>\x80 %s", chatcolor, badge, s.name, m)) --Normal message
 			end
-			S_StartSound(nil, sfx_radio, p)
 		end
 	end
 
@@ -69,6 +68,11 @@ local chat_fmts = {
 }
 
 local function CHAT_TeamSay(s, m) --Sender (player_t), Message
+	m = m:gsub("^%%", "", 1) -- nikoberry: strip leading % if there is any
+	for i=0,#m -- strip ALL the leading spaces too.
+		m = m:gsub("^%s", "", 1)
+	end
+
 	local msg = string.format(chat_fmts[s.mm.role] or "[via SAYTEAM]<%s> %s", s.name, m)
 
 	for p in players.iterate do
@@ -76,8 +80,7 @@ local function CHAT_TeamSay(s, m) --Sender (player_t), Message
 			if (p.spectator) or (isdedicatedserver) or (s.mm.role == ROLE_MURDERER and p.mm.role == ROLE_MURDERER)
 			or ((s.mm.role == ROLE_SHERIFF or s.mm.role == ROLE_HERO or s.mm.role == ROLE_JESTERHERO)
 			and (p.mm.role == ROLE_SHERIFF or p.mm.role == ROLE_HERO or p.mm.role == ROLE_JESTERHERO)) then
-				chatprintf(p, msg)
-				S_StartSound(nil, sfx_radio, p)
+				MM.Chatprint(p, msg)
 			end
 		end
 	end
@@ -106,7 +109,7 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	if (#m) then
 		--send the message
 		for p in players.iterate do
-			if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", sender, m)) end
+			if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
 		end
 		if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", sender, m)) end
 	else
