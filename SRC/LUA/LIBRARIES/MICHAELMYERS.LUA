@@ -218,12 +218,18 @@ local carretToSRB2_color = function(s)
 	return str
 end
 
+--nikoberry: Exists in case this ever gets used more than in MM.ChatPrint
+--also because this wouldn't be nice to read in MM.Chatprint
+MM.ShouldNotify = function()
+	return (CV_FindVar("chatnotifications").value)
+end
+
 --chatprintf but safe for vanilla SRB2
-MM.Chatprint = function(p, msg)
+MM.Chatprint = function(p, msg, forcesound)
 	--if (srb2classic) then
 		--chatprintf(p, msg)
 	--else
-		chatprintf(p, carretToSRB2_color(unicode.ascii(msg)))
+		chatprintf(p, carretToSRB2_color(unicode.ascii(msg)), ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
 	--end
 end
 
