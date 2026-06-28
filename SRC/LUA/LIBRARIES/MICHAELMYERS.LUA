@@ -221,7 +221,7 @@ end
 --nikoberry: Exists in case this ever gets used more than in MM.ChatPrint
 --also because this wouldn't be nice to read in MM.Chatprint
 MM.ShouldNotify = function()
-	return (CV_FindVar("chatnotifications").value ~= 0)
+	return (CV_FindVar("chatnotifications").value)
 end
 
 --chatprintf but safe for vanilla SRB2
