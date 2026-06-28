@@ -68,8 +68,8 @@ local chat_fmts = {
 }
 
 local function CHAT_TeamSay(s, m) --Sender (player_t), Message
-	m = m:gsub("^%%", "", 1) -- nikoberry: strip leading % if there is any
-	for i=0,#m -- strip ALL the leading spaces too.
+	for i=0,#m -- nikoberry: strip any leading percents and whitespace (same order as described)
+		m = m:gsub("^%%", "", 1)
 		m = m:gsub("^%s", "", 1)
 	end
 
