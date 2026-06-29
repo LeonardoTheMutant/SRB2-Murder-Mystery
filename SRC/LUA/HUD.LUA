@@ -543,6 +543,14 @@ MMhud.routines["scores_main"] = function(v)
 	--HUD frontend for the flash/spark effects
 	if (HudGame_flash.translucency) then v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency) end
 
+	--Flash/Spark effects
+	if (HudGame_flash.translucency) then
+		v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency)
+		if ((leveltime % int(HudGame_flash.duration)) == 0) then
+			HudGame_flash.translucency = HudGame_flash.translucency - 1
+		end
+	end
+
 	DrawStrUnicode_Center(v, 160, 8, "^7"..GetText("HUD_MM"), localTransFlag, canvas.font.scale)
 
 	--Player list
