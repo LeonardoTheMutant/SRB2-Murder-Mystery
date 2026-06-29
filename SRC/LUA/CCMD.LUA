@@ -127,7 +127,7 @@ COM_AddCommand("mmsetup", function(p)
 	if (isdedicatedserver) then CONS_Printf(p, info_mmhelp_adminCVAR); return end
 
 	if (MM.hud.help.active) or (p.camera and p.camera.active) or (gamestate ~= GS_LEVEL) then
-		CONS_Printf(p, "Unable to open MMSETUP UI right now"); return
+		CONS_Printf(p, "Unable to open the MMSETUP UI right now"); return
 	end
 
 	MM.hud.game.routine = mmsetup_renderer
@@ -305,7 +305,7 @@ COM_AddCommand("mmhelp", function(p, page)
 	if (isdedicatedserver) then return end
 
 	if (mmsetupcursor) or (p.camera and p.camera.active) or (gamestate ~= GS_LEVEL) then
-		CONS_Printf(p, "Unable to open MMHELP UI right now"); return
+		CONS_Printf(p, "Unable to open the MMHELP UI right now"); return
 	end
 
 	--MMHELP GUI
