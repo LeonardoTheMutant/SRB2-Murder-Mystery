@@ -457,8 +457,37 @@ end
 
 --Damage two teammate players and notify them
 MM.HitTeammate = function(v, a)
-	MM.Chatprint(a, MM.RoleColorHUD[v.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
-	MM.Chatprint(v, MM.RoleColorHUD[a.mm.role]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
+	local colorA, colorV
+	switch(a.mm.role, {
+		[ROLE_MURDERER] = function()
+		colorA = ROLE_MURDERER
+		end,
+		[ROLE_SHERIFF] = function()
+		colorA = ROLE_SHERIFF
+		end,
+		[ROLE_HERO] = function()
+		colorA = ROLE_HERO
+		end,
+		[ROLE_JESTERHERO] = function()
+		colorA = ROLE_HERO
+		end
+	})
+	switch(v.mm.role, {
+		[ROLE_MURDERER] = function()
+		colorV = ROLE_MURDERER
+		end,
+		[ROLE_SHERIFF] = function()
+		colorV = ROLE_SHERIFF
+		end,
+		[ROLE_HERO] = function()
+		colorV = ROLE_HERO
+		end,
+		[ROLE_JESTERHERO] = function()
+		colorV = ROLE_HERO
+		end
+	})
+	MM.Chatprint(a, MM.RoleColorHUD[colorV]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
+	MM.Chatprint(v, MM.RoleColorHUD[colorA]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
