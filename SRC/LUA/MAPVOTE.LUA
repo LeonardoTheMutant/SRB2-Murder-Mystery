@@ -149,7 +149,7 @@ local eMeM = MM
 addHook("MapLoad", function()
 	if not ((gametype == GT_LTMMURDERMYSTERY) and cv_voteenabled.value) then return end
 
-	eMeM.mapvote.maplist = {}
+	eMeM.mapvote.maplist = {460, 461, 462, 463, 464, 465}
 	eMeM.mapvote.timers[MV_SCORE] = cv_scoretime.value * TICRATE
 	eMeM.mapvote.timers[MV_VOTE] = cv_votetime.value * TICRATE
 	eMeM.mapvote.timers[MV_RESULT] = cv_resulttime.value * TICRATE
