@@ -21,7 +21,7 @@ MAPK3 - "Inside the Ruins" by Korp (Freedoom: Phase 2 (MAP11's track in October 
 MAPK4 - "Under Maintenance" by Lola "BlueWorrior" Harvey (Freedoom: Phase 2 (v0.13.0))
 MAPK5 - "Dam" by Graeme Norgate (Goldeneye 007) (MIDI by Jarron Woodsorre)
 MAPK7 - "Rough Landing" by Korp, remix of dave3d08.mid by jute (Freedoom: Phase 2 (v0.13.0))
-MAPK8 - "Sewer of Confusion" (No More Plats Mix) (AimShootKill Remix) by DCG Retrowave & Cammy (TNT MIDI Pack)
+MAPK8 - "Long Night" by Stuart "stewboy" Rynn (Ancient Aliens)
 MAPK9 - "Evilflower Zone" by Shadow Hog (Sonic Robo Blast 2 (v2.1))
 MAPKA - "Bright sound" (Sonic Adventure 2) (MIDI by Jose)
 MAPKB - "Smoke and Mirrors" by Lee Jackson (Rise of the Triad)
@@ -75,6 +75,7 @@ MMSHD6 - "The Decisive Battle" by Nobuo Uematsu (Final Fantasy VI) (MIDI by King
 MMSHD7 - "Stormer" by Korp, originally by Samuel "Blastfrog" Oliver (Freedoom: Phase 2 (v0.13.0))
 MMSHD8 - "Battle Against a True Hero" by Toby Fox (Undertale) (MIDI by S_T_D)
 MMSHD9 - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad)
+MMSHDA - "Featherfall" by Stuart "stewboy" Rynn (Ancient Aliens)
 
 
 ================
