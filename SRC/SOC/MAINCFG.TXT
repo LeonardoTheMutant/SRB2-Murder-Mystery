@@ -76,7 +76,6 @@ LevelName = 8-Ball Hotel
 SelectHeading = LTM's Murder Mystery
 SkyNum = 6
 NoZone = True
-Weather = 3
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K9
 Lua.Author = SuperOfSrb2, LeonardoTheMutant

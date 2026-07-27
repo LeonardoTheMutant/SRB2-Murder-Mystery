@@ -1,7 +1,7 @@
 -- CAROLINE.LUA
 -- Code by LeonardoTheMutant
 --
--- Port of some C functionality and expansions to LUA
+-- Port of some C functionality and expansions to BLUA
 -- Why "Caroline"? Try "string.sub('Caroline', 1, 1)"
 -- Can you C it now?
 
@@ -253,6 +253,19 @@ for i = 0, 255 do
 	CHAR2HEX[CHAR[i]] = HEX[i]
 end
 
+--Convert Base16 to Base10. Input can be both char & int. Output is int
+rawset(_G, "HEX2INT", {
+	--.byte() -> int
+	[48] = 0,  [49] = 1,  [50] = 2,  [51] = 3, [52] = 4,  [53] = 5,  [54] = 6,  [55] = 7, [56] = 8,  [57] = 9, --'0'‑'9'
+	[65] = 10, [66] = 11, [67] = 12, [68] = 13, [69] = 14, [70] = 15, --'A'‑'F'
+	[97] = 10, [98] = 11, [99] = 12, [100] = 13, [101] = 14, [102] = 15, --'a'-'f'
+
+	--char -> int
+	['0'] = 0,  ['1'] = 1,  ['2'] = 2,  ['3'] = 3, ['4'] = 4,  ['5'] = 5,  ['6'] = 6,  ['7'] = 7, ['8'] = 8,  ['9'] = 9, --'0'‑'9'
+	['A'] = 10, ['B'] = 11, ['C'] = 12, ['D'] = 13, ['E'] = 14, ['F'] = 15, --'A'‑'F'
+	['a'] = 10, ['b'] = 11, ['c'] = 12, ['d'] = 13, ['e'] = 14, ['f'] = 15, --'a'-'f'
+})
+
 
 
 --
@@ -283,14 +296,9 @@ rawset(_G, "int", function(a)
 	return ret
 end)
 
-rawset(_G, "HEX2INT", {
-	--.byte() -> int
-	[48] = 0,  [49] = 1,  [50] = 2,  [51] = 3, [52] = 4,  [53] = 5,  [54] = 6,  [55] = 7, [56] = 8,  [57] = 9, --'0'‑'9'
-	[65] = 10, [66] = 11, [67] = 12, [68] = 13, [69] = 14, [70] = 15, --'A'‑'F'
-	[97] = 10, [98] = 11, [99] = 12, [100] = 13, [101] = 14, [102] = 15, --'a'-'f'
-
-	--char -> int
-	['0'] = 0,  ['1'] = 1,  ['2'] = 2,  ['3'] = 3, ['4'] = 4,  ['5'] = 5,  ['6'] = 6,  ['7'] = 7, ['8'] = 8,  ['9'] = 9, --'0'‑'9'
-	['A'] = 10, ['B'] = 11, ['C'] = 12, ['D'] = 13, ['E'] = 14, ['F'] = 15, --'A'‑'F'
-	['a'] = 10, ['b'] = 11, ['c'] = 12, ['d'] = 13, ['e'] = 14, ['f'] = 15, --'a'-'f'
-})
+--Return difference between two angle values (wrap-safe)
+rawset(_G, "AngleDiff", function(a, b)
+	local d = (a - b) & 0xFFFFFFFF
+	if (d > 0x7FFFFFFF) then d = 0xFFFFFFFF - d end
+    return d
+end)

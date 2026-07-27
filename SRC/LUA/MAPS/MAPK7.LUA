@@ -34,7 +34,7 @@ addHook("LinedefExecute", do --open door 3 trigger
 end,"K7D3OPN")
 
 addHook("ThinkFrame", do
-    if (gamemap != 467) return end
+    if (gamemap ~= 467) return end
 
 	--doors close timer
     for doornum, _ in pairs(doors)
