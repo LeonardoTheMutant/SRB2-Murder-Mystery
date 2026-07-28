@@ -287,7 +287,8 @@ end)
 
 addHook("MobjThinker", function(mo)
     searchBlockmap("objects", function(ref, found)
-        if (found.type == MT_PLAYER) and (not found.player.spectator) and (R_PointToDist2(ref.x, ref.y, found.x, found.y) < ELEVATOR_RADIUS) then
+        if (found.type == MT_PLAYER) and (not found.player.spectator)
+        and (abs(found.x - ref.x) < ELEVATOR_RADIUS and abs(found.y - ref.y) < ELEVATOR_RADIUS) then
             local p = found.player
             if (not ELEVATORS[ref.elevatorid].stack[1]) then
                 if (p == consoleplayer) then SHOW_OVERLAY = 1 end
