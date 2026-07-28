@@ -6,7 +6,7 @@ Some songs were originally not in MIDI format, the authors of such sequences/arr
 Most of the MIDI sequences/arrangements are downloaded from VGMusic.com
 
 This mod also has music available in digital format, but the digital music included in the add-on is different from the MIDI OST.
-If you want a "real" digital music that has digitized MIDI OST, visit the GitHub repository for various digital music packs:
+If you want to hear a digitized MIDI OST, visit the GitHub repository for various digital music packs:
 https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
 
 ========
@@ -38,7 +38,7 @@ MAPKEM (Top floor)            - "Theme of Tara" by Iku Mizutani (Metal Gear) (MI
 MAPKE1 (1st Floor Basement)   - "Cavern" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by King Meteor)
 MAPKE2 (2nd Floor Basement)   - "Colosseo" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by ???)
 
-MAPKH: "Temple"
+MAPKH: "Twin Caverns Zone"
 ---------------------
 MAPKHI (Ice theme)    - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
 MAPKHF (Lava theme)   - "Cursed Cathedral Fire Arrangement" by MinusMario (Original MIDI by ShinkoNetCavy)
@@ -52,10 +52,9 @@ ARCHIV (Gallery)      - "ARCHIVE" by MinusMario
 ============
 
 CIVINS - "Civilian's Instinct" by MinusMario
+FINAL  - "Nemesis Final Metamorphosis" by Capcom Sound Team (Resident Evil 3: Nemesis)
 MMSUS0 - "A Thrilling Theme ~ Suspense" by Toshihiko Horiyama (Apollo Justice: Ace Attorney) (MIDI by Shadow Hog)
 MMSUS1 - "HOLD ON" by Lamonite
-FINAL  - "Nemesis Final Metamorphosis" by Capcom Sound Team (Resident Evil 3: Nemesis)
-NIMARE - "Midwich Nightmare" (First Half) by Akira Yamaoka (Silent Hill)
 
 
 ============
@@ -63,7 +62,6 @@ NIMARE - "Midwich Nightmare" (First Half) by Akira Yamaoka (Silent Hill)
 ============
 
 SAVIOR - "Savior of Humanity" by Ivan "continuum.mid" Stanton & Cammy (TNT MIDI Pack)
-DIE    - "Die" by Akira Yamaoka (Silent Hill)
 MGS_DL - "Duel" (Metal Gear Solid) (MIDI by Jay Payne)
 MMSHD0 - "Target Red" by Kazuki Muraoka (Metal Gear (NES)) (MIDI by Tsu Ryu and Takeuchi Yuka)
 MMSHD1 - "Pressing Pursuit ~ Cornered " (Phoenix Wright: Ace Attorney) (MIDI by ???)
