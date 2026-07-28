@@ -4,6 +4,8 @@
 -- Original map by SuperOfSRB2 & LeonardoTheMutant
 -- Remake by LeonardoTheMutant
 
+local MAPNUM = 468 --MAPK8
+
 
 --
 -- THE 8-BALL
@@ -40,10 +42,12 @@ end, MT_8BALL)
 --
 freeslot("MT_ELEVATOR", "MT_ELEVATORBTN")
 
+local ELEVATOR_RADIUS = 8388608 --128*FU
+
 mobjinfo[MT_ELEVATOR] = {
     --$Title Elevator hitbox
     --$Arg0 Elevator ID
-    radius = 8388608, --128*FU
+    radius = ELEVATOR_RADIUS,
     doomednum = 8171,
     spawnstate = S_INVISIBLE
 }
@@ -60,8 +64,6 @@ mobjinfo[MT_ELEVATORBTN] = {
     flags = 1
 }
 
-local ELEVATOR_RADIUS = 8388608 --128*FU
-
 
 
 --
@@ -76,18 +78,21 @@ local ELEVATOR_MOVE = 4 --Move to floor
 
 
 local ELEVATORS = {}
-ELEVATORS[0] = {stack = {}, floor = 0, doors = false, callable = true, mo = nil}
-ELEVATORS[1] = {stack = {}, floor = 0, doors = false, callable = true, mo = nil}
+ELEVATORS[0] = {stack = {}, floor = 0, doors = false, mo = nil}
+ELEVATORS[1] = {stack = {}, floor = 0, doors = false, mo = nil}
+addHook("NetVars", function(n)
+    ELEVATORS = n(ELEVATORS)
+end)
 
 --
 -- Map Load
 --
 addHook("MapLoad", function(map)
-    if (map ~= 468) then return end
+    if (map ~= MAPNUM) then return end
 
     ELEVATORS = {}
-    ELEVATORS[0] = {stack = {}, floor = 0, doors = false, callable = true, mo = nil}
-    ELEVATORS[1] = {stack = {}, floor = 0, doors = false, callable = true, mo = nil}
+    ELEVATORS[0] = {stack = {}, floor = 0, doors = false, mo = nil}
+    ELEVATORS[1] = {stack = {}, floor = 0, doors = false, mo = nil}
 end)
 
 local function E_OpenElevatorDoors(id, floor)
@@ -277,8 +282,6 @@ local SHOW_OVERLAY = 0
 -- Elevator & Elevator Call Button controls
 --
 addHook("PreThinkFrame", function()
-    if (gamemap ~= 468) then return end
-
     SHOW_OVERLAY = 0
 end)
 
@@ -287,7 +290,7 @@ addHook("MobjThinker", function(mo)
         if (found.type == MT_PLAYER) and (not found.player.spectator) and (R_PointToDist2(ref.x, ref.y, found.x, found.y) < ELEVATOR_RADIUS) then
             local p = found.player
             if (not ELEVATORS[ref.elevatorid].stack[1]) then
-                SHOW_OVERLAY = 1
+                if (p == consoleplayer) then SHOW_OVERLAY = 1 end
                 if (p.cmd.buttons & BT_SPIN) then
                     if ((p.cmd.buttons & BT_WEAPONMASK) == 1) then
                         E_CallElevator(ref.elevatorid, 0)
@@ -310,7 +313,7 @@ addHook("TouchSpecial", function(ref, found)
     if (found.type == MT_PLAYER) and (not found.player.spectator) and (AngleDiff(found.angle, ref.angle) < ANGLE_45) then
         local p = found.player
         if (not ELEVATORS[ref.elevatorid].stack[1]) and ((ELEVATORS[ref.elevatorid].floor ~= ref.floor) or ((ELEVATORS[ref.elevatorid].floor == ref.floor) and not ELEVATORS[ref.elevatorid].doors)) then
-            SHOW_OVERLAY = 2
+            if (p == consoleplayer) then SHOW_OVERLAY = 2 end
             if (p.cmd.buttons & BT_CUSTOM1) then
                 E_CallElevator(ref.elevatorid, ref.floor)
             end
@@ -323,6 +326,8 @@ end, MT_ELEVATORBTN)
 
 -- Overlay renderer
 hud.add(function(v)
+    if (gamemap ~= MAPNUM) then return end
+
     if (SHOW_OVERLAY == 1) then
         v.drawString(160, 156, "\x87SPIN\x80 + \x87WEAPON 1-5\x80\nto move to a different floor", V_ALLOWLOWERCASE|V_RETURN8,  "center")
     elseif (SHOW_OVERLAY == 2) then
@@ -335,6 +340,8 @@ end, "game")
 -- ELEVATOR CPU
 --
 addHook("ThinkFrame", function()
+    if (gamemap ~= MAPNUM) then return end
+
     for id = 0, 1 do
         if (ELEVATORS[id].stack[1]) then
             if (ELEVATORS[id].stack[1].cmd == ELEVATOR_WAIT) then --Wait
