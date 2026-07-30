@@ -400,16 +400,6 @@ WallTexture "EXITSTON", 64, 128
 	Patch "EXIT1", 16, 22
 }
 
-WallTexture "FIREBLU1", 128, 128
-{
-	Patch "W65B_1", 0, 0
-}
-
-WallTexture "FIREBLU2", 128, 128
-{
-	Patch "W65B_2", 0, 0
-}
-
 WallTexture "GRAY1", 64, 128
 {
 	Patch "W33_7", 0, 0
@@ -1807,16 +1797,6 @@ WallTexture "DOGLPANL", 64, 128
 	Patch "DOGLPANL", 0, 0
 }
 
-WallTexture "DOGRMSC", 128, 128
-{
-	Patch "DOGRMSC", 0, 0
-}
-
-WallTexture "DOKGRIR", 128, 128
-{
-	Patch "DOKGRIR", 0, 0
-}
-
 WallTexture "EGGREENI", 8, 128
 {
 	Patch "EGGREENI", 0, 0
@@ -1897,16 +1877,6 @@ WallTexture "TYWHEEL1", 128, 64
 WallTexture "TYUNDER1", 64, 64
 {
 	Patch "TYUNDER1", 0, 0
-}
-
-WallTexture "A-BRICK3", 128, 128
-{
-	Patch "BRICK", 0, 0
-}
-
-WallTexture "A-BROCK2", 128, 128
-{
-	Patch "BROCK2", 0, 0
 }
 
 WallTexture "A-CAMO1", 128, 128
@@ -2604,11 +2574,6 @@ WallTexture "CEILVINE", 128, 128
 WallTexture "CGRATE1", 128, 128
 {
 	Patch "CGRATE1", 0, 0
-}
-
-WallTexture "A-BROK28", 128, 128
-{
-	Patch "BROCK28", 0, 0
 }
 
 WallTexture "ESPITAN1", 64, 128
