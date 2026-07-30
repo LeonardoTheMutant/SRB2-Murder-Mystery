@@ -16,7 +16,7 @@ O_MAPK0M.SPC - "Marida Drifting Sand Underwater" by Minako Hamano (Super Metroid
 O_MAPK1M.SPC - "Ruined Fortress" by Segment1Zone2 (Papercut)
 O_MAPK2M.SPC - "eternal forest" by RednGreen (Super Mario World Custom Music)
 O_MAPK3M.SPC - "In a Snow-Bound Land" by Dave Wise (Donkey Kong Country 2)
-O_MAPK4M.SPC - "Wild West" by Nobuo Uematsu (Final Fantasy 6)
+O_MAPK4M.VGZ - "The Rosy Setting Sun" by Motoaki Furukawa (Sunset Riders (Genesis))
 O_MAPK5M.VGZ - "Wave Trouble" by Matt Furniss (James Bond 007: The Duel)
 O_MAPK7M.SPC - "Colony" by Taro Kudou & M. C. Ada (Axelay)
 O_MAPK8M.VGZ - "Billie Jean" by Michael Jackson (Michael Jackson's Moonwalker (Genesis))
