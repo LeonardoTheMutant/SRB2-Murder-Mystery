@@ -279,7 +279,7 @@ local function result_render(v)
 	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "WARPING_IN"), G_TicsToSeconds(timeleft), MM.GetText("HUD_SECONDS")))
 
 	if (MM.mapvote.timers[MV_RESULT] < 33) then
-		v.fadeScreen(0xFB00, 32 - timeleft)
+		v.fadeScreen(0xFF00, 32 - timeleft)
 	end
 end
 
