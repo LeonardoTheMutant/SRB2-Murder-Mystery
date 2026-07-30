@@ -28,6 +28,10 @@ O_MAPKDM.SPC - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
 O_MAPKGM.SPC - "Ruins Village" by Segment1Zone2 (Papercut)
 O_MAPKIM.VGZ - "Slow Moon" by Yuzo Koshiro (Streets of Rage 2)
 
+MAPKC: "Midwich Elementary"
+---------------------------
+O_MAPKCM.VGZ - Inside school - "Villi People" (an arranegement of Beethoven's "Moonlight Sonata") by Tommy Tallarico (Earthworm Jim 2 (Genesis))
+O_MAPKCR.VGZ - Outside school - "Intestinal Distress" by Mark Miller (Earthworm Jim (Genesis))
 
 MAPKE: "Shadow Moses Island"
 ----------------------------
