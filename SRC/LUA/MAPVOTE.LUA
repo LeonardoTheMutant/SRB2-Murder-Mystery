@@ -297,6 +297,76 @@ local SFX_SPEEDING_OFF = sfx_s3kaf
 
 local up, down, left, right
 
+addHook("KeyDown", function(e)
+	if (gamestate ~= GS_INTERMISSION) or (MM.mapvote.state ~= MV_VOTE) or (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+	switch(e.num, {
+		[KEY_UPARROW] = function()
+			if (consoleplayer.mm.kills) then
+				S_StartSound(nil, SFX_FAIL, consoleplayer)
+				return
+			end
+
+			if (consoleplayer.currentweapon < 4) then consoleplayer.currentweapon = consoleplayer.currentweapon + 3
+			else consoleplayer.currentweapon = consoleplayer.currentweapon - 3 end
+			S_StartSound(nil, SFX_SELECT, consoleplayer)
+		end,
+		[KEY_DOWNARROW] = function()
+			if (consoleplayer.mm.kills) then
+				S_StartSound(nil, SFX_FAIL, consoleplayer)
+				return
+			end
+
+			if (consoleplayer.currentweapon > 3) then consoleplayer.currentweapon = consoleplayer.currentweapon - 3
+			else consoleplayer.currentweapon = consoleplayer.currentweapon + 3 end
+			S_StartSound(nil, SFX_SELECT, consoleplayer)
+		end,
+		[KEY_LEFTARROW] = function()
+			if (consoleplayer.mm.kills) then
+				S_StartSound(nil, SFX_FAIL, consoleplayer)
+				return
+			end
+
+			switch(consoleplayer.currentweapon, {
+				[1] = function()
+					consoleplayer.currentweapon = 3
+				end,
+				[4] = function()
+					consoleplayer.currentweapon = 6
+				end,
+				["default"] = function()
+					consoleplayer.currentweapon = consoleplayer.currentweapon - 1
+				end
+			})
+			S_StartSound(nil, SFX_SELECT, consoleplayer)
+		end,
+		[KEY_RIGHTARROW] = function()
+			if (consoleplayer.mm.kills) then
+				S_StartSound(nil, SFX_FAIL, consoleplayer)
+				return
+			end
+
+			switch(consoleplayer.currentweapon, {
+				[3] = function()
+					consoleplayer.currentweapon = 1
+				end,
+				[6] = function()
+					consoleplayer.currentweapon = 4
+				end,
+				["default"] = function()
+					consoleplayer.currentweapon = consoleplayer.currentweapon + 1
+				end
+			})
+			S_StartSound(nil, SFX_SELECT, consoleplayer)
+		end,
+		[KEY_ENTER] = function()
+			consoleplayer.mm.kills = not consoleplayer.mm.kills
+			if (consoleplayer.mm.kills) then S_StartSound(nil, SFX_CONFIRM, consoleplayer)
+			else S_StartSound(nil, SFX_CANCEL, consoleplayer) end
+		end,
+	})
+end)
+
 addHook("IntermissionThinker", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
