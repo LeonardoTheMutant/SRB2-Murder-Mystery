@@ -30,12 +30,14 @@ O_MAPKIM.VGZ - "Slow Moon" by Yuzo Koshiro (Streets of Rage 2)
 
 MAPKC: "Midwich Elementary"
 ---------------------------
-O_MAPKCM.VGZ - Inside school - "Villi People" (an arranegement of Beethoven's "Moonlight Sonata") by Tommy Tallarico (Earthworm Jim 2 (Genesis))
-O_MAPKCR.VGZ - Outside school - "Intestinal Distress" by Mark Miller (Earthworm Jim (Genesis))
+O_MAPKCM.SPC - Inside school - " 'the dark" by Torchkas (Coronation Day) (Super Mario World ROM Hack)
+O_MAPKCR.SPC - Outside school - "Omnitopia Hallways" by Jeremy Soule (Secret of Evermore)
 
 MAPKE: "Shadow Moses Island"
 ----------------------------
 O_MAPKEM.SPC (Top floor) - "Jungle Theme" (Metal Gear (NES))
+O_MAPKE1.SPC (First floor basement) - "Cellar" by Masanori Adachi and Taro Kudou (Super Castlevania IV)
+O_MAPKE2.SPC (Second floor basement) - "The Waterfalls" by Masanori Adachi and Taro Kudou (Super Castlevania IV)
 
 MAPKH: "Twin Caverns Zone"
 ---------------------
