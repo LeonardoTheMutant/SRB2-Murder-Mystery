@@ -352,7 +352,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			if (int(p.mm.killreason) == KILLBY_PLR) then
 				if (p.mm.killername) then DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..p.mm.killername, hudinfo_rings.f|localTransFlag) end
 			else
-				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason or KILLBY_MAP), V_SNAPTOTOP|V_SNAPTOLEFT)
+				DrawStrUnicode(v, hudinfo_rings.x, (hudinfo_rings.y), "^5"..GetText("HUD_KILLEDBY", 1).."^0 "..GetText("HUD_KILLEDBY", p.mm.killreason or KILLBY_MAP), V_SNAPTOTOP|V_SNAPTOLEFT|localTransFlag)
 			end
 		end
 	end
@@ -402,17 +402,17 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			--REDONLY|DISABLERED (Knife-only)
 			if (GetWepCfgFlags(prole) & WEPCFG_DISABLERED) then
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[eMeM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
+				draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[eMeM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
 
 			--REDONLY
 			else
 				if (p.powers[pw_infinityring]) then
 					if (p.powers[pw_infinityring] >= weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
 					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[0][1]], V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Infinite Ring icon
-					drawString(HudRingWepOnly_x + 24, (HudRingWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER, "thin-right") --Infinite Ring ammo counter
+					drawString(HudRingWepOnly_x + 24, (HudRingWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag, "thin-right") --Infinite Ring ammo counter
 				else
 					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Red Ring icon
+					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Red Ring icon
 				end
 			end
 
@@ -425,7 +425,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			if (GetWepCfgFlags(prole) & WEPCFG_DISABLERED) then
 				--Knife weapon
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER) --Knife icon
+				draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
 
 			--Draw Red/Infinite rings like normal
 			else
@@ -471,9 +471,9 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	elseif (prole == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS) and (p.rings > 49)) or ((p.skin ~= SKIN_TAILS) and (p.rings > 99))) and (cv_wepcfgCivil.value) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM|localTransFlag) --Knife icon
 		else
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
 		end
 
 		--Ammo counter
@@ -488,9 +488,9 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	elseif (prole == ROLE_JESTER) and (p.rings > 9) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM) --Knife icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM|localTransFlag) --Knife icon
 		else
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM) --Red Ring icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
 		end
 
 		--Ammo counter
@@ -512,12 +512,12 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	--Draw the camera message when you can activate camera view
 	if (p.mm.camera.available) then
-		HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvas.width, 0, font_small.scale, MM.GetText("HUD_CAMERA", "TERMINAL")), v.localTransFlag(), font_small.scale)
+		HIDEO.DrawStrUnicode_Center(v, 160, 156, HIDEO.WordWrap(0, canvas.width, 0, font_small.scale, MM.GetText("HUD_CAMERA", "TERMINAL")), localTransFlag, font_small.scale)
 	end
 
 	--"Showdown duel!"
 	if not (PlayerCount(ROLE_CIVILIAN) or PlayerCount(ROLE_JESTER)) and (not eMeM.twopgame) and (PlayerCount() > 1) then
-		DrawStrUnicode_Center(v, 160, 192, "^8"..GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM, font.scale)
+		DrawStrUnicode_Center(v, 160, 192, "^8"..GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM|localTransFlag, font.scale)
 	end
 
 	--Sneaking
