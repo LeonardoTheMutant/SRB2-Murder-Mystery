@@ -200,8 +200,8 @@ addHook("PlayerThink", function(p)
 		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) then
-			COM_BufInsertText(server, string.format("KICK %d AFK", #p))
+		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and not (leveltime % 4) then
+			MM.PunishPlayer(p, "AFK")
 		end
 	end
 end)
@@ -539,7 +539,7 @@ addHook("IntermissionThinker", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) return end
 
 	for p in players.iterate do
-		if (p.quittime) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
+		if (p.quittime) and not (leveltime % 4) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
 	end
 
 	MM.shwdwn = false

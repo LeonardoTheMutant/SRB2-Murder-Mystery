@@ -86,7 +86,7 @@ local cv_secbright = CV_FindVar("r_secbright")
 local cv_camclipping = CV_FindVar("cam_clipping")
 local cv_renderhitbox = CV_FindVar("renderhitbox")
 addHook("ThinkFrame", function()
-	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) then return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) or (leveltime < TICRATE) or (leveltime % 4) then return end
 	if (cv_fullbright) and (cv_fullbright.value) then
 		COM_BufInsertText(consoleplayer, "QUIT")
 		COM_BufInsertText(consoleplayer, string.format("KYS %d", KYS_CVAR))
@@ -134,7 +134,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	if (p.name ~= p.oldname) and (leveltime > 105) and (p.jointime > 105) then
-		if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
+		if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) and not (leveltime % 4) then
 			MM.PunishPlayer(p, "Do not rename when dead!")
 		else
 			p.oldname = p.name
