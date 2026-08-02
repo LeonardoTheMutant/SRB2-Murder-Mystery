@@ -327,7 +327,7 @@ dofile("TIMETRAVEL.LUA")
 dofile("CAMERA.LUA")
 if (MM.debug) then
 	dofile("DEBUG.LUA")
-	HIDEO.debug = true
+	if (not isdedicatedserver) then HIDEO.debug = true end
 end
 
 --Map scripts

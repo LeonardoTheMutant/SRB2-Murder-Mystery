@@ -47,7 +47,7 @@ COM_AddCommand("mmvote_mapblacklist", function(p, ...)
 					local blacklistLen = #MM.mapvote.blacklist
 					local mapNumber, mapName = G_FindMapByNameOrCode(args[i])
 					if (mapNumber) then
-						if (findElementInTable(MM.mapvote.blacklist, mapNumber))
+						if (findElementInTable(MM.mapvote.blacklist, mapNumber)) then
 							CONS_Printf(p, string.format("\x82\"%s\" (%d) is already present in the blacklist", mapName, mapNumber))
 						else
 							MM.mapvote.blacklist[blacklistLen + 1] = mapNumber
@@ -68,7 +68,7 @@ COM_AddCommand("mmvote_mapblacklist", function(p, ...)
 					local blacklistLen = #MM.mapvote.blacklist
 					local mapNumber, mapName = G_FindMapByNameOrCode(args[i])
 
-					if (mapNumber)
+					if (mapNumber) then
 						local index = findElementInTable(MM.mapvote.blacklist, mapNumber)
 						if (index) then
 							table.remove(MM.mapvote.blacklist, index)
@@ -165,16 +165,16 @@ local function render_background(v)
 	local BGpatch
 	switch(eMeM.winner, {
 		[WIN_MURD] = function()
-			BGpatch = eMeM.graphics["INTRMBG1"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG1")
 		end,
 		[WIN_CIVILS] = function()
-			BGpatch = eMeM.graphics["INTRMBG2"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG2")
 		end,
 		[WIN_JESTERKILLED] = function()
-			BGpatch = eMeM.graphics["INTRMBG5"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG5")
 		end,
 		['default'] = function()
-			BGpatch = eMeM.graphics["INTRMBG0"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG0")
 		end
 	})
 	for x = 0, v.width(), BGpatch.width * v.dupx() do
@@ -200,18 +200,7 @@ local xoffset = 96
 local yoffset = 72
 local HUD_INTERMISSION = "HUD_INTERMISSION"
 
-local lvlsel_border1 = string.rep("0", 80)
-local lvlsel_border2 = string.rep("0", 1) .. string.rep(" ", 78) .. string.rep("0", 1)
-local lvlsel_border = {
-	palette = {{73}, {35}},
-	image = {} -- aintnoway I am manually adding 50 entries here...!
-}
--- ...I am doing it the smart way
-lvlsel_border.image[1] = lvlsel_border1
-for i = 2, 49 do
-	lvlsel_border.image[i] = lvlsel_border2
-end
-lvlsel_border.image[50] = lvlsel_border1
+local lvlsel_border_pal = {73, 35}
 
 local function vote_render(v)
 	render_background(v)
@@ -236,21 +225,24 @@ local function vote_render(v)
 			else levelPics[picName] = v.cachePatch("BLANKLVL") end
 		end
 
-		--map picture
-		v.drawScaled((startX + (x*xoffset))*FU, (startY + (y*yoffset))*FU, 32768, levelPics[picName], 0, selectColormap[bool2int(i == consoleplayer.currentweapon) + 1])
-
-		--text
+		--adjust map name text
 		local mapName = G_BuildMapTitle(MM.mapvote.maplist[i])
 		if (HIDEO.StrWidthUnicode(mapName, tlags, 32768) >= 78) then mapName = mapName:sub(0, 18).."..." end --Map name might be too long to fit
 
-		--Things to do when player is hovering overing over this slot
+		--draw level select border
 		local colorStr = ""
 		if (consoleplayer.currentweapon == i) then
-			HIDEO.DrawTextPatch(v, (startX + (x*xoffset)), (startY + (y*yoffset)), lvlsel_border, bool2int(consoleplayer.mm.kills) + 1)
+			v.drawFill((startX + (x*xoffset) - 1), (startY + (y*yoffset) - 1), 82, 52, lvlsel_border_pal[bool2int(consoleplayer.mm.kills) + 1])
 			colorStr = "^2"
 		end
+
+		--draw map picture
+		v.drawScaled((startX + (x*xoffset))*FU, (startY + (y*yoffset))*FU, 32768, levelPics[picName], 0, selectColormap[bool2int(i == consoleplayer.currentweapon) + 1])
+
+		--draw map name
 		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
 
+		--draw blue voting spheres
 		for r = 0, countPlayerVotesForSlot(i) - 1 do
 			v.drawScaled((startX + (x*xoffset) + r*2)*FU, (startY + (y*yoffset) + 52)*FU, 32768, voteIcon)
 		end

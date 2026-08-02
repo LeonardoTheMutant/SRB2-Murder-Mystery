@@ -727,13 +727,33 @@ end
 MM.LoadPatch = function(v, patchname)
 	assert(v, "MM.LoadPatch() argument #1: Video drawer object expected")
 	assert(patchname, "MM.LoadPatch() argument #2: Patch graphic name expected")
-	if (type(patchname) ~= "string") then error("V_LoadCharset() argument #2: Patch graphic name expected in string type") end
+	if (type(patchname) ~= "string") then error("MM.LoadPatch() argument #2: Patch graphic name expected in string type") end
 
 	if (not MM.graphics) then MM.graphics = {} end
 
-	if (MM.graphics[patchname]) then MM.DebugPrint("Patch \x81"..patchname.."\x87 is already loaded into memory") end
+	if (MM.graphics[patchname]) then MM.DebugPrint("Patch \x81"..patchname.."\x80 is already loaded into memory") end
 	MM.graphics[patchname] = v.cachePatch(patchname)
 	MM.DebugPrint("Loaded patch \x81"..patchname)
+end
+
+--Safely retrieve the prechached patch from (V)RAM
+MM.GetPatch = function(v, patchname)
+	assert(v, "MM.GetPatch() argument #1: Video drawer object expected")
+	assert(patchname, "MM.GetPatch() argument #2: Patch graphic name expected")
+
+	if (type(patchname) ~= "string") then error("MM.GetPatch() argument #2: Patch graphic name expected in string type") end
+
+	if (not MM.graphics) then MM.graphics = {} end
+
+	if (not valid(MM.graphics[patchname])) then
+		--Idealy this branch has to be in "while patch is not loaded" loop and repeat until you finally load it
+		MM.DebugPrint("Loading patch \x81"..patchname)
+		MM.LoadPatch(v, patchname)
+		--Assume the patch was loaded, if not, something is wrong with your game.
+		return MM.graphics[patchname]
+	end
+
+	return MM.graphics[patchname]
 end
 
 --Unload patch from (V)RAM
@@ -745,7 +765,7 @@ MM.UnloadPatch = function(patchname)
 		MM.graphics[patchname] = nil
 		MM.DebugPrint("Unloaded patch \x81"..patchname)
 	else
-		MM.DebugPrint("Trying to unload patch \x81"..patchname.."\x87 that is not in the memory!")
+		MM.DebugPrint("Trying to unload patch \x81"..patchname.."\x80 that is not in the memory!")
 	end
 end
 

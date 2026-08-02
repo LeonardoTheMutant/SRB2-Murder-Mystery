@@ -282,9 +282,9 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer % 2)))) then
 		switch(p.mm.timetravel.timesign, {
 			--Past
-			[1] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.graphics["TWS_PAST"], hudinfo_lives.f|V_PERPLAYER|localTransFlag) end,
+			[1] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_PAST"), hudinfo_lives.f|V_PERPLAYER|localTransFlag) end,
 			--Future
-			[2] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.graphics["TWS_FUTR"], hudinfo_lives.f|V_PERPLAYER|localTransFlag) end
+			[2] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_FUTR"), hudinfo_lives.f|V_PERPLAYER|localTransFlag) end
 		})
 	end
 
@@ -402,22 +402,22 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			--REDONLY|DISABLERED (Knife-only)
 			if (GetWepCfgFlags(prole) & WEPCFG_DISABLERED) then
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[eMeM.weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
+				draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, eMeM.weapons[-2][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
 
 			--REDONLY
 			else
 				if (p.powers[pw_infinityring]) then
 					if (p.powers[pw_infinityring] >= weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[0][1]], V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Infinite Ring icon
+					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Infinite Ring icon
 					drawString(HudRingWepOnly_x + 24, (HudRingWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag, "thin-right") --Infinite Ring ammo counter
 				else
 					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Red Ring icon
+					draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Red Ring icon
 				end
 			end
 
 			--Selector
-			draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
+			draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.GetPatch(v, "CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
 
 		--Draw all weapons
 		else
@@ -425,18 +425,18 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			if (GetWepCfgFlags(prole) & WEPCFG_DISABLERED) then
 				--Knife weapon
 				if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-				draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
+				draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-2][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Knife icon
 
 			--Draw Red/Infinite rings like normal
 			else
 				--Red/Infinity rings
 				if (p.powers[pw_infinityring]) then
 					if (p.powers[pw_infinityring] >= weapons[0][5]) then wepTextFlags[0] = wepTextFlags[0] | V_YELLOWMAP end
-					draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.graphics[weapons[0][1]], V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Infinite Ring icon
+					draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[0][1]), V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Infinite Ring icon
 					drawString((HudRingWep.x + 24), (HudRingWep.y + 8), p.powers[pw_infinityring], wepTextFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag, "thin-right") --Infinite Ring ammo counter
 				else
 					if (p.rings < 1) then wepPatchFlags[0] = V_80TRANS end
-					draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Red Ring icon
+					draw((HudRingWep.x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-1][1]), wepPatchFlags[0]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Red Ring icon
 				end
 			end
 
@@ -449,14 +449,14 @@ MMhud.routines["game_main"] = function(v, p ,c)
 						wepPatchFlags[weapon] = V_80TRANS
 						wepTextFlags[weapon] = wepTextFlags[weapon] | V_TRANSLUCENT
 					end
-					draw((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), eMeM.graphics[weapons[weapon][1]], wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Ring weapon icon
+					draw((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), eMeM.GetPatch(v, weapons[weapon][1]), wepPatchFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag) --Ring weapon icon
 					if (weapons[weapon][2] == MT_THROWNAUTOMATIC) and (p.mm.weaponoverheat_delay > 0) then
 						--Draw overheat indicator
 						drawFill((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), 16, 16, 35|max(10 - p.mm.weaponoverheat_delay, 0)*FU|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
 					end
 					drawString((HudRingWep.x + 24 + weapon*20), (HudRingWep.y + 8), p.powers[weapon + 14], wepTextFlags[weapon]|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag, "thin-right") --Ammo counter
 				elseif (p.ringweapons & wep2rw(weapon)) then
-					draw((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), eMeM.graphics[weapons[weapon][1]], V_TRANSLUCENT|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
+					draw((HudRingWep.x + 8 + weapon*20), (HudRingWep.y), eMeM.GetPatch(v, weapons[weapon][1]), V_TRANSLUCENT|V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
 				end
 			end
 			if ((p.ammoremovaltimer) and ((leveltime % 7) < 4)) then
@@ -464,16 +464,16 @@ MMhud.routines["game_main"] = function(v, p ,c)
 			end
 
 			--Selector
-			draw((HudRingWep.x + 6 + p.currentweapon*20), (HudRingWep.y - 2 - (var2 / 2)), eMeM.graphics["CURWEAP"], V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
+			draw((HudRingWep.x + 6 + p.currentweapon*20), (HudRingWep.y - 2 - (var2 / 2)), eMeM.GetPatch(v, "CURWEAP"), V_SNAPTOBOTTOM|V_PERPLAYER|localTransFlag)
 		end
 
 	--Civilian weapon logic
 	elseif (prole == ROLE_CIVILIAN) and (((p.skin == SKIN_TAILS) and (p.rings > 49)) or ((p.skin ~= SKIN_TAILS) and (p.rings > 99))) and (cv_wepcfgCivil.value) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM|localTransFlag) --Knife icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-2][1]), V_SNAPTOBOTTOM|localTransFlag) --Knife icon
 		else
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-1][1]), V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
 		end
 
 		--Ammo counter
@@ -484,25 +484,25 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		end
 
 		--Selector
-		draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.graphics["CURWEAP"], V_SNAPTOBOTTOM|localTransFlag)
+		draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.GetPatch(v, "CURWEAP"), V_SNAPTOBOTTOM|localTransFlag)
 	elseif (prole == ROLE_JESTER) and (p.rings > 9) then
 		--Knife-only
 		if (cv_wepcfgCivil.value == 2) then
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-2][1]], V_SNAPTOBOTTOM|localTransFlag) --Knife icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-2][1]), V_SNAPTOBOTTOM|localTransFlag) --Knife icon
 		else
-			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.graphics[weapons[-1][1]], V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
+			draw((HudRingWepOnly_x + 8), (HudRingWep.y), eMeM.GetPatch(v, weapons[-1][1]), V_SNAPTOBOTTOM|localTransFlag) --Red Ring icon
 		end
 
 		--Ammo counter
 		drawString((HudRingWepOnly_x + 24), (HudRingWep.y + 8), (p.rings / 10), V_SNAPTOBOTTOM|localTransFlag, "thin-right")
 
 		--Selector
-		draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.graphics["CURWEAP"], V_SNAPTOBOTTOM|localTransFlag)
+		draw((HudRingWepOnly_x + 6), (HudRingWep.y - 2 - (var2 / 2)), eMeM.GetPatch(v, "CURWEAP"), V_SNAPTOBOTTOM|localTransFlag)
 	end
 
 	--Sheriff's Emerald Radar for Innocents
 	if ((prole == ROLE_CIVILIAN) or (prole == ROLE_JESTER)) and (#eMeM.shremds) and (eMeM.shremdDist) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then
-		drawScaled(9961472, 8912896, 32768, eMeM.graphics["IDEYAR"..V_GetSHREMDiconID(fixint(eMeM.shremdDist))], V_SNAPTOBOTTOM|localTransFlag) --152*FU, 136*FU, FU/2
+		drawScaled(9961472, 8912896, 32768, eMeM.GetPatch(v, "IDEYAR"..V_GetSHREMDiconID(fixint(eMeM.shremdDist))), V_SNAPTOBOTTOM|localTransFlag) --152*FU, 136*FU, FU/2
 	end
 
 	--Are you alone?
@@ -601,11 +601,11 @@ MMhud.routines["scores_main"] = function(v)
 
 					drawString((HudScores_pos_teammate.x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + ((teammateNo % 2) * 16)), RoleColor[role]..p.name, V_ALLOWLOWERCASE|localTransFlag)
 					--icon of the currently held weapon
-					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[p.currentweapon][1]], localTransFlag) --FU/2
+					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.GetPatch(v, weapons[p.currentweapon][1]), localTransFlag) --FU/2
 					--amount of currently held weapon ammo
 					drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.powers[pw_infinityring + p.currentweapon], localTransFlag, "thin")
 					--red ring icon
-					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.graphics[weapons[-1][1]], localTransFlag) --FU/2
+					drawScaled((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + (136 * (teammateNo / 2)))*FU, (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16))*FU, 32768, eMeM.GetPatch(v, weapons[-1][1]), localTransFlag) --FU/2
 					--amount of [red] rings
 					drawString((HudScores_pos_teammate.x + HudScores_pos.teammateInfoOffset1_x + HudScores_pos.teammateInfoOffset2_x + 18 + (136 * (teammateNo / 2))), (HudScores_pos_teammate.y + 8 + ((teammateNo % 2) * 16)), p.rings, localTransFlag, "thin")
 					teammateNo = teammateNo + 1
@@ -631,7 +631,7 @@ MMhud.routines["scores_main"] = function(v)
 
 		--"Sheriff's Emerald is available!"
 		if ((#eMeM.shremds) and (leveltime % 2)) then
-			drawScaled(262144, 12058440, 32768, eMeM.graphics["CHAOS3"], localTransFlag) --4*FU, 184*FU, FU/2
+			drawScaled(262144, 12058440, 32768, eMeM.GetPatch(v, "CHAOS3"), localTransFlag) --4*FU, 184*FU, FU/2
 		end
 	end
 
@@ -753,16 +753,16 @@ MMhud.routines["intermission_main"] = function(v)
 	local BGpatch
 	switch(eMeM.winner, {
 		[WIN_MURD] = function()
-			BGpatch = eMeM.graphics["INTRMBG1"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG1")
 		end,
 		[WIN_CIVILS] = function()
-			BGpatch = eMeM.graphics["INTRMBG2"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG2")
 		end,
 		[WIN_JESTERKILLED] = function()
-			BGpatch = eMeM.graphics["INTRMBG5"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG5")
 		end,
 		['default'] = function()
-			BGpatch = eMeM.graphics["INTRMBG0"]
+			BGpatch = eMeM.GetPatch(v, "INTRMBG0")
 		end
 	})
 	for x = 0, v.width(), BGpatch.width * v.dupx() do
@@ -941,39 +941,6 @@ HudGame.routine = MMhud.routines["game_main"]
 HudScores.routine = MMhud.routines["scores_main"]
 HudInter.routine = MMhud.routines["intermission_main"]
 
-local function loadGraphics(v)
-	MM.DebugPrint("Loading graphics")
-	HIDEO.LoadUnicodeFont(v) --Initialize Unicode renderer
-	for c = 33, 126 do --Load ASCII range of characters for basic text
-		HIDEO.LoadUnicodeFont(v, c)
-	end
-
-	--Emerald icon
-	LoadPatch(v, "CHAOS3")
-
-	--Radar icons
-	for i = 1, 6 do
-		if v.patchExists("IDEYAR"..i) then LoadPatch(v, "IDEYAR"..i) end
-	end
-
-	--Weapon icons
-	for i = -2, 6 do LoadPatch(v, eMeM.weapons[i][1]) end
-	LoadPatch(v, "CURWEAP") --weapon selector
-
-	--Past/Future Warp Signs
-	LoadPatch(v, "TWS_FUTR")
-	LoadPatch(v, "TWS_PAST")
-
-	--MMHELP scrolling background
-	LoadPatch(v, "NTSATKT2")
-	LoadPatch(v, "NTSATKB1")
-
-	--Intermission background
-	for i = 0, 5 do
-		if v.patchExists("INTRMBG"..i) then LoadPatch(v, "INTRMBG"..i) end
-	end
-end
-
 --
 -- Drawing Hooks
 --
@@ -986,13 +953,13 @@ hud.add(function(v, p, c)
 	font.scale = FU
 	font.charwidth = FixMul(charwidth, font.scale)
 	font.charheight = FixMul(charheight, font.scale)
+	if (not HIDEO.font[0xFFFD]) then HIDEO.LoadUnicodeFont(v, 0xFFFD) end --Load the "Replacement Character" (U+FFFD)
 
 	--Calculate canvas values for small font
 	if (v_width < 640) then font_small.scale = font.scale
 	else font_small.scale = 32768 end --MM.hud.canvas.font.scale/2
 	font_small.charwidth = FixMul(charwidth, font_small.scale)
 	font_small.charheight = FixMul(charheight, font_small.scale)
-	if (not MM.graphics) then loadGraphics(v) end
 
 	--Call the drawing routine
 	HudGame.routine(v, p, c)
@@ -1003,8 +970,5 @@ hud.add(function(v)
 end, "scores")
 
 hud.add(function(v)
-	if (not MM.graphics) then loadGraphics(v) end
 	HudInter.routine(v)
-	v.drawString(0, 184, "LTM's MM v" + MM.version, V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
-	v.drawString(0, 192, "Preview 2", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_ALLOWLOWERCASE)
 end, "intermission")

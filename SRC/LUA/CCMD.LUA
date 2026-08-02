@@ -341,7 +341,7 @@ local oldLang = ""
 --Renderer, Frontend
 --void mmhelp_renderer(drawer v) { ... };
 mmhelp_renderer = function(v)
-	if (MM_text) and (eMeM.graphics) and (gametype == GT_LTMMURDERMYSTERY) then return end
+	if (MM_text) and (gametype == GT_LTMMURDERMYSTERY) then return end
 	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
 
 	local draw = v.draw
@@ -378,8 +378,8 @@ mmhelp_renderer = function(v)
 
 	v.fadeScreen(16, 5) --gray background
 
-	local NTSATKT2 = eMeM.graphics["NTSATKT2"]; local NTSATKT2_width = NTSATKT2.width
-	local NTSATKB1 = eMeM.graphics["NTSATKB1"]; local NTSATKB1_width = NTSATKB1.width
+	local NTSATKT2 = eMeM.GetPatch(v, "NTSATKT2"); local NTSATKT2_width = NTSATKT2.width
+	local NTSATKB1 = eMeM.GetPatch(v, "NTSATKB1"); local NTSATKB1_width = NTSATKB1.width
 
 	--Foreground scrolling blue triangle thingies
 	for i = -3, 3 do
