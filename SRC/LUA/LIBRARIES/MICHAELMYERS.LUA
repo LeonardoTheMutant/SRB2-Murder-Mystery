@@ -460,30 +460,30 @@ MM.HitTeammate = function(v, a)
 	local colorA, colorV
 	switch(a.mm.role, {
 		[ROLE_MURDERER] = function()
-		colorA = ROLE_MURDERER
+			colorA = ROLE_MURDERER
 		end,
 		[ROLE_SHERIFF] = function()
-		colorA = ROLE_SHERIFF
+			colorA = ROLE_SHERIFF
 		end,
 		[ROLE_HERO] = function()
-		colorA = ROLE_HERO
+			colorA = ROLE_HERO
 		end,
 		[ROLE_JESTERHERO] = function()
-		colorA = ROLE_HERO
+			colorA = ROLE_HERO
 		end
 	})
 	switch(v.mm.role, {
 		[ROLE_MURDERER] = function()
-		colorV = ROLE_MURDERER
+			colorV = ROLE_MURDERER
 		end,
 		[ROLE_SHERIFF] = function()
-		colorV = ROLE_SHERIFF
+			colorV = ROLE_SHERIFF
 		end,
 		[ROLE_HERO] = function()
-		colorV = ROLE_HERO
+			colorV = ROLE_HERO
 		end,
 		[ROLE_JESTERHERO] = function()
-		colorV = ROLE_HERO
+			colorV = ROLE_HERO
 		end
 	})
 	MM.Chatprint(a, MM.RoleColorHUD[colorV]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
