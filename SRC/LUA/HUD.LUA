@@ -67,6 +67,7 @@ local hudinfo_score = hudinfo[HUD_SCORE]
 local hudinfo_time = hudinfo[HUD_TIME]
 local hudinfo_rings = hudinfo[HUD_RINGS]
 local hudinfo_lives = hudinfo[HUD_LIVES]
+local new_hudinfo_lives = {x = hudinfo_lives.x, y = hudinfo_lives.y, f = hudinfo_lives.f}
 
 local HUD_INTERMISSION = "HUD_INTERMISSION"
 
@@ -152,7 +153,7 @@ end)
 --
 MMhud.routines["game_main"] = function(v, p ,c)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then --in case if switched from MM to another gametype
-		hud.enable("lives")
+		hudinfo_lives.y = 176;
 		hud.enable("textspectator")
 		hud.enable("score")
 		hud.enable("time")
@@ -174,7 +175,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	HUDdigit_width = GetTextPatchWidth(HudDigit[0])
 
-	hud.disable("lives")
+	hudinfo_lives.y = canvas.height;
 	hud.disable("textspectator")
 	hud.disable("score")
 	hud.disable("time")
@@ -282,15 +283,15 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	if (p.mm.timetravel) and (p.mm.timetravel.timesign) and (not p.spectator) and ((p.mm.timetravel.warptimer < 70) or ((p.mm.timetravel.warptimer >= 70) and (not (p.mm.timetravel.warptimer % 2)))) then
 		switch(p.mm.timetravel.timesign, {
 			--Past
-			[1] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_PAST"), hudinfo_lives.f|V_PERPLAYER|localTransFlag) end,
+			[1] = function() draw(new_hudinfo_lives.x, (new_hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_PAST"), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag) end,
 			--Future
-			[2] = function() draw(hudinfo_lives.x, (hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_FUTR"), hudinfo_lives.f|V_PERPLAYER|localTransFlag) end
+			[2] = function() draw(new_hudinfo_lives.x, (new_hudinfo_lives.y - 18), eMeM.GetPatch(v, "TWS_FUTR"), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag) end
 		})
 	end
 
 	--Life icon, player name and role
-	drawScaled((hudinfo_lives.x * FU), (hudinfo_lives.y * FU), 32768, getSprite2Patch(p.skin, SPR2_XTRA), hudinfo_lives.f|V_PERPLAYER|localTransFlag, getColormap(p.skin, p.skincolor)) --FU/2
-	drawString((hudinfo_lives.x + 18), hudinfo_lives.y, p.name, hudinfo_lives.f|V_ALLOWLOWERCASE|V_PERPLAYER|localTransFlag)
+	drawScaled((new_hudinfo_lives.x * FU), (new_hudinfo_lives.y * FU), 32768, getSprite2Patch(p.skin, SPR2_XTRA), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag, getColormap(p.skin, p.skincolor)) --FU/2
+	drawString((new_hudinfo_lives.x + 18), new_hudinfo_lives.y, p.name, new_hudinfo_lives.f|V_ALLOWLOWERCASE|V_PERPLAYER|localTransFlag)
 
 	--Show your role
 	if ((prole) and (HudGame.roleflicker % 2) == 0) then
@@ -324,22 +325,22 @@ MMhud.routines["game_main"] = function(v, p ,c)
 				var2 = ROLE_DEAD
 			end
 		})
-		DrawStrUnicode(v, (hudinfo_lives.x + 18), (hudinfo_lives.y + 8), RoleColorHUD[var2]..GetText("HUD_ROLES", var1), hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
+		DrawStrUnicode(v, (new_hudinfo_lives.x + 18), (new_hudinfo_lives.y + 8), RoleColorHUD[var2]..GetText("HUD_ROLES", var1), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
 	end
 
-	--Print the name of the current timezone you're in (exclusive for MAPKD ("East City"))
+	--Print the name of the current timezone you're in
 	if (p.mm.timetravel) and (not p.spectator) then
 		if (int(p.mm.timetravel.timezone) == TIMEZONE_PAST) then --Past
-			DrawStrUnicode(v, (hudinfo_lives.x), (hudinfo_lives.y + 16), "^6"..GetText("HUD_PAST"), hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
+			DrawStrUnicode(v, (new_hudinfo_lives.x), (new_hudinfo_lives.y + 16), "^6"..GetText("HUD_PAST"), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
 		elseif (int(p.mm.timetravel.timezone) > TIMEZONE_PRESENT) then --One of the Futures
-			DrawStrUnicode(v, (hudinfo_lives.x), (hudinfo_lives.y + 16), "^6"..GetText("HUD_FUTURE"), hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
+			DrawStrUnicode(v, (new_hudinfo_lives.x), (new_hudinfo_lives.y + 16), "^6"..GetText("HUD_FUTURE"), new_hudinfo_lives.f|V_PERPLAYER|localTransFlag, font.scale)
 		end
 	end
 
 	--DEAD player exclusive HUD
 	if (prole == ROLE_DEAD) and (PlayerCount() > 1) then
 		--DEAD role label
-		DrawStrUnicode(v, (hudinfo_lives.x + 18), (hudinfo_lives.y + 8), RoleColorHUD[ROLE_DEAD]..GetText("HUD_ROLES", "DEAD"), hudinfo_lives.f|localTransFlag, font.scale)
+		DrawStrUnicode(v, (new_hudinfo_lives.x + 18), (new_hudinfo_lives.y + 8), RoleColorHUD[ROLE_DEAD]..GetText("HUD_ROLES", "DEAD"), new_hudinfo_lives.f|localTransFlag, font.scale)
 		DrawStrUnicode_Center(v, 160, 120, WordWrap(0, canvas.width, 0, font.scale, GetText("HUD_DEAD")), localTransFlag, font.scale)
 
 		--"You joined mid-game"
