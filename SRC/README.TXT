@@ -31,7 +31,7 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
     mode when playing in vanilla game types with MM add-on present.
 **  Please read NOTES4HOSTERS.TXT for details.
 *** Digital Music pack(s) with digitized MIDI soundtrack is a separate client-side add-on that can be
-    downloaded from the assets found in SRB2 MM's Digital Music repository.
+    downloaded from the assets found in LTM_MM's Digital Music repository.
     Links to the repository are located at the end of the document.
 
 

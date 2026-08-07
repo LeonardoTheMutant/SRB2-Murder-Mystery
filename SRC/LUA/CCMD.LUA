@@ -65,15 +65,17 @@ local mmsetup_entries = {
 		description = "Enable/Disable the Footmarks that players leave on flat surfaces after each step."},
 	{cvar = CV_FindVar("mm_killtrails"), min = 0, max = 1, values = DisableEnable_option, name = "Kill trails",
 		description = [[
-Enable/Disable the red recolor of the footsteps after killing another player with a knife or steping on the dead body.
+When enabled, players can get their footmarks recolored to red for some amount of steps after stepping over a dead body or by killing with a knife.
 Player footmarks must be enabled for this to work.]]
 	},
 	{cvar = CV_FindVar("mm_nocamping"), min = 0, max = 1, values = DisableEnable_option, name = "Anti-camp system for Murderers",
-		description = "If enabled, Murderer players who are near the emerald for longer than 20 seconds get killed as a punishment."},
+		description = "If enabled, Murderer players who are near the emerald for some amount of time will get punished."},
 	{cvar = CV_FindVar("mm_speed_sneak"), min = 1, max = 5, name = "Sneaking speed",
 		description = "Sneaking speed."},
 	{cvar = CV_FindVar("mm_speed_walk"), min = 6, max = 40, name = "Walking speed",
 		description = "Walking speed."},
+	{cvar = CV_FindVar("mm_hurtteammates"), min = 0, max = 1, values = NoYes_option, name = "Teammates can hurt each other",
+		description = "When enabled, a player can get hit by a teammate. In such cases the player looses all of its rings and gets a knockback.\nSet to \"No\" to disable this behaviour entirely."},
 	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 15, values = wepcfg_option, name = "Weapons set - Murderer",
 		description = "Set weapons for the Murderer role. "..wepcfg_description},
 	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 15, values = wepcfg_option, name = "Weapons set - Sheriff",
@@ -85,20 +87,11 @@ Player footmarks must be enabled for this to work.]]
 	{cvar = CV_FindVar("mm_vote_enable"), min = 0, max = 2, values = NoYes_option, name = "Enable Map Voting",
 		description = "Enable/Disable the Map Voting during intermission. Also see the MMVOTE_BLACKLIST console command to manage the Map Blacklist"},
 	{cvar = CV_FindVar("mm_vote_scoretime"), min = 5, max = 30, name = "Round Results screen time",
-		description = [[
-How long the Round Result screen should stay, in seconds.
-Map Voting must be enabled for this to work.]]
-	},
+		description = "How long the Round Result screen should stay, in seconds.\nMap Voting must be enabled for this to work."},
 	{cvar = CV_FindVar("mm_vote_votetime"), min = 5, max = 30, name = "Voting time",
-		description = [[
-How much time the players can vote for the next map, in seconds.
-Map Voting must be enabled for this to work.]]
-	},
+		description = "How much time the players can vote for the next map, in seconds.\nMap Voting must be enabled for this to work."},
 	{cvar = CV_FindVar("mm_vote_resulttime"), min = 3, max = 10, name = "Voting Results screen time",
-		description = [[
-How long the Voting Result screen should stay, in seconds.
-Map Voting must be enabled for this to work.]]
-	},
+		description = "How long the Voting Result screen should stay, in seconds.\nMap Voting must be enabled for this to work."},
 	{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit",
 		description = [[
 Time limit for the round, in minutes. With "Let MM decide" option the game will automatically choose the time limit for each round.

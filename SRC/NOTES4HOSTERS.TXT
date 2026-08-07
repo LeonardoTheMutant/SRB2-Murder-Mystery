@@ -1,5 +1,5 @@
 Thanks for opening this file, it contains really important information
-for those who are going to host this addon pack on their server (including you)
+for those who are going to host this gametype add-on on their server (including you)
 
 ---=== HOW TO LAUNCH THE LTM'S MURDER MYSTERY GAME ===---
 A. From the command line:
@@ -54,6 +54,9 @@ VARIABLES
 	MM_SPEED_WALK - Adjust the walk speed for all players. This variable can range from 6 to 40.
 		This works only when MM_ABILITIES console variable is disabled. The default value is 20.
 
+	MM_HURTTEAMMATES - Can teammates hurt each other? When enabled, players who are shot by their teammates loose all of their rings and get a knockback.
+		The default value is YES
+
 	MM_WEPCFG_MURD, MM_WEPCFG_SHERI, MM_WEPCFG_HERO - Set the Weapon Configuration for Murderers, Sheriffs and Heroes respectively.
 		These CVARs in their value contain two sepparate configurations for Normal Gameplay and for Showdown Duel.
 		The variables accepts the *interger* in 0-15 range. For more details please see the DEV_DOCS/MM_WEPCFG.PNG
@@ -65,8 +68,9 @@ VARIABLES
 			2 - Allow only Knife
 
 COMMANDS
-	SAYDEAD - This command is available only for the host player and can be used to send a message to the
-	    dead players as <~SERVER>.
+	MMSETUP - A Graphical UI to set up the MM game in a more convinient way instead of typing all CVARs manually
+
+	SAYDEAD - This command is available only for the host player and can be used to send a message to the dead players as <~SERVER>.
 
 
 ---=== List of incompatible Add-On types ===---
@@ -96,4 +100,4 @@ Here is the list of Add-On types that can break Murder Mystery and the reasons w
 We will add more information here if something else important will be noticed,
 please inform us as well if you will notice ANY KIND of bug/issue first.
 Our contacts are listed in README.TXT
-Thank you for reading and hosting this
+Thank you for reading and hosting the SRB2 Murder Mystery game

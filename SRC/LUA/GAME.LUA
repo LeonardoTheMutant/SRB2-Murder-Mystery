@@ -13,6 +13,7 @@ local cv_shields = CV_FindVar("mm_allowshields")
 local cv_invinc = CV_FindVar("mm_allowinvinc")
 local cv_shoes = CV_FindVar("mm_allowshoes")
 local cv_nocamping = CV_FindVar("mm_nocamping")
+local cv_hurtteammates = CV_FindVar("mm_hurtteammates")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -370,8 +371,12 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 	local ap = a.player--Attacker player
 
 	if (MM.AreTeammates(vp, ap)) then
-		MM.HitTeammate(vp, ap)
-		return false
+		if (cv_hurtteammates.value) then
+			MM.HitTeammate(vp, ap)
+			return false
+		else
+			return true
+		end
 	else
 		if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole ~= ROLE_MURDERER)) then return true
 		else MM.KillPlayerByPlayer(v, a) end
