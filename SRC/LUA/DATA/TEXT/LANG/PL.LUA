@@ -20,7 +20,7 @@ MM.AddLang("PL", {
 		["REPLACEQUIT"]="^5Morderca^0 wyszedł z gry! Jeden z ^3Cywilów^0 zdobył jego rolę!"
 	},
 	["CHAT_ROLE_SHERIFF"]={
-		["ROLEGET_PM"]="Jesteś ^4Szeryfem^0! ^4Wyeliminuj wszystkich Morderców^0. Jeśli zabijesz Ciwila, stracisz role.",
+		["ROLEGET_PM"]="Jesteś ^4Szeryfem^0! ^4Wyeliminuj wszystkich Morderców^0. Bądź ostrożny z podejrzewanymi...",
 		["NEWROLEGET_PM"]="^7Świat sprawił cię nowym ^4Szeryfem^7! To teraz twoja robota ^4wyeliminować wszystkich Morderców^7!",
 		["KILLED"]={
 			"Szeryf",

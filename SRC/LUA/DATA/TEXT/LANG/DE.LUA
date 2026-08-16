@@ -24,7 +24,7 @@ MM.AddLang("DE", {
 		["REPLACEQUIT"]="Der ^5Morder^0 ist geflohen! Ein zufalliger ^3Zivilist^0 wird ihre Rolle ubernehmen!"
 	},
 	["CHAT_ROLE_SHERIFF"]={
-		["ROLEGET_PM"]="Du bist der ^4Sheriff^0!^4 Beseitige alle Morder^0. Tote die^3 falsche Person^0, und die Rolle gehort dir nicht mehr.",
+		["ROLEGET_PM"]="Du bist der ^4Sheriff^0!^4 Beseitige alle Morder^0. Sei vorsichtig mit deinen Verdächtigen...",
 		["NEWROLEGET_PM"]="^7Das Universum hat dich zum ^4Sheriff^7 ernannt! Geh und^4 eliminier alle Morder^7!",
 		["KILLED"]={
 			"Sheriff",

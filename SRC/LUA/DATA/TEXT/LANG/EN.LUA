@@ -105,7 +105,7 @@ local language_data = { --Language must be a table variable, you can name the va
 
 	--Sheriff role text
 	["CHAT_ROLE_SHERIFF"] = {
-		["ROLEGET_PM"] = "You are the ^4Sheriff^0! ^4Eliminate all the Murderers^0. Kill the ^3wrong person^0, and the role is no longer yours.", --"You got role" on round start
+		["ROLEGET_PM"] = "You are the ^4Sheriff^0! ^4Eliminate all the Murderers^0. Be careful with your suspects...", --"You got role" on round start
 		["NEWROLEGET_PM"] = "^7The Universe has made you a ^4Sheriff^7! Go and ^4eliminate all Murderers^7!", --PM message when a Sheriff player left and you got his role
 		["KILLED"] = { --"Sheriff got killed" announcement
 			"Sheriff", --beginning
