@@ -119,7 +119,7 @@ COM_AddCommand("mmsetup", function(p)
 
 	if (isdedicatedserver) then CONS_Printf(p, info_mmhelp_adminCVAR); return end
 
-	if (MM.hud.help.active) or (p.camera and p.camera.active) or (gamestate ~= GS_LEVEL) then
+	if (MM.hud.help.active) or (p.mm.camera and p.mm.camera.active) or (gamestate ~= GS_LEVEL) then
 		CONS_Printf(p, "Unable to open the MMSETUP UI right now"); return
 	end
 
@@ -283,6 +283,17 @@ end
 local MMhelp = eMeM.help
 local function mmhelp_renderer() end --void mmhelp_renderer(drawer v);
 
+addHook("KeyDown", function(e) --Rebind F1 to MMHELP
+	if (gametype == GT_LTMMURDERMYSTERY) and (gamestate == GS_LEVEL)
+	and not (mmsetupcursor or (consoleplayer.mm.camera and consoleplayer.mm.camera.active)) and (e.num == KEY_F1) then
+		MMhelp.active = true
+		eMeM.hud.game.routine = mmhelp_renderer
+		input.setMouseGrab(false)
+		return true
+	end
+end)
+
+
 COM_AddCommand("mmhelp", function(p, page)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
@@ -297,7 +308,7 @@ COM_AddCommand("mmhelp", function(p, page)
 
 	if (isdedicatedserver) then return end
 
-	if (mmsetupcursor) or (p.camera and p.camera.active) or (gamestate ~= GS_LEVEL) then
+	if (mmsetupcursor) or (p.mm.camera and p.mm.camera.active) or (gamestate ~= GS_LEVEL) then
 		CONS_Printf(p, "Unable to open the MMHELP UI right now"); return
 	end
 
@@ -524,14 +535,18 @@ addHook("KeyDown", function(ev)
 		if (not cvar.value) then CV_Set(cvar, 1) end
 	elseif ((c == KEY_UPARROW or c == KEY_MOUSEWHEELUP or c == input.gameControlToKeyNum(GC_FORWARD)) and MMhelp.scroll > 1) then
 		MMhelp.scroll = MM.help.scroll - 1
+		S_StartSound(nil, sfx_menu1, consoleplayer)
 	elseif ((c == KEY_DOWNARROW or c == KEY_MOUSEWHEELDOWN or c == input.gameControlToKeyNum(GC_BACKWARD)) and (MMhelp.scroll < pageLength)) then
 		MMhelp.scroll = MM.help.scroll + 1
+		S_StartSound(nil, sfx_menu1, consoleplayer)
 	elseif ((c == KEY_LEFTARROW or c == input.gameControlToKeyNum(GC_STRAFELEFT)) and MMhelp.page ~= 1) then
 		MMhelp.page = MM.help.page - 1
 		MMhelp.scroll = 1
+		S_StartSound(nil, sfx_menu1, consoleplayer)
 	elseif ((c == KEY_RIGHTARROW or c == input.gameControlToKeyNum(GC_STRAFERIGHT)) and MMhelp.page <= #MM.text[MM.lang]["HUD_MMHELP"]) then
 		MMhelp.page = MM.help.page + 1
 		MMhelp.scroll = 1
+		S_StartSound(nil, sfx_menu1, consoleplayer)
 	elseif (c == KEY_F11) then
 		ignore = false
 	end
