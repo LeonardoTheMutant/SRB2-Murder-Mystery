@@ -548,7 +548,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
 	end
-	if (p == server) and (isdedicatedserver) then
+	if (isdedicatedserver) then
 		CONS_Printf(server, "Dedicated Host can have only ENGLISH language"); return
 	end
 	if (not l) then

@@ -19,11 +19,11 @@ local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri")
 local shremd_distances, shremd_interval, shremd_closest
 
 local function MM_GetSHREMDinterval(dist)
-	if (dist < 256) return 5
-	elseif (dist < 512) return 10
-	elseif (dist < 1024) return 20
-	elseif (dist < 2048) return 30
-	elseif (dist < 4096) return 35
+	if (dist < 256) then return 5
+	elseif (dist < 512) then return 10
+	elseif (dist < 1024) then return 20
+	elseif (dist < 2048) then return 30
+	elseif (dist < 4096) then return 35
 	else return 0 end
 end
 
@@ -33,12 +33,12 @@ end
 -- Map Load
 --
 addHook("MapLoad", function(map)
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	--Prepare players & server for the new round
 	for p in players.iterate do
 		MM.InitPlayer(p)
-		p.mm.flags = $ & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_NEWCOMER)
+		p.mm.flags = p.mm.flags & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_NEWCOMER)
 		p.mm.weapondelay = 175 --5 seconds
 		p.mm.role = ROLE_DEAD
 	end
@@ -58,16 +58,18 @@ addHook("MapLoad", function(map)
 	if (timelimit) then
 		--Changing the vanilla TIMELIMIT CVAR value mid-game will cause a desync between internal and HUD timers. Remember that when hosting a game. Map reload fixes synchronization
 		MM.timelimit = timelimit --Get timelimit from the TIMELIMIT cvar
-	elseif (mapheaderinfo[map].timelimit) and (tonumber(mapheaderinfo[map].timelimit))
+	elseif (mapheaderinfo[map].timelimit) and (tonumber(mapheaderinfo[map].timelimit)) then
 		MM.timelimit = tonumber(mapheaderinfo[map].timelimit) --Get timelimit from Map's SOC data ("Lua.timelimit" SOC property)
 	else
 		MM.timelimit = 5 --Default to 5 minutes
 	end
-	MM.timelimit = $ + MM.GetRoleMultiplier() - 1
+	MM.timelimit = MM.timelimit + MM.GetRoleMultiplier() - 1
 	printf("Time limit for this round is %d minutes", MM.timelimit)
 
 	--Assign roles to the players
 	MM.AssignRoles()
+
+	if (isdedicatedserver) then CONS_Printf(server, string.format("[%s GAME]: Round start", os.date("%X"))) end
 end)
 
 
@@ -76,16 +78,16 @@ end)
 -- Player spawn
 --
 addHook("PlayerSpawn", function(p)
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	MM.InitPlayer(p)
 
 	--Apply language
-	if (not MM.lang)
+	if (not MM.lang) then
 		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
-		if f
+		if (f) then
 			local l = f:read() --read data
-			if (MM.text[l]) --is such language imported into the game?
+			if (MM.text[l]) then --is such language imported into the game?
 				MM.lang = l
 			else --no
 				MM.lang = "EN"
@@ -104,7 +106,7 @@ addHook("PlayerSpawn", function(p)
 	if (p.mm.flags & FLAG_DEAD) then p.spectator = true end
 
 	--Check player num and state on join
-	if (p.mm.role == nil)
+	if (p.mm.role == nil) then
 		switch(MM.PlayerCount(), {
 			[1] = function()
 				p.spectator = false
@@ -129,7 +131,7 @@ end)
 --
 local camping_maxtime = 350
 addHook("PlayerThink", function(p)
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	local pmo = p.mo or p.realmo
 
@@ -138,19 +140,19 @@ addHook("PlayerThink", function(p)
 	if (not cv_shoes.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
 
 	--for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
-	if (not p.spectator) then p.mo.flags = $ & ~MF_NOGRAVITY end
+	if (not p.spectator) then p.mo.flags = p.mo.flags & ~MF_NOGRAVITY end
 
 	--role flickering timer
-	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = $ - 1 end
+	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = MM.hud.game.roleflicker - 1 end
 
 	--Sheriff Emerald Radar distance logic
 	--Murderers also need that number for the Anti-Camp system
-	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (p == consoleplayer))
+	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (p == consoleplayer)) then
 		--find the distance to the closest emerald
 		shremd_distances = {}
 		for emeraldID = 1, #MM.shremds do
 			local emerald = MM.shremds[emeraldID]
-			if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone)
+			if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone) then
 				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(pmo.x - emerald.x, pmo.y - emerald.y), pmo.z - emerald.z))
 			end
 		end
@@ -162,10 +164,10 @@ addHook("PlayerThink", function(p)
 		MM.shremdDist = shremd_closest
 
 		--play sound
-		if (MM.shremdDist)
+		if (MM.shremdDist) then
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = function()
-					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) --384*FU
+					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) then --384*FU
 						p.mm.camping = p.mm.camping + 1
 					else
 						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
@@ -178,11 +180,15 @@ addHook("PlayerThink", function(p)
 				end,
 				[ROLE_CIVILIAN] = function()
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then S_StartSound(nil, sfx_emfind, p) end
+					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then
+						S_StartSound(nil, sfx_emfind, p)
+					end
 				end,
 				[ROLE_JESTER] = function()
 					shremd_interval = MM_GetSHREMDinterval(fixint(MM.shremdDist))
-					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then S_StartSound(nil, sfx_emfind, p) end
+					if (shremd_interval) and not (leveltime % shremd_interval) and (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disableemeraldradar)) then
+						S_StartSound(nil, sfx_emfind, p)
+					end
 				end
 			})
 		end
@@ -229,7 +235,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 	--If the death is caused by the death pit or crusher we do not need to spawn the Dead Body or the Sheriff's Emerald
 	local spawnBodyOrEmerald = not ((d == DMG_DEATHPIT) or (d == DMG_CRUSHED))
 
-	if (ap)
+	if (ap) then
 		if (MM.AreTeammates(vp, ap)) then return false
 		else
 			if (ap.mm.role == ROLE_JESTER or (ap.mm.role == ROLE_JESTERHERO and vprole ~= ROLE_MURDERER)) then return true
@@ -248,48 +254,48 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 
 	switch(vprole, {
 		[ROLE_MURDERER] = function()
-			if (thereAreMurderers)
+			if (thereAreMurderers) then
 				MM.ChatprintGlobal("MSG_MURDDIED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) has died in an accident") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Murderer) has died in an accident", os.date("%X"), vp.name)) end
 			end
 		end,
 		[ROLE_SHERIFF] = function()
-			if (thereAreCivilians or thereIsJester)
-				if (spawnBodyOrEmerald)
+			if (thereAreCivilians or thereIsJester) then
+				if (spawnBodyOrEmerald) then
 					MM.SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 					MM.ChatprintGlobal("MSG_SHERIDIED_DROP", vp.name)
-					if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident, dropped his emerald") end
+					if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Sheriff) has died in an accident, dropper their emerald", os.date("%X"), vp.name)) end
 				else
-					if (thereAreSheriffs or thereAreHeroes or thereIsJesterHero) or ((thereAreCivilians or thereIsJester) and wepcfgCVARs[ROLE_CIVILIAN])
+					if (thereAreSheriffs or thereAreHeroes or thereIsJesterHero) or ((thereAreCivilians or thereIsJester) and wepcfgCVARs[ROLE_CIVILIAN]) then
 						MM.ChatprintGlobal("MSG_SHERIDIED", vp.name)
-						if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accicent") end
+						if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Sheriff) has died in an accident", os.date("%X"), vp.name)) end
 					else
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 					end
 				end
-			elseif not (thereAreCivilians or thereIsJester) and (thereAreSheriffs or thereAreHeroes)
+			elseif not (thereAreCivilians or thereIsJester) and (thereAreSheriffs or thereAreHeroes) then
 				MM.ChatprintGlobal("MSG_SHERIDIED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) has died in an accident") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Sheriff) has died in an accident", os.date("%X"), vp.name)) end
 			end
 		end,
 		[ROLE_HERO] = function()
 			if not (thereAreHeroes or thereAreSheriffs or thereIsJesterHero)
-			and (not (thereAreCivilians or thereIsJester) or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+			and (not (thereAreCivilians or thereIsJester) or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value))) then
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 			else
 				MM.ChatprintGlobal("MSG_HERODIED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) has died in an accident") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Hero) has died in an accident", os.date("%X"), vp.name)) end
 			end
 		end,
 		[ROLE_CIVILIAN] = function()
-			if (ap)
+			if (ap) then
 				local aprole = ap.mm.role
 				MM.KillPlayer(a, true, true)
 				switch(aprole, {
 					[ROLE_SHERIFF] = function()
 						-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 						-- otherwise, Murderers win
-						if (thereAreCivilians or thereIsJester)
+						if (thereAreCivilians or thereIsJester) then
 							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 							MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 							MM.SetRandomCivilianAs(ROLE_SHERIFF)
@@ -298,10 +304,10 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						end
 					end,
 					[ROLE_HERO] = function()
-						if not (thereAreCivilians or thereIsJester or thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
+						if not (thereAreCivilians or thereIsJester or thereAreSheriffs or thereAreHeroes or thereIsJesterHero) then
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 						elseif (thereAreCivilians or thereIsJester) and not (thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
-						and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
+						and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value) then
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						else
 							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
@@ -309,9 +315,9 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 						end
 					end,
 					[ROLE_JESTERHERO] = function()
-						if not (thereAreCivilians or thereAreSheriffs or thereAreHeroes)
+						if not (thereAreCivilians or thereAreSheriffs or thereAreHeroes) then
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
-						elseif (thereAreCivilians) and not (thereAreSheriffs or thereAreHeroes) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
+						elseif (thereAreCivilians) and not (thereAreSheriffs or thereAreHeroes) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value) then
 							MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						else
 							MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 2))
@@ -322,7 +328,7 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 			end
 		end,
 		[ROLE_JESTER] = function()
-			if (ap)
+			if (ap) then
 				switch(ap.mm.role, {
 					[ROLE_SHERIFF] = function()
 						-- Sheriff killed the Jester, instantly end round and make Jester win
@@ -340,11 +346,12 @@ addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage 
 			end
 		end,
 		[ROLE_JESTERHERO] = function()
-			if not (thereAreHeroes or thereAreSheriffs) and (not (thereAreCivilians or ROLE_JESTER) or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+			if not (thereAreHeroes or thereAreSheriffs) and (not (thereAreCivilians or ROLE_JESTER)
+			or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value))) then
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 			else
 				MM.ChatprintGlobal("MSG_HERODIED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Jester Hero) has died in an accident") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Jester Hero) has died in an accident", os.date("%X"), vp.name)) end
 			end
 		end,
 		['default'] = function()
@@ -394,12 +401,12 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 		[ROLE_MURDERER] = function()
 			if (thereAreMurderers) then
 				MM.ChatprintGlobal("MSG_MURDKILLED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Murd) killed") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Murderer) killed", os.date("%X"), vp.name)) end
 				if (ap.mm.role == ROLE_CIVILIAN) then
 					ap.mm.role = ROLE_HERO
 					ap.mm.prevrole = ROLE_HERO
 					MM.Chatprint(ap, MM.text[MM.lang]["CHAT_ROLE_HERO"]["RANKUP_PM"] or "You are the Hero now!")
-					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." became a Hero") end
+					if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s became a Hero", os.date("%X"), ap.name)) end
 				end
 			else
 				if (ap.mm.role == ROLE_CIVILIAN) then --Reward the Innocent
@@ -409,35 +416,35 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 			end
 		end,
 		[ROLE_SHERIFF] = function()
-			if (ap.mm.role == ROLE_CIVILIAN)
+			if (ap.mm.role == ROLE_CIVILIAN) then
 				MM.KillPlayer(a, true, true)
 				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 3))
-				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Sheriff)") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Civilian) killed %s (Sheriff)", os.date("%X"), ap.name, vp.name)) end
 			end
 
-			if (thereAreCivilians or thereIsJester)
+			if (thereAreCivilians or thereIsJester) then
 				MM.SpawnSHREMD(v.x, v.y, v.z, vp.mm.timetravel.timezone)
 				MM.ChatprintGlobal("MSG_SHERIKILLED_DROP", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed, dropped his emerald") end
-			elseif not (thereAreCivilians or thereIsJester) and (thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Sheriff) killed, dropped their emerald", os.date("%X"), vp.name)) end
+			elseif not (thereAreCivilians or thereIsJester) and (thereAreSheriffs or thereAreHeroes or thereIsJesterHero) then
 				MM.ChatprintGlobal("MSG_SHERIKILLED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Sheriff) killed") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Sheriff) killed", os.date("%X"), vp.name)) end
 			end
 		end,
 		[ROLE_HERO] = function()
-			if (ap.mm.role == ROLE_CIVILIAN)
+			if (ap.mm.role == ROLE_CIVILIAN) then
 				MM.KillPlayer(a, true, true)
 				MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 5))
-				if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Hero)") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Civilian) killed %s (Hero)", os.date("%X"), ap.name, vp.name)) end
 			end
 
 			if not (thereAreHeroes or thereAreSheriffs or thereIsJesterHero) and ((not (thereAreCivilians or thereIsJester))
-			or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+			or ((thereAreCivilians or thereIsJester) and (not wepcfgCVARs[ROLE_CIVILIAN].value))) then
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 				returnTrue = true
 			else
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Hero) killed", os.date("%X"), vp.name)) end
 			end
 		end,
 		[ROLE_CIVILIAN] = function()
@@ -447,7 +454,7 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 					MM.KillPlayer(a, true, true)
 					-- Sheriff killed an innocent, kill the player and pass the role to another Civilian, if there are any left
 					-- otherwise, Murderers win
-					if (thereAreCivilians)
+					if (thereAreCivilians) then
 						MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 1))
 						MM.ChatprintGlobal("CHAT_CIVILIANHURT", 1)
 						MM.SetRandomCivilianAs(ROLE_SHERIFF)
@@ -458,11 +465,11 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 				end,
 				[ROLE_HERO] = function()
 					MM.KillPlayer(a, true, true)
-					if not (thereAreCivilians or thereIsJester or thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
+					if not (thereAreCivilians or thereIsJester or thereAreSheriffs or thereAreHeroes or thereIsJesterHero) then
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 						returnTrue = true
 					elseif (thereAreCivilians or thereIsJester) and not (thereAreSheriffs or thereAreHeroes or thereIsJesterHero)
-					and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
+					and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value) then
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						returnTrue = true
 					else
@@ -473,13 +480,13 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 				[ROLE_CIVILIAN] = function()
 					MM.KillPlayer(a, true, true)
 					MM.Chatprint(ap, MM.GetText("CHAT_KILLPUNISHMENT_PM", 4))
-					if (isdedicatedserver) then CONS_Printf(server, "- "..ap.name.." (Innocent) killed "..vp.name.." (Innocent)") end
+					if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Civilian) killed %s (Civilian)", os.date("%X"), ap.name, vp.name)) end
 				end,
 				[ROLE_JESTERHERO] = function()
-					if not (thereAreCivilians or thereAreSheriffs or thereAreHeroes)
+					if not (thereAreCivilians or thereAreSheriffs or thereAreHeroes) then
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_HEROKILLINNO)
 						returnTrue = true
-					elseif (thereAreCivilians) and not (thereAreSheriffs or thereAreHeroes) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value)
+					elseif (thereAreCivilians) and not (thereAreSheriffs or thereAreHeroes) and (not #MM.shremds) and (not wepcfgCVARs[ROLE_CIVILIAN].value) then
 						MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 						returnTrue = true
 					else
@@ -516,12 +523,12 @@ addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 			end
 
 			if not (thereAreHeroes or thereAreSheriffs)
-			and ((not thereAreCivilians) or (thereAreCivilians and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+			and ((not thereAreCivilians) or (thereAreCivilians and (not wepcfgCVARs[ROLE_CIVILIAN].value))) then
 				MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_NODEFENDERS)
 				returnTrue = true
 			else
 				MM.ChatprintGlobal("MSG_HEROKILLED", vp.name)
-				if (isdedicatedserver) then CONS_Printf(server, "- "..vp.name.." (Hero) killed") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: %s (Jester Hero) killed", os.date("%X"), vp.name)) end
 			end
 		end,
 		['default'] = function()
@@ -541,9 +548,10 @@ end, MT_PLAYER)
 -- Intermission logic
 --
 addHook("IntermissionThinker", function()
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	for p in players.iterate do
+		p.spectator = false
 		if (p.quittime) and not (leveltime % 4) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
 	end
 
@@ -555,10 +563,10 @@ end)
 -- Music handler
 --
 addHook("MusicChange", function(old, new)
-	if (gametype ~= GT_LTMMURDERMYSTERY) return end
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	--Keep the event music playing
-	if ((gamestate == GS_LEVEL) and (leveltime) and (consoleplayer) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime]))
+	if ((gamestate == GS_LEVEL) and (leveltime) and (consoleplayer) and not (consoleplayer.powers[pw_underwater] or consoleplayer.powers[pw_spacetime])) then
 		--Showdown Duel music
 		if (MM.shwdwn) then return MM.shwdwn
 		--Suspense music
@@ -566,9 +574,9 @@ addHook("MusicChange", function(old, new)
 	end
 
 	--Intermission theme
-	if (new == "_inter")
+	if (new == "_inter") or (gamestate == GS_INTERMISSION) then
 		local lumpname
-		if (MM.winner) lumpname = "MMEND"..MM.winreason
+		if (MM.winner) then lumpname = "MMEND"..MM.winreason
 		else lumpname = "MM_TIE" end
 
 		if (S_MusicExists(lumpname)) then return lumpname end
@@ -584,22 +592,22 @@ end)
 -- Player Quit/Leave handler
 --
 addHook("PlayerQuit", function(p)
-	if ((gametype ~= GT_LTMMURDERMYSTERY) or (gamestate ~= GS_LEVEL)) return end
-	if (p.mm.role) MM.PlayerQuit(p) end
+	if ((gametype ~= GT_LTMMURDERMYSTERY) or (gamestate ~= GS_LEVEL)) then return end
+	if (p.mm.role) then MM.PlayerQuit(p) end
 end)
 
 --
 -- Miscelaneous
 --
 addHook("HurtMsg", function() --disable Ringslier hurt messages
-	if (gametype == GT_LTMMURDERMYSTERY) return true end
+	if (gametype == GT_LTMMURDERMYSTERY) then return true end
 end)
 
 --Spectator mode toggle
 addHook("TeamSwitch", function(p, t, s)
 	if (gametype == GT_LTMMURDERMYSTERY) then
-		if (p.mm.flags & FLAG_WAITSPECTATOR) then p.mm.flags = $ & ~FLAG_WAITSPECTATOR
-		else p.mm.flags = $ | FLAG_WAITSPECTATOR end
+		if (p.mm.flags & FLAG_WAITSPECTATOR) then p.mm.flags = p.mm.flags & ~FLAG_WAITSPECTATOR
+		else p.mm.flags = p.mm.flags | FLAG_WAITSPECTATOR end
 		return false --do not switch
 	else
 		return --use game's default behaviour

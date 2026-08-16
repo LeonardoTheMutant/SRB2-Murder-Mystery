@@ -221,6 +221,7 @@ end
 --nikoberry: Exists in case this ever gets used more than in MM.ChatPrint
 --also because this wouldn't be nice to read in MM.Chatprint
 MM.ShouldNotify = function()
+	if (isdedicatedserver) then return false end --dedicated servers do not have cv_chatnotifications
 	return (CV_FindVar("chatnotifications").value)
 end
 
@@ -520,10 +521,10 @@ MM.PlayerQuit = function(p)
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_MURDERER))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_MURDERER)
 				MM.SetRandomCivilianAs(ROLE_MURDERER)
-				if (isdedicatedserver) then CONS_Printf(server, "- Murderer replaced") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Murderer replaced", os.date("%X"))) end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_MURDERER)
-				if (isdedicatedserver) then CONS_Printf(server, "- Murderer left") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Murderer left", os.date("%X"))) end
 			end
 		end,
 		[ROLE_SHERIFF] = function()
@@ -533,10 +534,10 @@ MM.PlayerQuit = function(p)
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_SHERIFF))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_SHERIFF)
 				MM.SetRandomCivilianAs(ROLE_SHERIFF)
-				if (isdedicatedserver) then CONS_Printf(server,"- Sheriff replaced") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Sheriff replaced", os.date("%X"))) end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_SHERIFF)
-				if (isdedicatedserver) then CONS_Printf(server,"- Sheriff left") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Sheriff left", os.date("%X"))) end
 			end
 		end,
 		[ROLE_HERO] = function()
@@ -546,10 +547,10 @@ MM.PlayerQuit = function(p)
 			elseif (MM.PlayerCount(ROLE_CIVILIAN) and (not MM.PlayerCount(ROLE_HERO)) and (not MM.PlayerCount(ROLE_SHERIFF))) then
 				MM.ChatprintGlobal("MSG_REPLACEQUIT", ROLE_HERO)
 				MM.SetRandomCivilianAs(ROLE_HERO)
-				if (isdedicatedserver) then CONS_Printf(server, "- Hero replaced") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Hero replaced", os.date("%X"))) end
 			else
 				MM.ChatprintGlobal("MSG_ONEQUIT", ROLE_HERO)
-				if (isdedicatedserver) then CONS_Printf(server, "- Hero left") end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s INFO]: Hero left", os.date("%X"))) end
 			end
 		end,
 		[ROLE_CIVILIAN] = function()
@@ -611,6 +612,7 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) then MM.ChatprintGlobal(endtext, reason) end
+	if (isdedicatedserver) then CONS_Printf(server, string.format("[%s GAME]: Round end, lasted %d:%d", os.date("%X"), G_TicsToMinutes(leveltime), G_TicsToSeconds(leveltime))) end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald

@@ -1,28 +1,28 @@
 -- CHAT.LUA
--- Code by LeonardoTheMutant
+-- Code by LeonardoTheMutant & nikoberry
 --
 -- Manage PlayerMsgs and redirect them to the right persons
 
 -- Convert video flag to text color code
 local function chatcolor2textcolor(c)
-	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return CHAR[128] end
+	if ((not c) or (c % 0x1000) or (c > V_INVERTMAP)) then return "^0" end
 	switch(c, {
-		[V_MAGENTAMAP] = function() c = CHAR[129] end,
-		[V_YELLOWMAP] = function() c = CHAR[130] end,
-		[V_GREENMAP] = function() c = CHAR[131] end,
-		[V_BLUEMAP] = function() c = CHAR[132] end,
-		[V_REDMAP] = function() c = CHAR[133] end,
-		[V_GRAYMAP] = function() c = CHAR[134] end,
-		[V_ORANGEMAP] = function() c = CHAR[135] end,
-		[V_SKYMAP] = function() c = CHAR[136] end,
-		[V_PURPLEMAP] = function() c = CHAR[137] end,
-		[V_AQUAMAP] = function() c = CHAR[138] end,
-		[V_PERIDOTMAP] = function() c = CHAR[139] end,
-		[V_AZUREMAP] = function() c = CHAR[140] end,
-		[V_BROWNMAP] = function() c = CHAR[141] end,
-		[V_ROSYMAP] = function() c = CHAR[142] end,
-		[V_INVERTMAP] = function() c = CHAR[143] end,
-		['default'] = function() c = CHAR[128] end
+		[V_MAGENTAMAP] = function() c = "^1" end,
+		[V_YELLOWMAP] = function() c = "^2" end,
+		[V_GREENMAP] = function() c = "^3" end,
+		[V_BLUEMAP] = function() c = "^4" end,
+		[V_REDMAP] = function() c = "^5" end,
+		[V_GRAYMAP] = function() c = "^6" end,
+		[V_ORANGEMAP] = function() c = "^7" end,
+		[V_SKYMAP] = function() c = "^8" end,
+		[V_PURPLEMAP] = function() c = "^9" end,
+		[V_AQUAMAP] = function() c = "^A" end,
+		[V_PERIDOTMAP] = function() c = "^B" end,
+		[V_AZUREMAP] = function() c = "^C" end,
+		[V_BROWNMAP] = function() c = "^D" end,
+		[V_ROSYMAP] = function() c = "^E" end,
+		[V_INVERTMAP] = function() c = "^F" end,
+		['default'] = function() c = "^0" end
 	})
 	return c
 end
@@ -50,7 +50,7 @@ local function CHAT_Say(s, m, me)
 		end
 	end
 
-	if (isdedicatedserver) then MM.Chatprint(server, string.format("<%s%s> %s", badge, s.name, m)) end
+	if (isdedicatedserver) then MM.Chatprint(server, string.format("[%s CHAT]: <%s%s> %s", os.date("%X"), badge, s.name, m)) end
 end
 
 
@@ -111,7 +111,7 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 		for p in players.iterate do
 			if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
 		end
-		if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", sender, m)) end
+		if (isdedicatedserver) then CONS_Printf(server, string.format("[%s CHAT]: {%s} %s", os.date("%X"), sender, m)) end
 	else
 		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat.")
 	end
@@ -132,7 +132,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 				for p in players.iterate do
 					if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", s.name, m)) end
 				end
-				if (isdedicatedserver) then CONS_Printf(server, string.format("{%s} %s", s.name, m)) end
+				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s CHAT]: {%s} %s", os.date("%X"), s.name, m)) end
 			end,
 			[2] = function() --PM messages in different design for DEAD
 				if (t.spectator) then
