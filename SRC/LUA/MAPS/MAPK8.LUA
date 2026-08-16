@@ -84,6 +84,14 @@ addHook("NetVars", function(n)
     ELEVATORS = n(ELEVATORS)
 end)
 
+-- SWITCH-CASE statement
+local function sw(param, case_table)
+	local case = case_table[param]
+	if case then return case() end
+	local def = case_table['default']
+	return def and def() or nil
+end
+
 --
 -- Map Load
 --
@@ -96,119 +104,176 @@ addHook("MapLoad", function(map)
 end)
 
 local function E_OpenElevatorDoors(id, floor)
-    if (floor == 0) then
-        if (id == 0) then
-            P_LinedefExecute(214) --Elevator door
-            P_LinedefExecute(221) --Floor door
-        elseif (id == 1) then
-            P_LinedefExecute(261) --Floor door
-            P_LinedefExecute(263) --Elevator door
+    sw(floor, {
+        [0] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(214) --Elevator door
+                    P_LinedefExecute(221) --Floor door
+                end,
+                [1] = function()
+                    P_LinedefExecute(261) --Floor door
+                    P_LinedefExecute(263) --Elevator door
+                end
+            })
+        end,
+        [1] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(223)
+                    P_LinedefExecute(225)
+                end,
+                [1] = function()
+                    P_LinedefExecute(265)
+                    P_LinedefExecute(267)
+                end
+            })
+        end,
+        [2] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(228)
+                    P_LinedefExecute(230)
+                end,
+                [1] = function()
+                    P_LinedefExecute(271)
+                    P_LinedefExecute(273)
+                end
+            })
+        end,
+        [3] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(233)
+                    P_LinedefExecute(235)
+                end,
+                [1] = function()
+                    P_LinedefExecute(276)
+                    P_LinedefExecute(278)
+                end
+            })
+        end,
+        [4] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(238)
+                    P_LinedefExecute(240)
+                end,
+                [1] = function()
+                    P_LinedefExecute(281)
+                    P_LinedefExecute(283)
+                end
+            })
         end
-    elseif (floor == 1) then
-        if (id == 0) then
-            P_LinedefExecute(223)
-            P_LinedefExecute(225)
-        elseif (id == 1) then
-            P_LinedefExecute(265)
-            P_LinedefExecute(267)
-        end
-    elseif (floor == 2) then
-        if (id == 0) then
-            P_LinedefExecute(228)
-            P_LinedefExecute(230)
-        elseif (id == 1) then
-            P_LinedefExecute(271)
-            P_LinedefExecute(273)
-        end
-    elseif (floor == 3) then
-        if (id == 0) then
-            P_LinedefExecute(233)
-            P_LinedefExecute(235)
-        elseif (id == 1) then
-            P_LinedefExecute(276)
-            P_LinedefExecute(278)
-        end
-    elseif (floor == 4) then
-        if (id == 0) then
-            P_LinedefExecute(238)
-            P_LinedefExecute(240)
-        elseif (id == 1) then
-            P_LinedefExecute(281)
-            P_LinedefExecute(283)
-        end
-    end
+    })
 end
 
 local function E_CloseElevatorDoors(id, floor)
-    if (floor == 0) then
-        if (id == 0) then
-            P_LinedefExecute(215) --Elevator door
-            P_LinedefExecute(222) --Floor door
-        elseif(id == 1) then
-            P_LinedefExecute(262) --Floor door
-            P_LinedefExecute(264) --Elevator door
+    sw(floor, {
+        [0] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(215) --Elevator door
+                    P_LinedefExecute(222) --Floor door
+                end,
+                [1] = function()
+                    P_LinedefExecute(262) --Floor door
+                    P_LinedefExecute(264) --Elevator door
+                end
+            })
+        end,
+        [1] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(224)
+                    P_LinedefExecute(226)
+                end,
+                [1] = function()
+                    P_LinedefExecute(266)
+                    P_LinedefExecute(268)
+                end
+            })
+        end,
+        [2] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(229)
+                    P_LinedefExecute(231)
+                end,
+                [1] = function()
+                    P_LinedefExecute(272)
+                    P_LinedefExecute(274)
+                end
+            })
+        end,
+        [3] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(234)
+                    P_LinedefExecute(236)
+                end,
+                [1] = function()
+                    P_LinedefExecute(277)
+                    P_LinedefExecute(279)
+                end
+            })
+        end,
+        [4] = function()
+            sw(id, {
+                [0] = function()
+                    P_LinedefExecute(239)
+                    P_LinedefExecute(241)
+                end,
+                [1] = function()
+                    P_LinedefExecute(282)
+                    P_LinedefExecute(284)
+                end
+            })
         end
-    elseif (floor == 1) then
-        if (id == 0) then
-            P_LinedefExecute(224)
-            P_LinedefExecute(226)
-        elseif(id == 1) then
-            P_LinedefExecute(266)
-            P_LinedefExecute(268)
-        end
-    elseif (floor == 2) then
-        if (id == 0) then
-            P_LinedefExecute(229)
-            P_LinedefExecute(231)
-        elseif (id == 1) then
-            P_LinedefExecute(272)
-            P_LinedefExecute(274)
-        end
-    elseif (floor == 3) then
-        if (id == 0) then
-            P_LinedefExecute(234)
-            P_LinedefExecute(236)
-        elseif (id == 1) then
-            P_LinedefExecute(277)
-            P_LinedefExecute(279)
-        end
-    elseif (floor == 4) then
-        if (id == 0) then
-            P_LinedefExecute(239)
-            P_LinedefExecute(241)
-        elseif (id == 1) then
-            P_LinedefExecute(282)
-            P_LinedefExecute(284)
-        end
-    end
+    })
 end
 
 local function E_MoveElevator(id, floor)
-    if (id == 0) then
-        if (floor == 0) then
-            P_LinedefExecute(213)
-        elseif (floor == 1) then
-            P_LinedefExecute(227)
-        elseif (floor == 2) then
-            P_LinedefExecute(232)
-        elseif (floor == 3) then
-            P_LinedefExecute(237)
-        elseif (floor == 4) then
-            P_LinedefExecute(242)
+    sw(id, {
+        [0] = function()
+            sw(floor, {
+                [0] = function()
+                    P_LinedefExecute(213)
+                end,
+                [1] = function()
+                    P_LinedefExecute(227)
+                end,
+                [2] = function()
+                    P_LinedefExecute(232)
+                end,
+                [3] = function()
+                    P_LinedefExecute(237)
+                end,
+                [4] = function()
+                    P_LinedefExecute(242)
+                end
+            })
+        end,
+        [1] = function()
+            sw(floor, {
+                [0] = function()
+                    P_LinedefExecute(255)
+                end,
+                [1] = function()
+                    P_LinedefExecute(269)
+                end,
+                [2] = function()
+                    P_LinedefExecute(270)
+                end,
+                [3] = function()
+                    P_LinedefExecute(275)
+                end,
+                [4] = function()
+                    P_LinedefExecute(280)
+                end
+            })
         end
-    elseif (id == 1) then
-        if (floor == 0) then
-            P_LinedefExecute(255)
-        elseif (floor == 1) then
-            P_LinedefExecute(269)
-        elseif (floor == 2) then
-            P_LinedefExecute(270)
-        elseif (floor == 3) then
-            P_LinedefExecute(275)
-        elseif (floor == 4) then
-            P_LinedefExecute(280)
-        end
-    end
+    })
 end
 
 local function E_CallElevator(id, floor)
@@ -219,7 +284,7 @@ local function E_CallElevator(id, floor)
         table.insert(ELEVATORS[id].stack, {cmd = ELEVATOR_MOVE, param = floor}) --Move to specified floor
     end
     table.insert(ELEVATORS[id].stack, {cmd = ELEVATOR_OPEN, param = floor}) --Open the doors on that floor
-    if (ELEVATORS[id].floor ~= floor)
+    if (ELEVATORS[id].floor ~= floor) then
         table.insert(ELEVATORS[id].stack, {cmd = ELEVATOR_WAIT, param = 70}) --Wait 2 seconds before doing anything else
     end
 end
@@ -293,17 +358,23 @@ addHook("MobjThinker", function(mo)
             if (not ELEVATORS[ref.elevatorid].stack[1]) then
                 if (p == consoleplayer) then SHOW_OVERLAY = 1 end
                 if (p.cmd.buttons & BT_SPIN) then
-                    if ((p.cmd.buttons & BT_WEAPONMASK) == 1) then
-                        E_CallElevator(ref.elevatorid, 0)
-                    elseif ((p.cmd.buttons & BT_WEAPONMASK) == 2) then
-                        E_CallElevator(ref.elevatorid, 1)
-                    elseif ((p.cmd.buttons & BT_WEAPONMASK) == 3) then
-                        E_CallElevator(ref.elevatorid, 2)
-                    elseif ((p.cmd.buttons & BT_WEAPONMASK) == 4) then
-                        E_CallElevator(ref.elevatorid, 3)
-                    elseif ((p.cmd.buttons & BT_WEAPONMASK) == 5) then
-                        E_CallElevator(ref.elevatorid, 4)
-                    end
+                    sw(p.cmd.buttons & BT_WEAPONMASK, {
+                        [1] = function()
+                            E_CallElevator(ref.elevatorid, 0)
+                        end,
+                        [2] = function()
+                            E_CallElevator(ref.elevatorid, 1)
+                        end,
+                        [3] = function()
+                            E_CallElevator(ref.elevatorid, 2)
+                        end,
+                        [4] = function()
+                            E_CallElevator(ref.elevatorid, 3)
+                        end,
+                        [5] = function()
+                            E_CallElevator(ref.elevatorid, 4)
+                        end
+                    })
                 end
             end
         end
@@ -345,33 +416,38 @@ addHook("ThinkFrame", function()
 
     for id = 0, 1 do
         if (ELEVATORS[id].stack[1]) then
-            if (ELEVATORS[id].stack[1].cmd == ELEVATOR_WAIT) then --Wait
-                if (ELEVATORS[id].stack[1].param) then
-                    ELEVATORS[id].stack[1].param = ELEVATORS[id].stack[1].param - 1
-                else
-                    table.remove(ELEVATORS[id].stack, 1)
-                end
-            elseif (ELEVATORS[id].stack[1].cmd == ELEVATOR_OPEN) then --Open doors
-                if (ELEVATORS[id].doors) --If doors open
-                    table.remove(ELEVATORS[id].stack, 1) --Ignore
-                else
-                    E_OpenElevatorDoors(id, ELEVATORS[id].stack[1].param)
-                    S_StartSound(ELEVATORS[id].mo, sfx_doorb1)
+            sw(ELEVATORS[id].stack[1].cmd, {
+                [ELEVATOR_WAIT] = function() --Wait
+                    if (ELEVATORS[id].stack[1].param) then
+                        ELEVATORS[id].stack[1].param = ELEVATORS[id].stack[1].param - 1
+                    else
+                        table.remove(ELEVATORS[id].stack, 1)
+                    end
+                end,
+                [ELEVATOR_OPEN] = function() --Open doors
+                    if (ELEVATORS[id].doors) then --If doors open
+                        table.remove(ELEVATORS[id].stack, 1) --Ignore
+                    else
+                        E_OpenElevatorDoors(id, ELEVATORS[id].stack[1].param)
+                        S_StartSound(ELEVATORS[id].mo, sfx_doorb1)
+                        ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
+                    end
+                end,
+                [ELEVATOR_CLOSE] = function() --Close doors
+                    if (ELEVATORS[id].doors) then --If doors open
+                        E_CloseElevatorDoors(id, ELEVATORS[id].stack[1].param)
+                        S_StartSound(ELEVATORS[id].mo, sfx_doora1)
+                        ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
+                    else
+                        table.remove(ELEVATORS[id].stack, 1) --Ignore
+                    end
+                end,
+                [ELEVATOR_MOVE] = function() --Move to floor
+                    E_MoveElevator(id, ELEVATORS[id].stack[1].param)
+                    S_StartSound(ELEVATORS[id].mo, sfx_eleva1)
                     ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
                 end
-            elseif (ELEVATORS[id].stack[1].cmd == ELEVATOR_CLOSE) then --Close doors
-                if (ELEVATORS[id].doors) then --If doors open
-                    E_CloseElevatorDoors(id, ELEVATORS[id].stack[1].param)
-                    S_StartSound(ELEVATORS[id].mo, sfx_doora1)
-                    ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
-                else
-                    table.remove(ELEVATORS[id].stack, 1) --Ignore
-                end
-            elseif (ELEVATORS[id].stack[1].cmd == ELEVATOR_MOVE) then --Move to floor
-                E_MoveElevator(id, ELEVATORS[id].stack[1].param)
-                S_StartSound(ELEVATORS[id].mo, sfx_eleva1)
-                ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
-            end
+            })
         end
     end
 end)
