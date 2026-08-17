@@ -127,12 +127,21 @@ local function getRandomMaps(NoOfMaps)
 	return m
 end
 
-local function countPlayerVotesForSlot(slot)
+-- ignoreExposed is true in tally, false on voting screen
+local function countPlayerVotesForSlot(slot, ignoreExposed)
 	local a = 0
 	for p in players.iterate do
-		if (p.currentweapon == slot) and (p.mm.kills) then a = a + 1 end
+		if (p.currentweapon == slot) and (p.mm.kills) and (ignoreExposed or (not p.mm.exposevote == true)) then a = a + 1 end
 	end
 	return a
+end
+
+local function getExposedVotersForSlot(slot)
+	local plrs = {}
+	for p in players.iterate do
+		if (p.currentweapon == slot) and (p.mm.kills) and (p.mm.exposevote == true) then table.insert(plrs, p) end
+	end
+	return plrs
 end
 
 local fade_strength = 0
@@ -243,8 +252,18 @@ local function vote_render(v)
 		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
 
 		--draw blue voting spheres
-		for r = 0, countPlayerVotesForSlot(i) - 1 do
+		for r = 0, countPlayerVotesForSlot(i, false) - 1 do
 			v.drawScaled((startX + (x*xoffset) + r*2)*FU, (startY + (y*yoffset) + 52)*FU, 32768, voteIcon)
+		end
+
+		-- get table of people who voted for this map and have votes exposed
+		local voters = getExposedVotersForSlot(i)
+		for r = 1, #voters do
+			print(tostring(r))
+			local voterSkin = (skins[voters[r].skin] or skins[1])
+			local voterColormap = v.getColormap(voterSkin.name, (voters[r].skincolor or SKINCOLOR_GREY))
+			local voterIcon = v.getSprite2Patch(voterSkin.name, "LIFE", false, A, 0)
+			v.drawScaled((startX + (x*xoffset) + r*2 + 3)*FU, (startY + (y*yoffset) + 58)*FU, 32768, voterIcon, 0, voterColormap)
 		end
 	end
 end
@@ -468,7 +487,7 @@ addHook("IntermissionThinker", function()
 				local best = 0
 				local votesPerMapSlot = {}
 				for slot = 1, NUM_MAPS do
-					votesPerMapSlot[slot] = countPlayerVotesForSlot(slot)
+					votesPerMapSlot[slot] = countPlayerVotesForSlot(slot, true)
 					if (votesPerMapSlot[slot] > best) then best = votesPerMapSlot[slot] end
 				end
 

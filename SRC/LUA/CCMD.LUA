@@ -595,10 +595,10 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			CONS_Printf(p, color_5..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
 		end
 		CONS_Printf(p, [[
-If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our ‚SRB2MM_DEV Team€ to help us add it to this gametype:
-	„Discord: https://discord.com/invite/UgG8h2djFE€
-	ƒMatrix: https://matrix.to/#/#ltm_mm:matrix.org€
-	†GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery]])
+If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our ï¿½SRB2MM_DEV Teamï¿½ to help us add it to this gametype:
+	ï¿½Discord: https://discord.com/invite/UgG8h2djFEï¿½
+	ï¿½Matrix: https://matrix.to/#/#ltm_mm:matrix.orgï¿½
+	ï¿½GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery]])
 	else
 		l = $:upper()
 		if (MM.text[l]) then
@@ -620,3 +620,59 @@ If you cannot find your language here please ask the Game Administrator(s) to ad
 		end
 	end
 end, COM_LOCAL)
+
+--
+-- MM_EXPOSEVOTE
+--
+
+-- really stupid but its SLIGHTLY shorter. only exists because i wanted to alias binary and boolean and not just on/off
+-- kinda like possiblevalue_t's pointless grammar abiding CV_OnOff and CV_TrueFalse
+-- you can still shotgun my head for this though - nikoberry
+
+local function expose(p, bool)
+	p.mm.exposevote = bool
+end
+
+-- !!! DO NOT GIVE THIS COM_LOCAL !!!
+-- If you do, other clients won't receive the XD_LUA netxcmd, i.e, it won't write to the executing player's player_t on anyones end but yours, making this pointless !!!
+-- (also bc it would just overcomplicate things)
+COM_AddCommand("mm_exposemyvote", function(p, arg)
+	if not (p and p.valid) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
+	if (gametype ~= GT_LTMMURDERMYSTERY) then
+		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
+	end
+	if not (arg) then
+		CONS_Printf(p, "mm_exposevote <on/off/1/0/true/false>: Expose your vote on the voting screen by showing your skin instead of a blue sphere.")
+		return
+	end
+
+	-- used to check if the switch statement changed anything
+	-- if not then tell the player they probably typod
+
+	local old = p.mm.exposevote
+
+	switch(arg, {
+		["on"] = function()
+			expose(p, true)
+		end,
+		["1"] = function()
+			expose(p, true)
+		end,
+		["true"] = function()
+			expose(p, true)
+		end,
+		["off"] = function()
+			expose(p, false)
+		end,
+		["0"] = function()
+			expose(p, false)
+		end,
+		["false"] = function()
+			expose(p, false)
+		end
+		})
+
+	if (old == p.mm.exposevote) then
+		CONS_Printf(p, "Please use either \"on\", \"off\", \"1\", \"0\", \"true\" or \"false\"!")
+	end
+end)
