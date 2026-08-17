@@ -595,10 +595,10 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			CONS_Printf(p, color_5..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
 		end
 		CONS_Printf(p, [[
-If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our �SRB2MM_DEV Team� to help us add it to this gametype:
-	�Discord: https://discord.com/invite/UgG8h2djFE�
-	�Matrix: https://matrix.to/#/#ltm_mm:matrix.org�
-	�GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery]])
+If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our SRB2MM_DEV Team to help us add it to this gametype:
+	Discord: https://discord.com/invite/UgG8h2djFE
+	Matrix: https://matrix.to/#/#ltm_mm:matrix.org
+	GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery]])
 	else
 		l = $:upper()
 		if (MM.text[l]) then

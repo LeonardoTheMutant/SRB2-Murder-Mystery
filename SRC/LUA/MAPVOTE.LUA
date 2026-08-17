@@ -127,7 +127,7 @@ local function getRandomMaps(NoOfMaps)
 	return m
 end
 
--- ignoreExposed is true in tally, false on voting screen
+-- ignoreExposed is false in tally, true on voting screen
 local function countPlayerVotesForSlot(slot, ignoreExposed)
 	local a = 0
 	for p in players.iterate do
