@@ -172,11 +172,11 @@ local language_data = { --Language must be a table variable, you can name the va
 	-- Win texts
 	["CHAT_ENDROUND"] = {
 		"Everyone is dead. The ^5Murderers^0 win!", --Murderers win
-		"All of the ^5Murderers^0 were killed! The ^3Civilians^0 win!", --Sheriffs / Heros win
+		"All of the ^5Murderers^0 were killed! The Good Guys win!", --Sheriffs / Heros win
 		"The ^5Murderers^0 win because ^4Sheriff^0 murdered the last Civilian! Shame on the ^4Sheriff^0...", --Sheriff killed the last Civilian
 		"The ^5Murderers^0 win because the ^2Hero^0 chose to kill the last Civilian. Shame on such ^2Hero^0...", --Hero killed the last Civilian
 		"The Defenders of the ^3Civilians^0 are dead. The ^5Murderers^0 win!", --All sheriffs and Heroes are dead
-		"^1Jester^0 was killed by the Good Guys. Gambling is bad kids." --Jester got killed by Sheriff/Hero
+		"The ^1Jester^0 was killed by the Good Guys. Gambling is bad, kids." --Jester got killed by Sheriff/Hero
 	},
 
 
