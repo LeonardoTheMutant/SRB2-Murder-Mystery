@@ -805,7 +805,12 @@ end)
 
 --Check if the given argument from SOC resembles "true"
 rawset(_G, "SOC_IsTrue", function(arg)
-	if (not arg) then return false end
-	if (arg:upper() == "TRUE") or (arg == "1") then return true
-	else return false end
+	local returnValue = false
+	if (arg) then
+		arg = arg:upper()
+		if (arg == "TRUE") or (arg == "ON") or (arg == "YES") or (arg == "1") then
+			returnValue = true
+		end
+	end
+	return returnValue
 end)

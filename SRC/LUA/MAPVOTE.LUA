@@ -1,5 +1,5 @@
 -- MAPVOTE.LUA
--- Code by LeonardoTheMutant
+-- Code by LeonardoTheMutant & nikoberry
 --
 -- Map Voting system for Intermission screens
 
@@ -15,6 +15,28 @@ local cv_voteenabled = CV_FindVar("mm_vote_enable")
 local cv_scoretime = CV_FindVar("mm_vote_scoretime")
 local cv_votetime = CV_FindVar("mm_vote_votetime")
 local cv_resulttime = CV_FindVar("mm_vote_resulttime")
+
+
+
+--
+-- MM_EXPOSEVOTE
+--
+-- by nikoberry
+
+
+-- !!! DO NOT GIVE THIS COM_LOCAL !!!
+-- If you do, other clients won't receive the XD_LUA netxcmd, i.e, it won't write to the executing player's player_t on anyones end but yours, making this pointless !!!
+-- (also bc it would just overcomplicate things)
+COM_AddCommand("mm_exposemyvote", function(p, arg)
+	if not (valid(p) and arg) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
+
+	if (gametype ~= GT_LTMMURDERMYSTERY) then
+		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
+	end
+
+	-- TODO: Store exposevote in MM.CFG to load between sessions
+	p.mm.exposevote = SOC_IsTrue(arg) -- now technically any garbage will result "off" - LeonardoTheMutant
+end)
 
 local failParseStr = "%sFailed to parse \"%s\" (Is the Map Name/ID correct?)"
 local supplyParamsStr = "Please supply Map ID(s) and/or Map Name(s) as parameters"
@@ -127,19 +149,11 @@ local function getRandomMaps(NoOfMaps)
 	return m
 end
 
--- ignoreExposed is false in tally, true on voting screen
-local function countPlayerVotesForSlot(slot, ignoreExposed)
-	local a = 0
-	for p in players.iterate do
-		if (p.currentweapon == slot) and (p.mm.kills) and (ignoreExposed or (not p.mm.exposevote == true)) then a = a + 1 end
-	end
-	return a
-end
-
-local function getExposedVotersForSlot(slot)
+local function getVotedPlayersForSlot(slot)
+	--TODO: Fix the players render order (this was not the issue with Blue Spheres only)
 	local plrs = {}
 	for p in players.iterate do
-		if (p.currentweapon == slot) and (p.mm.kills) and (p.mm.exposevote == true) then table.insert(plrs, p) end
+		if (p.currentweapon == slot) and (p.mm.kills) then table.insert(plrs, p) end
 	end
 	return plrs
 end
@@ -158,7 +172,7 @@ local eMeM = MM
 addHook("MapLoad", function()
 	if not ((gametype == GT_LTMMURDERMYSTERY) and cv_voteenabled.value) then return end
 
-	eMeM.mapvote.maplist = {460, 461, 462, 463, 464, 465}
+	eMeM.mapvote.maplist = {460, 461, 462, 463, 464, 465} --plan B if getRandomMaps() fails
 	eMeM.mapvote.timers[MV_SCORE] = cv_scoretime.value * TICRATE
 	eMeM.mapvote.timers[MV_VOTE] = cv_votetime.value * TICRATE
 	eMeM.mapvote.timers[MV_RESULT] = cv_resulttime.value * TICRATE
@@ -218,8 +232,6 @@ local function vote_render(v)
 		selectColormap = {v.getColormap(TC_RAINBOW, SKINCOLOR_JET), v.getColormap(TC_DEFAULT)}
 	end
 
-	if (not voteIcon) then voteIcon = v.cachePatch("NSSHUD") end
-
 	HIDEO.DrawStrUnicode_Center(v, 160, 8, MM.GetText(HUD_INTERMISSION, "VOTING"))
 	HIDEO.DrawStrUnicode_Center(v, 160, 172, string.format("%s: ^7JUMP^0   %s: ^7SPIN^0", MM.GetText(HUD_INTERMISSION, "SELECT"), MM.GetText(HUD_INTERMISSION, "CANCEL")), MM.hud.canvas.font.small.scale)
 	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "VOTING_ENDS_IN"), G_TicsToSeconds(MM.mapvote.timers[MV_VOTE]), MM.GetText("HUD_SECONDS")))
@@ -251,18 +263,20 @@ local function vote_render(v)
 		--draw map name
 		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
 
-		--draw blue voting spheres
-		for r = 0, countPlayerVotesForSlot(i, false) - 1 do
-			v.drawScaled((startX + (x*xoffset) + r*2)*FU, (startY + (y*yoffset) + 52)*FU, 32768, voteIcon)
-		end
-
-		-- get table of people who voted for this map and have votes exposed
-		local voters = getExposedVotersForSlot(i)
+		--draw voters
+		local voters = getVotedPlayersForSlot(i)
 		for r = 1, #voters do
-			local voterSkin = (skins[voters[r].skin] or skins[1])
-			local voterColormap = v.getColormap(voterSkin.name, (voters[r].skincolor or SKINCOLOR_GREY))
-			local voterIcon = v.getSprite2Patch(voterSkin.name, "LIFE", false, A, 0)
-			v.drawScaled((startX + (x*xoffset) + r*2 + 3)*FU, (startY + (y*yoffset) + 58)*FU, 32768, voterIcon, 0, voterColormap)
+			local plr = voters[r]
+			if (plr.mm.exposevote) then
+				--draw player's head icon
+				local voterSkin = (skins[plr.skin] or skins[1]).name
+				local voterColormap = v.getColormap(voterSkin, (plr.skincolor or SKINCOLOR_GREY))
+				local voterIcon = v.getSprite2Patch(voterSkin, "LIFE")
+				v.drawScaled((startX + (x*xoffset) + r*4 - 2)*FU, (startY + (y*yoffset) + 58)*FU, 32768, voterIcon, 0, voterColormap)
+			else
+				--draw Blue Sphere
+				v.drawScaled((startX + (x*xoffset) + (r-1)*4)*FU, (startY + (y*yoffset) + 52)*FU, 32768, MM.GetPatch(v, "NSSHUD"))
+			end
 		end
 	end
 end
@@ -486,7 +500,7 @@ addHook("IntermissionThinker", function()
 				local best = 0
 				local votesPerMapSlot = {}
 				for slot = 1, NUM_MAPS do
-					votesPerMapSlot[slot] = countPlayerVotesForSlot(slot, true)
+					votesPerMapSlot[slot] = #getVotedPlayersForSlot(slot)
 					if (votesPerMapSlot[slot] > best) then best = votesPerMapSlot[slot] end
 				end
 

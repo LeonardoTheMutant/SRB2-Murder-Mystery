@@ -281,7 +281,7 @@ typedef struct {
 --	v			- Video Drawer object
 --	x			- X coordinate to draw at
 --	y			- Y coordinate to draw at
---	patch		- Text Patch to draw
+--	patch		- Text Patch to draw (textpatch_t)
 --	paletteNo	- Number of the Text Patch's palette to use
 --	flags		- Any of the following flags: V_NOSCALESTART, V_SNAPTOTOP, V_SNAPTOBOTTOM, V_SNAPTOLEFT and V_SNAPTORIGHT
 HIDEO.DrawTextPatch = function(v, x, y, patch, paletteNo, flags)
