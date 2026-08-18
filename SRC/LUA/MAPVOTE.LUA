@@ -259,7 +259,6 @@ local function vote_render(v)
 		-- get table of people who voted for this map and have votes exposed
 		local voters = getExposedVotersForSlot(i)
 		for r = 1, #voters do
-			print(tostring(r))
 			local voterSkin = (skins[voters[r].skin] or skins[1])
 			local voterColormap = v.getColormap(voterSkin.name, (voters[r].skincolor or SKINCOLOR_GREY))
 			local voterIcon = v.getSprite2Patch(voterSkin.name, "LIFE", false, A, 0)

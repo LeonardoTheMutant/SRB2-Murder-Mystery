@@ -559,6 +559,14 @@ end)
 -- MMLANG
 --
 
+-- just because i can do this in less lines this way (-nikoberry)
+local contactTeam =
+{
+	"\t".."\x84".."Discord: https://discord.com/invite/UgG8h2djFE",
+	"\t".."\x83".."Matrix: https://matrix.to/#/#ltm_mm:matrix.org",
+	"\t".."\x86".."GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery"
+}
+
 COM_AddCommand("mmlang", function(p, l) --player, lang
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
@@ -594,11 +602,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		if (langIncomp) then
 			CONS_Printf(p, color_5..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
 		end
-		CONS_Printf(p, [[
-If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our SRB2MM_DEV Team to help us add it to this gametype:
-	Discord: https://discord.com/invite/UgG8h2djFE
-	Matrix: https://matrix.to/#/#ltm_mm:matrix.org
-	GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery]])
+		CONS_Printf(p, "If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV\x80 Team to help us add it to this gametype:\n"..table.concat(contactTeam, "\n"))
 	else
 		l = $:upper()
 		if (MM.text[l]) then
@@ -637,7 +641,7 @@ end
 -- If you do, other clients won't receive the XD_LUA netxcmd, i.e, it won't write to the executing player's player_t on anyones end but yours, making this pointless !!!
 -- (also bc it would just overcomplicate things)
 COM_AddCommand("mm_exposemyvote", function(p, arg)
-	if not (p and p.valid) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
+	if not (valid(p)) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
 	end
@@ -651,7 +655,7 @@ COM_AddCommand("mm_exposemyvote", function(p, arg)
 
 	local old = p.mm.exposevote
 
-	switch(arg, {
+	switch(string.lower(arg), {
 		["on"] = function()
 			expose(p, true)
 		end,
