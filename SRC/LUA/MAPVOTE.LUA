@@ -154,15 +154,6 @@ local function getRandomMaps(NoOfMaps)
 	return m
 end
 
-local function getVotedPlayersForSlot(slot)
-	--TODO: Fix the players render order (this was not the issue with Blue Spheres only)
-	local plrs = {}
-	for p in players.iterate do
-		if (p.currentweapon == slot) and (p.mm.kills) then table.insert(plrs, p) end
-	end
-	return plrs
-end
-
 local fade_strength = 0
 local NUM_MAPS = 6
 
@@ -178,6 +169,10 @@ addHook("MapLoad", function()
 	if not ((gametype == GT_LTMMURDERMYSTERY) and cv_voteenabled.value) then return end
 
 	eMeM.mapvote.maplist = {460, 461, 462, 463, 464, 465} --plan B if getRandomMaps() fails
+	eMeM.mapvote.votes = {}
+	for i = 1, #eMeM.mapvote.maplist do
+		eMeM.mapvote.votes[i] = {}
+	end
 	eMeM.mapvote.timers[MV_SCORE] = cv_scoretime.value * TICRATE
 	eMeM.mapvote.timers[MV_VOTE] = cv_votetime.value * TICRATE
 	eMeM.mapvote.timers[MV_RESULT] = cv_resulttime.value * TICRATE
@@ -218,7 +213,6 @@ local function pos_get2Dfrom1D(pos, width)
 end
 
 local selectColormap
-local levelPics = {}
 local winnerMapID
 local voteIcon
 
@@ -245,12 +239,6 @@ local function vote_render(v)
 	for i = 1, NUM_MAPS do
 		local x, y = pos_get2Dfrom1D((i - 1), 3)
 
-		local picName = G_BuildMapName(MM.mapvote.maplist[i]) + "P"
-		if (not levelPics[picName]) then
-			if (v.patchExists(picName)) then levelPics[picName] = v.cachePatch(picName)
-			else levelPics[picName] = v.cachePatch("BLANKLVL") end
-		end
-
 		--adjust map name text
 		local mapName = G_BuildMapTitle(MM.mapvote.maplist[i])
 		if (HIDEO.StrWidthUnicode(mapName, tlags, 32768) >= 78) then mapName = mapName:sub(0, 18).."..." end --Map name might be too long to fit
@@ -263,21 +251,22 @@ local function vote_render(v)
 		end
 
 		--draw map picture
-		v.drawScaled((startX + (x*xoffset))*FU, (startY + (y*yoffset))*FU, 32768, levelPics[picName], 0, selectColormap[bool2int(i == consoleplayer.currentweapon) + 1])
+		local picName = G_BuildMapName(MM.mapvote.maplist[i]) + "P"
+		v.drawScaled((startX + (x*xoffset))*FU, (startY + (y*yoffset))*FU, 32768, MM.GetPatch(v, picName), 0, selectColormap[bool2int(i == consoleplayer.currentweapon) + 1])
 
 		--draw map name
 		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
 
 		--draw voters
-		local voters = getVotedPlayersForSlot(i)
-		for r = 1, #voters do
-			local plr = voters[r]
+		local votes = eMeM.mapvote.votes[i]
+		for r = 1, #votes do
+			local plr = players[votes[r]]
 			if (plr.mm.exposevote) then
 				--draw player's head icon
 				local voterSkin = (skins[plr.skin] or skins[1]).name
 				local voterColormap = v.getColormap(voterSkin, (plr.skincolor or SKINCOLOR_GREY))
 				local voterIcon = v.getSprite2Patch(voterSkin, "LIFE")
-				v.drawScaled((startX + (x*xoffset) + r*4 - 2)*FU, (startY + (y*yoffset) + 58)*FU, 32768, voterIcon, 0, voterColormap)
+				v.drawScaled((startX + (x*xoffset) + (r-1)*4 + 4)*FU, (startY + (y*yoffset) + 58)*FU, 32768, voterIcon, 0, voterColormap)
 			else
 				--draw Blue Sphere
 				v.drawScaled((startX + (x*xoffset) + (r-1)*4)*FU, (startY + (y*yoffset) + 52)*FU, 32768, MM.GetPatch(v, "NSSHUD"))
@@ -296,7 +285,7 @@ local function result_render(v)
 	local picName = G_BuildMapName(winnerMapID) + "P"
 
 	--map picture
-	v.draw(80, 24, levelPics[picName])
+	v.draw(80, 24, MM.GetPatch(v, picName))
 
 	HIDEO.DrawStrUnicode_Center(v, 160, 128, "^2" + MM.GetText(HUD_INTERMISSION, "SPEEDINGOFF_TO"))
 	HIDEO.DrawStrUnicode_Center(v, 160, 144, G_BuildMapTitle(winnerMapID))
@@ -387,12 +376,7 @@ addHook("KeyDown", function(e)
 				end
 			})
 			S_StartSound(nil, SFX_SELECT, consoleplayer)
-		end,
-		[KEY_ENTER] = function()
-			consoleplayer.mm.kills = not consoleplayer.mm.kills
-			if (consoleplayer.mm.kills) then S_StartSound(nil, SFX_CONFIRM, consoleplayer)
-			else S_StartSound(nil, SFX_CANCEL, consoleplayer) end
-		end,
+		end
 	})
 end)
 
@@ -431,6 +415,11 @@ addHook("IntermissionThinker", function()
 					if (pmm.kills) then --I am too lazy to make another variable just to store boolean value
 						--Player has voted, listen only for "Cancel choice" button
 						if (p.cmd.buttons & BT_SPIN) then
+							for i = 1, #eMeM.mapvote.votes[p.currentweapon] do
+								if (eMeM.mapvote.votes[p.currentweapon][i] == #p) then
+									table.remove(eMeM.mapvote.votes[p.currentweapon], i)
+								end
+							end
 							pmm.kills = 0
 							if (p == consoleplayer) then S_StartSound(nil, SFX_CANCEL, p) end
 						end
@@ -439,6 +428,7 @@ addHook("IntermissionThinker", function()
 					else
 						--Player has not voted yet, let it select the desired map
 						if (p.cmd.buttons & BT_JUMP) then
+							table.insert(eMeM.mapvote.votes[p.currentweapon], #p)
 							pmm.kills = 1
 							if (p == consoleplayer) then S_StartSound(nil, SFX_CONFIRM, p) end
 						end
@@ -505,7 +495,7 @@ addHook("IntermissionThinker", function()
 				local best = 0
 				local votesPerMapSlot = {}
 				for slot = 1, NUM_MAPS do
-					votesPerMapSlot[slot] = #getVotedPlayersForSlot(slot)
+					votesPerMapSlot[slot] = #eMeM.mapvote.votes[slot]
 					if (votesPerMapSlot[slot] > best) then best = votesPerMapSlot[slot] end
 				end
 
