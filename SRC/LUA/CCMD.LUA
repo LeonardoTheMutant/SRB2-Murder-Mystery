@@ -614,11 +614,8 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			if (MM.text[l]["VERSION"] and (MM.text[l]["VERSION"] ~= MM.version)) then
 				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
 			end
-			local f = io.openlocal("client/MM.DAT", 'w')
-			if (f) then
-				f:write(l); f:close()
-				--CONS_Printf(p, "\x83NOTE:\x80 Language preferences saved to \x81/luafiles/client/MM.DAT")
-			else CONS_Printf(p, color_5.."ERROR:\x80 Failed to save personal language preference to \x81/luafiles/client/MM.DAT\x80") end
+
+			MM.SavePlayerCFG(p)
 		else
 			CONS_Printf(p, color_2..l.."\x80' language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our SRB2MM_DEV Team for help.")
 		end

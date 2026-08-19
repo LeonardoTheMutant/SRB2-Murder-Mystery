@@ -49,6 +49,46 @@ MM.LoadShowdownTracks = function()
 	end
 end
 
+--Save player preferences to local file
+MM.SavePlayerCFG = function(player)
+	local f = io.openlocal("client/MM.CFG", 'w')
+	if (f) then
+		f:write(string.format("lang %s\n", MM.lang or "EN"))
+		f:write(string.format("exposevote %s\n", bool2int(player.mm.exposevote)))
+		f:close()
+	else CONS_Printf(p, "\x85".."ERROR:\x80 Failed to save personal preferences to \x81/luafiles/client/MM.CFG\x80") end
+end
+
+--Load player preferences from local file
+MM.LoadPlayerCFG = function(player)
+	local f = io.openlocal("client/MM.CFG", 'r')
+	if (f) then
+		for line in f:lines() do
+			local keyValues = {}
+			for key, value in line:gmatch("(%S+)%s+(%S+)") do
+				switch(key, {
+					["lang"] = function()
+						MM.lang = value
+					end,
+					["exposevote"] = function()
+						COM_BufInsertText(player, "mm_exposemyvote "..value or "false")
+					end
+				})
+			end
+		end
+
+		--Check LANG for correctness
+		if (not MM.text[MM.lang]) then --in case the intended language is not imported into the game, fallback to English
+			MM.lang = "EN"
+		end
+
+		f:close() --file close
+	else --failed to open the file
+		MM.lang = "EN"
+		player.mm.exposevote = 0
+	end
+end
+
 MM.DebugPrint = function(str, ...)
 	if (MM.debug) then printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
 end

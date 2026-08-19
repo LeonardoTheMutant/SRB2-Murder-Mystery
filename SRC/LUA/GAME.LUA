@@ -82,21 +82,8 @@ addHook("PlayerSpawn", function(p)
 
 	MM.InitPlayer(p)
 
-	--Apply language
-	if (not MM.lang) then
-		local f = io.openlocal("client/MM.DAT", 'r') -- preferences file load
-		if (f) then
-			local l = f:read() --read data
-			if (MM.text[l]) then --is such language imported into the game?
-				MM.lang = l
-			else --no
-				MM.lang = "EN"
-			end
-			f:close() --file close
-		else --failed to open the file
-			MM.lang = "EN"
-		end
-	end
+	--Load player's preferences
+	MM.LoadPlayerCFG(p)
 
 	if (not p.mm.flags) then p.mm.flags = 0 end
 	if (not p.afk) then p.afk = 0 end

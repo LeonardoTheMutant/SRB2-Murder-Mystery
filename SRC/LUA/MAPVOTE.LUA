@@ -28,14 +28,19 @@ local cv_resulttime = CV_FindVar("mm_vote_resulttime")
 -- If you do, other clients won't receive the XD_LUA netxcmd, i.e, it won't write to the executing player's player_t on anyones end but yours, making this pointless !!!
 -- (also bc it would just overcomplicate things)
 COM_AddCommand("mm_exposemyvote", function(p, arg)
-	if not (valid(p) and arg) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
+	if (not valid(p)) then return end -- bogus netxcmd probably, blame srb2 (i always do this anyway just in case whacky crap happens, pretty sure vanilla crashes in this case anyway tho - nikoberry)
 
 	if (gametype ~= GT_LTMMURDERMYSTERY) then
 		CONS_Printf(p, "The game must be LTM's Murder Mystery (LTM_MM) to access this command"); return
 	end
 
-	-- TODO: Store exposevote in MM.CFG to load between sessions
+	if (not arg) then
+		CONS_Printf(p, tostring(p.mm.exposevote) or "0"); return
+	end
+
 	p.mm.exposevote = SOC_IsTrue(arg) -- now technically any garbage will result "off" - LeonardoTheMutant
+
+	MM.SavePlayerCFG(p)
 end)
 
 local failParseStr = "%sFailed to parse \"%s\" (Is the Map Name/ID correct?)"
