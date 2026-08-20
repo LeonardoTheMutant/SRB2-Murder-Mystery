@@ -134,35 +134,39 @@ addHook("PlayerThink", function(p)
 
 	--Sheriff Emerald Radar distance logic
 	--Murderers also need that number for the Anti-Camp system
-	if ((#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) and (p == consoleplayer)) then
+	if (#MM.shremds) and ((p.mm.role == ROLE_MURDERER) or (p.mm.role == ROLE_CIVILIAN) or (p.mm.role == ROLE_JESTER)) then
 		--find the distance to the closest emerald
-		shremd_distances = {}
-		for emeraldID = 1, #MM.shremds do
-			local emerald = MM.shremds[emeraldID]
-			if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone) then
-				table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(pmo.x - emerald.x, pmo.y - emerald.y), pmo.z - emerald.z))
+		if (p == displayplayer) then
+			shremd_distances = {}
+			for emeraldID = 1, #MM.shremds do
+				local emerald = MM.shremds[emeraldID]
+				if (valid(emerald) and int(emerald.timezone) == p.mm.timetravel.timezone) then
+					table.insert(shremd_distances, #shremd_distances, P_AproxDistance(P_AproxDistance(pmo.x - emerald.x, pmo.y - emerald.y), pmo.z - emerald.z))
+				end
 			end
-		end
-		shremd_closest = shremd_distances[0]
-		for emeraldID = 1, #shremd_distances do
-			if (shremd_distances[emeraldID] < shremd_closest) then shremd_closest = shremd_distances[emeraldID] end
-		end
+			shremd_closest = shremd_distances[0]
+			for emeraldID = 1, #shremd_distances do
+				if (shremd_distances[emeraldID] < shremd_closest) then shremd_closest = shremd_distances[emeraldID] end
+			end
 
-		MM.shremdDist = shremd_closest
+			MM.shremdDist = shremd_closest
+		end
 
 		--play sound
 		if (MM.shremdDist) then
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = function()
 					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) then --384*FU
-						p.mm.camping = p.mm.camping + 1
+						--During normal gameplay, the counter increments +4/tic
+						--Duriung Suspense, it does +16/tic, so yeah, you basically get an instant emerald blindness (a strong one!)
+						p.mm.camping = p.mm.camping + (4 * (1 + (bool2int(MM.susnse) * 3))
 					else
 						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
 					end
 					if (p == displayplayer) then
 						MM.hud.game.flash.color = 152 --Blue
 						MM.hud.game.flash.duration = 1
-						MM.hud.game.flash.translucency = min(p.mm.camping / (camping_maxtime / 10), 10)
+						MM.hud.game.flash.translucency = min(p.mm.camping / (camping_maxtime / 10), 10) --somehow this is desynchronized with spectator players, not crucial though
 					end
 				end,
 				[ROLE_CIVILIAN] = function()
