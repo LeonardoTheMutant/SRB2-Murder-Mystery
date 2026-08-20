@@ -39,7 +39,7 @@ addHook("MapLoad", function(map)
 	for p in players.iterate do
 		MM.InitPlayer(p)
 		p.mm.flags = p.mm.flags & ~(FLAG_SNEAK|FLAG_DEAD|FLAG_NEWCOMER)
-		p.mm.weapondelay = 175 --5 seconds
+		p.mm.weapondelay = 350 --10 seconds
 		p.mm.role = ROLE_DEAD
 	end
 
@@ -159,7 +159,7 @@ addHook("PlayerThink", function(p)
 					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) then --384*FU
 						--During normal gameplay, the counter increments +4/tic
 						--Duriung Suspense, it does +16/tic, so yeah, you basically get an instant emerald blindness (a strong one!)
-						p.mm.camping = p.mm.camping + (4 * (1 + (bool2int(MM.susnse) * 3))
+						p.mm.camping = p.mm.camping + (4 * (1 + (bool2int(MM.susnse) * 3)))
 					else
 						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
 					end
