@@ -7,7 +7,7 @@ local cv_abilities = CV_FindVar("mm_abilities") --0 = MM, 1 = Vanilla
 local cv_speedsneak = CV_FindVar("mm_speed_sneak")
 local cv_speedwalk = CV_FindVar("mm_speed_walk")
 
-addHook("PlayerThink", function(p)
+local function abilityThink(p)
 	if not (valid(p) and valid(p.mo)) then return end
 	local s = (p.mo.skin or "sonic") -- added an or just incase the game slips
 
@@ -42,5 +42,12 @@ addHook("PlayerThink", function(p)
 	if (gametype == GT_LTMMURDERMYSTERY) and (not CV_FindVar("mm_customskins").value) and valid(p.mo) and (#skins[p.mo.skin] > 5) then
 		CONS_Printf(p, "The Game Administrator has disabled the usage of Custom Skins in the current MM game")
 		R_SetPlayerSkin(p, "sonic")
+	end
+end
+
+-- Handle this early due to an exploit.
+addHook("PreThinkFrame", function()
+	for p in players.iterate do
+		abilityThink(p)
 	end
 end)
