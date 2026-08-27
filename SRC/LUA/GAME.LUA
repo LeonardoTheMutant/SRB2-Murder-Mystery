@@ -191,7 +191,7 @@ addHook("PlayerThink", function(p)
 	end
 
 	--Force player quit so that there are no rejoining player ghosts
-	if ((cv_rejointimeout.value) and (p.quittime)) then MM.PlayerQuit(p) end
+	if ((cv_rejointimeout.value) and (p.quittime % 4)==1) then MM.PlayerQuit(p) end
 
 	--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enought
 	if (MM.PlayerCount() > 1) and not (p.spectator) then
@@ -543,7 +543,7 @@ addHook("IntermissionThinker", function()
 
 	for p in players.iterate do
 		p.spectator = false
-		if (p.quittime) and not (leveltime % 4) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
+		if ((p.quittime) and (leveltime % 4)==1) then COM_BufInsertText(server, "KICK "..#p.." Player leave") end -- Kick forcer
 	end
 
 	MM.shwdwn = false

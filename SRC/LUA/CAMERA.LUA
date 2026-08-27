@@ -2,7 +2,14 @@
 -- By Re & LeonardoTheMutant
 -- Cameras management code
 
-freeslot("MT_MMCAMERA", "SPR_CAMS", "MT_MMTERMINAL", "sfx_static", "sfx_camopn")
+freeslot("MT_MMCAMERA",
+	"SPR_CAMS",
+	"MT_MMTERMINAL",
+	"sfx_static",
+	"sfx_camopn" --Camera opening SFX (from the game "Cry of Fear" by Team Psykskallar)
+)
+
+sfxinfo[sfx_camopn].caption = "Camera open"
 
 mobjinfo[MT_MMCAMERA] = {
 	--$Title Survivalence Camera
@@ -152,7 +159,7 @@ addHook("MapChange", function()
 
 	MM.cameras = {}
 	for p in players.iterate do
-		if (p.mm.camera.active) then
+		if (valid(p) and (p.mm) and (p.mm.camera.active)) then
 			p.mm.camera.active = false
 			MM.ResetHUD(p)
 		end
@@ -182,7 +189,7 @@ local function terminal_renderer(v)
 		if (static_level < 9) and not (leveltime % 3) then static_level = static_level + 1 end
 		for y = 0, MM.hud.canvas.height, noise_pixel_multiplier do
 			for x = 0, MM.hud.canvas.width, noise_pixel_multiplier do
-				v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, v.RandomRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
+				v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, KLASYKA.V_RandomRange(v, 0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
 			end
 		end
 

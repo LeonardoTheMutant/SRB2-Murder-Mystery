@@ -10,7 +10,7 @@ local MAPNUM = 468 --MAPK8
 --
 -- THE 8-BALL
 --
-freeslot("MT_8BALL", "S_8BALL", "SPR_8BAL")
+freeslot("MT_8BALL", "S_8BALL", "SPR_8BAL") -- SRB2 Classic sees double defition of all 3 things here...?
 
 mobjinfo[MT_8BALL] = {
     --$Title 8-Ball
@@ -40,7 +40,7 @@ end, MT_8BALL)
 --
 -- ELEVATORS
 --
-freeslot("MT_ELEVATOR", "MT_ELEVATORBTN")
+freeslot("MT_ELEVATOR", "MT_ELEVATORBTN") -- ...but processes these two perfectly fine?????
 
 local ELEVATOR_RADIUS = 8388608 --128*FU
 

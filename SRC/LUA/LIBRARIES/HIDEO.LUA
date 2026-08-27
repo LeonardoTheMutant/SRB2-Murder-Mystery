@@ -42,7 +42,7 @@ HIDEO.LoadUnicodeFont = function(v, a)
 	local patchname = "UNIC"..a_str
 	if (v.patchExists(patchname)) then
 		HIDEO.font[a] = v.cachePatch(patchname)
-		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..a_str.."\x80 into the Unicode Font Table")
+		HIDEO.DebugPrint("Loaded patch \x81UNIC\x82"..a_str.."\x80")
 		return HIDEO.font[a]
 	end
 end

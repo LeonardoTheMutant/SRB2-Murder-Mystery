@@ -4,7 +4,7 @@
 -- Function definitions for the core MM functionality and some global functions
 -- Named after Michael Myers - one of the fictional serial murderers from the horror films (nah it's just because his initials are "MM")
 
--- DEPENDENCIES: Caroline
+-- DEPENDENCIES: Caroline, Klasyka
 
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
@@ -193,15 +193,15 @@ MM.AssignRoles = function()
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF do --assign Murderers and Sheriffs
         for i = 1, MM.GetRoleMultiplier() do
-            local randPlr = P_RandomKey(#plrs) + 1 --select random player
+            local randPlr = KLASYKA.RandomKey(#plrs) + 1 --select random player
             players[plrs[randPlr]].mm.role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
         end
     end
 
     --Assign Jester role
-    if (MM.PlayerCount() > 3) and (not P_RandomKey(4)) then
-		local randPlr = P_RandomKey(#plrs) + 1
+    if (MM.PlayerCount() > 3) and (KLASYKA.RandomKey(4) == 0) then
+		local randPlr = KLASYKA.RandomKey(#plrs) + 1
 		players[plrs[randPlr]].mm.role = ROLE_JESTER
 		table.remove(plrs, randPlr)
 	end
@@ -271,11 +271,11 @@ end
 
 --chatprintf but safe for vanilla SRB2
 MM.Chatprint = function(p, msg, forcesound)
-	--if (srb2classic) then
-		--chatprintf(p, msg)
-	--else
+	if (MODVERSION == 58) then --Executable is (or should be) SRB2 Classic
+		chatprintf(p, msg)
+	else --Vanilla
 		chatprintf(p, carretToSRB2_color(unicode.ascii(msg)), ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
-	--end
+	end
 end
 
 --Function to display global messages in chat
@@ -428,7 +428,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 
 	if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
-	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[KLASYKA.RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 
 --Kill Player by not player (map hazards such as pit, crusher, water drowning or simply as a punishment)
@@ -464,7 +464,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
 
-	S_StartSound(nil, MM.death_sfx[P_RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[KLASYKA.RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 
 --Count Player's taemmates
@@ -656,7 +656,7 @@ MM.EndRound = function(winner, endtext, reason)
 	MM.susnse = false
 	G_ExitLevel()
 	if (endtext) then MM.ChatprintGlobal(endtext, reason) end
-	if (isdedicatedserver) then CONS_Printf(server, string.format("[%s GAME]: Round end, lasted %d:%d", os.date("%X"), G_TicsToMinutes(leveltime), G_TicsToSeconds(leveltime))) end
+	if (isdedicatedserver) then CONS_Printf(server, string.format("[%s GAME]: Round end, lasted %d:%02d", os.date("%X"), G_TicsToMinutes(leveltime), G_TicsToSeconds(leveltime))) end
 end
 
 --Enable Suspense music when there are no Sheriffs & Heroes left but one Innocent and at least one dropped Sheriff's Emerald
@@ -673,7 +673,7 @@ MM.StartSuspense = function()
 
 		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
 		else
-			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[P_RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
+			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.susnse and S_MusicExists(MM.susnse)) then
@@ -689,7 +689,7 @@ MM.StartShowdown = function()
 	if not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
 		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
 		else
-			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
+			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.shwdwn and S_MusicExists(MM.shwdwn)) then
@@ -706,7 +706,7 @@ MM.SetRandomCivilianAs = function(role)
 	for plr in players.iterate do
 		if (plr.mm.role == ROLE_CIVILIAN) then table.insert(plrs, #plr) end
 	end
-    local p = players[plrs[P_RandomKey(#plrs)+1]]
+    local p = players[plrs[KLASYKA.RandomKey(#plrs)+1]]
 	p.mm.role = role
 	p.mm.prevrole = role
 	MM.hud.game.roleflicker = 105 --3 secs

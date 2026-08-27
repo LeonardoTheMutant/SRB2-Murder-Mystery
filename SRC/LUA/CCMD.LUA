@@ -31,12 +31,13 @@ local wepcfg_options = {
 }
 local wepcfg_fmt = "\x81Game:\x80 %-9s \x82 Duel:\x80 %-9s"
 
-local wepcfg_description = string.format([[
-Options description:
-"%s"       - All weapons allowed;
-"%s" - Only Red Rings & Knife;
-"%s" - All weapons except Red Rings;
-"%s"     - Only Knife is allowed.]], wepcfg_options[0], wepcfg_options[1], wepcfg_options[2], wepcfg_options[3])
+local wepcfg_description = string.format(table.concat({
+	"Options description:",
+	"\"%s\"       - All weapons allowed;",
+	"\"%s\" - Only Red Rings & Knife;",
+	"\"%s\" - All weapons except Red Rings;",
+	"\"%s\"     - Only Knife is allowed."
+}, "\n"), wepcfg_options[0], wepcfg_options[1], wepcfg_options[2], wepcfg_options[3])
 local wepcfg_option = {}
 for y = 0, 3 do
 	for x = 0, 3 do
@@ -64,9 +65,10 @@ local mmsetup_entries = {
 	{cvar = CV_FindVar("mm_footmarks"), min = 0, max = 1, values = DisableEnable_option, name = "Player footmarks",
 		description = "Enable/Disable the Footmarks that players leave on flat surfaces after each step."},
 	{cvar = CV_FindVar("mm_killtrails"), min = 0, max = 1, values = DisableEnable_option, name = "Kill trails",
-		description = [[
-When enabled, players can get their footmarks recolored to red for some amount of steps after stepping over a dead body or by killing with a knife.
-Player footmarks must be enabled for this to work.]]
+		description = table.concat({
+			"When enabled, players can get their footmarks recolored to red for some amount of steps after stepping over a dead body or by killing with a knife.",
+			"Player footmarks must be enabled for this to work."
+		}, "\n")
 	},
 	{cvar = CV_FindVar("mm_nocamping"), min = 0, max = 1, values = DisableEnable_option, name = "Anti-camp system for Murderers",
 		description = "If enabled, Murderer players who are near the emerald for some amount of time will get punished."},
@@ -75,7 +77,11 @@ Player footmarks must be enabled for this to work.]]
 	{cvar = CV_FindVar("mm_speed_walk"), min = 6, max = 40, name = "Walking speed",
 		description = "Walking speed."},
 	{cvar = CV_FindVar("mm_hurtteammates"), min = 0, max = 1, values = NoYes_option, name = "Teammates can hurt each other",
-		description = "When enabled, a player can get hit by a teammate. In such cases the player looses all of its rings and gets a knockback.\nSet to \"No\" to disable this behaviour entirely."},
+		description = table.concat({
+			"When enabled, a player can get hit by a teammate. In such cases the player looses all of their rings and gets a knockback.",
+			"Set to \"No\" to disable this behaviour entirely."
+		}, "\n")
+	},
 	{cvar = CV_FindVar("mm_wepcfg_murd"), min = 0, max = 15, values = wepcfg_option, name = "Weapons set - Murderer",
 		description = "Set weapons for the Murderer role. "..wepcfg_description},
 	{cvar = CV_FindVar("mm_wepcfg_sheri"), min = 0, max = 15, values = wepcfg_option, name = "Weapons set - Sheriff",
@@ -93,10 +99,10 @@ Player footmarks must be enabled for this to work.]]
 	{cvar = CV_FindVar("mm_vote_resulttime"), min = 3, max = 10, name = "Voting Results screen time",
 		description = "How long the Voting Result screen should stay, in seconds.\nMap Voting must be enabled for this to work."},
 	{cvar = CV_FindVar("timelimit"), min = 0, max = 30, values = {[0] = "Let MM decide"}, name = "Round time limit",
-		description = [[
-Time limit for the round, in minutes. With "Let MM decide" option the game will automatically choose the time limit for each round.
-Map restart is required when this value is changed.
-Note: If Map Voting is enabled, this variable is automatically adjusted to the time needed for the entire map vote process.]]
+		description = table.concat({
+			"Time limit for the round, in minutes. With \"Let MM decide\" option the game will automatically choose the time limit for each round.",
+			"Map restart is required when this value is changed.",
+		}, "\n")
 	},
 	{cvar = CV_FindVar("maxplayers"), min = 2, max = 32, name = "Maximum players",
 		description = "The maximum amount of players allowed to be in the server.\nJoining players who do not fit into this limit will be rejected."},
@@ -511,7 +517,7 @@ addHook("PlayerThink", function(p)
 			--Insert data into the render buffer
 			if (MM.help.page <= #MM_text) then renderBuffer = eMeM.GetText("HUD_MMHELP", MM.help.page)
 			elseif (MM.help.page == (#MM_text + 1)) then --last page is always a technical info page
-				renderBuffer = {info_mmhelp_technical}
+				renderBuffer = info_mmhelp_technical
 			end
 		end
 	end
@@ -610,6 +616,9 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 
 			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", l, MM.text[l]["AUTHOR"])) end
 			local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
+
+			if (not srb2classic) then langname = unicode.ascii(langname) end --Convert UTF-8 string to ASCII for Vanilla executables
+
 			CONS_Printf(p, "Personal language for \x87Murder Mystery\x80 is set to \x82"..langname)
 			if (MM.text[l]["VERSION"] and (MM.text[l]["VERSION"] ~= MM.version)) then
 				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)

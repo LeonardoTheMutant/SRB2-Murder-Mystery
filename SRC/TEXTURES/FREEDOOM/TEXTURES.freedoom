@@ -134,13 +134,6 @@ WallTexture "BRONZE4", 64, 128
 	Patch "RW38_3", 0, 0
 }
 
-WallTexture "BROVINE2", 256, 128
-{
-	Patch "WALL62_1", 0, 0
-	Patch "WALL62_1", 128, 0
-	Patch "W107_1", 0, 0
-}
-
 WallTexture "BROWN1", 128, 128
 {
 	Patch "WALL02_2", 0, 56
@@ -151,18 +144,6 @@ WallTexture "BROWN1", 128, 128
 	Patch "WALL02_3", 64, 0
 }
 
-WallTexture "BROWN144", 128, 128
-{
-	Patch "WALL00_5", 0, 0
-	Patch "WALL00_6", 16, 0
-	Patch "WALL00_7", 32, 0
-	Patch "WALL00_8", 48, 0
-	Patch "WALL00_6", 64, 0
-	Patch "WALL00_6", 80, 0
-	Patch "WALL00_7", 96, 0
-	Patch "WALL00_7", 112, 0
-}
-
 WallTexture "BROWN96", 128, 128
 {
 	Patch "WALL62_1", 0, 0
@@ -171,18 +152,6 @@ WallTexture "BROWN96", 128, 128
 WallTexture "BROWNGRN", 64, 128
 {
 	Patch "WALL62_2", 0, 0
-}
-
-WallTexture "BROWNHUG", 64, 128
-{
-	Patch "WALL04_7", 32, 0
-	Patch "WALL04_2", 0, 0
-	Patch "WALL04_3", 16, 0
-	Patch "WALL04_2", 48, 0
-	Patch "WALL04_4", 0, 64
-	Patch "WALL04_5", 16, 64
-	Patch "WALL04_7", 32, 64
-	Patch "WALL04_3", 48, 64
 }
 
 WallTexture "BSTONE1", 64, 128
@@ -442,112 +411,12 @@ WallTexture "GRAY7", 256, 128
 	Patch "W32_1", 128, 56
 }
 
-WallTexture "GRAYBIG", 128, 128
-{
-	Patch "WALL00_1", 0, 0
-	Patch "WALL00_1", 64, 0
-	Patch "WALL00_2", 80, 0
-}
-
-WallTexture "GRAYPOIS", 64, 72
-{
-	Patch "WALL00_1", 0, 0
-	Patch "PS18A0", 1, 18
-}
-
-WallTexture "GRAYTALL", 128, 128
-{
-	Patch "WALL00_1", 0, 0
-	Patch "WALL00_1", 64, 0
-	Patch "WALL00_3", 80, 0
-}
-
-WallTexture "GRAYVINE", 256, 128
-{
-	Patch "WALL00_1", 192, 0
-	Patch "WALL00_1", 64, 0
-	Patch "WALL00_1", 128, 0
-	Patch "WALL00_1", 0, 0
-	Patch "W106_1", 0, 0
-}
-
-WallTexture "GSTGARG", 64, 128
-{
-	Patch "WALL30_2", 0, 0
-}
-
-WallTexture "GSTLION", 64, 128
-{
-	Patch "WALL30_4", 0, 0
-}
-
 WallTexture "GSTONE1", 256, 128
 {
 	Patch "WALL48_1", 0, 0
 	Patch "WALL48_2", 64, 0
 	Patch "WALL48_3", 128, 0
 	Patch "WALL48_4", 192, 0
-}
-
-WallTexture "GSTSATYR", 64, 128
-{
-	Patch "WALL30_3", 0, 0
-}
-
-WallTexture "GSTVINE1", 256, 128
-{
-	Patch "WALL48_1", 0, 0
-	Patch "WALL48_2", 64, 0
-	Patch "WALL48_3", 128, 0
-	Patch "WALL48_4", 192, 0
-	Patch "W106_1", 0, 0
-}
-
-WallTexture "GSTVINE2", 256, 128
-{
-	Patch "WALL48_1", 0, 0
-	Patch "WALL48_2", 64, 0
-	Patch "WALL48_3", 128, 0
-	Patch "WALL48_4", 192, 0
-	Patch "W107_1", 0, 0
-}
-
-WallTexture "ICKWALL1", 64, 128
-{
-	Patch "W32_4", 0, 64
-	Patch "WALL69_4", 0, 0
-}
-
-WallTexture "ICKWALL2", 64, 128
-{
-	Patch "WALL71_5", 0, 0
-	Patch "W33_5", 0, 64
-}
-
-WallTexture "ICKWALL3", 64, 128
-{
-	Patch "WALL72_7", 0, 0
-	Patch "WALL69_9", 0, 64
-	Patch "W67_2", 32, 64
-}
-
-WallTexture "ICKWALL4", 64, 128
-{
-	Patch "WALL72_5", 0, 0
-	Patch "WALL72_3", 0, 64
-}
-
-WallTexture "ICKWALL5", 64, 128
-{
-	Patch "WALL70_4", 0, 0
-	Patch "W32_4", 0, 64
-}
-
-WallTexture "ICKWALL7", 64, 128
-{
-	Patch "WALL70_9", 28, 64
-	Patch "W67_2", 0, 64
-	Patch "W67_1", 0, 0
 }
 
 WallTexture "LITE3", 32, 128
@@ -789,51 +658,6 @@ WallTexture "MODWALL4", 64, 128
 WallTexture "NUKE24", 64, 24
 {
 	Patch "NUKEDGE", 0, 0
-}
-
-WallTexture "NUKEDGE1", 128, 128
-{
-	Patch "WALL04_7", 96, 0
-	Patch "WALL04_5", 112, 0
-	Patch "WALL04_5", 112, 32
-	Patch "WALL04_5", 96, 32
-	Patch "NUKEDGE", 64, 104
-	Patch "WALL04_2", 64, 0
-	Patch "WALL04_2", 48, 0
-	Patch "WALL04_2", 48, 32
-	Patch "WALL04_2", 64, 32
-	Patch "NUKEDGE", 0, 104
-	Patch "WALL04_4", 16, 32
-	Patch "WALL04_5", 32, 0
-	Patch "WALL04_5", 32, 32
-	Patch "WALL04_3", 80, 32
-	Patch "WALL04_3", 80, 0
-	Patch "WALL04_3", 0, 32
-	Patch "WALL04_3", 0, 0
-	Patch "WALL04_4", 16, 0
-}
-
-WallTexture "NUKEPOIS", 128, 128
-{
-	Patch "WALL04_3", 0, 0
-	Patch "WALL04_4", 16, 0
-	Patch "WALL04_5", 32, 0
-	Patch "WALL04_2", 48, 0
-	Patch "NUKEDGE", 0, 104
-	Patch "WALL04_3", 0, 33
-	Patch "WALL04_4", 16, 33
-	Patch "WALL04_5", 32, 33
-	Patch "WALL04_2", 48, 33
-	Patch "PS20A0", 0, 69
-	Patch "WALL04_2", 64, 0
-	Patch "WALL04_3", 80, 0
-	Patch "WALL04_4", 112, 0
-	Patch "WALL04_7", 96, 0
-	Patch "WALL04_2", 112, 72
-	Patch "WALL04_3", 96, 72
-	Patch "WALL04_4", 80, 72
-	Patch "WALL04_5", 64, 64
-	Patch "NUKEDGE", 64, 105
 }
 
 WallTexture "PANEL6", 64, 128
@@ -1078,50 +902,6 @@ WallTexture "STEPTOP", 128, 16
 	Patch "RIPW15", 0, 0
 }
 
-WallTexture "STONE", 256, 128
-{
-	Patch "WALL01_1", 0, 0
-	Patch "WALL01_2", 16, 0
-	Patch "WALL01_3", 32, 0
-	Patch "WALL01_4", 48, 0
-	Patch "WALL01_5", 64, 0
-	Patch "WALL01_6", 80, 0
-	Patch "WALL01_7", 96, 0
-	Patch "WALL01_8", 112, 0
-	Patch "WALL01_9", 128, 0
-	Patch "WALL01_A", 144, 0
-	Patch "WALL01_B", 160, 0
-	Patch "WALL01_C", 176, 0
-	Patch "WALL01_3", 192, 0
-	Patch "WALL01_1", 208, 0
-	Patch "WALL01_6", 224, 0
-	Patch "WALL01_A", 240, 0
-	Patch "WALL01_1", 0, 72
-	Patch "WALL01_2", 16, 72
-	Patch "WALL01_3", 32, 72
-	Patch "WALL01_4", 48, 72
-	Patch "WALL01_5", 64, 72
-	Patch "WALL01_6", 80, 72
-	Patch "WALL01_7", 96, 72
-	Patch "WALL01_8", 112, 72
-	Patch "WALL01_9", 128, 72
-	Patch "WALL01_A", 144, 72
-	Patch "WALL01_B", 160, 72
-	Patch "WALL01_C", 176, 72
-	Patch "WALL01_3", 192, 72
-	Patch "WALL01_1", 208, 72
-	Patch "WALL01_6", 224, 72
-	Patch "WALL01_A", 240, 72
-	Patch "W33_8", 0, 64
-	Patch "W33_8", 0, 120
-	Patch "W33_8", 64, 64
-	Patch "W33_8", 64, 120
-	Patch "W33_8", 128, 64
-	Patch "W33_8", 128, 120
-	Patch "W33_8", 192, 64
-	Patch "W33_8", 192, 120
-}
-
 WallTexture "STONE2", 128, 128
 {
 	Patch "W28_5", 0, 0
@@ -1288,26 +1068,6 @@ WallTexture "ZIMMER4", 64, 128
 	Patch "RW20_4", 0, 0
 }
 
-WallTexture "AASTINKY", 32, 72
-{
-	Patch "WALL00_3", 0, 0
-	Patch "WALL00_3", 12, 0
-	Patch "WALL00_3", 24, 0
-}
-
-WallTexture "BROVINE", 256, 128
-{
-	Patch "WALL02_2", 0, 56
-	Patch "WALL02_2", 0, 0
-	Patch "WALL02_2", 192, 56
-	Patch "WALL02_2", 192, 0
-	Patch "WALL02_1", 64, 56
-	Patch "WALL02_1", 64, 0
-	Patch "WALL02_1", 128, 56
-	Patch "WALL02_1", 128, 0
-	Patch "W107_1", 0, 0
-}
-
 WallTexture "COMPOHSO", 128, 128
 {
 	Patch "WALL21_1", 64, -2
@@ -1331,20 +1091,6 @@ WallTexture "GRAYDANG", 64, 128
 	Patch "PS15A0", 14, 72
 }
 
-WallTexture "ICKDOOR1", 64, 72
-{
-	Patch "WALL00_1", 0, 8
-	Patch "WALL00_2", -8, 22
-	Patch "WALL70_3", 0, 0
-}
-
-WallTexture "ICKWALL6", 64, 128
-{
-	Patch "W32_4", 0, 64
-	Patch "W32_4", 0, 0
-	Patch "WALL70_2", 4, 0
-}
-
 WallTexture "LITE96", 64, 128
 {
 	Patch "WALL62_1", -1, 0
@@ -1366,16 +1112,6 @@ WallTexture "LITERED", 16, 128
 {
 	Patch "W15_6", -4, 56
 	Patch "W15_6", -4, 0
-}
-
-WallTexture "MIDVINE1", 256, 128
-{
-	Patch "W106_1", 0, 0
-}
-
-WallTexture "MIDVINE2", 256, 128
-{
-	Patch "W107_1", 0, 0
 }
 
 WallTexture "ASHWALL", 64, 128
@@ -1502,11 +1238,6 @@ WallTexture "LITEBLU3", 16, 128
 	Patch "W13_8", 0, 56
 }
 
-WallTexture "NUKESLAD", 64, 128
-{
-	Patch "WALL57_1", 0, 0
-}
-
 WallTexture "PLANET1", 256, 128
 {
 	Patch "AG128_1", 192, 0
@@ -1521,39 +1252,10 @@ WallTexture "PLANET1", 256, 128
 	Patch "TSCRN8", 132, 6
 }
 
-WallTexture "SLADRIP1", 64, 128
-{
-	Patch "WALL57_2", 0, 0
-}
-
-WallTexture "SLADRIP2", 64, 128
-{
-	Patch "WALL57_3", 0, 0
-}
-
-WallTexture "SLADRIP3", 64, 128
-{
-	Patch "WALL57_4", 0, 0
-}
-
 WallTexture "STARTAN1", 64, 128
 {
 	Patch "SW12_4", 0, 0
 	Patch "SW12_5", 32, 0
-}
-
-WallTexture "STONPOIS", 64, 128
-{
-	Patch "WALL01_1", 0, 0
-	Patch "WALL01_2", 16, 0
-	Patch "WALL01_3", 32, 0
-	Patch "WALL01_4", 48, 0
-	Patch "WALL01_4", 48, 64
-	Patch "WALL01_3", 32, 64
-	Patch "WALL01_2", 16, 64
-	Patch "WALL01_1", 0, 64
-	Patch "PS20A0", 1, 42
-	Patch "W33_8", 0, 120
 }
 
 WallTexture "BTNTMETL", 64, 128
@@ -1884,20 +1586,6 @@ WallTexture "A-CAMO1", 128, 128
 	Patch "CAMO1", 0, 0
 }
 
-WallTexture "A-CAMO2", 256, 128
-{
-	Patch "CAMO1", 0, 0
-	Patch "CAMO1", 128, 0
-	Patch "W107_1", 0, 0
-}
-
-WallTexture "A-CAMO3", 256, 128
-{
-	Patch "CAMO1", 0, 0
-	Patch "CAMO1", 128, 0
-	Patch "W106_1", 0, 0
-}
-
 WallTexture "A-CAMO4", 128, 128
 {
 	Patch "CAMO4", 0, 0
@@ -1952,34 +1640,6 @@ WallTexture "SLIME8", 128, 128
 	Patch "RW41_1", 0, 0
 	Patch "RW41_1", 64, 0
 	Patch "T14_5", 20, 32
-}
-
-WallTexture "A-VINE1", 256, 128
-{
-	Patch "W107_1", 0, 0
-}
-
-WallTexture "A-VINE2", 256, 128
-{
-	Patch "W106_1", 0, 0
-}
-
-WallTexture "A-VINE3", 256, 128
-{
-	Patch "RW1_2", 0, 0
-	Patch "RW1_2", 64, 0
-	Patch "RW1_2", 128, 0
-	Patch "RW1_2", 192, 0
-	Patch "W107_1", 0, 0
-}
-
-WallTexture "A-VINE4", 256, 128
-{
-	Patch "RW1_2", 0, 0
-	Patch "RW1_2", 64, 0
-	Patch "RW1_2", 128, 0
-	Patch "RW1_2", 192, 0
-	Patch "W106_1", 0, 0
 }
 
 WallTexture "A-WOOD1", 128, 128

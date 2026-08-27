@@ -71,7 +71,7 @@ addHook("MapLoad", do
 		if (t.type == 2025) then table.insert(s, (#s + 1), t) end
 	end
 	if (#s) then --if there are spawnpoints available, spawn the plushie at a random spawn
-		local i = P_RandomKey(#s) + 1
+		local i = KLASYKA.RandomKey(#s) + 1
 		P_SpawnMobj((s[i].x * FU), (s[i].y * FU), (s[i].z * FU), MT_EVILKNUX)
 		MM.DebugPrint(string.format("Spawned Evil Knux Plush at %d, %d, %d out of %d possible spawnpoint choices", s[i].x, s[i].y, s[i].z, #s))
 	end

@@ -5,7 +5,7 @@
 -- Made by Arnie37, Sonic1983 and LeonardoTheMutant
 
 MM.AddLang("RU", {
-	["LANGUAGE"]="Russkiy",
+	["LANGUAGE"]="русский",
 	["VERSION"]="1.3",
 	["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 	["CHAT_ROLE_MURDERER"]={

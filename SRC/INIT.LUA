@@ -285,6 +285,7 @@ G_AddGametype({
 })
 
 --Load libraries
+dofile("LIBRARIES/KLASYKA.LUA")
 dofile("LIBRARIES/UNICODE.LUA")
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) then dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
@@ -341,6 +342,15 @@ dofile("MAPS/MAPKE.LUA")
 
 print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
 
-if (MODVERSION ~= 56) then
-	error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 was designed for \x84SRB2 v2.2.15\x80 only. You can ignore this warning, but incompatibilities may occur", 0)
-end
+switch(MODVERSION, {
+	[56] = function()
+		--load in 2.2.15 as normal
+	end,
+	[58] = function()
+		--2.2.17
+		print("Game version is^1 2.2.17^0, assuming this is ^4SRB2 Classic^0 executable. ^4LTM's ^7Murder Mystery ^1v"..MM.version.."^0 will try to use its advanced features. Incompatibilities may occur.\n")
+	end,
+	['default'] = function()
+		error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 was designed for \x84SRB2 v2.2.15\x80 and \x84SRB2 Classic v2.2.17\x80 only. You can ignore this warning, but incompatibilities may occur.\n", 0)
+	end
+})

@@ -306,7 +306,7 @@ addHook("PlayerThink", function(player)
 					if (material) and (soundType) and (soundinfolist[material]) and (soundinfolist[material][soundType]) then
 						local sounds = soundinfolist[material][soundType]
 						if (sounds) then
-							S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1])
+							S_StartSound(pmo, sounds[KLASYKA.RandomKey(#sounds) + 1])
 							if (not SOC_IsTrue(mapheaderinfo[gamemap].mm_disablefootmarks) and footmarksCVAR) then
 								local mobjstep = P_SpawnMobjFromMobj(pmo,0,0,0,MT_MMSTEP)
 								mobjstep.eflags = pmo.eflags
@@ -323,10 +323,10 @@ addHook("PlayerThink", function(player)
 				end
 				if (pmo.eflags & MFE_TOUCHLAVA) then
 					local sounds=soundinfolist["lava"][soundType]
-					if (sounds) then S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) then S_StartSound(pmo, sounds[KLASYKA.RandomKey(#sounds) + 1]) end
 				elseif (pmo.eflags & MFE_UNDERWATER) or (pmo.eflags & MFE_TOUCHWATER) or (pmo.eflags & MFE_GOOWATER) then
 					local sounds=soundinfolist["water"][soundType]
-					if (sounds) then S_StartSound(pmo, sounds[P_RandomKey(#sounds) + 1]) end
+					if (sounds) then S_StartSound(pmo, sounds[KLASYKA.RandomKey(#sounds) + 1]) end
 				end
 			end
 		end

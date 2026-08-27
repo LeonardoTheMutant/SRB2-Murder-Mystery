@@ -2,7 +2,7 @@
 -- for LeonardoTheMutant's Murder Mystery
 --
 -- ENGLISH
--- Made by SRB2MM community
+-- Made by LeonardoTheMutant, his team & contributors community
 --
 -- LTM's MM REQUIRES THE ENGLISH VERSION OF THE TEXT TO BOOT AND RUN, DO NOT DISABLE OR REMOVE THIS FILE
 --

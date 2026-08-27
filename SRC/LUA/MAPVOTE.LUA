@@ -146,7 +146,7 @@ local function getRandomMaps(NoOfMaps)
 	local m = {}
 	local index
 	for i = 1, NoOfMaps do
-		index = P_RandomKey(mapsLen) + 1
+		index = KLASYKA.RandomKey(mapsLen) + 1
 		m[i] = maps[index]
 		table.remove(maps, index)
 		mapsLen = mapsLen - 1
@@ -510,7 +510,7 @@ addHook("IntermissionThinker", function()
 				end
 
 				--Now select the random slot among best slots
-				winnerMapID = MM.mapvote.maplist[bestMaps[P_RandomKey(bestMapsNo) + 1]]
+				winnerMapID = MM.mapvote.maplist[bestMaps[KLASYKA.RandomKey(bestMapsNo) + 1]]
 			end
 		end,
 		[MV_RESULT] = function()

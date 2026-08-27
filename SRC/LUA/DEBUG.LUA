@@ -34,12 +34,12 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 end)
 COM_AddCommand("mmsusnse",do
 	if(mapheaderinfo[gamemap].mm_suspensetrack) MM.susnse=mapheaderinfo[gamemap].mm_suspensetrack
-	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[P_RandomKey(#MM.susnse_music)+1]end end
+	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music)+1]end end
 	if(MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse, true) end
 end)
 COM_AddCommand("mmduel",do
 	if(mapheaderinfo[gamemap].mm_showdowntrack)MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
-	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[P_RandomKey(#MM.shwdwn_music)+1]end end
+	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music)+1]end end
 	if(MM.shwdwn and S_MusicExists(MM.shwdwn))S_ChangeMusic(MM.shwdwn, true) end
 end)
 COM_AddCommand("mmloadmus",do

@@ -11,6 +11,9 @@
 -- Leo
 
 
+--
+-- "KICK YOURSELF"
+--
 
 enum(
 	"LOVEYOURSELF",
@@ -19,7 +22,6 @@ enum(
 	"KYS_CVAR"
 )
 
---"Kick Yourself"
 COM_AddCommand("kys", function(p, id)
 	local msg = {
 		"Kicked itself",
@@ -31,131 +33,6 @@ COM_AddCommand("kys", function(p, id)
 	if (id < 1) or (id > #msg) then return end
 
 	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id]))
-end)
-
-
-
---
--- AIMBOT
---
-local PLAYER_RADIUS = mobjinfo[MT_PLAYER].radius / 16
-local function predictMobjPos(mo, tics)
-	local ray = P_SpawnMobj(mo.x, mo.y, mo.z, MT_RAY)
-	ray.momx = mo.momx
-	ray.momy = mo.momy
-	ray.momz = mo.momz
-	ray.flags = ray.flags & ~(MF_NOGRAVITY|MF_NOCLIPHEIGHT|MF_NOCLIP)
-
-	for i = 0, tics do
-		P_XYMovement(ray)
-		P_ZMovement(ray)
-	end
-
-	return ray
-end
-addHook("PlayerSpawn", function(p)
-	p.startangle = p.realmo.angle
-end)
-addHook("PlayerThink", function(p)
-	if not (valid(p) and valid(p.mo)) then return end
-	for plr in players.iterate do
-		if (valid(plr) and valid(plr.mo) and (plr ~= p)) then
-			--
-			-- 1st check (basic)
-			--
-			if (p.mo.angle == R_PointToAngle2(p.mo.x, p.mo.y, plr.mo.x, plr.mo.y)) and (p.mo.angle ~= p.startangle) then
-				CONS_Printf(server, string.format("\x85!!! %s has attempted to use aimbot !!!", p.name))
-				MM.KillPlayer(p.mo, true, true)
-				MM.TryEndgame()
-			end
-
-			--
-			-- 2nd check (basic with movement prediction)
-			--
-			local target = predictMobjPos(plr.mo, p.cmd.latency)
-			if (p.mo.angle == R_PointToAngle2(p.mo.x, p.mo.y, target.x, target.y)) and (p.mo.angle ~= p.startangle) then
-				CONS_Printf(server, string.format("\x85!!! %s has attempted to use aimbot !!!", p.name))
-				MM.KillPlayer(p.mo, true, true)
-				MM.TryEndgame()
-			end
-
-			--
-			-- 3rd & 4th checks (advanced, but only warns)
-			--
-			local angle = R_PointToAngle2(p.mo.x, p.mo.y, plr.mo.x, plr.mo.y)
-			--Right point (from our perspective)
-			local pointAx, pointAy, angleA
-			--Left point
-			local pointBx, pointBy, angleB
-
-			if (AngleInRange(angle, ANGLE_315, ANGLE_135)) then
-				--target at North-East
-				--bottom-right
-				pointAx = plr.mo.x + PLAYER_RADIUS
-				pointAy = plr.mo.y - PLAYER_RADIUS
-				--top-left
-				pointBx = plr.mo.x - PLAYER_RADIUS
-				pointBy = plr.mo.y + PLAYER_RADIUS
-			elseif (AngleInRange(angle, ANGLE_45, ANGLE_225)) then
-				--target at North-West
-				--top-right
-				pointAx = plr.mo.x + PLAYER_RADIUS
-				pointAy = plr.mo.y + PLAYER_RADIUS
-				--bottom-left
-				pointBx = plr.mo.x - PLAYER_RADIUS
-				pointBy = plr.mo.y - PLAYER_RADIUS
-			elseif (AngleInRange(angle, ANGLE_135, ANGLE_315)) then
-				--target at South-West
-				--top-left
-				pointAx = plr.mo.x - PLAYER_RADIUS
-				pointAy = plr.mo.y + PLAYER_RADIUS
-				--bottom-right
-				pointBx = plr.mo.x + PLAYER_RADIUS
-				pointBy = plr.mo.y - PLAYER_RADIUS
-			elseif (AngleInRange(angle, ANGLE_225, ANGLE_45)) then
-				--target at South-East
-				--bottom-left
-				pointAx = plr.mo.x - PLAYER_RADIUS
-				pointAy = plr.mo.y - PLAYER_RADIUS
-				--top-right
-				pointBx = plr.mo.x + PLAYER_RADIUS
-				pointBy = plr.mo.y + PLAYER_RADIUS
-			end
-
-			angleA = R_PointToAngle2(p.mo.x, p.mo.y, pointAx, pointAy)
-			angleB = R_PointToAngle2(p.mo.x, p.mo.y, pointBx, pointBy)
-
-			--Better nametag display
-			--if (AngleInRange(p.mo.angle, angleA, angleB)) then
-			--	CONS_Printf(p, plr.name) --replace with v.drawString()
-			--end
-
-			--
-			-- 3rd check (without additional angle checks)
-			--
-			local dist = FixedInt(R_PointToDist2(p.mo.x, p.mo.y, plr.mo.x, plr.mo.y))
-			if (p.cmd.buttons & BT_ATTACK) and AngleInRange(p.mo.angle, angleA, angleB) and (dist > MELEERANGE) and (isdedicatedserver) then
-				local pmo = p.mo
-				local plrmo = plr.mo
-				local fmt = "!!! %s is firing at %s at near origin - distance: %d, hunter momentum: <%d; %d>, target momentum: <%d; %d>) !!!"
-				CONS_Printf(server, string.format(fmt, p.name, plr.name, dist, FixedInt(pmo.momx), FixedInt(pmo.momy), FixedInt(plrmo.momx), FixedInt(plrmo.momy)))
-			end
-
-			--
-			-- 4th check (with additional angle checks)
-			--
-			local DIVISOR = 16 --I may not know the correct name for this, but this is the number you divide by
-
-			local dist = FixedInt(R_PointToDist2(p.mo.x, p.mo.y, plr.mo.x, plr.mo.y))
-			if (p.cmd.buttons & BT_ATTACK) and AngleInRange(p.mo.angle, angleA - (AngleDiff(angleA, angle)/DIVISOR), angleB + (AngleDiff(angle, angleB)/DIVISOR)) and (dist > MELEERANGE)
-			and (isdedicatedserver) then
-				local pmo = p.mo
-				local plrmo = plr.mo
-				local fmt = "!!! %s is firing at %s with a good precision - distance: %d, hunter momentum: <%d; %d>, target momentum: <%d; %d>) !!!"
-				CONS_Printf(server, string.format(fmt, p.name, plr.name, dist, FixedInt(pmo.momx), FixedInt(pmo.momy), FixedInt(plrmo.momx), FixedInt(plrmo.momy)))
-			end
-		end
-	end
 end)
 
 
@@ -243,11 +120,30 @@ addHook("PlayerThink", function(p)
 		MM.TryEndgame()
 	end
 
-	if (p.name ~= p.oldname) and (leveltime > 105) and (p.jointime > 105) then
-		if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) and not (leveltime % 4) then
-			MM.PunishPlayer(p, "Do not rename when dead!")
-		else
-			p.oldname = p.name
+	--Remove this block when NameChange hook will become real in Vanilla
+	if (not srb2classic) then
+		if (p.name ~= p.oldname) and (leveltime > 105) and (p.jointime > 105) then
+			if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) and not (leveltime % 4) then
+				MM.PunishPlayer(p, "Do not rename when dead!")
+			else
+				p.oldname = p.name
+			end
 		end
 	end
 end)
+
+
+
+--
+-- RENAME LOCK
+-- for 2.2.16+
+--
+if (srb2classic) then
+	addHook("NameChange", function(p, newname)
+		if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
+		if (gamestate == GS_LEVEL) and (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
+			return false --reject rename
+		end
+	end)
+end

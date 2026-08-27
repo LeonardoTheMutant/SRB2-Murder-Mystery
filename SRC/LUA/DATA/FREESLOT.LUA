@@ -123,7 +123,6 @@ freeslot(
 	'sfx_fallin', --Falling SFX
 	'sfx_aldi',   --"I AM AT ALDI" (from "I am. All of me" by Crush40) for MAPKD ("East City")
 	'sfx_consle', --Computer beeping (from the game "Half-Life" by Valve)
-	'sfx_camopn', --Camera opening SFX (from the game "Cry of Fear" by Team Psykskallar)
 
 	--SFX for objects
 	'sfx_squeak' --Squeak SFX
@@ -160,4 +159,3 @@ sfxinfo[sfx_fallin].caption = "Falling..."
 sfxinfo[sfx_aldi].caption = "\25 I AM AT ALDI"
 sfxinfo[sfx_consle].caption = "Console working"
 sfxinfo[sfx_squeak].caption = "Squeak :D"
-sfxinfo[sfx_camopn].caption = "Camera open"
