@@ -271,11 +271,9 @@ end
 
 --chatprintf but safe for vanilla SRB2
 MM.Chatprint = function(p, msg, forcesound)
-	if (MODVERSION == 58) then --Executable is (or should be) SRB2 Classic
-		chatprintf(p, msg)
-	else --Vanilla
-		chatprintf(p, carretToSRB2_color(unicode.ascii(msg)), ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
-	end
+	if (not srb2classic) then msg = carretToSRB2_color(unicode.ascii(msg)) end --convert the message into vanilla-appropriate color format & also "ASCIIfy"" it
+
+	chatprintf(p, msg, ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
 end
 
 --Function to display global messages in chat
