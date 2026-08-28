@@ -329,25 +329,44 @@ end,"EL_F_DOR1")
 addHook("MapThingSpawn", function(mo, thing)
     local id = tonumber(thing.args[0]) or 0
     mo.elevatorid = id
-    MM.DebugPrint(string.format("Elevator hitbox spawned at %d %d %d with args %s", FixedInt(mo.x), FixedInt(mo.y), FixedInt(mo.z), thing.args[0]))
 end, MT_ELEVATOR)
 
 addHook("MapThingSpawn", function(mo, thing)
     mo.elevatorid = tonumber(thing.args[0]) or 0
     mo.floor = tonumber(thing.args[1]) or 0
     ELEVATORS[mo.elevatorid].mo = mo
-    MM.DebugPrint(string.format("Elevator button spawned at %d %d %d with args %s %s", FixedInt(mo.x), FixedInt(mo.y), FixedInt(mo.z), thing.args[0], thing.args[1]))
 end, MT_ELEVATORBTN)
 
 
 
-local SHOW_OVERLAY = 0
-
 --
 -- Elevator & Elevator Call Button controls
 --
+local SHOW_OVERLAY = 0
+local floor_select = 0
+local up, down
+
 addHook("PreThinkFrame", function()
     SHOW_OVERLAY = 0
+
+    for p in players.iterate do
+        if (p.busydoingtheliftbuttons) then
+            up = (p.cmd.forwardmove >= 10)
+            down = (p.cmd.forwardmove <= -10)
+            if (up) and (not p.prevup) and (floor_select < 4) then
+                floor_select = floor_select + 1
+                S_StartSound(nil, sfx_menu1, p)
+            end
+            if (down) and (not p.prevdown) and (floor_select > 0) then
+                floor_select = floor_select - 1
+                S_StartSound(nil, sfx_menu1, p)
+            end
+            p.cmd.forwardmove = 0
+            p.cmd.sidemove = 0
+            p.prevup = up
+            p.prevdown = down
+        end
+    end
 end)
 
 addHook("MobjThinker", function(mo)
@@ -356,26 +375,25 @@ addHook("MobjThinker", function(mo)
         and (abs(found.x - ref.x) < ELEVATOR_RADIUS and abs(found.y - ref.y) < ELEVATOR_RADIUS) then
             local p = found.player
             if (not ELEVATORS[ref.elevatorid].stack[1]) then
-                if (p == consoleplayer) then SHOW_OVERLAY = 1 end
-                if (p.cmd.buttons & BT_SPIN) then
-                    sw(p.cmd.buttons & BT_WEAPONMASK, {
-                        [1] = function()
-                            E_CallElevator(ref.elevatorid, 0)
-                        end,
-                        [2] = function()
-                            E_CallElevator(ref.elevatorid, 1)
-                        end,
-                        [3] = function()
-                            E_CallElevator(ref.elevatorid, 2)
-                        end,
-                        [4] = function()
-                            E_CallElevator(ref.elevatorid, 3)
-                        end,
-                        [5] = function()
-                            E_CallElevator(ref.elevatorid, 4)
-                        end
-                    })
+                if (p == consoleplayer) then
+                    if (p.busydoingtheliftbuttons) then
+                        SHOW_OVERLAY = 3 --floor select
+                    else
+                        SHOW_OVERLAY = 1 --"Press to select" text
+                    end
                 end
+
+                if (p.cmd.buttons & BT_CUSTOM1) and not (p.lastbuttons & BT_CUSTOM1) then
+                    if (p.busydoingtheliftbuttons) then
+                        E_CallElevator(ref.elevatorid, floor_select)
+                    else
+                        floor_select = ELEVATORS[ref.elevatorid].floor
+                    end
+                    p.busydoingtheliftbuttons = not p.busydoingtheliftbuttons
+                end
+            else
+                --if someone else calls the lift while you select the floor, the floor selection menu should be canceled
+                found.player.busydoingtheliftbuttons = false
             end
         end
     end, mo, mo.x - ELEVATOR_RADIUS, mo.x + ELEVATOR_RADIUS, mo.y - ELEVATOR_RADIUS, mo.y + ELEVATOR_RADIUS)
@@ -397,14 +415,26 @@ end, MT_ELEVATORBTN)
 
 
 -- Overlay renderer
-hud.add(function(v)
+hud.add(function(v, p)
     if (gamemap ~= MAPNUM) then return end
 
-    if (SHOW_OVERLAY == 1) then
-        v.drawString(160, 156, "\x87SPIN\x80 + \x87WEAPON 1-5\x80\nto move to a different floor", V_ALLOWLOWERCASE|V_RETURN8,  "center")
-    elseif (SHOW_OVERLAY == 2) then
-        v.drawString(160, 156, "\x87"+"CUSTOM1\x80 to call the elevator", V_ALLOWLOWERCASE, "center")
-    end
+    sw(SHOW_OVERLAY, {
+        [1] = function()
+            v.drawString(160, 156, "\x87".."CUSTOM1\x80 to select the floor", V_ALLOWLOWERCASE|V_RETURN8,  "center")
+        end,
+        [2] = function()
+            v.drawString(160, 156, "\x87"+"CUSTOM1\x80 to call the elevator", V_ALLOWLOWERCASE, "center")
+        end,
+        [3] = function()
+            v.drawString(160, 96, "4", V_YELLOWMAP)
+            v.drawString(160, 104, "3", V_BLUEMAP)
+            v.drawString(160, 112, "2", V_GREENMAP)
+            v.drawString(160, 120, "1", V_REDMAP)
+            v.drawString(160, 128, "P", V_INVERTMAP)
+            v.draw(140, 128 - (floor_select*8), v.cachePatch("M_CURSOR"))
+            v.drawString(160, 156, "Select the floor with\x87 FORWARD\x80 and\x87 BACKWARD\x80\nthen\x87 CUSTOM1\x80 to finish", V_ALLOWLOWERCASE|V_RETURN8, "center")
+        end
+    })
 end, "game")
 
 
