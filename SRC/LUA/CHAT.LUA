@@ -43,7 +43,7 @@ local function CHAT_Say(s, m, me)
 	for p in players.iterate do
 		if (gamestate ~= GS_LEVEL) or (p.spectator) or (MM.IsTimelineCorrect(s.mm.timetravel.timezone, p.mm.timetravel.timezone)) then
 			if (me) then
-				MM.Chatprint(p, string.format("* %s%s^0 %s", badge, s.name, m:sub(5))) --"/me" message
+				MM.Chatprint(p, string.format("* %s%s%s^0 %s", badge, chatcolor, s.name, m:sub(5))) --"/me" message
 			else
 				MM.Chatprint(p, string.format("%s<%s%s>^0 %s", chatcolor, badge, s.name, m)) --Normal message
 			end
