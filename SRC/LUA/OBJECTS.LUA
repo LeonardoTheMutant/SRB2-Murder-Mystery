@@ -53,6 +53,8 @@ end, MT_SHREMD)
 
 -- Dead Player Body blood trail activator
 addHook("TouchSpecial", function(s, t) --special, toucher
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
 	if (t.player.mm and killtrailCVAR.value) then
 		t.player.mm.killtrailsteps = 30
 		return true
@@ -66,6 +68,8 @@ end, MT_DEADPLR)
 
 -- Spawner
 addHook("MapLoad", do
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+
 	local s = {} --spawnpoints
 	for t in mapthings.iterate do --find all spawnpoints
 		if (t.type == 2025) then table.insert(s, (#s + 1), t) end
