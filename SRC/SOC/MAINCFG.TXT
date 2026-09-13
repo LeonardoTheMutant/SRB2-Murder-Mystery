@@ -99,7 +99,7 @@ Lua.Author = Sonic Team Jr., MinusMario
 
 Level KA
 LevelName = Mirage Express
-SubTitle = Under Construction
+SubTitle = The Murder of Sonic The Hedgehog
 SelectHeading = LTM's Murder Mystery
 NoZone = True
 TypeOfLevel = LTM_MM
