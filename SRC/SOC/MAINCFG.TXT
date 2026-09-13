@@ -104,7 +104,7 @@ SelectHeading = LTM's Murder Mystery
 NoZone = True
 TypeOfLevel = LTM_MM
 NextLevel = KB
-Lua.Author = SEGA, SandwichCinema, LeonardoTheMutant
+Lua.Author = SEGA, SandwichCinema, LeonardoTheMutant, MinusMario
 
 Level KB
 Levelname = Railway Station
