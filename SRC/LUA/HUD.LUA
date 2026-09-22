@@ -76,7 +76,7 @@ local HUD_INTERMISSION = "HUD_INTERMISSION"
 --Variables
 --
 
-local var1, var2, var3, HUDdigit_width
+local var1, var2, var3, HUDdigit_width, ResetHudToVanilla
 local HudLabelWidth = {0,0,0}
 local cv_cryptic = CV_FindVar("mm_cryptic")
 local cv_wepcfgCivil = CV_FindVar("mm_wepcfg_civil")
@@ -152,15 +152,20 @@ end)
 -- Main game HUD
 --
 MMhud.routines["game_main"] = function(v, p ,c)
-	if (gametype ~= GT_LTMMURDERMYSTERY) then --in case if switched from MM to another gametype
-		hudinfo_lives.y = 176;
-		hud.enable("textspectator")
-		hud.enable("score")
-		hud.enable("time")
-		hud.enable("rings")
-		hud.enable("weaponrings")
+	if (gametype ~= GT_LTMMURDERMYSTERY) then --Revert HUD changes in case the game was switched from MM to another gametype
+		if (ResetHudToVanilla) then --Do the revert once, let other things handle HUD in other gametypes
+			hudinfo_lives.y = 176;
+			hud.enable("textspectator")
+			hud.enable("score")
+			hud.enable("time")
+			hud.enable("rings")
+			hud.enable("weaponrings")
+			ResetHudToVanilla = false
+		end
 		return
 	end
+
+	ResetHudToVanilla = true
 
 	local draw = v.draw
 	local drawScaled = v.drawScaled
@@ -175,7 +180,11 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	HUDdigit_width = GetTextPatchWidth(HudDigit[0])
 
-	hudinfo_lives.y = canvas.height;
+	if (splitscreen) then hud.disable("lives")
+	else
+		hud.enable("lives")
+		hudinfo_lives.y = canvas.height
+	end
 	hud.disable("textspectator")
 	hud.disable("score")
 	hud.disable("time")
@@ -219,25 +228,26 @@ MMhud.routines["game_main"] = function(v, p ,c)
 	--now we can draw
 
 	--SUSPECTS/VICTIMS
+	--Calculate the number of suspects/victims
+	switch(prole, {
+		[ROLE_DEAD] = function() var2 = PlayersAlive() - bool2int(MM.PlayerCount() == 1) end,
+		[ROLE_MURDERER] = function() var2 = PlayersAlive() - PlayerCount(ROLE_MURDERER) end,
+		[ROLE_SHERIFF] = function() var2 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
+		[ROLE_HERO] = function() var2 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
+		['default'] = function() var2 = PlayersAlive() - 1 end --Civilian and Jester
+	})
 	--Draw the Text Label
-	if (MMtext[eMeM.lang][var1]) then
-		DrawTextPatch(v, hudinfo_score.x, hudinfo_score.y, MMtext[eMeM.lang][var1], 1, hudinfo_score.f|V_PERPLAYER|localTransFlag)
+	if (MMtext[eMeM.lang][var1] and (not splitscreen)) then
+		DrawTextPatch(v, hudinfo_score.x, hudinfo_score.y, MMtext[eMeM.lang][var1], 1, hudinfo_score.f|localTransFlag)
+		--Draw the number
+		V_DrawHudNum(v, (hudinfo_score.x + var3), hudinfo_score.y, hudinfo_score.f|localTransFlag, max(var2, 0))
 	else --in case Text Patch was not found
 		switch(var1, {
 			["IMG_VICTIMS"] = function() drawString(hudinfo_score.x, hudinfo_score.y, "VICTIMS", hudinfo_score.f|V_PERPLAYER|V_YELLOWMAP|localTransFlag) end,
 			["IMG_SUSPECTS"] = function() drawString(hudinfo_score.x, hudinfo_score.y, "SUSPECTS", hudinfo_score.f|V_PERPLAYER|V_YELLOWMAP|localTransFlag) end
 		})
+		drawString((hudinfo_score.x + var3 - 8), hudinfo_score.y, var2, hudinfo_score.f|V_PERPLAYER|localTransFlag)
 	end
-	--Calculate the number of suspects/victims
-	switch(prole, {
-		[ROLE_DEAD] = function() var1 = PlayersAlive() - bool2int(MM.PlayerCount() == 1) end,
-		[ROLE_MURDERER] = function() var1 = PlayersAlive() - PlayerCount(ROLE_MURDERER) end,
-		[ROLE_SHERIFF] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
-		[ROLE_HERO] = function() var1 = PlayersAlive() - PlayerCount(ROLE_SHERIFF) - PlayerCount(ROLE_HERO) end,
-		['default'] = function() var1 = PlayersAlive() - 1 end --Civilian and Jester
-	})
-	--Draw the number
-	V_DrawHudNum(v, (hudinfo_score.x + var3), hudinfo_score.y, hudinfo_score.f|V_PERPLAYER|localTransFlag, max(var1, 0))
 
 	--TIME
 	--timer calculation
@@ -249,18 +259,21 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		--Draw the Text Label
 		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4)) then var2 = 2 --palette swap
 		else var2 = 1 end
-		DrawTextPatch(v, hudinfo_time.x, hudinfo_time.y, var1, var2, hudinfo_time.f|V_PERPLAYER|localTransFlag)
-	else --in case Text Patch was not found
+		DrawTextPatch(v, hudinfo_time.x, hudinfo_time.y, var1, var2, hudinfo_time.f|localTransFlag)
+
+		--Draw the time
+		V_DrawHudNumPadded(v, (hudinfo_time.x + var3), hudinfo_time.y, hudinfo_time.f|localTransFlag, G_TicsToSeconds(timertime), 2)
+		DrawTextPatch(v, (hudinfo_time.x + var3 - 24), hudinfo_time.y, eMeM.textpatch["HUDCOLON"], 1, hudinfo_time.f|localTransFlag)
+		V_DrawHudNum(v, (hudinfo_time.x + var3 - 22), hudinfo_time.y, hudinfo_time.f|localTransFlag, G_TicsToMinutes(timertime))
+	else --in case Text Patch was not found or splitscreen
 		if ((not G_TicsToMinutes(timertime)) and (leveltime & 4)) then
 			drawString(hudinfo_time.x, hudinfo_time.y, "TIME", hudinfo_time.f|V_PERPLAYER|V_REDMAP|localTransFlag)
 		else
 			drawString(hudinfo_time.x, hudinfo_time.y, "TIME", hudinfo_time.f|V_PERPLAYER|V_YELLOWMAP|localTransFlag)
 		end
+
+		drawString((hudinfo_time.x + var3 - 34), hudinfo_time.y, string.format("% 2d:%02d", G_TicsToMinutes(timertime), G_TicsToSeconds(timertime)), hudinfo_time.f|V_PERPLAYER|localTransFlag)
 	end
-	--Draw the time
-	V_DrawHudNumPadded(v, (hudinfo_time.x + var3), hudinfo_time.y, hudinfo_time.f|V_PERPLAYER|localTransFlag, G_TicsToSeconds(timertime), 2)
-	DrawTextPatch(v, (hudinfo_time.x + var3 - 24), hudinfo_time.y, eMeM.textpatch["HUDCOLON"], 1, hudinfo_time.f|V_PERPLAYER|localTransFlag)
-	V_DrawHudNum(v, (hudinfo_time.x + var3 - 22), hudinfo_time.y, hudinfo_time.f|V_PERPLAYER|localTransFlag, G_TicsToMinutes(timertime))
 
 	--RINGS
 	if (not p.spectator) then
@@ -268,15 +281,16 @@ MMhud.routines["game_main"] = function(v, p ,c)
 		if (var1) and (not splitscreen) then
 			if (not p.rings) and (leveltime & 4) then var2 = 2 --palette swap
 			else var2 = 1 end
-			DrawTextPatch(v, hudinfo_rings.x, hudinfo_rings.y, var1, var2, hudinfo_rings.f|V_PERPLAYER|localTransFlag)
+			DrawTextPatch(v, hudinfo_rings.x, hudinfo_rings.y, var1, var2, hudinfo_rings.f|localTransFlag)
+			V_DrawHudNum(v, (hudinfo_rings.x + var3), hudinfo_rings.y, hudinfo_rings.f|localTransFlag, p.rings)
 		else --in case Text Patch was not found or the game is splitscreen
 			if (not p.rings) and (leveltime & 4) then
 				drawString(hudinfo_rings.x, hudinfo_rings.y, "RINGS", hudinfo_rings.f|V_PERPLAYER|V_REDMAP|localTransFlag)
 			else
 				drawString(hudinfo_rings.x, hudinfo_rings.y, "RINGS", hudinfo_rings.f|V_PERPLAYER|V_YELLOWMAP|localTransFlag)
 			end
+			drawString((hudinfo_rings.x + var3 - 24), hudinfo_rings.y, p.rings, hudinfo_rings.f|V_PERPLAYER|localTransFlag)
 		end
-		V_DrawHudNum(v, (hudinfo_rings.x + var3), hudinfo_rings.y, hudinfo_rings.f|V_PERPLAYER|localTransFlag, p.rings)
 	end
 
 	--Time Warp Sign ("Warp ticket")
