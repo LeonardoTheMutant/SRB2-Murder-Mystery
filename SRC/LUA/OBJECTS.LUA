@@ -22,7 +22,7 @@ end, MT_DEADPLR)
 addHook("TouchSpecial", function(s, t) --special, toucher
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	if valid(t) and valid(t.player) and ((t.player.mm.role == ROLE_CIVILIAN) or (t.player.mm.role == ROLE_JESTER))
+	if valid(t) and valid(t.player) and ((t.player.mm.role == ROLE_CIVILIAN) or (t.player.mm.role == ROLE_JESTER)) then
 		for emeraldID = 1, #MM.shremds do
 			if ((MM.shremds[emeraldID].x == s.x) and (MM.shremds[emeraldID].y == s.y) and (MM.shremds[emeraldID].z == s.z)) then
 				table.remove(MM.shremds, emeraldID)
@@ -67,7 +67,7 @@ end, MT_DEADPLR)
 --
 
 -- Spawner
-addHook("MapLoad", do
+addHook("MapLoad", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	local s = {} --spawnpoints
@@ -89,15 +89,15 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 			MM.ChatprintGlobal("CHAT_GOTPLUSHIE")
 			G_ExitLevel()
 		end
-		s.alpha = $ - 1024
-		t.player.rings = $ + 500
-		t.player.powers[pw_infinityring] = $ + (MM.weapons[0][5] / 8)
-		t.player.powers[pw_automaticring] = $ + (MM.weapons[1][5] / 2)
-		t.player.powers[pw_bouncering] = $ + (MM.weapons[2][5] / 2)
-		t.player.powers[pw_scatterring] = $ + (MM.weapons[3][5] / 2)
-		t.player.powers[pw_grenadering] = $ + (MM.weapons[4][5] / 2)
-		t.player.powers[pw_explosionring] = $ + (MM.weapons[5][5] / 2)
-		t.player.powers[pw_railring] = $ + (MM.weapons[6][5] / 2)
+		s.alpha = s.alpha - 1024
+		t.player.rings = t.player.rings + 500
+		t.player.powers[pw_infinityring] = t.player.powers[pw_infinityring] + (MM.weapons[0][5] / 8)
+		t.player.powers[pw_automaticring] = t.player.powers[pw_automaticring] + (MM.weapons[1][5] / 2)
+		t.player.powers[pw_bouncering] = t.player.powers[pw_bouncering] + (MM.weapons[2][5] / 2)
+		t.player.powers[pw_scatterring] = t.player.powers[pw_scatterring] + (MM.weapons[3][5] / 2)
+		t.player.powers[pw_grenadering] = t.player.powers[pw_grenadering] + (MM.weapons[4][5] / 2)
+		t.player.powers[pw_explosionring] = t.player.powers[pw_explosionring] + (MM.weapons[5][5] / 2)
+		t.player.powers[pw_railring] = t.player.powers[pw_railring] + (MM.weapons[6][5] / 2)
 		MM.DebugPrint(string.format("\x8A%s\x80 touched the Evil Knux Plush", t.player.name))
 	end
 	return true
@@ -105,6 +105,6 @@ end, MT_EVILKNUX)
 
 -- Despawner
 addHook("MobjThinker", function(m)
-	if (m.alpha) then if (m.alpha ~= FU) then m.alpha = $ - 1024 end
+	if (m.alpha) then if (m.alpha ~= FU) then m.alpha = m.alpha - 1024 end
 	else P_RemoveMobj(m) end
 end, MT_EVILKNUX)

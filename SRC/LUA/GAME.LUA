@@ -14,6 +14,7 @@ local cv_invinc = CV_FindVar("mm_allowinvinc")
 local cv_shoes = CV_FindVar("mm_allowshoes")
 local cv_nocamping = CV_FindVar("mm_nocamping")
 local cv_hurtteammates = CV_FindVar("mm_hurtteammates")
+local cv_showspec = CV_FindVar("mm_visiblespectators")
 local wepcfgCVARs = {CV_FindVar("mm_wepcfg_murd"), CV_FindVar("mm_wepcfg_sheri"), CV_FindVar("mm_wepcfg_civil"), CV_FindVar("mm_wepcfg_hero")}
 
 local shremd_distances, shremd_interval, shremd_closest
@@ -85,8 +86,8 @@ addHook("PlayerSpawn", function(p)
 	--Load player's preferences
 	MM.LoadPlayerCFG(p)
 
-	if (not p.mm.flags) then p.mm.flags = 0 end
-	if (not p.afk) then p.afk = 0 end
+	p.mm.flags = p.mm.flags or 0
+	p.afk = p.afk or 0
 
 	p.powers[pw_flashing] = 104 -- flashing invulnerability for 3 sec
 
@@ -126,8 +127,37 @@ addHook("PlayerThink", function(p)
 	if (not cv_invinc.value) then p.powers[pw_invulnerability] = 0 end --Disable the invulnerability powerup
 	if (not cv_shoes.value) then p.powers[pw_sneakers] = 0 end --Disable the Speed Shoes
 
-	--for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
-	if (not p.spectator) then p.mo.flags = p.mo.flags & ~MF_NOGRAVITY end
+	if (p.spectator) then
+		--Show the spectator player's "soul" during Showdowns
+		--by @Jrfhj-Guhvf & LeonardoTheMutant
+		if (MM.shwdwn) and (cv_showspec.value) then
+			if (valid(p.specmobj)) then
+				if (p.afk) then --make the "soul" visible when the spectator moves
+					if (p.specmobj.alpha) then
+						p.specmobj.alpha = p.specmobj.alpha - 256
+					end
+				else
+					if (p.specmobj.alpha ~= 16384) then --FU/4 (25%)
+						p.specmobj.alpha = p.specmobj.alpha + 256
+					end
+				end
+				if (p.specmobj.alpha) then P_SetOrigin(p.specmobj, pmo.x, pmo.y, pmo.z) end
+			else
+				p.specmobj = P_SpawnMobj(pmo.x, pmo.y, pmo.z, MT_BLUESPHERE)
+				p.specmobj.flags = MF_NOGRAVITY|MF_NOTHINK|MF_NOCLIPTHING
+				p.specmobj.alpha = 0
+				p.specmobj.dontdrawforviewmobj = pmo
+			end
+		end
+	else
+		p.mo.flags = p.mo.flags & ~MF_NOGRAVITY --for some reason when switching back from spectator state MF_NOGRAVITY flag isn't removed by SRB2
+
+		--despawn the "soul" object
+		if (valid(p.specmobj)) then
+			P_RemoveMobj(p.specmobj)
+			p.specmobj = nil
+		end
+	end
 
 	--role flickering timer
 	if (MM.hud.game.roleflicker) then MM.hud.game.roleflicker = MM.hud.game.roleflicker - 1 end
@@ -193,12 +223,13 @@ addHook("PlayerThink", function(p)
 	--Force player quit so that there are no rejoining player ghosts
 	if ((cv_rejointimeout.value) and (p.quittime % 4)==1) then MM.PlayerQuit(p) end
 
-	--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enought
-	if (MM.PlayerCount() > 1) and not (p.spectator) then
+	--AFK counter
+	if (MM.PlayerCount() > 1) and (not splitscreen) then
 		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
-		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and not (leveltime % 4) then
+		--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enough
+		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and (not p.spectator) and not (leveltime % 4) then
 			MM.PunishPlayer(p, "AFK")
 		end
 	end

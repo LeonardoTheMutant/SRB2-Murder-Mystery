@@ -55,7 +55,9 @@ VARIABLES
 		This works only when MM_ABILITIES console variable is disabled. The default value is 20.
 
 	MM_HURTTEAMMATES - Can teammates hurt each other? When enabled, players who are shot by their teammates loose all of their rings and get a knockback.
-		The default value is YES
+		The default value is YES.
+
+	MM_VISIBLESPECTATORS - Make the spectators visible for everyone during the Showdown Duel. The default value is YES.
 
 	MM_WEPCFG_MURD, MM_WEPCFG_SHERI, MM_WEPCFG_HERO - Set the Weapon Configuration for Murderers, Sheriffs and Heroes respectively.
 		These CVARs in their value contain two sepparate configurations for Normal Gameplay and for Showdown Duel.
@@ -100,4 +102,4 @@ Here is the list of Add-On types that can break Murder Mystery and the reasons w
 We will add more information here if something else important will be noticed,
 please inform us as well if you will notice ANY KIND of bug/issue first.
 Our contacts are listed in README.TXT
-Thank you for reading and hosting the SRB2 Murder Mystery game
+Thank you for reading and hosting LeonardoTheMutant's Murder Mystery game

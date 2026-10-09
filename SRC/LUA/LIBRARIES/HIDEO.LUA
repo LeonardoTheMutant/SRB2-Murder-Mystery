@@ -23,8 +23,8 @@ end
 HIDEO.GetColorFlagFromHexDigit = function(c)
 	if (type(c) == "string") then c = c:byte() end
 	if (c >= 48 and c <= 57) then return (c - 48) * 4096 end --'0' - '9'
-	if ((c >= 65 and c <= 70)) then return (c - 55) * 4096 end --'A' - 'F'
-	if ((c >= 97 and c <= 102)) then return (c - 87) * 4096 end --'a' - 'f'
+	if (c >= 65 and c <= 70) then return (c - 55) * 4096 end --'A' - 'F'
+	if (c >= 97 and c <= 102) then return (c - 87) * 4096 end --'a' - 'f'
 	return 0
 end
 
@@ -107,7 +107,6 @@ HIDEO.DrawStrUnicode = function(v, x, y, str, flags, scale)
 	--character position
 	local cx = x
 	local cy = y
-	local tx, ty
 
 	--tile position on the sheet
 
@@ -164,8 +163,6 @@ HIDEO.StrWidthUnicode = function(str, flags, scale)
 	if (not str) or (str == "") then return 0 end
 	flags = flags or 0
 	scale = scale or FU
-
-	local lineheight = FixedMul(8, scale)
 
 	--symbol width
 	local pixelLen = 0
@@ -397,10 +394,10 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 	local HIDEO_charwidth = HIDEO.charwidth
 
 	if (not w or w == 0) then w = 320 end
-	w = $ - x
+	w = w - x
 	x = 0
 
-	scale = $ or FU
+	scale = scale or FU
 
 	switch(option & V_SPACINGMASK, {
 		[V_MONOSPACE] = function()
@@ -428,13 +425,12 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 		end
 
 		--Caret Code
-		if (chars[i] == '^') and (isxdigit(chars[i + 1])) then i = $ + 2; break end
+		if (chars[i] == '^') and (isxdigit(chars[i + 1])) then i = i + 2; break end
 
 		c = unicode.code(chars[i])
 		if (not c) then i = i + 1; break end
 
-		local patch
-		if (((c >= 9) and (c <= 13)) or (c == 32))
+		if (((c >= 9) and (c <= 13)) or (c == 32)) then
 			--unprintable character
 			chw = spacewidth
 			lastusablespace = i
@@ -444,7 +440,7 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 			else chw = charwidth end
 		end
 
-		x = $ + FixedMul(chw, scale)
+		x = x + FixedMul(chw, scale)
 
 		if (lastusablespace ~= 1 and x > w) then
 			--reached the width limit, add newline to wrap the string
@@ -454,7 +450,7 @@ HIDEO.WordWrap = function(x, w, option, scale, str)
 			x = 0
 		end
 
-		i = $ + 1
+		i = i + 1
 	until true end
 	return table.concat(chars)
 end

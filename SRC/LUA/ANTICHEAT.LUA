@@ -32,7 +32,8 @@ COM_AddCommand("kys", function(p, id)
 	id = tonumber(id) or KYS_KIS
 	if (id < 1) or (id > #msg) then return end
 
-	COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id]))
+	if (p == server) then CONS_Printf(p, "nuh uh")
+	else COM_BufInsertText(server, string.format("kick %d %s", #p, msg[id])) end
 end)
 
 
@@ -140,7 +141,7 @@ end)
 --
 if (srb2classic) then
 	addHook("NameChange", function(p, newname)
-		if (gametype ~= GT_LTMMURDERMYSTERY) then return end
+		if (gametype ~= GT_LTMMURDERMYSTERY) then return end --use default behaviour
 
 		if (gamestate == GS_LEVEL) and (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
 			return false --reject rename

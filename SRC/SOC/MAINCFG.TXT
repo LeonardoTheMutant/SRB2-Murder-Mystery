@@ -85,7 +85,7 @@ SkyNum = 6
 NoZone = True
 TypeOfLevel = LTM_MM,Match,Tag
 NextLevel = K9
-Lua.Author = SuperOfSrb2, LeonardoTheMutant
+Lua.Author = LeonardoTheMutant
 
 Level K9
 LevelName = Greenflower

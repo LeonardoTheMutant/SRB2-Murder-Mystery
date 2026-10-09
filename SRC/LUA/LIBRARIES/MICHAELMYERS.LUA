@@ -542,7 +542,8 @@ MM.TryEndgame = function()
 		MM.EndRound(WIN_CIVILS, "CHAT_ENDROUND", WIN_CIVILS)
 	end
 
-	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO)) and (not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) or ((MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not wepcfgCVARs[ROLE_CIVILIAN].value)))
+	if not (MM.PlayerCount(ROLE_SHERIFF) or MM.PlayerCount(ROLE_HERO) or MM.PlayerCount(ROLE_JESTERHERO))
+	and (not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) or ((MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not wepcfgCVARs[ROLE_CIVILIAN].value))) then
 		MM.EndRound(WIN_MURD, "CHAT_ENDROUND", WIN_MURD)
 	end
 

@@ -59,7 +59,7 @@ PAPERMODEL.SpawnObject = function(xpos, ypos, zpos, angle, model)
 	local entry
 	local face
 
-	if (model)
+	if (model) then
 		for i = 1, #model do
 			entry = model[i]
 

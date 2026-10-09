@@ -283,13 +283,13 @@ end)
 rawset(_G, "int", function(a)
 	local ret
 	switch(type(a), {
-		["nil"] = do
+		["nil"] = function()
 			ret = 0
 		end,
-		["number"] = do
+		["number"] = function()
 			ret = a
 		end,
-		["default"] = do
+		["default"] = function()
 			ret = bool2int(a)
 		end
 	})

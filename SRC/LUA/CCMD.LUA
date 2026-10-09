@@ -70,6 +70,8 @@ local mmsetup_entries = {
 			"Player footmarks must be enabled for this to work."
 		}, "\n")
 	},
+	{cvar = CV_FindVar("mm_visiblespectators"), min = 0, max = 1, values = NoYes_option, name = "Spectators are visible during duel",
+		description = "When enabled, spectators become visible for everyone during the Showdown Duel"},
 	{cvar = CV_FindVar("mm_nocamping"), min = 0, max = 1, values = DisableEnable_option, name = "Anti-camp system for Murderers",
 		description = "If enabled, Murderer players who are near the emerald for some amount of time will get punished."},
 	{cvar = CV_FindVar("mm_speed_sneak"), min = 1, max = 5, name = "Sneaking speed",
@@ -210,6 +212,7 @@ end)
 
 -- MMSETUP UI's renderer
 local textcolor, yPos, cursorVFlag
+local ENTRY_START_Y = 16
 mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
@@ -224,7 +227,7 @@ mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
 
 	--Entries list
 	for k = 1, #mmsetup_entries do
-		yPos = 24 + (k * 4) + k
+		yPos = ENTRY_START_Y + (k * 4) + k
 		if (mmsetupcursor == k) then textcolor = color_2 else textcolor = "" end
 		drawString(32, yPos, textcolor..mmsetup_entries[k].name, V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE|V_MONOSPACE, "small")
 		if (mmsetup_entries[k].values and mmsetup_entries[k].values[mmsetup_entries[k].value]) then
@@ -267,7 +270,7 @@ mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
 			cursorVFlag = V_SNAPTOBOTTOM
 		end,
 		['default'] = function()
-			yPos = 24 + (mmsetupcursor * 4) + mmsetupcursor
+			yPos = ENTRY_START_Y + (mmsetupcursor * 4) + mmsetupcursor
 			cursorVFlag = V_SNAPTOTOP
 		end
 	})
@@ -360,8 +363,6 @@ mmhelp_renderer = function(v)
 	local v_width = v.width()
 	local bool_doSmall = bool2int(v_width < 640)
 
-	local Hi = HIDEO
-	local DrawCharUnicode = Hi.DrawCharUnicode
 	local DrawStrUnicode = Hi.DrawStrUnicode
 	local WordWrap = Hi.WordWrap
 	local GetColorFlagFromHexDigit = Hi.GetColorFlagFromHexDigit
@@ -493,7 +494,7 @@ mmhelp_renderer = function(v)
 end
 
 --Backend
-addHook("PlayerThink", function(p)
+addHook("ThinkFrame", function()
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
 	local MM_text = eMeM.text[eMeM.lang]["HUD_MMHELP"]
@@ -593,13 +594,13 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		table.sort(langkeys)
 
 		for id, lang in ipairs(langkeys) do
-			langCount = $ + 1
+			langCount = langCount + 1
 			local arg1 = ""
 			local arg2 = ""
 
 			if (MM.lang == lang) then arg1 = "\x82[current lang]" end
 			if (MM.text[lang]["VERSION"] and (MM.text[lang]["VERSION"] ~= MM.version)) then
-				langIncomp = $ + 1
+				langIncomp = langCount + 1
 				arg2 = "\x85{INCOMPATIBLE}"
 			end
 			CONS_Printf(p, string.format("\x88 %s %s %s",lang,arg1,arg2))
@@ -608,9 +609,9 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 		if (langIncomp) then
 			CONS_Printf(p, color_5..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
 		end
-		CONS_Printf(p, "If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our \x82SRB2MM_DEV\x80 Team to help us add it to this gametype:\n"..table.concat(contactTeam, "\n"))
+		CONS_Printf(p, "If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our \x82LTM's MM Development Team\x80 to help us add it to this gametype:\n"..table.concat(contactTeam, "\n"))
 	else
-		l = $:upper()
+		l = l:upper()
 		if (MM.text[l]) then
 			MM.lang = l; MM.help.scroll = 1
 
@@ -626,7 +627,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 
 			MM.SavePlayerCFG(p)
 		else
-			CONS_Printf(p, color_2..l.."\x80' language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our SRB2MM_DEV Team for help.")
+			CONS_Printf(p, color_2..l.."\x80' language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our LTM's MM Development Team for help.")
 		end
 	end
 end, COM_LOCAL)

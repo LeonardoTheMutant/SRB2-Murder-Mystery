@@ -68,10 +68,9 @@ local chat_fmts = {
 }
 
 local function CHAT_TeamSay(s, m) --Sender (player_t), Message
-	for i=0,#m -- nikoberry: strip any leading percents and whitespace (same order as described)
-		m = m:gsub("^%%", "", 1)
-		m = m:gsub("^%s", "", 1)
-	end
+	-- nikoberry: strip any leading percents and whitespace (same order as described)
+	m = m:gsub("^%%", "", 1)
+	m = m:gsub("^%s", "", 1)
 
 	local msg = string.format(chat_fmts[s.mm.role] or "[via SAYTEAM]<%s> %s", s.name, m)
 
@@ -108,8 +107,8 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 
 	if (#m) then
 		--send the message
-		for p in players.iterate do
-			if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
+		for plr in players.iterate do
+			if (plr.spectator) then chatprintf(plr, string.format("\x86{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
 		end
 		if (isdedicatedserver) then CONS_Printf(server, string.format("[%s CHAT]: {%s} %s", os.date("%X"), sender, m)) end
 	else

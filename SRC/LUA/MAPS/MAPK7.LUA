@@ -18,27 +18,27 @@ local doors={
 }
 local doordelay=35
 
-addHook("LinedefExecute", do --open door 1 trigger
+addHook("LinedefExecute", function() --open door 1 trigger
     P_LinedefExecute(23)
     doors[1][1] = doordelay
 end,"K7D1OPN")
 
-addHook("LinedefExecute", do --open door 2 trigger
+addHook("LinedefExecute", function() --open door 2 trigger
     P_LinedefExecute(25)
     doors[2][1] = doordelay
 end,"K7D2OPN")
 
-addHook("LinedefExecute", do --open door 3 trigger
+addHook("LinedefExecute", function() --open door 3 trigger
     P_LinedefExecute(27)
     doors[3][1] = doordelay
 end,"K7D3OPN")
 
-addHook("ThinkFrame", do
-    if (gamemap ~= 467) return end
+addHook("ThinkFrame", function()
+    if (gamemap ~= 467) then return end
 
 	--doors close timer
-    for doornum, _ in pairs(doors)
+    for doornum, _ in pairs(doors) do
         if (not doors[doornum][1]) then P_LinedefExecute(doors[doornum][2]) --close one of the doors
-        else doors[doornum][1] = $ - 1 end --decrement the timer
+        else doors[doornum][1] = doors[doornum][1] - 1 end --decrement the timer
     end
 end)

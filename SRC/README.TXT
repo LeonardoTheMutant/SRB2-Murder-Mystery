@@ -1,12 +1,15 @@
 - "Why are you peeking into the code?
-  Haha, I'm kidding!
-  I hope you enjoyed the mod!"
+   Haha, I'm kidding!
+   I hope you enjoyed the mod!"
+
+                  * tedbasher3000
+
+
 
 ADD-ON TECHNICAL INFORMATION
 ------------------+------------------------------------------------------
-Add-On name       | LeonardoTheMutant's Murder Mystery
-                  |
-Add-On version    | 1.3 (Preview 1)
+Name              | LeonardoTheMutant's Murder Mystery
+Version           | 1.3
 Add-On type       | New gametype
 REUSABLE          | Yes
                   |
@@ -32,7 +35,7 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
 **  Please read NOTES4HOSTERS.TXT for details.
 *** Digital Music pack(s) with digitized MIDI soundtrack is a separate client-side add-on that can be
     downloaded from the assets found in LTM_MM's Digital Music repository.
-    Links to the repository are located at the end of the document.
+    Links to the repository are located at the end of this document.
 
 
 
@@ -52,17 +55,17 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
 
 People who also contributed in the past:
   tedbasher3000 (AKA tedvin11) - Former Lead Coder
-  Troplucky         - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
-  Arnie37, Sonic1983    - Russian translators
-  futuresmiles      - Ambassador of North America
-  SuperOfSRB2       - Ambassador of North America, Mapper
-  White Tails {UKR} - Ambassador of Lituana
-  sopix             - Polish translator
-  SlainLBS          - Spanish translator
-  asdhio (aheiiv)   - Ukrainian translator
-  Piksqu            - Mapper & French translator
-  King Jonas        - Ambassador of Brazil, Portuguese translator
-  ToeiSamurai, Jisk - Coders
+  Troplucky          - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
+  Arnie37, Sonic1983 - Russian translators
+  futuresmiles       - Ambassador of North America
+  SuperOfSRB2        - Ambassador of North America, Mapper
+  White Tails {UKR}  - Ambassador of Lituana
+  sopix              - Polish translator
+  SlainLBS           - Spanish translator
+  asdhio (aheiiv)    - Ukrainian translator
+  Piksqu             - Mapper & French translator
+  King Jonas         - Ambassador of Brazil, Portuguese translator
+  ToeiSamurai, Jisk  - Coders
 
 Special Thanks to:
  - tedvin11 for the idea, base code, and leadership during the very early development
@@ -87,11 +90,11 @@ the correct server setup and important notes.
 If you're interested in modding this game type please take a look at our GitHub repository and
 read the developer wiki which is also located on GitHub
 
-You can reach us out in our communities where you can describe issues and suggest new things (as well as talk to us):
-  Matrix:  https://matrix.to/#/#ltm_mm:matrix.org
-  GitHub:  https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery
+You can reach us out in our communities where you can describe issues and suggest new things (as well as simply talk with us):
+  Matrix:               https://matrix.to/#/#ltm_mm:matrix.org
+  GitHub:               https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery
   Digital Music GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
-  Discord: https://discord.com/invite/UgG8h2djFE
+  Discord:              https://discord.com/invite/UgG8h2djFE
 
 Or contact me personally:
   @LeonardoTheMutant (Discord & GitHub), @leonardothemutant:matrix.org (Matrix)

@@ -102,9 +102,7 @@ rawset(_G, "MM", {
 	lang = "EN"
 })
 
-if not isdedicatedserver then
-	MM.hud.show = CV_FindVar("showhud").value
-end
+if (not isdedicatedserver) then MM.hud.show = CV_FindVar("showhud").value end
 
 --Synchronized Variables
 addHook("NetVars", function(net)
@@ -247,6 +245,7 @@ CV_RegisterVar({name = "mm_wepcfg_murd", defaultvalue = 1, PossibleValue = {MIN 
 CV_RegisterVar({name = "mm_wepcfg_sheri", defaultvalue = 0, PossibleValue = {MIN = 0, MAX = 15}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_wepcfg_civil", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 2}, flags = 6, func = VarChange})
 CV_RegisterVar({name = "mm_wepcfg_hero", defaultvalue = 1, PossibleValue = {MIN = 0, MAX = 15}, flags = 6, func = VarChange})
+CV_RegisterVar({name = "mm_visiblespectators", defaultvalue = "Yes", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_hurtteammates", defaultvalue = "Yes", PossibleValue = CV_YesNo, flags = 4})
 CV_RegisterVar({name = "mm_speed_walk", defaultvalue = 20, PossibleValue = {MIN = 6, MAX = 40}, flags = 4})
 CV_RegisterVar({name = "mm_speed_sneak", defaultvalue = 3, PossibleValue = {MIN = 1, MAX = 5}, flags = 4})
