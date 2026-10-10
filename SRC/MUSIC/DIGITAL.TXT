@@ -27,11 +27,7 @@ O_MAPKBM.SPC - "Sadness" by Yanda (Last Bible 3) (SPC ported by Kevin)
 O_MAPKDM.SPC - "Into the Thick of it" by Hiroki Kikuta (Secret of Mana)
 O_MAPKGM.SPC - "Ruins Village" by Segment1Zone2 (Papercut)
 O_MAPKIM.VGZ - "Slow Moon" by Yuzo Koshiro (Streets of Rage 2)
-
-MAPKC: "Midwich Elementary"
----------------------------
-O_MAPKCM.SPC - Inside school - " 'the dark" by Torchkas (Coronation Day) (Super Mario World ROM Hack)
-O_MAPKCR.SPC - Outside school - "Omnitopia Hallways" by Jeremy Soule (Secret of Evermore)
+O_MAPKJM.VGZ - "Space Craft"/"Spaceship" by Matt Furniss (The Lost Vikings)
 
 MAPKE: "Shadow Moses Island"
 ----------------------------

@@ -181,6 +181,14 @@ Nozone = true
 TypeOfLevel = LTM_MM
 SkyNum = 69 # nice
 #SkyTexture = SKY69
-NextLevel = K0
+NextLevel = KJ
 Lua.MM_SlowWalkSpeed = true
 Lua.Author = Lemerks.xm, Aga_Damu, LeonardoTheMutant
+
+Level KJ
+LevelName = 0xC0D1F1ED
+SelectHeading = LTM's Murder Mystery
+NoZone = true
+TypeOfLevel = LTM_MM,Match,Tag
+NextLevel = K0
+Lua.Author = LeonardoTheMutant

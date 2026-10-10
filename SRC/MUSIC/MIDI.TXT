@@ -30,6 +30,7 @@ MAPKD - "Voidgaze" by Korp (Freedoom: Phase 1 (v0.13.0))
 MAPKF - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (MIDI by Nathaniel Lind)
 MAPKG - "Concept of Technology" by Korp (Freedoom: Phase 2 (v0.13.0))
 MAPKI - "Slow Moon" by Yuzo Koshiro (Streets of Rage 2) (MIDI by Jared Newman)
+MAPKJ - "Out of this world" by MegaSphere (Not Even Removely Fair (Custom DOOM WAD))
 
 
 MAPKE: "Shadow Moses Island"
