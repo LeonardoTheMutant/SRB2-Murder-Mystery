@@ -33,14 +33,24 @@ COM_AddCommand("mmtimewarp",function(p,direction,shift) --Warp between different
 	if(shift and shift~="false")P_MoveOrigin(p.mo,p.mo.x+ShiftX2*sign,p.mo.y+ShiftY2*sign,p.mo.z)else P_MoveOrigin(p.mo,p.mo.x+ShiftX*sign,p.mo.y+ShiftY*sign,p.mo.z)end
 end)
 COM_AddCommand("mmsusnse",do
-	if(mapheaderinfo[gamemap].mm_suspensetrack) MM.susnse=mapheaderinfo[gamemap].mm_suspensetrack
+	local tn=0
+	if(mapheaderinfo[gamemap].mm_suspensetrack)
+		local t={}
+		for s in string.gmatch(mapheaderinfo[gamemap].mm_suspensetrack, "[^%s]+") do table.insert(t, s) end
+		MM.susnse=t[1]
+		tn=t[2] or 0
 	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music)+1]end end
-	if(MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse, true) end
+	if(MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse,true,nil,tn) end
 end)
 COM_AddCommand("mmduel",do
-	if(mapheaderinfo[gamemap].mm_showdowntrack)MM.shwdwn=mapheaderinfo[gamemap].mm_showdowntrack
+	local tn=0
+	if(mapheaderinfo[gamemap].mm_showdowntrack)
+		local t={}
+		for s in string.gmatch(mapheaderinfo[gamemap].mm_showdowntrack, "[^%s]+") do table.insert(t, s) end
+		MM.shwdwn=t[1]
+		tn=t[2] or 0
 	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music)+1]end end
-	if(MM.shwdwn and S_MusicExists(MM.shwdwn))S_ChangeMusic(MM.shwdwn, true) end
+	if(MM.shwdwn and S_MusicExists(MM.shwdwn))S_ChangeMusic(MM.shwdwn,true,nil,tn) end
 end)
 COM_AddCommand("mmloadmus",do
 	MM.LoadSuspenseTracks();printf("\x82%d %s",#MM.susnse_music,"Suspense Tracks")

@@ -59,6 +59,8 @@ O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X)
 ============
 
 O_DIE.OGG    - "Die" by Akira Yamaoka (Silent Hill)
+O_MGS_DL.GBS - This file is a complete soundtrack of "Metal Gear: Ghost Babel" composed by by Norihiko Hibino & Kazuki Muraoka.
+               Showdown uses Track 19 (counting from 0) - "Level 3 Warning"
 O_MMSHD0.VGZ - "A Spirit of Bushi" by Hiroshi Kobayashi, Michiru Yamane, Akira Yamaoka, Hirofumi Taniguchi, Aki Hata (Contra: Hard Corps)
 O_MMSHD1.SPC - "Pressing Pursuit ~ Cornered " by Masakazu Sugimori (Phoenix Wright: Ace Attorney) (SPC arranegement by Hooded Edge)
 O_MMSHD2.VGZ - "Hockenheim Ring (Sonic ERaZor Version)" by Team Help, Ported by DalekSam (F1 Pole Position)

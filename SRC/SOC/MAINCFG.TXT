@@ -137,7 +137,7 @@ SkyNum = 6
 Weather = 2
 TypeOfLevel = LTM_MM
 NextLevel = KF
-Lua.MM_ShowdownTrack = MGS_DL
+Lua.MM_ShowdownTrack = MGS_DL 19
 Lua.Author = Konami, Hideo Kojima, LeonardoTheMutant
 
 Level KF

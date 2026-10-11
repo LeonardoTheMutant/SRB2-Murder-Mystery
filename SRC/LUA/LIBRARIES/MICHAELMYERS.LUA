@@ -670,13 +670,19 @@ MM.StartSuspense = function()
 			end
 		end
 
-		if (mapheaderinfo[gamemap].mm_suspensetrack) then MM.susnse = mapheaderinfo[gamemap].mm_suspensetrack --check map's SOC for specified track
+		local trackNo = 0
+		if (mapheaderinfo[gamemap].mm_suspensetrack) then --check map's SOC for specified track
+			local t = {}
+			for s in string.gmatch(mapheaderinfo[gamemap].mm_suspensetrack, "[^%s]+") do table.insert(t, s) end
+
+			MM.susnse = t[1]
+			trackNo = t[2] or 0
 		else
 			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.susnse and S_MusicExists(MM.susnse)) then
-			S_ChangeMusic(MM.susnse, true)
+			S_ChangeMusic(MM.susnse, true, nil, trackNo)
 			return true
 		end
 	end
@@ -686,13 +692,19 @@ end
 --Enable Showdown music when there are no Civilians left
 MM.StartShowdown = function()
 	if not (MM.PlayerCount(ROLE_CIVILIAN) or MM.PlayerCount(ROLE_JESTER)) and (not MM.shwdwn) and (not MM.twopgame) and (MM.PlayerCount()) then
-		if (mapheaderinfo[gamemap].mm_showdowntrack) then MM.shwdwn = mapheaderinfo[gamemap].mm_showdowntrack --check map's SOC for specified track
+		local trackNo = 0
+		if (mapheaderinfo[gamemap].mm_showdowntrack) then --check map's SOC for specified track
+			local t = {}
+			for s in string.gmatch(mapheaderinfo[gamemap].mm_showdowntrack, "[^%s]+") do table.insert(t, s) end
+
+			MM.shwdwn = t[1]
+			trackNo = t[2] or 0
 		else
 			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.shwdwn and S_MusicExists(MM.shwdwn)) then
-			S_ChangeMusic(MM.shwdwn, true)
+			S_ChangeMusic(MM.shwdwn, true, nil, trackNo)
 			return true
 		end
 	end
