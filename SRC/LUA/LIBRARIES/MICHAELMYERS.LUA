@@ -271,6 +271,8 @@ end
 
 --chatprintf but safe for vanilla SRB2
 MM.Chatprint = function(p, msg, forcesound)
+	if (splitscreen) then return end
+
 	if (not srb2classic) then msg = carretToSRB2_color(unicode.ascii(msg)) end --convert the message into vanilla-appropriate color format & also "ASCIIfy"" it
 
 	chatprintf(p, msg, ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
