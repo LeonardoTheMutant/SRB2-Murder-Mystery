@@ -162,8 +162,7 @@ Weather = 3
 Lua.Author = LeonardoTheMutant
 
 Level KH
-LevelName = Twin Caverns
-SubTitle = Under Construction
+LevelName = Frostfire Nexus
 SelectHeading = LTM's Murder Mystery
 TypeOfLevel = LTM_MM
 SkyNum = 701
