@@ -18,7 +18,7 @@ O_MAPK2M.SPC - "eternal forest" by RednGreen (Super Mario World Custom Music)
 O_MAPK3M.SPC - "In a Snow-Bound Land" by Dave Wise (Donkey Kong Country 2)
 O_MAPK4M.VGZ - "The Rosy Setting Sun" by Motoaki Furukawa (Sunset Riders (Genesis))
 O_MAPK5M.VGZ - "Wave Trouble" by Matt Furniss (James Bond 007: The Duel)
-O_MAPK7M.SPC - "Colony" by Taro Kudou & M. C. Ada (Axelay)
+O_MAPK7M.VGZ - "The Void of Space" by Hitoshi Sakimoto (Verytex)
 O_MAPK8M.VGZ - "Billie Jean" by Michael Jackson (Michael Jackson's Moonwalker (Genesis))
 O_MAPK9M.SPC - "At the Bottom of Night" by Yasunori Mitsuda (Chrono Trigger)
 O_MAPKFM.SPC - "Theme of Holly" by Kazuki Muraoka & Norihiko Hibino (Metal Gear 2: Solid Snake) (SPC by EDIT3333)
@@ -50,7 +50,7 @@ O_MAPKHM.SPC (Temple theme) - "Playing the Card Game Tarot" by Ukiyotei Sound Te
 ============
 
 O_CIVINS.SPC - "Tension" by Kenji Yamamoto (Super Metroid)
-O_NIMARE.OGG - "Midwich Nightmare" (First Half) by Akira Yamaoka (Silent Hill)
+O_FINAL.SPC - "Final Alert" by Taro Kudou & M. C. Ada (Axelay)
 O_MMSUS0.SPC - "Danger" by Taro Kudou & M. C. Ada (Axelay)
 O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X)
 
@@ -58,20 +58,20 @@ O_MMSUS1.SPC - "Boss Intro" by Setsuo Yamamoto (Mega Man X)
 = SHOWDOWN =
 ============
 
-O_DIE.OGG    - "Die" by Akira Yamaoka (Silent Hill)
 O_MGS_DL.GBS - This file is a complete soundtrack of "Metal Gear: Ghost Babel" composed by by Norihiko Hibino & Kazuki Muraoka.
                Showdown uses Track 19 (counting from 0) - "Level 3 Warning"
 O_MMSHD0.VGZ - "A Spirit of Bushi" by Hiroshi Kobayashi, Michiru Yamane, Akira Yamaoka, Hirofumi Taniguchi, Aki Hata (Contra: Hard Corps)
-O_MMSHD1.SPC - "Pressing Pursuit ~ Cornered " by Masakazu Sugimori (Phoenix Wright: Ace Attorney) (SPC arranegement by Hooded Edge)
+O_MMSHD1.VGZ - "Final of Puyo Puyo" by Masanobu Tsukamoto (Puyo Puyo)
 O_MMSHD2.VGZ - "Hockenheim Ring (Sonic ERaZor Version)" by Team Help, Ported by DalekSam (F1 Pole Position)
-O_MMSHD3.SPC - "Rude Buster" by Toby Fox (Deltarune) (SPC by Giftshaven & Ultima)
+O_MMSHD3.VGZ - "War Like Requiem" by Takeshi Yoshida (Thunder Force IV)
 O_MMSHD4.VGZ - "Boss Theme" by Naofumi Hataya (Sonic the Hedgehog 2 (Game Gear)) (Genesis arranegement by Nineko)
 O_MMSHD5.VGZ - "Boss Theme" by Naofumi Hataya (Sonic the Hedgehog 2 (Master System)) (Genesis arranegement by Nineko)
 O_MMSHD6.SPC - "The Decisive Battle" (Boss Battle) by Nobuo Uematsu (Final Fantasy 6)
 O_MMSHD7.SPC - "Boss Battle" by Setsuo Yamamoto (Mega Man X)
 O_MMSHD8.SPC - "Battle Against a True Hero" by Toby Fox (Undertale) (SPC by S1Z2)
 O_MMSHD9.SPC - "Goin' Down the Fast Way" by Lee Jackson (Rise of the Triad) (SPC by Bak Sangwoo)
-O_MMSHDA.SPC - "Remilia, Mistress beyond the Stairway" by ZUN, I. Yamada, M. Yamane (SPC by Hooded Edge)
+O_MMSHDA.SPC - "Remilia, Mistress beyond the Stairway" by ZUN, I. Yamada, M. Yamane (SPC Arrangement by Hooded Edge)
+O_SAVIOR.SPC -  "Fight Back Against the Moon!" by ZUN (SPC Arrangement by Hooded Edge) (Touhou Mario)
 
 
 ================
@@ -81,8 +81,8 @@ O_MMSHDA.SPC - "Remilia, Mistress beyond the Stairway" by ZUN, I. Yamada, M. Yam
 O_MM_TIE.VGZ -            Tie            - "Competition Menu" by Tatsuyuki Maeda, Sachio Ogawa, Masanori Hikichi (Sonic the Hedgehog 3 (Nov. 1993 Prototype))
 O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
 O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X)
-O_MMEND2.SPC -      Civilian Ending      - "Demo/Conversation" by Setsuo Yamamoto (Mega Man X)
-O_MMEND3.SPC - Murderous Sheriff Ending  - "007 Watch Theme" by Grant Kirkhope (Goldeneye 007) (SPC by Xulon)
+O_MMEND2.VGZ -      Civilian Ending      - "Game Clear" by Hitoshi Sakimoto (Devilish) (Mega Drive)
+O_MMEND3.VGZ - Murderous Sheriff Ending  - "Light of Silence" by Toshiharu Yamanishi (Thunder Force IV)
 O_MMEND4.SPC -   Murderous Hero Ending   - "Sign of Evil" by Bobby Prince (DOOM (SNES))
 O_MMEND5.SPC -    No Defenders Ending    - "Vanilla Dome" by Koji Kondo (Super Mario World)
 O_MMEND6.SPC -       Jester Ending       - "Eek!" by Surasshu (SPC by SweatyNoodle)
