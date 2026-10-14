@@ -35,7 +35,7 @@ O_MAPKEM.SPC (Top floor) - "Jungle Theme" (Metal Gear (NES))
 O_MAPKE1.SPC (First floor basement) - "Cellar" by Masanori Adachi and Taro Kudou (Super Castlevania IV)
 O_MAPKE2.SPC (Second floor basement) - "The Waterfalls" by Masanori Adachi and Taro Kudou (Super Castlevania IV)
 
-MAPKH: "Twin Caverns Zone"
+MAPKH: "Frostfire Nexus Zone"
 ---------------------
 O_ARCHIV.SPC - (Gallery) - "White Noiz" by Akira Yamaoka (SILENT HILL 2) (SPC by Fyre150)
 O_MAPKHC.SPC (Core theme) - "CORE" by Toby Fox (Undertale) (SPC by Coolmario)
@@ -80,7 +80,7 @@ O_SAVIOR.SPC -  "Fight Back Against the Moon!" by ZUN (SPC Arrangement by Hooded
 
 O_MM_TIE.VGZ -            Tie            - "Competition Menu" by Tatsuyuki Maeda, Sachio Ogawa, Masanori Hikichi (Sonic the Hedgehog 3 (Nov. 1993 Prototype))
 O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & White) (SPC by bebn legg)
-O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X)
+O_MMEND1.VGZ -      Murderer Ending      - "Evil Destroyer" by Takeshi Yoshida (Thunder Force IV)
 O_MMEND2.VGZ -      Civilian Ending      - "Game Clear" by Hitoshi Sakimoto (Devilish) (Mega Drive)
 O_MMEND3.VGZ - Murderous Sheriff Ending  - "Light of Silence" by Toshiharu Yamanishi (Thunder Force IV)
 O_MMEND4.VGZ -   Murderous Hero Ending   - "You Became the Bad Guy!" by Yuzo Koshiro (Streets of Rage)

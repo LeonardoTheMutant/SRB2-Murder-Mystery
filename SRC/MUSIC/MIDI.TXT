@@ -39,7 +39,7 @@ MAPKEM (Top floor)            - "Theme of Tara" by Iku Mizutani (Metal Gear) (MI
 MAPKE1 (1st Floor Basement)   - "Cavern" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by King Meteor)
 MAPKE2 (2nd Floor Basement)   - "Colosseo" by KCE Japan Sound Team (Metal Gear Solid) (MIDI by ???)
 
-MAPKH: "Twin Caverns Zone"
+MAPKH: "Frostfire Nexus Zone"
 ---------------------
 MAPKHI (Ice theme)    - "Cursed Cathedral" by RednGreen (Super Mario World Custom Music) (MIDI by ShinkoNetCavy)
 MAPKHF (Lava theme)   - "Cursed Cathedral Fire Arrangement" by MinusMario (Original MIDI by ShinkoNetCavy)
