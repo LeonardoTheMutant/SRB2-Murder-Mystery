@@ -83,6 +83,6 @@ O_MMEND0.SPC - 2 Player Pong Game Ending - "Driftveil City" (Pokemon Black & Whi
 O_MMEND1.SPC -      Murderer Ending      - "Stage Select" by Setsuo Yamamoto (Mega Man X)
 O_MMEND2.VGZ -      Civilian Ending      - "Game Clear" by Hitoshi Sakimoto (Devilish) (Mega Drive)
 O_MMEND3.VGZ - Murderous Sheriff Ending  - "Light of Silence" by Toshiharu Yamanishi (Thunder Force IV)
-O_MMEND4.SPC -   Murderous Hero Ending   - "Sign of Evil" by Bobby Prince (DOOM (SNES))
+O_MMEND4.VGZ -   Murderous Hero Ending   - "You Became the Bad Guy!" by Yuzo Koshiro (Streets of Rage)
 O_MMEND5.SPC -    No Defenders Ending    - "Vanilla Dome" by Koji Kondo (Super Mario World)
 O_MMEND6.SPC -       Jester Ending       - "Eek!" by Surasshu (SPC by SweatyNoodle)
