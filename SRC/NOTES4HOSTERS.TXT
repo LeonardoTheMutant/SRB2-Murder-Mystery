@@ -43,7 +43,8 @@ VARIABLES
 
 	MM_FOOTMARKS - Enable/Disable the footmarks spawning. The default value is ON.
 
-	MM_KILLTRAILS - Enable/Disable the Red Footmarks (Kill Trails) after Killing a player with the knife or stepping on the dead body. The default value is ON.
+	MM_KILLTRAILS - Enable/Disable the Red Footmarks (Kill Trails) after Killing a player with the knife or stepping on the dead body.
+				The default value is ON.
 
 	MM_NOCAMPING - Enable/Disable the kicks for Emerald Camping. Murderers who are camping on the \x84Sheriff's Emerald\x80
 		for longer than 30 seconds will be kicked. The default value is ON.
@@ -54,8 +55,8 @@ VARIABLES
 	MM_SPEED_WALK - Adjust the walk speed for all players. This variable can range from 6 to 40.
 		This works only when MM_ABILITIES console variable is disabled. The default value is 20.
 
-	MM_HURTTEAMMATES - Can teammates hurt each other? When enabled, players who are shot by their teammates loose all of their rings and get a knockback.
-		The default value is YES.
+	MM_HURTTEAMMATES - Can teammates hurt each other? When enabled, players who are shot by their teammates loose all of their rings
+		and get a knockback. The default value is YES.
 
 	MM_VISIBLESPECTATORS - Make the spectators visible for everyone during the Showdown Duel. The default value is YES.
 
@@ -63,14 +64,22 @@ VARIABLES
 		These CVARs in their value contain two sepparate configurations for Normal Gameplay and for Showdown Duel.
 		The variables accepts the *interger* in 0-15 range. For more details please see the DEV_DOCS/MM_WEPCFG.PNG
 
-	MM_WEPCFG_CIVIL - Enable/Disable weapons for Civilians. When enabled, players need to have 100 rings (some skins require only 50 rings) for each shot/knife usage.
+	MM_WEPCFG_CIVIL - Enable/Disable weapons for Civilians. When enabled, players need to have 100 rings (some skins require only 50 rings)
+		for each shot/knife usage.
 		There are 3 possible values for this CVAR:
 			0 - Disable weapons for the Civilians entirely;
 			1 - Allow Knife + Red Ring;
 			2 - Allow only Knife
 
+
+	MM_VOTE_ENABLE     - Enable/Disable the map voting during intermission. When enabled, INTTIME console variable will be automatically adjusted.
+						The default value is ON.
+	MM_VOTE_SCORETIME  - Time to display the end-round summary (in seconds). The default value is 10.
+	MM_VOTE_VOTETIME   - Time to vote (in seconds). The default value is 15.
+	MM_VOTE_RESULTTIME - Time to show the results of the vote (in seconds). The default value os 10.
+
 COMMANDS
-	MMSETUP - A Graphical UI to set up the MM game in a more convinient way instead of typing all CVARs manually
+	MMSETUP - A Graphical UI to set up the MM game in a more convinient way, instead of typing all CVARs manually
 
 	SAYDEAD - This command is available only for the host player and can be used to send a message to the dead players as <~SERVER>.
 

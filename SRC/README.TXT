@@ -24,7 +24,7 @@ New graphics      | Yes
 New textures      | Yes
 New objects       | Yes
 HUD modification  | Yes
-New music         | Yes***
+New music         | Yes (MIDI and Digital)***
                   |
 Included          |
 translations      | English, French, German, Greek, Polish, Russian, Spanish, Turkish, Ukrainian
@@ -33,8 +33,9 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
     There is only one known bug where Metal Sonic can't get into his Hyper Dash
     mode when playing in vanilla game types with MM add-on present.
 **  Please read NOTES4HOSTERS.TXT for details.
-*** Digital Music pack(s) with digitized MIDI soundtrack is a separate client-side add-on that can be
-    downloaded from the assets found in LTM_MM's Digital Music repository.
+*** Digital Music included in the add-on requires an SRB2 execuitable with Game Music Emu Library (libgme) support.
+    There are packs with digitized MIDI soundtrack, but those are separate client-side add-ons that can
+    be downloaded from the assets found in LTM_MM's Digital Music repository.
     Links to the repository are located at the end of this document.
 
 
@@ -43,9 +44,10 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
 ---===  "LeonardoTheMutant's Murder Mystery" is made by these people  ===---
 ---======================================================================---
 
-  LeonardoTheMutant     - Leader of the project, Coder, Mapper, Visual Design, Ukrainian, Russian, German & Polish translator, Ambassador of Europe
+  LeonardoTheMutant     - Leader of the project, Coder, Mapper, Visual Design,
+                          Ukrainian, Russian, German & Polish translator, Ambassador of Europe
   MinusMario (mm8573)   - "The Veteran of MM", Music Composer & Soundtrack Management, Visual Design
-  Jesus.B               - Codint assistance, Spanish translator
+  Jesus.B               - Coding assistance, Spanish translator
   Mobillia              - Turkish translator
   LexTheGamer95         - Ambassador of North America
   lamon                 - Ambassador of the United Kingdom, Music Composer & Soundtrack Management
