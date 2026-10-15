@@ -132,7 +132,7 @@ addHook("PlayerThink", function(p)
 		--by @Jrfhj-Guhvf & LeonardoTheMutant
 		if (MM.shwdwn) and (cv_showspec.value) then
 			if (valid(p.specmobj)) then
-				if (p.afk) then --make the "soul" visible when the spectator moves
+				if (p.cmd.forwardmove or p.cmd.sidemove or p.cmd.buttons) then --make the "soul" visible when the spectator moves
 					if (p.specmobj.alpha) then
 						p.specmobj.alpha = p.specmobj.alpha - 256
 					end
@@ -224,12 +224,12 @@ addHook("PlayerThink", function(p)
 	if ((cv_rejointimeout.value) and (p.quittime % 4)==1) then MM.PlayerQuit(p) end
 
 	--AFK counter
-	if (MM.PlayerCount() > 1) and (not splitscreen) then
+	if (MM.PlayerCount() > 1) and (not p.spectator) and not (splitscreen) then
 		if (p.cmd.buttons or p.cmd.forwardmove or p.cmd.sidemove) then p.afk = 0
 		else p.afk = p.afk + 1 end
 
 		--Force player kick if cv_idleaction is set to "Spectate" and players are AFK long enough
-		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and (not p.spectator) and not (leveltime % 4) then
+		if (cv_idletime.value) and (int(p.afk) > cv_idletime.value*2100) and (cv_idleaction.value == 2) and (p.mm.role ~= ROLE_DEAD) and not (leveltime % 4) then
 			MM.PunishPlayer(p, "AFK")
 		end
 	end
