@@ -124,7 +124,7 @@ addHook("PlayerThink", function(p)
 	--Remove this block when NameChange hook will become real in Vanilla
 	if (not srb2classic) then
 		if (p.name ~= p.oldname) and (leveltime > 105) and (p.jointime > 105) then
-			if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) and not (leveltime % 4) then
+			if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
 				MM.PunishPlayer(p, "Do not rename when dead!")
 			else
 				p.oldname = p.name
