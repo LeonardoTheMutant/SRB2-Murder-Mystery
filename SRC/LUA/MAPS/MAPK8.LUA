@@ -297,7 +297,7 @@ end
 addHook("LinedefExecute", function()
     if (ELEVATORS[0].stack[1].cmd == ELEVATOR_CONFIRM) then
         ELEVATORS[0].floor = ELEVATORS[0].stack[1].param
-        S_StartSound(ELEVATORS[0].mo, sfx_eleva3)
+        --S_StartSound(ELEVATORS[0].mo, sfx_eleva3)
         table.remove(ELEVATORS[0].stack, 1)
     end
 end,"EL_F_MOV0")
@@ -314,7 +314,7 @@ end,"EL_F_DOR0")
 addHook("LinedefExecute", function()
     if (ELEVATORS[1].stack[1].cmd == ELEVATOR_CONFIRM) then
         ELEVATORS[1].floor = ELEVATORS[1].stack[1].param
-        S_StartSound(ELEVATORS[1].mo, sfx_eleva3)
+        --S_StartSound(ELEVATORS[1].mo, sfx_eleva3)
         table.remove(ELEVATORS[1].stack, 1)
     end
 end,"EL_F_MOV1")
@@ -464,14 +464,14 @@ addHook("ThinkFrame", function()
                         table.remove(ELEVATORS[id].stack, 1) --Ignore
                     else
                         E_OpenElevatorDoors(id, ELEVATORS[id].stack[1].param)
-                        S_StartSound(ELEVATORS[id].mo, sfx_doorb1)
+                        --S_StartSound(ELEVATORS[id].mo, sfx_doorb1)
                         ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
                     end
                 end,
                 [ELEVATOR_CLOSE] = function() --Close doors
                     if (ELEVATORS[id].doors) then --If doors open
                         E_CloseElevatorDoors(id, ELEVATORS[id].stack[1].param)
-                        S_StartSound(ELEVATORS[id].mo, sfx_doora1)
+                        --S_StartSound(ELEVATORS[id].mo, sfx_doora1)
                         ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
                     else
                         table.remove(ELEVATORS[id].stack, 1) --Ignore
@@ -479,7 +479,7 @@ addHook("ThinkFrame", function()
                 end,
                 [ELEVATOR_MOVE] = function() --Move to floor
                     E_MoveElevator(id, ELEVATORS[id].stack[1].param)
-                    S_StartSound(ELEVATORS[id].mo, sfx_eleva1)
+                    --S_StartSound(ELEVATORS[id].mo, sfx_eleva1)
                     ELEVATORS[id].stack[1].cmd = ELEVATOR_CONFIRM
                 end
             })
