@@ -316,7 +316,7 @@ local SFX_SPEEDING_OFF = sfx_s3kaf
 local up, down, left, right
 
 addHook("KeyDown", function(e)
-	if (gamestate ~= GS_INTERMISSION) or (MM.mapvote.state ~= MV_VOTE) or (gametype ~= GT_LTMMURDERMYSTERY) then return end
+	if (gamestate ~= GS_INTERMISSION) or (MM.mapvote.state ~= MV_VOTE) or (gametype ~= GT_LTMMURDERMYSTERY) or (chatactive) then return end
 
 	switch(e.num, {
 		[KEY_UPARROW] = function()
