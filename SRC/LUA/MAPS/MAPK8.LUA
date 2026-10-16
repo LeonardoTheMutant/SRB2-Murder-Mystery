@@ -101,6 +101,10 @@ addHook("MapLoad", function(map)
     ELEVATORS = {}
     ELEVATORS[0] = {stack = {}, floor = 0, doors = false, mo = nil}
     ELEVATORS[1] = {stack = {}, floor = 0, doors = false, mo = nil}
+
+    for p in players.iterate do
+        p.busydoingtheliftbuttons = nil
+    end
 end)
 
 local function E_OpenElevatorDoors(id, floor)
