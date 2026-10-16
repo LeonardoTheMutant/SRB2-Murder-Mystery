@@ -370,6 +370,7 @@ addHook("PreThinkFrame", function()
             p.prevup = up
             p.prevdown = down
         end
+        if (p.spectator) then p.busydoingtheliftbuttons = nil end
     end
 end)
 
