@@ -249,7 +249,7 @@ local carretToSRB2_color = function(s)
 		end
 
 		if (colorcode) then
-			str = str..CHAR[128 + HEX2INT[code]]
+			if (isxdigit(s:sub(i, i))) then str = str..CHAR[128 + HEX2INT[code]] end
 			colorcode = false
 			break
 		end
