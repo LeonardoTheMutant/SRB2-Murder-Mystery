@@ -405,6 +405,7 @@ addHook("IntermissionThinker", function()
 				MM.mapvote.timers[MV_VOTE] = MM.mapvote.timers[MV_VOTE] - 1
 				--Listen for player inputs
 				for p in players.iterate do
+				repeat
 					local pmm = p.mm
 
 					up = (p.cmd.forwardmove >= 10)
@@ -414,7 +415,7 @@ addHook("IntermissionThinker", function()
 
 					if (pmm.kills) then --I am too lazy to make another variable just to store boolean value
 						--Player has voted, listen only for "Cancel choice" button
-						if (p.cmd.buttons & BT_SPIN) then
+						if (p.cmd.buttons & BT_SPIN) and not (p.lastbuttons & BT_SPIN) then
 							for i = 1, #eMeM.mapvote.votes[p.currentweapon] do
 								if (eMeM.mapvote.votes[p.currentweapon][i] == #p) then
 									table.remove(eMeM.mapvote.votes[p.currentweapon], i)
@@ -427,10 +428,11 @@ addHook("IntermissionThinker", function()
 						if (up and not p.prevup) or (down and not p.prevdown) or (left and not p.prevleft) or (right and not p.prevright) then S_StartSound(nil, SFX_FAIL, p) end
 					else
 						--Player has not voted yet, let it select the desired map
-						if (p.cmd.buttons & BT_JUMP) then
+						if (p.cmd.buttons & BT_JUMP) and not (p.lastbuttons & BT_JUMP) then
 							table.insert(eMeM.mapvote.votes[p.currentweapon], #p)
 							pmm.kills = 1
 							if (p == consoleplayer) then S_StartSound(nil, SFX_CONFIRM, p) end
+							break --continue
 						end
 
 						if (up) and not (p.prevup) then
@@ -480,6 +482,9 @@ addHook("IntermissionThinker", function()
 					p.prevdown = down
 					p.prevleft = left
 					p.prevright = right
+
+					break --exit "repeat...until"
+				until true
 				end
 
 				if (MM.mapvote.timers[MV_VOTE] <= 105) and not (MM.mapvote.timers[MV_VOTE] % TICRATE) then
