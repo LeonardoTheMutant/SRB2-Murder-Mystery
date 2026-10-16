@@ -187,9 +187,9 @@ addHook("PlayerThink", function(p)
 			switch(p.mm.role, {
 				[ROLE_MURDERER] = function()
 					if ((MM.shremdDist < 25165824) and (cv_nocamping.value) and (not MM.shwdwn)) then --384*FU
-						--During normal gameplay, the counter increments +4/tic
-						--Duriung Suspense, it does +16/tic, so yeah, you basically get an instant emerald blindness (a strong one!)
-						p.mm.camping = p.mm.camping + (4 * (1 + (bool2int(MM.susnse) * 3)))
+						--During normal gameplay, the counter increments +2/tic
+						--Duriung Suspense, it does +8/tic
+						p.mm.camping = p.mm.camping + (2 * (1 + (bool2int(MM.susnse) * 3)))
 					else
 						if (p.mm.camping > 0) then p.mm.camping = p.mm.camping - 2 end
 					end
