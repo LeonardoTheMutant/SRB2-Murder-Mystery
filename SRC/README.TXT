@@ -40,9 +40,9 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
 
 
 
----======================================================================---
----===  "LeonardoTheMutant's Murder Mystery" is made by these people  ===---
----======================================================================---
+---============================================================================---
+---===  "LeonardoTheMutant's Murder Mystery" is made by these contributors  ===---
+---============================================================================---
 
   LeonardoTheMutant     - Leader of the project, Coder, Mapper, Visual Design,
                           Ukrainian, Russian, German & Polish translator, Ambassador of Europe
@@ -54,26 +54,23 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
   saturndreemurr        - Visual Design
   Dr. Stuffd Bagel      - Coding assistance
   Re                    - Coding assistance
-
-People who also contributed in the past:
   tedbasher3000 (AKA tedvin11) - Former Lead Coder
-  Troplucky          - "The Official Bob representative in MM", Mapping assistance, Music management, French translator
-  Arnie37, Sonic1983 - Russian translators
-  futuresmiles       - Ambassador of North America
-  SuperOfSRB2        - Ambassador of North America, Mapper
-  White Tails {UKR}  - Ambassador of Lituana
-  sopix              - Polish translator
-  SlainLBS           - Spanish translator
-  asdhio (aheiiv)    - Ukrainian translator
-  Piksqu             - Mapper & French translator
-  King Jonas         - Ambassador of Brazil, Portuguese translator
-  ToeiSamurai, Jisk  - Coders
+  The SuperGuide        - Mapping assistance, Music management, French translator
+  Arnie37, Sonic1983    - Russian translators
+  futuresmiles          - Ambassador of North America
+  SuperOfSRB2           - Ambassador of North America, Mapper
+  White Tails {UKR}     - Ambassador of Lituana
+  sopix                 - Polish translator
+  SlainLBS              - Spanish translator
+  asdhio (aheiiv)       - Ukrainian translator
+  Piksqu                - Mapper & French translator
+  King Jonas            - Ambassador of Brazil, Portuguese translator
+  ToeiSamurai, Jisk     - Coders
 
 Special Thanks to:
  - tedvin11 for the idea, base code, and leadership during the very early development
- - Lemerks.xm for being the chill guy
- - Musicians from FREEDOOM community for the wonderful map MIDIs
- - Collision Chaos Radio for Sonic CD Music restoration
+ - Lemerks.xm for being the chill guy and letting everyone visit his house
+ - Musicians from the FREEDOOM community for the wonderful map MIDIs
  - VGMrips.net community for high-quality VGM/VGZ rips of Video Game Music
  - Super Mario Central for the SPC music library
  - "MM in Garry's Mod" & "MM in Minecraft" for the inspiration

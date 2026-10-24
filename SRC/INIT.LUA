@@ -304,12 +304,10 @@ end
 print("\n\x87Murder Mystery\x80: Loading text...")
 dofile("DATA/TEXT/LANG/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
 dofile("DATA/TEXT/LANG/DE.LUA")
-dofile("DATA/TEXT/LANG/ES.LUA")
 dofile("DATA/TEXT/LANG/FR.LUA")
 dofile("DATA/TEXT/LANG/GR.LUA")
 dofile("DATA/TEXT/LANG/PL.LUA")
 dofile("DATA/TEXT/LANG/RU.LUA")
-dofile("DATA/TEXT/LANG/TR.LUA")
 dofile("DATA/TEXT/LANG/UA.LUA")
 
 --Script files load
