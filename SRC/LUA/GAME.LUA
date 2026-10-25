@@ -1,6 +1,6 @@
 -- GAME.LUA
 -- Original base code by Tedvin11
--- Code modifications by LeonardoTheMutant with the additional help of Jesus.B
+-- Code modifications by LeonardoTheMutant with the additional help of Jesus.B & @Jrfhj-Guhvf
 --
 -- The main logic script of the LTM's Murder Mystery, takes control of each player Join/Quit,
 -- hit detection, player parameters, and round endings

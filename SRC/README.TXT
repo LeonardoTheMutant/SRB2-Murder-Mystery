@@ -11,7 +11,7 @@ ADD-ON TECHNICAL INFORMATION
 Name              | LeonardoTheMutant's Murder Mystery
 Version           | 1.3
 Add-On type       | New gametype
-REUSABLE          | Yes
+License           | GPL-3.0
                   |
 Modifies vanilla  |
 experience        | Should not*
@@ -27,16 +27,18 @@ HUD modification  | Yes
 New music         | Yes (MIDI and Digital)***
                   |
 Included          |
-translations      | English, French, German, Greek, Polish, Russian, Spanish, Turkish, Ukrainian
+translations      | English, French, German, Greek, Polish, Russian,
+                  | Spanish, Turkish, Ukrainian
 ------------------+------------------------------------------------------
 *   The add-on was designed to not modify the vanilla aspects of the game.
     There is only one known bug where Metal Sonic can't get into his Hyper Dash
-    mode when playing in vanilla game types with MM add-on present.
+    mode when playing in vanilla gametypes with MM add-on present.
 **  Please read NOTES4HOSTERS.TXT for details.
-*** Digital Music included in the add-on requires an SRB2 execuitable with Game Music Emu Library (libgme) support.
-    There are packs with digitized MIDI soundtrack, but those are separate client-side add-ons that can
-    be downloaded from the assets found in LTM_MM's Digital Music repository.
-    Links to the repository are located at the end of this document.
+*** Digital Music included in the add-on requires an SRB2 execuitable with the
+    Game Music Emu Library (libgme) support. There are packs with digitized MIDI
+    soundtrack, but those are separate client-side add-ons that can be made from
+    the assets found in the LTM_MM's Digital Music repository. Links to the
+    repository are located at the end of this document.
 
 
 
@@ -45,31 +47,28 @@ translations      | English, French, German, Greek, Polish, Russian, Spanish, Tu
 ---============================================================================---
 
   LeonardoTheMutant     - Leader of the project, Coder, Mapper, Visual Design,
-                          Ukrainian, Russian, German & Polish translator, Ambassador of Europe
-  MinusMario (mm8573)   - "The Veteran of MM", Music Composer & Soundtrack Management, Visual Design
+                          Ukrainian, Russian, German & Polish translator
+  MinusMario (mm8573)   - "The Veteran of MM", Music Composer & Soundtrack Manager,
+                          Visual Designer
   Jesus.B               - Coding assistance, Spanish translator
-  Mobillia              - Turkish translator
-  LexTheGamer95         - Ambassador of North America
-  lamon                 - Ambassador of the United Kingdom, Music Composer & Soundtrack Management
-  saturndreemurr        - Visual Design
+  lamon                 - Music Composer & Soundtrack Manager
+  saturndreemurr        - Visual Designer
   Dr. Stuffd Bagel      - Coding assistance
   Re                    - Coding assistance
+  @Jrfhj-Guhvf          - Coding assistance
   tedbasher3000 (AKA tedvin11) - Former Lead Coder
-  The SuperGuide        - Mapping assistance, Music management, French translator
+  The SuperGuide        - Mapping assistance, Music manager, French translator
   Arnie37, Sonic1983    - Russian translators
-  futuresmiles          - Ambassador of North America
-  SuperOfSRB2           - Ambassador of North America, Mapper
-  White Tails {UKR}     - Ambassador of Lituana
-  sopix                 - Polish translator
-  SlainLBS              - Spanish translator
+  SuperOfSRB2           - Mapper
   asdhio (aheiiv)       - Ukrainian translator
-  Piksqu                - Mapper & French translator
-  King Jonas            - Ambassador of Brazil, Portuguese translator
+  Piksqu                - Mapper
   ToeiSamurai, Jisk     - Coders
+  ...and the GitHub contributors + people who also contributed in the very distant past
 
 Special Thanks to:
  - tedvin11 for the idea, base code, and leadership during the very early development
  - Lemerks.xm for being the chill guy and letting everyone visit his house
+ - Team Revoid for the original "Mountain Fort" map idea
  - Musicians from the FREEDOOM community for the wonderful map MIDIs
  - VGMrips.net community for high-quality VGM/VGZ rips of Video Game Music
  - Super Mario Central for the SPC music library
@@ -89,7 +88,8 @@ the correct server setup and important notes.
 If you're interested in modding this game type please take a look at our GitHub repository and
 read the developer wiki which is also located on GitHub
 
-You can reach us out in our communities where you can describe issues and suggest new things (as well as simply talk with us):
+You can reach us out in our communities where you can describe issues and suggest
+new things (as well as simply talk with us):
   Matrix:               https://matrix.to/#/#ltm_mm:matrix.org
   GitHub:               https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery
   Digital Music GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery-DigitalMusic
