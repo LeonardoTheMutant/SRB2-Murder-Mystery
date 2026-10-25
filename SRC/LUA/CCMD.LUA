@@ -600,7 +600,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 
 			if (MM.lang == lang) then arg1 = "\x82[current lang]" end
 			if (MM.text[lang]["VERSION"] and (MM.text[lang]["VERSION"] ~= MM.version)) then
-				langIncomp = langCount + 1
+				langIncomp = langIncomp + 1
 				arg2 = "\x85{INCOMPATIBLE}"
 			end
 			CONS_Printf(p, string.format("\x88 %s %s %s",lang,arg1,arg2))
