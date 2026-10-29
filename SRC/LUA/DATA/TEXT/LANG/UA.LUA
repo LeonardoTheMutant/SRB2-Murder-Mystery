@@ -6,7 +6,7 @@
 
 MM.AddLang("UA", { -- Ukrainian by LeonardoTheMutant
 	["LANGUAGE"]="Українська",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3C",
 	["AUTHOR"]="LeonardoTheMutant",
 	["CHAT_ROLE_MURDERER"]={
 		["ROLEGET_PM"]="Ви ^5Вбивця^0! ^5Вбийте усіх.",

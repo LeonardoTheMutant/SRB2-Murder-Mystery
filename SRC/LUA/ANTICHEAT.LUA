@@ -120,31 +120,17 @@ addHook("PlayerThink", function(p)
 		MM.KillPlayer(p.mo, true, true)
 		MM.TryEndgame()
 	end
-
-	--Remove this block when NameChange hook will become real in Vanilla
-	if (not srb2classic) then
-		if (p.name ~= p.oldname) and (leveltime > 105) and (p.jointime > 105) then
-			if (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
-				if (not (leveltime % 4)) then MM.PunishPlayer(p, "Do not rename when dead!") end
-			else
-				p.oldname = p.name
-			end
-		end
-	end
 end)
 
 
 
 --
 -- RENAME LOCK
--- for 2.2.16+
 --
-if (srb2classic) then
-	addHook("NameChange", function(p, newname)
-		if (gametype ~= GT_LTMMURDERMYSTERY) then return end --use default behaviour
+addHook("NameChange", function(p, newname)
+	if (gametype ~= GT_LTMMURDERMYSTERY) then return end --use default behaviour
 
-		if (gamestate == GS_LEVEL) and (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
-			return false --reject rename
-		end
-	end)
-end
+	if (gamestate == GS_LEVEL) and (p.mm.role == ROLE_DEAD) and (MM.PlayerCount() > 2) then
+		return false --reject rename
+	end
+end)

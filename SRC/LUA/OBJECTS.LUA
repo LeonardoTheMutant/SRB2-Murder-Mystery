@@ -75,7 +75,7 @@ addHook("MapLoad", function()
 		if (t.type == 2025) then table.insert(s, (#s + 1), t) end
 	end
 	if (#s) then --if there are spawnpoints available, spawn the plushie at a random spawn
-		local i = KLASYKA.RandomKey(#s) + 1
+		local i = random.key(#s) + 1
 		P_SpawnMobj((s[i].x * FU), (s[i].y * FU), (s[i].z * FU), MT_EVILKNUX)
 		MM.DebugPrint(string.format("Spawned Evil Knux Plush at %d, %d, %d out of %d possible spawnpoint choices", s[i].x, s[i].y, s[i].z, #s))
 	end
@@ -98,7 +98,7 @@ addHook("TouchSpecial", function(s, t) --special, toucher
 		t.player.powers[pw_grenadering] = t.player.powers[pw_grenadering] + (MM.weapons[4][5] / 2)
 		t.player.powers[pw_explosionring] = t.player.powers[pw_explosionring] + (MM.weapons[5][5] / 2)
 		t.player.powers[pw_railring] = t.player.powers[pw_railring] + (MM.weapons[6][5] / 2)
-		MM.DebugPrint(string.format("\x8A%s\x80 touched the Evil Knux Plush", t.player.name))
+		MM.DebugPrint(string.format("^A%s^0 touched the Evil Knux Plush", t.player.name))
 	end
 	return true
 end, MT_EVILKNUX)

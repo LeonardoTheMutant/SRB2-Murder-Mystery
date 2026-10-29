@@ -16,11 +16,11 @@ MM.AddLang = function(langID, langTbl)
 	if (type(langTbl) ~= "table") then error("Language Table should be table.") end
 	if (MM.text[langID]) then
 		MM.text[langID] = nil --Empty the table so that the language can be updated
-		printf("\x82WARNING\x80: Updating the \x81%s\x80 language...", langID)
+		printf("^2WARNING^0: Updating the ^1%s^0 language...", langID)
 	end
 	MM.text[langID:upper()] = langTbl
-	printf("\x87Murder Mystery\x80: Added the \x81%s\x80 language by %s", langID, MM.text[langID]["AUTHOR"])
-	if (MM.text[langID]["VERSION"] ~= MM.version) then printf("\x82WARNING:\x80 This language file is \x85OUTDATED\x80 and may result crashes. Please ask \x84%s\x80 to update it for the \x87Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
+	printf("^7Murder Mystery^0: Added the ^1%s^0 language by %s", langID, MM.text[langID]["AUTHOR"])
+	if (MM.text[langID]["VERSION"] ~= MM.version) then printf("^2WARNING:^0 This language file is ^5OUTDATED^0 and may result crashes. Please ask ^4%s^0 to update it for the ^7Murder Mystery %s", tostring(MM.text[langID:upper()]["AUTHOR"]), MM.version) end
 end
 
 --(Re)Load a list of available Suspense music
@@ -31,7 +31,7 @@ MM.LoadSuspenseTracks = function()
 		lumpname = string.format("MMSUS%X", i)
 		if (S_MusicExists(lumpname)) then
 			table.insert(MM.susnse_music, lumpname)
-			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Suspense Track \x81%s", lumpname) end
+			if (MM.debug) then printf("^7Murder Mystery^0: Loaded Suspense Track ^1%s", lumpname) end
 		end
 	end
 end
@@ -44,7 +44,7 @@ MM.LoadShowdownTracks = function()
 		lumpname = string.format("MMSHD%X", i)
 		if (S_MusicExists(lumpname)) then
 			table.insert(MM.shwdwn_music, lumpname)
-			if (MM.debug) then printf("\x87Murder Mystery\x80: Loaded Showdown Track \x81%s", lumpname) end
+			if (MM.debug) then printf("^7Murder Mystery^0: Loaded Showdown Track ^1%s", lumpname) end
 		end
 	end
 end
@@ -57,7 +57,7 @@ MM.SavePlayerCFG = function(player)
 			f:write(string.format("lang %s\n", MM.lang or "EN"))
 			f:write(string.format("exposevote %s\n", bool2int(player.mm.exposevote)))
 			f:close()
-		else CONS_Printf(player, "\x85".."ERROR:\x80 Failed to save personal preferences to \x81/luafiles/client/MM.CFG\x80") end
+		else CONS_Printf(player, "^5ERROR:^0 Failed to save personal preferences to ^1/luafiles/client/MM.CFG^0") end
 	end
 end
 
@@ -94,7 +94,7 @@ MM.LoadPlayerCFG = function(player)
 end
 
 MM.DebugPrint = function(str, ...)
-	if (MM.debug) then printf("\x87Murder Mystery (Debug)\x80: %s", str, {...}) end
+	if (MM.debug) then printf("^7Murder Mystery (Debug)^0: %s", str, {...}) end
 end
 
 --Count the playing players
@@ -159,18 +159,18 @@ MM.GetText = function(line, param)
 				if (MM.text[MM.lang][line][param]) then
 					return MM.text[MM.lang][line][param]
 				else
-					if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line, param)) end
+					if (MM.debug) then error(string.format("^2Tried to access value at ^7MM.text[^0\"%s\"^7][^0\"%s\"^7][^0\"%s\"^7]^2 that does not exist!^0", MM.lang, line, param)) end
 					return "MM.text[\""..MM.lang.."\"][\""..line.."\"][\""..param.."\"]"
 				end
 			end
 			if (type(MM.text[MM.lang][line]) == "string") then
 				return MM.text[MM.lang][line]
 			else
-				if (MM.debug) then error(string.format("\x82Tried to access the table at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 without parameter!\x80", MM.lang, line)) end
+				if (MM.debug) then error(string.format("^2Tried to access the table at ^7MM.text[^0\"%s\"^7][^0\"%s\"^7]^2 without parameter!^0", MM.lang, line)) end
 				return "MM.text[\""..MM.lang.."\"][\""..line.."\"][nil]"
 			end
 		else
-			if (MM.debug) then error(string.format("\x82Tried to access value at \x87MM.text[\x80\"%s\"\x87][\x80\"%s\"\x87]\x82 that does not exist!\x80", MM.lang, line)) end
+			if (MM.debug) then error(string.format("^2Tried to access value at ^7MM.text[^0\"%s\"^7][^0\"%s\"^7]^2 that does not exist!^0", MM.lang, line)) end
 			return "MM.text[\""..MM.lang.."\"][\""..line.."\"]"
 		end
 	else
@@ -193,15 +193,15 @@ MM.AssignRoles = function()
 	end
     for r = ROLE_MURDERER, ROLE_SHERIFF do --assign Murderers and Sheriffs
         for i = 1, MM.GetRoleMultiplier() do
-            local randPlr = KLASYKA.RandomKey(#plrs) + 1 --select random player
+            local randPlr = random.key(#plrs) + 1 --select random player
             players[plrs[randPlr]].mm.role = r --assign the role to that player
             table.remove(plrs, randPlr) --and finally forget about it
         end
     end
 
     --Assign Jester role
-    if (MM.PlayerCount() > 3) and (KLASYKA.RandomKey(4) == 0) then
-		local randPlr = KLASYKA.RandomKey(#plrs) + 1
+    if (MM.PlayerCount() > 3) and (random.key(4) == 0) then
+		local randPlr = random.key(#plrs) + 1
 		players[plrs[randPlr]].mm.role = ROLE_JESTER
 		table.remove(plrs, randPlr)
 	end
@@ -234,34 +234,6 @@ MM.AssignRoles = function()
 	end
 end
 
---Small helper function to convert a carret color code (ex. "^5") into vanilla SRB2 one ("\x85")
---Use this for ASCII strings only!
-local carretToSRB2_color = function(s)
-	local str = ""
-	local code = 0
-	local colorcode = false
-	for i = 1, #s do
-	repeat
-		code = s:byte(i)
-		if (code == 94) then --'^' char found
-			colorcode = not colorcode
-			if (colorcode) then break end
-		end
-
-		if (colorcode) then
-			if (isxdigit(s:sub(i, i))) then str = str..CHAR[128 + HEX2INT[code]] end
-			colorcode = false
-			break
-		end
-
-		str = str..CHAR[code]
-		break
-	until true
-	end
-
-	return str
-end
-
 --nikoberry: Exists in case this ever gets used more than in MM.ChatPrint
 --also because this wouldn't be nice to read in MM.Chatprint
 MM.ShouldNotify = function()
@@ -272,8 +244,6 @@ end
 --chatprintf but safe for vanilla SRB2
 MM.Chatprint = function(p, msg, forcesound)
 	if (splitscreen) then return end
-
-	if (not srb2classic) then msg = carretToSRB2_color(unicode.ascii(msg)) end --convert the message into vanilla-appropriate color format & also "ASCIIfy"" it
 
 	chatprintf(p, msg, ((forcesound or MM.ShouldNotify()) and not (CV_FindVar("chatmode").value == 2)))
 end
@@ -428,7 +398,7 @@ MM.KillPlayerByPlayer = function(p, k) --player, killer (both MOBJ_T)
 
 	if (plr.mm.timetravel.timezone) then MM.SpawnSkeletonBody(p, plr.mm.timetravel.timezone) end
 
-	S_StartSound(nil, MM.death_sfx[KLASYKA.RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[random.key(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 
 --Kill Player by not player (map hazards such as pit, crusher, water drowning or simply as a punishment)
@@ -464,7 +434,7 @@ MM.KillPlayer = function(p, spawnbody, killedForPunishment) --player (mobt_t), "
 		S_StartSound(p, sfx_altdi1) --play global death sound
 	end
 
-	S_StartSound(nil, MM.death_sfx[KLASYKA.RandomKey(#MM.death_sfx) + 1], plr) --play random death sound personally
+	S_StartSound(nil, MM.death_sfx[random.key(#MM.death_sfx) + 1], plr) --play random death sound personally
 end
 
 --Count Player's taemmates
@@ -531,8 +501,8 @@ MM.HitTeammate = function(v, a)
 			colorV = ROLE_HERO
 		end
 	})
-	MM.Chatprint(a, MM.RoleColorHUD[colorV]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
-	MM.Chatprint(v, MM.RoleColorHUD[colorA]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
+	MM.Chatprint(a, MM.RoleColor[colorV]..MM.GetText("CHAT_TEAMMATEHIT_PM", 1))
+	MM.Chatprint(v, MM.RoleColor[colorA]..MM.GetText("CHAT_TEAMMATEHIT_PM", 2))
 	P_DoPlayerPain(v)
 	P_PlayerWeaponAmmoBurst(v)
 	v.powers[pw_flashing] = 105 --3 seconds
@@ -680,7 +650,7 @@ MM.StartSuspense = function()
 			MM.susnse = t[1]
 			trackNo = t[2] or 0
 		else
-			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
+			if (#MM.susnse_music) then MM.susnse = MM.susnse_music[random.key(#MM.susnse_music) + 1] --if there are tracks in the Suspense Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.susnse and S_MusicExists(MM.susnse)) then
@@ -702,7 +672,7 @@ MM.StartShowdown = function()
 			MM.shwdwn = t[1]
 			trackNo = t[2] or 0
 		else
-			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
+			if (#MM.shwdwn_music) then MM.shwdwn = MM.shwdwn_music[random.key(#MM.shwdwn_music) + 1] --if there are tracks in the Showdown Tracklist, choose a random track
 			else return false end
 		end
 		if (MM.shwdwn and S_MusicExists(MM.shwdwn)) then
@@ -719,7 +689,7 @@ MM.SetRandomCivilianAs = function(role)
 	for plr in players.iterate do
 		if (plr.mm.role == ROLE_CIVILIAN) then table.insert(plrs, #plr) end
 	end
-    local p = players[plrs[KLASYKA.RandomKey(#plrs)+1]]
+    local p = players[plrs[random.key(#plrs)+1]]
 	p.mm.role = role
 	p.mm.prevrole = role
 	MM.hud.game.roleflicker = 105 --3 secs
@@ -790,9 +760,9 @@ MM.LoadPatch = function(v, patchname)
 
 	if (not MM.graphics) then MM.graphics = {} end
 
-	if (MM.graphics[patchname]) then MM.DebugPrint("Patch \x81"..patchname.."\x80 is already loaded into memory") end
+	if (MM.graphics[patchname]) then MM.DebugPrint("Patch ^1"..patchname.."^0 is already loaded into memory") end
 	MM.graphics[patchname] = v.cachePatch(patchname)
-	MM.DebugPrint("Loaded patch \x81"..patchname)
+	MM.DebugPrint("Loaded patch ^1"..patchname)
 end
 
 --Safely retrieve the prechached patch from (V)RAM
@@ -806,7 +776,7 @@ MM.GetPatch = function(v, patchname)
 
 	if (not valid(MM.graphics[patchname])) then
 		--Idealy this branch has to be in "while patch is not loaded" loop and repeat until you finally load it
-		MM.DebugPrint("Loading patch \x81"..patchname)
+		MM.DebugPrint("Loading patch ^1"..patchname)
 		MM.LoadPatch(v, patchname)
 		--Assume the patch was loaded, if not, something is wrong with your game.
 		return MM.graphics[patchname]
@@ -822,9 +792,9 @@ MM.UnloadPatch = function(patchname)
 
 	if (MM.graphics[patchname]) then
 		MM.graphics[patchname] = nil
-		MM.DebugPrint("Unloaded patch \x81"..patchname)
+		MM.DebugPrint("Unloaded patch ^1"..patchname)
 	else
-		MM.DebugPrint("Trying to unload patch \x81"..patchname.."\x80 that is not in the memory!")
+		MM.DebugPrint("Trying to unload patch ^1"..patchname.."^0 that is not in the memory!")
 	end
 end
 

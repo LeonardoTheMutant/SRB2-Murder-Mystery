@@ -7,8 +7,9 @@
 local eMeM = MM
 local Hi = HIDEO
 
-local color_2 = "\x82"
-local color_5 = "\x85"
+local color_2 = "^2"
+local color_5 = "^5"
+local small_str = "small"
 
 local function sortOfSine(a, base)
 	local doublebase = base * 2
@@ -29,7 +30,7 @@ local wepcfg_options = {
 	[2] = "All no RR",
 	[3] = "Knife"
 }
-local wepcfg_fmt = "\x81Game:\x80 %-9s \x82 Duel:\x80 %-9s"
+local wepcfg_fmt = "^1Game:^0 %-9s  ^2Duel:^0 %-9s"
 
 local wepcfg_description = string.format(table.concat({
 	"Options description:",
@@ -167,7 +168,7 @@ addHook("KeyDown", function(ev)
 					mmsetupcursor = nil
 					MM.hud.game.routine = MM.hud.routines["game_main"]
 					input.setMouseGrab(true)
-					print("\x87Murder Mystery\x80: Saved the new game settings")
+					print("^7Murder Mystery^0: Saved the new game settings")
 				end,
 				[#mmsetup_entries + 2] = mmsetupExitNoSave, --Exit without save
 				['default'] = mmsetupIncrement --ENTER works as RIGHT and increments the value
@@ -240,14 +241,14 @@ mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
 	--Entries description
 	switch(mmsetupcursor, {
 		[#mmsetup_entries + 1] = function()
-			Hi.DrawStrUnicode(v, 32, 152, "^6Apply the changes and exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, eMeM.hud.canvas.font.small.scale)
+			v.drawString(32, 152, "^6Apply the changes and exit", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE|V_ALLOWLOWERCASE, small_str)
 		end,
 		[#mmsetup_entries + 2] = function()
-			Hi.DrawStrUnicode(v, 32, 152, "^6Exit without applying the changes", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, eMeM.hud.canvas.font.small.scale)
+			v.drawString(32, 152, "^6Exit without applying the changes", V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE|V_ALLOWLOWERCASE, small_str)
 		end,
 		['default'] = function()
 			if (mmsetup_entries[mmsetupcursor].description) then
-				Hi.DrawStrUnicode(v, 32, 152, "^6"..Hi.WordWrap(32, eMeM.hud.canvas.width - 64, 0, eMeM.hud.canvas.font.small.scale, mmsetup_entries[mmsetupcursor].description), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE, MM.hud.canvas.font.small.scale)
+				v.drawString(32, 152, "^6"..Hi.WordWrap(32, eMeM.hud.canvas.width - 64, 0, eMeM.hud.canvas.font.small.scale, mmsetup_entries[mmsetupcursor].description), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_MONOSPACE|V_RETURN8|V_ALLOWLOWERCASE, small_str)
 			end
 		end
 	})
@@ -277,7 +278,7 @@ mmsetup_renderer = function(v) --void mmsetup_renderer(drawer v) { ... };
 	v.draw(8, yPos, v.cachePatch("M_CURSOR"), V_SNAPTOLEFT|cursorVFlag)
 
 	--Additional info
-	drawString(0, 196, "LTM_MM v"..MM.version, V_SNAPTOLEFT|V_SNAPTOBOTTOM|V_GRAYMAP|V_ALLOWLOWERCASE, "small")
+	drawString(0, 196, "LTM_MM v"..MM.version, V_SNAPTOLEFT|V_SNAPTOBOTTOM|V_GRAYMAP|V_ALLOWLOWERCASE, small_str)
 	drawString(320, 184, "\23             Select item", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
 	drawString(320, 188, "\24             Change item", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
 	drawString(320, 192, "ENTER              Select", V_SNAPTORIGHT|V_SNAPTOBOTTOM|V_GRAYMAP|V_MONOSPACE|V_ALLOWLOWERCASE, "small-right")
@@ -363,7 +364,6 @@ mmhelp_renderer = function(v)
 	local v_width = v.width()
 	local bool_doSmall = bool2int(v_width < 640)
 
-	local DrawStrUnicode = Hi.DrawStrUnicode
 	local WordWrap = Hi.WordWrap
 	local GetColorFlagFromHexDigit = Hi.GetColorFlagFromHexDigit
 
@@ -384,7 +384,7 @@ mmhelp_renderer = function(v)
 	local x = 0
 	local y = canvas_font_charheight - MMhelp.scroll * canvas_font_charheight
 	local str, prev_linereturn, isTextCode
-	local colormap = v.getStringColormap(0)
+	local colormap = 0
 	pageLength = 0
 
 	v.fadeScreen(16, 5) --gray background
@@ -427,13 +427,13 @@ mmhelp_renderer = function(v)
 			end
 
 			if (isTextCode) then
-				colormap = v.getStringColormap(GetColorFlagFromHexDigit(c:byte()))
+				colormap = GetColorFlagFromHexDigit(c:byte())
 				isTextCode = false
 				break
 			else
 				prev_linereturn = false
 				if (y >= 0) and (y < (infoArea_y - (canvas_font_charheight*bool_doSmall))) then
-					HIDEO.DrawCharUnicode(v, x, y, unicode.code(c), V_SNAPTOTOP|V_SNAPTOLEFT, colormap)
+					drawString(x, y, c, V_SNAPTOTOP|V_SNAPTOLEFT|colormap|V_ALLOWLOWERCASE)
 				end
 
 				x = x + canvas_font_charwidth --V_MONOSPACE
@@ -486,11 +486,11 @@ mmhelp_renderer = function(v)
 	--
 	drawFill(0, (infoArea_y - (canvas_font_charheight * bool_doSmall)), canvas_width, 2, V_SNAPTOTOP|V_SNAPTOLEFT) --horizontal line
 
-	drawString(0, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x89Scroll: "..MMhelp.scroll..slash..pageLength), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Scroll position counter
-	drawString(80, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("\x88Page: "..MMhelp.page..slash..(#MM_text + 1)), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Page counter
+	drawString(0, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("^9Scroll: "..MMhelp.scroll..slash..pageLength), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Scroll position counter
+	drawString(80, (infoArea_y + 2 - (canvas_font_charheight * bool_doSmall)), ("^8Page: "..MMhelp.page..slash..(#MM_text + 1)), V_SNAPTOTOP|V_SNAPTOLEFT, thin) --Page counter
 
-	DrawStrUnicode(v, 0, (canvas_height - 2*canvas_font_small_charheight), GetText(text_id, 1), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"Arrow keys to scroll and change page"
-	DrawStrUnicode(v, 0, (canvas_height - canvas_font_small_charheight), GetText(text_id, 2), V_SNAPTOTOP|V_SNAPTOLEFT, canvas_font_small_scale) --"ESC to leave"
+	drawString(0, (canvas_height - 2*canvas_font_small_charheight), GetText(text_id, 1), V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE, small_str) --"Arrow keys to scroll and change page"
+	drawString(0, (canvas_height - canvas_font_small_charheight), GetText(text_id, 2), V_SNAPTOTOP|V_SNAPTOLEFT|V_ALLOWLOWERCASE, small_str) --"ESC to leave"
 end
 
 --Backend
@@ -507,7 +507,7 @@ addHook("ThinkFrame", function()
 
 		--Update render buffer only when neccesary
 		if ((oldCanvasWidth ~= canvas_width) or (oldCanvasHeight ~= canvas_height) or (oldPage ~= MM.help.page) or (oldLang ~= MM.lang)) then
-			eMeM.DebugPrint(string.format("\x87MMHELP\x80: Updating screen... (%dx%d; Language %s; Page: %d)", canvas_width, canvas_height, MM.lang, MM.help.page))
+			eMeM.DebugPrint(string.format("^7MMHELP^0: Updating screen... (%dx%d; Language %s; Page: %d)", canvas_width, canvas_height, MM.lang, MM.help.page))
 			renderBuffer = {}
 			pageLength = 0
 			oldCanvasWidth = canvas_width
@@ -569,9 +569,9 @@ end)
 -- just because i can do this in less lines this way (-nikoberry)
 local contactTeam =
 {
-	"\t\x83".."Matrix: https://matrix.to/#/#ltm_mm:matrix.org",
-	"\t\x84".."Discord: https://discord.com/invite/UgG8h2djFE",
-	"\t\x86".."GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery"
+	"\t^3".."Matrix: https://matrix.to/#/#ltm_mm:matrix.org",
+	"\t^4".."Discord: https://discord.com/invite/UgG8h2djFE",
+	"\t^6".."GitHub: https://github.com/LeonardoTheMutant/SRB2-Murder-Mystery"
 }
 
 COM_AddCommand("mmlang", function(p, l) --player, lang
@@ -583,7 +583,7 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 	end
 	if (not l) then
 		local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
-		CONS_Printf(p, "Your current language in use is \x82"..langname.."\x80\nYou can change it with \x87MMLANG [language]\x80 command.")
+		CONS_Printf(p, "Your current language in use is ^2"..langname.."^0\nYou can change it with ^7MMLANG [language]^0 command.")
 		CONS_Printf(p, "Available languages:")
 		local langCount = 0
 		local langIncomp = 0
@@ -598,36 +598,33 @@ COM_AddCommand("mmlang", function(p, l) --player, lang
 			local arg1 = ""
 			local arg2 = ""
 
-			if (MM.lang == lang) then arg1 = "\x82[current lang]" end
+			if (MM.lang == lang) then arg1 = "^2[current lang]" end
 			if (MM.text[lang]["VERSION"] and (MM.text[lang]["VERSION"] ~= MM.version)) then
 				langIncomp = langIncomp + 1
-				arg2 = "\x85{INCOMPATIBLE}"
+				arg2 = "^5{INCOMPATIBLE}"
 			end
-			CONS_Printf(p, string.format("\x88 %s %s %s",lang,arg1,arg2))
+			CONS_Printf(p, string.format("^8 %s %s %s",lang,arg1,arg2))
 		end
 		CONS_Printf(p, langCount.." languages in total")
 		if (langIncomp) then
 			CONS_Printf(p, color_5..langIncomp.." are incompatible, they may result errors (or even crashes) when selected")
 		end
-		CONS_Printf(p, "If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our \x82LTM's MM Development Team\x80 to help us add it to this gametype:\n"..table.concat(contactTeam, "\n"))
+		CONS_Printf(p, "If you cannot find your language here please ask the Game Administrator(s) to add the required MM language file or contact our ^2LTM's MM Development Team^0 to help us add it to this gametype:\n"..table.concat(contactTeam, "\n"))
 	else
 		l = l:upper()
 		if (MM.text[l]) then
 			MM.lang = l; MM.help.scroll = 1
 
-			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("\x88%s\x80 translation made by \x89%s", l, MM.text[l]["AUTHOR"])) end
+			if (MM.text[l]["AUTHOR"]) then CONS_Printf(p, string.format("^8%s^0 translation made by ^9%s", l, MM.text[l]["AUTHOR"])) end
 			local langname = MM.text[MM.lang]["LANGUAGE"] or MM.lang
 
-			if (not srb2classic) then langname = unicode.ascii(langname) end --Convert UTF-8 string to ASCII for Vanilla executables
-
-			CONS_Printf(p, "Personal language for \x87Murder Mystery\x80 is set to \x82"..langname)
+			CONS_Printf(p, "Personal language for ^7Murder Mystery^0 is set to ^2"..langname)
 			if (MM.text[l]["VERSION"] and (MM.text[l]["VERSION"] ~= MM.version)) then
-				CONS_Printf(p, "\x82WARNING:\x80 Selected language is \x85OUTDATED\x80 and may result errors. Please ask the Authors of this translation to update it for \x87Murder Mystery v"..MM.version)
+				CONS_Printf(p, "^2WARNING:^0 Selected language is ^5OUTDATED^0 and may result errors. Please ask the Authors of this translation to update it for ^7Murder Mystery v"..MM.version)
 			end
 
 			MM.SavePlayerCFG(p)
 		else
-			CONS_Printf(p, color_2..l.."\x80' language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our LTM's MM Development Team for help.")
-		end
+			CONS_Printf(p, color_2..l.."^0 language is not present or not loaded into the game\nPlease ask your Game Administrator to add the required MM language file or contact our LTM's MM Development Team for help.")		end
 	end
 end, COM_LOCAL)

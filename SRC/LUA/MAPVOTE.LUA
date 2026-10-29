@@ -47,11 +47,13 @@ local failParseStr = "%sFailed to parse \"%s\" (Is the Map Name/ID correct?)"
 local supplyParamsStr = "Please supply Map ID(s) and/or Map Name(s) as parameters"
 COM_AddCommand("mmvote_mapblacklist", function(p, ...)
 	local args = {...}
+	--HUD frontend for the flash/spark effects
+	if (HudGame_flash.translucency) then v.fadeScreen(HudGame_flash.color, HudGame_flash.translucency) end
 
 	if (#args) then
 		switch(args[1]:lower(), {
 			["-l"] = function()
-				CONS_Printf(p, "\x87List of blacklisted maps\x80:")
+				CONS_Printf(p, "^7List of blacklisted maps^0:")
 				local blacklistLen = #MM.mapvote.blacklist
 				if (blacklistLen) then
 					for i = 1, blacklistLen do
@@ -75,10 +77,10 @@ COM_AddCommand("mmvote_mapblacklist", function(p, ...)
 					local mapNumber, mapName = G_FindMapByNameOrCode(args[i])
 					if (mapNumber) then
 						if (findElementInTable(MM.mapvote.blacklist, mapNumber)) then
-							CONS_Printf(p, string.format("\x82\"%s\" (%d) is already present in the blacklist", mapName, mapNumber))
+							CONS_Printf(p, string.format("^2\"%s\" (%d) is already present in the blacklist", mapName, mapNumber))
 						else
 							MM.mapvote.blacklist[blacklistLen + 1] = mapNumber
-							CONS_Printf(p, string.format("%sAdded \"%s\" (%d) to the blacklist", "\x83", mapName, mapNumber))
+							CONS_Printf(p, string.format("^3Added \"%s\" (%d) to the blacklist", mapName, mapNumber))
 						end
 					else
 						CONS_Printf(p, string.format(failParseStr, "\x85", args[i]))
@@ -99,12 +101,12 @@ COM_AddCommand("mmvote_mapblacklist", function(p, ...)
 						local index = findElementInTable(MM.mapvote.blacklist, mapNumber)
 						if (index) then
 							table.remove(MM.mapvote.blacklist, index)
-							CONS_Printf(p, string.format("\x83Removed \"%s\" (%d) from the blacklist", mapName, mapNumber))
+							CONS_Printf(p, string.format("^3Removed \"%s\" (%d) from the blacklist", mapName, mapNumber))
 						else
-							CONS_Printf(p, string.format("\x85\"%d\" not found in the blacklist so not removed", mapNumber))
+							CONS_Printf(p, string.format("^5\"%d\" not found in the blacklist so not removed", mapNumber))
 						end
 					else
-						CONS_Printf(p, string.format(failParseStr, "\x85", args[i]))
+						CONS_Printf(p, string.format(failParseStr, "^5", args[i]))
 					end
 				end
 			end,
@@ -131,7 +133,7 @@ local function getRandomMaps(NoOfMaps)
 
 	--Do we have enough maps to choose from?
 	if (mapsLen < NoOfMaps) then
-		printf("\x82WARNING: \x80Not enough maps are available to pick %d random from. Trying to choose random maps again with blacklist ignored...", NoOfMaps)
+		printf("^2WARNING: ^0Not enough maps are available to pick %d random from. Trying to choose random maps again with blacklist ignored...", NoOfMaps)
 		mapsLen = 0
 		maps = {}
 		for i = 0, #mapheaderinfo do
@@ -146,7 +148,7 @@ local function getRandomMaps(NoOfMaps)
 	local m = {}
 	local index
 	for i = 1, NoOfMaps do
-		index = KLASYKA.RandomKey(mapsLen) + 1
+		index = random.key(mapsLen) + 1
 		m[i] = maps[index]
 		table.remove(maps, index)
 		mapsLen = mapsLen - 1
@@ -222,18 +224,25 @@ local xoffset = 96
 local yoffset = 72
 local HUD_INTERMISSION = "HUD_INTERMISSION"
 
+local small_str = "small"
+local center_str = "center"
+local smallcenter_str = "small-center"
+local drawString
+
 local lvlsel_border_pal = {73, 35}
 
 local function vote_render(v)
 	render_background(v)
 
+	drawString = v.drawString
+
 	if (not selectColormap) then
 		selectColormap = {v.getColormap(TC_RAINBOW, SKINCOLOR_JET), v.getColormap(TC_DEFAULT)}
 	end
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 8, MM.GetText(HUD_INTERMISSION, "VOTING"))
-	HIDEO.DrawStrUnicode_Center(v, 160, 172, string.format("%s: ^7JUMP^0   %s: ^7SPIN^0", MM.GetText(HUD_INTERMISSION, "SELECT"), MM.GetText(HUD_INTERMISSION, "CANCEL")), MM.hud.canvas.font.small.scale)
-	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "VOTING_ENDS_IN"), G_TicsToSeconds(MM.mapvote.timers[MV_VOTE]), MM.GetText("HUD_SECONDS")))
+	drawString(160, 8, MM.GetText(HUD_INTERMISSION, "VOTING"), nil, center_str)
+	drawString(160, 172, string.format("%s: ^7JUMP^0   %s: ^7SPIN^0", MM.GetText(HUD_INTERMISSION, "SELECT"), MM.GetText(HUD_INTERMISSION, "CANCEL")), nil, center_str)
+	drawString(160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "VOTING_ENDS_IN"), G_TicsToSeconds(MM.mapvote.timers[MV_VOTE]), MM.GetText("HUD_SECONDS")), nil, center_str)
 
 	--This loop is designed for 6 maps per screen!!!
 	for i = 1, NUM_MAPS do
@@ -241,7 +250,7 @@ local function vote_render(v)
 
 		--adjust map name text
 		local mapName = G_BuildMapTitle(MM.mapvote.maplist[i])
-		if (HIDEO.StrWidthUnicode(mapName, tlags, 32768) >= 78) then mapName = mapName:sub(0, 18).."..." end --Map name might be too long to fit
+		if (v.stringWidth(mapName, tlags, "small") >= 78) then mapName = mapName:sub(0, 18).."..." end --Map name might be too long to fit
 
 		--draw level select border
 		local colorStr = ""
@@ -255,7 +264,7 @@ local function vote_render(v)
 		v.drawScaled((startX + (x*xoffset))*FU, (startY + (y*yoffset))*FU, 32768, MM.GetPatch(v, picName), 0, selectColormap[bool2int(i == consoleplayer.currentweapon) + 1])
 
 		--draw map name
-		HIDEO.DrawStrUnicode(v, (startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, 0, 32768)
+		drawString((startX + (x*xoffset) + 2), (startY + (y*yoffset) + 2), colorStr..mapName, V_ALLOWLOWERCASE, small_str)
 
 		--draw voters
 		local votes = eMeM.mapvote.votes[i]
@@ -278,23 +287,25 @@ end
 local function result_render(v)
 	render_background(v)
 
+	drawString = v.drawString
+
 	local timeleft = MM.mapvote.timers[MV_RESULT]
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 8, MM.GetText(HUD_INTERMISSION, "DECISION"))
+	drawString(160, 8, MM.GetText(HUD_INTERMISSION, "DECISION"), V_ALLOWLOWERCASE, center_str)
 
 	local picName = G_BuildMapName(winnerMapID) + "P"
 
 	--map picture
 	v.draw(80, 24, MM.GetPatch(v, picName))
 
-	HIDEO.DrawStrUnicode_Center(v, 160, 128, "^2" + MM.GetText(HUD_INTERMISSION, "SPEEDINGOFF_TO"))
-	HIDEO.DrawStrUnicode_Center(v, 160, 144, G_BuildMapTitle(winnerMapID))
+	drawString(160, 128, "^2" + MM.GetText(HUD_INTERMISSION, "SPEEDINGOFF_TO"), V_ALLOWLOWERCASE, center_str)
+	drawString(160, 144, G_BuildMapTitle(winnerMapID), V_ALLOWLOWERCASE, center_str)
 	local author = mapheaderinfo[winnerMapID].author
 	if (author) then
 		local drawstr = string.format("%s: %s", MM.GetText(HUD_INTERMISSION, "AUTHORS"), author)
-		HIDEO.DrawStrUnicode_Center(v, 160, 152, HIDEO.WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, drawstr), 0, MM.hud.canvas.font.small.scale)
+		drawString(160, 152, HIDEO.WordWrap(0, MM.hud.canvas.width, 0, MM.hud.canvas.font.small.scale, drawstr), V_ALLOWLOWERCASE, smallcenter_str)
 	end
-	HIDEO.DrawStrUnicode_Center(v, 160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "WARPING_IN"), G_TicsToSeconds(timeleft), MM.GetText("HUD_SECONDS")))
+	drawString(160, 188, string.format("^2%s %d %s", MM.GetText(HUD_INTERMISSION, "WARPING_IN"), G_TicsToSeconds(timeleft), MM.GetText("HUD_SECONDS")), V_ALLOWLOWERCASE, center_str)
 
 	if (MM.mapvote.timers[MV_RESULT] < 33) then
 		v.fadeScreen(0xFF00, 32 - timeleft)
@@ -515,7 +526,7 @@ addHook("IntermissionThinker", function()
 				end
 
 				--Now select the random slot among best slots
-				winnerMapID = MM.mapvote.maplist[bestMaps[KLASYKA.RandomKey(bestMapsNo) + 1]]
+				winnerMapID = MM.mapvote.maplist[bestMaps[random.key(bestMapsNo) + 1]]
 			end
 		end,
 		[MV_RESULT] = function()

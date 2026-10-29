@@ -10,7 +10,7 @@
 
 MM.AddLang("DE", {
 	["LANGUAGE"]="Deutsch",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3C",
 	["AUTHOR"]="LeonardoTheMutant",
 	["CHAT_ROLE_MURDERER"]={
 		["ROLEGET_PM"]="Du bist der ^5Morder^0. ^5Tote sie alle.",

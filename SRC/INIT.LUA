@@ -1,20 +1,12 @@
 if (MM) then
-	error("\x87LTM's Murder Mystery \x81v"..MM.version.."\x80 is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("^7LTM's Murder Mystery ^1v"..MM.version.."^0 is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 
 rawset(_G, "MM", {
-	version = "1.3", --string, VERSION NUMBER, treat this as constant!
+	version = "1.3C", --string, VERSION NUMBER, treat this as constant!
 	debug = true, --boolean, if set to true, enable the debug functionality in MM. Do not modify this attribute during runtime, treat this as constant!
 	RoleColor = { --Text Color codes for Console/Chat text, treat this as constant!
-		[0] = "\x8F", --Dead
-		"\x85", --Murderer
-		"\x84", --Sheriff
-		"\x83", --Innocent
-		"\x82", --Hero
-		"\x81", --Jester
-	},
-	RoleColorHUD = { --Text Color codes for HUD text, treat this as constant!
 		[0] = "^F", --Dead
 		"^5", --Murderer
 		"^4", --Sheriff
@@ -116,7 +108,16 @@ end)
 --Load the library with some C functionality ported to LUA, the entire codebase relies on that lib
 dofile("LIBRARIES/CAROLINE.LUA")
 
-printf("\n\x87LeonardoTheMutant's MURDER MYSTERY \x81v%s\n", MM.version)
+printf("\n^7LeonardoTheMutant's Murder Mystery ^1v%s Classified\n", MM.version)
+
+switch(MODVERSION, {
+	[58] = function()
+		--load in 2.2.17 as normal
+	end,
+	['default'] = function()
+		error("^4LTM's ^7Murder Mystery ^1v"..MM.version.." Classified^0 was designed for ^4SRB2 Classic v2.2.17^0 only. Please use the regular version of ^1v"..MM.version.." for this SRB2 executable^0\n", 0)
+	end
+})
 
 --
 -- ENUMERATES & CONSTANTS
@@ -215,28 +216,28 @@ local sentences_civil = {
 local function VarChange(v)
 	switch(v.name, {
 		["mm_abilities"] = function()
-			if (v.value) then print("\x87Murder Mystery\x80: Skin abilities are Enabled (no limits)")
-			else print("\x87Murder Mystery\x80: Skin abilities are Disabled (\"Regular person\" mode)") end
+			if (v.value) then print("^7Murder Mystery^0: Skin abilities are Enabled (no limits)")
+			else print("^7Murder Mystery^0: Skin abilities are Disabled (\"Regular person\" mode)") end
 		end,
 		["mm_allowshields"] = function()
-			if (v.value) then print("\x87Murder Mystery\x80: Player shields got enabled. \x81Good luck surviving them.")
-			else print("\x87Murder Mystery\x80: Disabled player shields") end
+			if (v.value) then print("^7Murder Mystery^0: Player shields got enabled. ^1Good luck surviving them.")
+			else print("^7Murder Mystery^0: Disabled player shields") end
 		end,
 		["mm_wepcfg_civil"] = function()
-			printf("%s %s%s \x81%s\x80. %s %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_CIVILIAN], "Civilian\x80 was changed to", v.value, "In other words...", sentences_civil[v.value])
+			printf("%s %s%s ^1%s^0. %s %s", "^7Murder Mystery^0: Weapon Configuration for role", MM.RoleColor[ROLE_CIVILIAN], "Civilian^0 was changed to", v.value, "In other words...", sentences_civil[v.value])
 		end,
 		["mm_cryptic"] = function()
-			if (v.value) then print("\x87Murder Mystery\x80: Nametags and most of the player counters got disabled. \x81Good Luck finding out who others are.")
-			else print("\x87Murder Mystery\x80: Nametags and player counters are now enabled") end
+			if (v.value) then print("^7Murder Mystery^0: Nametags and most of the player counters got disabled. ^1Good Luck finding out who others are.")
+			else print("^7Murder Mystery^0: Nametags and player counters are now enabled") end
 		end,
 		["mm_wepcfg_murd"] = function()
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_MURDERER], "Murderer\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
+			printf("%s %s%s ^1%s^0. %s^0: %s \n\t^8%s^0: %s", "^7Murder Mystery^0: Weapon Configuration for role", MM.RoleColor[ROLE_MURDERER], "Murderer^0 was changed to", v.value, "In other words...\n\t^9Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end,
 		["mm_wepcfg_sheri"] = function()
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_SHERIFF], "Sheriff\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
+			printf("%s %s%s ^1%s^0. %s^0: %s \n\t^8%s^0: %s", "^7Murder Mystery^0: Weapon Configuration for role", MM.RoleColor[ROLE_SHERIFF], "Sheriff^0 was changed to", v.value, "In other words...\n\t^9Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end,
 		["mm_wepcfg_hero"] = function()
-			printf("%s %s%s \x81%s\x80. %s\x80: %s \n\t\x88%s\x80: %s", "\x87Murder Mystery\x80: Weapon Configuration for role", MM.RoleColor[ROLE_HERO], "Hero\x80 was changed to", v.value, "In other words...\n\t\x89Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
+			printf("%s %s%s ^1%s^0. %s^0: %s \n\t^8%s^0: %s", "^7Murder Mystery^0: Weapon Configuration for role", MM.RoleColor[ROLE_HERO], "Hero^0 was changed to", v.value, "In other words...\n\t^9Normal gameplay", sentences[v.value % 4], "Showdown Duel", sentences[(v.value / 4) % 4])
 		end
 	})
 end
@@ -280,17 +281,16 @@ G_AddGametype({
 	intermissiontype = int_match,
 	headerleftcolor = 37,
 	headerrightcolor = 153,
-	description = "\x88LeonardoTheMutant's\x80 \x87Murder Mystery\x80:\nKill everyone as \x85Murderer\x80, stop the genocide as \x84Sheriff\x80 and survive as\x83 Civilian\x80!"
+	description = "^8LeonardoTheMutant's ^7Murder Mystery^0:\nKill everyone as ^5Murderer^0, stop the genocide as ^4Sheriff^0 and survive as ^3Civilian^0!"
 })
 
 --Load libraries
-dofile("LIBRARIES/KLASYKA.LUA")
-dofile("LIBRARIES/UNICODE.LUA")
+dofile("LIBRARIES/UNICODE.LUA") --Unicode support
 dofile("LIBRARIES/MICHAELMYERS.LUA") --Core MM functionality
 if (not isdedicatedserver) then dofile("LIBRARIES/HIDEO.LUA") end --HUD/Video library
 
 --Load Data
-print("\n\x87Murder Mystery\x80: Loading data...")
+print("\n^7Murder Mystery^0: Loading data...")
 dofile("DATA/TEXT/CCMDTEXT.LUA")
 dofile("DATA/TEXT/CAMTEXT.LUA")
 dofile("DATA/FOOTSOUND.LUA")
@@ -301,7 +301,7 @@ if (not isdedicatedserver) then
 end
 
 --Load the text and all translations
-print("\n\x87Murder Mystery\x80: Loading text...")
+print("\n^7Murder Mystery^0: Loading text...")
 dofile("DATA/TEXT/LANG/EN.LUA") --English text is required for the game to run on the basic level so DO NOT REMOVE OR COMMENT THIS LINE
 dofile("DATA/TEXT/LANG/DE.LUA")
 dofile("DATA/TEXT/LANG/FR.LUA")
@@ -310,7 +310,7 @@ dofile("DATA/TEXT/LANG/RU.LUA")
 dofile("DATA/TEXT/LANG/UA.LUA")
 
 --Script files load
-print("\n\x87Murder Mystery\x80: Loading main logic scripts...")
+print("\n^7Murder Mystery^0: Loading main logic scripts...")
 dofile("GAME.LUA")
 dofile("ANTICHEAT.LUA")
 dofile("WEAPONS.LUA")
@@ -329,24 +329,11 @@ if (MM.debug) then
 end
 
 --Map scripts
-print("\n\x87Murder Mystery\x80: Loading map scripts...")
+print("\n^7Murder Mystery^0: Loading map scripts...")
 dofile("MAPS/MAPK0.LUA")
 dofile("MAPS/MAPK6.LUA")
 dofile("MAPS/MAPK7.LUA")
 dofile("MAPS/MAPK8.LUA")
 dofile("MAPS/MAPKE.LUA")
 
-print("\n\x87LTM's Murder Mystery\x84 add-on was loaded succesfuly\n\x82Have fun! =)\n")
-
-switch(MODVERSION, {
-	[56] = function()
-		--load in 2.2.15 as normal
-	end,
-	[58] = function()
-		--2.2.17
-		print("Game version is^1 2.2.17^0, assuming this is ^4SRB2 Classic^0 executable. ^4LTM's ^7Murder Mystery ^1v"..MM.version.."^0 will try to use its advanced features. Incompatibilities may occur.\n")
-	end,
-	['default'] = function()
-		error("\x84LTM's \x87Murder Mystery \x81v"..MM.version.."\x80 was designed for \x84SRB2 v2.2.15\x80 and \x84SRB2 Classic v2.2.17\x80 only. You can ignore this warning, but incompatibilities may occur.\n", 0)
-	end
-})
+print("\n^7LTM's Murder Mystery^4 add-on was loaded succesfuly\n^2Have fun! =)\n")

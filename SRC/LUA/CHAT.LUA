@@ -102,17 +102,17 @@ COM_AddCommand("SAYDEAD", function(p, ...) --sender, message
 	end
 
 	local sender
-	if (p == server) then sender = "\x80~SERVER\x86"
+	if (p == server) then sender = "^0~SERVER^6"
 	else sender = p.name end
 
 	if (#m) then
 		--send the message
 		for plr in players.iterate do
-			if (plr.spectator) then chatprintf(plr, string.format("\x86{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
+			if (plr.spectator) then chatprintf(plr, string.format("^6{%s} %s", sender, m)) end -- nikoberry: not changed because dead chat is silent (if this gets changed after I added this comment im gonna shoot someone with a rail)
 		end
 		if (isdedicatedserver) then CONS_Printf(server, string.format("[%s CHAT]: {%s} %s", os.date("%X"), sender, m)) end
 	else
-		CONS_Printf(s, "\x87SAYDEAD [message]\x80 - Send message to the Dead Chat.")
+		CONS_Printf(s, "^7SAYDEAD [message]^0 - Send message to the Dead Chat.")
 	end
 end, COM_ADMIN)
 
@@ -129,7 +129,7 @@ addHook("PlayerMsg", function(s, type, t, m) --source, type, target, msg
 		switch(type, {
 			[0] = function() --If dead player sends a message, make that messsage appear only to the dead players
 				for p in players.iterate do
-					if (p.spectator) then chatprintf(p, string.format("\x86{%s} %s", s.name, m)) end
+					if (p.spectator) then chatprintf(p, string.format("^6{%s} %s", s.name, m)) end
 				end
 				if (isdedicatedserver) then CONS_Printf(server, string.format("[%s CHAT]: {%s} %s", os.date("%X"), s.name, m)) end
 			end,

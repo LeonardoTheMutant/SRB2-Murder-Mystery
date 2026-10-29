@@ -244,14 +244,14 @@ end)
 addHook("MobjDeath", function(v, i, a, d) --Victim, inflictor, attacker, damage type
 	if (gametype ~= GT_LTMMURDERMYSTERY) then return end
 
-	MM.DebugPrint("\x82Triggered MobjDeath")
+	MM.DebugPrint("^2Triggered MobjDeath")
 	local vp = v.player --Victim player
 	local vprole = vp.mm.role --Victim's role
 
 	local ap --Attacker player
 	if (a) and (a.player) then
 		ap = a.player
-		MM.DebugPrint("\x82MobjDeath attacker is player")
+		MM.DebugPrint("^2MobjDeath attacker is player")
 	end
 
 	--If the death is caused by the death pit or crusher we do not need to spawn the Dead Body or the Sheriff's Emerald
@@ -405,7 +405,7 @@ end, MT_PLAYER)
 addHook("MobjDamage", function(v, i, a) --Victim, inflictor, attacker
 	if not ((gametype == GT_LTMMURDERMYSTERY) and a and a.player) then return end
 
-	MM.DebugPrint("\x82Player->Player damage (MobjDamage)")
+	MM.DebugPrint("^2Player->Player damage (MobjDamage)")
 
 	local vp = v.player --Victim player
 	local vprole = vp.mm.role --Victim's role

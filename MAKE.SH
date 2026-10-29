@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="1.3"
+VERSION="1.3C"
 BUILDDATE=$(date +"%d%m%y")
 BASEDIR=$(dirname "$0")
 

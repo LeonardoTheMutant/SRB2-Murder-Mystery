@@ -39,7 +39,7 @@ COM_AddCommand("mmsusnse",do
 		for s in string.gmatch(mapheaderinfo[gamemap].mm_suspensetrack, "[^%s]+") do table.insert(t, s) end
 		MM.susnse=t[1]
 		tn=t[2] or 0
-	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[KLASYKA.RandomKey(#MM.susnse_music)+1]end end
+	else if(#MM.susnse_music) MM.susnse=MM.susnse_music[random.key(#MM.susnse_music)+1]end end
 	if(MM.susnse and S_MusicExists(MM.susnse)) S_ChangeMusic(MM.susnse,true,nil,tn) end
 end)
 COM_AddCommand("mmduel",do
@@ -49,7 +49,7 @@ COM_AddCommand("mmduel",do
 		for s in string.gmatch(mapheaderinfo[gamemap].mm_showdowntrack, "[^%s]+") do table.insert(t, s) end
 		MM.shwdwn=t[1]
 		tn=t[2] or 0
-	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[KLASYKA.RandomKey(#MM.shwdwn_music)+1]end end
+	else if(#MM.shwdwn_music)MM.shwdwn=MM.shwdwn_music[random.key(#MM.shwdwn_music)+1]end end
 	if(MM.shwdwn and S_MusicExists(MM.shwdwn))S_ChangeMusic(MM.shwdwn,true,nil,tn) end
 end)
 COM_AddCommand("mmloadmus",do

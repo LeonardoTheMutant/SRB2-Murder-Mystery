@@ -9,7 +9,7 @@
 ADD-ON TECHNICAL INFORMATION
 ------------------+------------------------------------------------------
 Name              | LeonardoTheMutant's Murder Mystery
-Version           | 1.3
+Version           | 1.3 Classified
 Add-On type       | New gametype
 License           | GPL-3.0
                   |

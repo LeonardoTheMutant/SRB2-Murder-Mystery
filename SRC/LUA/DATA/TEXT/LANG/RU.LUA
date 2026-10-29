@@ -6,7 +6,7 @@
 
 MM.AddLang("RU", {
 	["LANGUAGE"]="русский",
-	["VERSION"]="1.3",
+	["VERSION"]="1.3C",
 	["AUTHOR"]="Arnie37, Sonic1983, LeonardoTheMutant",
 	["CHAT_ROLE_MURDERER"]={
 		["ROLEGET_PM"]="Вы ^5Убийца^0! ^5Убейте всех!",

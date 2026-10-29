@@ -1,6 +1,6 @@
 @ECHO OFF
 
-SET VERSION=1.3
+SET VERSION=1.3C
 For /F %%A In ('WMIC OS Get LocalDateTime') Do If Not "%%~xA"=="" Set "ds=%%~nA"
 SET BUILDDATE=%ds:~,-6%
 

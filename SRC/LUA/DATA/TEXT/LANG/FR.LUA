@@ -1,6 +1,6 @@
 MM.AddLang("FR", {
 	["LANGUAGE"] = "Francais",
-	["VERSION"] = "1.3",
+	["VERSION"] = "1.3C",
 	["AUTHOR"] = "SuperGuide",
 	["CHAT_ROLE_MURDERER"] = {
 		["ROLEGET_PM"] = "Vous etes le ^5Meurtrier^0! ^5tuer tout le monde!",

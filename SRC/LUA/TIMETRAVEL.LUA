@@ -162,11 +162,11 @@ addHook("PlayerSpawn", function (p)
 	TimeTravel_ShiftY2 = int(tonumber(mapheaderinfo[gamemap].mm_timetravel_shifty2))
 
 	if (MM.debug) and (TimeTravel_ShiftX or TimeTravel_ShiftY or TimeTravel_ShiftX2 or TimeTravel_ShiftY2) then
-		CONS_Printf(p, "\x82Map's Time Travel shift values")
-		CONS_Printf(p, "X1: \x81"..TimeTravel_ShiftX.."\x80 ("..fixint(TimeTravel_ShiftX)..")")
-		CONS_Printf(p, "Y1: \x81"..TimeTravel_ShiftY.."\x80 ("..fixint(TimeTravel_ShiftY)..")")
-		CONS_Printf(p, "X2: \x81"..TimeTravel_ShiftX2.."\x80 ("..fixint(TimeTravel_ShiftX2)..")")
-		CONS_Printf(p, "Y2: \x81"..TimeTravel_ShiftY2.."\x80 ("..fixint(TimeTravel_ShiftY2)..")")
+		CONS_Printf(p, "^2Map's Time Travel shift values")
+		CONS_Printf(p, "X1: ^1"..TimeTravel_ShiftX.."^0 ("..fixint(TimeTravel_ShiftX)..")")
+		CONS_Printf(p, "Y1: ^1"..TimeTravel_ShiftY.."^0 ("..fixint(TimeTravel_ShiftY)..")")
+		CONS_Printf(p, "X2: ^1"..TimeTravel_ShiftX2.."^0 ("..fixint(TimeTravel_ShiftX2)..")")
+		CONS_Printf(p, "Y2: ^1"..TimeTravel_ShiftY2.."^0 ("..fixint(TimeTravel_ShiftY2)..")")
 	end
 end)
 

@@ -6,7 +6,7 @@ If you're reading this file from GitHub this is great - you have more content to
 But for now let me introduce you to our file structure first:
 
 
-MM_LTMs_MurderMystery_v1.3.pk3
+MM_LTMs_MurderMystery_v1.3C.pk3
 |
 +-INIT.LUA - Boot script, Gametype & Type of Level definitions, CVAR initialization and constant definitions
 |
@@ -24,9 +24,7 @@ MM_LTMs_MurderMystery_v1.3.pk3
 |     +-LIBRARIES-\
 |     |           +-CAROLINE.LUA     - Port of some C functionality to BLUA
 |     |           +-HIDEO.LUA        - HUD/Video library
-|     |           +-KLASYKA.LUA      - Compatibility layer for mods to run under vanilla SRB2 and SRB2 Classic
-|     |           +-MICHAELMYERS.LUA - Global function definitions for most of the codebase
-|     |           \-UNICODE.LUA      - UTF-8 support for SRB2
+|     |           \-MICHAELMYERS.LUA - Global function definitions for most of the codebase
 |     |
 |     +-MAPS-\
 |     |      +-MAPK0.LUA - Code for Eggman's Bedroom door (Abandoned Shelter)

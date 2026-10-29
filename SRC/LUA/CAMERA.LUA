@@ -189,16 +189,16 @@ local function terminal_renderer(v)
 		if (static_level < 9) and not (leveltime % 3) then static_level = static_level + 1 end
 		for y = 0, MM.hud.canvas.height, noise_pixel_multiplier do
 			for x = 0, MM.hud.canvas.width, noise_pixel_multiplier do
-				v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, KLASYKA.V_RandomRange(v, 0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
+				v.drawFill(x, y, noise_pixel_multiplier, noise_pixel_multiplier, random.localRange(0, 31)|V_SNAPTOTOP|V_SNAPTOLEFT|(static_level*65536))
 			end
 		end
 
 		v.drawString(0, 0, MM.cameras[p.mm.camera.id].name, V_SNAPTOTOP|V_SNAPTOLEFT)
-		if (MM.cameras[p.mm.camera.id].status) then HIDEO.DrawStrUnicode(v, 0, 8, MM.GetText("HUD_CAMERA", "NOVIDEO"), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.scale) end
-		HIDEO.DrawStrUnicode(v, 0, 184, MM.GetText("HUD_CAMERA", "CONTROLS"), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.scale)
+		if (MM.cameras[p.mm.camera.id].status) then v.drawString(0, 8, MM.GetText("HUD_CAMERA", "NOVIDEO"), V_SNAPTOTOP|V_SNAPTOLEFT) end
+		v.drawString(0, 184, MM.GetText("HUD_CAMERA", "CONTROLS"), V_SNAPTOBOTTOM|V_SNAPTOLEFT|V_RETURN8)
 	else
 		v.drawFill(0, 0, width, height, 152|V_NOSCALESTART)
-		HIDEO.DrawStrUnicode(v, 0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT, MM.hud.canvas.font.small.scale)
+		v.drawString(0, 0, HIDEO.WordWrap(0, width/v.dupx(), 0, MM.hud.canvas.font.small.scale, string.format(cam_require_3rdperson, p.rings, tostring(p), tostring(p.mm), tostring(p.mm.camera), tostring(MM))), V_SNAPTOTOP|V_SNAPTOLEFT|V_RETURN8|V_ALLOWLOWERCASE, "small")
 	end
 
 	--Draw moire effect

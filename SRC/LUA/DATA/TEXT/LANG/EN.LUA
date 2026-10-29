@@ -74,7 +74,7 @@
 
 local language_data = { --Language must be a table variable, you can name the variable as you like.
 	["LANGUAGE"] = "English", --Full name of the language
-	["VERSION"] = "1.3", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
+	["VERSION"] = "1.3C", --Language File Version, must be identicall to the base MM add-on version number you are writing for, otherwise the lang will appear as OUTDATED
 	["AUTHOR"] = "LTM's MM community", --who made this language file
 
 
