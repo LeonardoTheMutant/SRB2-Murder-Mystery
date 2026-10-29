@@ -5,7 +5,7 @@
 addHook("MapLoad", function(map)
     if (gametype ~= GT_LTMMURDERMYSTERY) or (map ~= 466) then return end
 
-    local random = P_RandomByte()
+    local random = random.byte()
 
     if (MM.debug) then
         printf("\x82Seed: %d", random)
