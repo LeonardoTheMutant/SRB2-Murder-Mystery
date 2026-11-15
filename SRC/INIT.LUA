@@ -1,5 +1,5 @@
 if (MM) then
-	error("^7LTM's Murder Mystery ^1v"..MM.version.."^0 is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("^4LTM's ^7Murder Mystery^0 (or other MM add-on) is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 
@@ -94,6 +94,11 @@ rawset(_G, "MM", {
 	lang = "EN"
 })
 
+if (MODVERSION ~= 58) then
+	error("^4LTM's ^7Murder Mystery ^1v"..MM.version.." (Classified)^0 was designed for ^4SRB2 Classic v2.2.17^0 only. Please use the regular version of the add-on for this SRB2 executable^0\n", 0)
+	return
+end
+
 if (not isdedicatedserver) then MM.hud.show = CV_FindVar("showhud").value end
 
 --Synchronized Variables
@@ -108,16 +113,7 @@ end)
 --Load the library with some C functionality ported to LUA, the entire codebase relies on that lib
 dofile("LIBRARIES/CAROLINE.LUA")
 
-printf("\n^7LeonardoTheMutant's Murder Mystery ^1v%s Classified\n", MM.version)
-
-switch(MODVERSION, {
-	[58] = function()
-		--load in 2.2.17 as normal
-	end,
-	['default'] = function()
-		error("^4LTM's ^7Murder Mystery ^1v"..MM.version.." Classified^0 was designed for ^4SRB2 Classic v2.2.17^0 only. Please use the regular version of ^1v"..MM.version.." for this SRB2 executable^0\n", 0)
-	end
-})
+printf("\n^7LeonardoTheMutant's Murder Mystery ^1v%s (Classified)\n", MM.version)
 
 --
 -- ENUMERATES & CONSTANTS
