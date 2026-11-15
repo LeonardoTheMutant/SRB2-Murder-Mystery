@@ -531,7 +531,7 @@ MMhud.routines["game_main"] = function(v, p ,c)
 
 	--"Showdown duel!"
 	if not (PlayerCount(ROLE_CIVILIAN) or PlayerCount(ROLE_JESTER)) and (not eMeM.twopgame) and (PlayerCount() > 1) then
-		drawString(160, 192, "^8"..GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM|localTransFlag|V_ALLOWLOWERCASE, small_str)
+		drawString(160, 192, "^8"..GetText("HUD_SHOWDOWN"), V_SNAPTOBOTTOM|localTransFlag|V_ALLOWLOWERCASE, smallcenter_str)
 	end
 
 	--Sneaking
