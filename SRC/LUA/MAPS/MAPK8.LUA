@@ -10,9 +10,9 @@ local MAPNUM = 468 --MAPK8
 --
 -- THE 8-BALL
 --
-freeslot("MT_8BALL", "S_8BALL", "SPR_8BAL") -- SRB2 Classic sees double defition of all 3 things here...?
+freeslot("MT_EIGHTBALL", "S_EIGHTBALL", "SPR_BAL8")
 
-mobjinfo[MT_8BALL] = {
+mobjinfo[MT_EIGHTBALL] = {
     --$Title 8-Ball
     --$Sprite 8BALA0
     --$Flags8Text Static?
@@ -21,7 +21,7 @@ mobjinfo[MT_8BALL] = {
     --$Arg0Enum {0="False"; 2="True";}
     --$NotAngled
     doomednum = 468,
-    spawnstate = S_8BALL,
+    spawnstate = S_EIGHTBALL,
     speed = 786432, --12*FU
     radius = 1048576, --16*FU
     height = 2097152, --32*FU
@@ -29,25 +29,25 @@ mobjinfo[MT_8BALL] = {
     flags = MF_SOLID|MF_SLIDEME|MF_PUSHABLE
 }
 
-states[S_8BALL] = {SPR_8BAL, 0, -1, nil, 0, 0, S_8BALL} -- S_RJETGLOOK1
+states[S_EIGHTBALL] = {SPR_BAL8, 0, -1, nil, 0, 0, S_EIGHTBALL} -- S_RJETGLOOK1
 
 addHook("MapThingSpawn", function(mobj, mapthing)
     if (mapthing.options & MTF_AMBUSH) then mobj.flags = mobj.flags & ~MF_PUSHABLE end
-end, MT_8BALL)
+end, MT_EIGHTBALL)
 
 
 
 --
 -- ELEVATORS
 --
-freeslot("MT_ELEVATOR", "MT_ELEVATORBTN") -- ...but processes these two perfectly fine?????
+freeslot("MT_ELEVATOR", "MT_ELEVATORBTN")
 
 local ELEVATOR_RADIUS = 8388608 --128*FU
 
 mobjinfo[MT_ELEVATOR] = {
     --$Title Elevator hitbox
     --$Arg0 Elevator ID
-    radius = ELEVATOR_RADIUS,
+    radius = 8388608, --128*FU
     doomednum = 8171,
     spawnstate = S_INVISIBLE
 }
