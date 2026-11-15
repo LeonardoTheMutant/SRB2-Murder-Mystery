@@ -1,5 +1,5 @@
 if (MM) then
-	error("\x87LTM's Murder Mystery \x81v"..MM.version.."\x80 is already loaded, only one MM add-on can be loaded at the time", 0)
+	error("\x84LTM's \x87Murder Mystery\x80 (or other MM add-on) is already loaded, only one MM add-on can be loaded at the time", 0)
 	return
 end
 
